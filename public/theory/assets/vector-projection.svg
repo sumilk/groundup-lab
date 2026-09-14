@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="430" viewBox="0 0 900 430" role="img" aria-labelledby="title desc">
+  <title id="title">Orthogonal projection and residual</title>
+  <desc id="desc">A vector x decomposes into its projection on a subspace and a perpendicular residual.</desc>
+  <rect width="900" height="430" fill="#08111f" rx="24"/>
+  <path d="M85 335L815 210" stroke="#536a86" stroke-width="7"/>
+  <path d="M180 318L610 105" stroke="#50d2c2" stroke-width="7"/>
+  <path d="M180 318L575 250" stroke="#ffb86b" stroke-width="7"/>
+  <path d="M575 250L610 105" stroke="#d586ff" stroke-width="6" stroke-dasharray="12 10"/>
+  <path d="M548 255l-8-36 36-8" fill="none" stroke="#e8eef7" stroke-width="3"/>
+  <g fill="#e8eef7" font-family="system-ui" font-size="20"><text x="616" y="102">x</text><text x="395" y="305">Px</text><text x="615" y="185">r = x − Px</text><text x="708" y="242">subspace S</text></g>
+  <text x="450" y="402" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="17">The residual is orthogonal to every direction in S: Aᵀr = 0.</text>
+</svg>

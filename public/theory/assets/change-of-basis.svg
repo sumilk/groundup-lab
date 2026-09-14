@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="430" viewBox="0 0 900 430" role="img" aria-labelledby="title desc">
+  <title id="title">One geometric vector represented in two bases</title>
+  <desc id="desc">The same arrow has different coordinates in the standard and rotated bases.</desc>
+  <rect width="900" height="430" fill="#08111f" rx="24"/>
+  <g stroke="#31445e" stroke-width="2"><path d="M80 340H390M150 380V70M510 340H820M580 380V70"/></g>
+  <g fill="#a8b7ca" font-family="system-ui" font-size="18"><text x="86" y="55">Standard basis</text><text x="516" y="55">Rotated basis</text></g>
+  <g stroke="#50d2c2" stroke-width="6" fill="none"><path d="M150 340L320 155"/><path d="M310 157l13-5-4 14"/></g>
+  <g stroke="#50d2c2" stroke-width="6" fill="none"><path d="M580 340L750 155"/><path d="M740 157l13-5-4 14"/></g>
+  <g stroke="#ffb86b" stroke-width="4" fill="none"><path d="M580 340L735 263"/><path d="M580 340L503 185"/></g>
+  <g fill="#e8eef7" font-family="system-ui" font-size="17"><text x="245" y="230">x = (2, 3)</text><text x="664" y="225">x = (α, β)</text><text x="688" y="288">b₁</text><text x="520" y="215">b₂</text></g>
+  <text x="450" y="407" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">The vector is unchanged; only its coordinate description changes.</text>
+</svg>

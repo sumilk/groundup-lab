@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GroundUp Lab — Study library</title>
+<link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.18.7/dist/katex.min.css" integrity="sha384-JctiRyLzXCrSoOOzFlSoWLdyzQl7OrrRnhyeBmzB6ZWtcjccUyc8lCQJqIbs3uQX" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/marked@16/lib/marked.umd.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.18.7/dist/katex.min.js" integrity="sha384-+7Keh381hSkXmXqnjC0JBM/kzsN6TFj+wMKychSLjTvJ8/0ElMde2uKl8i6p6Buj" crossorigin="anonymous"></script>
+<script defer src="reader.js"></script></head>
+<body>
+<header><a href="/">GroundUp Lab</a><span>Study library</span><a href="https://github.com/sumilk/groundup-lab">Repository</a></header>
+<div class="layout"><aside aria-label="Lesson navigation">
+<h1>Theory & practice</h1><p class="muted">Read. Derive. Implement. Explain.</p>
+<label for="search">Find a lesson</label><input id="search" type="search" placeholder="Try PyTorch, RL, or probability">
+<nav id="lessons"></nav></aside>
+<main><p id="status" role="status">Loading lessons…</p>
+<div class="toolbar"><button id="previous">Previous</button><button id="next">Next</button><button id="print">Print / save PDF</button><a id="source">Markdown source</a></div>
+<article id="article" aria-live="polite"></article>
+<section class="practice"><h2>Your reasoning</h2><p>Write a prediction or derivation before revealing solutions. Notes stay in this browser.</p>
+<textarea id="notes" rows="7" aria-label="Lesson notes" placeholder="My prediction, assumptions, derivation, and smallest counterexample…"></textarea>
+<label><input type="checkbox" id="read"> I have read this lesson (not a mastery score)</label>
+<button id="prompt">Copy tutor prompt for this lesson</button><p id="saved" role="status"></p>
+</section></main></div>
+<noscript>JavaScript is needed for this reader. All lessons are also available in the repository's content directory.</noscript>
+</body></html>
