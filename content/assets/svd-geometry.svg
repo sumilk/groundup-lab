@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="430" viewBox="0 0 980 430" role="img" aria-labelledby="title desc">
+  <title id="title">Geometric interpretation of the singular value decomposition</title>
+  <desc id="desc">V transpose rotates the unit circle, Sigma scales it to an ellipse, and U rotates the ellipse in output space.</desc>
+  <rect width="980" height="430" fill="#08111f" rx="24"/>
+  <g fill="none" stroke-width="5"><circle cx="130" cy="210" r="78" stroke="#50d2c2"/><circle cx="365" cy="210" r="78" stroke="#50d2c2"/><ellipse cx="610" cy="210" rx="110" ry="45" stroke="#ffb86b"/><ellipse cx="850" cy="210" rx="110" ry="45" transform="rotate(-28 850 210)" stroke="#d586ff"/></g>
+  <g stroke="#31445e" stroke-width="2"><path d="M52 210H208M130 132V288M287 210H443M365 132V288M500 210H720M610 165V255"/><path d="M752 262L948 158M798 112L902 308"/></g>
+  <g stroke="#e8eef7" stroke-width="4" fill="#e8eef7"><path d="M220 210H270"/><path d="M258 201l15 9-15 9"/><path d="M455 210H485"/><path d="M473 201l15 9-15 9"/><path d="M730 210H755"/><path d="M743 201l15 9-15 9"/></g>
+  <g fill="#e8eef7" font-family="system-ui" font-size="20" text-anchor="middle"><text x="245" y="188">Vᵀ</text><text x="470" y="188">Σ</text><text x="742" y="188">U</text><text x="130" y="330">input</text><text x="365" y="330">new basis</text><text x="610" y="330">axis scaling</text><text x="850" y="330">output</text></g>
+  <text x="490" y="395" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="17">A = UΣVᵀ separates basis choice from stretching.</text>
+</svg>
