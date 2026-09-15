@@ -12,11 +12,11 @@ Use Python 3.11 or later. These first six exercises need only the standard libra
 | Task argument | Lesson | Evidence |
 |---|---|---|
 | moments | [Python](../content/01-python/01-python-memory-iteration.md) | Stable one-pass statistics |
-| search | [DSA](../content/03-dsa/01-invariants-search-graphs-dp.md) | Exhaustive boundary cases |
-| softmax | [PyTorch](../content/07-pytorch/01-tensors-autograd-training.md) | Stability and shift invariance |
-| bigram | [NLP](../content/09-nlp/01-text-representations-language-models.md) | Correct target offsets |
-| attention | [LLM systems](../content/10-llm-systems/01-causal-transformers-training-systems.md) | Prefix causality |
-| bellman | [RL](../content/11-reinforcement-learning/01-mdps-bellman-td.md) | Known solution and stochastic expectation |
+| search | [DSA](../content/04-dsa/01-invariants-search-graphs-dp.md) | Exhaustive boundary cases |
+| softmax | [PyTorch](../content/08-pytorch/01-tensors-autograd-training.md) | Stability and shift invariance |
+| bigram | [NLP](../content/10-nlp/01-text-representations-language-models.md) | Correct target offsets |
+| attention | [LLM systems](../content/11-llm-systems/01-causal-transformers-training-systems.md) | Prefix causality |
+| bellman | [RL](../content/12-reinforcement-learning/01-mdps-bellman-td.md) | Known solution and stochastic expectation |
 
 Student functions intentionally raise NotImplementedError initially. Their failing tests mean the exercise has not been implemented, not that installation failed. Passing checks supplies behavioral evidence; it does not automatically establish understanding.
 

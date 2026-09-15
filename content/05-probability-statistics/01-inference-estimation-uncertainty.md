@@ -1,6 +1,6 @@
 # Probability and statistics: inference, estimation, and uncertainty
 
-**Prerequisites:** arithmetic, sums, [calculus](../02-mathematics/06-calculus-gradients-optimization.md) for continuous extensions. **Outcome:** distinguish a probability model, an estimate, and evidence about that estimate.
+**Prerequisites:** arithmetic, sums, [calculus](../03-optimization/01-calculus-gradients-optimization.md) for continuous extensions. **Outcome:** distinguish a probability model, an estimate, and evidence about that estimate.
 
 ## Events and random variables
 

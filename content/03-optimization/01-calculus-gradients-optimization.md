@@ -1,3 +1,11 @@
+---
+id: math.calculus.gradients-optimization
+title: Calculus, gradients, and optimization
+prerequisites: [math.linear-algebra.vectors-spaces-bases, foundations.numerical-stability]
+estimated_hours: 22
+depth_anchor: Aggarwal LAO4ML, Boyd & Vandenberghe
+---
+
 # Calculus, gradients, and optimization
 
 **Prerequisites:** functions, vectors, matrices. **Outcome:** derive a vectorized loss gradient and analyze optimization through curvature.
@@ -87,4 +95,6 @@ Central differences use $[L(w+\epsilon e_i)-L(w-\epsilon e_i)]/(2\epsilon)$. Lar
 
 </details>
 
-**Mastery:** derive an unfamiliar gradient, check it numerically, and predict convergence from curvature. Later units: multivariable integration, convexity proofs, constrained optimization, duality, Newton methods, and stochastic approximation.
+**Mastery:** derive an unfamiliar gradient, check it numerically, and predict convergence from curvature.
+
+**Where this continues.** Everything sketched above is developed properly in the optimization track that follows: [convexity, smoothness and duality](03-convexity-smoothness-duality.md) proves the convergence rates and derives KKT and the max-entropy softmax; [stochastic approximation, SGD and batch size](04-stochastic-approximation-sgd.md) replaces the exact gradient with an estimator and derives the critical batch size; [nonconvex landscapes and training dynamics](05-nonconvex-landscapes-training-dynamics.md) covers saddles, the edge of stability and implicit bias; [preconditioning, adaptive methods and schedules](06-preconditioning-adaptive-methods-schedules.md) builds every optimizer past Adam and the width-scaling rules; and [constrained, composite and distributed optimization](07-constrained-composite-distributed-optimization.md) covers projection, prox, trust regions and what a gradient means across many devices.
