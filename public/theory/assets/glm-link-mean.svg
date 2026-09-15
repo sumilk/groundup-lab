@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="430" viewBox="0 0 1000 430" role="img" aria-labelledby="title desc">
+  <title id="title">Generalized linear model pipeline</title>
+  <desc id="desc">Predictors combine linearly, an inverse link maps the result into a valid mean range, and an exponential-family distribution supplies outcome noise and variance.</desc>
+  <rect width="1000" height="430" rx="24" fill="#f4f8fa"/>
+  <text x="500" y="42" text-anchor="middle" fill="#123246" font-family="system-ui" font-size="24" font-weight="700">A GLM separates signal, constraint, and outcome variation</text>
+  <g font-family="system-ui" text-anchor="middle">
+    <rect x="45" y="128" width="205" height="135" rx="19" fill="#e2eef4" stroke="#438da8" stroke-width="4"/>
+    <text x="147" y="168" fill="#245f78" font-size="18" font-weight="700">predictors</text><text x="147" y="207" fill="#245f78" font-family="serif" font-size="27">x</text><text x="147" y="237" fill="#245f78" font-size="14">features, indicators, offsets</text>
+    <rect x="300" y="128" width="205" height="135" rx="19" fill="#eee7f5" stroke="#8069a0" stroke-width="4"/>
+    <text x="402" y="168" fill="#5d477a" font-size="18" font-weight="700">linear predictor</text><text x="402" y="207" fill="#5d477a" font-family="serif" font-size="27">η = xᵀβ</text><text x="402" y="237" fill="#5d477a" font-size="14">unconstrained scale</text>
+    <rect x="555" y="128" width="180" height="135" rx="19" fill="#dff2e9" stroke="#2d8a70" stroke-width="4"/>
+    <text x="645" y="168" fill="#195d4c" font-size="18" font-weight="700">inverse link</text><text x="645" y="207" fill="#195d4c" font-family="serif" font-size="27">μ = g⁻¹(η)</text><text x="645" y="237" fill="#195d4c" font-size="14">valid mean range</text>
+    <rect x="785" y="128" width="170" height="135" rx="19" fill="#ffeadb" stroke="#d17a43" stroke-width="4"/>
+    <text x="870" y="168" fill="#8a4d29" font-size="18" font-weight="700">outcomes</text><text x="870" y="207" fill="#8a4d29" font-family="serif" font-size="25">Y | x</text><text x="870" y="237" fill="#8a4d29" font-size="14">variance follows family</text>
+  </g>
+  <g stroke="#6c8290" stroke-width="4" fill="none"><path d="M250 195 H296"/><path d="M282 184 L298 195 L282 206"/><path d="M505 195 H551"/><path d="M537 184 L553 195 L537 206"/><path d="M735 195 H781"/><path d="M767 184 L783 195 L767 206"/></g>
+  <g font-family="system-ui" font-size="15" text-anchor="middle">
+    <rect x="220" y="316" width="170" height="48" rx="12" fill="#ffffff" stroke="#b3c3cc" stroke-width="2"/><text x="305" y="346" fill="#344d5c">Gaussian: identity</text>
+    <rect x="415" y="316" width="170" height="48" rx="12" fill="#ffffff" stroke="#b3c3cc" stroke-width="2"/><text x="500" y="346" fill="#344d5c">Bernoulli: sigmoid</text>
+    <rect x="610" y="316" width="170" height="48" rx="12" fill="#ffffff" stroke="#b3c3cc" stroke-width="2"/><text x="695" y="346" fill="#344d5c">Poisson: exp</text>
+  </g>
+</svg>

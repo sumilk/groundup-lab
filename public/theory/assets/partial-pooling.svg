@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="440" viewBox="0 0 1000 440" role="img" aria-labelledby="title desc">
+  <title id="title">Partial pooling shrinks noisy group estimates</title>
+  <desc id="desc">Raw group means move toward a population mean after partial pooling. Small uncertain groups move farther than large precise groups.</desc>
+  <rect width="1000" height="440" rx="24" fill="#f4f8fa"/>
+  <text x="500" y="40" text-anchor="middle" fill="#123246" font-family="system-ui" font-size="24" font-weight="700">Share information without erasing group differences</text>
+  <g stroke="#bd6770" stroke-width="3" stroke-dasharray="8 7"><path d="M510 75 V370"/></g>
+  <text x="510" y="397" text-anchor="middle" fill="#9b4650" font-family="system-ui" font-size="16" font-weight="700">population mean μ</text>
+  <g font-family="system-ui" font-size="16" fill="#344d5c"><text x="70" y="115">tiny group</text><text x="70" y="185">small group</text><text x="70" y="255">large group</text><text x="70" y="325">large group</text></g>
+  <g stroke="#a9bac4" stroke-width="3"><path d="M170 110 H900"/><path d="M170 180 H900"/><path d="M170 250 H900"/><path d="M170 320 H900"/></g>
+  <g stroke="#8069a0" stroke-width="4" fill="none"><path d="M235 110 H405"/><path d="M735 180 H610"/><path d="M320 250 H350"/><path d="M815 320 H780"/></g>
+  <g fill="#8069a0"><path d="M393 100 L409 110 L393 120"/><path d="M622 170 L606 180 L622 190"/><path d="M338 240 L354 250 L338 260"/><path d="M792 310 L776 320 L792 330"/></g>
+  <g fill="#438da8" stroke="#245f78" stroke-width="2"><circle cx="235" cy="110" r="10"/><circle cx="735" cy="180" r="10"/><circle cx="320" cy="250" r="10"/><circle cx="815" cy="320" r="10"/></g>
+  <g fill="#2d8a70" stroke="#195d4c" stroke-width="2"><circle cx="405" cy="110" r="10"/><circle cx="610" cy="180" r="10"/><circle cx="350" cy="250" r="10"/><circle cx="780" cy="320" r="10"/></g>
+  <g font-family="system-ui" font-size="14" text-anchor="middle"><text x="235" y="91" fill="#245f78">raw</text><text x="405" y="91" fill="#195d4c">pooled</text><text x="735" y="161" fill="#245f78">raw</text><text x="610" y="161" fill="#195d4c">pooled</text><text x="320" y="226" fill="#245f78">raw</text><text x="350" y="279" fill="#195d4c">pooled</text><text x="815" y="296" fill="#245f78">raw</text><text x="780" y="349" fill="#195d4c">pooled</text></g>
+  <text x="500" y="422" text-anchor="middle" fill="#344d5c" font-family="system-ui" font-size="15">Less data or more within-group noise ⇒ stronger movement toward μ</text>
+</svg>

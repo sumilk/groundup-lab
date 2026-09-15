@@ -876,6 +876,172 @@ def rejection(m):
         raise AssertionError("invalid rejection-sampling input should be rejected")
 
 
+def simple_ols(m):
+    predictors = [0.0, 1.0, 2.0, 3.0]
+    outcomes = [1.0, 3.0, 2.0, 6.0]
+    before_predictors, before_outcomes = predictors[:], outcomes[:]
+    intercept, slope, residual_se, slope_se = m.simple_ols(predictors, outcomes)
+    assert predictors == before_predictors and outcomes == before_outcomes
+    close(intercept, 0.9)
+    close(slope, 1.4)
+    close(residual_se, math.sqrt(2.1))
+    close(slope_se, math.sqrt(0.42))
+
+    exact = m.simple_ols([-2.0, 0.0, 4.0], [-3.0, 1.0, 9.0])
+    close(exact[0], 1.0)
+    close(exact[1], 2.0)
+    close(exact[2], 0.0)
+    close(exact[3], 0.0)
+    generated = m.simple_ols(
+        (value for value in predictors), (value for value in outcomes)
+    )
+    for actual, expected in zip(generated, (intercept, slope, residual_se, slope_se)):
+        close(actual, expected)
+
+    shifted_x = m.simple_ols([value + 10 for value in predictors], outcomes)
+    close(shifted_x[0], intercept - 10 * slope)
+    close(shifted_x[1], slope)
+    close(shifted_x[2], residual_se)
+    close(shifted_x[3], slope_se)
+    shifted_y = m.simple_ols(predictors, [value + 5 for value in outcomes])
+    close(shifted_y[0], intercept + 5)
+    close(shifted_y[1], slope)
+    close(shifted_y[2], residual_se)
+    scaled_x = m.simple_ols([2 * value for value in predictors], outcomes)
+    close(scaled_x[1], slope / 2)
+    close(scaled_x[3], slope_se / 2)
+
+    invalid = [
+        ([], []),
+        ([1.0, 2.0], [1.0, 2.0]),
+        ([1.0, 2.0, 3.0], [1.0, 2.0]),
+        ([1.0, 1.0, 1.0], [1.0, 2.0, 3.0]),
+        ([1.0, True, 3.0], [1.0, 2.0, 3.0]),
+        ([1.0, "2", 3.0], [1.0, 2.0, 3.0]),
+        ([1.0, 2.0, float("nan")], [1.0, 2.0, 3.0]),
+        ([1.0, 2.0, 3.0], [1.0, float("inf"), 3.0]),
+    ]
+    for x_values, y_values in invalid:
+        try:
+            m.simple_ols(x_values, y_values)
+        except ValueError:
+            continue
+        raise AssertionError("invalid simple-OLS input should be rejected")
+
+
+def logistic_gradient(m):
+    design = [[1.0, 0.0], [1.0, 1.0], [1.0, 2.0]]
+    outcomes = [0, 0, 1]
+    coefficients = [0.0, 0.0]
+    before_design = [row[:] for row in design]
+    before_outcomes, before_coefficients = outcomes[:], coefficients[:]
+    loss, gradient = m.logistic_loss_gradient(design, outcomes, coefficients)
+    assert design == before_design
+    assert outcomes == before_outcomes and coefficients == before_coefficients
+    close(loss, math.log(2.0))
+    close(gradient[0], 1 / 6)
+    close(gradient[1], -1 / 6)
+
+    extreme_loss, extreme_gradient = m.logistic_loss_gradient(
+        [[1.0, 1000.0], [1.0, -1000.0]], [1, 0], [0.0, 1.0]
+    )
+    assert math.isfinite(extreme_loss)
+    assert all(math.isfinite(value) for value in extreme_gradient)
+    close(extreme_loss, 0.0)
+    close(extreme_gradient[0], 0.0)
+    close(extreme_gradient[1], 0.0)
+
+    generated = m.logistic_loss_gradient(
+        (iter(row) for row in design), (value for value in outcomes),
+        (value for value in [0.2, -0.3])
+    )
+    ordinary = m.logistic_loss_gradient(design, outcomes, [0.2, -0.3])
+    close(generated[0], ordinary[0])
+    for actual, expected in zip(generated[1], ordinary[1]):
+        close(actual, expected)
+
+    point = [0.2, -0.3]
+    epsilon = 1e-6
+    _, analytic = m.logistic_loss_gradient(design, outcomes, point)
+    for column in range(2):
+        upper, lower = point[:], point[:]
+        upper[column] += epsilon
+        lower[column] -= epsilon
+        upper_loss = m.logistic_loss_gradient(design, outcomes, upper)[0]
+        lower_loss = m.logistic_loss_gradient(design, outcomes, lower)[0]
+        close(analytic[column], (upper_loss - lower_loss) / (2 * epsilon), tol=1e-6)
+
+    invalid = [
+        ([], [], []),
+        ([[1.0]], [], [0.0]),
+        ([[1.0], [1.0, 2.0]], [0, 1], [0.0]),
+        ([[1.0]], [0], []),
+        ([[1.0, True]], [0], [0.0, 0.0]),
+        ([[1.0, float("nan")]], [0], [0.0, 0.0]),
+        ([[1.0]], [True], [0.0]),
+        ([[1.0]], [2], [0.0]),
+        ([[1.0]], [0.0], [0.0]),
+        ([[1.0]], [0], [float("inf")]),
+    ]
+    for rows, labels, weights in invalid:
+        try:
+            m.logistic_loss_gradient(rows, labels, weights)
+        except ValueError:
+            continue
+        raise AssertionError("invalid logistic-gradient input should be rejected")
+
+
+def partial_pooling(m):
+    means = [0.0, 10.0]
+    sizes = [1, 4]
+    before_means, before_sizes = means[:], sizes[:]
+    pooled, weights = m.partial_pooling_means(means, sizes, 4.0, 5.0, 1.0)
+    assert means == before_means and sizes == before_sizes
+    for actual, expected in zip(weights, [0.2, 0.5]):
+        close(actual, expected)
+    for actual, expected in zip(pooled, [4.0, 7.5]):
+        close(actual, expected)
+
+    no_heterogeneity = m.partial_pooling_means(means, sizes, 4.0, 5.0, 0.0)
+    assert no_heterogeneity == ([5.0, 5.0], [0.0, 0.0])
+    noiseless = m.partial_pooling_means(means, sizes, 0.0, 5.0, 1.0)
+    assert noiseless == (means, [1.0, 1.0])
+    generated = m.partial_pooling_means(
+        (value for value in means), (value for value in sizes), 4.0, 5.0, 1.0
+    )
+    assert generated == (pooled, weights)
+    shifted = m.partial_pooling_means(
+        [value + 100 for value in means], sizes, 4.0, 105.0, 1.0
+    )
+    for actual, expected in zip(shifted[0], [value + 100 for value in pooled]):
+        close(actual, expected)
+    assert shifted[1] == weights
+    more_data = m.partial_pooling_means([10.0, 10.0], [1, 100], 4.0, 5.0, 1.0)
+    assert more_data[1][1] > more_data[1][0]
+    assert more_data[0][1] > more_data[0][0]
+
+    invalid = [
+        ([], [], 1.0, 0.0, 1.0),
+        ([1.0], [], 1.0, 0.0, 1.0),
+        ([True], [1], 1.0, 0.0, 1.0),
+        ([float("nan")], [1], 1.0, 0.0, 1.0),
+        ([1.0], [0], 1.0, 0.0, 1.0),
+        ([1.0], [True], 1.0, 0.0, 1.0),
+        ([1.0], [1.5], 1.0, 0.0, 1.0),
+        ([1.0], [1], -1.0, 0.0, 1.0),
+        ([1.0], [1], 1.0, 0.0, -1.0),
+        ([1.0], [1], 0.0, 0.0, 0.0),
+        ([1.0], [1], float("inf"), 0.0, 1.0),
+        ([1.0], [1], 1.0, True, 1.0),
+    ]
+    for arguments in invalid:
+        try:
+            m.partial_pooling_means(*arguments)
+        except ValueError:
+            continue
+        raise AssertionError("invalid partial-pooling input should be rejected")
+
+
 def search(m):
     for n in range(7):
         for values in itertools.combinations_with_replacement([-1, 0, 1], n):
@@ -950,6 +1116,9 @@ CHECKS = {"moments": moments, "conditional": conditional,
           "stratified": stratified,
           "horvitz-thompson": horvitz_thompson,
           "rejection": rejection,
+          "simple-ols": simple_ols,
+          "logistic-gradient": logistic_gradient,
+          "partial-pooling": partial_pooling,
           "search": search, "softmax": softmax,
           "bigram": bigram, "attention": attention, "bellman": bellman}
 

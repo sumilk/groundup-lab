@@ -120,6 +120,24 @@
     "title": "Generic rejection sampler"
   },
   {
+    "lesson": "05-probability-statistics/12-exponential-families-regression-glms.md",
+    "task": "simple-ols",
+    "function": "simple_ols",
+    "title": "Simple OLS and slope uncertainty"
+  },
+  {
+    "lesson": "05-probability-statistics/12-exponential-families-regression-glms.md",
+    "task": "logistic-gradient",
+    "function": "logistic_loss_gradient",
+    "title": "Stable logistic loss and gradient"
+  },
+  {
+    "lesson": "05-probability-statistics/12-exponential-families-regression-glms.md",
+    "task": "partial-pooling",
+    "function": "partial_pooling_means",
+    "title": "Normal-normal partial pooling"
+  },
+  {
     "lesson": "08-pytorch/01-tensors-autograd-training.md",
     "task": "softmax",
     "function": "stable_softmax",

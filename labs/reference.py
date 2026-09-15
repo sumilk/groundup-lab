@@ -730,6 +730,145 @@ def rejection_sample(
     return accepted, attempts, draws / attempts
 
 
+def simple_ols(predictors, outcomes):
+    x_values = list(predictors)
+    y_values = list(outcomes)
+    if len(x_values) != len(y_values) or len(x_values) < 3:
+        raise ValueError("at least three equally sized predictor-outcome pairs required")
+    if any(
+        isinstance(value, bool)
+        or not isinstance(value, (int, float))
+        or not math.isfinite(value)
+        for value in x_values + y_values
+    ):
+        raise ValueError("predictors and outcomes must be finite numbers")
+
+    count = len(x_values)
+    x_mean = math.fsum(x_values) / count
+    y_mean = math.fsum(y_values) / count
+    centered_x = [value - x_mean for value in x_values]
+    centered_y = [value - y_mean for value in y_values]
+    sxx = math.fsum(value * value for value in centered_x)
+    if sxx <= 0:
+        raise ValueError("predictors must not be constant")
+    slope = math.fsum(
+        x_value * y_value
+        for x_value, y_value in zip(centered_x, centered_y)
+    ) / sxx
+    intercept = y_mean - slope * x_mean
+    residual_sum_squares = math.fsum(
+        (y_value - (intercept + slope * x_value)) ** 2
+        for x_value, y_value in zip(x_values, y_values)
+    )
+    residual_standard_error = math.sqrt(
+        max(0.0, residual_sum_squares) / (count - 2)
+    )
+    slope_standard_error = residual_standard_error / math.sqrt(sxx)
+    return intercept, slope, residual_standard_error, slope_standard_error
+
+
+def logistic_loss_gradient(design, outcomes, coefficients):
+    rows = [list(row) for row in design]
+    labels = list(outcomes)
+    weights = list(coefficients)
+    if not rows or len(rows) != len(labels) or not weights:
+        raise ValueError("nonempty matching design, outcomes, and coefficients required")
+    width = len(weights)
+    if any(len(row) != width for row in rows):
+        raise ValueError("design must be rectangular and match coefficients")
+    if any(
+        isinstance(value, bool)
+        or not isinstance(value, (int, float))
+        or not math.isfinite(value)
+        for row in rows
+        for value in row
+    ) or any(
+        isinstance(value, bool)
+        or not isinstance(value, (int, float))
+        or not math.isfinite(value)
+        for value in weights
+    ):
+        raise ValueError("design and coefficients must contain finite numbers")
+    if any(
+        isinstance(label, bool)
+        or not isinstance(label, int)
+        or label not in (0, 1)
+        for label in labels
+    ):
+        raise ValueError("outcomes must be binary integers")
+
+    losses = []
+    residuals = []
+    for row, label in zip(rows, labels):
+        logit = math.fsum(value * weight for value, weight in zip(row, weights))
+        if not math.isfinite(logit):
+            raise ValueError("linear predictors must be finite")
+        losses.append(
+            max(logit, 0.0)
+            - label * logit
+            + math.log1p(math.exp(-abs(logit)))
+        )
+        if logit >= 0:
+            probability = 1.0 / (1.0 + math.exp(-logit))
+        else:
+            exponential = math.exp(logit)
+            probability = exponential / (1.0 + exponential)
+        residuals.append(probability - label)
+
+    count = len(rows)
+    gradient = [
+        math.fsum(
+            residual * row[column]
+            for row, residual in zip(rows, residuals)
+        ) / count
+        for column in range(width)
+    ]
+    return math.fsum(losses) / count, gradient
+
+
+def partial_pooling_means(
+    group_means, group_sizes, within_variance, population_mean, between_variance
+):
+    means = list(group_means)
+    sizes = list(group_sizes)
+    if not means or len(means) != len(sizes):
+        raise ValueError("equally sized nonempty group means and sizes required")
+    if any(
+        isinstance(value, bool)
+        or not isinstance(value, (int, float))
+        or not math.isfinite(value)
+        for value in means
+    ):
+        raise ValueError("group means must be finite numbers")
+    if any(
+        isinstance(size, bool) or not isinstance(size, int) or size <= 0
+        for size in sizes
+    ):
+        raise ValueError("group sizes must be positive integers")
+    scalar_values = (within_variance, population_mean, between_variance)
+    if any(
+        isinstance(value, bool)
+        or not isinstance(value, (int, float))
+        or not math.isfinite(value)
+        for value in scalar_values
+    ):
+        raise ValueError("variances and population mean must be finite numbers")
+    if within_variance < 0 or between_variance < 0:
+        raise ValueError("variances must be nonnegative")
+    if within_variance == 0 and between_variance == 0:
+        raise ValueError("within and between variance cannot both be zero")
+
+    weights = [
+        between_variance / (between_variance + within_variance / size)
+        for size in sizes
+    ]
+    pooled = [
+        weight * mean + (1.0 - weight) * population_mean
+        for mean, weight in zip(means, weights)
+    ]
+    return pooled, weights
+
+
 def lower_bound(values, target):
     lo, hi = 0, len(values)
     while lo < hi:

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="430" viewBox="0 0 1000 430" role="img" aria-labelledby="title desc">
+  <title id="title">Exponential-family log-partition map</title>
+  <desc id="desc">Natural parameters enter the log-partition function. Its gradient produces the expected sufficient statistic and its Hessian produces covariance and Fisher information.</desc>
+  <rect width="1000" height="430" rx="24" fill="#f4f8fa"/>
+  <text x="500" y="42" text-anchor="middle" fill="#123246" font-family="system-ui" font-size="24" font-weight="700">One normalizer generates moments, curvature, and information</text>
+  <rect x="70" y="135" width="190" height="105" rx="18" fill="#e2eef4" stroke="#438da8" stroke-width="4"/>
+  <text x="165" y="176" text-anchor="middle" fill="#245f78" font-family="system-ui" font-size="18" font-weight="700">natural parameter</text>
+  <text x="165" y="214" text-anchor="middle" fill="#245f78" font-family="serif" font-size="30">η</text>
+  <path d="M260 187 H350" stroke="#6c8290" stroke-width="4"/><path d="M336 176 L352 187 L336 198" fill="none" stroke="#6c8290" stroke-width="4"/>
+  <rect x="355" y="105" width="270" height="165" rx="22" fill="#eee7f5" stroke="#8069a0" stroke-width="4"/>
+  <text x="490" y="151" text-anchor="middle" fill="#5d477a" font-family="system-ui" font-size="18" font-weight="700">log-partition</text>
+  <text x="490" y="194" text-anchor="middle" fill="#5d477a" font-family="serif" font-size="31">A(η)</text>
+  <text x="490" y="229" text-anchor="middle" fill="#5d477a" font-family="system-ui" font-size="15">normalizes the tilted density</text>
+  <path d="M625 157 C690 157 688 108 744 108" stroke="#6c8290" stroke-width="3" fill="none"/><path d="M732 98 L748 108 L732 118" fill="none" stroke="#6c8290" stroke-width="3"/>
+  <path d="M625 220 C690 220 688 285 744 285" stroke="#6c8290" stroke-width="3" fill="none"/><path d="M732 275 L748 285 L732 295" fill="none" stroke="#6c8290" stroke-width="3"/>
+  <rect x="750" y="68" width="190" height="82" rx="17" fill="#dff2e9" stroke="#2d8a70" stroke-width="4"/>
+  <text x="845" y="101" text-anchor="middle" fill="#195d4c" font-family="serif" font-size="23">∇A(η)</text>
+  <text x="845" y="128" text-anchor="middle" fill="#195d4c" font-family="system-ui" font-size="15">E[T(Y)]</text>
+  <rect x="750" y="245" width="190" height="82" rx="17" fill="#ffeadb" stroke="#d17a43" stroke-width="4"/>
+  <text x="845" y="278" text-anchor="middle" fill="#8a4d29" font-family="serif" font-size="23">∇²A(η)</text>
+  <text x="845" y="305" text-anchor="middle" fill="#8a4d29" font-family="system-ui" font-size="15">Cov[T(Y)] = information</text>
+  <rect x="235" y="330" width="530" height="55" rx="15" fill="#ffffff" stroke="#b3c3cc" stroke-width="2"/>
+  <text x="500" y="365" text-anchor="middle" fill="#344d5c" font-family="system-ui" font-size="17">MLE: observed average T(y) = model expectation ∇A(η̂)</text>
+</svg>

@@ -88,4 +88,4 @@ Sequential updating adds the same total successes and failures. Lower prevalence
 
 </details>
 
-**Mastery:** derive an estimator, identify its assumptions, and demonstrate its uncertainty empirically. Later units: common distributions, transformations/Jacobians, exponential families, sufficiency, hypothesis tests, t/F distributions, ANOVA, bootstrap, concentration, and dependent data.
+**Mastery:** derive an estimator, identify its assumptions, and demonstrate its uncertainty empirically. The detailed sequence develops common distributions, transformations and Jacobians, concentration, estimation, hypothesis tests, bootstrap and sequential inference, Bayesian computation, sampling design, sufficient statistics, exponential families, regression, GLMs, ANOVA, robust uncertainty, and dependent data from first principles.

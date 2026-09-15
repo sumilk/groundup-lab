@@ -178,6 +178,36 @@ def rejection_sample(
     raise NotImplementedError("Propose until enough candidates pass acceptance")
 
 
+def simple_ols(predictors, outcomes):
+    """Return (intercept, slope, residual SE, slope SE).
+
+    Inputs must be equally sized finite iterables with at least three pairs and
+    nonconstant predictors. Use n - 2 residual degrees of freedom.
+    """
+    raise NotImplementedError("Center the data, fit the line, and quantify slope uncertainty")
+
+
+def logistic_loss_gradient(design, outcomes, coefficients):
+    """Return (mean Bernoulli negative log likelihood, gradient list).
+
+    Design must be a nonempty finite rectangular matrix, outcomes must be
+    binary integers, and coefficients must match the number of columns.
+    Compute the loss stably for logits of any finite magnitude.
+    """
+    raise NotImplementedError("Use stable softplus and accumulate X-transpose times residuals")
+
+
+def partial_pooling_means(
+    group_means, group_sizes, within_variance, population_mean, between_variance
+):
+    """Return (pooled group means, data weights) for a normal-normal model.
+
+    Group means and positive integer sizes must be equally sized. Variances
+    are known nonnegative finite values and cannot both be zero.
+    """
+    raise NotImplementedError("Shrink each group according to its sampling precision")
+
+
 def lower_bound(values, target):
     """First index >= target in sorted values; len(values) if absent."""
     raise NotImplementedError("Use a half-open interval and a partition invariant")

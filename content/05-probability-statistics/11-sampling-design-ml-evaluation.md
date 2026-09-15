@@ -789,4 +789,4 @@ The checks cover deterministic and partial acceptance, reproducibility, local ra
 
 Given an unfamiliar dataset or evaluation, define its target population and frame; reconstruct inclusion and response mechanisms; choose and derive a sampling estimator; account for strata, clusters, stages, and finite-population structure; implement or diagnose computational sampling; identify leakage and adaptive selection; quantify every claimed random axis; audit contamination and distribution shift; and limit conclusions to the population that the design actually represents.
 
-The probability and statistics sequence now culminates in this evaluation unit. The next curriculum expansion should deepen classical machine learning while using these sampling and inference tools throughout.
+The next unit develops [exponential families, statistical regression, GLMs, and partial pooling](12-exponential-families-regression-glms.md), using these sampling and evaluation tools throughout.
