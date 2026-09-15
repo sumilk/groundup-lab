@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="430" viewBox="0 0 960 430" role="img" aria-labelledby="title desc">
+  <title id="title">Training, benchmark, and deployment distributions can differ</title>
+  <desc id="desc">Three overlapping distributions represent training data, benchmark evaluation, and deployment traffic. Arrows show selection and time moving the deployment target away from the benchmark.</desc>
+  <rect width="960" height="430" rx="18" fill="#f7fbfc"/>
+  <text x="480" y="37" text-anchor="middle" font-family="sans-serif" font-size="21" font-weight="700" fill="#173641">A precise benchmark estimate can target the wrong distribution</text>
+  <ellipse cx="315" cy="225" rx="210" ry="125" fill="#dfeff6" fill-opacity=".72" stroke="#438da8" stroke-width="4"/>
+  <ellipse cx="500" cy="205" rx="195" ry="115" fill="#e9e2f4" fill-opacity=".72" stroke="#8069a0" stroke-width="4"/>
+  <ellipse cx="660" cy="250" rx="220" ry="128" fill="#ffeadb" fill-opacity=".68" stroke="#d17a43" stroke-width="4"/>
+  <g font-family="sans-serif" text-anchor="middle">
+    <text x="225" y="165" font-size="18" font-weight="700" fill="#356f84">training</text>
+    <text x="485" y="155" font-size="18" font-weight="700" fill="#604d7d">benchmark</text>
+    <text x="735" y="260" font-size="18" font-weight="700" fill="#a35428">deployment</text>
+    <text x="275" y="288" font-size="14" fill="#35566a">curated corpus</text>
+    <text x="500" y="218" font-size="14" fill="#35566a">measured sample</text>
+    <text x="720" y="304" font-size="14" fill="#35566a">users over time</text>
+  </g>
+  <path d="M570 88 C650 48 760 62 812 115" fill="none" stroke="#a84e56" stroke-width="3" marker-end="url(#ed-arrow)"/>
+  <text x="690" y="55" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#81363d">policy, population, and time shift</text>
+  <text x="480" y="397" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#476073">Reweighting can address observed covariate mismatch only when overlap and invariance assumptions are credible.</text>
+  <defs><marker id="ed-arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#81363d"/></marker></defs>
+</svg>

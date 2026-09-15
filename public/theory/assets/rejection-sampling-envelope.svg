@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="420" viewBox="0 0 960 420" role="img" aria-labelledby="title desc">
+  <title id="title">Rejection sampling accepts proposal points under a target-to-envelope ratio</title>
+  <desc id="desc">A broad proposal envelope lies above a narrower target curve. Candidate points under the target curve are accepted and points between target and envelope are rejected.</desc>
+  <rect width="960" height="420" rx="18" fill="#f7fbfc"/>
+  <text x="480" y="37" text-anchor="middle" font-family="sans-serif" font-size="21" font-weight="700" fill="#173641">Propose broadly; keep points in the target-shaped fraction</text>
+  <line x1="80" y1="340" x2="890" y2="340" stroke="#476073" stroke-width="2"/>
+  <path d="M90 340 C145 335 190 235 285 135 C375 42 590 42 685 140 C775 232 820 332 875 340" fill="#dfeff6" fill-opacity=".75" stroke="#438da8" stroke-width="4"/>
+  <path d="M90 340 C300 339 360 320 410 230 C448 161 475 98 510 82 C550 111 571 199 610 260 C650 321 720 338 875 340" fill="#dff2e9" fill-opacity=".88" stroke="#2d8a70" stroke-width="5"/>
+  <g font-family="sans-serif" font-size="14" font-weight="700">
+    <circle cx="350" cy="265" r="7" fill="#2d8a70"/><text x="326" y="252" fill="#246952">accept</text>
+    <circle cx="470" cy="137" r="7" fill="#2d8a70"/><text x="438" y="122" fill="#246952">accept</text>
+    <circle cx="290" cy="215" r="7" fill="#b24751"/><text x="255" y="200" fill="#81363d">reject</text>
+    <circle cx="665" cy="236" r="7" fill="#b24751"/><text x="674" y="223" fill="#81363d">reject</text>
+  </g>
+  <text x="210" y="132" font-family="sans-serif" font-size="16" font-weight="700" fill="#356f84">envelope Mq(x)</text>
+  <text x="548" y="73" font-family="sans-serif" font-size="16" font-weight="700" fill="#246952">target f(x)</text>
+  <text x="480" y="382" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#476073">Validity needs f(x) ≤ Mq(x) everywhere; efficiency is the accepted fraction.</text>
+</svg>

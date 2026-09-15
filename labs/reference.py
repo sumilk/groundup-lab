@@ -602,6 +602,134 @@ def random_walk_metropolis(log_density, initial, proposal_scale, steps, seed):
     return states, accepted / steps
 
 
+def stratified_mean_standard_error(samples_by_stratum, population_sizes):
+    if (
+        not isinstance(samples_by_stratum, dict)
+        or not isinstance(population_sizes, dict)
+        or not samples_by_stratum
+        or set(samples_by_stratum) != set(population_sizes)
+    ):
+        raise ValueError("matching nonempty stratum mappings required")
+
+    samples = {}
+    for name, values in samples_by_stratum.items():
+        observations = list(values)
+        if len(observations) < 2:
+            raise ValueError("each stratum needs at least two observations")
+        if any(
+            isinstance(value, bool)
+            or not isinstance(value, (int, float))
+            or not math.isfinite(value)
+            for value in observations
+        ):
+            raise ValueError("stratum observations must be finite numbers")
+        population_size = population_sizes[name]
+        if (
+            isinstance(population_size, bool)
+            or not isinstance(population_size, int)
+            or population_size < len(observations)
+        ):
+            raise ValueError("population sizes must cover their stratum samples")
+        samples[name] = observations
+
+    total_population = sum(population_sizes.values())
+    estimate = 0.0
+    variance = 0.0
+    for name, observations in samples.items():
+        population_size = population_sizes[name]
+        sample_size = len(observations)
+        weight = population_size / total_population
+        mean = math.fsum(observations) / sample_size
+        sample_variance = math.fsum(
+            (value - mean) ** 2 for value in observations
+        ) / (sample_size - 1)
+        estimate += weight * mean
+        variance += (
+            weight * weight
+            * (1.0 - sample_size / population_size)
+            * sample_variance / sample_size
+        )
+    return estimate, math.sqrt(max(0.0, variance))
+
+
+def horvitz_thompson(values, inclusion_probabilities, population_size):
+    observations = list(values)
+    probabilities = list(inclusion_probabilities)
+    if not observations or len(observations) != len(probabilities):
+        raise ValueError("equally sized nonempty values and probabilities required")
+    if (
+        isinstance(population_size, bool)
+        or not isinstance(population_size, int)
+        or population_size < len(observations)
+    ):
+        raise ValueError("population size must be an integer covering the sample")
+    if any(
+        isinstance(value, bool)
+        or not isinstance(value, (int, float))
+        or not math.isfinite(value)
+        for value in observations
+    ):
+        raise ValueError("observed values must be finite numbers")
+    if any(
+        isinstance(probability, bool)
+        or not isinstance(probability, (int, float))
+        or not math.isfinite(probability)
+        or not 0 < probability <= 1
+        for probability in probabilities
+    ):
+        raise ValueError("inclusion probabilities must lie in (0, 1]")
+
+    total = math.fsum(
+        value / probability
+        for value, probability in zip(observations, probabilities)
+    )
+    return total, total / population_size
+
+
+def rejection_sample(
+    proposal, acceptance_probability, draws, seed, max_attempts
+):
+    if not callable(proposal) or not callable(acceptance_probability):
+        raise ValueError("proposal and acceptance probability must be callable")
+    if isinstance(draws, bool) or not isinstance(draws, int) or draws <= 0:
+        raise ValueError("draws must be a positive integer")
+    if isinstance(seed, bool) or not isinstance(seed, int):
+        raise ValueError("seed must be an integer")
+    if (
+        isinstance(max_attempts, bool)
+        or not isinstance(max_attempts, int)
+        or max_attempts < draws
+    ):
+        raise ValueError("maximum attempts must be an integer at least as large as draws")
+
+    generator = random.Random(seed)
+    accepted = []
+    attempts = 0
+    while len(accepted) < draws and attempts < max_attempts:
+        candidate = proposal(generator)
+        if (
+            isinstance(candidate, bool)
+            or not isinstance(candidate, (int, float))
+            or not math.isfinite(candidate)
+        ):
+            raise ValueError("proposal returned a non-finite numeric value")
+        probability = acceptance_probability(candidate)
+        if (
+            isinstance(probability, bool)
+            or not isinstance(probability, (int, float))
+            or not math.isfinite(probability)
+            or not 0 <= probability <= 1
+        ):
+            raise ValueError("acceptance probability must lie in [0, 1]")
+        attempts += 1
+        if generator.random() < probability:
+            accepted.append(candidate)
+
+    if len(accepted) < draws:
+        raise RuntimeError("maximum attempts exhausted before collecting all draws")
+    return accepted, attempts, draws / attempts
+
+
 def lower_bound(values, target):
     lo, hi = 0, len(values)
     while lo < hi:

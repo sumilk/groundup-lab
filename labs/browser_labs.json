@@ -102,6 +102,24 @@
     "title": "Random-walk Metropolis"
   },
   {
+    "lesson": "05-probability-statistics/11-sampling-design-ml-evaluation.md",
+    "task": "stratified",
+    "function": "stratified_mean_standard_error",
+    "title": "Stratified finite-population mean"
+  },
+  {
+    "lesson": "05-probability-statistics/11-sampling-design-ml-evaluation.md",
+    "task": "horvitz-thompson",
+    "function": "horvitz_thompson",
+    "title": "Horvitz–Thompson weighting"
+  },
+  {
+    "lesson": "05-probability-statistics/11-sampling-design-ml-evaluation.md",
+    "task": "rejection",
+    "function": "rejection_sample",
+    "title": "Generic rejection sampler"
+  },
+  {
     "lesson": "08-pytorch/01-tensors-autograd-training.md",
     "task": "softmax",
     "function": "stable_softmax",

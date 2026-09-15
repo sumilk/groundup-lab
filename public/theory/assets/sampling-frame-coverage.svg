@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="420" viewBox="0 0 960 420" role="img" aria-labelledby="title desc">
+  <title id="title">A sample can only represent the target population through its sampling frame and selection mechanism</title>
+  <desc id="desc">A large target population overlaps only partly with a sampling frame. A smaller observed sample lies inside the frame. Uncovered and nonresponding units create selection gaps.</desc>
+  <rect width="960" height="420" rx="18" fill="#f7fbfc"/>
+  <text x="480" y="37" text-anchor="middle" font-family="sans-serif" font-size="21" font-weight="700" fill="#173641">Random selection cannot repair an incomplete frame</text>
+  <ellipse cx="405" cy="225" rx="290" ry="145" fill="#dff1f5" stroke="#3c8ca3" stroke-width="4"/>
+  <text x="260" y="105" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="700" fill="#356f84">target population</text>
+  <ellipse cx="550" cy="225" rx="245" ry="118" fill="#e3f3e9" fill-opacity=".82" stroke="#3d8c72" stroke-width="4"/>
+  <text x="650" y="130" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="700" fill="#246952">sampling frame</text>
+  <g fill="#176b71">
+    <circle cx="430" cy="185" r="8"/><circle cx="478" cy="258" r="8"/><circle cx="535" cy="195" r="8"/>
+    <circle cx="595" cy="265" r="8"/><circle cx="650" cy="210" r="8"/><circle cx="560" cy="305" r="8"/>
+  </g>
+  <path d="M390 160 C425 135 475 140 500 170 C525 201 518 260 485 282 C445 307 395 277 382 235 C374 208 377 178 390 160 Z" fill="none" stroke="#a35428" stroke-width="4" stroke-dasharray="8 6"/>
+  <text x="430" y="225" text-anchor="middle" font-family="sans-serif" font-size="16" font-weight="700" fill="#a35428">observed sample</text>
+  <text x="140" y="330" font-family="sans-serif" font-size="15" fill="#81363d">undercoverage</text>
+  <path d="M240 322 L285 286" stroke="#81363d" stroke-width="2" marker-end="url(#sf-arrow)"/>
+  <text x="710" y="350" font-family="sans-serif" font-size="15" fill="#81363d">frame-only units</text>
+  <path d="M705 331 L675 294" stroke="#81363d" stroke-width="2" marker-end="url(#sf-arrow)"/>
+  <text x="480" y="397" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#476073">Inference needs both a probability of inclusion and a credible link from the frame to the intended population.</text>
+  <defs><marker id="sf-arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#81363d"/></marker></defs>
+</svg>

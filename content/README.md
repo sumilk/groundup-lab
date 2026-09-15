@@ -1,6 +1,6 @@
 # GroundUp Lab — theory and practice
 
-The repository now has **35 authored lessons across 14 tracks**, with linear algebra and optimization as separate tracks. This is an initial cross-curriculum release, **not complete coverage**. Each track has substantial expansion work remaining. Depth labels are targets and have not been independently verified.
+The repository now has **36 authored lessons across 14 tracks**, with linear algebra and optimization as separate tracks. This is an initial cross-curriculum release, **not complete coverage**. Each track has substantial expansion work remaining. Depth labels are targets and have not been independently verified.
 
 ## Start here
 
@@ -44,6 +44,7 @@ Attempt these prompts before continuing. The end-of-unit practice set then mixes
 | 05 Probability and statistics | [Hypothesis testing, confidence intervals, power, and multiple comparisons](05-probability-statistics/08-hypothesis-testing-confidence-power.md) |
 | 05 Probability and statistics | [Bootstrap, permutation tests, sequential inference, and experimental design](05-probability-statistics/09-resampling-sequential-experimental-design.md) |
 | 05 Probability and statistics | [Bayesian modeling, posterior prediction, importance sampling, and MCMC](05-probability-statistics/10-bayesian-modeling-computation.md) |
+| 05 Probability and statistics | [Sampling design, dataset construction, and rigorous ML evaluation](05-probability-statistics/11-sampling-design-ml-evaluation.md) |
 | 06 Information, learning, and decisions | [Entropy, generalization, and decisions](06-information-learning-decision/01-entropy-generalization-decisions.md) |
 | 07 Classical ML | [Regression, classification, evaluation](07-classical-ml/01-regression-classification-evaluation.md) |
 | 08 PyTorch | [Tensors, autograd, training](08-pytorch/01-tensors-autograd-training.md) |
@@ -73,11 +74,11 @@ The track is being expanded one unit at a time in this order:
 9. **Authored:** hypothesis testing, confidence intervals, power, effect sizes, likelihood-ratio tests, and multiple comparisons.
 10. **Authored:** bootstrap, permutation tests, sequential testing, and experimental design.
 11. **Authored:** Bayesian modeling, posterior checks, importance sampling, and MCMC.
-12. **Planned:** ML evaluation under seed variance, clustering, dependence, selection, contamination, and distribution shift.
+12. **Authored:** sampling design and ML evaluation under seed variance, clustering, dependence, selection, contamination, and distribution shift.
 
 ## Hands-on resources
 
-- [Twenty-one runnable exercises and behavioral checks](../labs/README.md)
+- [Twenty-four runnable exercises and behavioral checks](../labs/README.md)
 - [Learner implementation file](../labs/exercises.py)
 - [Reference solutions — attempt first](../labs/reference.py)
 - [Web reader source](../public/theory/index.html)

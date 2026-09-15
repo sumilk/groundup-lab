@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="420" viewBox="0 0 960 420" role="img" aria-labelledby="title desc">
+  <title id="title">Inverse inclusion weighting lets rarely sampled units represent more population mass</title>
+  <desc id="desc">Frequently sampled common units receive small weights while rarely included units receive larger weights. Their weighted contributions reconstruct a population total.</desc>
+  <rect width="960" height="420" rx="18" fill="#f7fbfc"/>
+  <text x="480" y="37" text-anchor="middle" font-family="sans-serif" font-size="21" font-weight="700" fill="#173641">Observed value × inverse inclusion probability</text>
+  <g font-family="sans-serif" text-anchor="middle">
+    <text x="160" y="82" font-size="17" font-weight="700" fill="#356f84">sampled units</text>
+    <circle cx="90" cy="145" r="28" fill="#75b7ca"/><text x="90" y="151" font-size="15" fill="#173641">y=4</text>
+    <circle cx="160" cy="210" r="28" fill="#75b7ca"/><text x="160" y="216" font-size="15" fill="#173641">y=7</text>
+    <circle cx="230" cy="285" r="28" fill="#75b7ca"/><text x="230" y="291" font-size="15" fill="#173641">y=2</text>
+    <text x="90" y="185" font-size="13" fill="#476073">π=.8</text>
+    <text x="160" y="250" font-size="13" fill="#476073">π=.5</text>
+    <text x="230" y="325" font-size="13" fill="#476073">π=.1</text>
+  </g>
+  <path d="M280 215 H365" stroke="#476073" stroke-width="3" marker-end="url(#ui-arrow)"/>
+  <text x="322" y="192" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#476073">multiply by</text>
+  <text x="322" y="239" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="700" fill="#476073">1 / πᵢ</text>
+  <g font-family="sans-serif" text-anchor="middle">
+    <text x="485" y="82" font-size="17" font-weight="700" fill="#a35428">weighted contributions</text>
+    <rect x="395" y="123" width="180" height="55" rx="9" fill="#ffeadb" stroke="#d17a43"/><text x="485" y="156" font-size="16" fill="#7d401f">4 / .8 = 5</text>
+    <rect x="395" y="198" width="180" height="55" rx="9" fill="#ffeadb" stroke="#d17a43"/><text x="485" y="231" font-size="16" fill="#7d401f">7 / .5 = 14</text>
+    <rect x="395" y="273" width="180" height="55" rx="9" fill="#ffeadb" stroke="#d17a43"/><text x="485" y="306" font-size="16" fill="#7d401f">2 / .1 = 20</text>
+  </g>
+  <path d="M595 225 H680" stroke="#476073" stroke-width="3" marker-end="url(#ui-arrow)"/>
+  <g font-family="sans-serif" text-anchor="middle">
+    <rect x="700" y="148" width="190" height="150" rx="16" fill="#e2f3e9" stroke="#3d8c72" stroke-width="3"/>
+    <text x="795" y="188" font-size="17" font-weight="700" fill="#246952">estimated total</text>
+    <text x="795" y="235" font-size="28" font-weight="700" fill="#173641">5 + 14 + 20</text>
+    <text x="795" y="270" font-size="18" fill="#35566a">= 39</text>
+  </g>
+  <text x="480" y="382" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#476073">A small inclusion probability creates a large, variable weight; unbiasedness does not guarantee precision.</text>
+  <defs><marker id="ui-arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#476073"/></marker></defs>
+</svg>

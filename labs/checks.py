@@ -701,6 +701,181 @@ def metropolis(m):
         raise AssertionError("invalid Metropolis input should be rejected")
 
 
+def stratified(m):
+    samples = {"small": [1.0, 3.0], "large": [8.0, 10.0, 12.0]}
+    populations = {"small": 10, "large": 30}
+    before_samples = {name: values[:] for name, values in samples.items()}
+    before_populations = populations.copy()
+    estimate, standard_error = m.stratified_mean_standard_error(
+        samples, populations
+    )
+    assert samples == before_samples and populations == before_populations
+    close(estimate, 8.0)
+    close(standard_error, math.sqrt(0.725))
+
+    generated = m.stratified_mean_standard_error(
+        {
+            "small": (value for value in [1.0, 3.0]),
+            "large": (value for value in [8.0, 10.0, 12.0]),
+        },
+        populations,
+    )
+    close(generated[0], estimate)
+    close(generated[1], standard_error)
+
+    census = m.stratified_mean_standard_error(
+        samples, {"small": 2, "large": 3}
+    )
+    close(census[0], 6.8)
+    close(census[1], 0.0)
+    constant = m.stratified_mean_standard_error(
+        {"a": [5.0, 5.0], "b": [5.0, 5.0, 5.0]},
+        {"a": 20, "b": 80},
+    )
+    assert constant == (5.0, 0.0)
+
+    invalid = [
+        ({}, {}),
+        ([], {}),
+        ({"a": [1.0, 2.0]}, {}),
+        ({"a": [1.0]}, {"a": 10}),
+        ({"a": [1.0, True]}, {"a": 10}),
+        ({"a": [1.0, "2"]}, {"a": 10}),
+        ({"a": [1.0, float("nan")]}, {"a": 10}),
+        ({"a": [1.0, 2.0]}, {"a": 1}),
+        ({"a": [1.0, 2.0]}, {"a": True}),
+        ({"a": [1.0, 2.0]}, {"a": 2.5}),
+    ]
+    for stratum_samples, stratum_populations in invalid:
+        try:
+            m.stratified_mean_standard_error(
+                stratum_samples, stratum_populations
+            )
+        except ValueError:
+            continue
+        raise AssertionError("invalid stratified-sampling design should be rejected")
+
+
+def horvitz_thompson(m):
+    values = [4.0, 7.0, 2.0]
+    probabilities = [0.8, 0.5, 0.1]
+    before_values, before_probabilities = values[:], probabilities[:]
+    total, mean = m.horvitz_thompson(values, probabilities, 10)
+    assert values == before_values and probabilities == before_probabilities
+    close(total, 39.0)
+    close(mean, 3.9)
+
+    equal = m.horvitz_thompson([2.0, 4.0], [0.5, 0.5], 4)
+    close(equal[0], 12.0)
+    close(equal[1], 3.0)
+    census = m.horvitz_thompson([1.0, 2.0, 3.0], [1.0] * 3, 3)
+    assert census == (6.0, 2.0)
+    scaled = m.horvitz_thompson(
+        [10 * value for value in values], probabilities, 10
+    )
+    close(scaled[0], 10 * total)
+    close(scaled[1], 10 * mean)
+    generated = m.horvitz_thompson(
+        (value for value in values), (value for value in probabilities), 10
+    )
+    close(generated[0], total)
+    close(generated[1], mean)
+
+    invalid = [
+        ([], [], 1),
+        ([1.0], [], 1),
+        ([1.0], [0.5, 0.5], 2),
+        ([True], [0.5], 1),
+        (["1"], [0.5], 1),
+        ([float("nan")], [0.5], 1),
+        ([1.0], [0.0], 1),
+        ([1.0], [-0.1], 1),
+        ([1.0], [1.1], 1),
+        ([1.0], [True], 1),
+        ([1.0], [float("nan")], 1),
+        ([1.0, 2.0], [0.5, 0.5], 1),
+        ([1.0], [0.5], True),
+        ([1.0], [0.5], 1.5),
+    ]
+    for observations, inclusion, population_size in invalid:
+        try:
+            m.horvitz_thompson(observations, inclusion, population_size)
+        except ValueError:
+            continue
+        raise AssertionError("invalid Horvitz-Thompson input should be rejected")
+
+
+def rejection(m):
+    accepted, attempts, rate = m.rejection_sample(
+        lambda generator: 5.0, lambda value: 1.0, 6, 9, 6
+    )
+    assert accepted == [5.0] * 6 and attempts == 6 and rate == 1.0
+
+    proposal = lambda generator: generator.uniform(-1.0, 1.0)
+    probability = lambda value: (value + 1.0) / 2.0
+    first = m.rejection_sample(proposal, probability, 10, 7, 100)
+    second = m.rejection_sample(proposal, probability, 10, 7, 100)
+    assert first == second
+    expected = [
+        -0.35233447033367526,
+        0.3018689460797075,
+        0.0717640086133784,
+        0.15420589723499734,
+        0.9525102111858401,
+        0.716936918097359,
+        -0.7114898332851249,
+        0.2778269378523681,
+        0.09548893141911563,
+        0.3607999463635718,
+    ]
+    for actual, target in zip(first[0], expected):
+        close(actual, target)
+    assert first[1] == 19
+    close(first[2], 10 / 19)
+
+    many, many_attempts, many_rate = m.rejection_sample(
+        proposal, probability, 3000, 71, 10000
+    )
+    many_mean = math.fsum(many) / len(many)
+    assert 0.29 < many_mean < 0.38
+    assert 5000 < many_attempts < 7000
+    close(many_rate, 3000 / many_attempts)
+
+    random.seed(7727)
+    expected_global = random.random()
+    random.seed(7727)
+    m.rejection_sample(proposal, probability, 10, 7, 100)
+    close(random.random(), expected_global)
+
+    try:
+        m.rejection_sample(lambda generator: 0.0, lambda value: 0.0, 2, 1, 5)
+    except RuntimeError:
+        pass
+    else:
+        raise AssertionError("exhausted rejection sampler should raise RuntimeError")
+
+    invalid = [
+        (None, lambda value: 1.0, 1, 1, 2),
+        (lambda generator: 0.0, None, 1, 1, 2),
+        (lambda generator: 0.0, lambda value: 1.0, 0, 1, 2),
+        (lambda generator: 0.0, lambda value: 1.0, True, 1, 2),
+        (lambda generator: 0.0, lambda value: 1.0, 1, True, 2),
+        (lambda generator: 0.0, lambda value: 1.0, 2, 1, 1),
+        (lambda generator: True, lambda value: 1.0, 1, 1, 2),
+        (lambda generator: float("nan"), lambda value: 1.0, 1, 1, 2),
+        (lambda generator: 0.0, lambda value: True, 1, 1, 2),
+        (lambda generator: 0.0, lambda value: -0.1, 1, 1, 2),
+        (lambda generator: 0.0, lambda value: 1.1, 1, 1, 2),
+        (lambda generator: 0.0, lambda value: float("nan"), 1, 1, 2),
+    ]
+    for arguments in invalid:
+        try:
+            m.rejection_sample(*arguments)
+        except ValueError:
+            continue
+        raise AssertionError("invalid rejection-sampling input should be rejected")
+
+
 def search(m):
     for n in range(7):
         for values in itertools.combinations_with_replacement([-1, 0, 1], n):
@@ -772,6 +947,9 @@ CHECKS = {"moments": moments, "conditional": conditional,
           "beta-update": beta_update,
           "importance": importance,
           "metropolis": metropolis,
+          "stratified": stratified,
+          "horvitz-thompson": horvitz_thompson,
+          "rejection": rejection,
           "search": search, "softmax": softmax,
           "bigram": bigram, "attention": attention, "bellman": bellman}
 

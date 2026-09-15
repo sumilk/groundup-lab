@@ -147,6 +147,37 @@ def random_walk_metropolis(log_density, initial, proposal_scale, steps, seed):
     raise NotImplementedError("Propose locally and accept using a log-density ratio")
 
 
+def stratified_mean_standard_error(samples_by_stratum, population_sizes):
+    """Return a population-weighted mean and SRSWOR design standard error.
+
+    Both mappings must have the same nonempty keys. Each stratum needs at
+    least two finite observations and a known integer population size no
+    smaller than its sample.
+    """
+    raise NotImplementedError("Weight stratum means and finite-population variances")
+
+
+def horvitz_thompson(values, inclusion_probabilities, population_size):
+    """Return the Horvitz-Thompson population total and mean estimates.
+
+    Values and first-order inclusion probabilities represent observed unique
+    units. The known positive population size must be at least the sample size.
+    """
+    raise NotImplementedError("Weight each sampled value by inverse inclusion")
+
+
+def rejection_sample(
+    proposal, acceptance_probability, draws, seed, max_attempts
+):
+    """Return (accepted values, attempts used, realized acceptance rate).
+
+    proposal receives a local random.Random instance. Require positive integer
+    draws and an attempt budget at least that large. Proposed values must be
+    finite numbers and acceptance probabilities must lie in [0, 1].
+    """
+    raise NotImplementedError("Propose until enough candidates pass acceptance")
+
+
 def lower_bound(values, target):
     """First index >= target in sorted values; len(values) if absent."""
     raise NotImplementedError("Use a half-open interval and a partition invariant")
