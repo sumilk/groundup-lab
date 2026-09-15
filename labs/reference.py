@@ -150,6 +150,37 @@ def condition_bivariate_gaussian(
     return conditional_mean, conditional_variance
 
 
+def batch_means_standard_error(values, batch_size):
+    if isinstance(batch_size, bool) or not isinstance(batch_size, int) or batch_size <= 0:
+        raise ValueError("batch size must be a positive integer")
+
+    observations = list(values)
+    if any(
+        isinstance(value, bool)
+        or not isinstance(value, (int, float))
+        or not math.isfinite(value)
+        for value in observations
+    ):
+        raise ValueError("finite numeric observations required")
+    if len(observations) % batch_size != 0:
+        raise ValueError("batch size must divide the observation count")
+
+    batch_count = len(observations) // batch_size
+    if batch_count < 2:
+        raise ValueError("at least two complete batches required")
+
+    batch_means = [
+        math.fsum(observations[start:start + batch_size]) / batch_size
+        for start in range(0, len(observations), batch_size)
+    ]
+    estimate = math.fsum(batch_means) / batch_count
+    batch_variance = math.fsum(
+        (batch_mean - estimate) ** 2 for batch_mean in batch_means
+    ) / (batch_count - 1)
+    standard_error = math.sqrt(batch_variance / batch_count)
+    return estimate, standard_error
+
+
 def lower_bound(values, target):
     lo, hi = 0, len(values)
     while lo < hi:

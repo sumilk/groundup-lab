@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="440" viewBox="0 0 1040 440" role="img" aria-labelledby="as-title as-desc">
+  <title id="as-title">Repeated sample means stabilize around the population mean</title>
+  <desc id="as-desc">Four running-average paths fluctuate strongly with few observations and settle toward a horizontal population-mean line as sample size increases. A narrowing band indicates the inverse-square-root scale of typical error.</desc>
+  <rect width="1040" height="440" rx="24" fill="#08111f"/>
+  <path d="M90 355H965M90 355V55" stroke="#31445e" stroke-width="3"/>
+  <path d="M90 205H965" stroke="#e8eef7" stroke-width="3" stroke-dasharray="10 9"/>
+  <path d="M105 78C250 125 430 157 960 184M105 332C250 285 430 253 960 226" fill="none" stroke="#31445e" stroke-width="3" stroke-dasharray="8 8"/>
+  <path d="M108 88L140 310L180 122L225 270L275 168L335 235L410 182L500 221L610 190L740 213L855 198L960 207" fill="none" stroke="#50d2c2" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M108 325L140 105L180 292L225 148L275 247L335 176L410 231L500 187L610 217L740 196L855 210L960 202" fill="none" stroke="#d586ff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M108 150L140 76L180 214L225 122L275 197L335 164L410 212L500 179L610 207L740 201L855 205L960 204" fill="none" stroke="#ffb86b" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <g fill="#e8eef7" font-family="system-ui" font-size="18"><text x="70" y="48">running mean</text><text x="895" y="390">sample size n</text><text x="795" y="194">population mean μ</text></g>
+  <g fill="#91a4bb" font-family="system-ui" font-size="16"><text x="113" y="380">1</text><text x="450" y="380">more observations</text><text x="685" y="168">typical error scale ∝ 1/√n</text></g>
+  <circle cx="960" cy="207" r="5" fill="#50d2c2"/><circle cx="960" cy="202" r="5" fill="#d586ff"/><circle cx="960" cy="204" r="5" fill="#ffb86b"/>
+</svg>

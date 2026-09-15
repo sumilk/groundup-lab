@@ -23,7 +23,7 @@ Progressive AI study for Sumil: Python, DSA, linear algebra, optimization, proba
 
 ## What exists
 
-30 authored lessons, eleven CPU exercises with separate reference implementations and behavioral checks, mathematical SVGs/Mermaid diagrams, and a browser theory reader. The content is an initial release, not the requested complete curriculum. Advanced coverage is explicitly listed as pending in each lesson.
+31 authored lessons, twelve CPU exercises with separate reference implementations and behavioral checks, mathematical SVGs/Mermaid diagrams, and a browser theory reader. The content is an initial release, not the requested complete curriculum. Advanced coverage is explicitly listed as pending in each lesson.
 
 ## Website
 

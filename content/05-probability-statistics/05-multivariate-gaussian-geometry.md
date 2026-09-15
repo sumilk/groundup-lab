@@ -501,4 +501,4 @@ For correlations from \(-0.95\) to \(0.95\), plot conditional mean as a function
 
 Starting from a covariance matrix, explain its ellipse, build a sampling factor, transform it under a linear map, compute a marginal and conditional distribution, and verify the result empirically. Then identify one realistic way the Gaussian assumption could fail and how that failure would appear in data.
 
-Next comes repeated-sample behavior: laws of large numbers, central limit approximations, Monte Carlo error, concentration, heavy tails, and dependence.
+Next: [repeated samples, limit theorems, and Monte Carlo error](06-limit-theorems-monte-carlo.md).

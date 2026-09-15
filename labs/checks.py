@@ -205,6 +205,51 @@ def gaussian(m):
         raise AssertionError("invalid Gaussian parameters should be rejected")
 
 
+def monte_carlo(m):
+    values = [1., 3., 5., 7.]
+    before = values[:]
+    estimate, standard_error = m.batch_means_standard_error(values, 2)
+    assert values == before
+    close(estimate, 4.)
+    close(standard_error, 2.)
+
+    estimate, standard_error = m.batch_means_standard_error(values, 1)
+    close(estimate, 4.)
+    close(standard_error, math.sqrt(20 / 3) / 2)
+
+    shifted = [1e12 + value for value in [1., 3., 5., 7.]]
+    estimate, standard_error = m.batch_means_standard_error(shifted, 2)
+    close(estimate, 1e12 + 4., tol=1e-12)
+    close(standard_error, 2.)
+
+    estimate, standard_error = m.batch_means_standard_error(
+        (3 * value - 8 for value in values), 2
+    )
+    close(estimate, 4.)
+    close(standard_error, 6.)
+    close(m.batch_means_standard_error([9.] * 12, 3)[1], 0.)
+
+    invalid = [
+        ([], 1),
+        ([1.], 1),
+        ([1., 2., 3.], 2),
+        ([1., 2.], 0),
+        ([1., 2.], -1),
+        ([1., 2.], 1.5),
+        ([1., 2.], True),
+        ([1., float("nan")], 1),
+        ([1., float("inf")], 1),
+        ([1., True], 1),
+        ([1., "2"], 1),
+    ]
+    for observations, batch_size in invalid:
+        try:
+            m.batch_means_standard_error(observations, batch_size)
+        except ValueError:
+            continue
+        raise AssertionError("invalid batch-means input should be rejected")
+
+
 def search(m):
     for n in range(7):
         for values in itertools.combinations_with_replacement([-1, 0, 1], n):
@@ -266,6 +311,7 @@ def bellman(m):
 CHECKS = {"moments": moments, "conditional": conditional,
           "categorical": categorical, "joint": joint,
           "convolution": convolution, "gaussian": gaussian,
+          "monte-carlo": monte_carlo,
           "search": search, "softmax": softmax,
           "bigram": bigram, "attention": attention, "bellman": bellman}
 

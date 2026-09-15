@@ -49,6 +49,15 @@ def condition_bivariate_gaussian(
     raise NotImplementedError("Apply the Gaussian conditional update")
 
 
+def batch_means_standard_error(values, batch_size):
+    """Return (mean, standard error) estimated from contiguous batch means.
+
+    Require finite numeric observations and a positive integer batch size that
+    divides the sequence into at least two complete batches.
+    """
+    raise NotImplementedError("Estimate uncertainty from variation among batch means")
+
+
 def lower_bound(values, target):
     """First index >= target in sorted values; len(values) if absent."""
     raise NotImplementedError("Use a half-open interval and a partition invariant")

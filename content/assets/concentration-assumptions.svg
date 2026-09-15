@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="440" viewBox="0 0 1080 440" role="img" aria-labelledby="ca-title ca-desc">
+  <title id="ca-title">Stronger assumptions permit sharper concentration bounds</title>
+  <desc id="ca-desc">Three horizontal probability distributions are shown around a mean. Markov uses nonnegativity and controls a broad one-sided region, Chebyshev uses finite variance and controls two tails, and Hoeffding uses independent bounded observations and gives much smaller exponentially shrinking tail ceilings.</desc>
+  <rect width="1080" height="440" rx="24" fill="#08111f"/>
+  <g font-family="system-ui">
+    <text x="540" y="42" text-anchor="middle" fill="#e8eef7" font-size="21">A bound is a guaranteed ceiling, not a prediction of the exact tail</text>
+    <g fill="#e8eef7" font-size="19"><text x="55" y="112">Markov</text><text x="55" y="226">Chebyshev</text><text x="55" y="340">Hoeffding</text></g>
+    <g fill="#91a4bb" font-size="15"><text x="55" y="136">nonnegative variable</text><text x="55" y="250">finite variance</text><text x="55" y="364">bounded independent data</text></g>
+  </g>
+  <g stroke="#31445e" stroke-width="3"><path d="M245 145H1015"/><path d="M245 259H1015"/><path d="M245 373H1015"/></g>
+  <path d="M260 144C360 143 430 138 510 111C585 86 645 75 705 96C780 121 820 140 1000 144" fill="none" stroke="#50d2c2" stroke-width="4"/>
+  <path d="M260 258C405 258 485 249 548 207C585 183 615 172 645 172C675 172 705 183 742 207C805 249 885 258 1000 258" fill="none" stroke="#d586ff" stroke-width="4"/>
+  <path d="M260 372C470 372 535 361 585 302C608 276 628 267 645 267C662 267 682 276 705 302C755 361 820 372 1000 372" fill="none" stroke="#ffb86b" stroke-width="4"/>
+  <g fill="#ff6b7a" opacity=".32"><rect x="790" y="102" width="210" height="42" rx="8"/><rect x="260" y="232" width="250" height="26" rx="8"/><rect x="780" y="232" width="220" height="26" rx="8"/><rect x="260" y="355" width="310" height="17" rx="8"/><rect x="720" y="355" width="280" height="17" rx="8"/></g>
+  <g stroke="#e8eef7" stroke-width="2" stroke-dasharray="6 6"><path d="M645 72V390"/><path d="M510 178V390"/><path d="M780 178V390"/></g>
+  <g fill="#e8eef7" font-family="system-ui" font-size="16"><text x="632" y="414">μ</text><text x="478" y="414">μ−ε</text><text x="758" y="414">μ+ε</text></g>
+  <g fill="#ffb86b" font-family="system-ui" font-size="16"><text x="820" y="96">controlled tail</text><text x="815" y="226">two tails</text><text x="795" y="349">smaller ceiling as n grows</text></g>
+</svg>

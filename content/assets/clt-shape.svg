@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="430" viewBox="0 0 1080 430" role="img" aria-labelledby="clt-title clt-desc">
+  <title id="clt-title">Standardized sampling distributions approach a Gaussian shape</title>
+  <desc id="clt-desc">Three panels show a skewed standardized mean distribution at sample size one, a smoother less-skewed distribution at sample size five, and an approximately bell-shaped distribution at sample size thirty. A dashed Gaussian reference is identical across panels.</desc>
+  <rect width="1080" height="430" rx="24" fill="#08111f"/>
+  <g stroke="#31445e" stroke-width="2"><path d="M55 330H335M195 345V70"/><path d="M400 330H680M540 345V70"/><path d="M745 330H1025M885 345V70"/></g>
+  <g fill="none" stroke="#91a4bb" stroke-width="3" stroke-dasharray="8 7">
+    <path d="M65 329C100 326 120 300 140 235C160 168 178 112 195 105C212 112 230 168 250 235C270 300 290 326 325 329"/>
+    <path d="M410 329C445 326 465 300 485 235C505 168 523 112 540 105C557 112 575 168 595 235C615 300 635 326 670 329"/>
+    <path d="M755 329C790 326 810 300 830 235C850 168 868 112 885 105C902 112 920 168 940 235C960 300 980 326 1015 329"/>
+  </g>
+  <path d="M65 330C90 327 103 302 117 235C132 164 145 102 166 86C185 72 201 91 210 137C224 212 237 280 258 311C275 331 298 331 325 330" fill="none" stroke="#ffb86b" stroke-width="5"/>
+  <path d="M410 330C437 328 455 307 470 255C487 193 502 133 525 112C547 92 565 121 579 171C595 229 610 286 632 316C644 329 657 331 670 330" fill="none" stroke="#d586ff" stroke-width="5"/>
+  <path d="M755 329C790 326 812 299 832 232C852 164 869 111 887 104C905 113 922 169 942 236C962 300 983 326 1015 329" fill="none" stroke="#50d2c2" stroke-width="5"/>
+  <g fill="#e8eef7" font-family="system-ui" font-size="20" text-anchor="middle"><text x="195" y="385">n = 1: skew remains</text><text x="540" y="385">n = 5: smoother</text><text x="885" y="385">n = 30: near Gaussian</text></g>
+  <text x="540" y="42" text-anchor="middle" fill="#e8eef7" font-family="system-ui" font-size="19">All panels use the standardized variable √n(X̄−μ)/σ</text>
+  <g font-family="system-ui" font-size="15"><text x="78" y="95" fill="#91a4bb">dashed: Gaussian reference</text><text x="78" y="118" fill="#ffb86b">solid: sampling distribution</text></g>
+</svg>
