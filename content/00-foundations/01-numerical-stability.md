@@ -52,7 +52,7 @@ $$
 
 ## 3. Catastrophic cancellation
 
-Subtracting nearly equal large values can destroy significant digits. The textbook variance identity
+Subtracting nearly equal large values can destroy significant digits. The algebraic variance identity
 
 $$
 \operatorname{Var}(X)=\mathbb E[X^2]-\mathbb E[X]^2

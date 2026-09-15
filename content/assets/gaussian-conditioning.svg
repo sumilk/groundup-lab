@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="430" viewBox="0 0 980 430" role="img" aria-labelledby="gc-title gc-desc">
+  <title id="gc-title">Conditioning a correlated bivariate Gaussian</title>
+  <desc id="gc-desc">Elliptical contours show positive correlation. A vertical observed value selects a narrow slice whose center follows the regression line and whose horizontal spread is smaller than the marginal spread.</desc>
+  <rect width="980" height="430" rx="24" fill="#08111f"/>
+  <path d="M80 350H900M120 385V55" stroke="#31445e" stroke-width="3"/>
+  <g fill="none" stroke="#50d2c2" stroke-width="4" transform="rotate(-25 480 215)"><ellipse cx="480" cy="215" rx="285" ry="105"/><ellipse cx="480" cy="215" rx="205" ry="72" opacity=".75"/><ellipse cx="480" cy="215" rx="120" ry="40" opacity=".5"/></g>
+  <path d="M180 330L785 75" stroke="#91a4bb" stroke-width="3" stroke-dasharray="10 8"/>
+  <path d="M680 70V350" stroke="#ffb86b" stroke-width="5"/>
+  <path d="M632 135H728" stroke="#d586ff" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="680" cy="135" r="9" fill="#ffffff"/>
+  <g fill="#e8eef7" font-family="system-ui" font-size="19"><text x="694" y="92">observe Y = y</text><text x="735" y="145">conditional spread of X</text><text x="650" y="375">Y</text><text x="95" y="75">X</text></g>
+  <text x="490" y="405" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="17">Correlation shifts the conditional mean; observation reduces conditional variance.</text>
+</svg>

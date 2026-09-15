@@ -3,7 +3,6 @@ id: math.optimization.nonconvex-landscapes
 title: Nonconvex landscapes and training dynamics
 prerequisites: [math.optimization.stochastic-approximation-sgd, math.linear-algebra.eigen-invariant-subspaces]
 estimated_hours: 36
-depth_anchor: Dauphin et al. saddle points, Cohen et al. edge of stability, Soudry et al. implicit bias
 ---
 
 # Nonconvex landscapes and training dynamics

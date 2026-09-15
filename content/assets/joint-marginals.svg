@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="500" viewBox="0 0 980 500" role="img" aria-labelledby="jm-title jm-desc">
+  <title id="jm-title">Joint probability table with marginals and a conditional slice</title>
+  <desc id="jm-desc">A two by two joint table has row and column sums. One highlighted row is renormalized to form a conditional distribution.</desc>
+  <rect width="980" height="500" rx="24" fill="#08111f"/>
+  <g font-family="system-ui" text-anchor="middle">
+    <text x="335" y="45" fill="#e8eef7" font-size="22">joint mass</text><text x="720" y="45" fill="#e8eef7" font-size="22">condition on X = 1</text>
+    <g stroke="#31445e" stroke-width="3">
+      <rect x="130" y="95" width="150" height="95" fill="#d586ff" fill-opacity=".30"/><rect x="280" y="95" width="150" height="95" fill="#d586ff" fill-opacity=".20"/>
+      <rect x="130" y="190" width="150" height="95" fill="#50d2c2" fill-opacity=".25"/><rect x="280" y="190" width="150" height="95" fill="#50d2c2" fill-opacity=".70"/>
+      <rect x="430" y="95" width="110" height="95" fill="#10243a"/><rect x="430" y="190" width="110" height="95" fill="#10243a"/>
+      <rect x="130" y="285" width="150" height="80" fill="#10243a"/><rect x="280" y="285" width="150" height="80" fill="#10243a"/>
+    </g>
+    <g fill="#e8eef7" font-size="20"><text x="205" y="150">0.30</text><text x="355" y="150">0.20</text><text x="205" y="245">0.10</text><text x="355" y="245">0.40</text><text x="485" y="150">0.50</text><text x="485" y="245">0.50</text><text x="205" y="335">0.40</text><text x="355" y="335">0.60</text></g>
+    <g fill="#91a4bb" font-size="17"><text x="85" y="150">X=0</text><text x="85" y="245">X=1</text><text x="205" y="82">Y=0</text><text x="355" y="82">Y=1</text><text x="485" y="82">row sum</text><text x="85" y="335">column sum</text></g>
+    <path d="M565 237H630" stroke="#ffb86b" stroke-width="5"/><path d="M615 225l20 12-20 12" fill="#ffb86b"/>
+    <rect x="675" y="165" width="70" height="145" fill="#50d2c2" fill-opacity=".25"/><rect x="745" y="165" width="210" height="145" fill="#50d2c2" fill-opacity=".70"/>
+    <g fill="#e8eef7" font-size="20"><text x="710" y="240">0.20</text><text x="850" y="240">0.80</text></g>
+    <g fill="#91a4bb" font-size="17"><text x="710" y="340">Y=0</text><text x="850" y="340">Y=1</text></g>
+    <text x="815" y="405" fill="#91a4bb" font-size="18">divide the selected row by 0.50</text>
+  </g>
+</svg>

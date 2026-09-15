@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="430" viewBox="0 0 960 430" role="img" aria-labelledby="pt-title pt-desc">
+  <title id="pt-title">Two-stage probability tree</title>
+  <desc id="pt-desc">A first binary choice branches to H and T, then each branch splits again. Leaf probabilities are products along paths and event probabilities add across leaves.</desc>
+  <rect width="960" height="430" rx="24" fill="#08111f"/>
+  <g fill="none" stroke-width="4">
+    <path d="M120 215L355 105M120 215L355 325" stroke="#50d2c2"/>
+    <path d="M355 105L650 55M355 105L650 155M355 325L650 275M355 325L650 375" stroke="#d586ff"/>
+  </g>
+  <g fill="#10243a" stroke="#e8eef7" stroke-width="3">
+    <circle cx="120" cy="215" r="28"/><circle cx="355" cy="105" r="28"/><circle cx="355" cy="325" r="28"/>
+    <circle cx="650" cy="55" r="28"/><circle cx="650" cy="155" r="28"/><circle cx="650" cy="275" r="28"/><circle cx="650" cy="375" r="28"/>
+  </g>
+  <g fill="#e8eef7" font-family="system-ui" font-size="19" text-anchor="middle">
+    <text x="120" y="222">start</text><text x="355" y="112">H</text><text x="355" y="332">T</text>
+    <text x="650" y="62">HH</text><text x="650" y="162">HT</text><text x="650" y="282">TH</text><text x="650" y="382">TT</text>
+  </g>
+  <g fill="#91a4bb" font-family="system-ui" font-size="17">
+    <text x="220" y="142">P(H)</text><text x="220" y="302">P(T)</text>
+    <text x="475" y="64">P(H | H)</text><text x="475" y="158">P(T | H)</text><text x="475" y="275">P(H | T)</text><text x="475" y="370">P(T | T)</text>
+  </g>
+  <text x="795" y="175" fill="#ffb86b" font-family="system-ui" font-size="20">Multiply along a path</text>
+  <text x="795" y="215" fill="#ffb86b" font-family="system-ui" font-size="20">Add disjoint leaves</text>
+  <text x="480" y="415" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="17">P(HT) = P(H) P(T | H); P(exactly one H) = P(HT) + P(TH)</text>
+</svg>

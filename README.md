@@ -11,7 +11,7 @@ Progressive AI study for Sumil: Python, DSA, linear algebra, optimization, proba
 | 02 Linear algebra | [Vector spaces and bases](content/02-linear-algebra/01-vectors-spaces-bases.md) |
 | 03 Optimization | [Calculus, gradients, and optimization](content/03-optimization/01-calculus-gradients-optimization.md) |
 | 04 DSA | [Invariants, search, graphs, and DP](content/04-dsa/01-invariants-search-graphs-dp.md) |
-| 05 Probability and statistics | [Inference and uncertainty](content/05-probability-statistics/01-inference-estimation-uncertainty.md) |
+| 05 Probability and statistics | [Probability foundations](content/05-probability-statistics/00-probability-foundations.md) |
 | 06 Information, learning, and decisions | [Entropy, generalization, and decisions](content/06-information-learning-decision/01-entropy-generalization-decisions.md) |
 | 07 Classical ML | [Regression, classification, evaluation](content/07-classical-ml/01-regression-classification-evaluation.md) |
 | 08 PyTorch | [Tensors, autograd, training](content/08-pytorch/01-tensors-autograd-training.md) |
@@ -23,7 +23,7 @@ Progressive AI study for Sumil: Python, DSA, linear algebra, optimization, proba
 
 ## What exists
 
-25 authored lessons, six CPU exercises with separate reference implementations and behavioral checks, mathematical SVGs/Mermaid diagrams, and a browser theory reader. The content is an initial release, not the requested complete book-depth course. Advanced coverage is explicitly listed as pending in each lesson.
+30 authored lessons, eleven CPU exercises with separate reference implementations and behavioral checks, mathematical SVGs/Mermaid diagrams, and a browser theory reader. The content is an initial release, not the requested complete curriculum. Advanced coverage is explicitly listed as pending in each lesson.
 
 ## Website
 

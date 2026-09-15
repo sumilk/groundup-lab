@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="430" viewBox="0 0 980 430" role="img" aria-labelledby="jg-title jg-desc">
+  <title id="jg-title">A Jacobian locally stretches area</title>
+  <desc id="jg-desc">A square coordinate grid is transformed into a sheared stretched grid. One unit cell becomes a parallelogram whose area is scaled by the absolute determinant.</desc>
+  <rect width="980" height="430" rx="24" fill="#08111f"/>
+  <g stroke="#50d2c2" stroke-width="2" opacity=".8"><path d="M90 80V330M150 80V330M210 80V330M270 80V330M330 80V330M90 80H330M90 140H330M90 200H330M90 260H330M90 320H330"/></g>
+  <rect x="150" y="140" width="60" height="60" fill="#d586ff" fill-opacity=".55" stroke="#d586ff" stroke-width="4"/>
+  <path d="M390 205H535" stroke="#ffb86b" stroke-width="5"/><path d="M520 193l20 12-20 12" fill="#ffb86b"/>
+  <g stroke="#50d2c2" stroke-width="2" opacity=".8"><path d="M600 80L690 330M660 80L750 330M720 80L810 330M780 80L870 330M840 80L930 330M600 80H840M622 140H862M643 200H883M665 260H905M686 320H926"/></g>
+  <path d="M682 140L742 140L764 200L704 200Z" fill="#d586ff" fill-opacity=".55" stroke="#d586ff" stroke-width="4"/>
+  <g fill="#e8eef7" font-family="system-ui" font-size="20" text-anchor="middle"><text x="210" y="45">input coordinates</text><text x="765" y="45">transformed coordinates</text><text x="465" y="180">g</text></g>
+  <text x="490" y="395" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="18">local area scale = |det J|; density scales by its reciprocal</text>
+</svg>

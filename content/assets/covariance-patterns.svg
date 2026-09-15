@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="360" viewBox="0 0 1000 360" role="img" aria-labelledby="cv-title cv-desc">
+  <title id="cv-title">Correlation patterns and nonlinear dependence</title>
+  <desc id="cv-desc">Four scatterplots illustrate positive association, negative association, no visible association, and a curved deterministic relationship with zero linear covariance.</desc>
+  <rect width="1000" height="360" rx="24" fill="#08111f"/>
+  <g stroke="#31445e" stroke-width="2"><path d="M55 285H230M75 305V60M295 285H470M315 305V60M535 285H710M555 305V60M775 285H950M795 305V60"/></g>
+  <g fill="#50d2c2">
+    <circle cx="90" cy="260" r="6"/><circle cx="115" cy="235" r="6"/><circle cx="140" cy="205" r="6"/><circle cx="168" cy="160" r="6"/><circle cx="205" cy="105" r="6"/>
+    <circle cx="330" cy="100" r="6"/><circle cx="355" cy="135" r="6"/><circle cx="390" cy="185" r="6"/><circle cx="425" cy="230" r="6"/><circle cx="455" cy="260" r="6"/>
+    <circle cx="570" cy="110" r="6"/><circle cx="598" cy="245" r="6"/><circle cx="625" cy="170" r="6"/><circle cx="655" cy="265" r="6"/><circle cx="690" cy="125" r="6"/>
+  </g>
+  <g fill="#d586ff"><circle cx="815" cy="105" r="6"/><circle cx="835" cy="160" r="6"/><circle cx="860" cy="215" r="6"/><circle cx="875" cy="250" r="6"/><circle cx="890" cy="215" r="6"/><circle cx="915" cy="160" r="6"/><circle cx="935" cy="105" r="6"/></g>
+  <g fill="#e8eef7" font-family="system-ui" font-size="17" text-anchor="middle"><text x="145" y="335">positive</text><text x="385" y="335">negative</text><text x="625" y="335">near zero</text><text x="865" y="335">dependent, zero linear trend</text></g>
+</svg>

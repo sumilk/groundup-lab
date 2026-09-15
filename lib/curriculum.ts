@@ -9,7 +9,7 @@ export const tracks:Track[] = [
   m("algebra","Algebra, functions & logarithms",12,"Foundation","Derive stable log-sum-exp and softmax ratios"),
   m("numerics","Numerical reasoning & floating point",10,"Foundation","Build a floating-point failure gallery"),
   m("research-tools","Linux, Git, testing & reproducibility",12,"Core","Reproduce a packaged experiment from a clean checkout") ]},
- {id:"python-dsa",title:"Python & DSA",short:"01",color:"#69d2e7",depth:"Effective-Python fluency plus interview-grade algorithms.",modules:[
+ {id:"python-dsa",title:"Python & DSA",short:"01",color:"#69d2e7",depth:"Language fluency plus interview-grade algorithms.",modules:[
   m("python-model","Python object & execution model",14,"Core","Build a typed configuration and plugin system"),
   m("python-protocols","Functions, closures, decorators & protocols",12,"Core","Implement iterators, decorators and context managers"),
   m("python-performance","Generators, concurrency & profiling",14,"Advanced","Stream and profile a dataset larger than memory"),
@@ -17,8 +17,8 @@ export const tracks:Track[] = [
   m("complexity","Complexity & recurrence reasoning",12,"Core","Analyze attention, heaps and hash-table workloads"),
   m("linear-structures","Arrays, stacks, queues & hashing",16,"Core","Implement an LRU cache and streaming token buffer"),
   m("trees-graphs","Trees, heaps, tries & graphs",22,"Advanced","Build efficient BPE merges using heaps and tries"),
-  m("algorithm-patterns","Search, greedy & dynamic programming",28,"Advanced","Solve a curated NeetCode-style transfer set") ]},
- {id:"mathematics",title:"Mathematics",short:"02",color:"#a78bfa",depth:"Aggarwal + MacKay depth; selected proofs, full derivations.",modules:[
+  m("algorithm-patterns","Search, greedy & dynamic programming",28,"Advanced","Solve a curated algorithm transfer set") ]},
+ {id:"mathematics",title:"Mathematics",short:"02",color:"#a78bfa",depth:"Proof-oriented development from foundations through full derivations.",modules:[
   m("calculus","Calculus & Taylor approximation",22,"Core","Derive activation and loss gradients; verify numerically"),
   m("vector-geometry","Vectors, bases & geometry",20,"Core","Build a projection and basis-change laboratory"),
   m("matrix-algebra","Linear maps, rank & least squares",24,"Core","Compare normal equations, QR and gradient descent"),
@@ -35,7 +35,7 @@ export const tracks:Track[] = [
   m("information","Information theory",30,"Advanced","Compare tokenizers using entropy and bits per byte"),
   m("slt","Statistical learning theory",44,"Research","Test PAC/VC/stability predictions empirically"),
   m("decision","Bayesian decision theory",28,"Advanced","Design calibrated human-escalation thresholds") ]},
- {id:"ml",title:"Machine Learning",short:"03",color:"#34d399",depth:"PRML-level probabilistic understanding; primitives before libraries.",modules:[
+ {id:"ml",title:"Machine Learning",short:"03",color:"#34d399",depth:"Rigorous probabilistic understanding; primitives before libraries.",modules:[
   m("regression","Linear & logistic models",22,"Core","Implement estimators, Newton updates and calibration"),
   m("bayesian","Bayesian models & approximate inference",30,"Advanced","Compare MAP, Laplace, sampling and variational inference"),
   m("latent","Mixtures, EM & latent variables",26,"Advanced","Implement Gaussian mixtures and EM"),
@@ -43,8 +43,8 @@ export const tracks:Track[] = [
   m("trees","Trees, ensembles & boosting",22,"Core","Build a tree and gradient booster from primitives"),
   m("unsupervised","Clustering, density & manifolds",24,"Advanced","Compare clustering assumptions and metrics"),
   m("ml-evaluation","Generalization, calibration & shift",26,"Research","Create a leakage-resistant paired comparison") ]},
- {id:"deep-learning",title:"Deep Learning",short:"04",color:"#fb7185",depth:"UDL intuition with Aggarwal-level technical coverage.",modules:[
-  m("autodiff","Computational graphs & autodiff",30,"Core","Build micrograd plus gradient checks"),
+ {id:"deep-learning",title:"Deep Learning",short:"04",color:"#fb7185",depth:"Mechanistic intuition with detailed technical coverage.",modules:[
+  m("autodiff","Computational graphs & autodiff",30,"Core","Build a scalar autodiff engine plus gradient checks"),
   m("mlp","MLPs, losses & initialization",24,"Core","Implement a NumPy MLP and overfit one batch"),
   m("training","Optimization & training dynamics",28,"Advanced","Run controlled optimizer and initialization ablations"),
   m("normalization","Normalization, residuals & regularization",26,"Advanced","Implement BatchNorm and LayerNorm forward/backward"),
@@ -63,10 +63,10 @@ export const tracks:Track[] = [
   m("sft","Instruction tuning, LoRA & QLoRA",30,"Advanced","Fine-tune with response-only loss and controlled evals"),
   m("rag-agents","Retrieval, tools & agent systems",34,"Advanced","Build and evaluate a constrained support agent"),
   m("llm-evals","LLM evaluation science",36,"Research","Calibrate judges and expose misleading metrics") ]},
- {id:"systems",title:"PyTorch & Systems",short:"06",color:"#2dd4bf",depth:"Karpathy → CS336 intensity with minimal scaffolding.",modules:[
+ {id:"systems",title:"PyTorch & Systems",short:"06",color:"#2dd4bf",depth:"Advanced from-scratch implementation with minimal scaffolding.",modules:[
   m("pytorch-tensors","PyTorch tensor mechanics",30,"Core","Pass an unseen shape, stride, einsum and device gauntlet"),
   m("pytorch-training","Modules, autograd & training loops",28,"Core","Build a tested trainer from a blank file"),
-  m("cs336-basics","CS336: language model from scratch",90,"Advanced","Complete an A1-equivalent tokenizer/model/optimizer stack"),
+  m("lm-from-scratch","Language model from scratch",90,"Advanced","Complete a tokenizer, model, and optimizer stack from primitives"),
   m("gpu","GPU architecture & profiling",38,"Advanced","Predict then measure memory/compute bottlenecks"),
   m("triton","Triton kernels & FlashAttention",55,"Research","Implement and benchmark fused kernels"),
   m("distributed","Distributed training",50,"Research","Run DDP/FSDP and write a scaling report"),

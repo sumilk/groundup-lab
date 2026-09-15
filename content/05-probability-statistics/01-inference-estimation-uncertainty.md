@@ -1,6 +1,15 @@
-# Probability and statistics: inference, estimation, and uncertainty
+---
+id: math.probability.optional-inference-overview
+title: Optional overview of inference, estimation, and uncertainty
+prerequisites: [math.probability.foundations]
+estimated_hours: 2
+---
 
-**Prerequisites:** arithmetic, sums, [calculus](../03-optimization/01-calculus-gradients-optimization.md) for continuous extensions. **Outcome:** distinguish a probability model, an estimate, and evidence about that estimate.
+# Optional overview of inference, estimation, and uncertainty
+
+**Prerequisites:** [probability foundations](00-probability-foundations.md) and [calculus](../03-optimization/01-calculus-gradients-optimization.md) for continuous extensions. **Outcome:** survey the track and distinguish a probability model, an estimate, and evidence about that estimate. Later units develop each topic in full.
+
+> **How to use this lesson:** skim it after probability foundations if you want a map of the destination. Do not treat unfamiliar terms here as prerequisites and do not use this overview as a substitute for the detailed units. A first-time learner should continue to [random variables and distributions](02-random-variables-distributions.md), then return here after completing estimation and hypothesis testing.
 
 ## Events and random variables
 

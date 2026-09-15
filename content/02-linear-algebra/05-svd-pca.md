@@ -3,7 +3,6 @@ id: math.linear-algebra.svd-pca
 title: Singular value decomposition and PCA
 prerequisites: [math.linear-algebra.projections-least-squares, math.linear-algebra.eigen-invariant-subspaces]
 estimated_hours: 36
-depth_anchor: Aggarwal LAO4ML, PRML
 ---
 
 # Singular value decomposition and PCA

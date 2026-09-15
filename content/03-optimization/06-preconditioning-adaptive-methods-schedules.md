@@ -3,7 +3,6 @@ id: math.optimization.preconditioning-adaptive-schedules
 title: Preconditioning, adaptive methods and schedules
 prerequisites: [math.optimization.nonconvex-landscapes, math.linear-algebra.svd-pca]
 estimated_hours: 40
-depth_anchor: Martens & Grosse K-FAC, Loshchilov & Hutter AdamW, Yang & Hu Tensor Programs (muP)
 ---
 
 # Preconditioning, adaptive methods and schedules

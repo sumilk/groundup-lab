@@ -3,7 +3,6 @@ id: math.optimization.stochastic-approximation-sgd
 title: Stochastic approximation, SGD and batch size
 prerequisites: [math.optimization.convexity-smoothness-duality, math.calculus.gradients-optimization]
 estimated_hours: 36
-depth_anchor: Bottou-Curtis-Nocedal, McCandlish et al. An Empirical Model of Large-Batch Training
 ---
 
 # Stochastic approximation, SGD and batch size

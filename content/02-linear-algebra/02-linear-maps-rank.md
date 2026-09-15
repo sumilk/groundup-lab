@@ -3,7 +3,6 @@ id: math.linear-algebra.linear-maps-rank
 title: Linear maps, rank and the four fundamental subspaces
 prerequisites: [math.linear-algebra.vectors-spaces-bases]
 estimated_hours: 24
-depth_anchor: Aggarwal LAO4ML
 ---
 
 # Linear maps, rank and the four fundamental subspaces

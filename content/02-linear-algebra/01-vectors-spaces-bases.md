@@ -3,7 +3,6 @@ id: math.linear-algebra.vectors-spaces-bases
 title: Vectors, vector spaces and bases
 prerequisites: [foundations.mathematical-language]
 estimated_hours: 20
-depth_anchor: Aggarwal LAO4ML
 ---
 
 # Vectors, vector spaces and bases

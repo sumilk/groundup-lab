@@ -3,7 +3,6 @@ id: math.linear-algebra.eigen-invariant-subspaces
 title: Eigenvalues, eigenvectors and invariant subspaces
 prerequisites: [math.linear-algebra.linear-maps-rank]
 estimated_hours: 30
-depth_anchor: Aggarwal LAO4ML
 ---
 
 # Eigenvalues, eigenvectors and invariant subspaces

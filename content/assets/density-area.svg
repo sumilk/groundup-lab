@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="410" viewBox="0 0 960 410" role="img" aria-labelledby="da-title da-desc">
+  <title id="da-title">Continuous probability is area, not density height</title>
+  <desc id="da-desc">A density curve is shaded between a and b. The probability of that interval is the shaded area. A single point has zero width and therefore zero area.</desc>
+  <rect width="960" height="410" rx="24" fill="#08111f"/>
+  <path d="M70 330H900M100 355V55" stroke="#31445e" stroke-width="3"/>
+  <defs><linearGradient id="area" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d586ff" stop-opacity=".75"/><stop offset="1" stop-color="#d586ff" stop-opacity=".15"/></linearGradient></defs>
+  <path d="M105 330C210 325 260 275 330 205C405 130 475 85 545 115C630 152 675 258 730 302C775 334 830 330 890 330" fill="none" stroke="#50d2c2" stroke-width="5"/>
+  <path d="M330 330V205C405 130 475 85 545 115C602 140 642 196 675 254V330Z" fill="url(#area)"/>
+  <path d="M330 330V205M675 330V254" stroke="#d586ff" stroke-width="3" stroke-dasharray="8 7"/>
+  <path d="M760 330V293" stroke="#ffb86b" stroke-width="4"/>
+  <g fill="#e8eef7" font-family="system-ui" font-size="19"><text x="323" y="355">a</text><text x="669" y="355">b</text><text x="748" y="355">x</text><text x="420" y="220">P(a &lt; X &lt; b)</text></g>
+  <text x="480" y="390" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="17">Interval probability is shaded area; a point has height but zero width.</text>
+</svg>

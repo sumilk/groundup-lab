@@ -3,7 +3,6 @@ id: math.optimization.constrained-composite-distributed
 title: Constrained, composite and distributed optimization
 prerequisites: [math.optimization.preconditioning-adaptive-schedules, math.optimization.convexity-smoothness-duality]
 estimated_hours: 36
-depth_anchor: Parikh & Boyd Proximal Algorithms, Rajbhandari et al. ZeRO
 ---
 
 # Constrained, composite and distributed optimization
@@ -49,7 +48,7 @@ $$
 
 and iterate \(x_{t+1}=\operatorname{prox}_{\eta h}(x_t-\eta\nabla f(x_t))\). This is proximal gradient descent, and it keeps GD's rates even though \(h\) has no gradient.
 
-Three instances tie the course together:
+Three instances tie the track together:
 
 - **\(h=\) indicator of \(C\).** Then \(\operatorname{prox}_{\eta h}=\Pi_C\): projected gradient is a special case, and a hard constraint is just an infinitely steep penalty.
 - **\(h=\lambda\lVert x\rVert_1\).** The prox separates coordinatewise and solves to the **soft-threshold** \(\operatorname{sign}(y_i)\max(|y_i|-\eta\lambda,0)\). That closed form is why \(\ell_1\) produces exact zeros while \(\ell_2\) only shrinks: the prox has a flat region at zero.

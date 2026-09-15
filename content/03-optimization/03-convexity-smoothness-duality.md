@@ -3,7 +3,6 @@ id: math.optimization.convexity-smoothness-duality
 title: Convexity, smoothness and duality
 prerequisites: [math.linear-algebra.eigen-invariant-subspaces, math.linear-algebra.projections-least-squares]
 estimated_hours: 38
-depth_anchor: Boyd & Vandenberghe, Nesterov Lectures on Convex Optimization
 ---
 
 # Convexity, smoothness and duality

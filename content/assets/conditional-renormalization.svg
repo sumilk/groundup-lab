@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="390" viewBox="0 0 960 390" role="img" aria-labelledby="cr-title cr-desc">
+  <title id="cr-title">Conditioning restricts and renormalizes probability mass</title>
+  <desc id="cr-desc">A full sample space is narrowed to event B. The overlap of A and B is then measured relative to B rather than the original space.</desc>
+  <rect width="960" height="390" rx="24" fill="#08111f"/>
+  <rect x="55" y="65" width="390" height="250" rx="20" fill="#10243a" stroke="#31445e" stroke-width="3"/>
+  <circle cx="240" cy="190" r="95" fill="#d586ff" fill-opacity=".35" stroke="#d586ff" stroke-width="4"/>
+  <rect x="215" y="90" width="185" height="200" rx="18" fill="#50d2c2" fill-opacity=".28" stroke="#50d2c2" stroke-width="4"/>
+  <path d="M470 190H555" stroke="#ffb86b" stroke-width="5"/><path d="M540 178l20 12-20 12" fill="#ffb86b"/>
+  <rect x="590" y="65" width="315" height="250" rx="20" fill="#50d2c2" fill-opacity=".20" stroke="#50d2c2" stroke-width="4"/>
+  <rect x="590" y="65" width="142" height="250" rx="20" fill="#d586ff" fill-opacity=".55" stroke="#d586ff" stroke-width="3"/>
+  <g fill="#e8eef7" font-family="system-ui" font-size="19">
+    <text x="75" y="52">Original universe</text><text x="150" y="185">A</text><text x="330" y="118">B</text>
+    <text x="620" y="52">After conditioning on B</text><text x="618" y="190">A and B</text><text x="750" y="190">B outside A</text>
+  </g>
+  <text x="480" y="360" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="18">P(A | B) = mass in A and B / total mass in B</text>
+</svg>

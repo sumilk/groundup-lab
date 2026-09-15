@@ -3,7 +3,6 @@ id: math.calculus.gradients-optimization
 title: Calculus, gradients, and optimization
 prerequisites: [math.linear-algebra.vectors-spaces-bases, foundations.numerical-stability]
 estimated_hours: 22
-depth_anchor: Aggarwal LAO4ML, Boyd & Vandenberghe
 ---
 
 # Calculus, gradients, and optimization

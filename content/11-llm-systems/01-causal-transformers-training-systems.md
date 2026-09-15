@@ -63,7 +63,7 @@ Activation checkpointing trades recomputation for saved activation memory. Gradi
 6. Profile before optimizing; inspect sequence length, dtype, layout, and kernels.
 7. Progress to efficient attention, distributed training, data filtering, and preference training.
 
-This is a staged path toward the implementation demands of [Stanford CS336, Language Modeling from Scratch](https://cs336.stanford.edu/spring2025/). This introductory lesson does not substitute for its complete assignment sequence.
+This is a staged path toward advanced language-model implementation. This introductory lesson does not substitute for a complete tokenizer, model, optimizer, data, evaluation, and systems project sequence.
 
 ## Lab and problems
 

@@ -3,7 +3,6 @@ id: math.linear-algebra.projections-least-squares
 title: Orthogonal projections and least squares
 prerequisites: [math.linear-algebra.linear-maps-rank]
 estimated_hours: 26
-depth_anchor: Aggarwal + PRML
 ---
 
 # Orthogonal projections and least squares
