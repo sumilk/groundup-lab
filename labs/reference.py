@@ -181,6 +181,31 @@ def batch_means_standard_error(values, batch_size):
     return estimate, standard_error
 
 
+def bernoulli_mle(outcomes):
+    observations = list(outcomes)
+    if not observations:
+        raise ValueError("at least one Bernoulli observation required")
+    if any(
+        isinstance(value, bool) or not isinstance(value, int) or value not in (0, 1)
+        for value in observations
+    ):
+        raise ValueError("Bernoulli observations must be integer zeros and ones")
+
+    count = len(observations)
+    successes = sum(observations)
+    failures = count - successes
+    estimate = successes / count
+
+    log_likelihood = 0.0
+    if successes:
+        log_likelihood += successes * math.log(estimate)
+    if failures:
+        log_likelihood += failures * math.log1p(-estimate)
+
+    standard_error = math.sqrt(estimate * (1.0 - estimate) / count)
+    return estimate, log_likelihood, standard_error
+
+
 def lower_bound(values, target):
     lo, hi = 0, len(values)
     while lo < hi:

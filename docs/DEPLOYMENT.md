@@ -4,7 +4,7 @@
 
 - The existing private tutor runs at https://groundup-lab.sumil.chatgpt.site.
 - This change adds the reader at **public/theory/index.html** and a **Study theory** link in the tutor header.
-- The build step generates the reader catalog from all authored Markdown lessons and copies the SVG assets.
+- The build step generates the reader catalog and browser-lab runtime from authored lessons and Python checks, then copies the SVG assets.
 - The current build workspace became unavailable during this change. The revised application has **not** been built or deployed to the existing Sites URL.
 - The previous deployed site therefore still lacks this reader until a successful Sites publication.
 - A repository commit or passing content check must never be reported as a successful production deployment.
@@ -50,11 +50,14 @@ Run:
 node scripts/build-theory.mjs
 node scripts/check-theory.mjs
 python -m labs.checks --reference
+python scripts/check_browser_labs.py
 node scripts/check-worker.mjs
 python -m http.server 8000 --directory public
 ~~~
 
 Open **http://localhost:8000/theory/index.html** and check mobile navigation, inline/display math, Mermaid, SVGs, solution disclosure, notes persistence, and lesson links. The current content/syntax checks are not a substitute for this browser check.
+
+For a lesson with a CPU lab, also verify that the exercise link opens the Python editor on the right without moving the reading position, the desktop layout remains side by side, and the narrower layout becomes a dismissible right drawer. Then verify that a correct implementation passes, an incorrect implementation shows its traceback, task tabs preserve separate work, progress survives a reload, Stop recovers from an infinite loop, and Reset restores the starter. Python runs in a Web Worker so learner code does not block the lesson interface.
 
 For the full tutor build, **pnpm build** invokes the catalog prebuild automatically. The full application still requires its existing runtime bindings and API-key configuration.
 
@@ -62,4 +65,4 @@ For the full tutor build, **pnpm build** invokes the catalog prebuild automatica
 
 Every generated catalog includes the source revision. The workflow publishes the tested artifact from that run. To roll back content through GitHub, revert the offending commit and let the main pipeline redeploy. Reverting this static reader does not change the separate Sites application or its database.
 
-Renderer dependencies currently use pinned KaTeX and major-version CDN URLs for Marked, DOMPurify, and Mermaid. Their external availability is required for rich rendering; the reader shows raw Markdown if core renderer libraries fail. A future reproducible offline release should vendor exact library versions and licenses. No browser render or cloud deployment success is claimed for this change until verified.
+Renderer dependencies currently use pinned KaTeX and major-version CDN URLs for Marked, DOMPurify, and Mermaid. Runnable exercises use a pinned Pyodide browser runtime from its documented CDN. Their external availability is required for rich rendering and Python execution; ordinary lesson reading still works when the Python runtime is unavailable. A future reproducible offline release should vendor exact library versions and licenses. No browser render or cloud deployment success is claimed for this change until verified.

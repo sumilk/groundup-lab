@@ -17,6 +17,23 @@
 <main><p id="status" role="status">Loading lessons…</p>
 <div class="toolbar"><button id="previous">Previous</button><button id="next">Next</button><button id="print">Print / save PDF</button><a id="source">Markdown source</a></div>
 <article id="article" aria-live="polite"></article>
+<section class="python-lab" id="python-lab" hidden>
+<div class="python-lab-heading"><div><p class="eyebrow">Runnable exercise</p><h2 id="python-title">Python lab</h2></div><div class="python-lab-meta"><span id="python-task"></span><button id="python-close" type="button" aria-label="Close Python lab" title="Close Python lab">×</button></div></div>
+<div id="python-tabs" class="python-tabs" aria-label="Coding exercises in this lesson" hidden></div>
+<p>Write the function here and run the same behavioral checks used by the local lab suite. Code and the most recent output stay in this browser.</p>
+<p id="python-status" class="muted" role="status">Python downloads on the first run. Later runs reuse the local browser runtime.</p>
+<label for="python-code">Your implementation</label>
+<textarea id="python-code" rows="22" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea>
+<div class="python-actions">
+<button id="python-test">Run tests <span aria-hidden="true">Ctrl+Enter</span></button>
+<button id="python-run">Run code</button>
+<button id="python-stop" disabled>Stop</button>
+<button id="python-reset" class="danger-muted">Reset starter</button>
+</div>
+<p id="python-saved" class="muted" role="status"></p>
+<label for="python-output">Output</label>
+<pre id="python-output" tabindex="0">No run yet.</pre>
+</section>
 <section class="practice"><h2>Your reasoning</h2><p>Write a prediction or derivation before revealing solutions. Notes stay in this browser.</p>
 <textarea id="notes" rows="7" aria-label="Lesson notes" placeholder="My prediction, assumptions, derivation, and smallest counterexample…"></textarea>
 <label><input type="checkbox" id="read"> I have read this lesson (not a mastery score)</label>

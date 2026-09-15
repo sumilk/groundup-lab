@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="470" viewBox="0 0 1080 470" role="img" aria-labelledby="ae-title ae-desc">
+  <title id="ae-title">Consistency and asymptotic normality describe different aspects of an estimator</title>
+  <desc id="ae-desc">The upper row shows raw sampling distributions narrowing around the true parameter as sample size increases. The lower row shows that after centering and multiplying error by square root n, the distributions retain a stable Gaussian scale.</desc>
+  <rect width="1080" height="470" rx="24" fill="#08111f"/>
+  <text x="540" y="40" text-anchor="middle" fill="#e8eef7" font-family="system-ui" font-size="21">Raw error shrinks; standardized error keeps a non-degenerate shape</text>
+  <g stroke="#31445e" stroke-width="2"><path d="M70 205H1010"/><path d="M70 405H1010"/></g>
+  <g stroke="#e8eef7" stroke-width="2" stroke-dasharray="7 7"><path d="M255 72V215"/><path d="M540 72V215"/><path d="M825 72V215"/><path d="M255 270V415"/><path d="M540 270V415"/><path d="M825 270V415"/></g>
+  <path d="M105 204C145 201 175 181 201 132C220 96 239 83 255 83C271 83 290 96 309 132C335 181 365 201 405 204" fill="none" stroke="#50d2c2" stroke-width="5"/>
+  <path d="M415 204C470 202 500 180 518 117C527 86 535 70 540 70C545 70 553 86 562 117C580 180 610 202 665 204" fill="none" stroke="#d586ff" stroke-width="5"/>
+  <path d="M720 204C780 202 803 177 814 107C819 78 823 63 825 63C827 63 831 78 836 107C847 177 870 202 930 204" fill="none" stroke="#ffb86b" stroke-width="5"/>
+  <g fill="#e8eef7" font-family="system-ui" font-size="17" text-anchor="middle"><text x="255" y="238">n</text><text x="540" y="238">4n</text><text x="825" y="238">16n</text></g>
+  <g fill="none" stroke-width="5"><path d="M105 404C145 401 175 381 201 332C220 296 239 283 255 283C271 283 290 296 309 332C335 381 365 401 405 404" stroke="#50d2c2"/><path d="M390 404C430 401 460 381 486 332C505 296 524 283 540 283C556 283 575 296 594 332C620 381 650 401 690 404" stroke="#d586ff"/><path d="M675 404C715 401 745 381 771 332C790 296 809 283 825 283C841 283 860 296 879 332C905 381 935 401 975 404" stroke="#ffb86b"/></g>
+  <g fill="#91a4bb" font-family="system-ui" font-size="16"><text x="78" y="86">raw estimator θ̂</text><text x="78" y="286">standardized √n(θ̂−θ)</text><text x="880" y="226">truth θ</text><text x="850" y="448">same limiting scale</text></g>
+</svg>

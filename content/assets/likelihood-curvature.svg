@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="440" viewBox="0 0 1040 440" role="img" aria-labelledby="lc-title lc-desc">
+  <title id="lc-title">Likelihood peaks and curvature with different sample sizes</title>
+  <desc id="lc-desc">With observed data fixed, two log-likelihood curves are plotted over the parameter. A small dataset gives a broad shallow peak, while a larger dataset gives a narrow steep peak at the same maximum-likelihood estimate. The negative curvature represents observed information.</desc>
+  <rect width="1040" height="440" rx="24" fill="#08111f"/>
+  <path d="M90 350H965M90 350V65" stroke="#31445e" stroke-width="3"/>
+  <path d="M175 325C300 265 405 165 540 125C675 165 780 265 905 325" fill="none" stroke="#50d2c2" stroke-width="5"/>
+  <path d="M365 330C430 270 490 145 540 88C590 145 650 270 715 330" fill="none" stroke="#ffb86b" stroke-width="5"/>
+  <path d="M540 78V350" stroke="#e8eef7" stroke-width="3" stroke-dasharray="9 8"/>
+  <circle cx="540" cy="88" r="7" fill="#ffffff"/><circle cx="540" cy="125" r="7" fill="#ffffff"/>
+  <g font-family="system-ui"><text x="52" y="56" fill="#e8eef7" font-size="18">log L(θ; data)</text><text x="920" y="385" fill="#e8eef7" font-size="18">θ</text><text x="552" y="373" fill="#e8eef7" font-size="17">MLE</text><text x="265" y="190" fill="#50d2c2" font-size="18">small n: broad peak</text><text x="655" y="155" fill="#ffb86b" font-size="18">large n: sharp peak</text></g>
+  <path d="M505 115Q540 67 575 115" fill="none" stroke="#d586ff" stroke-width="3"/>
+  <text x="540" y="50" text-anchor="middle" fill="#d586ff" font-family="system-ui" font-size="16">more negative curvature → more local information</text>
+  <text x="520" y="416" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">Data are fixed; the curve compares parameter values. It is not a probability distribution over θ.</text>
+</svg>

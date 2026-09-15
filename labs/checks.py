@@ -250,6 +250,45 @@ def monte_carlo(m):
         raise AssertionError("invalid batch-means input should be rejected")
 
 
+def bernoulli_mle(m):
+    outcomes = [1, 0, 1, 1]
+    before = outcomes[:]
+    estimate, log_likelihood, standard_error = m.bernoulli_mle(outcomes)
+    assert outcomes == before
+    close(estimate, 0.75)
+    close(log_likelihood, 3 * math.log(0.75) + math.log(0.25))
+    close(standard_error, math.sqrt(0.75 * 0.25 / 4))
+
+    generated = m.bernoulli_mle(value for value in outcomes)
+    for actual, expected in zip(generated, (estimate, log_likelihood, standard_error)):
+        close(actual, expected)
+
+    replicated = m.bernoulli_mle(outcomes * 5)
+    close(replicated[0], estimate)
+    close(replicated[1], 5 * log_likelihood)
+    close(replicated[2], standard_error / math.sqrt(5))
+
+    assert m.bernoulli_mle([0, 0, 0]) == (0.0, 0.0, 0.0)
+    assert m.bernoulli_mle([1, 1, 1]) == (1.0, 0.0, 0.0)
+
+    invalid = [
+        [],
+        [True, 0],
+        [False, 1],
+        [0.0, 1.0],
+        [0, 2],
+        [0, -1],
+        [0, "1"],
+        [0, float("nan")],
+    ]
+    for observations in invalid:
+        try:
+            m.bernoulli_mle(observations)
+        except ValueError:
+            continue
+        raise AssertionError("invalid Bernoulli observations should be rejected")
+
+
 def search(m):
     for n in range(7):
         for values in itertools.combinations_with_replacement([-1, 0, 1], n):
@@ -312,6 +351,7 @@ CHECKS = {"moments": moments, "conditional": conditional,
           "categorical": categorical, "joint": joint,
           "convolution": convolution, "gaussian": gaussian,
           "monte-carlo": monte_carlo,
+          "bernoulli-mle": bernoulli_mle,
           "search": search, "softmax": softmax,
           "bigram": bigram, "attention": attention, "bellman": bellman}
 

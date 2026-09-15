@@ -1,6 +1,6 @@
 # GroundUp Lab — theory and practice
 
-The repository now has **31 authored lessons across 14 tracks**, with linear algebra and optimization as separate tracks. This is an initial cross-curriculum release, **not complete coverage**. Each track has substantial expansion work remaining. Depth labels are targets and have not been independently verified.
+The repository now has **32 authored lessons across 14 tracks**, with linear algebra and optimization as separate tracks. This is an initial cross-curriculum release, **not complete coverage**. Each track has substantial expansion work remaining. Depth labels are targets and have not been independently verified.
 
 ## Start here
 
@@ -40,6 +40,7 @@ Attempt these prompts before continuing. The end-of-unit practice set then mixes
 | 05 Probability and statistics | [Transformations, convolution, and Jacobians](05-probability-statistics/04-transformations-convolution-jacobians.md) |
 | 05 Probability and statistics | [Multivariate Gaussian geometry and conditioning](05-probability-statistics/05-multivariate-gaussian-geometry.md) |
 | 05 Probability and statistics | [Repeated samples, limit theorems, and Monte Carlo error](05-probability-statistics/06-limit-theorems-monte-carlo.md) |
+| 05 Probability and statistics | [Estimation, likelihood, Fisher information, and asymptotics](05-probability-statistics/07-estimation-likelihood-fisher.md) |
 | 06 Information, learning, and decisions | [Entropy, generalization, and decisions](06-information-learning-decision/01-entropy-generalization-decisions.md) |
 | 07 Classical ML | [Regression, classification, evaluation](07-classical-ml/01-regression-classification-evaluation.md) |
 | 08 PyTorch | [Tensors, autograd, training](08-pytorch/01-tensors-autograd-training.md) |
@@ -65,7 +66,7 @@ The track is being expanded one unit at a time in this order:
 5. **Authored:** transformations, convolution, and one- and multi-dimensional Jacobians.
 6. **Authored:** multivariate Gaussian geometry, affine maps, marginals, and conditioning.
 7. **Authored:** laws of large numbers, central limit behavior, Monte Carlo error, concentration, heavy tails, and dependence.
-8. **Planned:** estimation, bias/variance/MSE, likelihood, Fisher information, and asymptotics.
+8. **Authored:** estimation, bias/variance/MSE, likelihood, identifiability, Fisher information, and asymptotics.
 9. **Planned core unit:** hypothesis testing, confidence intervals, power, effect sizes, likelihood-ratio tests, and multiple comparisons.
 10. **Planned:** bootstrap, permutation tests, sequential testing, and experimental design.
 11. **Planned:** Bayesian modelling, posterior checks, importance sampling, and MCMC.
@@ -73,7 +74,7 @@ The track is being expanded one unit at a time in this order:
 
 ## Hands-on resources
 
-- [Twelve runnable exercises and behavioral checks](../labs/README.md)
+- [Thirteen runnable exercises and behavioral checks](../labs/README.md)
 - [Learner implementation file](../labs/exercises.py)
 - [Reference solutions — attempt first](../labs/reference.py)
 - [Web reader source](../public/theory/index.html)

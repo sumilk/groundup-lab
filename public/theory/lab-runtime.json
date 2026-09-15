@@ -1,0 +1,111 @@
+{
+  "revision": "387d8f7",
+  "checks": "\"\"\"Run: python -m labs.checks [--reference] [task].\r\nChecks verify behavior, not mastery. Student functions start unimplemented.\r\n\"\"\"\r\nimport argparse\r\nimport importlib\nimport itertools\nimport math\nimport random\n\r\n\r\ndef close(actual, expected, tol=1e-8):\r\n    assert math.isclose(actual, expected, rel_tol=tol, abs_tol=tol), (actual, expected)\r\n\r\n\r\ndef moments(m):\n    n, mean, variance = m.streaming_moments(iter([1e9, 1e9+1, 1e9+2]))\r\n    assert n == 3\r\n    close(mean, 1e9+1)\r\n    close(variance, 1)\r\n    close(m.streaming_moments(iter([7, 7, 7]))[2], 0)\r\n    for values in ([], [1], [1, float(\"nan\")]):\r\n        try:\r\n            m.streaming_moments(iter(values))\r\n        except ValueError:\r\n            continue\r\n        raise AssertionError(\"invalid observations should be rejected\")\n\n\ndef conditional(m):\n    weights = {1: 1., 2: 1., 3: 1., 4: 1., 5: 1., 6: 5.}\n    before = weights.copy()\n    close(m.conditional_probability(weights, {6}, {2, 4, 6}), 5 / 7)\n    close(m.conditional_probability(weights, {1, 3, 5}, set(weights)), 3 / 10)\n    close(m.conditional_probability(weights, set(), {1}), 0)\n    assert weights == before\n\n    invalid_cases = [\n        ({}, set(), set()),\n        ({\"a\": -1., \"b\": 2.}, {\"a\"}, {\"b\"}),\n        ({\"a\": float(\"nan\")}, {\"a\"}, {\"a\"}),\n        ({\"a\": 0.}, {\"a\"}, {\"a\"}),\n        ({\"a\": 1.}, {\"missing\"}, {\"a\"}),\n        ({\"a\": 1.}, {\"a\"}, {\"missing\"}),\n        ({\"a\": 1., \"b\": 0.}, {\"a\"}, {\"b\"}),\n    ]\n    for model, event, given in invalid_cases:\n        try:\n            m.conditional_probability(model, event, given)\n        except ValueError:\n            continue\n        raise AssertionError(\"invalid finite probability model should be rejected\")\n\n\ndef categorical(m):\n    weights = [1., 2., 7.]\n    before = weights[:]\n    first = m.sample_categorical(weights, 200, 314159)\n    second = m.sample_categorical(weights, 200, 314159)\n    scaled = m.sample_categorical([10., 20., 70.], 200, 314159)\n    assert first == second == scaled\n    assert weights == before\n    assert len(first) == 200 and set(first) <= {0, 1, 2}\n    assert first.count(2) > first.count(1) > first.count(0)\n    assert m.sample_categorical([0., 5., 0.], 25, 7) == [1] * 25\n    assert m.sample_categorical([1.], 0, 7) == []\n\n    random.seed(2718)\n    expected_next_global = random.random()\n    random.seed(2718)\n    m.sample_categorical(weights, 10, 99)\n    assert random.random() == expected_next_global, \"use local, not global, RNG state\"\n\n    invalid_cases = [\n        ([], 1, 0),\n        ([1., -1.], 1, 0),\n        ([1., float(\"inf\")], 1, 0),\n        ([0., 0.], 1, 0),\n        ([1.], -1, 0),\n        ([1.], 1.5, 0),\n        ([1.], True, 0),\n        ([1.], 1, 2.5),\n        ([1.], 1, False),\n    ]\n    for model, draws, seed in invalid_cases:\n        try:\n            m.sample_categorical(model, draws, seed)\n        except ValueError:\n            continue\n        raise AssertionError(\"invalid categorical sampling input should be rejected\")\n\n\ndef joint(m):\n    weights = {(0, 0): 1., (0, 1): 1., (1, 0): 1., (1, 1): 3.}\n    before = weights.copy()\n    marginal_x, marginal_y, covariance = m.joint_marginals_covariance(weights)\n    assert weights == before\n    assert set(marginal_x) == {0, 1} and set(marginal_y) == {0, 1}\n    close(marginal_x[0], 1 / 3)\n    close(marginal_x[1], 2 / 3)\n    close(marginal_y[0], 1 / 3)\n    close(marginal_y[1], 2 / 3)\n    close(covariance, 1 / 18)\n\n    scaled = {pair: 10 * weight for pair, weight in weights.items()}\n    scaled_x, scaled_y, scaled_covariance = m.joint_marginals_covariance(scaled)\n    assert marginal_x == scaled_x and marginal_y == scaled_y\n    close(covariance, scaled_covariance)\n\n    nonlinear = {(-1., 1.): 1., (0., 0.): 1., (1., 1.): 1.}\n    nonlinear_x, nonlinear_y, nonlinear_covariance = m.joint_marginals_covariance(nonlinear)\n    close(nonlinear_covariance, 0)\n    close(nonlinear_x[-1.], 1 / 3)\n    close(nonlinear_y[1.], 2 / 3)\n\n    sparse_x, sparse_y, _ = m.joint_marginals_covariance({(0., 0.): 0., (1., 2.): 4.})\n    close(sparse_x[0.], 0)\n    close(sparse_x[1.], 1)\n    close(sparse_y[0.], 0)\n    close(sparse_y[2.], 1)\n\n    invalid_cases = [\n        {},\n        {(1.,): 1.},\n        {(1., 2., 3.): 1.},\n        {(\"x\", 1.): 1.},\n        {(True, 1.): 1.},\n        {(float(\"inf\"), 1.): 1.},\n        {(1., 2.): -1.},\n        {(1., 2.): float(\"nan\")},\n        {(1., 2.): 0.},\n    ]\n    for model in invalid_cases:\n        try:\n            m.joint_marginals_covariance(model)\n        except ValueError:\n            continue\n        raise AssertionError(\"invalid finite joint distribution should be rejected\")\n\n\ndef convolution(m):\n    left = {1: 1., 2: 1., 3: 1., 4: 1., 5: 1., 6: 1.}\n    right = left.copy()\n    before_left, before_right = left.copy(), right.copy()\n    result = m.discrete_convolution(left, right)\n    assert left == before_left and right == before_right\n    close(sum(result.values()), 1)\n    close(result[2], 1 / 36)\n    close(result[7], 1 / 6)\n    close(result[12], 1 / 36)\n    assert result == m.discrete_convolution(\n        {value: weight * 10 for value, weight in left.items()},\n        {value: weight * 0.5 for value, weight in right.items()},\n    )\n\n    sparse = m.discrete_convolution({0: 1., 2: 3.}, {-1: 2., 1: 2.})\n    close(sparse[-1], 1 / 8)\n    close(sparse[1], 1 / 2)\n    close(sparse[3], 3 / 8)\n    assert 10 not in m.discrete_convolution({0: 1., 10: 0.}, {0: 1.})\n\n    invalid = [\n        ({}, {0: 1.}),\n        ({0: 1.}, {}),\n        ({\"x\": 1.}, {0: 1.}),\n        ({True: 1.}, {0: 1.}),\n        ({float(\"inf\"): 1.}, {0: 1.}),\n        ({0: -1.}, {0: 1.}),\n        ({0: float(\"nan\")}, {0: 1.}),\n        ({0: 0.}, {0: 1.}),\n    ]\n    for first, second in invalid:\n        try:\n            m.discrete_convolution(first, second)\n        except ValueError:\n            continue\n        raise AssertionError(\"invalid convolution input should be rejected\")\n\n\ndef gaussian(m):\n    mean, variance = m.condition_bivariate_gaussian(70., 50., 16., 25., 12., 60.)\n    close(mean, 74.8)\n    close(variance, 10.24)\n\n    mean, variance = m.condition_bivariate_gaussian(3., -2., 4., 9., 0., 100.)\n    close(mean, 3.)\n    close(variance, 4.)\n\n    mean, variance = m.condition_bivariate_gaussian(0., 0., 1., 4., -1., 2.)\n    close(mean, -0.5)\n    close(variance, 0.75)\n\n    invalid = [\n        (0., 0., 0., 1., 0., 0.),\n        (0., 0., 1., -1., 0., 0.),\n        (0., 0., 1., 1., 1., 0.),\n        (0., 0., 1., 1., 2., 0.),\n        (0., 0., 1., 1., float(\"nan\"), 0.),\n        (True, 0., 1., 1., 0., 0.),\n    ]\n    for args in invalid:\n        try:\n            m.condition_bivariate_gaussian(*args)\n        except ValueError:\n            continue\n        raise AssertionError(\"invalid Gaussian parameters should be rejected\")\n\n\ndef monte_carlo(m):\n    values = [1., 3., 5., 7.]\n    before = values[:]\n    estimate, standard_error = m.batch_means_standard_error(values, 2)\n    assert values == before\n    close(estimate, 4.)\n    close(standard_error, 2.)\n\n    estimate, standard_error = m.batch_means_standard_error(values, 1)\n    close(estimate, 4.)\n    close(standard_error, math.sqrt(20 / 3) / 2)\n\n    shifted = [1e12 + value for value in [1., 3., 5., 7.]]\n    estimate, standard_error = m.batch_means_standard_error(shifted, 2)\n    close(estimate, 1e12 + 4., tol=1e-12)\n    close(standard_error, 2.)\n\n    estimate, standard_error = m.batch_means_standard_error(\n        (3 * value - 8 for value in values), 2\n    )\n    close(estimate, 4.)\n    close(standard_error, 6.)\n    close(m.batch_means_standard_error([9.] * 12, 3)[1], 0.)\n\n    invalid = [\n        ([], 1),\n        ([1.], 1),\n        ([1., 2., 3.], 2),\n        ([1., 2.], 0),\n        ([1., 2.], -1),\n        ([1., 2.], 1.5),\n        ([1., 2.], True),\n        ([1., float(\"nan\")], 1),\n        ([1., float(\"inf\")], 1),\n        ([1., True], 1),\n        ([1., \"2\"], 1),\n    ]\n    for observations, batch_size in invalid:\n        try:\n            m.batch_means_standard_error(observations, batch_size)\n        except ValueError:\n            continue\n        raise AssertionError(\"invalid batch-means input should be rejected\")\n\n\ndef bernoulli_mle(m):\n    outcomes = [1, 0, 1, 1]\n    before = outcomes[:]\n    estimate, log_likelihood, standard_error = m.bernoulli_mle(outcomes)\n    assert outcomes == before\n    close(estimate, 0.75)\n    close(log_likelihood, 3 * math.log(0.75) + math.log(0.25))\n    close(standard_error, math.sqrt(0.75 * 0.25 / 4))\n\n    generated = m.bernoulli_mle(value for value in outcomes)\n    for actual, expected in zip(generated, (estimate, log_likelihood, standard_error)):\n        close(actual, expected)\n\n    replicated = m.bernoulli_mle(outcomes * 5)\n    close(replicated[0], estimate)\n    close(replicated[1], 5 * log_likelihood)\n    close(replicated[2], standard_error / math.sqrt(5))\n\n    assert m.bernoulli_mle([0, 0, 0]) == (0.0, 0.0, 0.0)\n    assert m.bernoulli_mle([1, 1, 1]) == (1.0, 0.0, 0.0)\n\n    invalid = [\n        [],\n        [True, 0],\n        [False, 1],\n        [0.0, 1.0],\n        [0, 2],\n        [0, -1],\n        [0, \"1\"],\n        [0, float(\"nan\")],\n    ]\n    for observations in invalid:\n        try:\n            m.bernoulli_mle(observations)\n        except ValueError:\n            continue\n        raise AssertionError(\"invalid Bernoulli observations should be rejected\")\n\n\ndef search(m):\n    for n in range(7):\r\n        for values in itertools.combinations_with_replacement([-1, 0, 1], n):\r\n            for target in [-2, -1, 0, 1, 2]:\r\n                expected = next((i for i, x in enumerate(values) if x >= target), n)\r\n                assert m.lower_bound(values, target) == expected\r\n\r\n\r\ndef softmax(m):\r\n    logits = [10000, 10001, 10002]\r\n    before = logits[:]\r\n    p = m.stable_softmax(logits)\r\n    q = m.stable_softmax([0, 1, 2])\r\n    assert logits == before and len(p) == 3\r\n    close(sum(p), 1)\r\n    for a, b in zip(p, q):\r\n        close(a, b)\r\n    assert p[0] < p[1] < p[2]\r\n    for x in m.stable_softmax([0, 0, 0]):\r\n        close(x, 1/3)\r\n\r\n\r\ndef bigram(m):\r\n    p = {\"a\": {\"a\": .25, \"b\": .75}, \"b\": {\"a\": .5, \"b\": .5}}\r\n    close(m.bigram_nll(p, [\"a\", \"b\", \"a\"]), -(math.log(.75)+math.log(.5))/2)\r\n    close(m.bigram_nll(p, [\"a\", \"a\"]), -math.log(.25))\r\n\r\n\r\ndef attention(m):\r\n    q, k, v = [[0], [0], [0]], [[1], [2], [3]], [[2], [4], [12]]\r\n    output = m.causal_attention(q, k, v)\r\n    for row, expected in zip(output, [2, 3, 6]):\r\n        close(row[0], expected)\r\n    q = [[1., 0.], [0., 1.], [1., 1.]]\r\n    k = [[.1, .3], [.7, .2], [.8, -.2]]\r\n    v = [[2., -1.], [3., 4.], [6., 1.]]\r\n    output = m.causal_attention(q, k, v)\r\n    changed = m.causal_attention(q, k[:2]+[[100., -100.]], v[:2]+[[100., 100.]])\r\n    for old, new in zip(output[:2], changed[:2]):\r\n        for a, b in zip(old, new):\r\n            close(a, b)\r\n    close(output[0][0], 2)\r\n    close(output[0][1], -1)\r\n\r\n\r\ndef bellman(m):\r\n    values = [0.]\r\n    for _ in range(250):\r\n        values = m.bellman_backup(values, [[1., 2.]], [[[1.], [1.]]], .9)\r\n    close(values[0], 20)\r\n    # Stochastic transition expectation, not max over next states.\r\n    values = m.bellman_backup(\r\n        [2., 10.], [[0.], [3.]], [[[.25, .75]], [[1., 0.]]], .5\r\n    )\r\n    close(values[0], 4)\r\n    close(values[1], 4)\r\n\r\n\r\nCHECKS = {\"moments\": moments, \"conditional\": conditional,\n          \"categorical\": categorical, \"joint\": joint,\n          \"convolution\": convolution, \"gaussian\": gaussian,\n          \"monte-carlo\": monte_carlo,\n          \"bernoulli-mle\": bernoulli_mle,\n          \"search\": search, \"softmax\": softmax,\n          \"bigram\": bigram, \"attention\": attention, \"bellman\": bellman}\n\r\n\r\ndef main():\r\n    parser = argparse.ArgumentParser()\r\n    parser.add_argument(\"task\", nargs=\"?\", choices=CHECKS)\r\n    parser.add_argument(\"--reference\", action=\"store_true\")\r\n    args = parser.parse_args()\r\n    module = importlib.import_module(\"labs.reference\" if args.reference else \"labs.exercises\")\r\n    selected = {args.task: CHECKS[args.task]} if args.task else CHECKS\r\n    failures = []\r\n    for name, check in selected.items():\r\n        try:\r\n            check(module)\r\n            print(\"PASS\", name)\r\n        except Exception as error:\r\n            failures.append(name)\r\n            print(\"FAIL\", name, type(error).__name__, str(error))\r\n    raise SystemExit(bool(failures))\r\n\r\n\r\nif __name__ == \"__main__\":\r\n    main()\r\n",
+  "runner": "\"\"\"Executed by Pyodide with __lab_* values supplied by the reader worker.\"\"\"\nimport contextlib\nimport io\nimport json\nimport traceback\nimport types\n\n\nbuffer = io.StringIO()\npassed = True\nwith contextlib.redirect_stdout(buffer), contextlib.redirect_stderr(buffer):\n    try:\n        student = types.ModuleType(\"browser_student\")\n        if __lab_support:\n            exec(__lab_support, student.__dict__)\n        exec(__lab_code, student.__dict__)\n        if __lab_mode == \"test\":\n            checks_namespace = {\"__name__\": \"browser_checks\"}\n            exec(__lab_checks, checks_namespace)\n            checks_namespace[\"CHECKS\"][__lab_task](student)\n            print(\"PASS\", __lab_task)\n        elif not buffer.getvalue():\n            print(\n                \"Code loaded successfully. Add a print call to inspect values, \"\n                \"or run the behavioral checks.\"\n            )\n    except BaseException:\n        passed = False\n        traceback.print_exc()\n\njson.dumps({\"passed\": passed, \"output\": buffer.getvalue()})\n",
+  "labs": [
+    {
+      "lesson": "01-python/01-python-memory-iteration.md",
+      "task": "moments",
+      "function": "streaming_moments",
+      "title": "Streaming moments",
+      "starter": "import math\nimport random\n\ndef streaming_moments(values):\n    \"\"\"One pass: (count, mean, sample variance). >=2 finite values required.\"\"\"\r\n    raise NotImplementedError(\"Implement the streaming recurrence\")\n",
+      "support": ""
+    },
+    {
+      "lesson": "04-dsa/01-invariants-search-graphs-dp.md",
+      "task": "search",
+      "function": "lower_bound",
+      "title": "Lower-bound binary search",
+      "starter": "import math\nimport random\n\ndef lower_bound(values, target):\n    \"\"\"First index >= target in sorted values; len(values) if absent.\"\"\"\r\n    raise NotImplementedError(\"Use a half-open interval and a partition invariant\")\n",
+      "support": ""
+    },
+    {
+      "lesson": "05-probability-statistics/00-probability-foundations.md",
+      "task": "conditional",
+      "function": "conditional_probability",
+      "title": "Exact conditional probability",
+      "starter": "import math\nimport random\n\ndef conditional_probability(weights, event, given):\n    \"\"\"Exact P(event | given) for a finite weighted sample space.\n\n    weights maps outcomes to finite nonnegative masses. event and given are\n    iterables of outcomes from that sample space. Inputs must not be mutated.\n    \"\"\"\n    raise NotImplementedError(\"Restrict to the conditioning event and renormalize\")\n",
+      "support": ""
+    },
+    {
+      "lesson": "05-probability-statistics/02-random-variables-distributions.md",
+      "task": "categorical",
+      "function": "sample_categorical",
+      "title": "Categorical inverse-CDF sampling",
+      "starter": "import math\nimport random\n\ndef sample_categorical(weights, draws, seed):\n    \"\"\"Sample zero-based categories from nonnegative, unnormalized weights.\n\n    draws is a nonnegative integer and seed is an integer. Use local random\n    state, preserve the input, and return a list containing draws indices.\n    \"\"\"\n    raise NotImplementedError(\"Build cumulative weights and invert uniform draws\")\n",
+      "support": ""
+    },
+    {
+      "lesson": "05-probability-statistics/03-joint-distributions-conditioning-covariance.md",
+      "task": "joint",
+      "function": "joint_marginals_covariance",
+      "title": "Joint marginals and covariance",
+      "starter": "import math\nimport random\n\ndef joint_marginals_covariance(weights):\n    \"\"\"Return (P_X, P_Y, Cov(X,Y)) for finite weighted numeric pairs.\n\n    weights maps (x, y) pairs to finite nonnegative, possibly unnormalized\n    masses. Returned marginals are dictionaries of normalized probabilities.\n    \"\"\"\n    raise NotImplementedError(\"Normalize, marginalize both axes, and center jointly\")\n",
+      "support": ""
+    },
+    {
+      "lesson": "05-probability-statistics/04-transformations-convolution-jacobians.md",
+      "task": "convolution",
+      "function": "discrete_convolution",
+      "title": "Discrete convolution",
+      "starter": "import math\nimport random\n\ndef discrete_convolution(left, right):\n    \"\"\"Return the normalized PMF of X + Y for independent finite PMFs.\n\n    Each input maps a finite numeric value to a finite nonnegative, possibly\n    unnormalized weight. Inputs must not be mutated.\n    \"\"\"\n    raise NotImplementedError(\"Combine every pair of support values and normalize\")\n",
+      "support": ""
+    },
+    {
+      "lesson": "05-probability-statistics/05-multivariate-gaussian-geometry.md",
+      "task": "gaussian",
+      "function": "condition_bivariate_gaussian",
+      "title": "Bivariate Gaussian conditioning",
+      "starter": "import math\nimport random\n\ndef condition_bivariate_gaussian(\n    mean_x, mean_y, variance_x, variance_y, covariance, observed_y\n):\n    \"\"\"Return mean and variance of X | Y=observed_y for a valid Gaussian.\"\"\"\n    raise NotImplementedError(\"Apply the Gaussian conditional update\")\n",
+      "support": ""
+    },
+    {
+      "lesson": "05-probability-statistics/06-limit-theorems-monte-carlo.md",
+      "task": "monte-carlo",
+      "function": "batch_means_standard_error",
+      "title": "Batch-means standard error",
+      "starter": "import math\nimport random\n\ndef batch_means_standard_error(values, batch_size):\n    \"\"\"Return (mean, standard error) estimated from contiguous batch means.\n\n    Require finite numeric observations and a positive integer batch size that\n    divides the sequence into at least two complete batches.\n    \"\"\"\n    raise NotImplementedError(\"Estimate uncertainty from variation among batch means\")\n",
+      "support": ""
+    },
+    {
+      "lesson": "05-probability-statistics/07-estimation-likelihood-fisher.md",
+      "task": "bernoulli-mle",
+      "function": "bernoulli_mle",
+      "title": "Bernoulli maximum likelihood",
+      "starter": "import math\nimport random\n\ndef bernoulli_mle(outcomes):\n    \"\"\"Return (MLE, maximized log likelihood, plug-in standard error).\n\n    Require a nonempty iterable containing integer zeros and ones. At an\n    all-zero or all-one boundary, use the convention 0 * log(0) = 0.\n    \"\"\"\n    raise NotImplementedError(\"Maximize the Bernoulli likelihood and quantify curvature\")\n",
+      "support": ""
+    },
+    {
+      "lesson": "08-pytorch/01-tensors-autograd-training.md",
+      "task": "softmax",
+      "function": "stable_softmax",
+      "title": "Numerically stable softmax",
+      "starter": "import math\nimport random\n\ndef stable_softmax(logits):\r\n    \"\"\"Finite nonempty scalar list -> probabilities. Preserve input.\"\"\"\r\n    raise NotImplementedError(\"Normalize shifted exponentials\")\n",
+      "support": ""
+    },
+    {
+      "lesson": "10-nlp/01-text-representations-language-models.md",
+      "task": "bigram",
+      "function": "bigram_nll",
+      "title": "Bigram negative log-likelihood",
+      "starter": "import math\nimport random\n\ndef bigram_nll(probabilities, tokens):\r\n    \"\"\"Mean natural-log loss over adjacent tokens. Require >=2 tokens.\r\n    probabilities[previous][next] must exist and be in (0, 1].\r\n    \"\"\"\r\n    raise NotImplementedError(\"Score next-token transitions, not token identity\")\n",
+      "support": ""
+    },
+    {
+      "lesson": "11-llm-systems/01-causal-transformers-training-systems.md",
+      "task": "attention",
+      "function": "causal_attention",
+      "title": "Causal attention",
+      "starter": "import math\nimport random\n\ndef causal_attention(q, k, v):\r\n    \"\"\"One unbatched head. Lists of rows: Q,K=(T,D); V=(T,Dv).\r\n    Return (T,Dv); query i may attend only to keys j <= i.\r\n    \"\"\"\r\n    raise NotImplementedError(\"Scale, mask, normalize, aggregate\")\n",
+      "support": "def stable_softmax(logits):\r\n    if not logits or not all(math.isfinite(x) for x in logits):\r\n        raise ValueError(\"finite nonempty logits required\")\r\n    maximum = max(logits)\r\n    weights = [math.exp(x - maximum) for x in logits]\r\n    total = sum(weights)\r\n    return [x / total for x in weights]"
+    },
+    {
+      "lesson": "12-reinforcement-learning/01-mdps-bellman-td.md",
+      "task": "bellman",
+      "function": "bellman_backup",
+      "title": "Bellman optimality backup",
+      "starter": "import math\nimport random\n\ndef bellman_backup(values, rewards, transitions, gamma):\r\n    \"\"\"Optimality backup. V=(S), rewards=(S,A), transitions=(S,A,S).\r\n    Valid finite tabular MDP, 0 <= gamma < 1. Return updated values.\r\n    \"\"\"\r\n    raise NotImplementedError(\"Take expectations over next states, maximize actions\")\n",
+      "support": ""
+    }
+  ]
+}

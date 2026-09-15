@@ -58,6 +58,15 @@ def batch_means_standard_error(values, batch_size):
     raise NotImplementedError("Estimate uncertainty from variation among batch means")
 
 
+def bernoulli_mle(outcomes):
+    """Return (MLE, maximized log likelihood, plug-in standard error).
+
+    Require a nonempty iterable containing integer zeros and ones. At an
+    all-zero or all-one boundary, use the convention 0 * log(0) = 0.
+    """
+    raise NotImplementedError("Maximize the Bernoulli likelihood and quantify curvature")
+
+
 def lower_bound(values, target):
     """First index >= target in sorted values; len(values) if absent."""
     raise NotImplementedError("Use a half-open interval and a partition invariant")

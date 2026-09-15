@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="440" viewBox="0 0 1080 440" role="img" aria-labelledby="ebv-title ebv-desc">
+  <title id="ebv-title">Bias, variance, and mean squared error of estimators</title>
+  <desc id="ebv-desc">Three sampling distributions are compared against a dashed true parameter. One is centered but wide, one is narrow but shifted, and one is centered and narrow. Horizontal arrows show bias and spread, while a footer states that mean squared error equals variance plus squared bias.</desc>
+  <rect width="1080" height="440" rx="24" fill="#08111f"/>
+  <text x="540" y="40" text-anchor="middle" fill="#e8eef7" font-family="system-ui" font-size="22">An estimator is judged across repeated datasets</text>
+  <g stroke="#31445e" stroke-width="2"><path d="M55 320H335"/><path d="M400 320H680"/><path d="M745 320H1025"/></g>
+  <g stroke="#e8eef7" stroke-width="3" stroke-dasharray="8 7"><path d="M195 72V330"/><path d="M540 72V330"/><path d="M885 72V330"/></g>
+  <path d="M62 319C90 317 105 299 124 253C145 201 166 157 195 150C224 157 245 201 266 253C285 299 300 317 328 319" fill="none" stroke="#50d2c2" stroke-width="5"/>
+  <path d="M430 319C500 318 535 300 565 245C585 208 598 151 610 151C622 151 635 208 655 245C670 273 678 302 680 319" fill="none" stroke="#d586ff" stroke-width="5"/>
+  <path d="M752 319C800 318 835 301 852 248C864 207 873 151 885 133C897 151 906 207 918 248C935 301 970 318 1018 319" fill="none" stroke="#ffb86b" stroke-width="5"/>
+  <g fill="#e8eef7" font-family="system-ui" font-size="18" text-anchor="middle"><text x="195" y="365">unbiased, high variance</text><text x="540" y="365">biased, low variance</text><text x="885" y="365">unbiased, low variance</text></g>
+  <g fill="#91a4bb" font-family="system-ui" font-size="15"><text x="205" y="92">truth θ</text><text x="550" y="92">truth θ</text><text x="895" y="92">truth θ</text></g>
+  <path d="M540 112H610" stroke="#d586ff" stroke-width="4"/><path d="M540 112L555 104M540 112L555 120M610 112L595 104M610 112L595 120" stroke="#d586ff" stroke-width="3"/>
+  <text x="575" y="102" text-anchor="middle" fill="#d586ff" font-family="system-ui" font-size="15">bias</text>
+  <text x="540" y="414" text-anchor="middle" fill="#e8eef7" font-family="system-ui" font-size="20">MSE = variance + bias²</text>
+</svg>

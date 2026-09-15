@@ -23,7 +23,7 @@ Progressive AI study for Sumil: Python, DSA, linear algebra, optimization, proba
 
 ## What exists
 
-31 authored lessons, twelve CPU exercises with separate reference implementations and behavioral checks, mathematical SVGs/Mermaid diagrams, and a browser theory reader. The content is an initial release, not the requested complete curriculum. Advanced coverage is explicitly listed as pending in each lesson.
+32 authored lessons, thirteen CPU exercises with in-browser Python editors, separate reference implementations and behavioral checks, mathematical SVGs/Mermaid diagrams, and a browser theory reader. Exercise code and the latest output are saved locally per lab and can be reset to the current starter.
 
 ## Website
 
@@ -31,7 +31,7 @@ The existing private tutor is at https://groundup-lab.sumil.chatgpt.site. The re
 
 ## Local use
 
-Run **node scripts/build-theory.mjs**, then **python -m http.server 8000 --directory public**. Open http://localhost:8000/theory/index.html. Run **python -m labs.checks --reference** for reference validation, or **python -m labs.checks softmax** for your implementation. The reader uses public CDN libraries for Markdown, equations, and diagrams; its lesson content is loaded from this site's own generated catalog.
+Run **node scripts/build-theory.mjs**, then **python -m http.server 8000 --directory public**. Open http://localhost:8000/theory/index.html. Lessons with a CPU exercise open a runnable Python workspace beside the lesson on wide screens and in a right drawer on smaller screens. Multiple exercises in one lesson are presented as task tabs. Run **python -m labs.checks --reference** for command-line reference validation. The reader uses public CDN libraries for Markdown, equations, diagrams, and its browser Python runtime; lesson and lab definitions come from this repository's generated catalogs.
 
 For the full tutor app, use **pnpm run install:ci** then **pnpm build**. Its model default is gpt-6-astra; live tutoring requires a server-side API key. Browser reading and CPU exercises do not require it.
 

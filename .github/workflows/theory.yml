@@ -26,6 +26,8 @@ jobs:
         run: node scripts/check-theory.mjs
       - name: Check lab reference behavior
         run: python -m labs.checks --reference
+      - name: Check browser lab harness
+        run: python scripts/check_browser_labs.py
       - name: Check private hosting boundary
         run: node scripts/check-worker.mjs
       - uses: actions/upload-artifact@v4

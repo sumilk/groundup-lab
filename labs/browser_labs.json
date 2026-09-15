@@ -1,0 +1,81 @@
+[
+  {
+    "lesson": "01-python/01-python-memory-iteration.md",
+    "task": "moments",
+    "function": "streaming_moments",
+    "title": "Streaming moments"
+  },
+  {
+    "lesson": "04-dsa/01-invariants-search-graphs-dp.md",
+    "task": "search",
+    "function": "lower_bound",
+    "title": "Lower-bound binary search"
+  },
+  {
+    "lesson": "05-probability-statistics/00-probability-foundations.md",
+    "task": "conditional",
+    "function": "conditional_probability",
+    "title": "Exact conditional probability"
+  },
+  {
+    "lesson": "05-probability-statistics/02-random-variables-distributions.md",
+    "task": "categorical",
+    "function": "sample_categorical",
+    "title": "Categorical inverse-CDF sampling"
+  },
+  {
+    "lesson": "05-probability-statistics/03-joint-distributions-conditioning-covariance.md",
+    "task": "joint",
+    "function": "joint_marginals_covariance",
+    "title": "Joint marginals and covariance"
+  },
+  {
+    "lesson": "05-probability-statistics/04-transformations-convolution-jacobians.md",
+    "task": "convolution",
+    "function": "discrete_convolution",
+    "title": "Discrete convolution"
+  },
+  {
+    "lesson": "05-probability-statistics/05-multivariate-gaussian-geometry.md",
+    "task": "gaussian",
+    "function": "condition_bivariate_gaussian",
+    "title": "Bivariate Gaussian conditioning"
+  },
+  {
+    "lesson": "05-probability-statistics/06-limit-theorems-monte-carlo.md",
+    "task": "monte-carlo",
+    "function": "batch_means_standard_error",
+    "title": "Batch-means standard error"
+  },
+  {
+    "lesson": "05-probability-statistics/07-estimation-likelihood-fisher.md",
+    "task": "bernoulli-mle",
+    "function": "bernoulli_mle",
+    "title": "Bernoulli maximum likelihood"
+  },
+  {
+    "lesson": "08-pytorch/01-tensors-autograd-training.md",
+    "task": "softmax",
+    "function": "stable_softmax",
+    "title": "Numerically stable softmax"
+  },
+  {
+    "lesson": "10-nlp/01-text-representations-language-models.md",
+    "task": "bigram",
+    "function": "bigram_nll",
+    "title": "Bigram negative log-likelihood"
+  },
+  {
+    "lesson": "11-llm-systems/01-causal-transformers-training-systems.md",
+    "task": "attention",
+    "function": "causal_attention",
+    "title": "Causal attention",
+    "supportFunctions": ["stable_softmax"]
+  },
+  {
+    "lesson": "12-reinforcement-learning/01-mdps-bellman-td.md",
+    "task": "bellman",
+    "function": "bellman_backup",
+    "title": "Bellman optimality backup"
+  }
+]

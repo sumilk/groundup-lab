@@ -686,4 +686,4 @@ For several batch sizes, compare the naive iid standard error with the batch-mea
 
 Given a repeated-sampling problem, identify the target, estimator, and independent unit; derive the estimator's mean and variance; state whether an LLN, CLT, or concentration result applies; quantify Monte Carlo error; and diagnose heavy-tail, dependence, stopping, or selection failures. Validate at least one analytic prediction with repeated simulation rather than one long run.
 
-The next detailed unit develops estimation itself: bias, variance, mean squared error, likelihood, Fisher information, consistency, and asymptotic efficiency.
+Next: [estimation, likelihood, Fisher information, and asymptotics](07-estimation-likelihood-fisher.md).
