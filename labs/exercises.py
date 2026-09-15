@@ -327,3 +327,89 @@ def forward_diffusion_coefficients(betas):
     Require a nonempty schedule with every beta strictly inside (0, 1).
     """
     raise NotImplementedError("Accumulate the product of one minus beta, then take square roots")
+
+
+def backdoor_adjustment(strata):
+    """Return (crude difference, standardized difference) across strata.
+
+    Each stratum is a four-item sequence of treated count, treated mean,
+    control count, control mean. The crude difference pools each arm over all
+    strata; the standardized difference averages within-stratum differences
+    using total stratum size, not treated size.
+
+    Require a nonempty collection whose counts are positive integers and whose
+    means are finite numbers.
+    """
+    raise NotImplementedError("Pool each arm once, then average stratum contrasts by total share")
+
+
+def ipw_ate(treatments, outcomes, propensities):
+    """Return (Horvitz-Thompson ATE, Hajek ATE, effective sample size).
+
+    Unit weights are 1 / e for treated units and 1 / (1 - e) for control units.
+    Horvitz-Thompson divides weighted outcome sums by the total unit count;
+    Hajek divides each arm by its own realized weight sum. Effective sample
+    size is the squared weight sum over the summed squared weights.
+
+    Require equally sized nonempty inputs, binary integer treatments with both
+    arms occupied, finite outcomes, and propensities strictly inside (0, 1).
+    """
+    raise NotImplementedError("Reweight each arm back to the full population before differencing")
+
+
+def wald_iv_estimate(instruments, treatments, outcomes):
+    """Return (intention-to-treat effect, first-stage contrast, LATE).
+
+    All three are differences between the instrument's two arms: the outcome
+    contrast, the uptake contrast, and their ratio. Reject a zero first stage
+    rather than dividing by it.
+
+    Require equally sized nonempty inputs, binary integer instruments and
+    treatments with both instrument arms occupied, and finite outcomes.
+    """
+    raise NotImplementedError("Divide the reduced form by the first stage, and refuse a zero denominator")
+
+
+def em_step_gaussian_mixture(observations, weights, means, variances):
+    """Return (log likelihood at the input parameters, weights, means, variances).
+
+    Perform one E-step and M-step for a one-dimensional Gaussian mixture. The
+    returned log likelihood is the incomplete-data value at the parameters you
+    were given, so a caller can assert it never decreases. Compute
+    responsibilities in log space so distant components do not underflow, and
+    take each new variance around its own new mean.
+
+    Require nonempty observations, equally sized parameter lists, positive
+    weights summing to one, and strictly positive finite variances. Reject a
+    step in which some component receives no responsibility at all.
+    """
+    raise NotImplementedError("Normalize log-space responsibilities, then take weighted moments")
+
+
+def hmm_forward(initial, transition, emissions):
+    """Return (log likelihood, filtered distribution over the final state).
+
+    emissions[t][k] is the likelihood of observation t under state k. Run the
+    forward recursion, rescaling to sum to one at every step and accumulating
+    the log of each scale factor, so a sequence of any length stays finite.
+
+    Require a nonempty initial distribution summing to one, a square
+    row-stochastic transition matrix of matching size, at least one emission
+    row of matching width, and nonnegative finite emission likelihoods. Reject
+    an observation sequence of probability zero.
+    """
+    raise NotImplementedError("Rescale the forward vector each step and accumulate log scale factors")
+
+
+def d_separated(edges, source, target, conditioned):
+    """Return whether every path from source to target is blocked.
+
+    Edges are (parent, child) pairs of a DAG. A path is blocked when it has a
+    chain or fork whose middle node is conditioned on, or a collider such that
+    neither the collider nor any of its descendants is conditioned on.
+
+    Require a nonempty acyclic edge set, distinct source and target that both
+    appear in it, conditioned nodes drawn from it, and neither endpoint in the
+    conditioning set.
+    """
+    raise NotImplementedError("Enumerate undirected paths and apply the two blocking rules")

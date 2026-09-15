@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="560" viewBox="0 0 1080 560" role="img" aria-labelledby="em-title em-desc">
+  <title id="em-title">EM alternates between lifting the bound until it touches the log-likelihood and climbing the bound</title>
+  <desc id="em-desc">A rising concave curve is the log-likelihood as a function of the parameter. Two lower curves are evidence lower bounds. The first touches the log-likelihood at the current parameter, which is what the E-step achieves by setting q to the exact posterior; the M-step then moves to that bound's maximum, and the log-likelihood there is higher still, the remaining gap being the KL divergence between the old posterior and the new one. A second bound is drawn touching at the new parameter, showing the next iteration. Because each bound lies below the log-likelihood everywhere and touches at the current parameter, the log-likelihood cannot decrease.</desc>
+  <defs>
+    <marker id="em-tip" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#50d2c2"/>
+    </marker>
+    <marker id="em-tip-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#f2b880"/>
+    </marker>
+  </defs>
+  <rect width="1080" height="560" rx="24" fill="#08111f"/>
+  <g font-family="system-ui">
+    <text x="540" y="42" text-anchor="middle" fill="#e8eef7" font-size="21">One EM iteration: make the bound tight, then climb it</text>
+
+    <path d="M140.0 460.0V92" stroke="#31445e" stroke-width="3" fill="none"/>
+    <path d="M140.0 460.0H1000" stroke="#31445e" stroke-width="3" fill="none"/>
+    <text x="1000" y="486.0" text-anchor="end" fill="#91a4bb" font-size="15">parameter θ</text>
+
+    <polyline points="165.0,430.0 173.8,424.7 182.7,419.4 191.5,414.2 200.3,409.1 209.2,404.0 218.0,399.0 226.8,394.0 235.7,389.1 244.5,384.2 253.3,379.4 262.2,374.7 271.0,370.0 279.8,365.4 288.7,360.8 297.5,356.2 306.3,351.8 315.2,347.4 324.0,343.0 332.8,338.7 341.7,334.4 350.5,330.2 359.3,326.1 368.2,322.0 377.0,318.0 385.8,314.0 394.7,310.1 403.5,306.2 412.3,302.4 421.2,298.7 430.0,295.0 438.8,291.4 447.7,287.8 456.5,284.2 465.3,280.8 474.2,277.4 483.0,274.0 491.8,270.7 500.7,267.4 509.5,264.2 518.3,261.1 527.2,258.0 536.0,255.0 544.8,252.0 553.7,249.1 562.5,246.2 571.3,243.4 580.2,240.7 589.0,238.0 597.8,235.4 606.7,232.8 615.5,230.2 624.3,227.8 633.2,225.4 642.0,223.0 650.8,220.7 659.7,218.4 668.5,216.2 677.3,214.1 686.2,212.0 695.0,210.0 703.8,208.0 712.7,206.1 721.5,204.3 730.3,202.4 739.2,200.7 748.0,199.0 756.8,197.4 765.7,195.8 774.5,194.2 783.3,192.8 792.2,191.4 801.0,190.0 809.8,188.7 818.7,187.4 827.5,186.2 836.3,185.1 845.2,184.0 854.0,183.0 862.8,182.0 871.7,181.1 880.5,180.2 889.3,179.4 898.2,178.7 907.0,178.0 915.8,177.4 924.7,176.8 933.5,176.2 942.3,175.8 951.2,175.4 960.0,175.0" fill="none" stroke="#7aa2f7" stroke-width="4"/>
+    <text x="904" y="156" fill="#7aa2f7" font-size="17" text-anchor="middle">log p(x | θ)</text>
+
+    <polyline points="165.0,445.2 170.5,440.5 176.0,436.0 181.4,431.5 186.9,427.1 192.4,422.7 197.9,418.5 203.3,414.4 208.8,410.3 214.3,406.3 219.8,402.4 225.2,398.6 230.7,394.9 236.2,391.3 241.7,387.7 247.2,384.3 252.6,380.9 258.1,377.6 263.6,374.4 269.1,371.3 274.5,368.2 280.0,365.3 285.5,362.4 291.0,359.6 296.4,356.9 301.9,354.3 307.4,351.8 312.9,349.4 318.3,347.0 323.8,344.8 329.3,342.6 334.8,340.5 340.3,338.5 345.7,336.5 351.2,334.7 356.7,333.0 362.2,331.3 367.6,329.7 373.1,328.2 378.6,326.8 384.1,325.5 389.5,324.2 395.0,323.1 400.5,322.0 406.0,321.0 411.4,320.1 416.9,319.3 422.4,318.6 427.9,317.9 433.4,317.4 438.8,316.9 444.3,316.5 449.8,316.2 455.3,316.0 460.7,315.8 466.2,315.8 471.7,315.8 477.2,316.0 482.6,316.2 488.1,316.5 493.6,316.8 499.1,317.3 504.6,317.9 510.0,318.5 515.5,319.2 521.0,320.0 526.5,320.9 531.9,321.9 537.4,323.0 542.9,324.1 548.4,325.4 553.8,326.7 559.3,328.1 564.8,329.6 570.3,331.2 575.8,332.8 581.2,334.6 586.7,336.4 592.2,338.3 597.7,340.3 603.1,342.4 608.6,344.6 614.1,346.8 619.6,349.2 625.0,351.6 630.5,354.1 636.0,356.7 641.5,359.4 646.9,362.2 652.4,365.1 657.9,368.0" fill="none" stroke="#50d2c2" stroke-width="3.5"/>
+    <polyline points="292.2,391.3 298.0,386.2 303.9,381.2 309.7,376.3 315.5,371.5 321.4,366.7 327.2,362.1 333.0,357.6 338.8,353.2 344.7,348.8 350.5,344.6 356.3,340.4 362.2,336.4 368.0,332.4 373.8,328.6 379.6,324.8 385.5,321.2 391.3,317.6 397.1,314.1 403.0,310.8 408.8,307.5 414.6,304.3 420.5,301.2 426.3,298.3 432.1,295.4 437.9,292.6 443.8,289.9 449.6,287.3 455.4,284.8 461.3,282.4 467.1,280.1 472.9,277.9 478.8,275.8 484.6,273.8 490.4,271.8 496.2,270.0 502.1,268.3 507.9,266.7 513.7,265.1 519.6,263.7 525.4,262.4 531.2,261.1 537.1,260.0 542.9,258.9 548.7,258.0 554.5,257.1 560.4,256.4 566.2,255.7 572.0,255.2 577.9,254.7 583.7,254.3 589.5,254.1 595.4,253.9 601.2,253.8 607.0,253.8 612.9,253.9 618.7,254.2 624.5,254.5 630.3,254.9 636.2,255.4 642.0,256.0 647.8,256.7 653.7,257.5 659.5,258.3 665.3,259.3 671.1,260.4 677.0,261.6 682.8,262.9 688.6,264.2 694.5,265.7 700.3,267.3 706.1,269.0 712.0,270.7 717.8,272.6 723.6,274.5 729.4,276.6 735.3,278.7 741.1,281.0 746.9,283.3 752.8,285.8 758.6,288.3 764.4,290.9 770.3,293.6 776.1,296.5 781.9,299.4 787.8,302.4 793.6,305.5 799.4,308.7 805.2,312.1 811.1,315.5 816.9,319.0" fill="none" stroke="#f2b880" stroke-width="3.5" stroke-dasharray="8 6"/>
+
+    <line x1="284.2" y1="363.1" x2="284.2" y2="460.0" stroke="#31445e" stroke-width="2" stroke-dasharray="5 5"/>
+    <line x1="466.4" y1="280.3" x2="466.4" y2="460.0" stroke="#31445e" stroke-width="2" stroke-dasharray="5 5"/>
+    <line x1="603.0" y1="233.8" x2="603.0" y2="460.0" stroke="#31445e" stroke-width="2" stroke-dasharray="5 5"/>
+
+    <path d="M475.4 280.3H500.4M475.4 315.8H500.4M496.4 280.3V315.8" stroke="#91a4bb" stroke-width="2" fill="none"/>
+    <text x="508" y="303" fill="#91a4bb" font-size="14">gap = KL(qᵗ ‖ new posterior)</text>
+
+    <circle cx="284.2" cy="363.1" r="7" fill="#50d2c2"/>
+    <circle cx="466.4" cy="280.3" r="7" fill="#f2b880"/>
+    <circle cx="466.4" cy="315.8" r="6" fill="#0e1b2d" stroke="#50d2c2" stroke-width="3"/>
+
+    <text x="266" y="196" text-anchor="end" fill="#50d2c2" font-size="17">E-step</text>
+    <text x="266" y="220" text-anchor="end" fill="#91a4bb" font-size="14">q ← p(z | x, θ⁽ᵗ⁾)</text>
+    <text x="266" y="242" text-anchor="end" fill="#91a4bb" font-size="14">KL becomes 0, so the</text>
+    <text x="266" y="262" text-anchor="end" fill="#91a4bb" font-size="14">bound touches the curve</text>
+    <path d="M274.2 236Q286.2 300 282.2 349.1" stroke="#50d2c2" stroke-width="3" fill="none" marker-end="url(#em-tip)"/>
+
+    <path d="M298.2 403.1H452.4" stroke="#f2b880" stroke-width="3.5" fill="none" marker-end="url(#em-tip-b)"/>
+    <text x="375" y="429" text-anchor="middle" fill="#f2b880" font-size="16">M-step</text>
+    <text x="375" y="451" text-anchor="middle" fill="#91a4bb" font-size="14">maximize the bound</text>
+
+    <text x="284" y="486.0" text-anchor="middle" fill="#e8eef7" font-size="15">θ⁽ᵗ⁾</text>
+    <text x="466" y="486.0" text-anchor="middle" fill="#e8eef7" font-size="15">θ⁽ᵗ⁺¹⁾</text>
+    <text x="603" y="486.0" text-anchor="middle" fill="#91a4bb" font-size="15">θ⁽ᵗ⁺²⁾</text>
+
+    <text x="630" y="382" fill="#50d2c2" font-size="15">bound at step t</text>
+    <text x="785" y="329" fill="#f2b880" font-size="15">bound at step t+1</text>
+
+    <text x="540" y="528" text-anchor="middle" fill="#91a4bb" font-size="15">The bound never crosses the curve, so climbing the bound can never lower the log-likelihood.</text>
+  </g>
+</svg>

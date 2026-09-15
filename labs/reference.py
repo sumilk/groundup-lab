@@ -1123,3 +1123,327 @@ def forward_diffusion_coefficients(betas):
         running *= 1.0 - value
         coefficients.append((running, math.sqrt(running), math.sqrt(1.0 - running)))
     return coefficients
+
+
+def backdoor_adjustment(strata):
+    cells = [tuple(stratum) for stratum in strata]
+    if not cells:
+        raise ValueError("at least one stratum required")
+    if any(len(cell) != 4 for cell in cells):
+        raise ValueError("each stratum needs treated count, treated mean, control count, control mean")
+    counts = [value for cell in cells for value in (cell[0], cell[2])]
+    means = [value for cell in cells for value in (cell[1], cell[3])]
+    if any(
+        isinstance(value, bool) or not isinstance(value, int) or value <= 0
+        for value in counts
+    ):
+        raise ValueError("stratum counts must be positive integers")
+    if any(
+        isinstance(value, bool)
+        or not isinstance(value, (int, float))
+        or not math.isfinite(value)
+        for value in means
+    ):
+        raise ValueError("stratum means must be finite numbers")
+
+    treated_total = sum(cell[0] for cell in cells)
+    control_total = sum(cell[2] for cell in cells)
+    crude = (
+        math.fsum(cell[0] * cell[1] for cell in cells) / treated_total
+        - math.fsum(cell[2] * cell[3] for cell in cells) / control_total
+    )
+    population = sum(cell[0] + cell[2] for cell in cells)
+    adjusted = math.fsum(
+        (cell[0] + cell[2]) * (cell[1] - cell[3]) for cell in cells
+    ) / population
+    return crude, adjusted
+
+
+def ipw_ate(treatments, outcomes, propensities):
+    assignments = list(treatments)
+    values = list(outcomes)
+    scores = list(propensities)
+    if not assignments or len(assignments) != len(values) or len(assignments) != len(scores):
+        raise ValueError("equally sized nonempty treatments, outcomes, and propensities required")
+    if any(
+        isinstance(value, bool) or not isinstance(value, int) or value not in (0, 1)
+        for value in assignments
+    ):
+        raise ValueError("treatments must be binary integers")
+    if any(
+        isinstance(value, bool)
+        or not isinstance(value, (int, float))
+        or not math.isfinite(value)
+        for value in values
+    ):
+        raise ValueError("outcomes must be finite numbers")
+    if any(
+        isinstance(score, bool)
+        or not isinstance(score, (int, float))
+        or not math.isfinite(score)
+        or score <= 0.0
+        or score >= 1.0
+        for score in scores
+    ):
+        raise ValueError("propensities must lie strictly inside (0, 1)")
+    if not any(assignments) or all(assignments):
+        raise ValueError("both treatment arms must be occupied")
+
+    weights = [
+        1.0 / score if assignment else 1.0 / (1.0 - score)
+        for assignment, score in zip(assignments, scores)
+    ]
+    treated = [
+        index for index, assignment in enumerate(assignments) if assignment
+    ]
+    control = [
+        index for index, assignment in enumerate(assignments) if not assignment
+    ]
+    horvitz_thompson = (
+        math.fsum(weights[index] * values[index] for index in treated)
+        - math.fsum(weights[index] * values[index] for index in control)
+    ) / len(assignments)
+    treated_weight = math.fsum(weights[index] for index in treated)
+    control_weight = math.fsum(weights[index] for index in control)
+    hajek = (
+        math.fsum(weights[index] * values[index] for index in treated) / treated_weight
+        - math.fsum(weights[index] * values[index] for index in control) / control_weight
+    )
+    total_weight = math.fsum(weights)
+    effective = total_weight * total_weight / math.fsum(
+        weight * weight for weight in weights
+    )
+    return horvitz_thompson, hajek, effective
+
+
+def wald_iv_estimate(instruments, treatments, outcomes):
+    assigned = list(instruments)
+    taken = list(treatments)
+    values = list(outcomes)
+    if not assigned or len(assigned) != len(taken) or len(assigned) != len(values):
+        raise ValueError("equally sized nonempty instruments, treatments, and outcomes required")
+    if any(
+        isinstance(value, bool) or not isinstance(value, int) or value not in (0, 1)
+        for value in assigned + taken
+    ):
+        raise ValueError("instruments and treatments must be binary integers")
+    if any(
+        isinstance(value, bool)
+        or not isinstance(value, (int, float))
+        or not math.isfinite(value)
+        for value in values
+    ):
+        raise ValueError("outcomes must be finite numbers")
+    if not any(assigned) or all(assigned):
+        raise ValueError("both instrument arms must be occupied")
+
+    encouraged = [index for index, value in enumerate(assigned) if value]
+    baseline = [index for index, value in enumerate(assigned) if not value]
+
+    def arm_mean(column, indices):
+        return math.fsum(column[index] for index in indices) / len(indices)
+
+    intention_to_treat = arm_mean(values, encouraged) - arm_mean(values, baseline)
+    first_stage = arm_mean(taken, encouraged) - arm_mean(taken, baseline)
+    if first_stage == 0.0:
+        raise ValueError("instrument must move treatment uptake")
+    return intention_to_treat, first_stage, intention_to_treat / first_stage
+
+
+def em_step_gaussian_mixture(observations, weights, means, variances):
+    data = list(observations)
+    mixing = list(weights)
+    centers = list(means)
+    spreads = list(variances)
+    if not data:
+        raise ValueError("at least one observation required")
+    if not mixing or len(mixing) != len(centers) or len(mixing) != len(spreads):
+        raise ValueError("equally sized nonempty weights, means, and variances required")
+    if any(
+        isinstance(value, bool)
+        or not isinstance(value, (int, float))
+        or not math.isfinite(value)
+        for value in data + centers
+    ):
+        raise ValueError("observations and means must be finite numbers")
+    if any(
+        isinstance(value, bool)
+        or not isinstance(value, (int, float))
+        or not math.isfinite(value)
+        or value <= 0.0
+        for value in mixing
+    ):
+        raise ValueError("weights must be positive finite numbers")
+    if not math.isclose(math.fsum(mixing), 1.0, rel_tol=0.0, abs_tol=1e-9):
+        raise ValueError("weights must sum to one")
+    if any(
+        isinstance(value, bool)
+        or not isinstance(value, (int, float))
+        or not math.isfinite(value)
+        or value <= 0.0
+        for value in spreads
+    ):
+        raise ValueError("variances must be strictly positive finite numbers")
+
+    order = range(len(mixing))
+    log_mixing = [math.log(value) for value in mixing]
+    log_likelihood = 0.0
+    responsibilities = []
+    for value in data:
+        log_terms = [
+            log_mixing[k]
+            - 0.5 * math.log(2.0 * math.pi * spreads[k])
+            - (value - centers[k]) ** 2 / (2.0 * spreads[k])
+            for k in order
+        ]
+        peak = max(log_terms)
+        shifted = [math.exp(term - peak) for term in log_terms]
+        total = math.fsum(shifted)
+        log_likelihood += peak + math.log(total)
+        responsibilities.append([share / total for share in shifted])
+
+    counts = [math.fsum(row[k] for row in responsibilities) for k in order]
+    if any(count <= 0.0 for count in counts):
+        raise ValueError("every component must retain some responsibility")
+    new_weights = [count / len(data) for count in counts]
+    new_means = [
+        math.fsum(row[k] * value for row, value in zip(responsibilities, data)) / counts[k]
+        for k in order
+    ]
+    new_variances = [
+        math.fsum(
+            row[k] * (value - new_means[k]) ** 2
+            for row, value in zip(responsibilities, data)
+        )
+        / counts[k]
+        for k in order
+    ]
+    return log_likelihood, new_weights, new_means, new_variances
+
+
+def hmm_forward(initial, transition, emissions):
+    start = list(initial)
+    rows = [list(row) for row in transition]
+    steps = [list(row) for row in emissions]
+    states = len(start)
+    if states == 0 or not steps:
+        raise ValueError("nonempty initial distribution and emission sequence required")
+    if len(rows) != states or any(len(row) != states for row in rows):
+        raise ValueError("transition matrix must be square and match the state count")
+    if any(len(row) != states for row in steps):
+        raise ValueError("each emission row must match the state count")
+    if any(
+        isinstance(value, bool)
+        or not isinstance(value, (int, float))
+        or not math.isfinite(value)
+        or value < 0.0
+        for row in [start] + rows + steps
+        for value in row
+    ):
+        raise ValueError("probabilities and emission likelihoods must be finite and nonnegative")
+    if not math.isclose(math.fsum(start), 1.0, rel_tol=0.0, abs_tol=1e-9):
+        raise ValueError("initial distribution must sum to one")
+    if any(
+        not math.isclose(math.fsum(row), 1.0, rel_tol=0.0, abs_tol=1e-9)
+        for row in rows
+    ):
+        raise ValueError("transition rows must sum to one")
+
+    order = range(states)
+    forward = [start[k] * steps[0][k] for k in order]
+    log_likelihood = 0.0
+    for index, emission in enumerate(steps):
+        if index:
+            predicted = [
+                math.fsum(forward[j] * rows[j][k] for j in order) for k in order
+            ]
+            forward = [predicted[k] * emission[k] for k in order]
+        scale = math.fsum(forward)
+        if scale <= 0.0:
+            raise ValueError("observation sequence has probability zero")
+        log_likelihood += math.log(scale)
+        forward = [value / scale for value in forward]
+    return log_likelihood, forward
+
+
+def d_separated(edges, source, target, conditioned):
+    pairs = []
+    for edge in edges:
+        pair = tuple(edge)
+        if len(pair) != 2:
+            raise ValueError("each edge must be a parent-child pair")
+        if pair[0] == pair[1]:
+            raise ValueError("self loops are not allowed")
+        pairs.append(pair)
+    if not pairs:
+        raise ValueError("at least one edge required")
+
+    nodes = set()
+    children = {}
+    parents = {}
+    for parent, child in pairs:
+        nodes.add(parent)
+        nodes.add(child)
+        children.setdefault(parent, set()).add(child)
+        parents.setdefault(child, set()).add(parent)
+
+    given = set(conditioned)
+    if source not in nodes or target not in nodes:
+        raise ValueError("source and target must appear in the graph")
+    if source == target:
+        raise ValueError("source and target must differ")
+    if not given <= nodes:
+        raise ValueError("conditioned nodes must appear in the graph")
+    if source in given or target in given:
+        raise ValueError("endpoints cannot be conditioned on")
+
+    remaining = {node: len(parents.get(node, ())) for node in nodes}
+    ready = [node for node in nodes if not remaining[node]]
+    ordered = 0
+    while ready:
+        node = ready.pop()
+        ordered += 1
+        for child in children.get(node, ()):
+            remaining[child] -= 1
+            if not remaining[child]:
+                ready.append(child)
+    if ordered != len(nodes):
+        raise ValueError("edges must form a directed acyclic graph")
+
+    opened = {}
+    for node in nodes:
+        stack = [node]
+        reached = set()
+        while stack:
+            current = stack.pop()
+            if current in reached:
+                continue
+            reached.add(current)
+            stack.extend(children.get(current, ()))
+        opened[node] = bool(reached & given)
+
+    neighbours = {node: set() for node in nodes}
+    for parent, child in pairs:
+        neighbours[parent].add(child)
+        neighbours[child].add(parent)
+
+    def blocked_from(path):
+        node = path[-1]
+        if node == target:
+            return False
+        for step in neighbours[node]:
+            if step in path:
+                continue
+            if len(path) >= 2:
+                previous = path[-2]
+                incoming = parents.get(node, set())
+                if previous in incoming and step in incoming:
+                    if not opened[node]:
+                        continue
+                elif node in given:
+                    continue
+            if not blocked_from(path + [step]):
+                return False
+        return True
+
+    return blocked_from([source])

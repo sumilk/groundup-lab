@@ -1243,6 +1243,280 @@ def diffusion(m):
         raise AssertionError("invalid beta schedule should be rejected")
 
 
+def backdoor(m):
+    balanced = [(10, 1.0, 10, 0.0), (10, 3.0, 10, 1.0)]
+    crude, adjusted = m.backdoor_adjustment(balanced)
+    close(crude, 1.5)
+    close(adjusted, 1.5)
+    simpson = [(10, 0.90, 90, 0.86), (90, 0.62, 10, 0.55)]
+    before = list(simpson)
+    crude, adjusted = m.backdoor_adjustment(simpson)
+    close(crude, -0.181)
+    close(adjusted, 0.055)
+    assert crude < 0 < adjusted
+    assert simpson == before
+    close(m.backdoor_adjustment([(5, 2.0, 7, 1.0)])[0], 1.0)
+    close(m.backdoor_adjustment([(5, 2.0, 7, 1.0)])[1], 1.0)
+    close(m.backdoor_adjustment(iter(simpson))[1], 0.055)
+    bad = (
+        [],
+        [(0, 1.0, 5, 0.0)],
+        [(5, 1.0, 5)],
+        [(5, float("nan"), 5, 0.0)],
+        [(5.0, 1.0, 5, 0.0)],
+    )
+    for strata in bad:
+        try:
+            m.backdoor_adjustment(strata)
+        except ValueError:
+            continue
+        raise AssertionError("invalid strata should be rejected")
+
+
+def ipw(m):
+    treatments = [1, 1, 0, 0]
+    outcomes = [4.0, 6.0, 1.0, 3.0]
+    horvitz_thompson, hajek, effective = m.ipw_ate(treatments, outcomes, [0.5] * 4)
+    close(horvitz_thompson, 3.0)
+    close(hajek, 3.0)
+    close(effective, 4.0)
+
+    scores = [0.25, 0.5, 0.5, 0.8]
+    before = list(outcomes)
+    horvitz_thompson, hajek, effective = m.ipw_ate(treatments, outcomes, scores)
+    close(horvitz_thompson, 2.75)
+    close(hajek, 28 / 6 - 17 / 7)
+    close(effective, 169 / 49)
+    assert outcomes == before
+    shifted = [value + 10.0 for value in outcomes]
+    shifted_horvitz, shifted_hajek, _ = m.ipw_ate(treatments, shifted, scores)
+    close(shifted_hajek, hajek)
+    assert abs(shifted_horvitz - horvitz_thompson) > 1.0
+
+    confounded = [1] * 8 + [0] * 2 + [1] * 2 + [0] * 8
+    logged = [2.0] * 8 + [0.0] * 2 + [12.0] * 2 + [10.0] * 8
+    propensities = [0.8] * 10 + [0.2] * 10
+    horvitz_thompson, hajek, effective = m.ipw_ate(
+        iter(confounded), iter(logged), iter(propensities)
+    )
+    close(horvitz_thompson, 2.0)
+    close(hajek, 2.0)
+    close(effective, 12.8)
+
+    bad = (
+        ([1, 0], [1.0, 2.0], [0.5]),
+        ([1, 1], [1.0, 2.0], [0.5, 0.5]),
+        ([1, 2], [1.0, 2.0], [0.5, 0.5]),
+        ([1, 0], [1.0, float("inf")], [0.5, 0.5]),
+        ([1, 0], [1.0, 2.0], [0.0, 0.5]),
+        ([1, 0], [1.0, 2.0], [0.5, 1.0]),
+        ([], [], []),
+    )
+    for assignments, values, weights in bad:
+        try:
+            m.ipw_ate(assignments, values, weights)
+        except ValueError:
+            continue
+        raise AssertionError("invalid weighting inputs should be rejected")
+
+
+def iv_wald(m):
+    intention, first_stage, late = m.wald_iv_estimate(
+        [1, 1, 0, 0], [1, 1, 0, 0], [5.0, 7.0, 1.0, 3.0]
+    )
+    close(intention, 4.0)
+    close(first_stage, 1.0)
+    close(late, 4.0)
+
+    instruments = [1, 1, 1, 1, 0, 0, 0, 0]
+    uptake = [1, 1, 0, 0, 0, 0, 0, 0]
+    outcomes = [6.0, 6.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0]
+    before = list(outcomes)
+    intention, first_stage, late = m.wald_iv_estimate(instruments, uptake, outcomes)
+    close(intention, 2.0)
+    close(first_stage, 0.5)
+    close(late, 4.0)
+    assert outcomes == before
+
+    weak_instruments = [1] * 10 + [0] * 10
+    weak_uptake = [1] + [0] * 19
+    weak_outcomes = [4.0] + [0.0] * 19
+    intention, first_stage, late = m.wald_iv_estimate(
+        iter(weak_instruments), iter(weak_uptake), iter(weak_outcomes)
+    )
+    close(intention, 0.4)
+    close(first_stage, 0.1)
+    close(late, 4.0)
+
+    bad = (
+        ([1, 1, 0, 0], [1, 0, 1, 0], [1.0, 2.0, 3.0, 4.0]),
+        ([1, 1, 1, 1], [1, 1, 0, 0], [1.0, 2.0, 3.0, 4.0]),
+        ([1, 0], [1, 0], [1.0]),
+        ([1, 0], [2, 0], [1.0, 2.0]),
+        ([1, 0], [1, 0], [float("nan"), 2.0]),
+        ([], [], []),
+    )
+    for assigned, taken, values in bad:
+        try:
+            m.wald_iv_estimate(assigned, taken, values)
+        except ValueError:
+            continue
+        raise AssertionError("invalid instrument inputs should be rejected")
+
+
+def em_step(m):
+    data = [0.0, 2.0, 4.0]
+    before = list(data)
+    log_likelihood, pis, mus, sigmas = m.em_step_gaussian_mixture(
+        data, [0.5, 0.5], [2.0, 2.0], [1.0, 1.0]
+    )
+    close(
+        log_likelihood,
+        math.fsum(
+            -0.5 * math.log(2.0 * math.pi) - 0.5 * (value - 2.0) ** 2 for value in data
+        ),
+    )
+    close(pis[0], 0.5)
+    close(pis[1], 0.5)
+    close(mus[0], 2.0)
+    close(mus[1], 2.0)
+    close(sigmas[0], 8 / 3)
+    close(sigmas[1], 8 / 3)
+    assert data == before
+
+    separated = [-10.0, -9.0, 9.0, 10.0]
+    _, pis, mus, sigmas = m.em_step_gaussian_mixture(
+        iter(separated), [0.5, 0.5], [-10.0, 10.0], [1.0, 1.0]
+    )
+    close(pis[0], 0.5)
+    close(mus[0], -9.5)
+    close(mus[1], 9.5)
+    close(sigmas[0], 0.25)
+    close(sigmas[1], 0.25)
+
+    far, _, far_means, far_variances = m.em_step_gaussian_mixture(
+        [0.0], [0.5, 0.5], [-300.0, 300.0], [1.0, 1.0]
+    )
+    close(far, -0.5 * math.log(2.0 * math.pi) - 45000.0)
+    close(far_means[0], 0.0)
+    close(far_variances[1], 0.0)
+
+    sample = [0.0, 0.5, 1.0, 4.0, 4.5, 5.0]
+    pis, mus, sigmas = [0.5, 0.5], [1.0, 4.0], [1.0, 1.0]
+    previous = None
+    for _ in range(5):
+        log_likelihood, pis, mus, sigmas = m.em_step_gaussian_mixture(sample, pis, mus, sigmas)
+        if previous is not None:
+            assert log_likelihood >= previous - 1e-9, (log_likelihood, previous)
+        previous = log_likelihood
+
+    bad = (
+        ([], [1.0], [0.0], [1.0]),
+        ([0.0], [0.5, 0.5], [0.0], [1.0, 1.0]),
+        ([0.0], [0.4, 0.4], [0.0, 1.0], [1.0, 1.0]),
+        ([0.0], [0.5, 0.5], [0.0, 1.0], [1.0, 0.0]),
+        ([0.0], [0.5, 0.5], [0.0, 1.0], [1.0, -1.0]),
+        ([float("nan")], [1.0], [0.0], [1.0]),
+        ([0.0, 0.0], [0.5, 0.5], [0.0, 1000.0], [1.0, 1.0]),
+    )
+    for observations, weights, means, variances in bad:
+        try:
+            m.em_step_gaussian_mixture(observations, weights, means, variances)
+        except ValueError:
+            continue
+        raise AssertionError("invalid mixture step inputs should be rejected")
+
+
+def hmm_forward(m):
+    log_likelihood, filtered = m.hmm_forward([1.0], [[1.0]], [[0.5], [0.25]])
+    close(log_likelihood, math.log(0.125))
+    close(filtered[0], 1.0)
+
+    emissions = [[0.6, 0.4], [0.2, 0.8]]
+    before = [list(row) for row in emissions]
+    log_likelihood, filtered = m.hmm_forward(
+        [0.5, 0.5], [[0.5, 0.5], [0.5, 0.5]], emissions
+    )
+    close(log_likelihood, 2.0 * math.log(0.5))
+    close(filtered[0], 0.2)
+    close(filtered[1], 0.8)
+    assert emissions == before
+
+    log_likelihood, filtered = m.hmm_forward(
+        [1.0, 0.0], [[0.0, 1.0], [1.0, 0.0]], iter([[0.5, 0.1], [0.3, 0.7]])
+    )
+    close(log_likelihood, math.log(0.35))
+    close(filtered[0], 0.0)
+    close(filtered[1], 1.0)
+
+    long_run, filtered = m.hmm_forward([1.0], [[1.0]], [[0.5]] * 2000)
+    close(long_run, 2000.0 * math.log(0.5))
+    close(filtered[0], 1.0)
+
+    bad = (
+        ([1.0], [[1.0]], [[0.0]]),
+        ([1.0, 0.0], [[1.0, 0.0], [0.0, 1.0]], [[0.5, 0.5], [0.0, 0.9]]),
+        ([1.0], [[1.0]], []),
+        ([], [], [[]]),
+        ([0.5, 0.4], [[0.5, 0.5], [0.5, 0.5]], [[1.0, 1.0]]),
+        ([0.5, 0.5], [[0.5, 0.4], [0.5, 0.5]], [[1.0, 1.0]]),
+        ([0.5, 0.5], [[0.5, 0.5]], [[1.0, 1.0]]),
+        ([0.5, 0.5], [[0.5, 0.5], [0.5, 0.5]], [[1.0]]),
+        ([0.5, 0.5], [[0.5, 0.5], [0.5, 0.5]], [[1.0, -1.0]]),
+    )
+    for start, matrix, steps in bad:
+        try:
+            m.hmm_forward(start, matrix, steps)
+        except ValueError:
+            continue
+        raise AssertionError("invalid hidden Markov inputs should be rejected")
+
+
+def d_separation(m):
+    chain = [("a", "b"), ("b", "c")]
+    before = list(chain)
+    assert not m.d_separated(chain, "a", "c", [])
+    assert m.d_separated(chain, "a", "c", ["b"])
+    assert chain == before
+
+    fork = [("b", "a"), ("b", "c")]
+    assert not m.d_separated(fork, "a", "c", [])
+    assert m.d_separated(fork, "a", "c", ["b"])
+
+    collider = [("a", "b"), ("c", "b")]
+    assert m.d_separated(collider, "a", "c", [])
+    assert not m.d_separated(collider, "a", "c", ["b"])
+
+    descendant = [("a", "b"), ("c", "b"), ("b", "d")]
+    assert m.d_separated(iter(descendant), "a", "c", [])
+    assert not m.d_separated(descendant, "a", "c", ["d"])
+
+    m_bias = [("u1", "t"), ("u1", "z"), ("u2", "z"), ("u2", "y")]
+    assert m.d_separated(m_bias, "t", "y", [])
+    assert not m.d_separated(m_bias, "t", "y", ["z"])
+
+    two_paths = [("a", "b"), ("b", "c"), ("a", "d"), ("d", "c")]
+    assert not m.d_separated(two_paths, "a", "c", ["b"])
+    assert m.d_separated(two_paths, "a", "c", ["b", "d"])
+
+    bad = (
+        ([("a", "b"), ("b", "a")], "a", "b", []),
+        ([("a", "b")], "a", "z", []),
+        ([("a", "b")], "a", "a", []),
+        ([("a", "b"), ("b", "c")], "a", "c", ["z"]),
+        ([("a", "b"), ("b", "c")], "a", "c", ["a"]),
+        ([("a", "a")], "a", "a", []),
+        ([], "a", "b", []),
+        ([("a", "b", "c")], "a", "b", []),
+    )
+    for graph, start, end, given in bad:
+        try:
+            m.d_separated(graph, start, end, given)
+        except ValueError:
+            continue
+        raise AssertionError("invalid d-separation inputs should be rejected")
+
+
 CHECKS = {"moments": moments, "conditional": conditional,
           "categorical": categorical, "joint": joint,
           "convolution": convolution, "gaussian": gaussian,
@@ -1269,6 +1543,12 @@ CHECKS = {"moments": moments, "conditional": conditional,
           "gumbel": gumbel,
           "decoding": decoding,
           "diffusion": diffusion,
+          "backdoor": backdoor,
+          "ipw": ipw,
+          "iv-wald": iv_wald,
+          "em-step": em_step,
+          "hmm-forward": hmm_forward,
+          "d-separation": d_separation,
           "search": search, "softmax": softmax,
           "bigram": bigram, "attention": attention, "bellman": bellman}
 

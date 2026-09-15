@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="500" viewBox="0 0 1080 500" role="img" aria-labelledby="du-title du-desc">
+  <title id="du-title">A v-structure, its moral graph, and its factor graph</title>
+  <desc id="du-desc">Three panels show the same three-variable distribution. The first is a directed graph with arrows from A into B and from C into B, a v-structure encoding that A and C are marginally independent but dependent given B. The second is the moral graph: marrying the parents adds an undirected edge between A and C and drops the arrow directions, so the marginal independence can no longer be read off the graph. The third is the factor graph, with square factor nodes: one three-way factor joined to A, B and C, and two unary factors on A and C, recording the factorization exactly and distinguishing a single three-way potential from three pairwise ones.</desc>
+  <defs>
+    <marker id="du-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#7aa2f7"/>
+    </marker>
+  </defs>
+  <rect width="1080" height="500" rx="24" fill="#08111f"/>
+  <g font-family="system-ui">
+    <text x="540" y="42" text-anchor="middle" fill="#e8eef7" font-size="21">One distribution, three representations, two different losses</text>
+
+    <g font-size="18" text-anchor="middle" fill="#e8eef7">
+      <text x="200" y="96">Directed</text><text x="540" y="96">Moralized</text><text x="880" y="96">Factor graph</text>
+    </g>
+
+    <g stroke-width="3.5" fill="none">
+      <path d="M125.2 278.9L184.8 196.1" stroke="#7aa2f7" marker-end="url(#du-arrow)"/>
+      <path d="M274.8 278.9L215.2 196.1" stroke="#7aa2f7" marker-end="url(#du-arrow)"/>
+
+      <path d="M465.2 278.9L524.8 196.1" stroke="#31445e"/>
+      <path d="M614.8 278.9L555.2 196.1" stroke="#31445e"/>
+      <path d="M476 300H604" stroke="#f2b880"/>
+
+      <path d="M804 288L871 268" stroke="#31445e"/>
+      <path d="M880 201V240" stroke="#31445e"/>
+      <path d="M956 288L889 268" stroke="#31445e"/>
+      <path d="M790 326V360" stroke="#31445e"/>
+      <path d="M970 326V360" stroke="#31445e"/>
+    </g>
+
+    <g fill="#0e1b2d" stroke="#31445e" stroke-width="3">
+      <circle cx="110" cy="300" r="26"/><circle cx="200" cy="175" r="26"/><circle cx="290" cy="300" r="26"/>
+      <circle cx="450" cy="300" r="26"/><circle cx="540" cy="175" r="26"/><circle cx="630" cy="300" r="26"/>
+      <circle cx="790" cy="300" r="26"/><circle cx="880" cy="175" r="26"/><circle cx="970" cy="300" r="26"/>
+    </g>
+    <g fill="#50d2c2" stroke="#50d2c2" stroke-width="3">
+      <rect x="868" y="240" width="24" height="24" rx="4"/>
+      <rect x="778" y="360" width="24" height="24" rx="4"/>
+      <rect x="958" y="360" width="24" height="24" rx="4"/>
+    </g>
+
+    <g fill="#e8eef7" font-size="18" text-anchor="middle">
+      <text x="110" y="307">A</text><text x="200" y="182">B</text><text x="290" y="307">C</text>
+      <text x="450" y="307">A</text><text x="540" y="182">B</text><text x="630" y="307">C</text>
+      <text x="790" y="307">A</text><text x="880" y="182">B</text><text x="970" y="307">C</text>
+    </g>
+
+    <g font-size="14" fill="#91a4bb">
+      <text x="906" y="258">f(a, b, c)</text>
+      <text x="768" y="398" text-anchor="middle">f(a)</text>
+      <text x="996" y="398" text-anchor="middle">f(c)</text>
+    </g>
+
+    <g text-anchor="middle" font-size="15">
+      <text x="200" y="372" fill="#50d2c2">A and C independent</text>
+      <text x="200" y="398" fill="#91a4bb">dependent once B is given</text>
+      <text x="540" y="372" fill="#f2b880">the A–C edge is new</text>
+      <text x="540" y="398" fill="#91a4bb">no independence left to read</text>
+      <text x="880" y="416" fill="#50d2c2">the factorization, exactly</text>
+      <text x="880" y="440" fill="#91a4bb">one 3-way factor, not three pairwise</text>
+    </g>
+
+    <text x="540" y="482" text-anchor="middle" fill="#e8eef7" font-size="15">Neither family subsumes the other: this v-structure has no undirected perfect map, and a four-cycle has no directed one.</text>
+  </g>
+</svg>

@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="520" viewBox="0 0 1080 520" role="img" aria-labelledby="cp-title cp-desc">
+  <title id="cp-title">Chains and forks transmit association until blocked; colliders transmit none until conditioning opens them</title>
+  <desc id="cp-desc">Three panels share the same triangular node layout with A at lower left, C at lower right and B at the top. In the chain panel an arrow runs from A to B and from B to C, in the fork panel both arrows run outward from B, and in the collider panel both arrows run inward into B. Beneath each panel a line records whether A and C are dependent marginally and whether they remain dependent after conditioning on B: the chain and the fork are dependent until B is conditioned on, while the collider is independent until B is conditioned on and dependent afterwards.</desc>
+  <defs>
+    <marker id="cp-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#7aa2f7"/>
+    </marker>
+    <marker id="cp-arrow-warn" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#f2b880"/>
+    </marker>
+  </defs>
+  <rect width="1080" height="520" rx="24" fill="#08111f"/>
+  <g font-family="system-ui">
+    <text x="540" y="42" text-anchor="middle" fill="#e8eef7" font-size="21">The same three nodes, three arrow patterns, three opposite rules</text>
+
+    <g stroke-width="3.5" fill="none">
+      <path d="M114.4 298.4L185.6 191.6" stroke="#7aa2f7" marker-end="url(#cp-arrow)"/>
+      <path d="M214.4 191.6L285.6 298.4" stroke="#7aa2f7" marker-end="url(#cp-arrow)"/>
+      <path d="M525.6 191.6L454.4 298.4" stroke="#7aa2f7" marker-end="url(#cp-arrow)"/>
+      <path d="M554.4 191.6L625.6 298.4" stroke="#7aa2f7" marker-end="url(#cp-arrow)"/>
+      <path d="M794.4 298.4L865.6 191.6" stroke="#f2b880" marker-end="url(#cp-arrow-warn)"/>
+      <path d="M965.6 298.4L894.4 191.6" stroke="#f2b880" marker-end="url(#cp-arrow-warn)"/>
+    </g>
+
+    <g fill="#0e1b2d" stroke="#31445e" stroke-width="3">
+      <circle cx="100" cy="320" r="26"/><circle cx="200" cy="170" r="26"/><circle cx="300" cy="320" r="26"/>
+      <circle cx="440" cy="320" r="26"/><circle cx="540" cy="170" r="26"/><circle cx="640" cy="320" r="26"/>
+      <circle cx="780" cy="320" r="26"/><circle cx="880" cy="170" r="26"/><circle cx="980" cy="320" r="26"/>
+    </g>
+    <g fill="#e8eef7" font-size="18" text-anchor="middle">
+      <text x="100" y="327">A</text><text x="200" y="177">B</text><text x="300" y="327">C</text>
+      <text x="440" y="327">A</text><text x="540" y="177">B</text><text x="640" y="327">C</text>
+      <text x="780" y="327">A</text><text x="880" y="177">B</text><text x="980" y="327">C</text>
+    </g>
+
+    <g text-anchor="middle" font-size="18" fill="#e8eef7">
+      <text x="200" y="110">Chain — B mediates</text>
+      <text x="540" y="110">Fork — B confounds</text>
+      <text x="880" y="110">Collider — B is caused</text>
+    </g>
+
+    <g text-anchor="middle" font-size="15">
+      <text x="200" y="392" fill="#50d2c2">A and C dependent</text>
+      <text x="200" y="418" fill="#91a4bb">condition on B → independent</text>
+      <text x="540" y="392" fill="#50d2c2">A and C dependent</text>
+      <text x="540" y="418" fill="#91a4bb">condition on B → independent</text>
+      <text x="880" y="392" fill="#91a4bb">A and C independent</text>
+      <text x="880" y="418" fill="#f2b880">condition on B → dependent</text>
+    </g>
+
+    <rect x="700" y="358" width="360" height="76" rx="12" fill="#f2b880" fill-opacity=".10"/>
+
+    <text x="540" y="470" text-anchor="middle" fill="#e8eef7" font-size="16">Conditioning includes filtering rows, restricting a sample, and stratifying — not just adding a model term.</text>
+    <text x="540" y="496" text-anchor="middle" fill="#91a4bb" font-size="15">A descendant of the collider opens it too, so "controlling for more variables" is not a safe default.</text>
+  </g>
+</svg>

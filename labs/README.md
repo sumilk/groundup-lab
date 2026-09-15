@@ -1,6 +1,6 @@
 # Hands-on labs
 
-Use Python 3.11 or later. These first twenty-seven exercises need only the standard library; no GPU, API key, package installation, or paid dataset is required.
+Use Python 3.11 or later. These forty exercises need only the standard library; no GPU, API key, package installation, or paid dataset is required.
 
 In the theory reader, select the linked exercise inside a lesson to open its runnable Python workspace on the right without losing your reading position. If a lesson gains multiple coding exercises, task tabs share that workspace. The implementation and most recent output are saved in that browser for each task. **Run tests** executes the behavioral check, **Run code** supports print-based exploration, **Stop** terminates a stuck worker, and **Reset starter** restores the authored skeleton. The command-line workflow below remains available.
 
@@ -35,6 +35,19 @@ In the theory reader, select the linked exercise inside a lesson to open its run
 | simple-ols | [Exponential families, regression, and GLMs](../content/05-probability-statistics/11-exponential-families-regression-glms.md) | Simple OLS coefficients and slope uncertainty |
 | logistic-gradient | [Exponential families, regression, and GLMs](../content/05-probability-statistics/11-exponential-families-regression-glms.md) | Stable Bernoulli loss and logistic-regression gradient |
 | partial-pooling | [Exponential families, regression, and GLMs](../content/05-probability-statistics/11-exponential-families-regression-glms.md) | Normal-normal group shrinkage and pooling weights |
+| projection | [High-dimensional probability](../content/05-probability-statistics/12-high-dimensional-probability.md) | Random projection distortion of pairwise distances |
+| calibration | [Calibration, scoring, and conformal prediction](../content/05-probability-statistics/13-calibration-scoring-conformal.md) | Binned expected calibration error |
+| conformal | [Calibration, scoring, and conformal prediction](../content/05-probability-statistics/13-calibration-scoring-conformal.md) | Split conformal threshold at the finite-sample rank |
+| elbo-terms | [Latent variables and the ELBO](../content/05-probability-statistics/14-latent-variables-elbo-gradient-estimators.md) | Gaussian divergence and evidence lower bound |
+| gumbel | [Latent variables and the ELBO](../content/05-probability-statistics/14-latent-variables-elbo-gradient-estimators.md) | Seeded Gumbel-max categorical sampling |
+| decoding | [Score matching, diffusion, and sampling](../content/05-probability-statistics/15-score-matching-diffusion-sampling.md) | Temperature and nucleus truncation of a distribution |
+| diffusion | [Score matching, diffusion, and sampling](../content/05-probability-statistics/15-score-matching-diffusion-sampling.md) | Closed-form forward diffusion coefficients |
+| backdoor | [Observational causal inference and missing data](../content/05-probability-statistics/16-causal-inference-missing-data.md) | Standardized effect against a crude Simpson reversal |
+| ipw | [Observational causal inference and missing data](../content/05-probability-statistics/16-causal-inference-missing-data.md) | Horvitz-Thompson and Hajek weighting with effective sample size |
+| iv-wald | [Observational causal inference and missing data](../content/05-probability-statistics/16-causal-inference-missing-data.md) | Intention to treat, first stage, and the Wald ratio |
+| em-step | [Mixtures, EM, and graphical models](../content/05-probability-statistics/17-mixtures-em-graphical-models.md) | Monotone EM step with log-space responsibilities |
+| hmm-forward | [Mixtures, EM, and graphical models](../content/05-probability-statistics/17-mixtures-em-graphical-models.md) | Scaled forward recursion and filtered state posterior |
+| d-separation | [Mixtures, EM, and graphical models](../content/05-probability-statistics/17-mixtures-em-graphical-models.md) | Path blocking under the chain, fork, and collider rules |
 | search | [DSA](../content/04-dsa/01-invariants-search-graphs-dp.md) | Exhaustive boundary cases |
 | softmax | [PyTorch](../content/08-pytorch/01-tensors-autograd-training.md) | Stability and shift invariance |
 | bigram | [NLP](../content/10-nlp/01-text-representations-language-models.md) | Correct target offsets |

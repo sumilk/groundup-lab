@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="470" viewBox="0 0 1080 470" role="img" aria-labelledby="md-title md-desc">
+  <title id="md-title">MCAR, MAR and MNAR differ only in what points an arrow at the missingness indicator</title>
+  <desc id="md-desc">Three panels each show an observed variable, an unobserved value and a missingness indicator M. Under MCAR nothing points at M, so the observed rows are a random subsample. Under MAR the observed variable points at M, so conditioning on the observed data restores comparability and likelihood inference may ignore the mechanism. Under MNAR the unobserved value itself points at M, so the missing distribution is not identified from observed data and analysis requires an assumed mechanism plus sensitivity analysis.</desc>
+  <defs>
+    <marker id="md-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#7aa2f7"/>
+    </marker>
+    <marker id="md-arrow-warn" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#f2b880"/>
+    </marker>
+  </defs>
+  <rect width="1080" height="470" rx="24" fill="#08111f"/>
+  <g font-family="system-ui">
+    <text x="540" y="42" text-anchor="middle" fill="#e8eef7" font-size="21">The mechanism is one arrow, and it decides what is possible</text>
+
+    <g font-size="18" text-anchor="middle" fill="#e8eef7">
+      <text x="200" y="92">MCAR</text><text x="540" y="92">MAR</text><text x="880" y="92">MNAR</text>
+    </g>
+    <g font-size="14" text-anchor="middle" fill="#91a4bb">
+      <text x="200" y="116">nothing points at M</text>
+      <text x="540" y="116">the observed part points at M</text>
+      <text x="880" y="116">the hidden value points at M</text>
+    </g>
+
+    <g stroke-width="3.5" fill="none">
+      <path d="M494 196L426 244" stroke="#7aa2f7" marker-end="url(#md-arrow)"/>
+      <path d="M983 198Q900 288 826 271" stroke="#f2b880" marker-end="url(#md-arrow-warn)"/>
+    </g>
+
+    <g stroke="#31445e" stroke-width="3">
+      <rect x="92" y="150" width="130" height="46" rx="10" fill="#0e1b2d"/>
+      <rect x="238" y="150" width="130" height="46" rx="10" fill="#0e1b2d" stroke-dasharray="6 5"/>
+      <rect x="140" y="248" width="120" height="46" rx="10" fill="#0e1b2d"/>
+
+      <rect x="432" y="150" width="130" height="46" rx="10" fill="#0e1b2d"/>
+      <rect x="578" y="150" width="130" height="46" rx="10" fill="#0e1b2d" stroke-dasharray="6 5"/>
+      <rect x="360" y="248" width="120" height="46" rx="10" fill="#0e1b2d"/>
+
+      <rect x="772" y="150" width="130" height="46" rx="10" fill="#0e1b2d"/>
+      <rect x="918" y="150" width="130" height="46" rx="10" fill="#0e1b2d" stroke-dasharray="6 5"/>
+      <rect x="700" y="248" width="120" height="46" rx="10" fill="#0e1b2d"/>
+    </g>
+
+    <g font-size="15" text-anchor="middle">
+      <g fill="#e8eef7">
+        <text x="157" y="180">observed</text><text x="497" y="180">observed</text><text x="837" y="180">observed</text>
+      </g>
+      <g fill="#91a4bb">
+        <text x="303" y="180">hidden value</text><text x="643" y="180">hidden value</text>
+      </g>
+      <text x="983" y="180" fill="#f2b880">hidden value</text>
+      <g fill="#e8eef7">
+        <text x="200" y="278">M</text><text x="420" y="278">M</text><text x="760" y="278">M</text>
+      </g>
+    </g>
+
+    <g font-size="15" text-anchor="middle">
+      <text x="200" y="340" fill="#50d2c2">complete cases unbiased</text>
+      <text x="540" y="340" fill="#50d2c2">imputation and weighting work</text>
+      <text x="880" y="340" fill="#f2b880">not identified from the data</text>
+      <text x="200" y="366" fill="#91a4bb">you lose precision only</text>
+      <text x="540" y="366" fill="#91a4bb">conditional on what you logged</text>
+      <text x="880" y="366" fill="#91a4bb">report a sensitivity range</text>
+    </g>
+
+    <text x="540" y="424" text-anchor="middle" fill="#e8eef7" font-size="16">MAR is a property of your variable set, not of the world: logging one more column can move a problem from MNAR to MAR.</text>
+    <text x="540" y="450" text-anchor="middle" fill="#91a4bb" font-size="15">Replace M with the treatment indicator and the same three pictures become randomization, ignorability, and unmeasured confounding.</text>
+  </g>
+</svg>

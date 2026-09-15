@@ -1,6 +1,6 @@
 # GroundUp Lab — theory and practice
 
-The repository now has **40 authored lessons across 14 tracks**, with linear algebra, optimization, and probability/statistics as separate tracks. This is an initial cross-curriculum release, **not complete coverage**. Each track has substantial expansion work remaining. Depth labels are targets and have not been independently verified.
+The repository now has **42 authored lessons across 14 tracks**, with linear algebra, optimization, and probability/statistics as separate tracks. This is an initial cross-curriculum release, **not complete coverage**. Each track has substantial expansion work remaining. Depth labels are targets and have not been independently verified.
 
 ## Start here
 
@@ -49,6 +49,8 @@ Attempt these prompts before continuing. The end-of-unit practice set then mixes
 | 05 Probability and statistics | [Calibration, proper scoring rules, and conformal prediction](05-probability-statistics/13-calibration-scoring-conformal.md) |
 | 05 Probability and statistics | [Latent variables, the ELBO, and gradient estimators](05-probability-statistics/14-latent-variables-elbo-gradient-estimators.md) |
 | 05 Probability and statistics | [Score matching, diffusion, and sampling from generative models](05-probability-statistics/15-score-matching-diffusion-sampling.md) |
+| 05 Probability and statistics | [Observational causal inference, quasi-experiments, and missing data](05-probability-statistics/16-causal-inference-missing-data.md) |
+| 05 Probability and statistics | [Mixtures, the EM algorithm, and graphical models](05-probability-statistics/17-mixtures-em-graphical-models.md) |
 | 06 Information, learning, and decisions | [Entropy, generalization, and decisions](06-information-learning-decision/01-entropy-generalization-decisions.md) |
 | 07 Classical ML | [Regression, classification, evaluation](07-classical-ml/01-regression-classification-evaluation.md) |
 | 08 PyTorch | [Tensors, autograd, training](08-pytorch/01-tensors-autograd-training.md) |
@@ -80,10 +82,16 @@ The track is being expanded one unit at a time in this order:
 11. **Authored:** Bayesian modeling, posterior checks, importance sampling, and MCMC.
 12. **Authored:** sampling design and ML evaluation under seed variance, clustering, dependence, selection, contamination, and distribution shift.
 13. **Authored:** sufficient statistics, exponential families, statistical regression, GLMs, robust uncertainty, and mixed-effects partial pooling.
+14. **Authored:** high-dimensional probability, concentration in many dimensions, random vectors, and projections.
+15. **Authored:** calibration, proper scoring rules, reliability diagrams, and conformal prediction.
+16. **Authored:** latent variables, the evidence lower bound, and gradient estimators.
+17. **Authored:** score matching, diffusion, and sampling from generative models.
+18. **Authored:** observational causal inference — DAGs and d-separation, backdoor adjustment, propensity weighting, doubly robust estimation, instruments, difference-in-differences — and missing-data mechanisms with multiple imputation.
+19. **Authored:** finite mixtures, the EM algorithm, identifiability of latent structure, and directed, undirected, and factor graphical models with exact inference.
 
 ## Hands-on resources
 
-- [Twenty-seven runnable exercises and behavioral checks](../labs/README.md)
+- [Forty runnable exercises and behavioral checks](../labs/README.md)
 - [Learner implementation file](../labs/exercises.py)
 - [Reference solutions — attempt first](../labs/reference.py)
 - [Web reader source](../public/theory/index.html)

@@ -205,5 +205,41 @@
     "task": "diffusion",
     "function": "forward_diffusion_coefficients",
     "title": "Forward diffusion schedule"
+  },
+  {
+    "lesson": "05-probability-statistics/16-causal-inference-missing-data.md",
+    "task": "backdoor",
+    "function": "backdoor_adjustment",
+    "title": "Backdoor adjustment and Simpson reversal"
+  },
+  {
+    "lesson": "05-probability-statistics/16-causal-inference-missing-data.md",
+    "task": "ipw",
+    "function": "ipw_ate",
+    "title": "Inverse probability weighting"
+  },
+  {
+    "lesson": "05-probability-statistics/16-causal-inference-missing-data.md",
+    "task": "iv-wald",
+    "function": "wald_iv_estimate",
+    "title": "Wald instrumental-variable estimator"
+  },
+  {
+    "lesson": "05-probability-statistics/17-mixtures-em-graphical-models.md",
+    "task": "em-step",
+    "function": "em_step_gaussian_mixture",
+    "title": "One EM step for a Gaussian mixture"
+  },
+  {
+    "lesson": "05-probability-statistics/17-mixtures-em-graphical-models.md",
+    "task": "hmm-forward",
+    "function": "hmm_forward",
+    "title": "Scaled forward algorithm"
+  },
+  {
+    "lesson": "05-probability-statistics/17-mixtures-em-graphical-models.md",
+    "task": "d-separation",
+    "function": "d_separated",
+    "title": "Deciding d-separation"
   }
 ]
