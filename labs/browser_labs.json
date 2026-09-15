@@ -18,121 +18,121 @@
     "title": "Exact conditional probability"
   },
   {
-    "lesson": "05-probability-statistics/02-random-variables-distributions.md",
+    "lesson": "05-probability-statistics/01-random-variables-distributions.md",
     "task": "categorical",
     "function": "sample_categorical",
     "title": "Categorical inverse-CDF sampling"
   },
   {
-    "lesson": "05-probability-statistics/03-joint-distributions-conditioning-covariance.md",
+    "lesson": "05-probability-statistics/02-joint-distributions-conditioning-covariance.md",
     "task": "joint",
     "function": "joint_marginals_covariance",
     "title": "Joint marginals and covariance"
   },
   {
-    "lesson": "05-probability-statistics/04-transformations-convolution-jacobians.md",
+    "lesson": "05-probability-statistics/03-transformations-convolution-jacobians.md",
     "task": "convolution",
     "function": "discrete_convolution",
     "title": "Discrete convolution"
   },
   {
-    "lesson": "05-probability-statistics/05-multivariate-gaussian-geometry.md",
+    "lesson": "05-probability-statistics/04-multivariate-gaussian-geometry.md",
     "task": "gaussian",
     "function": "condition_bivariate_gaussian",
     "title": "Bivariate Gaussian conditioning"
   },
   {
-    "lesson": "05-probability-statistics/06-limit-theorems-monte-carlo.md",
+    "lesson": "05-probability-statistics/05-limit-theorems-monte-carlo.md",
     "task": "monte-carlo",
     "function": "batch_means_standard_error",
     "title": "Batch-means standard error"
   },
   {
-    "lesson": "05-probability-statistics/07-estimation-likelihood-fisher.md",
+    "lesson": "05-probability-statistics/06-estimation-likelihood-fisher.md",
     "task": "bernoulli-mle",
     "function": "bernoulli_mle",
     "title": "Bernoulli maximum likelihood"
   },
   {
-    "lesson": "05-probability-statistics/08-hypothesis-testing-confidence-power.md",
+    "lesson": "05-probability-statistics/07-hypothesis-testing-confidence-power.md",
     "task": "binomial-test",
     "function": "exact_binomial_test",
     "title": "Exact binomial inference"
   },
   {
-    "lesson": "05-probability-statistics/08-hypothesis-testing-confidence-power.md",
+    "lesson": "05-probability-statistics/07-hypothesis-testing-confidence-power.md",
     "task": "bh-fdr",
     "function": "benjamini_hochberg",
-    "title": "Benjamini–Hochberg correction"
+    "title": "Benjamini\u2013Hochberg correction"
   },
   {
-    "lesson": "05-probability-statistics/09-resampling-sequential-experimental-design.md",
+    "lesson": "05-probability-statistics/08-resampling-sequential-experimental-design.md",
     "task": "bootstrap",
     "function": "bootstrap_mean_interval",
     "title": "Bootstrap mean interval"
   },
   {
-    "lesson": "05-probability-statistics/09-resampling-sequential-experimental-design.md",
+    "lesson": "05-probability-statistics/08-resampling-sequential-experimental-design.md",
     "task": "permutation",
     "function": "paired_permutation_test",
     "title": "Exact paired permutation"
   },
   {
-    "lesson": "05-probability-statistics/09-resampling-sequential-experimental-design.md",
+    "lesson": "05-probability-statistics/08-resampling-sequential-experimental-design.md",
     "task": "e-process",
     "function": "bernoulli_e_process",
     "title": "Bernoulli anytime evidence"
   },
   {
-    "lesson": "05-probability-statistics/10-bayesian-modeling-computation.md",
+    "lesson": "05-probability-statistics/09-bayesian-modeling-computation.md",
     "task": "beta-update",
     "function": "beta_bernoulli_update",
-    "title": "Beta–Bernoulli update"
+    "title": "Beta\u2013Bernoulli update"
   },
   {
-    "lesson": "05-probability-statistics/10-bayesian-modeling-computation.md",
+    "lesson": "05-probability-statistics/09-bayesian-modeling-computation.md",
     "task": "importance",
     "function": "self_normalized_importance",
     "title": "Stable importance weighting"
   },
   {
-    "lesson": "05-probability-statistics/10-bayesian-modeling-computation.md",
+    "lesson": "05-probability-statistics/09-bayesian-modeling-computation.md",
     "task": "metropolis",
     "function": "random_walk_metropolis",
     "title": "Random-walk Metropolis"
   },
   {
-    "lesson": "05-probability-statistics/11-sampling-design-ml-evaluation.md",
+    "lesson": "05-probability-statistics/10-sampling-design-ml-evaluation.md",
     "task": "stratified",
     "function": "stratified_mean_standard_error",
     "title": "Stratified finite-population mean"
   },
   {
-    "lesson": "05-probability-statistics/11-sampling-design-ml-evaluation.md",
+    "lesson": "05-probability-statistics/10-sampling-design-ml-evaluation.md",
     "task": "horvitz-thompson",
     "function": "horvitz_thompson",
-    "title": "Horvitz–Thompson weighting"
+    "title": "Horvitz\u2013Thompson weighting"
   },
   {
-    "lesson": "05-probability-statistics/11-sampling-design-ml-evaluation.md",
+    "lesson": "05-probability-statistics/10-sampling-design-ml-evaluation.md",
     "task": "rejection",
     "function": "rejection_sample",
     "title": "Generic rejection sampler"
   },
   {
-    "lesson": "05-probability-statistics/12-exponential-families-regression-glms.md",
+    "lesson": "05-probability-statistics/11-exponential-families-regression-glms.md",
     "task": "simple-ols",
     "function": "simple_ols",
     "title": "Simple OLS and slope uncertainty"
   },
   {
-    "lesson": "05-probability-statistics/12-exponential-families-regression-glms.md",
+    "lesson": "05-probability-statistics/11-exponential-families-regression-glms.md",
     "task": "logistic-gradient",
     "function": "logistic_loss_gradient",
     "title": "Stable logistic loss and gradient"
   },
   {
-    "lesson": "05-probability-statistics/12-exponential-families-regression-glms.md",
+    "lesson": "05-probability-statistics/11-exponential-families-regression-glms.md",
     "task": "partial-pooling",
     "function": "partial_pooling_means",
     "title": "Normal-normal partial pooling"
@@ -154,12 +154,56 @@
     "task": "attention",
     "function": "causal_attention",
     "title": "Causal attention",
-    "supportFunctions": ["stable_softmax"]
+    "supportFunctions": [
+      "stable_softmax"
+    ]
   },
   {
     "lesson": "12-reinforcement-learning/01-mdps-bellman-td.md",
     "task": "bellman",
     "function": "bellman_backup",
     "title": "Bellman optimality backup"
+  },
+  {
+    "lesson": "05-probability-statistics/12-high-dimensional-probability.md",
+    "task": "projection",
+    "function": "projection_distortion",
+    "title": "Random projection distortion"
+  },
+  {
+    "lesson": "05-probability-statistics/13-calibration-scoring-conformal.md",
+    "task": "calibration",
+    "function": "expected_calibration_error",
+    "title": "Expected calibration error"
+  },
+  {
+    "lesson": "05-probability-statistics/13-calibration-scoring-conformal.md",
+    "task": "conformal",
+    "function": "conformal_threshold",
+    "title": "Split conformal threshold"
+  },
+  {
+    "lesson": "05-probability-statistics/14-latent-variables-elbo-gradient-estimators.md",
+    "task": "elbo-terms",
+    "function": "gaussian_elbo_terms",
+    "title": "Gaussian ELBO terms"
+  },
+  {
+    "lesson": "05-probability-statistics/14-latent-variables-elbo-gradient-estimators.md",
+    "task": "gumbel",
+    "function": "gumbel_max_sample",
+    "title": "Gumbel-max categorical sampling"
+  },
+  {
+    "lesson": "05-probability-statistics/15-score-matching-diffusion-sampling.md",
+    "task": "decoding",
+    "function": "decode_distribution",
+    "title": "Temperature and nucleus decoding"
+  },
+  {
+    "lesson": "05-probability-statistics/15-score-matching-diffusion-sampling.md",
+    "task": "diffusion",
+    "function": "forward_diffusion_coefficients",
+    "title": "Forward diffusion schedule"
   }
 ]

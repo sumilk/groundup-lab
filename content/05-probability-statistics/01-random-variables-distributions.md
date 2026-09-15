@@ -753,4 +753,4 @@ Derive these results rather than memorizing the table:
 
 Given an unfamiliar data-generating story, define the random variable and support, propose a distribution, derive its mean or a relevant event probability, simulate from it with a local seed, and name two assumptions whose failure would change the result. Then distinguish model probability, density, empirical frequency, and estimator uncertainty without using those words interchangeably.
 
-The next unit, [joint distributions, conditioning, and covariance](03-joint-distributions-conditioning-covariance.md), moves from one variable to several while keeping every calculation finite and inspectable.
+The next unit, [joint distributions, conditioning, and covariance](02-joint-distributions-conditioning-covariance.md), moves from one variable to several while keeping every calculation finite and inspectable.

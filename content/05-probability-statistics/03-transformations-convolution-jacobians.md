@@ -2,7 +2,7 @@
 id: math.probability.transformations-convolution-jacobians
 title: Transformations, convolution, and Jacobians
 prerequisites: [math.probability.joint-conditioning-covariance, math.calculus.gradients-optimization]
-estimated_hours: 24
+estimated_hours: 28
 ---
 
 # Transformations, convolution, and Jacobians
@@ -360,7 +360,70 @@ Independence makes covariance zero, but convolution of marginals requires the st
 >
 > **Practice — Stretch:** Audit a proposed normalizing-flow layer whose Jacobian determinant can be zero. Describe the mathematical and numerical consequences for likelihood evaluation.
 
-## 11. Runnable lab: discrete convolution
+## 11. Normalizing flows: the change of variables becomes a model
+
+Every ingredient of a modern density model is already on this page. A normalizing flow is nothing more than the multivariate change-of-variables formula, applied deliberately and stacked.
+
+**The construction.** Take a simple base density — a standard Gaussian \(p_Z\) — and an invertible, differentiable map \(f\) with \(x=f(z)\). The transformed density follows immediately from the Jacobian rule derived above:
+
+$$
+p_X(x)=p_Z\bigl(f^{-1}(x)\bigr)\,\left|\det\frac{\partial f^{-1}}{\partial x}\right| ,
+$$
+
+or, more usefully for fitting,
+
+$$
+\log p_X(x)=\log p_Z\bigl(f^{-1}(x)\bigr)+\log\left|\det\frac{\partial f^{-1}(x)}{\partial x}\right| .
+$$
+
+This is an **exact** log-likelihood, not a bound and not an approximation. You can train it by plain maximum likelihood, evaluate it on held-out data, and compare models by a real number — which is precisely what variational and energy-based approaches cannot do.
+
+**Composition.** Invertible maps compose, and determinants multiply, so for \(f=f_K\circ\cdots\circ f_1\),
+
+$$
+\log p_X(x)=\log p_Z(z)+\sum_{k=1}^K\log\left|\det\frac{\partial f_k^{-1}}{\partial u_k}\right| .
+$$
+
+Depth costs a sum of log-determinants. That is the whole design problem.
+
+**The determinant is the bottleneck.** A general \(d\times d\) determinant costs \(O(d^3)\), which is impossible at image or audio scale. Every flow architecture is an answer to "how do I get an expressive invertible map whose Jacobian determinant is cheap?" Two answers dominate:
+
+- **Triangular Jacobians.** If output coordinate \(i\) depends only on input coordinates \(\le i\), the Jacobian is triangular and its determinant is the product of the diagonal — \(O(d)\). Autoregressive flows are built exactly this way.
+- **Coupling layers.** Split \(z=(z_a,z_b)\). Leave \(z_a\) untouched and transform \(z_b\) by an affine map whose scale and shift are arbitrary functions of \(z_a\):
+
+$$
+x_a=z_a,
+\qquad
+x_b=z_b\odot\exp\bigl(s(z_a)\bigr)+t(z_a).
+$$
+
+The Jacobian is block-triangular with identity in one block, so
+
+$$
+\log\left|\det\frac{\partial x}{\partial z}\right|=\sum_i s_i(z_a),
+$$
+
+a plain sum of network outputs. The functions \(s\) and \(t\) may be arbitrarily complex neural networks — they are never inverted — while the layer as a whole stays exactly invertible. Alternating which half is transformed lets information mix.
+
+**Worked example — one affine coupling step.** Let \(d=2\), \(z=(1.0,\,2.0)\), \(s(z_a)=0.5z_a\) and \(t(z_a)=z_a\). Then \(x_a=1.0\) and
+
+$$
+x_b=2.0\cdot e^{0.5}+1.0\approx2.0\times1.6487+1.0=4.297 ,
+$$
+
+with \(\log|\det|=s(z_a)=0.5\). Inverting requires only \(z_b=(x_b-t(x_a))e^{-s(x_a)}\), using \(x_a=z_a\) — no network inversion anywhere.
+
+**What flows cost.** Invertibility forces the latent space to have the **same dimension** as the data, so a flow cannot compress; and the requirement that every layer be invertible constrains architecture far more than a free-form decoder. That is the trade: exact likelihoods and exact inversion in exchange for dimension preservation and architectural restriction.
+
+**Where else the same formula appears.** The instantaneous version of this identity — \(d\log p/dt=-\nabla\cdot f\) along a continuous flow — is what gives deterministic diffusion samplers an exact likelihood, and the discrete version here is the reason a Jacobian term shows up whenever a model reparameterizes its outputs. It is worth noticing that a change of variables is not a trick specific to flows; it is the single rule that governs how a density behaves under any invertible transformation, including the ones you apply during data preprocessing. Standardizing, log-transforming, or rescaling targets all change the density by a Jacobian factor, which is why likelihoods computed in different units are not comparable.
+
+> **Practice — Foundation:** Apply the coupling formula to \(z=(2.0,\,3.0)\) with \(s(z_a)=-0.5z_a\) and \(t(z_a)=1\), and report both \(x\) and the log-determinant.
+>
+> **Practice — Core:** Show that the Jacobian of an affine coupling layer is block-triangular, and derive the log-determinant expression. Then write the exact inverse.
+>
+> **Practice — Stretch:** A team compares a flow trained on raw pixel values in \([0,255]\) with one trained on values scaled to \([0,1]\) and reports that the second has far better log-likelihood. Explain the discrepancy quantitatively using the Jacobian of the rescaling, and state the correction that makes the numbers comparable.
+
+## 12. Runnable lab: discrete convolution
 
 Implement `discrete_convolution` in [labs/exercises.py](../../labs/exercises.py). Each input maps a finite numeric value to a nonnegative, possibly unnormalized weight. Return the normalized PMF of the sum of two independent draws.
 
@@ -376,7 +439,7 @@ The checks require scale invariance, sparse and overlapping sums, input preserva
 
 Convolve a fair-die PMF with itself repeatedly. After each addition, record the standardized sum distribution. Plot it and describe what changes in support, centre, spread, and shape. Do not invoke a limiting theorem yet; this experiment motivates the next unit.
 
-## 12. Derivations to own
+## 13. Derivations to own
 
 1. Derive a discrete transformed PMF from preimages.
 2. Derive \(Y=X^2\) for positive uniform \(X\) using the CDF method.
@@ -387,7 +450,7 @@ Convolve a fair-die PMF with itself repeatedly. After each addition, record the 
 7. Derive discrete and continuous convolution from a joint law.
 8. Explain why zero covariance is insufficient for convolution of marginals.
 
-## 13. End-of-unit practice (graded)
+## 14. End-of-unit practice (graded)
 
 **Foundation — problems 1–3.** Track support, preimages, and one-dimensional probability correctly.
 
@@ -431,4 +494,4 @@ Convolve a fair-die PMF with itself repeatedly. After each addition, record the 
 
 Given an unfamiliar transformation, determine its output support and inverse branches, derive its distribution using both a CDF and Jacobian where possible, verify normalization, and validate it by simulation. Given two finite PMFs, convolve them by hand and with code while stating exactly where independence is used.
 
-Next: [multivariate Gaussian geometry and conditioning](05-multivariate-gaussian-geometry.md).
+Next: [multivariate Gaussian geometry and conditioning](04-multivariate-gaussian-geometry.md).

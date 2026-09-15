@@ -13,7 +13,7 @@ This unit stays with finite tables and second moments so every operation remains
 
 ## 0. Prerequisite check
 
-You should be able to normalize a PMF, compute an expectation and variance, apply conditional probability to finite events, and explain why zero covariance need not imply independence. Review [random variables and distributions](02-random-variables-distributions.md) if those steps are not yet routine.
+You should be able to normalize a PMF, compute an expectation and variance, apply conditional probability to finite events, and explain why zero covariance need not imply independence. Review [random variables and distributions](01-random-variables-distributions.md) if those steps are not yet routine.
 
 ## 1. Joint mass describes combinations
 
@@ -507,4 +507,4 @@ Using the same input format:
 
 Given a new finite two-variable experiment, construct and normalize its joint table, derive marginals and conditionals, calculate a conditional expectation and covariance, verify total expectation or total variance, and identify the observational unit that carries dependence. Explain every result in plain language as well as notation.
 
-Next: [transformations, convolution, and Jacobians](04-transformations-convolution-jacobians.md).
+Next: [transformations, convolution, and Jacobians](03-transformations-convolution-jacobians.md).

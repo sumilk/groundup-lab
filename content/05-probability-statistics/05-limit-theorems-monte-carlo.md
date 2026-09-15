@@ -2,7 +2,7 @@
 id: math.probability.limit-theorems-monte-carlo
 title: Repeated samples, limit theorems, and Monte Carlo error
 prerequisites: [math.probability.random-variables-distributions, math.probability.joint-conditioning-covariance]
-estimated_hours: 24
+estimated_hours: 30
 ---
 
 # Repeated samples, limit theorems, and Monte Carlo error
@@ -474,7 +474,76 @@ Neither is automatically close to the true tail probability. Choose a bound by c
 >
 > **Practice — Stretch:** Find a regime where the numerical Chebyshev bound is smaller than the Hoeffding bound even though Hoeffding has exponential decay. Explain why “asymptotically sharper” need not mean smaller for every parameter choice.
 
-## 12. Heavy tails and robust summaries
+## 12. The Chernoff method generates every exponential bound
+
+Markov, Chebyshev, and Hoeffding look like three unrelated results. They are one method applied to three assumptions, and seeing that turns a list to memorize into a tool you can re-derive.
+
+**The method.** For any \(\lambda>0\), the event \(X\ge t\) is identical to \(e^{\lambda X}\ge e^{\lambda t}\). Markov applied to the nonnegative variable \(e^{\lambda X}\) gives
+
+$$
+P(X\ge t)\le\frac{E\bigl[e^{\lambda X}\bigr]}{e^{\lambda t}},
+\qquad\text{hence}\qquad
+P(X\ge t)\le\inf_{\lambda>0}e^{-\lambda t}E\bigl[e^{\lambda X}\bigr].
+$$
+
+Everything now depends on controlling the **moment generating function** \(E[e^{\lambda X}]\). Because the MGF of a sum of independent variables factorizes, the bound multiplies across observations — which is precisely where the exponential-in-\(n\) decay comes from. Chebyshev, by contrast, uses only a second moment and can never do better than polynomial decay.
+
+**Sub-Gaussian variables.** Say \(X\) with mean \(\mu\) is **\(\sigma\)-sub-Gaussian** when
+
+$$
+E\bigl[e^{\lambda(X-\mu)}\bigr]\le e^{\lambda^2\sigma^2/2}
+\qquad\text{for all }\lambda\in\mathbb R .
+$$
+
+The definition says: the MGF is no larger than a Gaussian's. Optimizing \(\lambda\) in the Chernoff bound then yields the Gaussian-shaped tail
+
+$$
+P\bigl(|X-\mu|\ge t\bigr)\le2\exp\!\left(-\frac{t^2}{2\sigma^2}\right).
+$$
+
+**Hoeffding is now a corollary.** Hoeffding's lemma states that a variable bounded in \([a,b]\) is \(\frac{b-a}2\)-sub-Gaussian. Averaging \(n\) independent such variables divides the sub-Gaussian parameter by \(\sqrt n\), and substituting into the display above reproduces exactly the inequality of the previous section. Bounded implies sub-Gaussian; the reverse is false, since a Gaussian is unbounded.
+
+**Bernstein: paying attention to the variance.** Hoeffding uses only the range, so it is wasteful whenever the variance is much smaller than the range — the common case for rare events. Bernstein's inequality, for independent observations with variance \(\sigma^2\) and \(|X_i-\mu|\le b\), gives
+
+$$
+P\bigl(|\bar X_n-\mu|\ge t\bigr)
+\le2\exp\!\left(-\frac{nt^2}{2\sigma^2+\tfrac23bt}\right).
+$$
+
+For small \(t\) the denominator is dominated by \(2\sigma^2\) and the bound is **Gaussian-like in the true variance**; for large \(t\) the \(bt\) term takes over and the decay becomes exponential rather than Gaussian.
+
+**Worked comparison — a rare event.** Let \(X_i\in[0,1]\) with true rate \(p=0.01\), so \(\sigma^2=p(1-p)=0.0099\). Take \(n=10{,}000\) and \(t=0.005\).
+
+- *Hoeffding:* \(2\exp(-2\times10^4\times2.5\times10^{-5})=2e^{-0.5}\approx1.21\), a vacuous bound.
+- *Bernstein:* denominator \(=2(0.0099)+\tfrac23(1)(0.005)=0.0198+0.00333=0.0231\), numerator \(=10^4\times2.5\times10^{-5}=0.25\), giving \(2\exp(-10.8)\approx4.1\times10^{-5}\).
+
+Hoeffding says nothing at all; Bernstein gives four decimal places of confidence. **When the variance is far below the squared range, always use a variance-aware bound.** This is the routine situation for click rates, error rates, and any evaluation metric measured on a rare failure mode.
+
+**Sub-exponential variables.** Squares of Gaussians — and therefore \(\chi^2\) variables, squared norms, and empirical variances — are not sub-Gaussian: their MGF is finite only for \(\lambda\) in a bounded interval. They are **sub-exponential**, and the resulting two-regime tail
+
+$$
+P\bigl(|\bar X_n-\mu|\ge t\bigr)\le2\exp\bigl(-cn\min(t,t^2)\bigr)
+$$
+
+is Gaussian for small deviations and exponential for large ones. This is the bound used for squared-norm concentration in [high-dimensional probability](12-high-dimensional-probability.md).
+
+**McDiarmid: beyond averages.** Everything above concerns sums. Many quantities of interest — the maximum, a quantile, a cross-validation estimate, the accuracy of a model fitted to the sample — are not sums. The **bounded-differences inequality** covers them. If \(f(x_1,\ldots,x_n)\) changes by at most \(c_i\) when coordinate \(i\) alone is changed, then for independent inputs
+
+$$
+P\bigl(|f-E[f]|\ge t\bigr)\le2\exp\!\left(-\frac{2t^2}{\sum_ic_i^2}\right).
+$$
+
+Taking \(f=\bar X_n\) with \(c_i=(b-a)/n\) recovers Hoeffding, so this is a strict generalization. Its real use is elsewhere: a held-out accuracy computed on \(n\) independent examples changes by at most \(1/n\) when one example changes, so it concentrates at the same rate as a mean even though the model was fitted. This is the standard entry point to generalization bounds — see [entropy, generalization, and decisions](../06-information-learning-decision/01-entropy-generalization-decisions.md).
+
+**The honest caveat.** Every bound here assumes independence, and independence is the assumption most often false in ML evaluation. With clustered or sequential data the effective sample size is smaller than \(n\), and all of these inequalities become optimistic by exactly that factor — the subject of the next sections.
+
+> **Practice — Foundation:** Derive the Chernoff form \(P(X\ge t)\le e^{-\lambda t}E[e^{\lambda X}]\) from Markov's inequality in two lines.
+>
+> **Practice — Core:** Optimize \(\lambda\) for a \(\sigma\)-sub-Gaussian variable and confirm the \(\exp(-t^2/2\sigma^2)\) tail. Then redo the worked rare-event comparison at \(p=0.001\) and report both bounds.
+>
+> **Practice — Stretch:** A leave-one-out cross-validation estimate is not a sum. State a bounded-difference constant for it under a stability assumption, apply McDiarmid, and explain precisely which assumption is doing the work and how it could fail for a high-capacity model.
+
+## 13. Heavy tails and robust summaries
 
 A heavy-tailed distribution places non-negligible probability far from its center. The practical issue is not merely that outliers look dramatic: the moments required by familiar guarantees may not exist.
 
@@ -509,7 +578,7 @@ Never delete extreme observations solely because they are inconvenient. First di
 >
 > **Practice — Stretch:** Construct a decision problem where the mean is essential despite heavy tails and another where a high quantile is the more relevant target. Justify both choices.
 
-## 13. Dependence changes the effective sample size
+## 14. Dependence changes the effective sample size
 
 For observations with common variance \(\sigma^2\) but possible dependence,
 
@@ -563,7 +632,7 @@ For clustered data, resample or aggregate at the independent unit: user, convers
 >
 > **Practice — Stretch:** Simulate an autocorrelated sequence, compare the iid standard error with a batch-means estimate, and study sensitivity to batch length and number of batches.
 
-## 14. Research and ML evaluation patterns
+## 15. Research and ML evaluation patterns
 
 Repeated-sample reasoning appears throughout AI work:
 
@@ -600,7 +669,7 @@ Before attaching an error bar, answer:
 >
 > **Practice — Stretch:** Write an uncertainty audit for a best-of-20-seeds result. Separate within-seed evaluation noise, seed variation, selection bias, and uncertainty about transfer to a new dataset.
 
-## 15. Runnable lab: batch-means standard error
+## 16. Runnable lab: batch-means standard error
 
 Implement **batch_means_standard_error** in [labs/exercises.py](../../labs/exercises.py). Given a finite numeric sequence and a positive batch size that divides its length into at least two batches, return:
 
@@ -625,7 +694,7 @@ Generate three sequences with the same marginal mean and variance:
 
 For several batch sizes, compare the naive iid standard error with the batch-means estimate. Repeat the entire experiment to learn which batch sizes are too short to absorb dependence and which leave too few batches for stable variance estimation.
 
-## 16. Derivations to own
+## 17. Derivations to own
 
 1. Derive the mean and variance of an iid sample mean.
 2. Prove the finite-variance weak law using Chebyshev.
@@ -638,7 +707,7 @@ For several batch sizes, compare the naive iid standard error with the batch-mea
 9. Derive the effective-sample-size expression from autocorrelations.
 10. Derive the variance of a paired estimator and state when pairing helps.
 
-## 17. End-of-unit practice (graded)
+## 18. End-of-unit practice (graded)
 
 **Foundation — problems 1–4.** Read sampling distributions and execute direct variance and approximation calculations.
 
@@ -686,4 +755,4 @@ For several batch sizes, compare the naive iid standard error with the batch-mea
 
 Given a repeated-sampling problem, identify the target, estimator, and independent unit; derive the estimator's mean and variance; state whether an LLN, CLT, or concentration result applies; quantify Monte Carlo error; and diagnose heavy-tail, dependence, stopping, or selection failures. Validate at least one analytic prediction with repeated simulation rather than one long run.
 
-Next: [estimation, likelihood, Fisher information, and asymptotics](07-estimation-likelihood-fisher.md).
+Next: [estimation, likelihood, Fisher information, and asymptotics](06-estimation-likelihood-fisher.md).

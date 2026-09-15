@@ -935,3 +935,191 @@ def bellman_backup(values, rewards, transitions, gamma):
             for reward, next_probs in zip(action_rewards, action_transitions))
         for action_rewards, action_transitions in zip(rewards, transitions)
     ]
+
+
+def projection_distortion(points, projection_dim, seed):
+    rows = [list(point) for point in points]
+    if len(rows) < 2:
+        raise ValueError("at least two points required")
+    width = len(rows[0])
+    if width == 0 or any(len(point) != width for point in rows):
+        raise ValueError("points must be nonempty and equally long")
+    for point in rows:
+        for value in point:
+            if isinstance(value, bool) or not isinstance(value, (int, float)):
+                raise ValueError("coordinates must be real numbers")
+            if not math.isfinite(value):
+                raise ValueError("coordinates must be finite")
+    if isinstance(projection_dim, bool) or not isinstance(projection_dim, int):
+        raise ValueError("projection_dim must be an integer")
+    if projection_dim <= 0:
+        raise ValueError("projection_dim must be positive")
+    generator = random.Random(seed)
+    scale = 1.0 / math.sqrt(projection_dim)
+    matrix = [
+        [generator.gauss(0.0, 1.0) * scale for _ in range(width)]
+        for _ in range(projection_dim)
+    ]
+    worst = 0.0
+    for first in range(len(rows) - 1):
+        for second in range(first + 1, len(rows)):
+            difference = [a - b for a, b in zip(rows[first], rows[second])]
+            original = sum(value * value for value in difference)
+            if original == 0.0:
+                raise ValueError("points must be distinct")
+            projected = 0.0
+            for row in matrix:
+                component = sum(a * b for a, b in zip(row, difference))
+                projected += component * component
+            worst = max(worst, abs(projected / original - 1.0))
+    return worst
+
+
+def expected_calibration_error(probabilities, outcomes, bin_count):
+    predictions = list(probabilities)
+    labels = list(outcomes)
+    if not predictions or len(predictions) != len(labels):
+        raise ValueError("probabilities and outcomes must be nonempty and equally long")
+    if isinstance(bin_count, bool) or not isinstance(bin_count, int) or bin_count <= 0:
+        raise ValueError("bin_count must be a positive integer")
+    for value in predictions:
+        if isinstance(value, bool) or not isinstance(value, (int, float)):
+            raise ValueError("probabilities must be real numbers")
+        if not math.isfinite(value) or value < 0.0 or value > 1.0:
+            raise ValueError("probabilities must lie in [0, 1]")
+    for value in labels:
+        if isinstance(value, bool) or not isinstance(value, int) or value not in (0, 1):
+            raise ValueError("outcomes must be integer zeros and ones")
+    totals = [0] * bin_count
+    prediction_sums = [0.0] * bin_count
+    label_sums = [0] * bin_count
+    for value, label in zip(predictions, labels):
+        index = min(int(value * bin_count), bin_count - 1)
+        totals[index] += 1
+        prediction_sums[index] += value
+        label_sums[index] += label
+    total = len(predictions)
+    error = 0.0
+    bins = []
+    for index in range(bin_count):
+        count = totals[index]
+        if count == 0:
+            continue
+        mean_probability = prediction_sums[index] / count
+        observed_rate = label_sums[index] / count
+        error += (count / total) * abs(mean_probability - observed_rate)
+        bins.append((count, mean_probability, observed_rate))
+    return error, bins
+
+
+def conformal_threshold(scores, alpha):
+    values = list(scores)
+    if not values:
+        raise ValueError("at least one calibration score required")
+    for value in values:
+        if isinstance(value, bool) or not isinstance(value, (int, float)):
+            raise ValueError("scores must be real numbers")
+        if not math.isfinite(value):
+            raise ValueError("scores must be finite")
+    if isinstance(alpha, bool) or not isinstance(alpha, (int, float)):
+        raise ValueError("alpha must be a real number")
+    if not math.isfinite(alpha) or alpha <= 0.0 or alpha >= 1.0:
+        raise ValueError("alpha must lie strictly inside (0, 1)")
+    count = len(values)
+    rank = math.ceil((count + 1) * (1.0 - alpha))
+    if rank > count:
+        raise ValueError("too few calibration scores for the requested coverage")
+    return sorted(values)[rank - 1]
+
+
+def gaussian_elbo_terms(reconstruction_log_likelihood, means, log_variances):
+    location = list(means)
+    log_scale = list(log_variances)
+    if not location or len(location) != len(log_scale):
+        raise ValueError("means and log_variances must be nonempty and equally long")
+    for value in (reconstruction_log_likelihood, *location, *log_scale):
+        if isinstance(value, bool) or not isinstance(value, (int, float)):
+            raise ValueError("inputs must be real numbers")
+        if not math.isfinite(value):
+            raise ValueError("inputs must be finite")
+    divergence = 0.0
+    for mean, log_variance in zip(location, log_scale):
+        divergence += math.exp(log_variance) + mean * mean - 1.0 - log_variance
+    divergence *= 0.5
+    return divergence, reconstruction_log_likelihood - divergence
+
+
+def gumbel_max_sample(log_weights, seed):
+    weights = list(log_weights)
+    if not weights:
+        raise ValueError("at least one log weight required")
+    for value in weights:
+        if isinstance(value, bool) or not isinstance(value, (int, float)):
+            raise ValueError("log weights must be real numbers")
+        if not math.isfinite(value):
+            raise ValueError("log weights must be finite")
+    generator = random.Random(seed)
+    best_index = 0
+    best_score = None
+    for index, weight in enumerate(weights):
+        uniform = 0.0
+        while uniform <= 0.0:
+            uniform = generator.random()
+        score = weight - math.log(-math.log(uniform))
+        if best_score is None or score > best_score:
+            best_index = index
+            best_score = score
+    return best_index
+
+
+def decode_distribution(logits, temperature, nucleus):
+    scores = list(logits)
+    if not scores:
+        raise ValueError("at least one logit required")
+    for value in scores:
+        if isinstance(value, bool) or not isinstance(value, (int, float)):
+            raise ValueError("logits must be real numbers")
+        if not math.isfinite(value):
+            raise ValueError("logits must be finite")
+    if isinstance(temperature, bool) or not isinstance(temperature, (int, float)):
+        raise ValueError("temperature must be a real number")
+    if not math.isfinite(temperature) or temperature <= 0.0:
+        raise ValueError("temperature must be positive")
+    if isinstance(nucleus, bool) or not isinstance(nucleus, (int, float)):
+        raise ValueError("nucleus must be a real number")
+    if not math.isfinite(nucleus) or nucleus <= 0.0 or nucleus > 1.0:
+        raise ValueError("nucleus must lie inside (0, 1]")
+    tempered = [value / temperature for value in scores]
+    largest = max(tempered)
+    weights = [math.exp(value - largest) for value in tempered]
+    total = sum(weights)
+    probabilities = [weight / total for weight in weights]
+    order = sorted(range(len(probabilities)), key=lambda i: (-probabilities[i], i))
+    kept = []
+    cumulative = 0.0
+    for index in order:
+        kept.append(index)
+        cumulative += probabilities[index]
+        if cumulative >= nucleus:
+            break
+    filtered = [0.0] * len(probabilities)
+    for index in kept:
+        filtered[index] = probabilities[index] / cumulative
+    return filtered
+
+
+def forward_diffusion_coefficients(betas):
+    schedule = list(betas)
+    if not schedule:
+        raise ValueError("at least one beta required")
+    for value in schedule:
+        if isinstance(value, bool) or not isinstance(value, (int, float)):
+            raise ValueError("betas must be real numbers")
+        if not math.isfinite(value) or value <= 0.0 or value >= 1.0:
+            raise ValueError("betas must lie strictly inside (0, 1)")
+    coefficients = []
+    running = 1.0
+    for value in schedule:
+        running *= 1.0 - value
+        coefficients.append((running, math.sqrt(running), math.sqrt(1.0 - running)))
+    return coefficients

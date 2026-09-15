@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="440" viewBox="0 0 1080 440" role="img" aria-labelledby="dd-title dd-desc">
+  <title id="dd-title">Diffusion noises data forward with a closed-form marginal and learns the reverse; decoding truncates and renormalizes a trained distribution</title>
+  <desc id="dd-desc">Top panel: a sequence of states from clean data to pure noise, with forward arrows labelled by the closed-form marginal that mixes a square-root alpha-bar times the data with a square-root one-minus-alpha-bar times Gaussian noise, and reverse arrows labelled by the learned noise prediction. Bottom panel: a bar chart of token probabilities sorted in descending order, with a nucleus cutoff line after the first few bars, the discarded tail greyed out, and the kept bars rescaled so that they sum to one.</desc>
+  <rect width="1080" height="440" rx="24" fill="#08111f"/>
+  <g font-family="system-ui">
+    <text x="540" y="38" text-anchor="middle" fill="#e8eef7" font-size="21">Two places a distribution gets changed on purpose</text>
+
+    <g>
+      <text x="60" y="78" fill="#e8eef7" font-size="17">Forward noising has a closed form; the reverse is learned</text>
+      <g>
+        <rect x="70" y="96" width="92" height="66" rx="10" fill="#50d2c2" fill-opacity=".55"/>
+        <rect x="290" y="96" width="92" height="66" rx="10" fill="#50d2c2" fill-opacity=".38"/>
+        <rect x="510" y="96" width="92" height="66" rx="10" fill="#50d2c2" fill-opacity=".22"/>
+        <rect x="730" y="96" width="92" height="66" rx="10" fill="#7aa2f7" fill-opacity=".18"/>
+        <rect x="930" y="96" width="92" height="66" rx="10" fill="#7aa2f7" fill-opacity=".45"/>
+      </g>
+      <g fill="#e8eef7" font-size="15" text-anchor="middle">
+        <text x="116" y="136">x₀</text><text x="336" y="136">x₁</text><text x="556" y="136">x₂</text>
+        <text x="776" y="136">…</text><text x="976" y="136">x_T</text>
+      </g>
+      <g stroke="#91a4bb" stroke-width="3" fill="none">
+        <path d="M170 118H282"/><path d="M390 118H502"/><path d="M610 118H722"/><path d="M830 118H922"/>
+      </g>
+      <g fill="#91a4bb">
+        <path d="M274 110L286 118L274 126"/><path d="M494 110L506 118L494 126"/>
+        <path d="M714 110L726 118L714 126"/><path d="M914 110L926 118L914 126"/>
+      </g>
+      <g stroke="#50d2c2" stroke-width="3" fill="none">
+        <path d="M282 148H170"/><path d="M502 148H390"/><path d="M722 148H610"/><path d="M922 148H830"/>
+      </g>
+      <g fill="#50d2c2">
+        <path d="M178 140L166 148L178 156"/><path d="M398 140L386 148L398 156"/>
+        <path d="M618 140L606 148L618 156"/><path d="M838 140L826 148L838 156"/>
+      </g>
+      <text x="60" y="196" fill="#91a4bb" font-size="15">forward: xₜ = √ᾱₜ·x₀ + √(1−ᾱₜ)·ε</text>
+      <text x="600" y="196" fill="#50d2c2" font-size="15">reverse: predict ε, which is the score</text>
+    </g>
+
+    <g>
+      <text x="60" y="252" fill="#e8eef7" font-size="17">Decoding keeps a nucleus and renormalizes</text>
+      <path d="M70 388H1010" stroke="#31445e" stroke-width="3"/>
+      <g fill="#50d2c2">
+        <rect x="86" y="268" width="56" height="120" rx="5"/>
+        <rect x="158" y="302" width="56" height="86" rx="5"/>
+        <rect x="230" y="326" width="56" height="62" rx="5"/>
+        <rect x="302" y="344" width="56" height="44" rx="5"/>
+      </g>
+      <g fill="#31445e">
+        <rect x="374" y="358" width="56" height="30" rx="5"/>
+        <rect x="446" y="366" width="56" height="22" rx="5"/>
+        <rect x="518" y="372" width="56" height="16" rx="5"/>
+        <rect x="590" y="376" width="56" height="12" rx="5"/>
+        <rect x="662" y="379" width="56" height="9" rx="5"/>
+        <rect x="734" y="381" width="56" height="7" rx="5"/>
+        <rect x="806" y="382" width="56" height="6" rx="5"/>
+        <rect x="878" y="383" width="56" height="5" rx="5"/>
+      </g>
+      <path d="M366 250V400" stroke="#e8eef7" stroke-width="3" stroke-dasharray="7 6"/>
+      <text x="366" y="240" text-anchor="middle" fill="#e8eef7" font-size="15">top-p cutoff</text>
+      <text x="220" y="418" text-anchor="middle" fill="#50d2c2" font-size="14">kept, then rescaled to sum to 1</text>
+      <text x="700" y="418" text-anchor="middle" fill="#91a4bb" font-size="14">tail discarded: this is no longer the model</text>
+    </g>
+  </g>
+</svg>

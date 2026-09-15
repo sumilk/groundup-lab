@@ -1100,6 +1100,149 @@ def bellman(m):
     close(values[1], 4)
 
 
+def projection(m):
+    generator = random.Random(11)
+    points = [[generator.gauss(0.0, 1.0) for _ in range(40)] for _ in range(6)]
+    base = m.projection_distortion(points, 16, 5)
+    assert base >= 0.0
+    close(m.projection_distortion(points, 16, 5), base)
+    scaled = [[3.5 * value for value in point] for point in points]
+    close(m.projection_distortion(scaled, 16, 5), base)
+    shifted = [[value + 2.0 for value in point] for point in points]
+    close(m.projection_distortion(shifted, 16, 5), base)
+    assert m.projection_distortion(points, 2048, 5) < base
+    for bad in ([], [[1.0, 2.0]], [[1.0], [1.0, 2.0]], [[1.0, 0.0], [1.0, 0.0]]):
+        try:
+            m.projection_distortion(bad, 8, 1)
+        except ValueError:
+            continue
+        raise AssertionError("invalid projection input should be rejected")
+    for dim in (0, -3):
+        try:
+            m.projection_distortion(points, dim, 1)
+        except ValueError:
+            continue
+        raise AssertionError("invalid projection dimension should be rejected")
+
+
+def calibration(m):
+    error, bins = m.expected_calibration_error([0.1, 0.2, 0.6, 0.9], [0, 0, 1, 1], 2)
+    close(error, 0.2)
+    assert len(bins) == 2
+    close(bins[0][0], 2); close(bins[0][1], 0.15); close(bins[0][2], 0.0)
+    close(bins[1][0], 2); close(bins[1][1], 0.75); close(bins[1][2], 1.0)
+    edge, edge_bins = m.expected_calibration_error([1.0], [1], 4)
+    close(edge, 0.0)
+    assert len(edge_bins) == 1 and edge_bins[0][0] == 1
+    perfect, _ = m.expected_calibration_error([0.25, 0.75], [0, 1], 2)
+    close(perfect, 0.5 * 0.25 + 0.5 * 0.25)
+    bad = ([], [], 2), ([0.5], [], 2), ([1.5], [1], 2), ([0.5], [2], 2), ([0.5], [1], 0)
+    for probabilities, outcomes, count in bad:
+        try:
+            m.expected_calibration_error(probabilities, outcomes, count)
+        except ValueError:
+            continue
+        raise AssertionError("invalid calibration input should be rejected")
+
+
+def conformal(m):
+    scores = [5.0, 1.0, 4.0, 2.0, 3.0]
+    close(m.conformal_threshold(scores, 0.5), 3.0)
+    close(m.conformal_threshold(scores, 0.2), 5.0)
+    close(m.conformal_threshold([7.0], 0.5), 7.0)
+    for alpha in (0.1, 0.0, 1.0, -0.2):
+        try:
+            m.conformal_threshold(scores, alpha)
+        except ValueError:
+            continue
+        raise AssertionError("infeasible or invalid alpha should be rejected")
+    for bad in ([], [float("nan")], [float("inf")]):
+        try:
+            m.conformal_threshold(bad, 0.5)
+        except ValueError:
+            continue
+        raise AssertionError("invalid conformal scores should be rejected")
+
+
+def elbo_terms(m):
+    divergence, bound = m.gaussian_elbo_terms(-12.0, [0.0, 0.0], [0.0, 0.0])
+    close(divergence, 0.0)
+    close(bound, -12.0)
+    divergence, bound = m.gaussian_elbo_terms(-3.0, [2.0], [math.log(0.25)])
+    close(divergence, 0.5 * (0.25 + 4.0 - 1.0 - math.log(0.25)))
+    close(bound, -3.0 - divergence)
+    paired, _ = m.gaussian_elbo_terms(0.0, [1.0, 1.0], [0.0, 0.0])
+    single, _ = m.gaussian_elbo_terms(0.0, [1.0], [0.0])
+    close(paired, 2.0 * single)
+    bad = (-1.0, [], []), (-1.0, [0.0], [0.0, 0.0]), (float("nan"), [0.0], [0.0]), (-1.0, [float("inf")], [0.0])
+    for reconstruction, means, log_variances in bad:
+        try:
+            m.gaussian_elbo_terms(reconstruction, means, log_variances)
+        except ValueError:
+            continue
+        raise AssertionError("invalid ELBO input should be rejected")
+
+
+def gumbel(m):
+    assert m.gumbel_max_sample([0.0, 1.0, 2.0], 7) == m.gumbel_max_sample([0.0, 1.0, 2.0], 7)
+    shifted = m.gumbel_max_sample([10.0, 11.0, 12.0], 7)
+    assert m.gumbel_max_sample([0.0, 1.0, 2.0], 7) == shifted
+    for seed in range(20):
+        assert m.gumbel_max_sample([0.0, 100.0], seed) == 1
+    assert m.gumbel_max_sample([5.0], 3) == 0
+    hits = sum(m.gumbel_max_sample([0.0, 1.0], seed) for seed in range(4000))
+    target = math.exp(1.0) / (1.0 + math.exp(1.0))
+    assert abs(hits / 4000 - target) < 0.04, hits / 4000
+    for bad in ([], [float("nan")], [0.0, float("inf")]):
+        try:
+            m.gumbel_max_sample(bad, 1)
+        except ValueError:
+            continue
+        raise AssertionError("invalid Gumbel input should be rejected")
+
+
+def decoding(m):
+    uniform = m.decode_distribution([0.0, 0.0, 0.0, 0.0], 1.0, 0.5)
+    close(uniform[0], 0.5); close(uniform[1], 0.5)
+    close(uniform[2], 0.0); close(uniform[3], 0.0)
+    full = m.decode_distribution([0.0, math.log(3.0)], 1.0, 1.0)
+    close(full[0], 0.25); close(full[1], 0.75)
+    warm = m.decode_distribution([0.0, math.log(3.0)], 2.0, 1.0)
+    root = math.sqrt(3.0)
+    close(warm[0], 1.0 / (1.0 + root)); close(warm[1], root / (1.0 + root))
+    shifted = m.decode_distribution([10.0, 10.0 + math.log(3.0)], 1.0, 1.0)
+    close(shifted[0], 0.25); close(shifted[1], 0.75)
+    close(sum(m.decode_distribution([3.0, 1.0, 0.5], 0.7, 0.9)), 1.0)
+    bad = ([], 1.0, 0.5), ([float("nan")], 1.0, 0.5), ([0.0], 0.0, 0.5), ([0.0], 1.0, 0.0), ([0.0], 1.0, 1.5)
+    for values, temperature, nucleus in bad:
+        try:
+            m.decode_distribution(values, temperature, nucleus)
+        except ValueError:
+            continue
+        raise AssertionError("invalid decoding input should be rejected")
+
+
+def diffusion(m):
+    coefficients = m.forward_diffusion_coefficients([0.5, 0.5])
+    assert len(coefficients) == 2
+    close(coefficients[0][0], 0.5)
+    close(coefficients[0][1], math.sqrt(0.5))
+    close(coefficients[0][2], math.sqrt(0.5))
+    close(coefficients[1][0], 0.25)
+    close(coefficients[1][1], 0.5)
+    close(coefficients[1][2], math.sqrt(0.75))
+    for alpha_bar, signal, noise in m.forward_diffusion_coefficients([0.1, 0.2, 0.3]):
+        close(signal * signal + noise * noise, 1.0)
+    decreasing = [step[0] for step in m.forward_diffusion_coefficients([0.05] * 5)]
+    assert all(later < earlier for earlier, later in zip(decreasing, decreasing[1:]))
+    for bad in ([], [0.0], [1.0], [-0.2], [float("nan")]):
+        try:
+            m.forward_diffusion_coefficients(bad)
+        except ValueError:
+            continue
+        raise AssertionError("invalid beta schedule should be rejected")
+
+
 CHECKS = {"moments": moments, "conditional": conditional,
           "categorical": categorical, "joint": joint,
           "convolution": convolution, "gaussian": gaussian,
@@ -1119,6 +1262,13 @@ CHECKS = {"moments": moments, "conditional": conditional,
           "simple-ols": simple_ols,
           "logistic-gradient": logistic_gradient,
           "partial-pooling": partial_pooling,
+          "projection": projection,
+          "calibration": calibration,
+          "conformal": conformal,
+          "elbo-terms": elbo_terms,
+          "gumbel": gumbel,
+          "decoding": decoding,
+          "diffusion": diffusion,
           "search": search, "softmax": softmax,
           "bigram": bigram, "attention": attention, "bellman": bellman}
 

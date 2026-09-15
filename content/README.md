@@ -1,6 +1,6 @@
 # GroundUp Lab — theory and practice
 
-The repository now has **37 authored lessons across 14 tracks**, with linear algebra and optimization as separate tracks. This is an initial cross-curriculum release, **not complete coverage**. Each track has substantial expansion work remaining. Depth labels are targets and have not been independently verified.
+The repository now has **40 authored lessons across 14 tracks**, with linear algebra, optimization, and probability/statistics as separate tracks. This is an initial cross-curriculum release, **not complete coverage**. Each track has substantial expansion work remaining. Depth labels are targets and have not been independently verified.
 
 ## Start here
 
@@ -34,18 +34,21 @@ Attempt these prompts before continuing. The end-of-unit practice set then mixes
 | 03 Optimization | [Constrained, composite and distributed optimization](03-optimization/07-constrained-composite-distributed-optimization.md) |
 | 04 DSA | [Invariants, search, graphs, and DP](04-dsa/01-invariants-search-graphs-dp.md) |
 | 05 Probability and statistics | [Probability foundations from finite events](05-probability-statistics/00-probability-foundations.md) |
-| 05 Probability and statistics | [Optional inference and uncertainty overview](05-probability-statistics/01-inference-estimation-uncertainty.md) |
-| 05 Probability and statistics | [Random variables, distributions, moments, and simulation](05-probability-statistics/02-random-variables-distributions.md) |
-| 05 Probability and statistics | [Joint distributions, conditioning, and covariance](05-probability-statistics/03-joint-distributions-conditioning-covariance.md) |
-| 05 Probability and statistics | [Transformations, convolution, and Jacobians](05-probability-statistics/04-transformations-convolution-jacobians.md) |
-| 05 Probability and statistics | [Multivariate Gaussian geometry and conditioning](05-probability-statistics/05-multivariate-gaussian-geometry.md) |
-| 05 Probability and statistics | [Repeated samples, limit theorems, and Monte Carlo error](05-probability-statistics/06-limit-theorems-monte-carlo.md) |
-| 05 Probability and statistics | [Estimation, likelihood, Fisher information, and asymptotics](05-probability-statistics/07-estimation-likelihood-fisher.md) |
-| 05 Probability and statistics | [Hypothesis testing, confidence intervals, power, and multiple comparisons](05-probability-statistics/08-hypothesis-testing-confidence-power.md) |
-| 05 Probability and statistics | [Bootstrap, permutation tests, sequential inference, and experimental design](05-probability-statistics/09-resampling-sequential-experimental-design.md) |
-| 05 Probability and statistics | [Bayesian modeling, posterior prediction, importance sampling, and MCMC](05-probability-statistics/10-bayesian-modeling-computation.md) |
-| 05 Probability and statistics | [Sampling design, dataset construction, and rigorous ML evaluation](05-probability-statistics/11-sampling-design-ml-evaluation.md) |
-| 05 Probability and statistics | [Exponential families, statistical regression, GLMs, and partial pooling](05-probability-statistics/12-exponential-families-regression-glms.md) |
+| 05 Probability and statistics | [Random variables, distributions, moments, and simulation](05-probability-statistics/01-random-variables-distributions.md) |
+| 05 Probability and statistics | [Joint distributions, conditioning, and covariance](05-probability-statistics/02-joint-distributions-conditioning-covariance.md) |
+| 05 Probability and statistics | [Transformations, convolution, and Jacobians](05-probability-statistics/03-transformations-convolution-jacobians.md) |
+| 05 Probability and statistics | [Multivariate Gaussian geometry and conditioning](05-probability-statistics/04-multivariate-gaussian-geometry.md) |
+| 05 Probability and statistics | [Repeated samples, limit theorems, and Monte Carlo error](05-probability-statistics/05-limit-theorems-monte-carlo.md) |
+| 05 Probability and statistics | [Estimation, likelihood, Fisher information, and asymptotics](05-probability-statistics/06-estimation-likelihood-fisher.md) |
+| 05 Probability and statistics | [Hypothesis testing, confidence intervals, power, and multiple comparisons](05-probability-statistics/07-hypothesis-testing-confidence-power.md) |
+| 05 Probability and statistics | [Bootstrap, permutation tests, sequential inference, and experimental design](05-probability-statistics/08-resampling-sequential-experimental-design.md) |
+| 05 Probability and statistics | [Bayesian modeling, posterior prediction, importance sampling, and MCMC](05-probability-statistics/09-bayesian-modeling-computation.md) |
+| 05 Probability and statistics | [Sampling design, dataset construction, and rigorous ML evaluation](05-probability-statistics/10-sampling-design-ml-evaluation.md) |
+| 05 Probability and statistics | [Exponential families, statistical regression, GLMs, and partial pooling](05-probability-statistics/11-exponential-families-regression-glms.md) |
+| 05 Probability and statistics | [High-dimensional probability, random vectors, and projections](05-probability-statistics/12-high-dimensional-probability.md) |
+| 05 Probability and statistics | [Calibration, proper scoring rules, and conformal prediction](05-probability-statistics/13-calibration-scoring-conformal.md) |
+| 05 Probability and statistics | [Latent variables, the ELBO, and gradient estimators](05-probability-statistics/14-latent-variables-elbo-gradient-estimators.md) |
+| 05 Probability and statistics | [Score matching, diffusion, and sampling from generative models](05-probability-statistics/15-score-matching-diffusion-sampling.md) |
 | 06 Information, learning, and decisions | [Entropy, generalization, and decisions](06-information-learning-decision/01-entropy-generalization-decisions.md) |
 | 07 Classical ML | [Regression, classification, evaluation](07-classical-ml/01-regression-classification-evaluation.md) |
 | 08 PyTorch | [Tensors, autograd, training](08-pytorch/01-tensors-autograd-training.md) |

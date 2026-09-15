@@ -237,3 +237,93 @@ def bellman_backup(values, rewards, transitions, gamma):
     Valid finite tabular MDP, 0 <= gamma < 1. Return updated values.
     """
     raise NotImplementedError("Take expectations over next states, maximize actions")
+
+
+def projection_distortion(points, projection_dim, seed):
+    """Return the largest relative squared-distance distortion of a random projection.
+
+    Build a projection matrix with projection_dim rows and iid normal entries of
+    variance 1 / projection_dim, then return the maximum over distinct pairs of
+    abs(projected_squared_distance / original_squared_distance - 1).
+
+    Require at least two points, equal point lengths, finite coordinates, a
+    positive integer projection_dim, and distinct points. Draw randomness from a
+    local random.Random(seed) so results are reproducible and global state is
+    untouched.
+    """
+    raise NotImplementedError("Project every pairwise difference and compare squared lengths")
+
+
+def expected_calibration_error(probabilities, outcomes, bin_count):
+    """Return (ece, bins) for equal-width calibration bins over [0, 1].
+
+    bins lists (count, mean_probability, observed_rate) for each nonempty bin in
+    ascending bin order. ECE is the count-weighted mean absolute gap between a
+    bin's mean predicted probability and its observed rate.
+
+    Require equal-length nonempty inputs, probabilities inside [0, 1], integer
+    zero/one outcomes, and a positive integer bin_count. A probability of exactly
+    1.0 belongs to the final bin.
+    """
+    raise NotImplementedError("Bin the probabilities, then compare mean prediction with observed rate")
+
+
+def conformal_threshold(scores, alpha):
+    """Return the split-conformal threshold for miscoverage level alpha.
+
+    With n scores, the threshold is the ceil((n + 1) * (1 - alpha))-th smallest
+    score. Require a nonempty iterable of finite real scores and alpha strictly
+    inside (0, 1). Raise ValueError when the required rank exceeds n, because no
+    finite threshold can then guarantee coverage.
+    """
+    raise NotImplementedError("Order the scores and take the rank that exchangeability demands")
+
+
+def gaussian_elbo_terms(reconstruction_log_likelihood, means, log_variances):
+    """Return (kl, elbo) for a diagonal Gaussian posterior against a standard normal prior.
+
+    The KL is the closed form 0.5 * sum(exp(lv) + mu ** 2 - 1 - lv) over
+    coordinates, and the ELBO is the reconstruction log-likelihood minus that KL.
+
+    Require nonempty, equally long, finite means and log_variances, and a finite
+    real reconstruction log-likelihood.
+    """
+    raise NotImplementedError("Sum the closed-form Gaussian KL, then subtract it from the reconstruction")
+
+
+def gumbel_max_sample(log_weights, seed):
+    """Return a categorical index drawn by the Gumbel-max trick.
+
+    Draw one uniform per category in index order from a local random.Random(seed),
+    convert each to a standard Gumbel by -log(-log(u)), add it to the matching
+    log weight, and return the maximizing index. Ties resolve to the lower index.
+
+    Require a nonempty list of finite real log weights.
+    """
+    raise NotImplementedError("Perturb each log weight with Gumbel noise and take the argmax")
+
+
+def decode_distribution(logits, temperature, nucleus):
+    """Return nucleus-filtered, temperature-scaled probabilities in input order.
+
+    Divide the logits by temperature, convert to probabilities with a stable
+    softmax, sort descending, keep the shortest prefix whose cumulative mass
+    reaches nucleus, zero the rest, and renormalize the kept entries. Ties in
+    probability resolve toward the lower index.
+
+    Require nonempty finite logits, a finite positive temperature, and nucleus
+    inside (0, 1].
+    """
+    raise NotImplementedError("Temper the logits, keep the nucleus, then renormalize")
+
+
+def forward_diffusion_coefficients(betas):
+    """Return per-step (alpha_bar, sqrt(alpha_bar), sqrt(1 - alpha_bar)).
+
+    With alpha_t = 1 - beta_t and alpha_bar_t the running product, these are the
+    coefficients of the closed-form marginal x_t = sqrt(alpha_bar_t) * x_0 plus
+    sqrt(1 - alpha_bar_t) * noise.
+
+    Require a nonempty schedule with every beta strictly inside (0, 1).
+    """
+    raise NotImplementedError("Accumulate the product of one minus beta, then take square roots")

@@ -2,7 +2,7 @@
 id: math.statistics.exponential-families-regression-glms
 title: Exponential families, statistical regression, GLMs, and partial pooling
 prerequisites: [math.statistics.sampling-design-ml-evaluation, math.linear-algebra.projections-least-squares]
-estimated_hours: 46
+estimated_hours: 50
 ---
 
 # Exponential families, statistical regression, GLMs, and partial pooling
@@ -109,7 +109,7 @@ or equivalently \((\bar X,\sum_i(X_i-\bar X)^2)\). The sample mean alone loses i
 
 > **Practice — Foundation:** Explain why the complete sample is sufficient but usually not minimal.
 >
-> **Practice — Core:** Factor the Gaussian likelihood with known variance and show that \(sum_iX_i\) is sufficient for \(\mu\).
+> **Practice — Core:** Factor the Gaussian likelihood with known variance and show that \(\sum_iX_i\) is sufficient for \(\mu\).
 >
 > **Practice — Stretch:** Determine whether a fixed-dimensional sufficient statistic can preserve an arbitrary iid density family, and explain what this suggests about model structure.
 
@@ -137,7 +137,7 @@ p_\eta(y_{1:n})
 \exp\!\left(\eta^T\sum_iT(y_i)-nA(\eta)\right),
 $$
 
-so \(sum_iT(Y_i)\) is sufficient for \(\eta\).
+so \(\sum_iT(Y_i)\) is sufficient for \(\eta\).
 
 Common one-parameter examples are:
 
@@ -180,7 +180,7 @@ $$
 \nabla^2 A(\eta)=\operatorname{Cov}_\eta(T(Y)).
 $$
 
-The Hessian is positive semidefinite, so \(A\) is convex. Natural parameters \(\eta\) and mean parameters \(mu_T=E[T(Y)]\) are related by the gradient map. Curvature measures uncertainty and also supplies Fisher information.
+The Hessian is positive semidefinite, so \(A\) is convex. Natural parameters \(\eta\) and mean parameters \(\mu_T=E[T(Y)]\) are related by the gradient map. Curvature measures uncertainty and also supplies Fisher information.
 
 ![The log-partition function maps natural parameters to moments and curvature.](../assets/exponential-family-map.svg)
 
@@ -486,8 +486,8 @@ Do not confuse precision weights with sampling or inverse-propensity weights. Pr
 A generalized linear model (GLM) specifies:
 
 1. an exponential-family conditional distribution for \(Y_i\mid x_i\);
-2. a linear predictor \(eta_i=x_i^T\beta\);
-3. a link \(g\) connecting the conditional mean \(mu_i=E[Y_i\mid x_i]\) to the predictor:
+2. a linear predictor \(\eta_i=x_i^T\beta\);
+3. a link \(g\) connecting the conditional mean \(\mu_i=E[Y_i\mid x_i]\) to the predictor:
 
 $$
 g(\mu_i)=\eta_i.
@@ -573,7 +573,49 @@ Evaluate probabilistic predictions with proper losses and calibration, not only 
 >
 > **Practice — Stretch:** Show numerically why a constant log-odds effect is not a constant risk difference across subgroups with different baselines.
 
-## 15. Poisson regression models rates through exposure
+## 15. Bradley–Terry turns pairwise preferences into a logistic model
+
+Logistic regression models a binary outcome given covariates. Replace "did the event occur" with "did item \(i\) beat item \(j\)" and the same machinery becomes the standard model for preference data — the likelihood behind reward models, arena leaderboards, and every head-to-head evaluation in AI research.
+
+**The model.** Give each item a latent strength \(\theta_i\). The Bradley–Terry model says
+
+$$
+P(i\succ j)=\frac{e^{\theta_i}}{e^{\theta_i}+e^{\theta_j}}
+=\sigma(\theta_i-\theta_j),
+$$
+
+with \(\sigma\) the logistic function. Read that second form carefully: **Bradley–Terry is logistic regression with a design matrix of \(+1\), \(-1\), and zeros.** For a comparison between \(i\) and \(j\), the covariate vector has \(+1\) in position \(i\), \(-1\) in position \(j\), and zeros elsewhere; the coefficient vector is \(\theta\). Everything in the previous section applies unchanged: the log-odds are linear, the Bernoulli information is \(\sigma(1-\sigma)\), and fitting is iteratively reweighted least squares.
+
+**Identifiability.** Only differences \(\theta_i-\theta_j\) enter the likelihood, so \(\theta\) and \(\theta+c\mathbf1\) give identical probabilities. The parameter is identified only up to an additive constant, exactly the non-identifiability discussed for sufficiency earlier in this lesson. Fix it by pinning one item to zero or by constraining \(\sum_i\theta_i=0\). Reporting "model A scored 1183" is meaningless without stating the constraint and the reference set.
+
+**Worked example.** Suppose \(\hat\theta_A-\hat\theta_B=0.7\). Then
+
+$$
+P(A\succ B)=\sigma(0.7)=\frac1{1+e^{-0.7}}\approx0.668 .
+$$
+
+A strength difference of \(0.7\) log-odds is a \(67\%\) win rate, not a \(70\%\) one — the logistic link is not the identity, and reading coefficient differences as probabilities is a common error.
+
+**Information and design.** From the logistic Fisher information, a comparison between \(i\) and \(j\) contributes \(\sigma(1-\sigma)\) to the information about \(\theta_i-\theta_j\), which is maximized at \(\sigma=1/2\) — that is, when the two items are **evenly matched**. Comparisons between a strong and a hopeless item carry almost no information. This is the statistical justification for adaptive matchmaking in evaluation arenas, and it is also the reason a leaderboard built from random pairings is far less efficient than its sample size suggests.
+
+**Ties and multiple comparisons.** Basic Bradley–Terry has no tie category; extensions (Davidson, or an ordinal model) add one. Dropping ties instead is a selection decision and biases strengths toward whichever items tie less often.
+
+**Where it breaks, and this matters for AI evaluation.**
+
+- **Non-transitivity.** The model forces a total order. If A beats B, B beats C, and C beats A systematically, no \(\theta\) fits, and the estimate will average the cycle away without warning. Test by comparing observed win rates against fitted ones on triads.
+- **Rater dependence.** Multiple judgments from one rater, or one prompt, are clustered. Standard errors must use cluster-robust or bootstrap-by-rater methods, exactly as established earlier in this lesson; treating each comparison as independent understates uncertainty, often by a large factor.
+- **Position and verbosity bias.** If judges prefer the first-shown or longer response, that effect is a covariate, not noise. Add it to the design matrix and estimate it — the model already accommodates extra columns.
+- **Nonstationary populations.** Strengths estimated against one opponent pool do not transfer to another. A rating is relative to the field.
+
+The practical recommendation: report strengths with a stated constraint, cluster-robust intervals, an explicit tie policy, and a non-transitivity check. A leaderboard without those is a point estimate with unknown uncertainty.
+
+> **Practice — Foundation:** Compute \(P(i\succ j)\) for \(\theta_i-\theta_j\in\{0,0.5,2\}\).
+>
+> **Practice — Core:** Write the design matrix for four items and five recorded comparisons, then state why the columns are linearly dependent and which constraint removes it.
+>
+> **Practice — Stretch:** A leaderboard uses 40,000 comparisons from 300 raters and reports \(\pm4\) rating-point intervals. Estimate how the interval changes under rater-level clustering with a plausible intraclass correlation, and design a matchmaking policy that maximizes information per comparison while keeping the estimates identifiable.
+
+## 16. Poisson regression models rates through exposure
 
 For a count \(Y_i\geq0\), Poisson regression uses
 
@@ -607,7 +649,7 @@ substantially above one signals that model-based Poisson uncertainty is too smal
 >
 > **Practice — Stretch:** Construct three distinct mechanisms producing overdispersion and propose a different model or variance correction for each.
 
-## 16. GLM fitting is repeated local weighted least squares
+## 17. GLM fitting is repeated local weighted least squares
 
 For canonical GLMs, log likelihood is concave in \(\beta\) when the design is well behaved. Newton's update is
 
@@ -637,7 +679,7 @@ In completely separated logistic data, likelihood approaches its supremum as som
 >
 > **Practice — Stretch:** Simulate increasingly separated data and compare unpenalized and penalized coefficient paths, calibration, and uncertainty.
 
-## 17. Deviance and residuals compare fitted distributions
+## 18. Deviance and residuals compare fitted distributions
 
 For a fitted GLM, the **saturated model** gives each observation enough freedom to reproduce its outcome. Deviance compares fitted log likelihood with saturated log likelihood:
 
@@ -666,7 +708,7 @@ Predictive model comparison asks a different question. Cross-validated log loss 
 >
 > **Practice — Stretch:** Give two cases where a chi-squared deviance-difference reference is unreliable and propose a better evaluation.
 
-## 18. Mixed-effects models represent group variation and partial pooling
+## 19. Mixed-effects models represent group variation and partial pooling
 
 Rows in AI research are often nested: outputs within prompts, prompts within tasks, users within organizations, or checkpoints within training runs. A random-intercept model is
 
@@ -705,7 +747,7 @@ Maximum likelihood estimates fixed effects and variance components jointly. Rest
 >
 > **Practice — Stretch:** Design a crossed random-effects model for model outputs scored by both prompts and raters, stating the population represented by each random factor.
 
-## 19. A disciplined regression workflow for AI research
+## 20. A disciplined regression workflow for AI research
 
 ### Before fitting
 
@@ -739,7 +781,7 @@ Maximum likelihood estimates fixed effects and variance components jointly. Rest
 >
 > **Practice — Stretch:** Audit a model-comparison paper whose rows are completions but whose claimed population is tasks; redesign its model, uncertainty, and split.
 
-## 20. Runnable labs
+## 21. Runnable labs
 
 This chapter has three coding exercises. Each opens as a separate tab in the lesson's right-hand Python workspace.
 
@@ -794,7 +836,7 @@ The checks cover no heterogeneity, noiseless observations, unequal group sizes, 
 6. Simulate Poisson rates with unequal exposure, then add latent rate heterogeneity and diagnose overdispersion.
 7. Vary group sizes and variance ratios to visualize partial-pooling weights and new-group predictive uncertainty.
 
-## 21. Derivations to own
+## 22. Derivations to own
 
 1. Prove Bernoulli sufficiency both by factorization and by conditional distribution.
 2. Apply the likelihood-ratio criterion for minimal sufficiency.
@@ -812,7 +854,7 @@ The checks cover no heterogeneity, noiseless observations, unequal group sizes, 
 14. Derive Poisson deviance and its zero-count convention.
 15. Derive normal-normal partial pooling and the random-intercept intraclass correlation.
 
-## 22. End-of-unit practice (graded)
+## 23. End-of-unit practice (graded)
 
 **Foundation — problems 1–7.** Recognize likelihood structure and compute direct regression quantities.
 

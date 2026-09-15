@@ -15,26 +15,26 @@ In the theory reader, select the linked exercise inside a lesson to open its run
 |---|---|---|
 | moments | [Python](../content/01-python/01-python-memory-iteration.md) | Stable one-pass statistics |
 | conditional | [Probability foundations](../content/05-probability-statistics/00-probability-foundations.md) | Exact conditioning on a finite sample space |
-| categorical | [Random variables and distributions](../content/05-probability-statistics/02-random-variables-distributions.md) | Reproducible inverse-CDF sampling from weights |
-| joint | [Joint distributions and covariance](../content/05-probability-statistics/03-joint-distributions-conditioning-covariance.md) | Marginalization and covariance on sparse finite support |
-| convolution | [Transformations and Jacobians](../content/05-probability-statistics/04-transformations-convolution-jacobians.md) | Exact convolution of sparse finite PMFs |
-| gaussian | [Multivariate Gaussian geometry](../content/05-probability-statistics/05-multivariate-gaussian-geometry.md) | Conditional Gaussian mean and uncertainty |
-| monte-carlo | [Repeated samples and Monte Carlo error](../content/05-probability-statistics/06-limit-theorems-monte-carlo.md) | Dependence-aware uncertainty from contiguous batch means |
-| bernoulli-mle | [Estimation and likelihood](../content/05-probability-statistics/07-estimation-likelihood-fisher.md) | Boundary-safe Bernoulli MLE and plug-in uncertainty |
-| binomial-test | [Hypothesis testing and confidence intervals](../content/05-probability-statistics/08-hypothesis-testing-confidence-power.md) | Exact binomial tails and an interval obtained by inversion |
-| bh-fdr | [Hypothesis testing and multiple comparisons](../content/05-probability-statistics/08-hypothesis-testing-confidence-power.md) | Benjamini–Hochberg decisions and adjusted p-values |
-| bootstrap | [Bootstrap and experimental design](../content/05-probability-statistics/09-resampling-sequential-experimental-design.md) | Seeded bootstrap standard error and percentile interval |
-| permutation | [Permutation tests and randomization](../content/05-probability-statistics/09-resampling-sequential-experimental-design.md) | Exact paired sign-flip test |
-| e-process | [Sequential inference](../content/05-probability-statistics/09-resampling-sequential-experimental-design.md) | Bernoulli likelihood-ratio e-process and anytime p-value |
-| beta-update | [Bayesian modeling and computation](../content/05-probability-statistics/10-bayesian-modeling-computation.md) | Conjugate Beta–Bernoulli updating and prediction |
-| importance | [Bayesian modeling and computation](../content/05-probability-statistics/10-bayesian-modeling-computation.md) | Stable self-normalized importance weighting and ESS |
-| metropolis | [Bayesian modeling and computation](../content/05-probability-statistics/10-bayesian-modeling-computation.md) | Log-space random-walk Metropolis sampling |
-| stratified | [Sampling design and rigorous ML evaluation](../content/05-probability-statistics/11-sampling-design-ml-evaluation.md) | Stratified finite-population mean and standard error |
-| horvitz-thompson | [Sampling design and rigorous ML evaluation](../content/05-probability-statistics/11-sampling-design-ml-evaluation.md) | Unequal-inclusion population total and mean |
-| rejection | [Sampling design and rigorous ML evaluation](../content/05-probability-statistics/11-sampling-design-ml-evaluation.md) | Generic envelope-based rejection sampler |
-| simple-ols | [Exponential families, regression, and GLMs](../content/05-probability-statistics/12-exponential-families-regression-glms.md) | Simple OLS coefficients and slope uncertainty |
-| logistic-gradient | [Exponential families, regression, and GLMs](../content/05-probability-statistics/12-exponential-families-regression-glms.md) | Stable Bernoulli loss and logistic-regression gradient |
-| partial-pooling | [Exponential families, regression, and GLMs](../content/05-probability-statistics/12-exponential-families-regression-glms.md) | Normal-normal group shrinkage and pooling weights |
+| categorical | [Random variables and distributions](../content/05-probability-statistics/01-random-variables-distributions.md) | Reproducible inverse-CDF sampling from weights |
+| joint | [Joint distributions and covariance](../content/05-probability-statistics/02-joint-distributions-conditioning-covariance.md) | Marginalization and covariance on sparse finite support |
+| convolution | [Transformations and Jacobians](../content/05-probability-statistics/03-transformations-convolution-jacobians.md) | Exact convolution of sparse finite PMFs |
+| gaussian | [Multivariate Gaussian geometry](../content/05-probability-statistics/04-multivariate-gaussian-geometry.md) | Conditional Gaussian mean and uncertainty |
+| monte-carlo | [Repeated samples and Monte Carlo error](../content/05-probability-statistics/05-limit-theorems-monte-carlo.md) | Dependence-aware uncertainty from contiguous batch means |
+| bernoulli-mle | [Estimation and likelihood](../content/05-probability-statistics/06-estimation-likelihood-fisher.md) | Boundary-safe Bernoulli MLE and plug-in uncertainty |
+| binomial-test | [Hypothesis testing and confidence intervals](../content/05-probability-statistics/07-hypothesis-testing-confidence-power.md) | Exact binomial tails and an interval obtained by inversion |
+| bh-fdr | [Hypothesis testing and multiple comparisons](../content/05-probability-statistics/07-hypothesis-testing-confidence-power.md) | Benjamini–Hochberg decisions and adjusted p-values |
+| bootstrap | [Bootstrap and experimental design](../content/05-probability-statistics/08-resampling-sequential-experimental-design.md) | Seeded bootstrap standard error and percentile interval |
+| permutation | [Permutation tests and randomization](../content/05-probability-statistics/08-resampling-sequential-experimental-design.md) | Exact paired sign-flip test |
+| e-process | [Sequential inference](../content/05-probability-statistics/08-resampling-sequential-experimental-design.md) | Bernoulli likelihood-ratio e-process and anytime p-value |
+| beta-update | [Bayesian modeling and computation](../content/05-probability-statistics/09-bayesian-modeling-computation.md) | Conjugate Beta–Bernoulli updating and prediction |
+| importance | [Bayesian modeling and computation](../content/05-probability-statistics/09-bayesian-modeling-computation.md) | Stable self-normalized importance weighting and ESS |
+| metropolis | [Bayesian modeling and computation](../content/05-probability-statistics/09-bayesian-modeling-computation.md) | Log-space random-walk Metropolis sampling |
+| stratified | [Sampling design and rigorous ML evaluation](../content/05-probability-statistics/10-sampling-design-ml-evaluation.md) | Stratified finite-population mean and standard error |
+| horvitz-thompson | [Sampling design and rigorous ML evaluation](../content/05-probability-statistics/10-sampling-design-ml-evaluation.md) | Unequal-inclusion population total and mean |
+| rejection | [Sampling design and rigorous ML evaluation](../content/05-probability-statistics/10-sampling-design-ml-evaluation.md) | Generic envelope-based rejection sampler |
+| simple-ols | [Exponential families, regression, and GLMs](../content/05-probability-statistics/11-exponential-families-regression-glms.md) | Simple OLS coefficients and slope uncertainty |
+| logistic-gradient | [Exponential families, regression, and GLMs](../content/05-probability-statistics/11-exponential-families-regression-glms.md) | Stable Bernoulli loss and logistic-regression gradient |
+| partial-pooling | [Exponential families, regression, and GLMs](../content/05-probability-statistics/11-exponential-families-regression-glms.md) | Normal-normal group shrinkage and pooling weights |
 | search | [DSA](../content/04-dsa/01-invariants-search-graphs-dp.md) | Exhaustive boundary cases |
 | softmax | [PyTorch](../content/08-pytorch/01-tensors-autograd-training.md) | Stability and shift invariance |
 | bigram | [NLP](../content/10-nlp/01-text-representations-language-models.md) | Correct target offsets |

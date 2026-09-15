@@ -2,7 +2,7 @@
 id: math.statistics.bayesian-modeling-computation
 title: Bayesian modeling, posterior prediction, importance sampling, and MCMC
 prerequisites: [math.statistics.resampling-sequential-experimental-design]
-estimated_hours: 40
+estimated_hours: 44
 ---
 
 # Bayesian modeling, posterior prediction, importance sampling, and MCMC
@@ -628,7 +628,68 @@ Discarding early draws as warmup reduces dependence on a poor initial state, but
 >
 > **Practice — Stretch:** Construct a reducible chain with the desired distribution stationary but whose averages depend permanently on initialization.
 
-## 16. Metropolis–Hastings corrects proposed moves
+## 16. When does a chain actually have the right limit?
+
+The previous section asserted that a well-constructed chain has the posterior as its stationary distribution and that time averages converge to posterior expectations. Both claims need conditions, and knowing them is what separates "my sampler ran" from "my sampler is estimating the thing I want".
+
+**Stationarity.** A distribution \(\pi\) is **stationary** for a transition kernel \(P\) when
+
+$$
+\pi(y)=\sum_x\pi(x)P(x\to y)
+\qquad\text{(or the integral form for continuous state).}
+$$
+
+Start in \(\pi\) and you remain in \(\pi\) forever. Stationarity alone is weak: a chain that never moves has *every* distribution as stationary.
+
+**Detailed balance implies stationarity.** A chain is **reversible** with respect to \(\pi\) when
+
+$$
+\pi(x)P(x\to y)=\pi(y)P(y\to x)
+\qquad\text{for all }x,y .
+$$
+
+Summing both sides over \(x\) gives \(\sum_x\pi(x)P(x\to y)=\pi(y)\sum_xP(y\to x)=\pi(y)\), which is stationarity. This two-line argument is the entire justification for the acceptance ratio of the next section — Metropolis–Hastings is constructed precisely to force detailed balance. Note the implication runs one way: reversibility is sufficient, not necessary, and several high-performance samplers are deliberately non-reversible.
+
+**Irreducibility.** The chain must be able to reach every region of positive probability from every starting point. Without it, the chain has multiple stationary distributions and where you start decides where you end. In practice this fails for multimodal posteriors with deep valleys between modes: the chain is *technically* irreducible but the crossing time exceeds any budget you will run, which is operationally identical to reducibility.
+
+**Aperiodicity.** The chain must not cycle deterministically through subsets with a fixed period. A period-2 chain alternating between two halves of the space has a stationary distribution but never converges to it. Metropolis chains with a nonzero rejection probability are automatically aperiodic, since a rejection means staying put.
+
+**The ergodic theorem.** With irreducibility, aperiodicity, and a stationary \(\pi\), two things hold: the distribution of \(x_t\) converges to \(\pi\) regardless of the starting point, and — this is the part estimation relies on — time averages converge to space averages,
+
+$$
+\frac1T\sum_{t=1}^Tf(x_t)\;\longrightarrow\;E_\pi[f]
+\qquad\text{almost surely.}
+$$
+
+This is the law of large numbers with independence replaced by ergodicity. It licenses everything you do with MCMC output.
+
+**How fast? The spectral gap.** For a reversible chain on a finite state space, the transition matrix has eigenvalue \(1\) with the stationary distribution as its eigenvector; convergence speed is governed by the **second-largest eigenvalue modulus** \(\lambda_2\). The distance to stationarity decays like \(\lambda_2^t\), so the **mixing time** scales as
+
+$$
+t_{\text{mix}}\sim\frac1{1-\lambda_2}=\frac1{\text{spectral gap}} .
+$$
+
+This is the same eigenvalue-controls-the-rate argument that governed power iteration and gradient descent in [eigenvalues and invariant subspaces](../02-linear-algebra/04-eigenvalues-invariant-subspaces.md) — a chain with a small gap is the probabilistic twin of an ill-conditioned optimization problem, and the geometry that causes it is the same elongated, correlated geometry described earlier in this lesson.
+
+**What you can actually measure.** The spectral gap is not computable for a real posterior. The practical proxy is the **integrated autocorrelation time** \(\tau\), giving an effective sample size
+
+$$
+n_{\text{eff}}=\frac T{1+2\sum_{k\ge1}\rho_k}=\frac T\tau ,
+$$
+
+exactly the dependence correction developed in [limit theorems and Monte Carlo](05-limit-theorems-monte-carlo.md). A chain of \(100{,}000\) draws with \(\tau=500\) carries the information of \(200\) independent draws, and every standard error must use \(n_{\text{eff}}\), not \(T\).
+
+**Worked example — a two-state chain.** Let the chain move with probability \(a\) from state 1 to 2 and \(b\) from 2 to 1. Stationarity gives \(\pi=(b,a)/(a+b)\), and the eigenvalues are \(1\) and \(1-a-b\). With \(a=b=0.5\) the gap is \(1\) and the chain reaches stationarity in one step. With \(a=b=0.001\) the gap is \(0.002\) and mixing takes on the order of \(500\) steps — the chain is "sticky", and a short run will report whichever state it started in with false confidence.
+
+**The failure this explains.** Convergence diagnostics test whether a chain *looks* stationary, not whether it has explored. A chain trapped in one mode of a multimodal posterior can pass every diagnostic while sampling from the wrong distribution. No amount of running longer fixes a chain that cannot cross; you need a different kernel — tempering, mode-jumping proposals, or multiple dispersed starts.
+
+> **Practice — Foundation:** Verify detailed balance for the two-state chain above and confirm the stated \(\pi\).
+>
+> **Practice — Core:** Prove that detailed balance implies stationarity, stating where the rows of the kernel summing to one is used. Then give a stationary chain that is not reversible.
+>
+> **Practice — Stretch:** Construct a bimodal target on which a random-walk Metropolis chain passes a standard convergence diagnostic while covering only one mode. State which assumption is technically satisfied but practically violated, and name two kernels that would repair it along with their costs.
+
+## 17. Metropolis–Hastings corrects proposed moves
 
 At current state \(\theta\):
 
@@ -673,7 +734,7 @@ accept. This avoids underflow in tiny densities.
 >
 > **Practice — Stretch:** Explain why adapting proposal scale forever using the complete chain can violate stationarity, and distinguish warmup adaptation from sampling.
 
-## 17. Chain diagnostics test exploration, not truth
+## 18. Chain diagnostics test exploration, not truth
 
 For stationary scalar draws with lag-\(k\) autocorrelation \(\rho_k\), a conceptual effective sample size is
 
@@ -704,7 +765,7 @@ Systematic rank patterns reveal computational or implementation errors under the
 >
 > **Practice — Stretch:** Construct a multimodal example where every reported chain diagnostic looks acceptable because all chains started in the same mode.
 
-## 18. HMC and variational inference make different approximations
+## 19. HMC and variational inference make different approximations
 
 Random-walk Metropolis ignores posterior gradients. Hamiltonian Monte Carlo (HMC) introduces auxiliary momentum and uses gradients to propose long moves that approximately follow constant-energy paths. A correction step removes numerical integration bias. HMC can explore smooth high-dimensional posteriors efficiently, but funnels, discontinuities, bad scaling, and separated modes remain difficult.
 
@@ -724,7 +785,7 @@ Laplace, importance sampling, MCMC, HMC, and variational inference are not a lad
 >
 > **Practice — Stretch:** Design a validation ladder from exact finite inference through approximate inference for a growing hierarchical model.
 
-## 19. Bayesian workflow for AI research
+## 20. Bayesian workflow for AI research
 
 Bayesian models can express structures common in AI work:
 
@@ -757,7 +818,7 @@ For every analysis:
 >
 > **Practice — Stretch:** Design a hierarchical preference model with prompts, models, and raters, then list identifiability constraints and posterior predictive checks.
 
-## 20. Runnable labs
+## 21. Runnable labs
 
 This chapter has three coding exercises. Each opens as a separate tab in the lesson's right-hand Python workspace.
 
@@ -817,7 +878,7 @@ The checks cover deterministic seeding, constant targets, Gaussian targets, reje
 5. Fit a two-mode target from dispersed initial states and demonstrate how a single-chain summary can fail.
 6. Build a hierarchical task-effect simulation and compare separate estimates with partially pooled posterior estimates.
 
-## 21. Derivations to own
+## 22. Derivations to own
 
 1. Derive discrete and continuous Bayes' rule from a joint distribution.
 2. Derive Beta–Bernoulli posterior parameters, mean, variance, and predictive probability.
@@ -834,7 +895,7 @@ The checks cover deterministic seeding, constant targets, Gaussian targets, reje
 13. Relate autocorrelation to variance of an MCMC average.
 14. Explain why posterior predictive checks can detect likelihood misspecification.
 
-## 22. End-of-unit practice (graded)
+## 23. End-of-unit practice (graded)
 
 **Foundation — problems 1–6.** Build fluent distinctions among Bayesian objects.
 

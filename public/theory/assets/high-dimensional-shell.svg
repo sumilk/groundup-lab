@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="440" viewBox="0 0 1080 440" role="img" aria-labelledby="hd-title hd-desc">
+  <title id="hd-title">Gaussian mass concentrates in a thin shell and random directions are nearly perpendicular</title>
+  <desc id="hd-desc">Left panel: the density decreases with radius while the available volume grows, and their product peaks sharply at radius equal to the square root of the dimension, so almost all probability mass lies in a thin shell rather than near the origin where the density is highest. Right panel: two independently drawn directions in high dimensions meet at an angle very close to ninety degrees, with typical cosine similarity about one over the square root of the dimension.</desc>
+  <defs>
+    <marker id="hd-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#e8eef7"/>
+    </marker>
+  </defs>
+  <rect width="1080" height="440" rx="24" fill="#08111f"/>
+  <g font-family="system-ui">
+    <text x="540" y="40" text-anchor="middle" fill="#e8eef7" font-size="21">Typical and most-likely are different places</text>
+
+    <g>
+      <text x="100" y="82" fill="#e8eef7" font-size="18">Where the mass is</text>
+      <text x="100" y="104" fill="#91a4bb" font-size="14">density falls, volume grows, the product peaks</text>
+
+      <path d="M100 356H500" stroke="#31445e" stroke-width="3"/>
+      <path d="M100 356V128" stroke="#31445e" stroke-width="3"/>
+      <text x="500" y="382" text-anchor="end" fill="#91a4bb" font-size="14">radius r</text>
+
+      <path d="M100 140C170 268 250 330 500 352" fill="none" stroke="#7aa2f7" stroke-width="3" stroke-dasharray="7 6"/>
+      <text x="196" y="188" fill="#7aa2f7" font-size="14">density</text>
+
+      <path d="M104 354C320 350 400 300 500 142" fill="none" stroke="#91a4bb" stroke-width="3" stroke-dasharray="7 6"/>
+      <text x="432" y="212" fill="#91a4bb" font-size="14">volume</text>
+
+      <path d="M100 354C210 352 256 196 300 186C344 196 404 330 500 354Z" fill="#50d2c2" fill-opacity=".18" stroke="#50d2c2" stroke-width="4"/>
+      <path d="M300 186V356" stroke="#50d2c2" stroke-width="2" stroke-dasharray="5 5"/>
+      <text x="300" y="380" text-anchor="middle" fill="#50d2c2" font-size="16">r ≈ √d</text>
+      <text x="300" y="164" text-anchor="middle" fill="#e8eef7" font-size="15">mass</text>
+    </g>
+
+    <g>
+      <text x="620" y="82" fill="#e8eef7" font-size="18">Where the directions point</text>
+      <text x="620" y="104" fill="#91a4bb" font-size="14">two independent draws, any large d</text>
+
+      <circle cx="800" cy="248" r="118" fill="none" stroke="#31445e" stroke-width="3"/>
+      <circle cx="800" cy="248" r="4" fill="#e8eef7"/>
+      <path d="M800 248L901 190" stroke="#50d2c2" stroke-width="4" marker-end="url(#hd-arrow)"/>
+      <path d="M800 248L745 143" stroke="#7aa2f7" stroke-width="4" marker-end="url(#hd-arrow)"/>
+      <path d="M837 227A43 43 0 0 0 780 209" fill="none" stroke="#91a4bb" stroke-width="2"/>
+      <text x="800" y="302" text-anchor="middle" fill="#e8eef7" font-size="16">θ ≈ 90°</text>
+      <text x="800" y="330" text-anchor="middle" fill="#50d2c2" font-size="16">cos θ ≈ 1/√d</text>
+      <text x="800" y="400" text-anchor="middle" fill="#91a4bb" font-size="14">d = 768 gives about 0.036</text>
+    </g>
+  </g>
+</svg>
