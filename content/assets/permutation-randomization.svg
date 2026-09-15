@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="410" viewBox="0 0 960 410" role="img" aria-labelledby="title desc">
+  <title id="title">A permutation test compares the observed assignment with assignments allowed by the null</title>
+  <desc id="desc">Outcomes are held fixed while treatment labels are reassigned according to the experimental design. Each reassignment produces a test statistic.</desc>
+  <rect width="960" height="410" rx="18" fill="#f7fbfc"/>
+  <text x="480" y="37" text-anchor="middle" font-family="sans-serif" font-size="21" font-weight="700" fill="#173641">Hold outcomes fixed; replay allowed assignments</text>
+  <g font-family="sans-serif" text-anchor="middle">
+    <text x="155" y="82" font-size="16" font-weight="700" fill="#35566a">observed experiment</text>
+    <rect x="45" y="104" width="220" height="200" rx="12" fill="#edf6f7" stroke="#4f8589"/>
+    <g font-size="14">
+      <circle cx="90" cy="150" r="25" fill="#5ca9c4"/><text x="90" y="155" fill="#fff">A: 8</text>
+      <circle cx="155" cy="150" r="25" fill="#e69868"/><text x="155" y="155" fill="#fff">B: 4</text>
+      <circle cx="220" cy="150" r="25" fill="#5ca9c4"/><text x="220" y="155" fill="#fff">A: 7</text>
+      <circle cx="90" cy="230" r="25" fill="#e69868"/><text x="90" y="235" fill="#fff">B: 3</text>
+      <circle cx="155" cy="230" r="25" fill="#5ca9c4"/><text x="155" y="235" fill="#fff">A: 9</text>
+      <circle cx="220" cy="230" r="25" fill="#e69868"/><text x="220" y="235" fill="#fff">B: 5</text>
+    </g>
+    <text x="155" y="286" font-size="14" font-weight="700" fill="#173641">observed difference</text>
+  </g>
+  <path d="M285 205 H360" stroke="#476073" stroke-width="3" marker-end="url(#p-arrow)"/>
+  <text x="323" y="177" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#476073">reassign only as</text>
+  <text x="323" y="225" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#476073">the design allowed</text>
+  <g font-family="sans-serif" font-size="14">
+    <rect x="380" y="82" width="235" height="70" rx="10" fill="#f2f1fa" stroke="#796f9e"/>
+    <text x="398" y="111" fill="#35566a">B:8, A:4, A:7, B:3, B:9, A:5</text>
+    <text x="398" y="135" fill="#173641" font-weight="700">permuted difference 1</text>
+    <rect x="380" y="170" width="235" height="70" rx="10" fill="#f2f1fa" stroke="#796f9e"/>
+    <text x="398" y="199" fill="#35566a">A:8, B:4, B:7, A:3, B:9, A:5</text>
+    <text x="398" y="223" fill="#173641" font-weight="700">permuted difference 2</text>
+    <rect x="380" y="258" width="235" height="70" rx="10" fill="#f2f1fa" stroke="#796f9e"/>
+    <text x="398" y="287" fill="#35566a">every allowed assignment…</text>
+    <text x="398" y="311" fill="#173641" font-weight="700">permuted difference j</text>
+  </g>
+  <path d="M635 205 H695" stroke="#476073" stroke-width="3" marker-end="url(#p-arrow)"/>
+  <g transform="translate(710 88)">
+    <line x1="0" y1="235" x2="205" y2="235" stroke="#476073" stroke-width="2"/>
+    <path d="M5 235 C45 232 55 180 95 120 C120 82 145 150 165 195 C180 225 190 233 202 235" fill="none" stroke="#796f9e" stroke-width="5"/>
+    <path d="M165 195 C180 225 190 233 202 235 L202 235 L165 235 Z" fill="#e69868" opacity=".8"/>
+    <line x1="165" y1="44" x2="165" y2="238" stroke="#a84e56" stroke-width="3" stroke-dasharray="7 6"/>
+    <text x="102" y="-10" text-anchor="middle" font-family="sans-serif" font-size="16" font-weight="700" fill="#35566a">randomization distribution</text>
+    <text x="165" y="30" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#81363d">observed</text>
+    <text x="179" y="216" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#81363d">tail</text>
+  </g>
+  <text x="480" y="382" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#476073">Exchangeability is a claim about which reassignments are valid—not permission to shuffle arbitrarily.</text>
+  <defs><marker id="p-arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#476073"/></marker></defs>
+</svg>

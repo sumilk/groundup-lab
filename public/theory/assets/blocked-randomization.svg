@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="430" viewBox="0 0 960 430" role="img" aria-labelledby="title desc">
+  <title id="title">Blocked randomization balances treatment within important groups</title>
+  <desc id="desc">Units first split into domain blocks. Within each block they are randomized between model A and model B, making comparisons within similar groups.</desc>
+  <rect width="960" height="430" rx="18" fill="#f7fbfc"/>
+  <text x="480" y="37" text-anchor="middle" font-family="sans-serif" font-size="21" font-weight="700" fill="#173641">Block on known variation; randomize within each block</text>
+  <rect x="50" y="160" width="155" height="95" rx="12" fill="#e6f5f3" stroke="#27766f" stroke-width="2"/>
+  <text x="127" y="197" text-anchor="middle" font-family="sans-serif" font-size="16" font-weight="700" fill="#245f5b">eligible units</text>
+  <text x="127" y="223" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#35566a">before outcomes</text>
+  <path d="M220 206 H290" stroke="#476073" stroke-width="3" marker-end="url(#b-arrow)"/>
+  <g font-family="sans-serif" text-anchor="middle">
+    <rect x="310" y="72" width="190" height="72" rx="10" fill="#edf2fa" stroke="#547ca1"/><text x="405" y="103" font-size="16" font-weight="700" fill="#35566a">code prompts</text><text x="405" y="126" font-size="13" fill="#476073">block 1</text>
+    <rect x="310" y="172" width="190" height="72" rx="10" fill="#edf2fa" stroke="#547ca1"/><text x="405" y="203" font-size="16" font-weight="700" fill="#35566a">reasoning prompts</text><text x="405" y="226" font-size="13" fill="#476073">block 2</text>
+    <rect x="310" y="272" width="190" height="72" rx="10" fill="#edf2fa" stroke="#547ca1"/><text x="405" y="303" font-size="16" font-weight="700" fill="#35566a">safety prompts</text><text x="405" y="326" font-size="13" fill="#476073">block 3</text>
+  </g>
+  <path d="M515 108 H585 M515 208 H585 M515 308 H585" stroke="#476073" stroke-width="3" marker-end="url(#b-arrow)"/>
+  <g font-family="sans-serif" text-anchor="middle" font-size="14">
+    <rect x="605" y="65" width="120" height="52" rx="9" fill="#dff4ec" stroke="#3d8c72"/><text x="665" y="96" fill="#245f4e">Model A</text>
+    <rect x="760" y="65" width="120" height="52" rx="9" fill="#fff0d6" stroke="#be7a26"/><text x="820" y="96" fill="#875717">Model B</text>
+    <rect x="605" y="165" width="120" height="52" rx="9" fill="#dff4ec" stroke="#3d8c72"/><text x="665" y="196" fill="#245f4e">Model A</text>
+    <rect x="760" y="165" width="120" height="52" rx="9" fill="#fff0d6" stroke="#be7a26"/><text x="820" y="196" fill="#875717">Model B</text>
+    <rect x="605" y="265" width="120" height="52" rx="9" fill="#dff4ec" stroke="#3d8c72"/><text x="665" y="296" fill="#245f4e">Model A</text>
+    <rect x="760" y="265" width="120" height="52" rx="9" fill="#fff0d6" stroke="#be7a26"/><text x="820" y="296" fill="#875717">Model B</text>
+  </g>
+  <path d="M585 108 C555 108 555 91 605 91 M585 108 C555 108 555 91 760 91" fill="none" stroke="#476073" stroke-width="2"/>
+  <path d="M585 208 C555 208 555 191 605 191 M585 208 C555 208 555 191 760 191" fill="none" stroke="#476073" stroke-width="2"/>
+  <path d="M585 308 C555 308 555 291 605 291 M585 308 C555 308 555 291 760 291" fill="none" stroke="#476073" stroke-width="2"/>
+  <text x="480" y="392" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#476073">The treatment contrast is protected from accidental domain imbalance and often becomes more precise.</text>
+  <defs><marker id="b-arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#476073"/></marker></defs>
+</svg>

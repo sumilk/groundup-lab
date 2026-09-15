@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="420" viewBox="0 0 960 420" role="img" aria-labelledby="title desc">
+  <title id="title">Fixed-sample thresholds and anytime-valid evidence behave differently under repeated monitoring</title>
+  <desc id="desc">Several noisy evidence paths are monitored through time. A horizontal evidence boundary may be crossed, and an anytime-valid method controls the probability of ever crossing under the null.</desc>
+  <rect width="960" height="420" rx="18" fill="#f7fbfc"/>
+  <text x="480" y="36" text-anchor="middle" font-family="sans-serif" font-size="21" font-weight="700" fill="#173641">Sequential validity controls ever crossing—not just one scheduled look</text>
+  <line x1="100" y1="340" x2="870" y2="340" stroke="#476073" stroke-width="2"/>
+  <line x1="100" y1="340" x2="100" y2="70" stroke="#476073" stroke-width="2"/>
+  <line x1="100" y1="120" x2="870" y2="120" stroke="#a84e56" stroke-width="4" stroke-dasharray="9 7"/>
+  <text x="855" y="103" text-anchor="end" font-family="sans-serif" font-size="15" font-weight="700" fill="#81363d">evidence boundary 1/α</text>
+  <polyline points="100,330 160,315 220,323 280,280 340,290 400,246 460,252 520,210 580,228 640,175 700,142 760,108 820,83 870,71" fill="none" stroke="#176b71" stroke-width="5"/>
+  <polyline points="100,330 160,300 220,309 280,288 340,305 400,275 460,295 520,274 580,300 640,269 700,287 760,260 820,280 870,251" fill="none" stroke="#5ca9c4" stroke-width="4"/>
+  <polyline points="100,330 160,324 220,285 280,311 340,266 400,302 460,245 520,285 580,248 640,273 700,235 760,257 820,220 870,241" fill="none" stroke="#8d79a8" stroke-width="4"/>
+  <circle cx="760" cy="108" r="8" fill="#a84e56"/>
+  <text x="746" y="89" text-anchor="end" font-family="sans-serif" font-size="14" fill="#81363d">first crossing</text>
+  <text x="480" y="382" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#476073">time or sample size</text>
+  <text transform="translate(35 225) rotate(-90)" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#476073">evidence against the null</text>
+</svg>

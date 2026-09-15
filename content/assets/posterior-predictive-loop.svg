@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="430" viewBox="0 0 960 430" role="img" aria-labelledby="title desc">
+  <title id="title">Posterior predictive checking compares replicated data with observed data</title>
+  <desc id="desc">Posterior parameter draws generate replicated datasets. Summaries of replicated and observed datasets are compared, and discrepancies reveal model failures.</desc>
+  <rect width="960" height="430" rx="18" fill="#f7fbfc"/>
+  <text x="480" y="37" text-anchor="middle" font-family="sans-serif" font-size="21" font-weight="700" fill="#173641">A fitted model should reproduce features that matter</text>
+  <g font-family="sans-serif" text-anchor="middle">
+    <rect x="55" y="155" width="170" height="92" rx="13" fill="#e8f2fa" stroke="#4d83a3" stroke-width="2"/>
+    <text x="140" y="190" font-size="17" font-weight="700" fill="#356f84">observed data y</text>
+    <text x="140" y="218" font-size="14" fill="#476073">fit the model</text>
+    <rect x="295" y="70" width="190" height="92" rx="13" fill="#e5f4ee" stroke="#3d8c72" stroke-width="2"/>
+    <text x="390" y="105" font-size="17" font-weight="700" fill="#246952">posterior draws</text>
+    <text x="390" y="133" font-size="14" fill="#476073">θ¹, θ², …</text>
+    <rect x="555" y="70" width="190" height="92" rx="13" fill="#fff0dc" stroke="#c98232" stroke-width="2"/>
+    <text x="650" y="105" font-size="17" font-weight="700" fill="#925d20">replicated data</text>
+    <text x="650" y="133" font-size="14" fill="#476073">yᵣₑₚ ∼ p(y | θ)</text>
+    <rect x="555" y="257" width="190" height="92" rx="13" fill="#f0eafa" stroke="#8069a0" stroke-width="2"/>
+    <text x="650" y="292" font-size="17" font-weight="700" fill="#604d7d">replicated summaries</text>
+    <text x="650" y="320" font-size="14" fill="#476073">T(yᵣₑₚ)</text>
+    <rect x="295" y="257" width="190" height="92" rx="13" fill="#fbe8e8" stroke="#ad5b63" stroke-width="2"/>
+    <text x="390" y="292" font-size="17" font-weight="700" fill="#81363d">compare</text>
+    <text x="390" y="320" font-size="14" fill="#476073">T(y) versus T(yᵣₑₚ)</text>
+  </g>
+  <path d="M225 180 C250 130 260 116 292 116" fill="none" stroke="#476073" stroke-width="3" marker-end="url(#pp-arrow)"/>
+  <path d="M485 116 H550" stroke="#476073" stroke-width="3" marker-end="url(#pp-arrow)"/>
+  <path d="M650 165 V252" stroke="#476073" stroke-width="3" marker-end="url(#pp-arrow)"/>
+  <path d="M550 303 H490" stroke="#476073" stroke-width="3" marker-end="url(#pp-arrow)"/>
+  <path d="M295 303 C225 303 205 266 205 242" fill="none" stroke="#476073" stroke-width="3" marker-end="url(#pp-arrow)"/>
+  <text x="480" y="397" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#476073">A discrepancy is a model-learning signal, not a reason to hide the diagnostic.</text>
+  <defs><marker id="pp-arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#476073"/></marker></defs>
+</svg>

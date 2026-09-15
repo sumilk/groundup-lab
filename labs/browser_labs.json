@@ -54,6 +54,54 @@
     "title": "Bernoulli maximum likelihood"
   },
   {
+    "lesson": "05-probability-statistics/08-hypothesis-testing-confidence-power.md",
+    "task": "binomial-test",
+    "function": "exact_binomial_test",
+    "title": "Exact binomial inference"
+  },
+  {
+    "lesson": "05-probability-statistics/08-hypothesis-testing-confidence-power.md",
+    "task": "bh-fdr",
+    "function": "benjamini_hochberg",
+    "title": "Benjamini–Hochberg correction"
+  },
+  {
+    "lesson": "05-probability-statistics/09-resampling-sequential-experimental-design.md",
+    "task": "bootstrap",
+    "function": "bootstrap_mean_interval",
+    "title": "Bootstrap mean interval"
+  },
+  {
+    "lesson": "05-probability-statistics/09-resampling-sequential-experimental-design.md",
+    "task": "permutation",
+    "function": "paired_permutation_test",
+    "title": "Exact paired permutation"
+  },
+  {
+    "lesson": "05-probability-statistics/09-resampling-sequential-experimental-design.md",
+    "task": "e-process",
+    "function": "bernoulli_e_process",
+    "title": "Bernoulli anytime evidence"
+  },
+  {
+    "lesson": "05-probability-statistics/10-bayesian-modeling-computation.md",
+    "task": "beta-update",
+    "function": "beta_bernoulli_update",
+    "title": "Beta–Bernoulli update"
+  },
+  {
+    "lesson": "05-probability-statistics/10-bayesian-modeling-computation.md",
+    "task": "importance",
+    "function": "self_normalized_importance",
+    "title": "Stable importance weighting"
+  },
+  {
+    "lesson": "05-probability-statistics/10-bayesian-modeling-computation.md",
+    "task": "metropolis",
+    "function": "random_walk_metropolis",
+    "title": "Random-walk Metropolis"
+  },
+  {
     "lesson": "08-pytorch/01-tensors-autograd-training.md",
     "task": "softmax",
     "function": "stable_softmax",

@@ -35,10 +35,11 @@ def main():
         passed, output = execute(runtime, lab, implementation)
         assert passed and f"PASS {lab['task']}" in output, (lab["task"], output)
 
-    starter_passed, starter_output = execute(
-        runtime, runtime["labs"][0], runtime["labs"][0]["starter"]
-    )
-    assert not starter_passed and "NotImplementedError" in starter_output
+    for lab in runtime["labs"]:
+        starter_passed, starter_output = execute(runtime, lab, lab["starter"])
+        assert not starter_passed and "NotImplementedError" in starter_output, (
+            lab["task"], starter_output
+        )
     print(
         "Browser-lab harness passed "
         f"{len(runtime['labs'])} reference implementations and failure capture."

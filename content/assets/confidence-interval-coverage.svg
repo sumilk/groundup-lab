@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="420" viewBox="0 0 920 420" role="img" aria-labelledby="title desc">
+  <title id="title">Confidence coverage across repeated datasets</title>
+  <desc id="desc">Ten interval estimates from repeated datasets are compared with one fixed true parameter. Most cross the truth and one misses.</desc>
+  <rect width="920" height="420" rx="18" fill="#f7fbfc"/>
+  <text x="460" y="37" text-anchor="middle" font-family="sans-serif" font-size="21" font-weight="700" fill="#173641">The parameter stays fixed; the interval moves</text>
+  <line x1="510" y1="60" x2="510" y2="375" stroke="#173641" stroke-width="4" stroke-dasharray="7 6"/>
+  <text x="510" y="397" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="700" fill="#173641">true θ</text>
+  <g stroke="#2f8973" stroke-width="6" stroke-linecap="round" fill="#2f8973" font-family="sans-serif" font-size="13">
+    <line x1="390" y1="82" x2="610" y2="82"/><circle cx="475" cy="82" r="6"/><text x="350" y="87">sample 1</text>
+    <line x1="430" y1="112" x2="665" y2="112"/><circle cx="540" cy="112" r="6"/><text x="350" y="117">sample 2</text>
+    <line x1="315" y1="142" x2="530" y2="142"/><circle cx="422" cy="142" r="6"/><text x="350" y="147">sample 3</text>
+    <line x1="455" y1="172" x2="700" y2="172"/><circle cx="577" cy="172" r="6"/><text x="350" y="177">sample 4</text>
+    <line x1="355" y1="202" x2="575" y2="202"/><circle cx="470" cy="202" r="6"/><text x="350" y="207">sample 5</text>
+    <line x1="475" y1="232" x2="725" y2="232"/><circle cx="590" cy="232" r="6"/><text x="350" y="237">sample 6</text>
+    <line x1="405" y1="262" x2="615" y2="262"/><circle cx="510" cy="262" r="6"/><text x="350" y="267">sample 7</text>
+    <line x1="330" y1="292" x2="545" y2="292"/><circle cx="440" cy="292" r="6"/><text x="350" y="297">sample 8</text>
+    <line x1="445" y1="322" x2="650" y2="322"/><circle cx="548" cy="322" r="6"/><text x="350" y="327">sample 9</text>
+  </g>
+  <g stroke="#b24751" stroke-width="6" stroke-linecap="round" fill="#b24751" font-family="sans-serif" font-size="13">
+    <line x1="595" y1="352" x2="805" y2="352"/><circle cx="700" cy="352" r="6"/><text x="350" y="357">sample 10</text>
+  </g>
+  <text x="735" y="102" font-family="sans-serif" font-size="14" fill="#2f8973">covers θ</text>
+  <text x="735" y="335" font-family="sans-serif" font-size="14" fill="#b24751">misses θ</text>
+  <path d="M721 329 L690 347" fill="none" stroke="#b24751" stroke-width="2"/>
+</svg>

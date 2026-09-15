@@ -289,6 +289,418 @@ def bernoulli_mle(m):
         raise AssertionError("invalid Bernoulli observations should be rejected")
 
 
+def binomial_test(m):
+    estimate, p_value, interval = m.exact_binomial_test(9, 10, 0.5)
+    close(estimate, 0.9)
+    close(p_value, 22 / 1024)
+    assert interval[0] < estimate < interval[1]
+
+    _, greater, _ = m.exact_binomial_test(9, 10, 0.5, alternative="greater")
+    _, less, _ = m.exact_binomial_test(9, 10, 0.5, alternative="less")
+    close(greater, 11 / 1024)
+    close(less, 1023 / 1024)
+
+    zero = m.exact_binomial_test(0, 20, 0.5)
+    assert zero[2][0] == 0.0
+    close(zero[2][1], 1 - 0.025 ** (1 / 20))
+    all_success = m.exact_binomial_test(20, 20, 0.5)
+    close(all_success[2][0], 0.025 ** (1 / 20))
+    assert all_success[2][1] == 1.0
+
+    lower_a, upper_a = m.exact_binomial_test(3, 12, 0.4)[2]
+    lower_b, upper_b = m.exact_binomial_test(9, 12, 0.6)[2]
+    close(lower_a, 1 - upper_b)
+    close(upper_a, 1 - lower_b)
+
+    _, _, ninety = m.exact_binomial_test(4, 8, 0.5, confidence_level=0.90)
+    _, _, ninety_five = m.exact_binomial_test(4, 8, 0.5, confidence_level=0.95)
+    assert ninety_five[0] < ninety[0] < ninety[1] < ninety_five[1]
+
+    invalid = [
+        (True, 10, 0.5, 0.95, "two-sided"),
+        (2.0, 10, 0.5, 0.95, "two-sided"),
+        (-1, 10, 0.5, 0.95, "two-sided"),
+        (11, 10, 0.5, 0.95, "two-sided"),
+        (1, 0, 0.5, 0.95, "two-sided"),
+        (1, True, 0.5, 0.95, "two-sided"),
+        (1, 10, -0.1, 0.95, "two-sided"),
+        (1, 10, 1.1, 0.95, "two-sided"),
+        (1, 10, float("nan"), 0.95, "two-sided"),
+        (1, 10, 0.5, 0.0, "two-sided"),
+        (1, 10, 0.5, 1.0, "two-sided"),
+        (1, 10, 0.5, 0.95, "up"),
+    ]
+    for arguments in invalid:
+        try:
+            m.exact_binomial_test(*arguments)
+        except ValueError:
+            continue
+        raise AssertionError("invalid exact-binomial input should be rejected")
+
+
+def bh_fdr(m):
+    p_values = [0.20, 0.004, 0.03, 0.011]
+    before = p_values[:]
+    rejected, adjusted = m.benjamini_hochberg(p_values, 0.05)
+    assert p_values == before
+    assert rejected == [False, True, True, True]
+    for actual, expected in zip(adjusted, [0.20, 0.016, 0.04, 0.022]):
+        close(actual, expected)
+
+    generated = m.benjamini_hochberg((value for value in p_values), 0.05)
+    assert generated[0] == rejected
+    for actual, expected in zip(generated[1], adjusted):
+        close(actual, expected)
+
+    assert m.benjamini_hochberg([0.20, 0.50, 0.90], 0.05)[0] == [False] * 3
+    tied_rejected, tied_adjusted = m.benjamini_hochberg([0.01, 0.20, 0.01], 0.05)
+    assert tied_rejected == [True, False, True]
+    for actual, expected in zip(tied_adjusted, [0.015, 0.20, 0.015]):
+        close(actual, expected)
+
+    ordered_p = [0.001, 0.01, 0.03, 0.08, 0.4]
+    _, ordered_adjusted = m.benjamini_hochberg(ordered_p, 0.10)
+    assert all(
+        left <= right
+        for left, right in zip(ordered_adjusted, ordered_adjusted[1:])
+    )
+    assert all(p_value <= adjusted_value <= 1 for p_value, adjusted_value in zip(
+        ordered_p, ordered_adjusted
+    ))
+
+    invalid = [
+        ([], 0.05),
+        ([0.1, True], 0.05),
+        ([0.1, -0.01], 0.05),
+        ([0.1, 1.01], 0.05),
+        ([0.1, float("nan")], 0.05),
+        ([0.1], 0.0),
+        ([0.1], 1.1),
+        ([0.1], True),
+    ]
+    for probabilities, target in invalid:
+        try:
+            m.benjamini_hochberg(probabilities, target)
+        except ValueError:
+            continue
+        raise AssertionError("invalid BH input should be rejected")
+
+
+def bootstrap(m):
+    values = [1.0, 2.0, 3.0, 4.0]
+    before = values[:]
+    estimate, standard_error, interval = m.bootstrap_mean_interval(
+        values, 1000, 0.95, 17
+    )
+    assert values == before
+    close(estimate, 2.5)
+    close(standard_error, 0.567177829865282)
+    close(interval[0], 1.5)
+    close(interval[1], 3.50625)
+    assert m.bootstrap_mean_interval(values, 1000, 0.95, 17) == (
+        estimate, standard_error, interval
+    )
+
+    generated = m.bootstrap_mean_interval(
+        (value for value in values), 1000, 0.95, 17
+    )
+    assert generated == (estimate, standard_error, interval)
+    narrower = m.bootstrap_mean_interval(values, 1000, 0.80, 17)[2]
+    assert interval[0] <= narrower[0] <= narrower[1] <= interval[1]
+
+    constant = m.bootstrap_mean_interval([7.0] * 8, 100, 0.95, 3)
+    assert constant == (7.0, 0.0, (7.0, 7.0))
+    shifted = m.bootstrap_mean_interval(
+        [1e12 + value for value in values], 1000, 0.95, 17
+    )
+    close(shifted[0], 1e12 + estimate, tol=1e-12)
+    close(shifted[1], standard_error)
+    close(shifted[2][0], 1e12 + interval[0], tol=1e-12)
+    close(shifted[2][1], 1e12 + interval[1], tol=1e-12)
+
+    random.seed(90210)
+    expected_global = random.random()
+    random.seed(90210)
+    m.bootstrap_mean_interval(values, 20, 0.90, 4)
+    close(random.random(), expected_global)
+
+    invalid = [
+        ([], 100, 0.95, 1),
+        ([1.0], 100, 0.95, 1),
+        ([1.0, True], 100, 0.95, 1),
+        ([1.0, "2"], 100, 0.95, 1),
+        ([1.0, float("nan")], 100, 0.95, 1),
+        ([1.0, float("inf")], 100, 0.95, 1),
+        ([1.0, 2.0], 1, 0.95, 1),
+        ([1.0, 2.0], True, 0.95, 1),
+        ([1.0, 2.0], 100, 0.0, 1),
+        ([1.0, 2.0], 100, 1.0, 1),
+        ([1.0, 2.0], 100, float("nan"), 1),
+        ([1.0, 2.0], 100, 0.95, True),
+        ([1.0, 2.0], 100, 0.95, 1.5),
+    ]
+    for arguments in invalid:
+        try:
+            m.bootstrap_mean_interval(*arguments)
+        except ValueError:
+            continue
+        raise AssertionError("invalid bootstrap input should be rejected")
+
+
+def permutation(m):
+    observed, p_value = m.paired_permutation_test([2.0, -1.0, 3.0])
+    close(observed, 4 / 3)
+    close(p_value, 0.5)
+    close(m.paired_permutation_test([1.0, 1.0])[1], 0.5)
+    assert m.paired_permutation_test([1.0, -1.0]) == (0.0, 1.0)
+    assert m.paired_permutation_test([0.0, 0.0]) == (0.0, 1.0)
+    assert m.paired_permutation_test([5.0]) == (5.0, 1.0)
+
+    generated = m.paired_permutation_test(
+        value for value in [2.0, -1.0, 3.0]
+    )
+    close(generated[0], observed)
+    close(generated[1], p_value)
+    negated = m.paired_permutation_test([-2.0, 1.0, -3.0])
+    scaled = m.paired_permutation_test([20.0, -10.0, 30.0])
+    close(negated[0], -observed)
+    close(negated[1], p_value)
+    close(scaled[0], 10 * observed)
+    close(scaled[1], p_value)
+
+    invalid = [
+        [],
+        [0.0] * 21,
+        [1.0, True],
+        [1.0, "2"],
+        [1.0, float("nan")],
+        [1.0, float("inf")],
+    ]
+    for differences in invalid:
+        try:
+            m.paired_permutation_test(differences)
+        except ValueError:
+            continue
+        raise AssertionError("invalid paired-permutation input should be rejected")
+
+
+def e_process(m):
+    outcomes = [1, 0, 1]
+    before = outcomes[:]
+    e_values, anytime_p_value = m.bernoulli_e_process(outcomes, 0.5, 0.75)
+    assert outcomes == before
+    for actual, expected in zip(e_values, [1.5, 0.75, 1.125]):
+        close(actual, expected)
+    close(anytime_p_value, 2 / 3)
+
+    increasing, p_value = m.bernoulli_e_process([1, 1, 1], 0.5, 0.75)
+    for actual, expected in zip(increasing, [1.5, 2.25, 3.375]):
+        close(actual, expected)
+    close(p_value, 1 / 3.375)
+    decreasing, p_value = m.bernoulli_e_process([0, 0], 0.5, 0.75)
+    for actual, expected in zip(decreasing, [0.5, 0.25]):
+        close(actual, expected)
+    close(p_value, 1.0)
+
+    neutral, p_value = m.bernoulli_e_process([1, 0, 1, 1], 0.4, 0.4)
+    assert neutral == [1.0] * 4
+    assert p_value == 1.0
+    generated = m.bernoulli_e_process((value for value in outcomes), 0.5, 0.75)
+    assert generated == (e_values, anytime_p_value)
+
+    overwhelming, tiny_p = m.bernoulli_e_process([1] * 1000, 0.01, 0.99)
+    assert overwhelming[-1] == float("inf")
+    assert tiny_p == 0.0
+
+    invalid = [
+        ([], 0.5, 0.75),
+        ([True], 0.5, 0.75),
+        ([0.0, 1.0], 0.5, 0.75),
+        ([0, 2], 0.5, 0.75),
+        ([0, "1"], 0.5, 0.75),
+        ([1], 0.0, 0.75),
+        ([1], 1.0, 0.75),
+        ([1], 0.5, 0.0),
+        ([1], 0.5, 1.0),
+        ([1], float("nan"), 0.75),
+        ([1], 0.5, True),
+    ]
+    for observations, null_probability, alternative_probability in invalid:
+        try:
+            m.bernoulli_e_process(
+                observations, null_probability, alternative_probability
+            )
+        except ValueError:
+            continue
+        raise AssertionError("invalid Bernoulli e-process input should be rejected")
+
+
+def beta_update(m):
+    outcomes = [1, 0, 1, 1]
+    before = outcomes[:]
+    result = m.beta_bernoulli_update(outcomes, 2.0, 3.0)
+    assert outcomes == before
+    expected = (5.0, 4.0, 5 / 9, 20 / (81 * 10), 5 / 9)
+    for actual, target in zip(result, expected):
+        close(actual, target)
+
+    generated = m.beta_bernoulli_update((value for value in outcomes), 2.0, 3.0)
+    for actual, target in zip(generated, expected):
+        close(actual, target)
+    assert m.beta_bernoulli_update([0, 0], 1.0, 1.0)[:2] == (1.0, 3.0)
+    assert m.beta_bernoulli_update([1, 1], 1.0, 1.0)[:2] == (3.0, 1.0)
+
+    first = m.beta_bernoulli_update(outcomes[:2], 2.0, 3.0)
+    second = m.beta_bernoulli_update(outcomes[2:], first[0], first[1])
+    for actual, target in zip(second, result):
+        close(actual, target)
+    fractional = m.beta_bernoulli_update([1, 0], 0.5, 1.5)
+    for actual, target in zip(fractional, (1.5, 2.5, 0.375, 0.046875, 0.375)):
+        close(actual, target)
+
+    invalid = [
+        ([], 1.0, 1.0),
+        ([True], 1.0, 1.0),
+        ([0.0, 1.0], 1.0, 1.0),
+        ([0, 2], 1.0, 1.0),
+        ([0, "1"], 1.0, 1.0),
+        ([1], 0.0, 1.0),
+        ([1], -1.0, 1.0),
+        ([1], 1.0, 0.0),
+        ([1], float("nan"), 1.0),
+        ([1], 1.0, float("inf")),
+        ([1], True, 1.0),
+    ]
+    for observations, alpha, beta in invalid:
+        try:
+            m.beta_bernoulli_update(observations, alpha, beta)
+        except ValueError:
+            continue
+        raise AssertionError("invalid Beta-Bernoulli input should be rejected")
+
+
+def importance(m):
+    values = [10.0, 20.0, 30.0]
+    log_weights = [0.0, math.log(2.0), math.log(3.0)]
+    before_values, before_weights = values[:], log_weights[:]
+    estimate, normalized, effective_sample_size = m.self_normalized_importance(
+        values, log_weights
+    )
+    assert values == before_values and log_weights == before_weights
+    close(estimate, 140 / 6)
+    for actual, target in zip(normalized, [1 / 6, 2 / 6, 3 / 6]):
+        close(actual, target)
+    close(effective_sample_size, 18 / 7)
+    close(sum(normalized), 1.0)
+
+    shifted = m.self_normalized_importance(
+        values, [weight + 10000 for weight in log_weights]
+    )
+    close(shifted[0], estimate)
+    close(shifted[2], effective_sample_size)
+    for actual, target in zip(shifted[1], normalized):
+        close(actual, target)
+
+    equal = m.self_normalized_importance([1.0, 2.0, 10.0], [5.0] * 3)
+    close(equal[0], 13 / 3)
+    assert equal[1] == [1 / 3] * 3
+    close(equal[2], 3.0)
+    extreme = m.self_normalized_importance(
+        [1.0, 2.0, 10.0], [-1000.0, -1000.0, 0.0]
+    )
+    assert extreme == (10.0, [0.0, 0.0, 1.0], 1.0)
+
+    generated = m.self_normalized_importance(
+        (value for value in values), (weight for weight in log_weights)
+    )
+    close(generated[0], estimate)
+    close(generated[2], effective_sample_size)
+
+    invalid = [
+        ([], []),
+        ([1.0], []),
+        ([1.0], [0.0, 1.0]),
+        ([True], [0.0]),
+        (["1"], [0.0]),
+        ([float("nan")], [0.0]),
+        ([float("inf")], [0.0]),
+        ([1.0], [True]),
+        ([1.0], [float("nan")]),
+        ([1.0], [float("inf")]),
+        ([1.0], [float("-inf")]),
+    ]
+    for observations, weights in invalid:
+        try:
+            m.self_normalized_importance(observations, weights)
+        except ValueError:
+            continue
+        raise AssertionError("invalid importance-sampling input should be rejected")
+
+
+def metropolis(m):
+    constant = lambda value: 0.0
+    states, acceptance = m.random_walk_metropolis(constant, 0.0, 1.0, 5, 7)
+    expected_states = [
+        -0.2558802884476004,
+        0.25555122406891356,
+        -0.6744669662538538,
+        -0.8877689136750575,
+        0.14911016521460896,
+    ]
+    for actual, target in zip(states, expected_states):
+        close(actual, target)
+    close(acceptance, 1.0)
+    assert m.random_walk_metropolis(constant, 0.0, 1.0, 5, 7) == (
+        states, acceptance
+    )
+
+    stuck = m.random_walk_metropolis(
+        lambda value: 0.0 if value == 0.0 else float("-inf"),
+        0.0, 1.0, 8, 3
+    )
+    assert stuck == ([0.0] * 8, 0.0)
+
+    gaussian_states, gaussian_acceptance = m.random_walk_metropolis(
+        lambda value: -0.5 * value * value, 8.0, 1.0, 10000, 19
+    )
+    retained = gaussian_states[1000:]
+    mean = math.fsum(retained) / len(retained)
+    variance = math.fsum((value - mean) ** 2 for value in retained) / len(retained)
+    assert abs(mean) < 0.12
+    assert 0.8 < variance < 1.2
+    assert 0.5 < gaussian_acceptance < 0.9
+
+    random.seed(4815)
+    expected_global = random.random()
+    random.seed(4815)
+    m.random_walk_metropolis(constant, 0.0, 1.0, 5, 7)
+    close(random.random(), expected_global)
+
+    invalid = [
+        (None, 0.0, 1.0, 10, 1),
+        (constant, True, 1.0, 10, 1),
+        (constant, float("nan"), 1.0, 10, 1),
+        (constant, 0.0, 0.0, 10, 1),
+        (constant, 0.0, float("inf"), 10, 1),
+        (constant, 0.0, 1.0, 0, 1),
+        (constant, 0.0, 1.0, True, 1),
+        (constant, 0.0, 1.0, 10, True),
+        (lambda value: float("nan"), 0.0, 1.0, 10, 1),
+        (lambda value: float("-inf"), 0.0, 1.0, 10, 1),
+        (lambda value: "bad", 0.0, 1.0, 10, 1),
+        (
+            lambda value: 0.0 if value == 0.0 else float("inf"),
+            0.0, 1.0, 10, 1
+        ),
+    ]
+    for arguments in invalid:
+        try:
+            m.random_walk_metropolis(*arguments)
+        except ValueError:
+            continue
+        raise AssertionError("invalid Metropolis input should be rejected")
+
+
 def search(m):
     for n in range(7):
         for values in itertools.combinations_with_replacement([-1, 0, 1], n):
@@ -352,6 +764,14 @@ CHECKS = {"moments": moments, "conditional": conditional,
           "convolution": convolution, "gaussian": gaussian,
           "monte-carlo": monte_carlo,
           "bernoulli-mle": bernoulli_mle,
+          "binomial-test": binomial_test,
+          "bh-fdr": bh_fdr,
+          "bootstrap": bootstrap,
+          "permutation": permutation,
+          "e-process": e_process,
+          "beta-update": beta_update,
+          "importance": importance,
+          "metropolis": metropolis,
           "search": search, "softmax": softmax,
           "bigram": bigram, "attention": attention, "bellman": bellman}
 

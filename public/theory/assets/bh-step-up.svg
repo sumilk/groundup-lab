@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="410" viewBox="0 0 920 410" role="img" aria-labelledby="title desc">
+  <title id="title">Benjamini Hochberg step-up rule</title>
+  <desc id="desc">Sorted p-values are plotted against rank. A line gives rank divided by the number of tests times the target false discovery rate. The last p-value below the line sets the rejection cutoff.</desc>
+  <rect width="920" height="410" rx="18" fill="#f7fbfc"/>
+  <text x="460" y="37" text-anchor="middle" font-family="sans-serif" font-size="21" font-weight="700" fill="#173641">Sort first, then find the last crossing</text>
+  <line x1="110" y1="342" x2="838" y2="342" stroke="#476073" stroke-width="2"/>
+  <line x1="110" y1="342" x2="110" y2="72" stroke="#476073" stroke-width="2"/>
+  <line x1="110" y1="342" x2="808" y2="92" stroke="#d07a24" stroke-width="4"/>
+  <text x="740" y="82" font-family="sans-serif" font-size="15" font-weight="700" fill="#995817">threshold (i/m)q</text>
+  <g fill="#176b71" stroke="#0f5055" stroke-width="2">
+    <circle cx="180" cy="326" r="8"/><circle cx="250" cy="304" r="8"/><circle cx="320" cy="290" r="8"/>
+    <circle cx="390" cy="251" r="8"/><circle cx="460" cy="228" r="8"/>
+  </g>
+  <g fill="#a84e56" stroke="#81363d" stroke-width="2">
+    <circle cx="530" cy="174" r="8"/><circle cx="600" cy="134" r="8"/><circle cx="670" cy="104" r="8"/><circle cx="740" cy="82" r="8"/><circle cx="810" cy="66" r="8"/>
+  </g>
+  <line x1="460" y1="228" x2="460" y2="342" stroke="#176b71" stroke-width="3" stroke-dasharray="6 6"/>
+  <text x="460" y="372" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="700" fill="#176b71">largest passing rank k</text>
+  <text x="475" y="322" font-family="sans-serif" font-size="14" fill="#176b71">reject ranks 1,…,k</text>
+  <text x="470" y="397" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#476073">rank i after sorting p-values from smallest to largest</text>
+  <text transform="translate(34 240) rotate(-90)" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#476073">p-value</text>
+</svg>

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="430" viewBox="0 0 960 430" role="img" aria-labelledby="title desc">
+  <title id="title">Hierarchical partial pooling moves noisy group estimates toward a shared center</title>
+  <desc id="desc">Unpooled estimates for several groups are connected by arrows to posterior estimates closer to a population center. Small uncertain groups move more than large precise groups.</desc>
+  <rect width="960" height="430" rx="18" fill="#f7fbfc"/>
+  <text x="480" y="36" text-anchor="middle" font-family="sans-serif" font-size="21" font-weight="700" fill="#173641">Partial pooling shares information without making groups identical</text>
+  <line x1="95" y1="350" x2="870" y2="350" stroke="#476073" stroke-width="2"/>
+  <line x1="480" y1="70" x2="480" y2="358" stroke="#6b7e88" stroke-width="3" stroke-dasharray="7 7"/>
+  <text x="480" y="384" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="700" fill="#476073">population center</text>
+  <g font-family="sans-serif" font-size="14">
+    <text x="30" y="103" fill="#35566a">tiny group</text>
+    <line x1="235" y1="98" x2="235" y2="260" stroke="#c98655" stroke-width="8" stroke-linecap="round"/>
+    <circle cx="235" cy="179" r="10" fill="#bd6b37"/>
+    <path d="M250 179 H382" stroke="#476073" stroke-width="3" marker-end="url(#hp-arrow)"/>
+    <circle cx="400" cy="179" r="10" fill="#2d8a70"/>
+    <text x="30" y="203" fill="#35566a">medium group</text>
+    <line x1="630" y1="155" x2="630" y2="245" stroke="#c98655" stroke-width="8" stroke-linecap="round"/>
+    <circle cx="630" cy="200" r="10" fill="#bd6b37"/>
+    <path d="M615 200 H552" stroke="#476073" stroke-width="3" marker-end="url(#hp-arrow)"/>
+    <circle cx="535" cy="200" r="10" fill="#2d8a70"/>
+    <text x="30" y="303" fill="#35566a">large group</text>
+    <line x1="365" y1="270" x2="365" y2="322" stroke="#c98655" stroke-width="8" stroke-linecap="round"/>
+    <circle cx="365" cy="296" r="10" fill="#bd6b37"/>
+    <path d="M380 296 H405" stroke="#476073" stroke-width="3" marker-end="url(#hp-arrow)"/>
+    <circle cx="423" cy="296" r="10" fill="#2d8a70"/>
+  </g>
+  <g transform="translate(690 80)" font-family="sans-serif" font-size="14">
+    <circle cx="10" cy="10" r="8" fill="#bd6b37"/><text x="28" y="15" fill="#35566a">separate estimate</text>
+    <circle cx="10" cy="42" r="8" fill="#2d8a70"/><text x="28" y="47" fill="#35566a">partially pooled posterior</text>
+    <line x1="2" y1="74" x2="18" y2="74" stroke="#c98655" stroke-width="7" stroke-linecap="round"/><text x="28" y="79" fill="#35566a">uncertainty</text>
+  </g>
+  <text x="480" y="414" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#476073">How far a group moves is learned from between-group variation and within-group information.</text>
+  <defs><marker id="hp-arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#476073"/></marker></defs>
+</svg>

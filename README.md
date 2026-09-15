@@ -23,7 +23,7 @@ Progressive AI study for Sumil: Python, DSA, linear algebra, optimization, proba
 
 ## What exists
 
-32 authored lessons, thirteen CPU exercises with in-browser Python editors, separate reference implementations and behavioral checks, mathematical SVGs/Mermaid diagrams, and a browser theory reader. Exercise code and the latest output are saved locally per lab and can be reset to the current starter.
+35 authored lessons, twenty-one CPU exercises with in-browser Python editors, separate reference implementations and behavioral checks, mathematical SVGs/Mermaid diagrams, and a browser theory reader. Exercise code and the latest output are saved locally per lab and can be reset to the current starter.
 
 ## Website
 

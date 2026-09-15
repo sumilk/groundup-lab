@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="430" viewBox="0 0 960 430" role="img" aria-labelledby="title desc">
+  <title id="title">Importance sampling and MCMC explore a target distribution differently</title>
+  <desc id="desc">Importance sampling draws independently from a proposal and weights the points, sometimes producing one dominant weight. MCMC produces a dependent path concentrated in the target region.</desc>
+  <rect width="960" height="430" rx="18" fill="#f7fbfc"/>
+  <text x="480" y="37" text-anchor="middle" font-family="sans-serif" font-size="21" font-weight="700" fill="#173641">Two computational strategies, two failure signatures</text>
+  <line x1="480" y1="65" x2="480" y2="380" stroke="#c4d0d6" stroke-width="2"/>
+  <text x="240" y="82" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="700" fill="#356f84">importance sampling</text>
+  <text x="720" y="82" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="700" fill="#604d7d">Markov chain Monte Carlo</text>
+  <g fill="#78b6c9" stroke="#356f84">
+    <circle cx="95" cy="165" r="7"/><circle cx="140" cy="285" r="8"/><circle cx="190" cy="135" r="6"/>
+    <circle cx="250" cy="320" r="7"/><circle cx="310" cy="125" r="8"/><circle cx="370" cy="275" r="7"/>
+    <circle cx="420" cy="185" r="6"/>
+  </g>
+  <ellipse cx="330" cy="225" rx="50" ry="35" fill="#d97b4b" opacity=".78" stroke="#a35428" stroke-width="3"/>
+  <text x="330" y="230" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="700" fill="#fff">huge weight</text>
+  <ellipse cx="280" cy="220" rx="115" ry="78" fill="none" stroke="#2d8a70" stroke-width="4" stroke-dasharray="8 7"/>
+  <text x="240" y="367" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#476073">independent proposal draws; weights correct mismatch</text>
+  <ellipse cx="720" cy="220" rx="125" ry="83" fill="#efe8f6" stroke="#8069a0" stroke-width="4"/>
+  <polyline points="565,315 590,280 620,292 640,245 675,260 690,210 730,225 750,175 785,190 815,148 845,170" fill="none" stroke="#604d7d" stroke-width="5"/>
+  <g fill="#8069a0">
+    <circle cx="565" cy="315" r="6"/><circle cx="590" cy="280" r="6"/><circle cx="620" cy="292" r="6"/>
+    <circle cx="640" cy="245" r="6"/><circle cx="675" cy="260" r="6"/><circle cx="690" cy="210" r="6"/>
+    <circle cx="730" cy="225" r="6"/><circle cx="750" cy="175" r="6"/><circle cx="785" cy="190" r="6"/>
+    <circle cx="815" cy="148" r="6"/><circle cx="845" cy="170" r="6"/>
+  </g>
+  <text x="720" y="367" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#476073">dependent local path; mixing reveals exploration quality</text>
+  <text x="480" y="405" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#476073">Weighted effective sample size and chain effective sample size diagnose different problems.</text>
+</svg>

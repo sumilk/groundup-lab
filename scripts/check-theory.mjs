@@ -20,11 +20,12 @@ for(const lesson of catalog.lessons){
     if(!target||/^[a-z]+:/i.test(target))continue;
     await access(path.resolve(base,target));
   }
-  const linksExercise=/\]\(\.\.\/\.\.\/labs\/exercises\.py\)/.test(lesson.markdown);
+  const exerciseLinks=[...lesson.markdown.matchAll(/\]\(\.\.\/\.\.\/labs\/exercises\.py\)/g)].length;
   const browserLabs=runtime.labs.filter(lab=>lab.lesson===lesson.path);
-  assert(!linksExercise||browserLabs.length,"Lesson exercise link has no browser lab: "+lesson.path);
+  assert(!exerciseLinks||browserLabs.length,"Lesson exercise link has no browser lab: "+lesson.path);
   if(browserLabs.length){
-    assert(linksExercise,"Browser lab lesson has no exercise link: "+lesson.path);
+    assert(exerciseLinks===browserLabs.length,
+      "Browser lab/exercise-link count differs: "+lesson.path);
     for(const browserLab of browserLabs){
       assert(browserLab.starter.includes("def "+browserLab.function+"("),"Starter has wrong function: "+browserLab.task);
       assert(runtime.checks.includes('"'+browserLab.task+'"'),"Checks omit browser task: "+browserLab.task);

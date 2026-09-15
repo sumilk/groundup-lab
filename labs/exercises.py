@@ -67,6 +67,86 @@ def bernoulli_mle(outcomes):
     raise NotImplementedError("Maximize the Bernoulli likelihood and quantify curvature")
 
 
+def exact_binomial_test(
+    successes, trials, null_probability, confidence_level=0.95,
+    alternative="two-sided"
+):
+    """Return (estimate, exact p-value, equal-tailed exact interval).
+
+    alternative must be "less", "greater", or "two-sided". The two-sided
+    p-value doubles the smaller inclusive tail and caps the result at one.
+    """
+    raise NotImplementedError("Sum exact binomial tails and invert them by bisection")
+
+
+def benjamini_hochberg(p_values, false_discovery_rate):
+    """Return (rejection decisions, BH-adjusted p-values) in input order.
+
+    Require a nonempty iterable of finite probabilities and a target rate in
+    (0, 1]. Inputs must not be mutated.
+    """
+    raise NotImplementedError("Sort by p-value, step up, then map results back")
+
+
+def bootstrap_mean_interval(
+    values, resamples, confidence_level=0.95, seed=0
+):
+    """Return (mean, bootstrap standard error, percentile interval).
+
+    Use same-size resamples with replacement and a local seeded generator.
+    Quantiles use linear interpolation at index (resamples - 1) * probability.
+    """
+    raise NotImplementedError("Resample indices, summarize means, and take quantiles")
+
+
+def paired_permutation_test(differences):
+    """Return (observed mean, exact inclusive two-sided sign-flip p-value).
+
+    Require one to twenty finite paired differences and enumerate all sign
+    assignments under the paired sharp null.
+    """
+    raise NotImplementedError("Flip every combination of paired-difference signs")
+
+
+def bernoulli_e_process(outcomes, null_probability, alternative_probability):
+    """Return (running likelihood-ratio e-values, anytime p-value).
+
+    Probabilities must lie strictly inside (0, 1). Outcomes must be a nonempty
+    iterable containing integer zeros and ones. Compute cumulative evidence
+    stably enough to represent overwhelming evidence as infinity.
+    """
+    raise NotImplementedError("Accumulate Bernoulli log likelihood ratios over time")
+
+
+def beta_bernoulli_update(outcomes, prior_alpha, prior_beta):
+    """Return posterior alpha, beta, mean, variance, and predictive success.
+
+    Require a nonempty iterable containing integer zeros and ones and finite,
+    strictly positive prior shape parameters.
+    """
+    raise NotImplementedError("Add sufficient counts to the Beta prior shapes")
+
+
+def self_normalized_importance(values, log_weights):
+    """Return (weighted estimate, normalized weights, importance ESS).
+
+    Values and log weights must be equally sized, nonempty finite iterables.
+    Preserve order and stabilize exponentiation by subtracting the largest
+    log weight.
+    """
+    raise NotImplementedError("Normalize log weights and compute a weighted mean")
+
+
+def random_walk_metropolis(log_density, initial, proposal_scale, steps, seed):
+    """Return (states after each proposal, acceptance rate).
+
+    Use a local Gaussian random-walk proposal and the log acceptance rule.
+    The initial log density must be finite. Proposed log densities may be
+    finite or negative infinity, with negative infinity forcing rejection.
+    """
+    raise NotImplementedError("Propose locally and accept using a log-density ratio")
+
+
 def lower_bound(values, target):
     """First index >= target in sorted values; len(values) if absent."""
     raise NotImplementedError("Use a half-open interval and a partition invariant")
