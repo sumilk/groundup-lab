@@ -1,6 +1,6 @@
 # Hands-on labs
 
-Use Python 3.11 or later. These forty exercises need only the standard library; no GPU, API key, package installation, or paid dataset is required.
+Use Python 3.11 or later. These forty-three exercises need only the standard library; no GPU, API key, package installation, or paid dataset is required.
 
 In the theory reader, select the linked exercise inside a lesson to open its runnable Python workspace on the right without losing your reading position. If a lesson gains multiple coding exercises, task tabs share that workspace. The implementation and most recent output are saved in that browser for each task. **Run tests** executes the behavioral check, **Run code** supports print-based exploration, **Stop** terminates a stuck worker, and **Reset starter** restores the authored skeleton. The command-line workflow below remains available.
 
@@ -48,6 +48,9 @@ In the theory reader, select the linked exercise inside a lesson to open its run
 | em-step | [Mixtures, EM, and graphical models](../content/05-probability-statistics/17-mixtures-em-graphical-models.md) | Monotone EM step with log-space responsibilities |
 | hmm-forward | [Mixtures, EM, and graphical models](../content/05-probability-statistics/17-mixtures-em-graphical-models.md) | Scaled forward recursion and filtered state posterior |
 | d-separation | [Mixtures, EM, and graphical models](../content/05-probability-statistics/17-mixtures-em-graphical-models.md) | Path blocking under the chain, fork, and collider rules |
+| dkw-band | [Order statistics and nonparametrics](../content/05-probability-statistics/18-order-statistics-empirical-processes-nonparametrics.md) | Distribution-free simultaneous band around the empirical CDF |
+| mann-whitney | [Order statistics and nonparametrics](../content/05-probability-statistics/18-order-statistics-empirical-processes-nonparametrics.md) | Pairwise-win statistic, win rate, and tie-corrected normal score |
+| kde | [Order statistics and nonparametrics](../content/05-probability-statistics/18-order-statistics-empirical-processes-nonparametrics.md) | Gaussian kernel density estimate at arbitrary query points |
 | search | [DSA](../content/04-dsa/01-invariants-search-graphs-dp.md) | Exhaustive boundary cases |
 | softmax | [PyTorch](../content/08-pytorch/01-tensors-autograd-training.md) | Stability and shift invariance |
 | bigram | [NLP](../content/10-nlp/01-text-representations-language-models.md) | Correct target offsets |

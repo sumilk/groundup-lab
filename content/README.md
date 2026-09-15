@@ -1,6 +1,6 @@
 # GroundUp Lab — theory and practice
 
-The repository now has **42 authored lessons across 14 tracks**, with linear algebra, optimization, and probability/statistics as separate tracks. This is an initial cross-curriculum release, **not complete coverage**. Each track has substantial expansion work remaining. Depth labels are targets and have not been independently verified.
+The repository now has **43 authored lessons across 14 tracks**, with linear algebra, optimization, and probability/statistics as separate tracks. This is an initial cross-curriculum release, **not complete coverage**. Each track has substantial expansion work remaining. Depth labels are targets and have not been independently verified.
 
 ## Start here
 
@@ -51,6 +51,7 @@ Attempt these prompts before continuing. The end-of-unit practice set then mixes
 | 05 Probability and statistics | [Score matching, diffusion, and sampling from generative models](05-probability-statistics/15-score-matching-diffusion-sampling.md) |
 | 05 Probability and statistics | [Observational causal inference, quasi-experiments, and missing data](05-probability-statistics/16-causal-inference-missing-data.md) |
 | 05 Probability and statistics | [Mixtures, the EM algorithm, and graphical models](05-probability-statistics/17-mixtures-em-graphical-models.md) |
+| 05 Probability and statistics | [Order statistics, empirical processes, rank tests, and density estimation](05-probability-statistics/18-order-statistics-empirical-processes-nonparametrics.md) |
 | 06 Information, learning, and decisions | [Entropy, generalization, and decisions](06-information-learning-decision/01-entropy-generalization-decisions.md) |
 | 07 Classical ML | [Regression, classification, evaluation](07-classical-ml/01-regression-classification-evaluation.md) |
 | 08 PyTorch | [Tensors, autograd, training](08-pytorch/01-tensors-autograd-training.md) |
@@ -88,10 +89,11 @@ The track is being expanded one unit at a time in this order:
 17. **Authored:** score matching, diffusion, and sampling from generative models.
 18. **Authored:** observational causal inference — DAGs and d-separation, backdoor adjustment, propensity weighting, doubly robust estimation, instruments, difference-in-differences — and missing-data mechanisms with multiple imputation.
 19. **Authored:** finite mixtures, the EM algorithm, identifiability of latent structure, and directed, undirected, and factor graphical models with exact inference.
+20. **Authored:** order statistics, empirical process theory with Glivenko–Cantelli and DKW, rank and permutation tests, U-statistics, kernel density estimation, and Rao–Blackwellized Monte Carlo.
 
 ## Hands-on resources
 
-- [Forty runnable exercises and behavioral checks](../labs/README.md)
+- [Forty-three runnable exercises and behavioral checks](../labs/README.md)
 - [Learner implementation file](../labs/exercises.py)
 - [Reference solutions — attempt first](../labs/reference.py)
 - [Web reader source](../public/theory/index.html)

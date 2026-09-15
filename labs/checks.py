@@ -1517,6 +1517,141 @@ def d_separation(m):
         raise AssertionError("invalid d-separation inputs should be rejected")
 
 
+def dkw_band(m):
+    samples = [1.0, 2.0, 3.0, 4.0]
+    before = list(samples)
+    width = math.sqrt(math.log(40.0) / 8.0)
+    band = m.ecdf_dkw_band(samples, 0.05, [0.5, 1.0, 2.5, 4.0, 9.0])
+    assert len(band) == 5
+    for triple, expected in zip(band, [0.0, 0.25, 0.5, 1.0, 1.0]):
+        close(triple[0], expected)
+        close(triple[1], min(1.0, max(0.0, expected - width)))
+        close(triple[2], min(1.0, max(0.0, expected + width)))
+    assert samples == before
+
+    wide = [float(value) for value in range(1, 101)]
+    narrow = math.sqrt(math.log(40.0) / 200.0)
+    estimate, lower, upper = m.ecdf_dkw_band(iter(wide), 0.05, iter([50.0]))[0]
+    close(estimate, 0.5)
+    close(lower, 0.5 - narrow)
+    close(upper, 0.5 + narrow)
+    close(upper - lower, 2.0 * narrow)
+
+    ordered = m.ecdf_dkw_band(wide, 0.2, [10.0, 20.0, 30.0, 90.0])
+    assert all(
+        earlier[0] <= later[0] for earlier, later in zip(ordered, ordered[1:])
+    )
+    assert m.ecdf_dkw_band(samples, 0.5, []) == []
+
+    bad = (
+        ([], 0.05, [0.0]),
+        ([1.0], 0.0, [0.0]),
+        ([1.0], 1.0, [0.0]),
+        ([1.0], -0.2, [0.0]),
+        ([1.0], float("nan"), [0.0]),
+        ([float("inf")], 0.05, [0.0]),
+        ([1.0], 0.05, [float("nan")]),
+    )
+    for values, level, queries in bad:
+        try:
+            m.ecdf_dkw_band(values, level, queries)
+        except ValueError:
+            continue
+        raise AssertionError("invalid band inputs should be rejected")
+
+
+def mann_whitney(m):
+    first = [4.0, 5.0, 6.0]
+    second = [1.0, 2.0, 3.0]
+    before = list(first)
+    statistic, theta, z_score = m.mann_whitney_u(first, second)
+    close(statistic, 9.0)
+    close(theta, 1.0)
+    close(z_score, 4.5 / math.sqrt(5.25))
+    assert first == before
+
+    reversed_statistic, reversed_theta, reversed_z = m.mann_whitney_u(second, first)
+    close(reversed_statistic, 0.0)
+    close(reversed_theta, 0.0)
+    close(reversed_z, -4.5 / math.sqrt(5.25))
+    close(statistic + reversed_statistic, 9.0)
+
+    tied_statistic, tied_theta, tied_z = m.mann_whitney_u([2.0, 2.0], [2.0, 2.0])
+    close(tied_statistic, 2.0)
+    close(tied_theta, 0.5)
+    close(tied_z, 0.0)
+
+    statistic, theta, z_score = m.mann_whitney_u(iter([1.0, 2.0, 2.0]), iter([2.0, 3.0]))
+    close(statistic, 1.0)
+    close(theta, 1 / 6)
+    close(z_score, -2.0 / math.sqrt(0.5 * (6.0 - 24.0 / 20.0)))
+
+    shifted = m.mann_whitney_u([3.0, 9.0, 27.0], [1.0, 81.0])
+    logged = m.mann_whitney_u(
+        [math.log(3.0), math.log(9.0), math.log(27.0)], [math.log(1.0), math.log(81.0)]
+    )
+    close(shifted[0], logged[0])
+    close(shifted[1], logged[1])
+    close(shifted[2], logged[2])
+
+    bad = (
+        ([], [1.0]),
+        ([1.0], []),
+        ([float("nan")], [1.0]),
+        ([1.0], [float("inf")]),
+    )
+    for left, right in bad:
+        try:
+            m.mann_whitney_u(left, right)
+        except ValueError:
+            continue
+        raise AssertionError("invalid rank-sum inputs should be rejected")
+
+
+def kde(m):
+    samples = [0.0]
+    before = list(samples)
+    estimates = m.gaussian_kde(samples, 1.0, [0.0, 1.0])
+    close(estimates[0], 1.0 / math.sqrt(2.0 * math.pi))
+    close(estimates[1], math.exp(-0.5) / math.sqrt(2.0 * math.pi))
+    assert samples == before
+
+    close(
+        m.gaussian_kde([-1.0, 1.0], 1.0, [0.0])[0],
+        math.exp(-0.5) / math.sqrt(2.0 * math.pi),
+    )
+
+    base = m.gaussian_kde([-1.0, 0.0, 2.0], 0.7, [-0.5, 0.0, 1.5])
+    shifted = m.gaussian_kde([9.0, 10.0, 12.0], 0.7, [9.5, 10.0, 11.5])
+    for plain, moved in zip(base, shifted):
+        close(plain, moved)
+    scaled = m.gaussian_kde([-3.0, 0.0, 6.0], 2.1, [-1.5, 0.0, 4.5])
+    for plain, stretched in zip(base, scaled):
+        close(plain, 3.0 * stretched)
+
+    step = 0.005
+    grid = [-10.0 + step * index for index in range(4001)]
+    mass = math.fsum(m.gaussian_kde(iter([-1.0, 0.0, 2.0]), 0.5, iter(grid))) * step
+    close(mass, 1.0, tol=1e-6)
+    assert m.gaussian_kde([0.0], 1.0, [40.0])[0] < 1e-300
+    assert m.gaussian_kde([0.0], 1.0, []) == []
+
+    bad = (
+        ([], 1.0, [0.0]),
+        ([0.0], 0.0, [0.0]),
+        ([0.0], -1.0, [0.0]),
+        ([0.0], float("inf"), [0.0]),
+        ([float("nan")], 1.0, [0.0]),
+        ([0.0], 1.0, [float("inf")]),
+    )
+    for values, width, queries in bad:
+        try:
+            m.gaussian_kde(values, width, queries)
+        except ValueError:
+            continue
+        raise AssertionError("invalid density inputs should be rejected")
+
+
 CHECKS = {"moments": moments, "conditional": conditional,
           "categorical": categorical, "joint": joint,
           "convolution": convolution, "gaussian": gaussian,
@@ -1549,6 +1684,9 @@ CHECKS = {"moments": moments, "conditional": conditional,
           "em-step": em_step,
           "hmm-forward": hmm_forward,
           "d-separation": d_separation,
+          "dkw-band": dkw_band,
+          "mann-whitney": mann_whitney,
+          "kde": kde,
           "search": search, "softmax": softmax,
           "bigram": bigram, "attention": attention, "bellman": bellman}
 

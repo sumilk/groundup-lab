@@ -413,3 +413,43 @@ def d_separated(edges, source, target, conditioned):
     conditioning set.
     """
     raise NotImplementedError("Enumerate undirected paths and apply the two blocking rules")
+
+
+def ecdf_dkw_band(samples, alpha, queries):
+    """Return one (ecdf, lower, upper) triple per query point.
+
+    The empirical CDF is the fraction of samples less than or equal to the
+    query. The band half-width is sqrt(log(2 / alpha) / (2n)), and both
+    endpoints are clipped to [0, 1]. The band holds simultaneously at every
+    query, at any sample size, for any distribution.
+
+    Require nonempty finite samples, alpha strictly inside (0, 1), and finite
+    query points. An empty query list returns an empty list.
+    """
+    raise NotImplementedError("Count at or below each query, then offset by the DKW half-width")
+
+
+def mann_whitney_u(first, second):
+    """Return (U for the first sample, theta estimate, tie-corrected z).
+
+    U counts pairwise wins of the first sample over the second, with ties
+    counting a half. theta is U / (m * n), the estimate of P(X > Y) + P(X = Y)/2.
+    The z statistic centres U at m * n / 2 and divides by the tie-corrected
+    standard deviation, where a tie group of size t reduces the variance.
+
+    Require nonempty finite samples. Return a z of zero when every value in
+    both samples is tied, since the corrected variance is then zero.
+    """
+    raise NotImplementedError("Count pairwise wins, then centre and scale with the tie-corrected variance")
+
+
+def gaussian_kde(samples, bandwidth, queries):
+    """Return the Gaussian kernel density estimate at each query point.
+
+    The estimate at x is the average over samples of a normal density with
+    mean at the sample and standard deviation equal to the bandwidth.
+
+    Require nonempty finite samples, a strictly positive finite bandwidth, and
+    finite query points. An empty query list returns an empty list.
+    """
+    raise NotImplementedError("Average one normal bump per observation, scaled by the bandwidth")

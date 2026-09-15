@@ -1447,3 +1447,111 @@ def d_separated(edges, source, target, conditioned):
         return True
 
     return blocked_from([source])
+
+
+def ecdf_dkw_band(samples, alpha, queries):
+    values = list(samples)
+    points = list(queries)
+    if not values:
+        raise ValueError("at least one sample required")
+    if any(
+        isinstance(value, bool)
+        or not isinstance(value, (int, float))
+        or not math.isfinite(value)
+        for value in values + points
+    ):
+        raise ValueError("samples and queries must be finite numbers")
+    if (
+        isinstance(alpha, bool)
+        or not isinstance(alpha, (int, float))
+        or not math.isfinite(alpha)
+        or alpha <= 0.0
+        or alpha >= 1.0
+    ):
+        raise ValueError("alpha must lie strictly inside (0, 1)")
+
+    ordered = sorted(values)
+    count = len(ordered)
+    half_width = math.sqrt(math.log(2.0 / alpha) / (2.0 * count))
+    band = []
+    for point in points:
+        below = sum(1 for value in ordered if value <= point)
+        estimate = below / count
+        band.append(
+            (
+                estimate,
+                min(1.0, max(0.0, estimate - half_width)),
+                min(1.0, max(0.0, estimate + half_width)),
+            )
+        )
+    return band
+
+
+def mann_whitney_u(first, second):
+    left = list(first)
+    right = list(second)
+    if not left or not right:
+        raise ValueError("both samples must be nonempty")
+    if any(
+        isinstance(value, bool)
+        or not isinstance(value, (int, float))
+        or not math.isfinite(value)
+        for value in left + right
+    ):
+        raise ValueError("samples must contain finite numbers")
+
+    wins = 0.0
+    for value in left:
+        for other in right:
+            if value > other:
+                wins += 1.0
+            elif value == other:
+                wins += 0.5
+    pairs = len(left) * len(right)
+    theta = wins / pairs
+
+    total = len(left) + len(right)
+    groups = {}
+    for value in left + right:
+        groups[value] = groups.get(value, 0) + 1
+    correction = math.fsum(size ** 3 - size for size in groups.values())
+    variance = (
+        pairs
+        / 12.0
+        * ((total + 1) - correction / (total * (total - 1)))
+    )
+    if variance <= 0.0:
+        return wins, theta, 0.0
+    return wins, theta, (wins - pairs / 2.0) / math.sqrt(variance)
+
+
+def gaussian_kde(samples, bandwidth, queries):
+    values = list(samples)
+    points = list(queries)
+    if not values:
+        raise ValueError("at least one sample required")
+    if any(
+        isinstance(value, bool)
+        or not isinstance(value, (int, float))
+        or not math.isfinite(value)
+        for value in values + points
+    ):
+        raise ValueError("samples and queries must be finite numbers")
+    if (
+        isinstance(bandwidth, bool)
+        or not isinstance(bandwidth, (int, float))
+        or not math.isfinite(bandwidth)
+        or bandwidth <= 0.0
+    ):
+        raise ValueError("bandwidth must be strictly positive and finite")
+
+    scale = 1.0 / (len(values) * bandwidth * math.sqrt(2.0 * math.pi))
+    estimates = []
+    for point in points:
+        estimates.append(
+            scale
+            * math.fsum(
+                math.exp(-0.5 * ((point - value) / bandwidth) ** 2) for value in values
+            )
+        )
+    return estimates

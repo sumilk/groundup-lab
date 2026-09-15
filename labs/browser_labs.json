@@ -241,5 +241,23 @@
     "task": "d-separation",
     "function": "d_separated",
     "title": "Deciding d-separation"
+  },
+  {
+    "lesson": "05-probability-statistics/18-order-statistics-empirical-processes-nonparametrics.md",
+    "task": "dkw-band",
+    "function": "ecdf_dkw_band",
+    "title": "Empirical CDF with a DKW band"
+  },
+  {
+    "lesson": "05-probability-statistics/18-order-statistics-empirical-processes-nonparametrics.md",
+    "task": "mann-whitney",
+    "function": "mann_whitney_u",
+    "title": "Mann-Whitney with tie correction"
+  },
+  {
+    "lesson": "05-probability-statistics/18-order-statistics-empirical-processes-nonparametrics.md",
+    "task": "kde",
+    "function": "gaussian_kde",
+    "title": "Gaussian kernel density estimate"
   }
 ]
