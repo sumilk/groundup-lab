@@ -259,5 +259,53 @@
     "task": "kde",
     "function": "gaussian_kde",
     "title": "Gaussian kernel density estimate"
+  },
+  {
+    "lesson": "02-linear-algebra/01-vectors-spaces-bases.md",
+    "task": "span",
+    "function": "span_coordinates",
+    "title": "Membership in a span",
+    "supportFunctions": [
+      "_validated_columns",
+      "_eliminate"
+    ]
+  },
+  {
+    "lesson": "02-linear-algebra/01-vectors-spaces-bases.md",
+    "task": "dependence",
+    "function": "dependency_relation",
+    "title": "Explicit dependency relation",
+    "supportFunctions": [
+      "_validated_columns",
+      "_eliminate"
+    ]
+  },
+  {
+    "lesson": "02-linear-algebra/01-vectors-spaces-bases.md",
+    "task": "coordinates",
+    "function": "basis_coordinates",
+    "title": "Coordinates and degeneracy",
+    "supportFunctions": [
+      "_validated_columns",
+      "_eliminate"
+    ]
+  },
+  {
+    "lesson": "02-linear-algebra/02-linear-maps-rank.md",
+    "task": "echelon",
+    "function": "row_echelon",
+    "title": "Reduced row echelon form"
+  },
+  {
+    "lesson": "02-linear-algebra/02-linear-maps-rank.md",
+    "task": "solve-complete",
+    "function": "solve_complete",
+    "title": "The complete solution set"
+  },
+  {
+    "lesson": "02-linear-algebra/02-linear-maps-rank.md",
+    "task": "lu",
+    "function": "lu_factor",
+    "title": "LU with partial pivoting"
   }
 ]

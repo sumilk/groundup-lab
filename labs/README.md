@@ -1,6 +1,6 @@
 # Hands-on labs
 
-Use Python 3.11 or later. These forty-three exercises need only the standard library; no GPU, API key, package installation, or paid dataset is required.
+Use Python 3.11 or later. These forty-nine exercises need only the standard library; no GPU, API key, package installation, or paid dataset is required.
 
 In the theory reader, select the linked exercise inside a lesson to open its runnable Python workspace on the right without losing your reading position. If a lesson gains multiple coding exercises, task tabs share that workspace. The implementation and most recent output are saved in that browser for each task. **Run tests** executes the behavioral check, **Run code** supports print-based exploration, **Stop** terminates a stuck worker, and **Reset starter** restores the authored skeleton. The command-line workflow below remains available.
 
@@ -51,6 +51,9 @@ In the theory reader, select the linked exercise inside a lesson to open its run
 | dkw-band | [Order statistics and nonparametrics](../content/05-probability-statistics/18-order-statistics-empirical-processes-nonparametrics.md) | Distribution-free simultaneous band around the empirical CDF |
 | mann-whitney | [Order statistics and nonparametrics](../content/05-probability-statistics/18-order-statistics-empirical-processes-nonparametrics.md) | Pairwise-win statistic, win rate, and tie-corrected normal score |
 | kde | [Order statistics and nonparametrics](../content/05-probability-statistics/18-order-statistics-empirical-processes-nonparametrics.md) | Gaussian kernel density estimate at arbitrary query points |
+| span | [Vectors, vector spaces and bases](../content/02-linear-algebra/01-vectors-spaces-bases.md) | Elimination decides membership in a span and returns coefficients |
+| dependence | [Vectors, vector spaces and bases](../content/02-linear-algebra/01-vectors-spaces-bases.md) | Explicit dependency relation, or a certificate of independence |
+| coordinates | [Vectors, vector spaces and bases](../content/02-linear-algebra/01-vectors-spaces-bases.md) | Coordinates in a chosen basis with a degeneracy measure |
 | search | [DSA](../content/04-dsa/01-invariants-search-graphs-dp.md) | Exhaustive boundary cases |
 | softmax | [PyTorch](../content/08-pytorch/01-tensors-autograd-training.md) | Stability and shift invariance |
 | bigram | [NLP](../content/10-nlp/01-text-representations-language-models.md) | Correct target offsets |
@@ -60,3 +63,6 @@ In the theory reader, select the linked exercise inside a lesson to open its run
 Student functions intentionally raise NotImplementedError initially. Their failing tests mean the exercise has not been implemented, not that installation failed. Passing checks supplies behavioral evidence; it does not automatically establish understanding.
 
 The PyTorch, MLP, tokenizer, and policy-gradient projects in the lessons are implementation specifications. Full executable scaffolds for those projects are still pending.
+| echelon | [The elimination workbench](../content/02-linear-algebra/02-linear-maps-rank.md) | Reduced row echelon form with pivot columns |
+| solve-complete | [The elimination workbench](../content/02-linear-algebra/02-linear-maps-rank.md) | Particular solution plus a null-space basis, or inconsistency |
+| lu | [The elimination workbench](../content/02-linear-algebra/02-linear-maps-rank.md) | LU factorization with partial pivoting |

@@ -6,7 +6,7 @@ const root=path.resolve(fileURLToPath(new URL("..",import.meta.url)));
 const contentRoot=path.join(root,"content"),output=path.join(root,"public","theory");
 await mkdir(output,{recursive:true});
 const files=[];
-async function walk(dir){for(const e of await readdir(dir,{withFileTypes:true})){const full=path.join(dir,e.name);if(e.isDirectory())await walk(full);else if(e.name.endsWith(".md")&&e.name!=="README.md")files.push(full);}}
+async function walk(dir){for(const e of await readdir(dir,{withFileTypes:true})){const full=path.join(dir,e.name);if(e.isDirectory())await walk(full);else if(e.name.endsWith(".md")&&e.name!=="README.md"&&!e.name.startsWith("_"))files.push(full);}}
 await walk(contentRoot);
 const lessons=[];
 for(const file of files.sort()){
