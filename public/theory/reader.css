@@ -314,3 +314,11 @@ body.lab-open{overflow-x:hidden}
 .sol-note{margin-top:14px;padding:11px 13px;border-radius:5px;background:var(--surface-2);
   font-family:var(--sans);font-size:13px;line-height:1.55;color:var(--ink-2)}
 .sol-note strong{color:var(--ink)}
+
+/* Linked data and observation views in the projection module. */
+.lsq-views{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+.lab-view-caption{padding:10px 14px;font:12px/1.5 var(--sans);color:var(--ink-3);border-bottom:1px solid var(--rule)}
+.lsq-views .stage{min-height:280px}
+.lsq-views + .panel{border-left:none;border-top:1px solid var(--rule)}
+.lab .panel input[type="range"]{max-width:100%;display:block;width:100%}
+@media(max-width:760px){.lsq-views{grid-template-columns:1fr}}

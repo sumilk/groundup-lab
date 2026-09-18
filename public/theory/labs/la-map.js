@@ -33,7 +33,8 @@ GU.lab("la-map", function (root) {
     draw: function (P) {
       var det = a1[0] * a2[1] - a1[1] * a2[0];
       var n1 = Math.hypot(a1[0], a1[1]), n2 = Math.hypot(a2[0], a2[1]);
-      var rank = Math.abs(det) > 0.05 ? 2 : ((n1 > 1e-3 || n2 > 1e-3) ? 1 : 0);
+      var rank = det !== 0 ? 2 : ((n1 !== 0 || n2 !== 0) ? 1 : 0);
+      var near = rank === 2 && Math.abs(det) < 0.03 * (n1 * n1 + n2 * n2);
       var Ax = [x[0] * a1[0] + x[1] * a2[0], x[0] * a1[1] + x[1] * a2[1]];
       P.grid();
 
@@ -45,10 +46,10 @@ GU.lab("la-map", function (root) {
       }
 
       if (rank === 1) {
-        var base = n1 > 1e-3 ? a1 : a2;
+        var base = n1 !== 0 ? a1 : a2;
         P.line([-9 * base[0], -9 * base[1]], [9 * base[0], 9 * base[1]], css("--accent"), null, 3);
         var nul;
-        if (n1 > 1e-3) { var t = (a1[0] * a2[0] + a1[1] * a2[1]) / (n1 * n1); nul = [-t, 1]; }
+        if (n1 !== 0) { var t = (a1[0] * a2[0] + a1[1] * a2[1]) / (n1 * n1); nul = [-t, 1]; }
         else nul = [1, 0];
         P.line([-9 * nul[0], -9 * nul[1]], [9 * nul[0], 9 * nul[1]], css("--warn"), [6, 5], 2.2);
       }
@@ -73,7 +74,7 @@ GU.lab("la-map", function (root) {
         verd.className = "verdict";
         verd.innerHTML = "<strong>Full rank.</strong> The unit square maps to a parallelogram of area |det| = " +
           f(Math.abs(det)) + ". C(A) is all of ℝ², N(A) = {0}, and 2 + 0 = 2 is rank–nullity." +
-          (Math.abs(det) < 0.4 ? " <em>Nearly flat — ill-conditioning, one step before rank deficiency.</em>" : "");
+          (near ? " <em>Near-singular: coordinates can be sensitive, but a small nonzero determinant does not create a null space. Values are computed in floating point.</em>" : "");
       } else if (rank === 1) {
         verd.className = "verdict bad";
         verd.innerHTML = "<strong>Rank 1.</strong> The square is crushed onto the solid line, which is C(A). " +

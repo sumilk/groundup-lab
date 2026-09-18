@@ -70,4 +70,5 @@ for(const lesson of catalog.lessons){
     assert(registered.has(named),"Lesson names an unregistered lab: "+named+" in "+lesson.path);
   }
 }
+await import("./check-linear-algebra.mjs");
 console.log("Validated catalog freshness, lesson links, browser labs, interactive figures, UI anchors, and JavaScript syntax.");

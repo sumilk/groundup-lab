@@ -42,7 +42,8 @@ GU.lab("la-picture", function (root) {
     },
     draw: function (P) {
       var det = M[0][0] * M[1][1] - M[0][1] * M[1][0];
-      var singular = Math.abs(det) < 0.06;
+      var singular = det === 0;
+      var near = !singular && Math.abs(det) < 0.03 * (M[0][0] ** 2 + M[0][1] ** 2 + M[1][0] ** 2 + M[1][1] ** 2);
       var col = columns();
       P.grid();
 
@@ -50,7 +51,7 @@ GU.lab("la-picture", function (root) {
         [[M[0], b[0], css("--u")], [M[1], b[1], css("--v")]].forEach(function (spec) {
           var n = spec[0], rhs = spec[1], colour = spec[2];
           var norm2 = n[0] * n[0] + n[1] * n[1];
-          if (norm2 < 1e-6) return;
+          if (norm2 === 0) return;
           var p0 = [n[0] * rhs / norm2, n[1] * rhs / norm2], d = [-n[1], n[0]];
           P.line([p0[0] - 9 * d[0], p0[1] - 9 * d[1]], [p0[0] + 9 * d[0], p0[1] + 9 * d[1]], colour, null, 2.4);
           P.arrow(n, colour, null, { w: 1.4, dash: [4, 4] });
@@ -71,8 +72,8 @@ GU.lab("la-picture", function (root) {
           P.line([0, 0], [c1 * col[0][0], c1 * col[0][1]], css("--u"), [5, 4], 1.8);
           P.line([c1 * col[0][0], c1 * col[0][1]], b, css("--v"), [5, 4], 1.8);
         } else {
-          var base = Math.hypot(col[0][0], col[0][1]) > 1e-6 ? col[0] : col[1];
-          if (Math.hypot(base[0], base[1]) > 1e-6) {
+          var base = Math.hypot(col[0][0], col[0][1]) !== 0 ? col[0] : col[1];
+          if (Math.hypot(base[0], base[1]) !== 0) {
             P.line([-9 * base[0], -9 * base[1]], [9 * base[0], 9 * base[1]], css("--warn"), null, 3);
           }
         }
@@ -92,18 +93,18 @@ GU.lab("la-picture", function (root) {
         verd.innerHTML = "<strong>Exactly one solution:</strong> x = (" + f(s1) + ", " + f(s2) + "). " +
           (mode === "row" ? "The two lines cross once."
                           : "a₁ and a₂ are independent, so every b has exactly one recipe.") +
-          (Math.abs(det) < 0.5 ? " <em>det is small — the answer is real but numerically fragile.</em>" : "");
+          (near ? " <em>Near-singular: the unique solution can be sensitive. Values are computed in floating point.</em>" : "");
       } else {
-        var base2 = Math.hypot(col[0][0], col[0][1]) > 1e-6 ? col[0] : col[1];
-        var consistent = Math.hypot(base2[0], base2[1]) < 1e-6
-          ? Math.hypot(b[0], b[1]) < 1e-6
-          : Math.abs(cross(base2, b)) < 0.08;
+        var base2 = Math.hypot(col[0][0], col[0][1]) !== 0 ? col[0] : col[1];
+        var zero = Math.hypot(base2[0], base2[1]) === 0;
+        var consistent = zero ? b[0] === 0 && b[1] === 0 : cross(base2, b) === 0;
         verd.className = "verdict bad";
-        verd.innerHTML = consistent
+        verd.innerHTML = zero
+          ? (consistent ? "<strong>Infinitely many solutions.</strong> A and b are zero: every input in ℝ² solves the system."
+                        : "<strong>No solution.</strong> A is zero but b is not: a row requires 0 = nonzero.")
+          : consistent
           ? "<strong>Infinitely many solutions.</strong> The columns are dependent, so the column space is only a line — and b lies on it. Solutions differ by the null space, so the solution set is a whole line of inputs."
-          : "<strong>No solution.</strong> " + (mode === "row"
-              ? "The lines are parallel and distinct, so they never meet."
-              : "a₁ and a₂ span only a line, and b is off it.");
+          : "<strong>No solution.</strong> b is outside the column line. The row equations are incompatible (parallel distinct lines, or a zero row with a nonzero right-hand side).";
       }
     }
   });

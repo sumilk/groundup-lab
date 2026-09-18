@@ -31,7 +31,9 @@ GU.lab("la-basis", function (root) {
     },
     draw: function (P) {
       var det = b1[0] * b2[1] - b1[1] * b2[0];
-      var deg = Math.abs(det) < 0.05;
+      var deg = det === 0;
+      var zero = b1[0] === 0 && b1[1] === 0 && b2[0] === 0 && b2[1] === 0;
+      var near = !deg && Math.abs(det) < 0.03 * (b1[0] ** 2 + b1[1] ** 2 + b2[0] ** 2 + b2[1] ** 2);
       P.grid();
 
       if (gridEl.checked && !deg) {
@@ -51,7 +53,7 @@ GU.lab("la-basis", function (root) {
         P.line([0, 0], [c1 * b1[0], c1 * b1[1]], css("--u"), [5, 4], 1.8);
         P.line([c1 * b1[0], c1 * b1[1]], p, css("--v"), [5, 4], 1.8);
       } else {
-        var base = Math.hypot(b1[0], b1[1]) > 1e-6 ? b1 : b2;
+        var base = Math.hypot(b1[0], b1[1]) !== 0 ? b1 : b2;
         P.line([-9 * base[0], -9 * base[1]], [9 * base[0], 9 * base[1]], css("--warn"), null, 3);
       }
 
@@ -70,16 +72,14 @@ GU.lab("la-basis", function (root) {
 
       if (deg) {
         verd.className = "verdict bad";
-        verd.innerHTML = "<strong>Not a basis.</strong> b₁ and b₂ are dependent, so they span only a line. " +
-          "Points off that line have <em>no</em> representation; points on it have <em>infinitely many</em>. " +
-          "Uniqueness fails in both directions at once.";
+        verd.innerHTML = zero
+          ? "<strong>Not a basis.</strong> Both generators are zero. Only the origin is reachable, with infinitely many coefficient pairs."
+          : "<strong>Not a basis.</strong> The generators span a line. Points off it have <em>no</em> representation; points on it have <em>infinitely many</em>.";
       } else {
         verd.className = "verdict";
         verd.innerHTML = "<strong>Valid basis.</strong> p = " + f(c1) + "·b₁ + " + f(c2) +
           "·b₂, and this is the only such pair." +
-          (Math.abs(det) < 0.45
-            ? " <em>The grid cells have gone long and thin — the coordinates are large and twitchy. " +
-              "That is ill-conditioning.</em>" : "");
+          (near ? " <em>Near-singular: some target perturbations cause large coordinate changes. This target need not have large coordinates. Values are computed in floating point.</em>" : "");
       }
     }
   });
@@ -87,5 +87,5 @@ GU.lab("la-basis", function (root) {
   gridEl.addEventListener("change", P.render);
   q("[data-std]").onclick = function () { b1 = [1, 0]; b2 = [0, 1]; P.render(); };
   q("[data-skew]").onclick = function () { b1 = [2, 0.4]; b2 = [1.6, 1.0]; P.render(); };
-  q("[data-deg]").onclick = function () { b1 = [2, 0.4]; b2 = [-1.5, -0.3]; P.render(); };
+  q("[data-deg]").onclick = function () { b1 = [2, 0.4]; b2 = [-2, -0.4]; P.render(); };
 });

@@ -9,7 +9,7 @@ estimated_hours: 36
 
 Lesson 08 gave you the theory of a landscape you do not have. This lesson is about the one you do: a loss surface whose Hessian is indefinite everywhere, whose sharpness is not a constant but a *variable that training itself drives*, and whose minima are not points but high-dimensional manifolds that differ in how they generalize.
 
-The organizing claim is that the important nonconvex phenomena are all **spectral**. Saddles, escape times, the stability threshold, flatness, implicit bias and loss spikes are each statements about the eigenvalues of \(\nabla^2f\) or of a closely related PSD surrogate. If you can estimate that spectrum matrix-free — which you learned to do in [eigenvalues and invariant subspaces](../02-linear-algebra/04-eigenvalues-invariant-subspaces.md) — you can measure every one of them.
+The organizing claim is that the important nonconvex phenomena are all **spectral**. Saddles, escape times, the stability threshold, flatness, implicit bias and loss spikes are each statements about the eigenvalues of \(\nabla^2f\) or of a closely related PSD surrogate. If you can estimate that spectrum matrix-free — which you learned to do in [eigenvalues and invariant subspaces](../02-linear-algebra/06-eigenvalues-diagonalization.md) — you can measure every one of them.
 
 ## 1. Stationary points in high dimension
 
@@ -89,7 +89,7 @@ Hold the whole cluster of claims loosely. The correlation between flatness and g
 
 With more parameters than constraints, the minimizer is not unique and the algorithm picks. These choices are provable in simple cases:
 
-- **Least squares from zero initialization.** GD stays in the row space of \(X\), so it converges to the **minimum-norm** interpolant — the same pseudoinverse solution you derived in [SVD and PCA](../02-linear-algebra/05-svd-pca.md). The regularizer is implicit in the initialization and the update, not in the objective.
+- **Least squares from zero initialization.** GD stays in the row space of \(X\), so it converges to the **minimum-norm** interpolant — the same pseudoinverse solution you derived in [SVD and PCA](../02-linear-algebra/08-svd-low-rank.md). The regularizer is implicit in the initialization and the update, not in the objective.
 - **Separable logistic regression.** GD drives \(\lVert w\rVert\to\infty\) while the *direction* converges to the \(\ell_2\) **max-margin** separator, at a rate like \(1/\log t\). You get an SVM without writing one, and the convergence is so slow that "training loss still decreasing" tells you almost nothing about the direction having settled.
 - **Initialization scale** selects the regime: large initialization gives lazy or kernel-like training where features barely move; small initialization gives rich, feature-learning training. Which one you are in changes what the network learns, not merely how fast.
 - **Label-noise SGD** provably biases toward flatter solutions in simple models, giving one of the few rigorous links between noise and flatness.

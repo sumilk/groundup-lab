@@ -1,12 +1,12 @@
 ---
 id: math.linear-algebra.linear-maps-rank
-title: The elimination workbench — systems, rank and the four subspaces
+title: Systems, elimination and the four fundamental subspaces
 prerequisites: [math.linear-algebra.vectors-spaces-bases]
 estimated_hours: 28
 answers: 02-elimination
 ---
 
-# The elimination workbench — systems, rank and the four subspaces
+# Systems, elimination and the four fundamental subspaces
 
 Two questions — does a solution exist, and is it unique — turn out to be the span and independence questions of the previous unit wearing different clothes. One algorithm answers both, and the answer is four subspaces.
 
@@ -57,7 +57,7 @@ Three operations on the rows leave the solution set completely unchanged:
 
 Each is reversible, which is exactly why the solution set survives: anything the new system admits, the old one admits too. Gaussian elimination is these three moves applied with a purpose — clear the entries below each pivot, left to right.
 
-A matrix is in **row echelon form** when every nonzero row starts further right than the one above it. The first nonzero entry of a row is its **pivot**; a column holding a pivot is a **pivot column** and every other column is a **free column**, whose variable is a **free variable**. Scaling each pivot to 1 and clearing *above* as well as below gives **reduced** row echelon form, which is unique for a given matrix — a fact worth pausing on, since the sequence of operations that gets you there is not.
+A matrix is in **row echelon form** when all zero rows are at the bottom and the first nonzero entry of each nonzero row lies strictly to the right of the first nonzero entry in the preceding nonzero row. The first nonzero entry of a row is its **pivot**; a column holding a pivot is a **pivot column** and every other column is a **free column**, whose variable is a **free variable**. Scaling each pivot to 1 and clearing *above* as well as below gives **reduced** row echelon form, which is unique for a given matrix — a fact worth pausing on, since the sequence of operations that gets you there is not.
 
 Work the bench below by hand: choose a row operation, apply it, and watch the pivots appear. The verdict panel updates after every move — read it only after you have predicted it.
 
@@ -124,7 +124,7 @@ la-picture
 >
 > **Practice — Core:** Prove the trichotomy from linearity, being explicit about where you use \(A(x_1-x_2)=0\).
 >
-> **Practice — Stretch:** For \(A\in\mathbb R^{3\times5}\) of rank 3, describe the solution set of \(Ax=b\) for every \(b\), and say why "overdetermined" and "underdetermined" are statements about rank rather than shape.
+> **Practice — Stretch:** For \(A\in\mathbb R^{3\times5}\) of rank 3, describe the solution set of \(Ax=b\) for every \(b\), distinguish the shape label "underdetermined" from the rank conditions that decide consistency and uniqueness.
 
 ## 5. The complete solution: one particular, plus a subspace
 
@@ -156,7 +156,7 @@ Read it as a conservation law: the \(n\) input dimensions are split between what
 
 ### Why this matters for ML
 
-A linear probe \(w^{\mathsf T}h\) has an enormous null space: in \(\mathbb R^{768}\), 767 dimensions of activation change are invisible to it. "The probe's accuracy did not move" is therefore not evidence that the representation did not move; it is evidence about one direction out of 768. Rank–nullity is the precise statement of how much a measurement is not seeing.
+A fixed nonzero linear probe \(w^{\mathsf T}h\) has an enormous null space: in \(\mathbb R^{768}\), 767 dimensions of activation change are invisible to it. An edit in that null space leaves every probe score unchanged. Unchanged accuracy is a weaker observation: scores can change greatly without changing predictions, and even different predictions can have the same aggregate accuracy. It does not establish that the component measured by the probe stayed fixed. Rank–nullity describes the directions invisible to the fixed linear score itself.
 
 > **Practice — Foundation:** For \(A=\begin{pmatrix}1&2\\2&4\end{pmatrix}\), find \(N(A)\) and check rank–nullity.
 >
@@ -175,7 +175,7 @@ One matrix, four subspaces, two in each space. Everything later is bookkeeping a
 | Row space \(C(A^{\mathsf T})\) | span of the rows | \(\mathbb R^n\) | \(r\) |
 | Left null space \(N(A^{\mathsf T})\) | all \(y\) with \(A^{\mathsf T}y=0\) | \(\mathbb R^m\) | \(m-r\) |
 
-The two dimension counts are rank–nullity applied to \(A\) and to \(A^{\mathsf T}\), sharing the same \(r\) by Theorem 5. The input space \(\mathbb R^n\) splits into row space and null space; the output space \(\mathbb R^m\) splits into column space and left null space. *Splits* is doing real work there — the pieces meet only at \(0\) and their dimensions add up — but the fact that they are also *perpendicular* needs an inner product, which the next unit supplies. Do not accept the four-subspace diagram with right angles in it before then.
+The two dimension counts are rank–nullity applied to \(A\) and to \(A^{\mathsf T}\), sharing the same \(r\) by Theorem 5. These dimension counts alone do not prove that the pairs have trivial intersection. Here is the missing step for the input pair: if \(z=A^{\mathsf T}y\) also satisfies \(Az=0\), then \(z^{\mathsf T}z=y^{\mathsf T}Az=0\), so \(z=0\). Apply the same argument to \(A^{\mathsf T}\) for the output pair. Combined with the dimension counts, this proves the two direct-sum decompositions. The argument uses the positivity of the standard dot product, previewed in Module 1. Module 3 develops the stronger orthogonal-complement statements and explains what changes with the metric.
 
 The lab below is the \(2\times2\) case, where all of it is visible at once. Drag the columns of \(A\) and watch the unit square map to a parallelogram; collapse the columns onto one line and the column space drops to a line while the null space appears as the inputs crushed to the origin.
 
@@ -183,7 +183,7 @@ The lab below is the \(2\times2\) case, where all of it is visible at once. Drag
 la-map
 ```
 
-**The determinant as a volume.** The area of that parallelogram is \(|\det A|\), and its sign says whether orientation flipped. Zero area is exactly rank deficiency — the collapse of the previous unit, now happening to a map instead of a span. Determinants get their own treatment later; for now treat \(|\det|\) as an area factor and nothing more.
+**The determinant as a volume.** The area of that parallelogram is \(|\det A|\), and the sign of \(\det A\) says whether orientation flipped. Zero area is exactly rank deficiency — the collapse of the previous unit, now happening to a map instead of a span. Determinants get their own treatment later; for now treat \(|\det|\) as an area factor and nothing more.
 
 > **Practice — Foundation:** For a \(3\times5\) matrix of rank 2, give the dimension of all four subspaces.
 >
@@ -191,17 +191,17 @@ la-map
 >
 > **Practice — Stretch:** Construct a matrix whose left null space is nontrivial and explain what that says about which \(b\) are reachable.
 
-## 7. What is deliberately still missing
+## 7. What depends on a choice of geometry
 
-Notice what was not claimed. Nothing above said the null space is perpendicular to the row space, measured an angle, or used a dot product. Pivots, rank, the four subspaces, rank–nullity and the complete solution set are pure vector-space structure, invariant under any invertible change of coordinates.
+Module 1 introduced inner products for its overlap experiments, and section 6 used the standard dot product to prove trivial intersection. Rank, nullity, existence, uniqueness, and the affine solution structure do not require an inner product. The identification of rows with vectors in the input space does depend on coordinates: intrinsically, rows are linear functionals in the dual space. Under a general basis change, row covectors and input vectors transform differently. The four dimensions are invariant, but one must not treat the coordinate row space as a canonically chosen subspace of the input space.
 
-The next unit adds the inner product and the picture gains right angles — \(N(A)\perp C(A^{\mathsf T})\) and \(N(A^{\mathsf T})\perp C(A)\) — which is what makes least squares work. Keeping the two layers separate is worth real effort: it tells you which results survive when the geometry changes, and in a network whose coordinates come from training, the geometry is not given.
+Module 3 develops orthogonal complements and projections. For the standard Euclidean inner products, \(N(A)\perp C(A^{\mathsf T})\) and \(N(A^{\mathsf T})\perp C(A)\). For other metrics, the corresponding statements use the adjoint for those metrics rather than the bare transpose. A passive coordinate change preserves a fixed geometry only when its metric is transformed too, as Module 1 showed.
 
 > **Practice — Foundation:** State which quantities in this unit would change if every vector were re-expressed in a skewed basis.
 >
-> **Practice — Core:** Give a change of coordinates that preserves rank but destroys an orthogonality relation you might have assumed.
+> **Practice — Core:** Give a change of coordinates that preserves rank but changes a raw coordinate dot product from zero to nonzero. Explain how transforming the metric preserves the original orthogonality relation.
 >
-> **Practice — Stretch:** Explain why "these two features are orthogonal" is a measurement while "rank is 4" is a theorem, and what each would need to be reproducible.
+> **Practice — Stretch:** Distinguish a proved rank bound from a measured numerical rank, and distinguish exact orthogonality from a measured small inner product. State the metric, precision, and tolerances needed to reproduce the measurements.
 
 ## 8. Elimination on a real machine
 
@@ -209,15 +209,15 @@ Everything above is exact arithmetic. Floating point changes the algorithm, not 
 
 **LU: elimination, remembered.** Record the multipliers used to clear each column and elimination factors the matrix as \(A=LU\), or \(PA=LU\) with row swaps. The point is reuse: factoring costs \(O(n^3)\), but each new right-hand side then costs \(O(n^2)\) by forward and back substitution. Solving \(Ax=b\) for twenty right-hand sides should never cost twenty eliminations.
 
-**Partial pivoting is not optional.** Textbook elimination divides by whatever sits in the pivot position. If that entry is tiny the multipliers are huge and rounding error in them swamps the answer. Always swapping in the largest available entry in the column keeps every multiplier at most 1 in magnitude, which is why a library solver is trustworthy and a naive hand-written elimination is not.
+**Partial pivoting is not optional.** Textbook elimination divides by whatever sits in the pivot position. If that entry is tiny the multipliers are huge and rounding error in them swamps the answer. Swapping in the largest available entry in the column keeps every multiplier at most 1 in magnitude. This controls the multipliers, but intermediate entries can still grow; partial pivoting is usually effective, not an unconditional accuracy guarantee. Once a pivot is accepted, do not skip a row operation merely because its multiplier is small: it may multiply a large entry elsewhere in the row.
 
-**Rank is not a computable property.** Exact rank asks whether a number is exactly zero, and in floating point almost nothing is exactly zero. Every library computes *numerical rank*: the number of singular values above a tolerance. Rank therefore depends on a threshold you chose, and the same matrix can be rank 5 and rank 7 on the same day. Report the tolerance or the claim is not reproducible.
+**Exact rank and numerical rank are different questions.** Exact rank is computable for exact rational data, but rounding or measurement noise can change it. Numerical routines commonly estimate rank by counting singular values above a tolerance; elimination-based estimates instead threshold pivots. The estimate therefore depends on the method and threshold. Report both, together with the data precision, rather than presenting a numerical estimate as an exact theorem.
 
-**Conditioning.** The condition number \(\kappa(A)\) bounds how much a relative error in \(b\) is amplified in \(x\). At \(\kappa\approx10^{8}\) you have lost roughly half your digits in float32 — which is why nobody forms the normal equations \(A^{\mathsf T}A\) if they can avoid it, since that squares the condition number, and why near-duplicate features destabilise training.
+**Conditioning.** The condition number \(\kappa(A)\) bounds how much a relative error in \(b\) is amplified in \(x\). In the worst case, relative errors can grow by a factor of \(\kappa\): the usual rule of thumb is a loss of about \(\log_{10}\kappa\) decimal digits. At \(\kappa\approx10^8\), float32's roughly seven decimal digits can be exhausted; float64's roughly sixteen can lose about half. This is a sensitivity bound, not a prediction that every right-hand side loses that many digits. For a full-column-rank design matrix, forming the normal equations squares the 2-norm condition number, which is why QR is often preferred. These ideas are developed in Modules 4 and 9.
 
 > **Practice — Foundation:** Count the operations in one elimination and in one triangular solve, and state the ratio for twenty right-hand sides.
 >
-> **Practice — Core:** Explain why partial pivoting bounds the multipliers by 1, and what that bounds in the error.
+> **Practice — Core:** Explain why partial pivoting bounds the multipliers by 1, and why that alone does not bound growth of all intermediate entries or guarantee a small forward error.
 >
 > **Practice — Stretch:** Construct a matrix whose numerical rank changes with the tolerance and state what you would report about it.
 
@@ -227,7 +227,7 @@ Three coding exercises run in this page's Python workspace, each as its own tab,
 
 ### Lab A — reduced row echelon form
 
-Implement **row_echelon** in [labs/exercises.py](../../labs/exercises.py). Return the reduced row echelon form together with the pivot columns, treating any candidate pivot at or below the tolerance as zero. Reduced form is unique, so your output is fully determined by the input.
+Implement **row_echelon** in [labs/exercises.py](../../labs/exercises.py). Return the reduced row echelon form together with the pivot columns, treating any candidate pivot at or below the tolerance as zero. Exact RREF is unique. With floating point and thresholded pivots, compare outputs to tolerance and check pivot normalization and cleared pivot columns; exact uniqueness is not an error bound.
 
 Run:
 
@@ -266,9 +266,9 @@ The checks cover a matrix needing a swap on the first column, a three-by-three c
 1. Eliminate a \(3\times4\) system by hand, then confirm your echelon form against Lab A.
 2. Verify rank–nullity on twenty random matrices of assorted shapes using your own rank and null-space basis.
 3. Solve one system with twenty right-hand sides, once per elimination and once from a single LU, and report the ratio of times.
-4. Solve \(\begin{pmatrix}\varepsilon&1\\1&1\end{pmatrix}x=b\) with and without pivoting for \(\varepsilon=10^{-16}\) and compare against the exact answer.
+4. Solve \(\begin{pmatrix}\varepsilon&1\\1&1\end{pmatrix}x=(1,2)^T\) with and without pivoting for \(\varepsilon=10^{-16}\) and compare against the exact answer.
 5. Compute numerical rank of a noisy matrix at five tolerances and plot rank against tolerance.
-6. Build bases for all four subspaces from one reduction and check the four dimensions against \(r,\ n-r,\ r,\ m-r\).
+6. Track row operations on \([A\mid I_m]\), pivoting only in the coefficient block, to build bases for all four subspaces from one reduction and check the four dimensions against \(r,\ n-r,\ r,\ m-r\).
 
 ## 10. Exercises · by hand
 
@@ -312,11 +312,11 @@ No `np.linalg.solve` and no `matrix_rank` until a problem says to compare agains
 
 **B5 · Core · NumPy — factor once, solve many.** Implement `lu(A)` with partial pivoting returning \(P,L,U\) and assert \(PA=LU\). Time twenty right-hand sides through one factorization against twenty full eliminations and report the ratio.
 
-**B6 · Core · NumPy — where naive elimination dies.** Take \(\begin{pmatrix}\varepsilon&1\\1&1\end{pmatrix}\) with \(\varepsilon=10^{-16}\). Solve with and without pivoting, compare against the exact solution, and explain the failure in one sentence.
+**B6 · Core · NumPy — where naive elimination dies.** Take \(\begin{pmatrix}\varepsilon&1\\1&1\end{pmatrix}x=(1,2)^T\) with \(\varepsilon=10^{-16}\). Solve with and without pivoting, compare against the exact solution, and explain the failure in one sentence.
 
-**B7 · Stretch · NumPy — rank is a threshold.** Compute the numerical rank of a random \(20\times20\) matrix perturbed by noise of size \(10^{-10}\) at five tolerances. Plot rank against tolerance and mark where the singular values cluster.
+**B7 · Stretch · NumPy — rank is a threshold.** Compute the numerical rank of a \(20\times20\) rank-5 product perturbed by noise of size \(10^{-10}\) at five tolerances. Plot rank against tolerance and mark where the singular values cluster.
 
-**B8 · Stretch · NumPy — four bases from one reduction.** Build bases for all four fundamental subspaces from a single reduced row echelon computation, verify the four dimensions, and check numerically that the row space and null space meet only at the origin.
+**B8 · Stretch · NumPy — four bases from one reduction.** Reduce \([A\mid I_m]\) while selecting pivots only in the \(A\) block, to obtain \([R\mid E]\) with \(EA=R\). Build bases for all four fundamental subspaces from this single reduction. Use rows of \(E\) corresponding to zero rows of \(R\) for the left null space. Verify the four dimensions and prove that the row space and null space meet only at the origin.
 
 ## 12. Exercises · PyTorch
 
@@ -347,7 +347,7 @@ No `np.linalg.solve` and no `matrix_rank` until a problem says to compare agains
 11. Prove \(\operatorname{rank}(AB)\le\min(\operatorname{rank}A,\operatorname{rank}B)\).
 12. Show that \(A\) is invertible exactly when it is square with \(N(A)=\{0\}\).
 13. Derive \(PA=LU\) from elimination with row swaps, identifying what \(L\) stores.
-14. Show that partial pivoting bounds every multiplier by 1 in magnitude, and say what that bounds in the computed solution.
+14. Show that partial pivoting bounds every multiplier by 1 in magnitude, and explain why controlling intermediate growth and conditioning is also needed to assess the computed solution.
 
 ## 14. Exercises · cumulative
 
@@ -387,6 +387,6 @@ Answer all six before opening the next unit. Bring the written attempts, not jus
 
 ## Mastery check
 
-Read \(Ax\) as a combination of columns without translating; eliminate by hand and name the pivot and free columns; state what rank measures and derive both consequences for existence and uniqueness; produce the complete solution set as a particular solution plus a null-space basis and verify rank–nullity; give all four fundamental subspaces with their dimensions and resist attributing orthogonality to them before it is earned; and explain why numerical rank is a statement about a tolerance rather than about the matrix.
+Read \(Ax\) as a combination of columns without translating; eliminate by hand and name the pivot and free columns; state what rank measures and derive both consequences for existence and uniqueness; produce the complete solution set as a particular solution plus a null-space basis and verify rank–nullity; give all four fundamental subspaces with their dimensions and identify the metric behind their standard orthogonality relations; and explain why numerical rank depends on the matrix, method, and tolerance together.
 
-The next unit adds the inner product: the four subspaces acquire right angles, "no solution" becomes "best approximate solution", and projection turns out to be the geometry behind least squares.
+The next unit develops the inner-product preview into orthogonal complements and projection: "no solution" becomes "best approximate solution", and projection supplies the geometry behind least squares.

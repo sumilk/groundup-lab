@@ -669,7 +669,7 @@ $$
 t_{\text{mix}}\sim\frac1{1-\lambda_2}=\frac1{\text{spectral gap}} .
 $$
 
-This is the same eigenvalue-controls-the-rate argument that governed power iteration and gradient descent in [eigenvalues and invariant subspaces](../02-linear-algebra/04-eigenvalues-invariant-subspaces.md) — a chain with a small gap is the probabilistic twin of an ill-conditioned optimization problem, and the geometry that causes it is the same elongated, correlated geometry described earlier in this lesson.
+This is the same eigenvalue-controls-the-rate argument that governed power iteration and gradient descent in [eigenvalues and invariant subspaces](../02-linear-algebra/06-eigenvalues-diagonalization.md) — a chain with a small gap is the probabilistic twin of an ill-conditioned optimization problem, and the geometry that causes it is the same elongated, correlated geometry described earlier in this lesson.
 
 **What you can actually measure.** The spectral gap is not computable for a real posterior. The practical proxy is the **integrated autocorrelation time** \(\tau\), giving an effective sample size
 

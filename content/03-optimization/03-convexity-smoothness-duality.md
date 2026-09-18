@@ -69,7 +69,7 @@ $$
 \mu=\lambda_{\min}(H),\qquad L=\lambda_{\max}(H),\qquad \kappa=\frac L\mu=\kappa_2(H).
 $$
 
-So the condition number from [eigenvalues and invariant subspaces](../02-linear-algebra/04-eigenvalues-invariant-subspaces.md) *is* the optimization difficulty parameter.
+So the condition number from [eigenvalues and invariant subspaces](../02-linear-algebra/06-eigenvalues-diagonalization.md) *is* the optimization difficulty parameter.
 
 Strong convexity is too strong for overparameterized models, where \(\lambda_{\min}=0\) along many directions. The useful weakening is the **Polyak–Lojasiewicz (PL) condition**
 

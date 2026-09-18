@@ -13,7 +13,7 @@ The unifying phenomenon is **concentration of measure**: as dimension grows, wel
 
 ## 0. Prerequisite check
 
-You should be able to state the weak law and Chebyshev's inequality, compute the mean and variance of a sum of independent variables, recognize \(\chi^2\) as a sum of squared standard normals, and read \(\lVert\cdot\rVert\) and eigenvalues of a symmetric matrix. If the last item is uncertain, revisit [eigenvalues and invariant subspaces](../02-linear-algebra/04-eigenvalues-invariant-subspaces.md) first.
+You should be able to state the weak law and Chebyshev's inequality, compute the mean and variance of a sum of independent variables, recognize \(\chi^2\) as a sum of squared standard normals, and read \(\lVert\cdot\rVert\) and eigenvalues of a symmetric matrix. If the last item is uncertain, revisit [eigenvalues and invariant subspaces](../02-linear-algebra/06-eigenvalues-diagonalization.md) first.
 
 ## 1. Two dimensions lie to you
 
@@ -202,7 +202,7 @@ $$
 Three consequences that matter in practice:
 
 - **PCA on modest sample sizes overstates structure.** A scree plot with a visible leading eigenvalue is not evidence of signal until you compare against the Marchenko–Pastur edge for your \(\gamma\).
-- **Whitening amplifies noise.** Whitening divides by \(\sqrt{\hat\lambda_i}\); the smallest eigenvalues are precisely the most underestimated, so whitening inflates the noisiest directions. This is the ill-conditioning argument of [SVD and PCA](../02-linear-algebra/05-svd-pca.md) with a statistical cause.
+- **Whitening amplifies noise.** Whitening divides by \(\sqrt{\hat\lambda_i}\); the smallest eigenvalues are precisely the most underestimated, so whitening inflates the noisiest directions. This is the ill-conditioning argument of [SVD and PCA](../02-linear-algebra/08-svd-low-rank.md) with a statistical cause.
 - **Shrinkage is not optional decoration.** Ledoit–Wolf-style estimators pull \(\hat\Sigma\) toward a scaled identity precisely to undo the spreading above.
 
 This section is also the probabilistic half of a claim made in [nonconvex landscapes](../03-optimization/05-nonconvex-landscapes-training-dynamics.md): random symmetric matrices have spread-out, repelling spectra, which is why a randomly encountered critical point in a large model is overwhelmingly a saddle.

@@ -1700,7 +1700,10 @@ def basis_coordinates(basis, vector, tol=1e-9):
 
 
 def _validated_matrix(matrix, tol, square=False):
-    rows = [list(row) for row in matrix]
+    try:
+        rows = [list(row) for row in matrix]
+    except TypeError as error:
+        raise ValueError("matrix must be a sequence of rows") from error
     if (
         isinstance(tol, bool)
         or not isinstance(tol, (int, float))
@@ -1742,10 +1745,13 @@ def _reduce(rows, width, tol):
             if other == row:
                 continue
             factor = rows[other][column]
-            if abs(factor) > tol:
+            # A small factor can still multiply a large entry. The tolerance
+            # decides whether to accept a pivot, not whether to perform a row operation.
+            if factor:
                 rows[other] = [
                     entry - factor * lead for entry, lead in zip(rows[other], rows[row])
                 ]
+            rows[other][column] = 0.0
         pivots.append(column)
         row += 1
     return pivots
@@ -1819,3 +1825,90 @@ def lu_factor(matrix, tol=1e-9):
     for index in range(size):
         lower[index][index] = 1.0
     return perm, lower, upper
+
+
+def _validated_vector(vector, size):
+    try:
+        values = list(vector)
+    except TypeError as error:
+        raise ValueError("a vector is required") from error
+    if len(values) != size or any(
+        isinstance(x, bool) or not isinstance(x, (int, float)) or not math.isfinite(x)
+        for x in values
+    ):
+        raise ValueError("vector must have matching length and finite real entries")
+    return [float(x) for x in values]
+
+
+def _solve_square(matrix, rhs, tol=1e-9):
+    """Small partial-pivot solve; rejects pivots at or below absolute tol."""
+    rows = _validated_matrix(matrix, tol, square=True)
+    goal = _validated_vector(rhs, len(rows))
+    n = len(rows)
+    rows = [row + [value] for row, value in zip(rows, goal)]
+    for k in range(n):
+        best = max(range(k, n), key=lambda i: abs(rows[i][k]))
+        rows[k], rows[best] = rows[best], rows[k]
+        pivot = rows[k][k]
+        if not math.isfinite(pivot) or abs(pivot) <= tol:
+            raise ValueError("system rejected at the supplied pivot tolerance")
+        for i in range(k + 1, n):
+            factor = rows[i][k] / pivot
+            for j in range(k + 1, n + 1):
+                rows[i][j] -= factor * rows[k][j]
+            rows[i][k] = 0.0
+    result = [0.0] * n
+    for i in range(n - 1, -1, -1):
+        result[i] = (rows[i][n] - math.fsum(rows[i][j] * result[j] for j in range(i + 1, n))) / rows[i][i]
+    if not all(math.isfinite(x) for x in result):
+        raise ValueError("solve produced non-finite values")
+    return result
+
+
+def project_onto(basis, vector, tol=1e-9):
+    columns = _validated_matrix(basis, tol)
+    size, count = len(columns[0]), len(columns)
+    target = _validated_vector(vector, size)
+    if count > size:
+        raise ValueError("a basis cannot have more columns than ambient dimensions")
+    gram = [[math.fsum(a * b for a, b in zip(u, v)) for v in columns] for u in columns]
+    coefficients = [_solve_square(gram, [u[j] for u in columns], tol) for j in range(size)]
+    projector = [[math.fsum(columns[k][i] * coefficients[j][k] for k in range(count))
+                  for j in range(size)] for i in range(size)]
+    projected = [math.fsum(a * b for a, b in zip(row, target)) for row in projector]
+    return projector, projected, [a - b for a, b in zip(target, projected)]
+
+
+def normal_equations(matrix, target, tol=1e-9):
+    rows = _validated_matrix(matrix, tol)
+    goal = _validated_vector(target, len(rows))
+    width = len(rows[0])
+    if width > len(rows):
+        raise ValueError("full column rank is required")
+    gram = [[math.fsum(row[i] * row[j] for row in rows) for j in range(width)] for i in range(width)]
+    rhs = [math.fsum(row[i] * value for row, value in zip(rows, goal)) for i in range(width)]
+    coefficients = _solve_square(gram, rhs, tol)
+    residual = [value - math.fsum(a * b for a, b in zip(row, coefficients))
+                for row, value in zip(rows, goal)]
+    return coefficients, residual, math.fsum(x * x for x in residual)
+
+
+def gram_metric(metric, u, v, tol=1e-9):
+    matrix = _validated_matrix(metric, tol, square=True)
+    n = len(matrix)
+    left, right = _validated_vector(u, n), _validated_vector(v, n)
+    if any(matrix[i][j] != matrix[j][i] for i in range(n) for j in range(i)):
+        raise ValueError("metric must be symmetric")
+    reduced = [row[:] for row in matrix]
+    for k in range(n):
+        pivot = reduced[k][k]
+        if not math.isfinite(pivot) or pivot <= tol:
+            raise ValueError("metric is not positive definite at the supplied tolerance")
+        for i in range(k + 1, n):
+            for j in range(i, n):
+                value = reduced[i][j] - reduced[i][k] * reduced[k][j] / pivot
+                reduced[i][j] = reduced[j][i] = value
+    value = math.fsum(left[i] * matrix[i][j] * right[j] for i in range(n) for j in range(n))
+    if not math.isfinite(value):
+        raise ValueError("inner product produced a non-finite value")
+    return value

@@ -291,21 +291,53 @@
     ]
   },
   {
-    "lesson": "02-linear-algebra/02-linear-maps-rank.md",
+    "lesson": "02-linear-algebra/02-systems-elimination-subspaces.md",
     "task": "echelon",
     "function": "row_echelon",
     "title": "Reduced row echelon form"
   },
   {
-    "lesson": "02-linear-algebra/02-linear-maps-rank.md",
+    "lesson": "02-linear-algebra/02-systems-elimination-subspaces.md",
     "task": "solve-complete",
     "function": "solve_complete",
     "title": "The complete solution set"
   },
   {
-    "lesson": "02-linear-algebra/02-linear-maps-rank.md",
+    "lesson": "02-linear-algebra/02-systems-elimination-subspaces.md",
     "task": "lu",
     "function": "lu_factor",
     "title": "LU with partial pivoting"
+  },
+  {
+    "lesson": "02-linear-algebra/03-projections-least-squares.md",
+    "task": "project-onto",
+    "function": "project_onto",
+    "title": "Project onto a basis",
+    "supportFunctions": [
+      "_validated_matrix",
+      "_validated_vector",
+      "_solve_square"
+    ]
+  },
+  {
+    "lesson": "02-linear-algebra/03-projections-least-squares.md",
+    "task": "normal-equations",
+    "function": "normal_equations",
+    "title": "Solve the normal equations",
+    "supportFunctions": [
+      "_validated_matrix",
+      "_validated_vector",
+      "_solve_square"
+    ]
+  },
+  {
+    "lesson": "02-linear-algebra/03-projections-least-squares.md",
+    "task": "gram-metric",
+    "function": "gram_metric",
+    "title": "Validate and use a metric",
+    "supportFunctions": [
+      "_validated_matrix",
+      "_validated_vector"
+    ]
   }
 ]

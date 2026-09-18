@@ -4,17 +4,21 @@
 working from this file as its brief. It fixes the format, names every module, and says what each one
 owes the reader. It is not a lesson and is not built into the reader.*
 
-Two modules exist. Twenty-four do not. This plan exists because the expensive mistakes in a track
+Three modules exist. Twenty-three do not. This plan exists because the expensive mistakes in a track
 like this are structural — two modules that teach the same thing differently, a theorem used three
 modules before it is proved, an identifier that breaks another track's prerequisites — and those are
 cheap to prevent here and costly to repair later.
 
 ## 1. What is already fixed
 
-These are settled by the two built modules and the reader. A new module inherits them; changing one
-means changing every module.
+The reader's identifiers, exercise grammar, and answer-bank interfaces are shared contracts.
+The first two modules provide a teaching baseline, not a rigid page template: use new visual
+experiments, prediction/reveal sequences, linked views, and other structures when they make an
+idea easier to understand. Preserve the checkable practice and prerequisite discipline.
 
-**The page format.** Numbered teaching sections, each closing with three practice prompts tagged
+**The geometry boundary.** Module 1 previews inner products, Gram matrices, and metric changes to support its overlap experiments. Module 2 uses the standard dot product explicitly when proving that the row and null spaces have trivial intersection. Module 3 develops orthogonal complements, general metrics, and projection from those definitions; Module 4 owns Gram–Schmidt and its stability comparison. Earlier numerical previews may use supplied library calls, but must not require implementing untaught later algorithms.
+
+**The reference page format.** Numbered teaching sections, each closing with three practice prompts tagged
 Foundation / Core / Stretch. Interactive figures embedded by a fenced `lab` block naming a registered
 lab. A runnable-labs section linking three stdlib Python exercises. Then one exercise bank in a
 single grammar, a derivations list, a cumulative set, and a six-problem checkpoint.
@@ -52,7 +56,7 @@ material — a stale prerequisite is silent.
 `python -m labs.checks --reference` must be green. The checker enforces catalog freshness, link
 targets, lab registration, reader script loading, exercise grammar, and answer-bank coverage.
 
-## 2. Renames
+## 2. Renames — applied
 
 The two built modules were named for their labs. That reads well on a standalone page and badly in a
 catalogue of forty-three lessons across fourteen tracks, where the title is the only thing a reader
@@ -63,11 +67,11 @@ opening line, where it belongs.
 |---|---|---|
 | `01-vectors-spaces-bases.md` | The span workbench — vectors, span, independence and bases | **Vectors, span, independence and bases** |
 | `02-linear-maps-rank.md` → `02-systems-elimination-subspaces.md` | The elimination workbench — systems, rank and the four subspaces | **Systems, elimination and the four fundamental subspaces** |
-| `03-projections-least-squares.md` | Orthogonal projections and least squares *(legacy stub, 160 lines)* | rewritten as Module 3 |
+| `03-projections-least-squares.md` | Orthogonal projections and least squares *(legacy stub)* | **Inner products, orthogonality, projection and least squares** — Module 3 complete |
 | `04-eigenvalues-invariant-subspaces.md` → `06-eigenvalues-diagonalization.md` | Eigenvalues, eigenvectors and invariant subspaces *(legacy stub)* | rewritten as Module 6 |
 | `05-svd-pca.md` → `08-svd-low-rank.md` | Singular value decomposition and PCA *(legacy stub)* | rewritten as Module 8 |
 
-Ids stay. Filenames follow the module number, so renaming a file means updating `content/README.md`
+These renames are done; the table records what moved. Ids stayed put. Filenames follow the module number, so renaming a file means updating `content/README.md`
 and any relative links; the checker catches the links, not the README. Answer-bank keys follow the
 file: `01-span`, `02-elimination`, then `03-projection`, `04-qr`, and so on.
 
@@ -80,7 +84,7 @@ establish, and everything else in it is scaffolding for those.
 |---|---|---|---|
 | 1 | Vectors, span, independence and bases | I · Structure | 30 ✅ |
 | 2 | Systems, elimination and the four fundamental subspaces | I | 28 ✅ |
-| 3 | Inner products, orthogonality, projection and least squares | II · Geometry | 30 |
+| 3 | Inner products, orthogonality, projection and least squares | II · Geometry | 30 ✅ |
 | 4 | Orthonormal bases, Gram–Schmidt and QR | II | 24 |
 | 5 | Determinants as signed volume | II | 20 |
 | 6 | Eigenvalues, invariant subspaces and diagonalization | II | 30 |
@@ -105,7 +109,7 @@ establish, and everything else in it is scaffolding for those.
 | 25 | Superposition geometry and dictionary learning | VI | 32 |
 | 26 | Capstone: a linear-algebra audit of a real model | VI | 30 |
 
-Total ≈ 730 hours of study; the two built modules are 58 of them.
+Total ≈ 730 hours of study; the three built modules are 88 of them.
 
 ### Part II · Geometry (3–7)
 
@@ -115,8 +119,8 @@ class of failure, because the picture depends on a choice.*
 **Module 3 — Inner products, orthogonality, projection and least squares**
 `id: math.linear-algebra.projections-least-squares` · prereq: 2 · 30h · bank `03-projection`
 Spine: the inner product axioms and the \(G\)-metric as a choice; orthogonal complements and
-\(N(A)\perp C(A^{\mathsf T})\), which finally earns the right-angled four-subspace picture promised in
-Module 2 §7; the projection theorem and the normal equations; least squares as projection onto the
+\(N(A)\perp C(A^{\mathsf T})\), developing the right-angled four-subspace picture previewed in
+Module 2 §§6–7; the projection theorem and the normal equations; least squares as projection onto the
 column space.
 Labs: `la-project` (drag a vector and a line/plane, watch the projection and residual, toggle the
 \(G\)-metric to see "orthogonal" change meaning); `la-lsq` (drag data points, watch the fitted line,
@@ -126,6 +130,9 @@ elimination and report the residual), `gram_metric` (inner product under \(G\), 
 ML anchor: cosine similarity is a choice of \(G\); why the normal equations square the conditioning.
 Checkpoint theme: state what the four-subspace diagram assumes and prove one of its two orthogonality
 claims.
+Built extensions: a candidate-versus-projection experiment exposing the excess-error identity,
+prediction/reveal prompts, and linked data/observation-space views for three-point regression.
+The shared `plot3.js` supplies orthographic vector/plane drawing and a draggable camera.
 
 **Module 4 — Orthonormal bases, Gram–Schmidt and QR**
 `id: …orthonormal-bases-qr` · prereq: 3 · 24h · bank `04-qr`
@@ -349,7 +356,7 @@ build them when the first module that needs them is written, not before.
 |---|---|---|
 | `chartkit.js` — axes, line and scatter, log scale, error curves | 8 | 8, 9, 12, 13, 20, 24 |
 | `heatkit.js` — matrix heatmap with a diverging scale and a colour key | 8 | 8, 14, 21, 22, 23 |
-| `plot3.js` — orthographic 3D: vectors, planes, a draggable camera | 3 | 3, 5, 6, 7 |
+| `plot3.js` — orthographic 3D: vectors, planes, a draggable camera *(built in Module 3)* | 3 | 3, 5, 6, 7 |
 | `matrixbench.js` — the editable matrix widget generalized out of `la-elim` | 11 | 11, 12, 15, 23 |
 | `graphkit.js` — small draggable graphs with adjacency and Laplacian | 14 | 14, 24 |
 

@@ -32,7 +32,9 @@ GU.lab("la-span", function (root) {
     draw: function (P) {
       var a = +sa.value, b = +sb.value;
       var det = u[0] * v[1] - u[1] * v[0];
-      var dep = Math.abs(det) < 0.06;
+      var dep = det === 0;
+      var zero = u[0] === 0 && u[1] === 0 && v[0] === 0 && v[1] === 0;
+      var near = !dep && Math.abs(det) < 0.03 * (u[0] ** 2 + u[1] ** 2 + v[0] ** 2 + v[1] ** 2);
       var N = 2;
       P.grid();
 
@@ -44,7 +46,7 @@ GU.lab("la-span", function (root) {
           [-N * u[0] + N * v[0], -N * u[1] + N * v[1]]
         ], K.mix(css("--accent"), 11), K.mix(css("--accent"), 45));
       } else {
-        var base = Math.hypot(u[0], u[1]) > 1e-6 ? u : v;
+        var base = Math.hypot(u[0], u[1]) !== 0 ? u : v;
         P.line([-9 * base[0], -9 * base[1]], [9 * base[0], 9 * base[1]], css("--warn"), null, 3);
       }
 
@@ -74,12 +76,14 @@ GU.lab("la-span", function (root) {
 
       if (dep) {
         verd.className = "verdict bad";
-        verd.innerHTML = "<strong>Dependent.</strong> det ≈ 0, so v is a multiple of u. The span has " +
-          "collapsed from a plane to a line — every reachable point lies on it, whatever a and b you choose.";
+        verd.innerHTML = zero
+          ? "<strong>Dependent.</strong> Both generators are zero, so the span is just {0}."
+          : "<strong>Dependent.</strong> det = 0. At least one generator is nonzero, so the span is a line through the origin.";
       } else {
         verd.className = "verdict";
         verd.innerHTML = "<strong>Independent.</strong> det ≠ 0, so span{u,v} = all of ℝ². " +
-          "The shaded box is only what |a|,|b| ≤ 2 reaches; unbounded coefficients fill the plane.";
+          "The shaded box is only what |a|,|b| ≤ 2 reaches; unbounded coefficients fill the plane." +
+          (near ? " <em>Near-singular: coefficients can be sensitive, but the span is still the plane. Values are computed in floating point.</em>" : "");
       }
     }
   });
@@ -87,7 +91,7 @@ GU.lab("la-span", function (root) {
   sa.addEventListener("input", P.render);
   sb.addEventListener("input", P.render);
   lat.addEventListener("change", P.render);
-  q("[data-dep]").onclick = function () { v = [-1.2 * u[0], -1.2 * u[1]]; P.render(); };
+  q("[data-dep]").onclick = function () { v = [-u[0], -u[1]]; P.render(); };
   q("[data-reset]").onclick = function () {
     u = [2, 0.5]; v = [-0.5, 2]; sa.value = 1; sb.value = 1; P.render();
   };

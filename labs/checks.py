@@ -1857,6 +1857,13 @@ def echelon(m):
     _, coarse = m.row_echelon([[1., 0.], [0., 1e-12]], 1e-9)
     assert coarse == [0]
 
+    # A tiny elimination factor times a large entry must still be subtracted.
+    scaled, pivots = m.row_echelon([[1., 1e10], [1e-10, 2.]])
+    assert pivots == [0, 1]
+    for row, expected in zip(scaled, [[1., 0.], [0., 1.]]):
+        for actual, want in zip(row, expected):
+            close(actual, want)
+
     original = [[1., 2.], [3., 4.]]
     before = [row[:] for row in original]
     m.row_echelon(original)
@@ -1894,6 +1901,14 @@ def solve_complete(m):
     close(unique[0], 3.)
     close(unique[1], 4.)
     assert empty == []
+
+    # This exactly representable fixture exposes skipped small factors without
+    # confusing the regression with rounding in the right-hand side.
+    large = float(2 ** 40)
+    point, kernel = m.solve_complete([[1., large], [1 / large, 2.]], [large, 2.])
+    close(point[0], 0.)
+    close(point[1], 1.)
+    assert kernel == []
 
     # rank + nullity = number of columns, on a wide system
     wide = [[1., 1., 1., 1.], [1., 2., 3., 4.]]
@@ -1985,6 +2000,93 @@ def lu(m):
         raise AssertionError("invalid matrix should be rejected")
 
 
+def _projection_rejects(fn, *args):
+    try:
+        fn(*args)
+    except ValueError:
+        return
+    raise AssertionError("invalid or numerically rejected input must raise ValueError")
+
+
+def project_onto(m):
+    columns = [[1., 0., 1.], [0., 1., 1.]]
+    goal = [1., 1., 0.]
+    before = [row[:] for row in columns], goal[:]
+    p, point, residual = m.project_onto(columns, goal)
+    for a, b in zip(point, [1/3, 1/3, 2/3]):
+        close(a, b)
+    for i in range(3):
+        close(point[i] + residual[i], goal[i])
+        for j in range(3):
+            close(p[i][j], p[j][i])
+            close(sum(p[i][k] * p[k][j] for k in range(3)), p[i][j])
+    for column in columns:
+        close(sum(a * b for a, b in zip(column, residual)), 0.)
+        for a, b in zip(matvec(p, column), column):
+            close(a, b)
+    assert (columns, goal) == before
+    changed = [[1., 0., 1.], [1., 2., 3.]]
+    other, _, _ = m.project_onto(changed, goal)
+    for row, expected in zip(other, p):
+        for a, b in zip(row, expected):
+            close(a, b)
+    _, line, rest = m.project_onto([[1., 1.]], [2., 0.])
+    assert all(abs(a-b) < 1e-8 for a,b in zip(line, [1.,1.]))
+    assert all(abs(a-b) < 1e-8 for a,b in zip(rest, [1.,-1.]))
+    _, zero, rest = m.project_onto(columns, [0.,0.,0.])
+    assert zero == [0.,0.,0.] and rest == [0.,0.,0.]
+    for basis, target, tol in [(None, [1.], 1e-9), ([], [], 1e-9), ([[1.,2.],[2.,4.]], [1.,0.], 1e-9),
+        ([[1.,0.],[1.,1e-8]], [1.,0.], 1e-9), ([[1.,2.],[3.]], [1.,0.], 1e-9),
+        ([[1.,2.]], [1.], 1e-9), ([[True,0.]], [0.,0.], 1e-9),
+        ([[1.,0.]], [float('nan'),0.], 1e-9), ([[1.,0.]], [0.,0.], 0.)]:
+        _projection_rejects(m.project_onto, basis, target, tol)
+
+
+def normal_equations(m):
+    rows, target = [[1.,0.],[1.,1.],[1.,2.]], [1.,2.,2.]
+    before = [r[:] for r in rows], target[:]
+    w, residual, error = m.normal_equations(rows, target)
+    close(w[0], 7/6); close(w[1], .5); close(error, 1/6)
+    for actual, expected in zip(residual, [-1/6,1/3,-1/6]):
+        close(actual, expected)
+    for j in range(2):
+        close(sum(row[j]*r for row,r in zip(rows,residual)), 0.)
+    assert (rows,target) == before
+    for a, b, expected in [([[1.],[1.]], [0.,2.], [1.]),
+                           ([[1.,0.],[0.,2.]], [3.,4.], [3.,2.]),
+                           (rows, [1.,3.,5.], [1.,2.])]:
+        w, residual, error = m.normal_equations(a,b)
+        for x,y in zip(w,expected): close(x,y)
+        close(error, sum(r*r for r in residual))
+        for row,value,r in zip(a,b,residual): close(sum(x*y for x,y in zip(row,w))+r,value)
+    for a,b,tol in [([[1.,1.],[2.,2.]], [1.,0.], 1e-9),
+        ([[1.,1.],[0.,1e-8]], [1.,0.], 1e-9), ([[1.,2.]], [1.], 1e-9),
+        ([[1.],[2.]], [1.], 1e-9), ([[1.],[float('inf')]], [1.,2.], 1e-9),
+        ([[1.]], [True], 1e-9), ([[1.]], [1.], float('nan'))]:
+        _projection_rejects(m.normal_equations,a,b,tol)
+
+
+def gram_metric(m):
+    g,u,v = [[2.,1.],[1.,2.]], [1.,2.], [3.,-1.]
+    before = [r[:] for r in g],u[:],v[:]
+    close(m.gram_metric(g,u,v),7.)
+    close(m.gram_metric(g,v,u),7.)
+    close(m.gram_metric(g,[u[0]+v[0],u[1]+v[1]],v),
+          m.gram_metric(g,u,v)+m.gram_metric(g,v,v))
+    close(m.gram_metric(g,[2*x for x in u],v),14.)
+    close(m.gram_metric(g,[0.,0.],v),0.)
+    close(m.gram_metric([[1.,0.],[0.,4.]],[1.,1.],[1.,-1.]),-3.)
+    assert (g,u,v) == before
+    for bad in [[[1.,2.],[2.,1.]], [[-1.,0.],[0.,-1.]], [[1.,0.],[0.,0.]],
+                [[1.,0.],[1.,1.]], [[1.,0.],[0.,1e-12]], [[1.,float('nan')],[0.,1.]]]:
+        _projection_rejects(m.gram_metric,bad,[1.,0.],[1.,0.])
+    close(m.gram_metric([[1.,0.],[0.,1e-12]],[0.,1.],[0.,1.],1e-15),1e-12)
+    _projection_rejects(m.gram_metric,g,[1.],v)
+    _projection_rejects(m.gram_metric,g,u,[True,1.])
+    _projection_rejects(m.gram_metric,g,u,v,-1.)
+    _projection_rejects(m.gram_metric,[],[],[])
+
+
 CHECKS = {"moments": moments, "conditional": conditional,
           "categorical": categorical, "joint": joint,
           "convolution": convolution, "gaussian": gaussian,
@@ -2023,6 +2125,7 @@ CHECKS = {"moments": moments, "conditional": conditional,
           "span": span, "dependence": dependence,
           "echelon": echelon, "solve-complete": solve_complete, "lu": lu,
           "coordinates": coordinates,
+          "project-onto": project_onto, "normal-equations": normal_equations, "gram-metric": gram_metric,
           "search": search, "softmax": softmax,
           "bigram": bigram, "attention": attention, "bellman": bellman}
 

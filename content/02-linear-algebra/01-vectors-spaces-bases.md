@@ -1,12 +1,12 @@
 ---
 id: math.linear-algebra.vectors-spaces-bases
-title: The span workbench — vectors, span, independence and bases
+title: Vectors, span, independence and bases
 prerequisites: [foundations.mathematical-language]
 estimated_hours: 30
 answers: 01-span
 ---
 
-# The span workbench — vectors, span, independence and bases
+# Vectors, span, independence and bases
 
 Everything in linear algebra is downstream of one question: given some arrows, where can you get to? A neural network is a pile of matrices, a matrix is a list of vectors, and every later claim about rank, capacity, low-rank adaptation or interference is a claim about what a list of vectors can reach. This unit builds that machinery from nothing, with the geometry in your hands.
 
@@ -175,7 +175,7 @@ Independence is a property of the *set*, not of its pairs. Three vectors can be 
 
 **Theorem 2 — the pigeonhole of linear algebra.** Any \(k\) vectors in \(\mathbb R^n\) with \(k>n\) are **linearly dependent**.
 
-*Proof idea.* Put the vectors in the columns of an \(n\times k\) matrix \(V\). The equation \(Vc=0\) gives \(n\) homogeneous equations in \(k\) unknowns. Elimination uses at most one pivot per row, leaving at least \(k-n\) free variables. Set one free variable to 1 and solve backwards for the pivot variables: this constructs a nonzero relation. Section 12 shows the procedure on a small example; the [next unit](02-linear-maps-rank.md) develops the kernel and rank language.
+*Proof idea.* Put the vectors in the columns of an \(n\times k\) matrix \(V\). The equation \(Vc=0\) gives \(n\) homogeneous equations in \(k\) unknowns. Elimination uses at most one pivot per row, leaving at least \(k-n\) free variables. Set one free variable to 1 and solve backwards for the pivot variables: this constructs a nonzero relation. Section 12 shows the procedure on a small example; the [next unit](02-systems-elimination-subspaces.md) develops the kernel and rank language.
 
 Two consequences to keep: any independent list in \(\mathbb R^n\) has at most \(n\) elements, and any spanning list has at least \(n\). The second uses the dimension theorem in section 8 as well.
 
@@ -310,7 +310,9 @@ For \(B=((1,0),(1,1))\) and \(v=(3,2)\), the equation \(v=c_1(1,0)+c_2(1,1)\) gi
 >
 > **Practice — Stretch:** Derive the conversion from \(C\)-coordinates back to \(B\)-coordinates and show that the two conversions cancel. Explain why the order of the matrices matters.
 
-## 10. Length and overlap require an inner product
+## 10. Preview: length and overlap require an inner product
+
+This section supplies the geometry needed for the overlap experiments below. Module 3 returns to these definitions and proves the orthogonal-complement and projection theorems; Module 4 develops orthonormal bases and Gram–Schmidt.
 
 Span tells you what is reachable. It does not tell you whether two reachable vectors are close, or whether two arrows meet at a right angle. To ask those questions we add an **inner product**: a symmetric bilinear function \(\langle u,v\rangle\) that satisfies \(\langle v,v\rangle>0\) for every nonzero \(v\). Bilinear means linear in each argument separately.
 
@@ -419,7 +421,7 @@ $$
 
 In two dimensions, area equals \(\|b_1\|\|b_2\||\sin\theta|\), so \(h(B)=|\sin\theta|\). For a square basis it lies in \((0,1]\); orthogonal columns give 1, and dependent nonzero columns give 0. It measures angular collapse. It does **not** measure all causes of sensitivity: \(B=\operatorname{diag}(1,10^{-8})\) has ratio 1, but recovering its second coefficient multiplies input error by \(10^8\). The condition number, developed later, accounts for scaling as well.
 
-The draggable figures also use display thresholds near collapse. Treat those visual warnings as prompts to inspect the numbers, not as exact-arithmetic certificates of dependence.
+The draggable figures warn about near-singularity separately from collapse. A small nonzero determinant still gives a full-dimensional span. Their readouts use floating-point arithmetic; inspect the numbers and use the exact dependent presets when exploring collapse.
 
 > **Practice — Foundation:** Eliminate the second equation for the target \((3,6)\) above and choose one valid coefficient pair. Repeat for \((4,5)\).
 >
@@ -529,7 +531,7 @@ A1–A5: expand the coordinates before reaching for a determinant. For A4, a rel
 
 **A15 · Stretch · paper — dimension counting.** For subspaces \(S,T\subseteq\mathbb R^5\) with \(\dim S=\dim T=3\), give every possible value of \(\dim(S\cap T)\) and justify both extremes. State which theorem forces the lower bound.
 
-**A16 · Stretch · paper — one property, not two.** Prove that \(n\) vectors in \(\mathbb R^n\) are a basis as soon as they are independent, without separately checking that they span. Name precisely the result you are taking on trust until the next unit, and say what would go wrong without it.
+**A16 · Stretch · paper — one property, not two.** Prove that \(n\) vectors in \(\mathbb R^n\) are a basis as soon as they are independent, without separately checking that they span. Identify the dimension bound and exchange argument established in sections 6 and 8, and say where they enter the proof.
 
 ## 15. Exercises · NumPy
 
@@ -597,7 +599,7 @@ rejecting a determinant too small under your stated tolerance. Check standard, s
 >
 > **Practice — Stretch:** Design a case where a Boolean “in span” result hides unstable coefficients. Report the reconstruction error and a perturbation experiment alongside the Boolean result.
 
-**B8 · Stretch · NumPy — orthogonalization under stress.** Implement classical and modified Gram–Schmidt. Orthogonalize a nearly dependent basis with both, measure \(\max_{i\ne j}|\langle q_i,q_j\rangle|\), and explain which variant holds up and why the difference appears only when the input is close to degenerate.
+**B8 · Stretch · NumPy — geometry under a coordinate change.** Use \(B=\begin{pmatrix}1&1\\0&1\end{pmatrix}\). For several vectors \(x,y\), solve for their coordinate lists \(c,d\). Compare \(x^Ty\), \(c^Td\), and \(c^T(B^TB)d\). Include \(x=(1,0),y=(0,1)\). Explain which calculation preserves the original geometry and why an invertible coordinate change preserves independence even when the raw coordinate cosine changes. Gram–Schmidt and its numerical variants belong to Module 4.
 
 **B9 · Stretch · NumPy — two degeneracy measures.** Implement `hadamard_ratio(B)` and plot it beside `np.linalg.cond(B)` as a basis closes to degeneracy. State which you would put in a bug report, which you would put in a loss curve, and why they are not interchangeable.
 
@@ -731,7 +733,7 @@ Use a fresh page and keep the solution sketches closed. The six questions combin
 
 **Try an unfamiliar variant.** Replace checkpoint 2's vectors with the polynomials \(1+x\), \(x+x^2\), and \(2+3x+x^2\). Use the coefficient basis \((1,x,x^2)\) to decide dependence. The same reasoning should work after the arrows disappear.
 
-**What comes next.** [Linear maps, rank, and the four fundamental subspaces](02-linear-maps-rank.md) gives names and structure to the questions this chapter has already posed: which targets are reachable, which inputs produce zero, and when is a recipe unique? [Projections and least squares](03-projections-least-squares.md) develops orthogonality and best approximate recipes. Determinant volume, SVD, condition numbers, and numerical rank were previews here; their full theory and robust algorithms remain later work.
+**What comes next.** [Systems, elimination and the four fundamental subspaces](02-systems-elimination-subspaces.md) gives names and structure to the questions this chapter has already posed: which targets are reachable, which inputs produce zero, and when is a recipe unique? [Projections and least squares](03-projections-least-squares.md) develops orthogonality and best approximate recipes. Determinant volume, SVD, condition numbers, and numerical rank were previews here; their full theory and robust algorithms remain later work.
 
 ## Mastery check
 

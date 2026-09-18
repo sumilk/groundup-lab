@@ -538,3 +538,40 @@ def lu_factor(matrix, tol=1e-9):
     finite tolerance. Inputs must not be mutated.
     """
     raise NotImplementedError("Swap in the largest available pivot, then record each multiplier in L")
+
+
+def project_onto(basis, vector, tol=1e-9):
+    """Return (P, P @ vector, vector - P @ vector), using a Euclidean basis.
+
+    basis is a nonempty list of independent columns, with at least one coordinate.
+    Reject a singular or numerically rejected Gram matrix (absolute pivot <= tol).
+    Require matching finite real data and positive finite tol; preserve inputs.
+    Browser helpers: _validated_matrix, _validated_vector, _solve_square.
+    """
+    raise NotImplementedError("Build the Gram system and solve for each column of P")
+
+
+def normal_equations(matrix, target, tol=1e-9):
+    """Return (coefficients, residual, squared_error) for a full-column-rank design.
+
+    matrix is a nonempty rectangular list of rows; target has one value per row.
+    Form A.T @ A and A.T @ target; solve with partial pivoting and recompute the
+    residual against the original inputs. Reject Gram pivots <= tol, malformed
+    or non-finite data, and nonpositive/non-finite tol with ValueError.
+    Preserve inputs. Browser helpers: _validated_matrix, _validated_vector,
+    _solve_square. Rank-deficient coefficient sets are outside this task.
+    """
+    raise NotImplementedError("Construct and solve the normal equations")
+
+
+def gram_metric(metric, u, v, tol=1e-9):
+    """Validate a symmetric positive definite metric, then return u.T @ metric @ v.
+
+    Require a nonempty square finite real matrix and matching finite vectors.
+    Require exact entrywise symmetry. Test positivity using symmetric elimination:
+    every Schur-complement pivot must exceed the positive finite tolerance tol.
+    Reject invalid data or failed positivity with ValueError; preserve inputs.
+    A positive quadratic value for the queried vector alone is not sufficient.
+    Browser helpers: _validated_matrix and _validated_vector.
+    """
+    raise NotImplementedError("Validate the whole metric by completing squares")

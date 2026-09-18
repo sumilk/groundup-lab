@@ -93,7 +93,8 @@ GU.lab("la-elim", function (root) {
       for (var rr = 0; rr < ROWS; rr++) {
         if (rr === row) continue;
         var factor = A[rr][col];
-        if (Math.abs(factor) > TOL) for (var c2 = 0; c2 < COLS; c2++) A[rr][c2] -= factor * A[row][c2];
+        if (factor !== 0) for (var c2 = 0; c2 < COLS; c2++) A[rr][c2] -= factor * A[row][c2];
+        A[rr][col] = 0;
       }
       pivots.push(col);
       row++;
@@ -159,7 +160,7 @@ GU.lab("la-elim", function (root) {
       for (k = row + 1; k < ROWS; k++) if (Math.abs(M[k][col]) > Math.abs(M[best][col])) best = k;
       if (Math.abs(M[best][col]) <= TOL) continue;
       var dirty = false;
-      for (k = row + 1; k < ROWS; k++) if (Math.abs(M[k][col]) > TOL) dirty = true;
+      for (k = row + 1; k < ROWS; k++) if (M[k][col] !== 0) dirty = true;
       if (!dirty) { row++; continue; }
       if (best !== row) {
         var swap = M[row]; M[row] = M[best]; M[best] = swap;
@@ -167,8 +168,9 @@ GU.lab("la-elim", function (root) {
       }
       for (k = row + 1; k < ROWS; k++) {
         var factor = M[k][col] / M[row][col];
-        if (Math.abs(factor) <= TOL) continue;
+        if (factor === 0) continue;
         for (var c = 0; c < COLS; c++) M[k][c] -= factor * M[row][c];
+        M[k][col] = 0;
         note("R" + (k + 1) + " ← R" + (k + 1) + " − " + f(factor, 3) + "·R" + (row + 1));
       }
       analyse();
