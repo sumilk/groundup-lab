@@ -4,7 +4,7 @@
 working from this file as its brief. It fixes the format, names every module, and says what each one
 owes the reader. It is not a lesson and is not built into the reader.*
 
-Three modules exist. Twenty-three do not. This plan exists because the expensive mistakes in a track
+Four modules exist. Twenty-two do not. This plan exists because the expensive mistakes in a track
 like this are structural — two modules that teach the same thing differently, a theorem used three
 modules before it is proved, an identifier that breaks another track's prerequisites — and those are
 cheap to prevent here and costly to repair later.
@@ -32,6 +32,8 @@ single grammar, a derivations list, a cumulative set, and a six-problem checkpoi
 identifier, difficulty, mode, then the name. Modes are `paper`, `NumPy`, `PyTorch`, `mixed`, `gate`.
 Identifier prefixes are `A` by hand, `B` NumPy, `C` PyTorch, `M` cumulative, `K` checkpoint. The build
 fails if a header does not parse or if an identifier has no entry in the answer bank.
+
+**Practice hints are static.** Every practice prompt in Modules 1–4 has an authored `> **Hint:**` paragraph immediately after it, within the same blockquote. The reader turns it into an inline disclosure; it must never require an LLM connection. Continue this convention in new modules. General tutor questions and written-answer marking remain separate features.
 
 **Every exercise is checkable.** One entry per exercise in `public/theory/answers/<bank>.js`:
 `statement`, `plain`, `solution`, plus `fields` wherever an answer is typeable (`num`, `vec`, `ratio`,
@@ -85,7 +87,7 @@ establish, and everything else in it is scaffolding for those.
 | 1 | Vectors, span, independence and bases | I · Structure | 30 ✅ |
 | 2 | Systems, elimination and the four fundamental subspaces | I | 28 ✅ |
 | 3 | Inner products, orthogonality, projection and least squares | II · Geometry | 30 ✅ |
-| 4 | Orthonormal bases, Gram–Schmidt and QR | II | 24 |
+| 4 | Orthonormal bases, Gram–Schmidt and QR | II | 24 ✅ |
 | 5 | Determinants as signed volume | II | 20 |
 | 6 | Eigenvalues, invariant subspaces and diagonalization | II | 30 |
 | 7 | Symmetric matrices, the spectral theorem and quadratic forms | II | 28 |
@@ -109,7 +111,7 @@ establish, and everything else in it is scaffolding for those.
 | 25 | Superposition geometry and dictionary learning | VI | 32 |
 | 26 | Capstone: a linear-algebra audit of a real model | VI | 30 |
 
-Total ≈ 730 hours of study; the three built modules are 88 of them.
+Total ≈ 730 hours of study; the four built modules are 112 of them.
 
 ### Part II · Geometry (3–7)
 
@@ -143,6 +145,10 @@ a near-dependent preset that visibly breaks the classical version).
 Python: `gram_schmidt` (classical and modified, returning both so the student compares), `qr_solve`,
 `orthogonality_defect` (max off-diagonal of \(Q^{\mathsf T}Q\)).
 ML anchor: orthogonal initialization; why QR is the stable path to least squares.
+Built extensions: a step-by-step subtraction view paired with completed CGS/MGS directions,
+float32/float64 arithmetic switching, and separate overlap, normalization, and reconstruction audits.
+The solver lab uses two-pass MGS and accumulates corrections into R; dense library Householder QR
+is distinguished from these teaching algorithms.
 
 **Module 5 — Determinants as signed volume**
 `id: …determinants-volume` · prereq: 4 · 20h · bank `05-determinant`

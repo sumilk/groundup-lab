@@ -157,7 +157,8 @@
         open(id, scoped);
       };
       node.appendChild(chip);
-      if (node.parentElement && node.parentElement.classList.contains("practice-row")) {
+      if (node.parentElement && node.parentElement.classList.contains("practice-row") &&
+          !node.parentElement.querySelector(".practice-hint")) {
         const hint = element("button", "hintchip", "hint");
         hint.type = "button";
         hint.title = "Ask for the first move, not the answer";

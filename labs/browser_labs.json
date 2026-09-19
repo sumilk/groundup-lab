@@ -63,7 +63,7 @@
     "lesson": "05-probability-statistics/07-hypothesis-testing-confidence-power.md",
     "task": "bh-fdr",
     "function": "benjamini_hochberg",
-    "title": "Benjamini\u2013Hochberg correction"
+    "title": "Benjamini–Hochberg correction"
   },
   {
     "lesson": "05-probability-statistics/08-resampling-sequential-experimental-design.md",
@@ -87,7 +87,7 @@
     "lesson": "05-probability-statistics/09-bayesian-modeling-computation.md",
     "task": "beta-update",
     "function": "beta_bernoulli_update",
-    "title": "Beta\u2013Bernoulli update"
+    "title": "Beta–Bernoulli update"
   },
   {
     "lesson": "05-probability-statistics/09-bayesian-modeling-computation.md",
@@ -111,7 +111,7 @@
     "lesson": "05-probability-statistics/10-sampling-design-ml-evaluation.md",
     "task": "horvitz-thompson",
     "function": "horvitz_thompson",
-    "title": "Horvitz\u2013Thompson weighting"
+    "title": "Horvitz–Thompson weighting"
   },
   {
     "lesson": "05-probability-statistics/10-sampling-design-ml-evaluation.md",
@@ -338,6 +338,34 @@
     "supportFunctions": [
       "_validated_matrix",
       "_validated_vector"
+    ]
+  },
+  {
+    "lesson": "02-linear-algebra/04-orthonormal-bases-qr.md",
+    "task": "gram-schmidt",
+    "function": "gram_schmidt",
+    "title": "Compare classical and modified Gram–Schmidt",
+    "supportFunctions": [
+      "_validated_matrix"
+    ]
+  },
+  {
+    "lesson": "02-linear-algebra/04-orthonormal-bases-qr.md",
+    "task": "qr-solve",
+    "function": "qr_solve",
+    "title": "Least squares with reorthogonalized QR",
+    "supportFunctions": [
+      "_validated_matrix",
+      "_validated_vector"
+    ]
+  },
+  {
+    "lesson": "02-linear-algebra/04-orthonormal-bases-qr.md",
+    "task": "orthogonality-defect",
+    "function": "orthogonality_defect",
+    "title": "Audit column overlaps",
+    "supportFunctions": [
+      "_validated_matrix"
     ]
   }
 ]

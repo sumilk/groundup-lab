@@ -575,3 +575,46 @@ def gram_metric(metric, u, v, tol=1e-9):
     Browser helpers: _validated_matrix and _validated_vector.
     """
     raise NotImplementedError("Validate the whole metric by completing squares")
+
+
+def gram_schmidt(matrix, tol=1e-12):
+    """Return ((Qc, Rc), (Qm, Rm)) for classical and modified Gram-Schmidt.
+
+    Input and all outputs are lists of rows: m by n input/Q, n by n R,
+    with m >= n > 0. Use positive R diagonals. CGS computes all overlaps
+    against the original column; MGS uses the current residual each time.
+    Reject a residual norm <= absolute tol with ValueError; do not silently
+    drop columns. This is numerical rejection, not an exact rank certificate.
+    Reject empty/ragged/non-finite/bool inputs and nonpositive/non-finite tol.
+    Preserve input lists. _validated_matrix is supplied for validation/copying.
+    Return raw floating-point results, without rounding them for presentation.
+    """
+    raise NotImplementedError
+
+
+def qr_solve(matrix, target, tol=1e-12):
+    """Return (coefficients, residual, squared_error) by QR least squares.
+
+    Input is a nonempty m by n list of rows with m >= n and full column rank.
+    Construct Q,R with two passes of modified Gram-Schmidt per column; add
+    second-pass corrections to existing R entries. Solve R x = Q^T target
+    by back substitution, then compute target - matrix @ x explicitly.
+    Do not form A^T A. Reject residual norms <= absolute tol, invalid shapes,
+    bool/non-finite entries, or nonpositive/non-finite tol with ValueError.
+    Preserve inputs. _validated_matrix and _validated_vector are supplied.
+    This small teaching implementation is not a replacement for library QR.
+    """
+    raise NotImplementedError
+
+
+def orthogonality_defect(matrix):
+    """Return max_{i != j} abs((Q^T Q)[i,j]), or 0 for one column.
+
+    Q is a nonempty rectangular list of rows; it need not already be
+    orthogonal, normalized, square, tall, or full rank. Reject empty/ragged
+    arrays and non-finite/bool entries with ValueError. Preserve inputs.
+    Do NOT include diagonal entries: 2*I and a zero matrix both return 0.
+    Unit-length error must be checked separately. _validated_matrix is
+    supplied; pass it a fixed positive tolerance (e.g. 1e-12) to validate.
+    """
+    raise NotImplementedError

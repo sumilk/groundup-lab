@@ -128,15 +128,41 @@ assert.match(leastSquares.readout(), /‖r‖² = 0/);
 leastSquares.setInView(0, [0, 1], [1, 2], [2, 2]);
 assert.match(leastSquares.readout(), /‖r‖² = 0.166666666666666/);
 
+const gs = mount("la-gramschmidt");
+assert.doesNotMatch(gs.verdict(), /Stopped/);
+gs.click("near");
+assert.match(gs.verdict(), /Classical directions overlap/);
+assert.match(gs.readout(), /7.07e-1/);
+assert.match(gs.readout(), /1.00e-4/);
+gs.elements["[data-precision]"].value = "64";
+gs.elements["[data-precision]"].events.change();
+assert.doesNotMatch(gs.verdict(), /Classical directions overlap/);
+gs.click("dependent");
+assert.match(gs.verdict(), /classical column 2, modified column 2/);
+gs.click("zero");
+assert.match(gs.verdict(), /classical column 1, modified column 1/);
+gs.click("reset");
+gs.elements["[data-count]"].value = "2";
+gs.elements["[data-count]"].events.change();
+gs.click("end");
+assert.match(gs.elements["[data-stage]"].textContent, /Step 5 \/ 5/);
+gs.setInView(0, [1, 0, 0], [0, 1, 0]);
+assert.doesNotMatch(gs.verdict(), /Stopped/);
+
 // Marking must use the same complete exercise shown in the lesson, not an older fixture.
 for (const [bank, file] of [["01-span", "01-vectors-spaces-bases.md"],
   ["02-elimination", "02-systems-elimination-subspaces.md"],
-  ["03-projection", "03-projections-least-squares.md"]]) {
+  ["03-projection", "03-projections-least-squares.md"],
+  ["04-qr", "04-orthonormal-bases-qr.md"]]) {
   const entries = {};
   vm.runInNewContext(source(`public/theory/answers/${bank}.js`), {
     GU: {answers: (key, data) => Object.assign(entries, data)}
   });
   const md = source(`content/02-linear-algebra/${file}`);
+  const prompts = [...md.matchAll(/^> \*\*Practice[^\n]*\n>\n> \*\*Hint:\*\* ([^\n]+)/gm)];
+  assert.equal(prompts.length, (md.match(/^> \*\*Practice/gm) || []).length,
+    `${file}: every practice prompt needs an authored offline hint`);
+  assert(prompts.every(p => p[1].trim().length > 25), `${file}: empty hint`);
   const headers = [...md.matchAll(/^\*\*([A-Z]\d+) · [^\n]+?\*\*/gm)];
   for (let i = 0; i < headers.length; i++) {
     const header = headers[i], entry = entries[header[1]];

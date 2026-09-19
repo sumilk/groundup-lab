@@ -43,9 +43,15 @@ $$
 
 > **Practice — Foundation:** Write \(Ax\) for \(A=\begin{pmatrix}1&2\\3&4\end{pmatrix}\), \(x=(5,-1)\) as a combination of columns and as two row equations.
 >
+> **Hint:** Multiply each column by the corresponding entry of x. Separately dot each row with x; both calculations must give the same output vector.
+>
 > **Practice — Core:** Show from the two linearity rules alone that \(A0=0\), and that the image of a subspace is a subspace.
 >
+> **Hint:** Use A(0+0)=A0+A0 and cancellation. For the image, choose preimages of two output vectors and apply linearity to their combination.
+>
 > **Practice — Stretch:** Give a map \(\mathbb R^2\to\mathbb R^2\) satisfying \(T(cu)=cT(u)\) for all scalars but failing additivity, and say which reading of \(Ax\) it breaks.
+>
+> **Hint:** Try T(x,y)=(x³/(x²+y²),0) away from the origin and T(0,0)=0. Check scaling for negative scalars as well, then test addition on e₁ and e₂.
 
 ## 2. Elimination: the only algorithm here
 
@@ -69,9 +75,15 @@ la-elim
 
 > **Practice — Foundation:** Apply one row operation of each kind to a \(2\times3\) system and confirm the solution set is unchanged.
 >
+> **Hint:** Operate on the augmented rows, including the right-hand side. Exhibit the inverse operation for each change to prove equivalence.
+>
 > **Practice — Core:** Explain why scaling a row by zero is not permitted, in terms of reversibility rather than convention.
 >
+> **Hint:** Compare a nonzero equation with the equation obtained by multiplying it by zero. Can the original restriction be recovered from the new one?
+>
 > **Practice — Stretch:** Reduce a matrix two different ways to reduced row echelon form and argue from uniqueness that the pivot columns cannot differ.
+>
+> **Hint:** Once you reach reduced row echelon form, each pivot is the leading 1 of its nonzero row. Uniqueness of that form fixes those positions.
 
 ## 3. Rank is one number that answers both questions
 
@@ -98,9 +110,15 @@ Consequences worth instant recall, for \(A\in\mathbb R^{m\times n}\):
 
 > **Practice — Foundation:** State the largest possible rank of a \(4\times7\) matrix and what full rank would mean for solvability.
 >
+> **Hint:** Rank cannot exceed the smaller dimension. If rank reaches the number of rows, every target is reachable; use nullity to assess uniqueness.
+>
 > **Practice — Core:** Prove \(\operatorname{rank}(AB)\le\operatorname{rank}(B)\) using the column reading of \(Ax\).
 >
+> **Hint:** The image of AB is A applied to C(B). Apply A to a basis of C(B); those images span C(AB), though they may become dependent.
+>
 > **Practice — Stretch:** Construct \(A,B\) with \(\operatorname{rank}(AB)\) strictly less than both ranks, and say what collapsed.
+>
+> **Hint:** Use nonzero projections onto the two different coordinate axes. Arrange for B’s image to lie in A’s kernel.
 
 ## 4. Existence, uniqueness, and exactly three outcomes
 
@@ -122,9 +140,15 @@ la-picture
 
 > **Practice — Foundation:** Give a \(2\times2\) system with no solution and one with infinitely many, and identify the echelon signature of each.
 >
+> **Hint:** Try repeated left-hand sides with inconsistent right-hand sides, then with consistent right-hand sides. Inspect the final augmented row.
+>
 > **Practice — Core:** Prove the trichotomy from linearity, being explicit about where you use \(A(x_1-x_2)=0\).
 >
+> **Hint:** If a solution exists, subtract it from any other solution. Conversely add an arbitrary null vector to a fixed solution and apply A.
+>
 > **Practice — Stretch:** For \(A\in\mathbb R^{3\times5}\) of rank 3, describe the solution set of \(Ax=b\) for every \(b\), distinguish the shape label "underdetermined" from the rank conditions that decide consistency and uniqueness.
+>
+> **Hint:** Full row rank makes every b reachable. Rank–nullity gives the number of free directions; express every solution as one point plus the kernel.
 
 ## 5. The complete solution: one particular, plus a subspace
 
@@ -160,9 +184,15 @@ A fixed nonzero linear probe \(w^{\mathsf T}h\) has an enormous null space: in \
 
 > **Practice — Foundation:** For \(A=\begin{pmatrix}1&2\\2&4\end{pmatrix}\), find \(N(A)\) and check rank–nullity.
 >
+> **Hint:** The second equation duplicates the first. Solve x₁+2x₂=0 with x₂ free, then compare the kernel dimension with the rank.
+>
 > **Practice — Core:** Prove both directions of Theorem 6 and identify where linearity is used in each.
 >
+> **Hint:** Apply A to xₚ+n to prove one inclusion. For the other, subtract xₚ from an arbitrary solution and show that the difference belongs to N(A).
+>
 > **Practice — Stretch:** Explain why the null-space basis read off the echelon form is independent without computing a determinant.
+>
+> **Hint:** Each null-space basis vector gives one free variable value 1 and the others 0. Read those free coordinates in a proposed zero combination.
 
 ## 6. The four fundamental subspaces
 
@@ -187,9 +217,15 @@ la-map
 
 > **Practice — Foundation:** For a \(3\times5\) matrix of rank 2, give the dimension of all four subspaces.
 >
+> **Hint:** Column and row spaces both have dimension rank. Apply rank–nullity to A and to Aᵀ for the other two dimensions.
+>
 > **Practice — Core:** Show that \(C(A)\) is a subspace of \(\mathbb R^m\) directly from the column reading of \(Ax\).
 >
+> **Hint:** Write two outputs as Ax and Ay. Their linear combination is A applied to the corresponding combination of inputs.
+>
 > **Practice — Stretch:** Construct a matrix whose left null space is nontrivial and explain what that says about which \(b\) are reachable.
+>
+> **Hint:** Choose a matrix with a zero output row. Its corresponding coordinate vector lies in N(Aᵀ) and imposes a compatibility condition on reachable targets.
 
 ## 7. What depends on a choice of geometry
 
@@ -199,9 +235,15 @@ Module 3 develops orthogonal complements and projections. For the standard Eucli
 
 > **Practice — Foundation:** State which quantities in this unit would change if every vector were re-expressed in a skewed basis.
 >
+> **Hint:** Separate coordinate entries and raw dot products from dimensions, rank, and the underlying solution set. A change of basis changes descriptions of intrinsic objects.
+>
 > **Practice — Core:** Give a change of coordinates that preserves rank but changes a raw coordinate dot product from zero to nonzero. Explain how transforming the metric preserves the original orthogonality relation.
 >
+> **Hint:** Start with two perpendicular standard basis vectors, then express them in a skew basis B. Test their coordinate dot product and then the corrected metric BᵀB.
+>
 > **Practice — Stretch:** Distinguish a proved rank bound from a measured numerical rank, and distinguish exact orthogonality from a measured small inner product. State the metric, precision, and tolerances needed to reproduce the measurements.
+>
+> **Hint:** For exact claims, identify a symbolic relation or theorem. For measurements, record the matrix, dtype, metric, absolute/relative threshold, and the diagnostic being thresholded.
 
 ## 8. Elimination on a real machine
 
@@ -217,9 +259,15 @@ Everything above is exact arithmetic. Floating point changes the algorithm, not 
 
 > **Practice — Foundation:** Count the operations in one elimination and in one triangular solve, and state the ratio for twenty right-hand sides.
 >
+> **Hint:** For a square n×n system, elimination costs order n³ and each triangular solve order n². Compare refactoring twenty times with factoring once and reusing it.
+>
 > **Practice — Core:** Explain why partial pivoting bounds the multipliers by 1, and why that alone does not bound growth of all intermediate entries or guarantee a small forward error.
 >
+> **Hint:** The chosen pivot has largest magnitude in its active column, so each multiplier is a ratio of a smaller entry to it. Updates can still add large contributions elsewhere.
+>
 > **Practice — Stretch:** Construct a matrix whose numerical rank changes with the tolerance and state what you would report about it.
+>
+> **Hint:** Use a diagonal matrix with entries 1 and a tiny positive ε. Test thresholds on both sides of ε and distinguish exact rank from reported numerical rank.
 
 ## 9. Runnable labs
 

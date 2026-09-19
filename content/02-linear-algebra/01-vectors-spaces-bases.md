@@ -43,9 +43,15 @@ You will meet four descriptions of the same thing. None of them is the real one.
 
 > **Practice — Foundation:** Say which view you are using when you say "the negative gradient points downhill" and when you say "the embeddings cluster".
 >
+> **Hint:** Look for what the sentence uses: direction and change, or relative positions and distances. A coordinate list by itself does not supply either interpretation.
+>
 > **Practice — Core:** Give a vector space whose elements are not tuples, and say what View 1 would even mean there.
 >
+> **Hint:** Try polynomials or functions. A tuple can record coefficients only after you choose a basis; it is not the underlying object.
+>
 > **Practice — Stretch:** Take View 4 seriously: define addition and scaling for functions \([0,1]\to\mathbb R\) and check the axioms of section 2 hold verbatim.
+>
+> **Hint:** Define (f+g)(t)=f(t)+g(t) and (af)(t)=a f(t). Check each identity at an arbitrary t, using the corresponding real-number identity.
 
 ## 2. The axioms, and what is deliberately missing
 
@@ -67,9 +73,15 @@ Small consequences worth deriving once rather than memorising: \(0v=0\), \((-1)v
 
 > **Practice — Foundation:** Verify axioms (7) and (8) for \(\mathbb R^2\) under componentwise operations.
 >
+> **Hint:** Write u=(u₁,u₂), v=(v₁,v₂). Expand both sides one coordinate at a time; distinguish scalar addition from vector addition.
+>
 > **Practice — Core:** Prove \(0v=0\) from the axioms alone, naming each axiom used.
 >
+> **Hint:** Begin with (0+0)v=0v+0v. Add the additive inverse of 0v to both sides, naming distributivity, associativity, and the additive identity.
+>
 > **Practice — Stretch:** Exhibit a set with two operations satisfying seven of the eight axioms but not the eighth, and identify which theorem below fails for it.
+>
+> **Hint:** Keep ordinary vector addition but try defining scalar multiplication by a⋆v=|a|v. Check composition and both distributive rules separately, then inspect the claim about (−1)v.
 
 ## 3. The two operations, geometrically
 
@@ -89,9 +101,15 @@ la-vectors
 
 > **Practice — Foundation:** Compute \(3u-2v\) for \(u=(2,-1)\), \(v=(1,3)\), and draw the tip-to-tail construction.
 >
+> **Hint:** Scale both coordinates of each vector first, then subtract. For the picture, place the second scaled arrow at the tip of the first.
+>
 > **Practice — Core:** Explain why \(u+v\) and \(v+u\) trace the two halves of one parallelogram rather than reaching two different points.
 >
+> **Hint:** Translating an arrow preserves its displacement. Compare the two coordinate sums and use commutativity of real addition.
+>
 > **Practice — Stretch:** In the usual real coordinate plane, show that a 90-degree rotation of a nonzero vector cannot equal a real scalar multiple of it. Why does this not mean rotations violate the axioms of a linear map?
+>
+> **Hint:** For v=(x,y), write its rotated image as (−y,x). If this equals cv, use the two equations to obtain (1+c²)x=(1+c²)y=0.
 
 ## 4. Linear combinations and span
 
@@ -130,9 +148,15 @@ la-span
 
 > **Practice — Foundation:** Describe \(\operatorname{span}\{(1,2,3)\}\) and \(\operatorname{span}\{(1,0,0),(0,1,0)\}\) in \(\mathbb R^3\), naming the object and its dimension.
 >
+> **Hint:** Write a general linear combination with one scalar, then with two. Count freely variable coordinates rather than the number of coordinates written.
+>
 > **Practice — Core:** Decide whether \((4,5)\) and \((3,6)\) lie in \(\operatorname{span}\{(1,2),(2,4)\}\), geometrically and algebraically.
 >
+> **Hint:** The second generator is twice the first. Every combination must satisfy the same relation between its two coordinates; test each target against that relation.
+>
 > **Practice — Stretch:** Show that \(\operatorname{span}(S)\) is the intersection of all subspaces containing \(S\), and explain why that makes "smallest" well defined.
+>
+> **Hint:** Show every subspace containing S contains all finite linear combinations of S. Then show that the span itself is one of those subspaces.
 
 ## 5. Linear independence — the absence of redundancy
 
@@ -167,9 +191,15 @@ Independence is a property of the *set*, not of its pairs. Three vectors can be 
 
 > **Practice — Foundation:** Decide independence for \((1,2),(3,7)\); for \((1,2),(2,4)\); and for \((0,0),(1,3)\), giving a relation where one exists.
 >
+> **Hint:** Set a u+b v=0 and solve for the coefficients. A zero generator immediately gives a nontrivial relation by putting coefficient 1 on it.
+>
 > **Practice — Core:** Find every \(t\) for which \((1,t)\) and \((t,4)\) are dependent, and interpret both answers as pictures.
 >
+> **Hint:** Use the first coordinate equation to eliminate one coefficient from the second. The condition involves t², so keep both signs when solving.
+>
 > **Practice — Stretch:** Prove that if \(\{v_1,\dots,v_k\}\) is independent and \(w\notin\operatorname{span}\{v_1,\dots,v_k\}\), then \(\{v_1,\dots,v_k,w\}\) is independent.
+>
+> **Hint:** Assume a zero combination of the enlarged family. A nonzero coefficient on w would express w in the old span; otherwise use the old independence.
 
 ## 6. The dimension bound, and what it forces in a model
 
@@ -195,9 +225,15 @@ Same dimension bound, different setting: a matrix \(W\in\mathbb R^{768\times3072
 
 > **Practice — Foundation:** State the largest independent set and the smallest spanning set possible in \(\mathbb R^{1024}\).
 >
+> **Hint:** A basis is simultaneously independent and spanning. Use the dimension bound for the two requested cardinalities.
+>
 > **Practice — Core:** A model has residual width 1024 and is claimed to represent 50,000 interpretable features. Say exactly what is forced and what must still be established empirically.
 >
+> **Hint:** The dimension bound limits independent directions. It does not identify what counts as a feature, which combinations occur, or whether a decoder can recover their activations.
+>
 > **Practice — Stretch:** Generate \(m\) random unit vectors in \(\mathbb R^{64}\) for \(m\in\{32,64,128,1024\}\) and track the largest off-diagonal inner product; report how it changes across several random seeds. Why does this experiment alone not establish that a trained model can reliably recover all feature activations?
+>
+> **Hint:** Normalize every sampled vector, mask the Gram diagonal, and measure absolute off-diagonal overlaps. Recoverability also depends on activation patterns, noise, and a specified decoding rule.
 
 ## 7. Subspaces
 
@@ -226,9 +262,15 @@ Row four is the one to remember. Closure under addition is a real constraint, no
 
 > **Practice — Foundation:** Apply the three-part test to \(\{(x,y,z):x+y+z=0\}\) and to \(\{(x,y,z):x+y+z=1\}\).
 >
+> **Hint:** Test the zero vector before doing any algebra. For the homogeneous equation, add two satisfying equations and multiply one by a scalar.
+>
 > **Practice — Core:** Prove that the intersection of two subspaces is a subspace, and give a counterexample for the union.
 >
+> **Hint:** For an intersection, membership means satisfying both subspace conditions. For a union counterexample, try the two coordinate axes and add one vector from each.
+>
 > **Practice — Stretch:** Prove that \(\operatorname{span}\{v_1,\dots,v_k\}\) is a subspace and is contained in every subspace containing the \(v_i\).
+>
+> **Hint:** Zero is a combination with all coefficients zero. Add or scale coefficient lists, then use closure in an arbitrary containing subspace.
 
 ## 8. Basis, dimension, coordinates
 
@@ -262,9 +304,15 @@ Lab 3 is a change of basis, and a change of basis is a matrix — the one whose 
 
 > **Practice — Foundation:** Show that \(\{1,x,x^2\}\) is a basis of the polynomials of degree at most two.
 >
+> **Hint:** Write a general polynomial a+bx+cx². Spanning follows from its coefficients; independence follows if the zero polynomial has all coefficients zero.
+>
 > **Practice — Core:** Show that \(\{1,\,1+x,\,1+x+x^2\}\) is also a basis and compute \([3+2x-x^2]_B\) for it.
 >
+> **Hint:** Expand α+β(1+x)+γ(1+x+x²) and match powers, starting with x². Reconstruct the polynomial to check your coefficients.
+>
 > **Practice — Stretch:** Five vectors span a three-dimensional subspace of \(\mathbb R^7\). How many can you discard and still span it, and how many independent vectors are among them? Justify from Theorems 1 and 4, not intuition.
+>
+> **Hint:** Extract a basis by removing redundant generators. Its size equals the dimension of the spanned subspace, regardless of the ambient dimension.
 
 ## 9. A matrix is a machine for combining columns
 
@@ -306,9 +354,15 @@ For \(B=((1,0),(1,1))\) and \(v=(3,2)\), the equation \(v=c_1(1,0)+c_2(1,1)\) gi
 
 > **Practice — Foundation:** Write the matrix whose columns are \((1,2,0)\) and \((0,1,3)\), state its shape, and compute its product with \((2,-1)^T\).
 >
+> **Hint:** Place each listed vector vertically. The coefficient vector has one entry per column, and the result has one entry per row.
+>
 > **Practice — Core:** With \(B=((1,0),(1,1))\), \(C=((1,1),(1,-1))\), find both coordinate vectors of \(v=(3,2)\), then reconstruct \(v\) from each.
 >
+> **Hint:** Write v as an unknown combination of each basis pair separately. Solve those two small systems and substitute back.
+>
 > **Practice — Stretch:** Derive the conversion from \(C\)-coordinates back to \(B\)-coordinates and show that the two conversions cancel. Explain why the order of the matrices matters.
+>
+> **Hint:** First map C-coordinates to the ambient vector, then map that vector to B-coordinates. Matrix products act on the rightmost input first.
 
 ## 10. Preview: length and overlap require an inner product
 
@@ -350,9 +404,15 @@ Using \(c^Td\) instead would silently change the geometry, unless \(B^TB=I\). Mo
 
 > **Practice — Foundation:** Compute \(u^Tv\), both lengths, and the cosine for \(u=(1,0)\), \(v=(1,1)\). What happens if either vector is zero?
 >
+> **Hint:** The dot product is the sum of coordinate products; lengths are square roots of self-products. Inspect the denominator before dividing to form a cosine.
+>
 > **Practice — Core:** For \(B=((1,0),(1,1))\), compute \(B^TB\) and use it to recover the standard Euclidean length of the vector with \(B\)-coordinates \((1,2)^T\).
 >
+> **Hint:** Each Gram entry is an overlap of two basis columns. For coordinate vector c, compare cᵀ(BᵀB)c with the squared length of Bc.
+>
 > **Practice — Stretch:** Prove that an invertible transformation preserves independence. Give an explicit example showing that it need not preserve Euclidean cosine similarity.
+>
+> **Hint:** Apply the inverse transformation to a proposed zero combination. For the cosine counterexample, try a nonuniform scaling on a pair that is initially perpendicular.
 
 ## 11. Affine sets: moving the origin
 
@@ -376,9 +436,15 @@ A bias term \(Wx+b\) translates the image of a linear map. Likewise, subtracting
 
 > **Practice — Foundation:** Write \(\{(x,y):y=3x+1\}\) as a point plus a one-dimensional subspace.
 >
+> **Hint:** Choose any point on the line as the anchor. Vary x and write the resulting displacement from that anchor as a scalar multiple of one direction.
+>
 > **Practice — Core:** Show that the difference of two points in \(x_0+S\) lies in \(S\), and that choosing a different anchor from the same affine set leaves \(S\) unchanged.
 >
+> **Hint:** Write the two points as x₀+s₁ and x₀+s₂. Their difference is s₁−s₂; changing anchor subtracts another member of S.
+>
 > **Practice — Stretch:** Three points are \((1,0)\), \((0,1)\), and \((2,-1)\). Find their linear span, affine span, and convex hull. Explain why these are three different sets.
+>
+> **Hint:** The points lie on x+y=1. Compare arbitrary linear combinations, combinations whose coefficients sum to 1, and those with additionally nonnegative coefficients.
 
 ## 12. From a picture to a numerical decision
 
@@ -425,9 +491,15 @@ The draggable figures warn about near-singularity separately from collapse. A sm
 
 > **Practice — Foundation:** Eliminate the second equation for the target \((3,6)\) above and choose one valid coefficient pair. Repeat for \((4,5)\).
 >
+> **Hint:** Subtract twice the first equation from the second. A zero right-hand side leaves a free coefficient; a nonzero right-hand side signals inconsistency.
+>
 > **Practice — Core:** For \(B_\varepsilon\), compare the coordinates of \((0,1)\) and \((0,1+10^{-6})\) at \(\varepsilon=10^{-2}\) and \(10^{-8}\). Explain why checking only the reconstruction can miss the sensitivity.
 >
+> **Hint:** Solve the second coordinate for its coefficient first; it contains division by ε. Compare coefficient changes as well as the reconstructed targets.
+>
 > **Practice — Stretch:** Compare \(B=10^{-8}I\) with \(\operatorname{diag}(1,10^{-8})\). Both have small determinants. Explain which has unequal sensitivity across directions, and why neither determinant magnitude nor the Hadamard ratio alone answers that question.
+>
+> **Hint:** Act on each coordinate unit vector and compare inverse scaling in the two directions. Uniform smallness differs from an imbalance between directions.
 
 ## 13. Three runnable coding labs
 
@@ -473,9 +545,15 @@ The checks reconstruct the target in standard, skewed, rotated, and random bases
 
 > **Practice — Foundation:** For each function, name one successful result and one valid query that returns `None` or raises for a singular basis.
 >
+> **Hint:** Use an ordinary independent basis for success. For a nonmembership query use a target off a line; for a singular-basis error use repeated columns.
+>
 > **Practice — Core:** Explain why the span and dependence tests verify reconstructed vectors rather than matching one expected coefficient list.
 >
+> **Hint:** Dependent generators can represent one vector with several coefficient lists. The reconstructed vector tests the mathematical claim without choosing an arbitrary representative.
+>
 > **Practice — Stretch:** Construct a scale change that changes an absolute-tolerance decision without changing the exact span. Record the inputs, tolerance, result, and reconstruction residual.
+>
+> **Hint:** Try a nonzero generator whose magnitude lies just above tol, then scale it below tol. Keep the exact one-dimensional span and record the implementation’s decision.
 
 ## 14. Exercises · by hand
 
@@ -523,9 +601,15 @@ A1–A5: expand the coordinates before reaching for a determinant. For A4, a rel
 
 > **Practice — Foundation:** Which A problem can be settled by one substitution, and which needs a universal argument?
 >
+> **Hint:** A substitution verifies a particular equality; a universal proof must cover all permitted vectors or coefficient choices. Compare the quantifiers in the A prompts.
+>
 > **Practice — Core:** Exchange an A7 or A9 proof with a tutor. Identify the line where a nonzero coefficient or uniqueness is used.
 >
+> **Hint:** In an independence proof, locate the coefficient you would divide by. In a coordinate proof, subtract two representations and inspect the resulting zero combination.
+>
 > **Practice — Stretch:** Rewrite A10 as a procedure for extending a basis, and use the dimension bound to explain why it terminates in \(\mathbb R^n\).
+>
+> **Hint:** Append a vector outside the current span whenever one exists. Each append preserves independence, and an independent family in Rⁿ cannot grow beyond n members.
 
 **A14 · Stretch · paper — unions and sums.** Prove that a union of two subspaces of \(\mathbb R^n\) is a subspace exactly when one contains the other. Then show the *sum* \(S+T=\{s+t\}\) always is, and that it equals \(\operatorname{span}(S\cup T)\).
 
@@ -595,9 +679,15 @@ rejecting a determinant too small under your stated tolerance. Check standard, s
 
 > **Practice — Foundation:** State the shapes of \(V\), \(c\), \(Vc\), and \(V^TV\) for B5.
 >
+> **Hint:** Count ambient coordinates as rows and generators as columns. Check that the inner dimensions agree in each product before predicting its shape.
+>
 > **Practice — Core:** Reproduce one tolerance-sensitive result in both `float32` and `float64`. Separate the chosen tolerance from rounding error in your explanation.
 >
+> **Hint:** Keep the same mathematical input and explicit threshold, then cast to each dtype. A threshold is a chosen decision rule; rounding changes the numbers supplied to that rule.
+>
 > **Practice — Stretch:** Design a case where a Boolean “in span” result hides unstable coefficients. Report the reconstruction error and a perturbation experiment alongside the Boolean result.
+>
+> **Hint:** Use two almost parallel independent columns with a target transverse to them. Solve, reconstruct, then slightly perturb the target and compare coefficient changes.
 
 **B8 · Stretch · NumPy — geometry under a coordinate change.** Use \(B=\begin{pmatrix}1&1\\0&1\end{pmatrix}\). For several vectors \(x,y\), solve for their coordinate lists \(c,d\). Compare \(x^Ty\), \(c^Td\), and \(c^T(B^TB)d\). Include \(x=(1,0),y=(0,1)\). Explain which calculation preserves the original geometry and why an invertible coordinate change preserves independence even when the raw coordinate cosine changes. Gram–Schmidt and its numerical variants belong to Module 4.
 
@@ -644,9 +734,15 @@ Train both with gradient descent and report the losses and ranks. At the project
 
 > **Practice — Foundation:** Why are 5,000 embedding rows dependent even if no two rows are scalar multiples?
 >
+> **Hint:** Pairwise nonparallel rows need not be jointly independent. Compare the number of rows with the embedding dimension, not just every pair.
+>
 > **Practice — Core:** Give an example where a rank-1 update added to a matrix leaves the result full rank. Identify the two different spans involved.
 >
+> **Hint:** Start with an identity matrix and add an update in just one coordinate direction. Compare the update’s column space with the full matrix’s column space.
+>
 > **Practice — Stretch:** In C4, derive the unrestricted weight after one gradient step. Determine which learning rate leaves the rank at 4, and which positive learning rates make repeated steps converge to the identity.
+>
+> **Hint:** Differentiate the specified squared Frobenius loss entry by entry. Express the new weight as a multiple of the old weight plus a multiple of I; track the error W−I.
 
 **C6 · Core · PyTorch — probes and null spaces.** Train a linear probe \(w\) on frozen activations. Describe the null space of the probe in words: which directions of activation change can it not see at all? Construct an edit to an activation that the probe provably cannot detect, verify it numerically, and say what that implies for "the probe's accuracy did not move".
 
@@ -675,9 +771,15 @@ Write \(0v=(0+0)v=0v+0v\), then add the additive inverse of \(0v\) to both sides
 
 > **Practice — Foundation:** In derivation 1, point to one scalar zero and one vector zero and say how you know which is which.
 >
+> **Hint:** In 0v, the first zero is a scalar acting on a vector. In v+(−v), the resulting zero belongs to the vector space. Check each operation’s domain.
+>
 > **Practice — Core:** Reconstruct derivation 4 without naming Theorem 1 or Theorem 3. Use only coefficient lists and subtraction.
 >
+> **Hint:** Suppose two representations exist, subtract them, and inspect their coefficient differences. For the converse, turn a nonzero dependence relation into two representations.
+>
 > **Practice — Stretch:** Extend derivation 6 to an abstract finite-dimensional space of polynomials. What do the columns of the conversion matrix represent when there are no physical arrows?
+>
+> **Hint:** Each column consists of coordinates of one new basis polynomial in the old polynomial basis. Compose coordinate maps exactly as with arrows.
 
 ## 18. Exercises · cumulative
 
@@ -708,9 +810,15 @@ These mix the ideas rather than repeating one track. Each carries the same heade
 **M12 · Stretch · mixed — Audit a rank claim.** “Our layer starts at rank 4, so it can only learn four output directions.” State a parameterization under which this is true at every step and one under which it is false. Use C4 to give an exact loss comparison, then state why it does not establish a universal claim about nonlinear networks.
 > **Practice — Foundation:** Choose one answer above and check it by direct substitution before opening its reference solution.
 >
+> **Hint:** Use the original definition or equation, not an intermediate calculation from your solution. For a claimed span representation, multiply the displayed generators by the coefficients.
+>
 > **Practice — Core:** Find a proof in your answers that uses both directions of an equivalence. Label the directions explicitly.
 >
+> **Hint:** Look for “if and only if,” equality of sets, or uniqueness claims. Split the proof into the forward implication and reverse implication, or into the two inclusions.
+>
 > **Practice — Stretch:** Change one assumption in problem 11 — for example, make \(A\) singular — and construct a case where preserving all original logits becomes impossible.
+>
+> **Hint:** If the representation map kills a direction, any later readout must assign the same logits to inputs differing only in that direction. Choose original logits that distinguish them.
 
 ## 19. Checkpoint
 

@@ -2087,6 +2087,91 @@ def gram_metric(m):
     _projection_rejects(m.gram_metric,[],[],[])
 
 
+def _check_qr_factors(rows, q, r, tol=1e-8):
+    height, width = len(rows), len(rows[0])
+    assert len(q) == height and all(len(row) == width for row in q)
+    assert len(r) == width and all(len(row) == width for row in r)
+    assert all(r[i][i] > 0 for i in range(width))
+    for i in range(width):
+        for j in range(width):
+            close(sum(row[i]*row[j] for row in q), float(i == j), tol)
+            if i > j: close(r[i][j], 0., tol)
+    for i in range(height):
+        for j in range(width):
+            close(sum(q[i][k]*r[k][j] for k in range(width)), rows[i][j], tol)
+
+
+def gram_schmidt(m):
+    fixtures = [[[1.,1.],[1.,0.],[0.,1.]], [[3.,1.],[0.,2.],[0.,0.]],
+                [[2.]], [[-3.],[4.]], [[1.,0.,0.],[0.,2.,0.],[0.,0.,3.]],
+                [[1.,2.,0.],[0.,1.,1.],[1.,0.,2.],[2.,1.,1.]]]
+    for rows in fixtures:
+        before = [row[:] for row in rows]
+        classical, modified = m.gram_schmidt(rows)
+        for q,r in (classical,modified): _check_qr_factors(rows,q,r)
+        assert rows == before
+    # A deterministic float64 case distinguishes the two requested algorithms.
+    eps = 1e-8
+    rows = [[1.,1.,1.],[eps,eps,0.],[eps,0.,eps]]
+    (qc,rc),(qm,rm) = m.gram_schmidt(rows)
+    def overlap(q):
+        return max(abs(sum(row[i]*row[j] for row in q))
+                   for i in range(3) for j in range(i+1,3))
+    assert overlap(qc) > .1, "return actual classical GS, not two copies of MGS"
+    assert overlap(qm) < 1e-6, "modified GS must project the updated residual"
+    for q,r in ((qc,rc),(qm,rm)):
+        for i in range(3):
+            for j in range(3): close(sum(q[i][k]*r[k][j] for k in range(3)),rows[i][j])
+    for rows in [[], [[]], [[1.],[2.,3.]], [[1.,2.]], [[0.],[0.]],
+                 [[1.,2.],[0.,0.]], [[True]], [[float('nan')]], None]:
+        _projection_rejects(m.gram_schmidt,rows)
+    for tol in [0., -1., float('inf'), float('nan'), True]:
+        _projection_rejects(m.gram_schmidt,[[1.]],tol)
+    _projection_rejects(m.gram_schmidt,[[1.,0.],[0.,1e-13]])
+    for q,r in m.gram_schmidt([[1.,0.],[0.,1e-13]],1e-15):
+        _check_qr_factors([[1.,0.],[0.,1e-13]],q,r)
+
+
+def qr_solve(m):
+    for rows,b,expected in [([[1.,0.],[1.,1.],[1.,2.]],[1.,2.,2.],[7/6,.5]),
+                            ([[1.],[1.],[1.]],[1.,2.,3.],[2.]),
+                            ([[2.,1.],[0.,3.]],[5.,3.],[2.,1.]),
+                            ([[1.,1.],[0.,1e-8]],[2.,1e-8],[1.,1.]),
+                            ([[1.,1.,1.],[1e-8,1e-8,0.],[1e-8,0.,1e-8]],
+                             [6.,3e-8,4e-8],[1.,2.,3.]),
+                            ([[1.,0.],[0.,1.],[1.,1.]],[0.,0.,0.],[0.,0.]),
+                            ([[1.,0.],[1.,1.],[1.,2.]],[1.,3.,5.],[1.,2.])]:
+        before = [row[:] for row in rows], b[:]
+        x,r,sse = m.qr_solve(rows,b)
+        assert len(x) == len(expected) and len(r) == len(b)
+        for actual,want in zip(x,expected): close(actual,want)
+        close(sse,sum(z*z for z in r))
+        for row,y,err in zip(rows,b,r): close(sum(a*c for a,c in zip(row,x))+err,y)
+        for j in range(len(x)): close(sum(row[j]*err for row,err in zip(rows,r)),0.)
+        assert (rows,b) == before
+    for rows,b in [([[1.,1.],[2.,2.]],[1.,2.]), ([[1.,2.]],[1.]),
+                   ([[1.]],[1.,2.]), ([[1.]],[True]), ([[float('inf')]],[1.]),
+                   ([[1.]],None), ([],[]), ([[1.,0.],[0.,1e-13]],[1.,1.])]:
+        _projection_rejects(m.qr_solve,rows,b)
+    for tol in [0.,-1.,float('nan'),float('inf'),True]:
+        _projection_rejects(m.qr_solve,[[1.]],[1.],tol)
+    x,r,error=m.qr_solve([[1.,0.],[0.,1e-13]],[1.,1e-13],1e-15)
+    for z in x: close(z,1.)
+
+
+def orthogonality_defect(m):
+    for rows,expected in [([[1.,0.],[0.,1.]],0.), ([[2.,0.],[0.,3.]],0.),
+                          ([[0.,0.]],0.), ([[3.],[4.]],0.),
+                          ([[1.,1.],[0.,1.]],1.), ([[1.,2.,-3.]],6.),
+                          ([[1.,1.],[1.,-1.]],0.), ([[1.,-.5],[0.,1.]],.5)]:
+        before = [row[:] for row in rows]
+        close(m.orthogonality_defect(rows),expected)
+        assert rows == before
+    for bad in [[], [[]], [[1.],[1.,2.]], [[True]], [[float('inf')]],
+                [[float('nan')]], None]:
+        _projection_rejects(m.orthogonality_defect,bad)
+
+
 CHECKS = {"moments": moments, "conditional": conditional,
           "categorical": categorical, "joint": joint,
           "convolution": convolution, "gaussian": gaussian,
@@ -2126,6 +2211,7 @@ CHECKS = {"moments": moments, "conditional": conditional,
           "echelon": echelon, "solve-complete": solve_complete, "lu": lu,
           "coordinates": coordinates,
           "project-onto": project_onto, "normal-equations": normal_equations, "gram-metric": gram_metric,
+          "gram-schmidt": gram_schmidt, "qr-solve": qr_solve, "orthogonality-defect": orthogonality_defect,
           "search": search, "softmax": softmax,
           "bigram": bigram, "attention": attention, "bellman": bellman}
 

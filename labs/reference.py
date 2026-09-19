@@ -1912,3 +1912,80 @@ def gram_metric(metric, u, v, tol=1e-9):
     if not math.isfinite(value):
         raise ValueError("inner product produced a non-finite value")
     return value
+
+
+def gram_schmidt(matrix, tol=1e-12):
+    """Return ((Qc, Rc), (Qm, Rm)); matrices use rows, positive diagonals."""
+    rows = _validated_matrix(matrix, tol)
+    height, width = len(rows), len(rows[0])
+    if width > height:
+        raise ValueError("full column rank requires at least as many rows as columns")
+
+    def factor(modified):
+        columns, upper = [], [[0.0] * width for _ in range(width)]
+        for j in range(width):
+            original = [row[j] for row in rows]
+            residual = original[:]
+            for i, q in enumerate(columns):
+                source = residual if modified else original
+                upper[i][j] = sum(x * y for x, y in zip(q, source))
+                if modified:
+                    residual = [x - upper[i][j] * y for x, y in zip(residual, q)]
+            if not modified:
+                residual = [original[k] - sum(upper[i][j] * q[k]
+                            for i, q in enumerate(columns)) for k in range(height)]
+            norm = math.hypot(*residual)
+            if not math.isfinite(norm) or norm <= tol:
+                raise ValueError("column residual rejected at the supplied absolute tolerance")
+            upper[j][j] = norm
+            columns.append([x / norm for x in residual])
+        return [list(row) for row in zip(*columns)], upper
+
+    return factor(False), factor(True)
+
+
+def qr_solve(matrix, target, tol=1e-12):
+    """Least squares using two-pass MGS and back substitution, without a Gram matrix."""
+    rows = _validated_matrix(matrix, tol)
+    goal = _validated_vector(target, len(rows))
+    height, width = len(rows), len(rows[0])
+    if width > height:
+        raise ValueError("full column rank requires at least as many rows as columns")
+    columns, upper = [], [[0.0] * width for _ in range(width)]
+    for j in range(width):
+        residual = [row[j] for row in rows]
+        for _ in range(2):
+            for i, q in enumerate(columns):
+                correction = math.fsum(x * y for x, y in zip(q, residual))
+                upper[i][j] += correction
+                residual = [x - correction * y for x, y in zip(residual, q)]
+        norm = math.hypot(*residual)
+        if not math.isfinite(norm) or norm <= tol:
+            raise ValueError("column residual rejected at the supplied absolute tolerance")
+        upper[j][j] = norm
+        columns.append([x / norm for x in residual])
+    rhs = [math.fsum(x * y for x, y in zip(q, goal)) for q in columns]
+    coefficients = [0.0] * width
+    for i in range(width - 1, -1, -1):
+        coefficients[i] = (rhs[i] - math.fsum(upper[i][j] * coefficients[j]
+                             for j in range(i + 1, width))) / upper[i][i]
+    residual = [b - math.fsum(a * x for a, x in zip(row, coefficients))
+                for row, b in zip(rows, goal)]
+    error = math.fsum(x * x for x in residual)
+    if not all(math.isfinite(x) for x in coefficients + residual + [error]):
+        raise ValueError("solve produced non-finite values")
+    return coefficients, residual, error
+
+
+def orthogonality_defect(matrix):
+    """Maximum absolute off-diagonal entry of Q^T Q; zero for one column.
+
+    This deliberately does not test unit column lengths.
+    """
+    rows = _validated_matrix(matrix, 1e-12)
+    width = len(rows[0])
+    products = [abs(math.fsum(row[i] * row[j] for row in rows))
+                for i in range(width) for j in range(i + 1, width)]
+    if not all(math.isfinite(x) for x in products):
+        raise ValueError("overlap produced non-finite values")
+    return max(products, default=0.0)

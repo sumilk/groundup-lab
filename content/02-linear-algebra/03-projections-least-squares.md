@@ -52,9 +52,15 @@ The forms from \(\operatorname{diag}(1,0)\) and \(\operatorname{diag}(1,-1)\) fa
 
 > **Practice — Foundation:** Evaluate \(\langle(1,2),(3,-1)\rangle_G\) for \(G=\operatorname{diag}(1,4)\).
 >
+> **Hint:** First multiply the second vector by G, then take the ordinary dot product with the first. The second coordinate receives weight 4.
+>
 > **Practice — Core:** Show directly that \(G=\begin{pmatrix}2&1\\1&2\end{pmatrix}\) is positive definite by writing its quadratic form as a sum of positive squares.
 >
+> **Hint:** Expand the quadratic form and compare it with x²+y²+(x+y)². Explain why the sum is strictly positive away from the origin.
+>
 > **Practice — Stretch:** Why is a nonsymmetric matrix not an inner-product matrix even if its quadratic form is positive for every nonzero vector?
+>
+> **Hint:** Test symmetry of the bilinear form on coordinate vectors eᵢ,eⱼ. A skew-symmetric part cancels in vᵀGv but need not cancel in uᵀGv.
 
 ## 2. Length, distance, and Cauchy–Schwarz
 
@@ -87,9 +93,15 @@ Orthogonality means \(\langle u,v\rangle_G=0\). It gives **Pythagoras**: \(\|u+v
 
 > **Practice — Foundation:** Find \(\|(3,2)\|_G\) for \(G=\operatorname{diag}(1,4)\).
 >
+> **Hint:** Use the weighted sum of coordinate squares before taking the square root. A weight on squared length acts through its square root on length.
+>
 > **Practice — Core:** Derive the triangle inequality, including the step that bounds the cross term.
 >
+> **Hint:** Expand the squared norm of u+v. Bound the cross term by Cauchy–Schwarz, then recognize the square of a sum of lengths.
+>
 > **Practice — Stretch:** Prove that a family of nonzero pairwise \(G\)-orthogonal vectors is independent; explain why the nonzero assumption matters.
+>
+> **Hint:** Take the inner product of a proposed zero combination with each family member. Orthogonality removes every term except its own positive squared length.
 
 ## 3. Orthogonal complements earn the four-subspace picture
 
@@ -126,9 +138,15 @@ la-map
 
 > **Practice — Foundation:** Find the Euclidean complement of \(\operatorname{span}\{(1,2)\}\).
 >
+> **Hint:** Write r=(r₁,r₂) and impose (1,2)ᵀr=0. Parametrize the resulting homogeneous equation.
+>
 > **Practice — Core:** Prove the second identity directly, without citing the first.
 >
+> **Hint:** Ax=0 means x has zero dot product with every row of A. Connect those rows with the columns of Aᵀ and check both implications.
+>
 > **Practice — Stretch:** Derive \(C(A)^{\perp_G}=N(A^{\mathsf T}G)\) and explain why invertibility of \(G\) preserves the complement's dimension.
+>
+> **Hint:** Express orthogonality as one equation per column of A. Multiplication by invertible G does not change rank, so apply rank–nullity to AᵀG.
 
 <details><summary>Predict before computing: does a new metric change the null space?</summary>
 
@@ -166,9 +184,15 @@ la-project
 
 > **Practice — Foundation:** Project \((3,1)\) onto the span of \((1,0)\) under the standard metric.
 >
+> **Hint:** The target’s component along the first coordinate axis is retained; the perpendicular component becomes the residual. Verify the residual dot product.
+>
 > **Practice — Core:** Reconstruct both metric-dependent projections in the worked example, including each residual check.
 >
+> **Hint:** For each metric compute α=(uᵀGx)/(uᵀGu), then p=αu and r=x−p. Test uᵀGr using the same metric as in the coefficient.
+>
 > **Practice — Stretch:** Show that replacing \(u\) by any nonzero scalar multiple leaves the projection unchanged, even though its coefficient changes.
+>
+> **Hint:** Replace u by cu in the coefficient formula. Track one factor of c in the numerator and two in the denominator before multiplying by cu.
 
 ## 5. The projection theorem for every subspace
 
@@ -208,9 +232,15 @@ So \(p=(1/3,1/3,2/3)\), \(r=(2/3,2/3,-2/3)\). Both generators have dot product z
 
 > **Practice — Foundation:** Check both generator–residual dot products in the plane example.
 >
+> **Hint:** Dot the displayed residual with each generator independently. A residual perpendicular to their basis is perpendicular to the whole plane.
+>
 > **Practice — Core:** Prove that \(B^{\mathsf T}GB\) is invertible exactly when \(B\)'s columns are independent.
 >
+> **Hint:** For a coefficient vector z, write zᵀBᵀGBz=(Bz)ᵀG(Bz). Use positivity and distinguish Bz=0 from z=0.
+>
 > **Practice — Stretch:** Prove the double-complement identity using inclusion and dimensions; state where finite dimension is used.
+>
+> **Hint:** Every vector in S is perpendicular to S⊥, giving inclusion. Compare dimensions of S and its double complement to turn inclusion into equality.
 
 ## 6. What makes a projection orthogonal?
 
@@ -249,9 +279,15 @@ It is not symmetric, but it satisfies the correct metric identity. Also \(I-P_G\
 
 > **Practice — Foundation:** Compute \(Qe_2\) and \(Q^2\) for the oblique example.
 >
+> **Hint:** Multiplication by e₂ selects the second column. For Q² multiply explicitly, and compare the range direction with the direction removed.
+>
 > **Practice — Core:** Verify idempotence and metric self-adjointness for the displayed \(P_G\).
 >
+> **Hint:** Multiply P_G by itself. For the metric identity, compare G P_G with P_Gᵀ G; ordinary symmetry is a separate condition.
+>
 > **Practice — Stretch:** Prove that a projector has range \(S\) and kernel \(S^{\perp_G}\) exactly when it is the \(G\)-orthogonal projector onto \(S\).
+>
+> **Hint:** Use x=Px+(I−P)x for an idempotent map. Place the two terms in its range and kernel, then invoke uniqueness of orthogonal decomposition.
 
 ## 7. Least squares is projection in observation space
 
@@ -299,9 +335,15 @@ la-lsq
 
 > **Practice — Foundation:** Verify the two residual sums and squared error in the worked example.
 >
+> **Hint:** Compute the dot products with the constant and input columns. Sum the three squared residual entries separately.
+>
 > **Practice — Core:** Use the perturbation expansion to prove sufficiency of the normal equations without calculus.
 >
+> **Hint:** At a normal-equations solution, the perturbation expansion’s cross term vanishes. The remaining change is a squared norm and hence nonnegative.
+>
 > **Practice — Stretch:** When the design has no constant column, must residuals sum to zero? Give a counterexample.
+>
+> **Hint:** Try a single-column design A=(1,0)ᵀ and a target with nonzero second coordinate. Orthogonality to that column does not impose orthogonality to the constant vector.
 
 <details><summary>Predict before revealing: can the residual be nonzero when every normal equation is exactly satisfied?</summary>
 
@@ -327,9 +369,15 @@ For a zero matrix, every coefficient vector is optimal, \(\hat y=0\), and \(r=y\
 
 > **Practice — Foundation:** Give two distinct minimizing coefficient pairs in the duplicate-column example.
 >
+> **Hint:** With duplicate columns, fitted values depend only on the sum of two coefficients. Keep that sum fixed while redistributing its value.
+>
 > **Practice — Core:** Prove that all minimizers form \(\hat w+N(A)\), including both inclusions.
 >
+> **Hint:** Two minimizing fits equal the same unique projection, so their coefficient difference lies in N(A). Conversely adding a null vector preserves the fit.
+>
 > **Practice — Stretch:** Compare the free-variable-zero representative and the minimum-norm representative for the duplicate columns. Which is a convention and which requires an additional objective?
+>
+> **Hint:** Among pairs with a fixed sum, expand the sum of their squares around the equal split. Setting a free variable to zero need not minimize this norm.
 
 ## 9. Weighted residuals and changed coordinates
 
@@ -356,9 +404,15 @@ If an operator's original projector is \(P_G\), its coordinate matrix is \(B^{-1
 
 > **Practice — Foundation:** Compute the ordinary and weighted residual sums for the constant-fit example.
 >
+> **Hint:** Use the same residual vector for both sums: one uses weights 1, the other the supplied observation weights. The weighted constant fit makes only the weighted sum vanish.
+>
 > **Practice — Core:** Derive the weighted normal equations geometrically and state when coefficients are unique.
 >
+> **Hint:** Require the residual to be G-perpendicular to each design column. For uniqueness examine whether two coefficient vectors can produce the same fitted point.
+>
 > **Practice — Stretch:** Prove that \(B^{-1}P_GB\) is self-adjoint under \(B^{\mathsf T}GB\), even when it is not an ordinary symmetric matrix.
+>
+> **Hint:** Put H=BᵀGB and T=B⁻¹P_GB. Expand TᵀH and HT, cancel adjacent inverses, then use P_GᵀG=GP_G.
 
 ## 10. A correct formula can be a poor algorithm
 
@@ -386,9 +440,15 @@ Always report the reconstruction and the residual orthogonality defect, such as 
 
 > **Practice — Foundation:** Form \(A_\varepsilon^{\mathsf T}A_\varepsilon\) by multiplying entries.
 >
+> **Hint:** Compute each entry as a column–column overlap. Identify which small squared term is added to 1.
+>
 > **Practice — Core:** Explain why solving the Gram system instead of explicitly inverting it does not remove the information loss in the example.
 >
+> **Hint:** Inspect the already stored Gram entries before choosing a solver. No method solving that rounded system can restore a term that was discarded while forming it.
+>
 > **Practice — Stretch:** Build a perturbation experiment in which fitted values barely change but coefficients change substantially; distinguish problem sensitivity from additional error due to forming the Gram matrix.
+>
+> **Hint:** Use nearly parallel columns and perturb the target in their separating direction. Compare a direct solve with a Gram solve on the same stored inputs and report both coefficient and fitted-vector changes.
 
 ## 11. Three runnable coding labs
 

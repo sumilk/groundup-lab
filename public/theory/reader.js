@@ -311,8 +311,19 @@
       caption.className="practice-cap";
       caption.textContent="Practice";
       set.append(caption);
+      let previousLine=null;
       rows.forEach(row=>{
         const strong=row.firstElementChild;
+        if(strong&&/^Hint\s*:$/.test(strong.textContent.trim())&&previousLine){
+          strong.remove();
+          const details=document.createElement("details");
+          details.className="practice-hint";
+          const summary=document.createElement("summary");
+          summary.textContent="Hint";
+          details.append(summary,row);
+          previousLine.append(details);
+          return;
+        }
         const level=strong&&PRACTICE.exec(strong.textContent.trim());
         const line=document.createElement("div");
         line.className="practice-row";
@@ -328,6 +339,7 @@
         }
         line.append(row);
         set.append(line);
+        previousLine=level?line:null;
       });
       quote.replaceWith(set);
     });
