@@ -1,6 +1,6 @@
 # Hands-on labs
 
-Use Python 3.11 or later. These forty-three exercises need only the standard library; no GPU, API key, package installation, or paid dataset is required.
+Use Python 3.11 or later. These fifty-five exercises need only the standard library; no GPU, API key, package installation, or paid dataset is required.
 
 In the theory reader, select the linked exercise inside a lesson to open its runnable Python workspace on the right without losing your reading position. If a lesson gains multiple coding exercises, task tabs share that workspace. The implementation and most recent output are saved in that browser for each task. **Run tests** executes the behavioral check, **Run code** supports print-based exploration, **Stop** terminates a stuck worker, and **Reset starter** restores the authored skeleton. The command-line workflow below remains available.
 
@@ -36,6 +36,12 @@ In the theory reader, select the linked exercise inside a lesson to open its run
 | logistic-gradient | [Exponential families, regression, and GLMs](../content/05-probability-statistics/11-exponential-families-regression-glms.md) | Stable Bernoulli loss and logistic-regression gradient |
 | partial-pooling | [Exponential families, regression, and GLMs](../content/05-probability-statistics/11-exponential-families-regression-glms.md) | Normal-normal group shrinkage and pooling weights |
 | projection | [High-dimensional probability](../content/05-probability-statistics/12-high-dimensional-probability.md) | Random projection distortion of pairwise distances |
+| project-onto | [Projection and least squares](../content/02-linear-algebra/03-projections-least-squares.md) | Projection matrix, projected vector, and residual from a column basis |
+| normal-equations | [Projection and least squares](../content/02-linear-algebra/03-projections-least-squares.md) | Full-column-rank least squares by Gram construction and elimination |
+| gram-metric | [Projection and least squares](../content/02-linear-algebra/03-projections-least-squares.md) | Validate positive definiteness and compute a metric inner product |
+| gram-schmidt | [Orthonormal bases and QR](../content/02-linear-algebra/04-orthonormal-bases-qr.md) | Classical and modified factorizations with distinct arithmetic schedules |
+| qr-solve | [Orthonormal bases and QR](../content/02-linear-algebra/04-orthonormal-bases-qr.md) | Reorthogonalization, accumulated R corrections, and triangular least squares |
+| orthogonality-defect | [Orthonormal bases and QR](../content/02-linear-algebra/04-orthonormal-bases-qr.md) | Off-diagonal overlap without confusing it with normalization |
 | calibration | [Calibration, scoring, and conformal prediction](../content/05-probability-statistics/13-calibration-scoring-conformal.md) | Binned expected calibration error |
 | conformal | [Calibration, scoring, and conformal prediction](../content/05-probability-statistics/13-calibration-scoring-conformal.md) | Split conformal threshold at the finite-sample rank |
 | elbo-terms | [Latent variables and the ELBO](../content/05-probability-statistics/14-latent-variables-elbo-gradient-estimators.md) | Gaussian divergence and evidence lower bound |
@@ -51,6 +57,9 @@ In the theory reader, select the linked exercise inside a lesson to open its run
 | dkw-band | [Order statistics and nonparametrics](../content/05-probability-statistics/18-order-statistics-empirical-processes-nonparametrics.md) | Distribution-free simultaneous band around the empirical CDF |
 | mann-whitney | [Order statistics and nonparametrics](../content/05-probability-statistics/18-order-statistics-empirical-processes-nonparametrics.md) | Pairwise-win statistic, win rate, and tie-corrected normal score |
 | kde | [Order statistics and nonparametrics](../content/05-probability-statistics/18-order-statistics-empirical-processes-nonparametrics.md) | Gaussian kernel density estimate at arbitrary query points |
+| span | [Vectors, span, independence and bases](../content/02-linear-algebra/01-vectors-spaces-bases.md) | Elimination decides membership in a span and returns coefficients |
+| dependence | [Vectors, span, independence and bases](../content/02-linear-algebra/01-vectors-spaces-bases.md) | Explicit dependency relation, or a certificate of independence |
+| coordinates | [Vectors, span, independence and bases](../content/02-linear-algebra/01-vectors-spaces-bases.md) | Coordinates in a chosen basis with a degeneracy measure |
 | search | [DSA](../content/04-dsa/01-invariants-search-graphs-dp.md) | Exhaustive boundary cases |
 | softmax | [PyTorch](../content/08-pytorch/01-tensors-autograd-training.md) | Stability and shift invariance |
 | bigram | [NLP](../content/10-nlp/01-text-representations-language-models.md) | Correct target offsets |
@@ -60,3 +69,6 @@ In the theory reader, select the linked exercise inside a lesson to open its run
 Student functions intentionally raise NotImplementedError initially. Their failing tests mean the exercise has not been implemented, not that installation failed. Passing checks supplies behavioral evidence; it does not automatically establish understanding.
 
 The PyTorch, MLP, tokenizer, and policy-gradient projects in the lessons are implementation specifications. Full executable scaffolds for those projects are still pending.
+| echelon | [Systems, elimination and the four subspaces](../content/02-linear-algebra/02-systems-elimination-subspaces.md) | Reduced row echelon form with pivot columns |
+| solve-complete | [Systems, elimination and the four subspaces](../content/02-linear-algebra/02-systems-elimination-subspaces.md) | Particular solution plus a null-space basis, or inconsistency |
+| lu | [Systems, elimination and the four subspaces](../content/02-linear-algebra/02-systems-elimination-subspaces.md) | LU factorization with partial pivoting |

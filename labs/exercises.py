@@ -453,3 +453,168 @@ def gaussian_kde(samples, bandwidth, queries):
     finite query points. An empty query list returns an empty list.
     """
     raise NotImplementedError("Average one normal bump per observation, scaled by the bandwidth")
+
+
+def span_coordinates(vectors, target, tol=1e-9):
+    """Return coefficients writing target as a combination of vectors, or None.
+
+    vectors is a sequence of equal-length coordinate sequences read as the
+    generators; target has that same length. Return a list with one
+    coefficient per generator when target lies in their span at tolerance tol,
+    and None otherwise. Any valid coefficient list is accepted when the
+    generators are dependent. The empty generator list spans {0}.
+
+    Require finite numbers, rectangular input, a matching target length, and a
+    strictly positive finite tolerance. Inputs must not be mutated.
+    """
+    raise NotImplementedError("Eliminate with partial pivoting, then detect an inconsistent row")
+
+
+def dependency_relation(vectors, tol=1e-9):
+    """Return a nonzero relation among vectors, or None when they are independent.
+
+    A relation is a list c with sum of c[i] * vectors[i] equal to the zero
+    vector at tolerance tol, scaled so that max(abs(c)) == 1. By Theorem 2 a
+    relation always exists when there are more vectors than coordinates.
+
+    Require finite numbers, rectangular nonempty-length input, and a strictly
+    positive finite tolerance. Inputs must not be mutated.
+    """
+    raise NotImplementedError("Find a column without a pivot and read its relation off the elimination")
+
+
+def basis_coordinates(basis, vector, tol=1e-9):
+    """Return ([v]_B, hadamard_ratio) for a square basis given as columns.
+
+    basis holds n vectors of length n, each read as a column. The first result
+    is the coordinate vector solving B c = vector; the second is
+    abs(det B) / product of the column norms, which is 1 for an orthogonal
+    basis and falls to 0 as the basis degenerates.
+
+    Raise ValueError when the input is not square, not finite, or does not form
+    a basis at tolerance tol. Inputs must not be mutated.
+    """
+    raise NotImplementedError("Eliminate once for both the determinant and the coordinates")
+
+
+def row_echelon(matrix, tol=1e-9):
+    """Return (reduced_rows, pivot_columns) for a rectangular matrix.
+
+    matrix is a sequence of equal-length rows. Return the reduced row echelon
+    form as a list of lists — every pivot scaled to 1 and its column cleared
+    above and below — together with the pivot column indices in order. A pivot
+    candidate whose magnitude is at most tol counts as zero.
+
+    Require finite numbers, at least one row and column, rectangular input, and
+    a strictly positive finite tolerance. Inputs must not be mutated.
+    """
+    raise NotImplementedError("Eliminate with partial pivoting, then clear upwards")
+
+
+def solve_complete(matrix, rhs, tol=1e-9):
+    """Return None when inconsistent, else (particular, nullspace_basis).
+
+    particular solves matrix @ x = rhs with every free variable set to zero.
+    nullspace_basis holds one vector per free column, built by setting that free
+    variable to 1 and the other free variables to 0. Its length is therefore the
+    nullity, and rank + nullity equals the number of columns.
+
+    Require finite numbers, a rectangular matrix, a right-hand side matching the
+    row count, and a strictly positive finite tolerance. Inputs must not be
+    mutated.
+    """
+    raise NotImplementedError("Reduce the augmented matrix, then read off pivots and free columns")
+
+
+def lu_factor(matrix, tol=1e-9):
+    """Return (perm, lower, upper) with partial pivoting, so P @ matrix = L @ U.
+
+    matrix is square. perm is the row permutation as a list of original row
+    indices, lower is unit lower triangular with every multiplier at most 1 in
+    magnitude, and upper is upper triangular. A singular matrix is allowed: the
+    corresponding pivot in upper is then zero.
+
+    Require a nonempty square matrix of finite numbers and a strictly positive
+    finite tolerance. Inputs must not be mutated.
+    """
+    raise NotImplementedError("Swap in the largest available pivot, then record each multiplier in L")
+
+
+def project_onto(basis, vector, tol=1e-9):
+    """Return (P, P @ vector, vector - P @ vector), using a Euclidean basis.
+
+    basis is a nonempty list of independent columns, with at least one coordinate.
+    Reject a singular or numerically rejected Gram matrix (absolute pivot <= tol).
+    Require matching finite real data and positive finite tol; preserve inputs.
+    Browser helpers: _validated_matrix, _validated_vector, _solve_square.
+    """
+    raise NotImplementedError("Build the Gram system and solve for each column of P")
+
+
+def normal_equations(matrix, target, tol=1e-9):
+    """Return (coefficients, residual, squared_error) for a full-column-rank design.
+
+    matrix is a nonempty rectangular list of rows; target has one value per row.
+    Form A.T @ A and A.T @ target; solve with partial pivoting and recompute the
+    residual against the original inputs. Reject Gram pivots <= tol, malformed
+    or non-finite data, and nonpositive/non-finite tol with ValueError.
+    Preserve inputs. Browser helpers: _validated_matrix, _validated_vector,
+    _solve_square. Rank-deficient coefficient sets are outside this task.
+    """
+    raise NotImplementedError("Construct and solve the normal equations")
+
+
+def gram_metric(metric, u, v, tol=1e-9):
+    """Validate a symmetric positive definite metric, then return u.T @ metric @ v.
+
+    Require a nonempty square finite real matrix and matching finite vectors.
+    Require exact entrywise symmetry. Test positivity using symmetric elimination:
+    every Schur-complement pivot must exceed the positive finite tolerance tol.
+    Reject invalid data or failed positivity with ValueError; preserve inputs.
+    A positive quadratic value for the queried vector alone is not sufficient.
+    Browser helpers: _validated_matrix and _validated_vector.
+    """
+    raise NotImplementedError("Validate the whole metric by completing squares")
+
+
+def gram_schmidt(matrix, tol=1e-12):
+    """Return ((Qc, Rc), (Qm, Rm)) for classical and modified Gram-Schmidt.
+
+    Input and all outputs are lists of rows: m by n input/Q, n by n R,
+    with m >= n > 0. Use positive R diagonals. CGS computes all overlaps
+    against the original column; MGS uses the current residual each time.
+    Reject a residual norm <= absolute tol with ValueError; do not silently
+    drop columns. This is numerical rejection, not an exact rank certificate.
+    Reject empty/ragged/non-finite/bool inputs and nonpositive/non-finite tol.
+    Preserve input lists. _validated_matrix is supplied for validation/copying.
+    Return raw floating-point results, without rounding them for presentation.
+    """
+    raise NotImplementedError
+
+
+def qr_solve(matrix, target, tol=1e-12):
+    """Return (coefficients, residual, squared_error) by QR least squares.
+
+    Input is a nonempty m by n list of rows with m >= n and full column rank.
+    Construct Q,R with two passes of modified Gram-Schmidt per column; add
+    second-pass corrections to existing R entries. Solve R x = Q^T target
+    by back substitution, then compute target - matrix @ x explicitly.
+    Do not form A^T A. Reject residual norms <= absolute tol, invalid shapes,
+    bool/non-finite entries, or nonpositive/non-finite tol with ValueError.
+    Preserve inputs. _validated_matrix and _validated_vector are supplied.
+    This small teaching implementation is not a replacement for library QR.
+    """
+    raise NotImplementedError
+
+
+def orthogonality_defect(matrix):
+    """Return max_{i != j} abs((Q^T Q)[i,j]), or 0 for one column.
+
+    Q is a nonempty rectangular list of rows; it need not already be
+    orthogonal, normalized, square, tall, or full rank. Reject empty/ragged
+    arrays and non-finite/bool entries with ValueError. Preserve inputs.
+    Do NOT include diagonal entries: 2*I and a zero matrix both return 0.
+    Unit-length error must be checked separately. _validated_matrix is
+    supplied; pass it a fixed positive tolerance (e.g. 1e-12) to validate.
+    """
+    raise NotImplementedError

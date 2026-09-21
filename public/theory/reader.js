@@ -205,6 +205,204 @@
       else el.setAttribute(attr,"https://github.com/sumilk/groundup-lab/blob/main"+resolved.pathname);
     });
   }
+  function interactiveSpec(text) {
+    const spec={},lines=text.split(/\r?\n/);
+    for(const line of lines){
+      const match=line.match(/^\s*([A-Za-z][\w-]*)\s*:\s*(.*)$/);
+      if(match)spec[match[1].toLowerCase()]=match[2].trim();
+    }
+    if(!spec.lab){
+      const bare=lines.map(line=>line.trim()).find(Boolean);
+      if(bare)spec.lab=bare;
+    }
+    return spec;
+  }
+  function mountInteractives() {
+    [...$("article").querySelectorAll("code.language-lab,code.language-interactive")].forEach(code=>{
+      const block=code.closest("pre")||code;
+      const spec=interactiveSpec(code.textContent);
+      const host=document.createElement("div");
+      block.replaceWith(host);
+      if(window.GroundUpInteractives&&spec.lab&&window.GroundUpInteractives.mount(spec.lab,host,spec))return;
+      const fallback=document.createElement("p");
+      fallback.className="lab-missing";
+      fallback.textContent="Lab \""+(spec.lab||"unnamed")+"\" could not be started; the surrounding text carries the same argument.";
+      host.replaceWith(fallback);
+    });
+  }
+  const answerBanks=new Set();
+  function loadAnswers(key) {
+    if(answerBanks.has(key))return Promise.resolve(true);
+    return new Promise(resolve=>{
+      const script=document.createElement("script");
+      script.src="answers/"+encodeURIComponent(key)+".js";
+      script.onload=()=>{answerBanks.add(key);resolve(true);};
+      script.onerror=()=>resolve(false);
+      document.head.appendChild(script);
+    });
+  }
+  const EXERCISE=/^([ABCMK]\d+)\s*(?:·|\.|—|$)/;
+  const LEVELS=["foundation","core","stretch","checkpoint"];
+  function exerciseHead(label) {
+    /* "A1 · Foundation · paper — arithmetic and recipes." */
+    const split=label.split(/\s+—\s+/);
+    const parts=split[0].split("·").map(part=>part.trim()).filter(Boolean);
+    const name=(split.slice(1).join(" — ")||"").replace(/\.$/,"");
+    const head=document.createElement("div");
+    head.className="ex-head";
+    const id=document.createElement("span");
+    id.className="ex-h ex-id";
+    id.textContent=parts[0]||label;
+    head.append(id);
+    parts.slice(1).forEach(tag=>{
+      const chip=document.createElement("span");
+      const slug=tag.toLowerCase().replace(/[^a-z]/g,"");
+      chip.className="ex-tag "+(LEVELS.includes(slug)?"lvl-"+slug:"mode-"+slug);
+      chip.textContent=tag;
+      head.append(chip);
+    });
+    if(name){
+      const title=document.createElement("span");
+      title.className="ex-name";
+      title.textContent=name;
+      head.append(title);
+    }
+    return head;
+  }
+  function wrapExercises() {
+    [...$("article").children].forEach(node=>{
+      if(node.tagName!=="P")return;
+      const strong=node.firstElementChild;
+      if(!strong||strong.tagName!=="STRONG"||!EXERCISE.test(strong.textContent.trim()))return;
+      const box=document.createElement("div");
+      box.className="ex";
+      node.replaceWith(box);
+      const head=exerciseHead(strong.textContent.trim());
+      strong.remove();
+      if(node.firstChild&&node.firstChild.nodeType===3)
+        node.firstChild.nodeValue=node.firstChild.nodeValue.replace(/^\s+/,"");
+      box.append(head,node);
+      let next=box.nextElementSibling;
+      while(next&&!/^H[1-6]$/.test(next.tagName)&&!next.classList.contains("ex")&&!next.classList.contains("lab")){
+        const lead=next.tagName==="P"?next.firstElementChild:null;
+        if(lead&&lead.tagName==="STRONG"&&EXERCISE.test(lead.textContent.trim()))break;
+        const move=next;next=next.nextElementSibling;box.append(move);
+      }
+    });
+    /* group runs of exercises so the set reads as one object */
+    let run=null;
+    [...$("article").children].forEach(node=>{
+      if(node.classList&&node.classList.contains("ex")){
+        if(!run){run=document.createElement("div");run.className="exgrid";node.replaceWith(run);run.append(node);}
+        else run.append(node);
+      }else if(!(node.classList&&node.classList.contains("exgrid"))){run=null;}
+    });
+  }
+  const PRACTICE=/^Practice\s*[—-]\s*([A-Za-z]+)\s*:?/;
+  function stylePractice() {
+    [...$("article").querySelectorAll("blockquote")].forEach(quote=>{
+      const rows=[...quote.children].filter(child=>child.tagName==="P");
+      const matched=rows.filter(row=>row.firstElementChild&&row.firstElementChild.tagName==="STRONG"
+        &&PRACTICE.test(row.firstElementChild.textContent.trim()));
+      if(!matched.length)return;
+      const set=document.createElement("div");
+      set.className="practice-set";
+      const caption=document.createElement("span");
+      caption.className="practice-cap";
+      caption.textContent="Practice";
+      set.append(caption);
+      let previousLine=null;
+      rows.forEach(row=>{
+        const strong=row.firstElementChild;
+        if(strong&&/^Hint\s*:$/.test(strong.textContent.trim())&&previousLine){
+          strong.remove();
+          const details=document.createElement("details");
+          details.className="practice-hint";
+          const summary=document.createElement("summary");
+          summary.textContent="Hint";
+          details.append(summary,row);
+          previousLine.append(details);
+          return;
+        }
+        const level=strong&&PRACTICE.exec(strong.textContent.trim());
+        const line=document.createElement("div");
+        line.className="practice-row";
+        if(level){
+          const chip=document.createElement("span");
+          const slug=level[1].toLowerCase();
+          chip.className="ex-tag "+(LEVELS.includes(slug)?"lvl-"+slug:"mode-"+slug);
+          chip.textContent=level[1];
+          strong.remove();
+          if(row.firstChild&&row.firstChild.nodeType===3)
+            row.firstChild.nodeValue=row.firstChild.nodeValue.replace(/^[\s:]+/,"");
+          line.append(chip);
+        }
+        line.append(row);
+        set.append(line);
+        previousLine=level?line:null;
+      });
+      quote.replaceWith(set);
+    });
+  }
+  function renderProgress(key) {
+    if(!key||!window.GU||!window.GU.work)return;
+    let line=document.getElementById("progress-line");
+    if(!line){
+      line=document.createElement("span");
+      line.id="progress-line";
+      line.className="progress-line";
+      line.setAttribute("role","status");
+      document.querySelector(".toolbar").append(line);
+    }
+    const total=$("article").querySelectorAll(".chk").length;
+    const work=(window.GU.work.all()||{})[key]||{};
+    const ids=Object.keys(work);
+    const attempted=ids.filter(id=>work[id]&&work[id].attempted).length;
+    const right=ids.filter(id=>work[id]&&work[id].correct).length;
+    line.textContent=total?attempted+" of "+total+" exercises attempted · "+right+" fully right":"";
+  }
+  async function mountCheckers(lesson) {
+    const front=lesson.markdown.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+    const key=front&&front[1].match(/^answers:\s*(\S+)\s*$/m)?.[1];
+    if(!key||!window.GU||!window.GU.mountCheckers)return;
+    if(!await loadAnswers(key))return;
+    try{window.GU.mountCheckers(key);}catch{}
+    renderProgress(key);
+    let queued=false;
+    $("article").addEventListener("click",()=>{
+      if(queued)return;
+      queued=true;
+      requestAnimationFrame(()=>{queued=false;renderProgress(key);});
+    });
+  }
+  /* ---- colour theme: system, light, dark ---- */
+  const THEMES=["system","light","dark"];
+  function applyTheme(mode){
+    const root=document.documentElement;
+    if(mode==="system")root.removeAttribute("data-theme");
+    else root.setAttribute("data-theme",mode);
+    const button=$("theme");
+    if(button){
+      button.textContent="Theme: "+mode;
+      button.setAttribute("aria-label","Colour theme: "+mode+". Activate to change.");
+    }
+    document.querySelectorAll(".lab canvas").forEach(canvas=>{
+      canvas.dispatchEvent(new Event("gu-theme"));
+    });
+    window.dispatchEvent(new Event("resize"));
+  }
+  function initTheme(){
+    let mode=get("theme");
+    if(!THEMES.includes(mode))mode="system";
+    applyTheme(mode);
+    const button=$("theme");
+    if(!button)return;
+    button.onclick=()=>{
+      const next=THEMES[(THEMES.indexOf(get("theme")||"system")+1)%THEMES.length];
+      put("theme",next);
+      applyTheme(next);
+    };
+  }
   async function show() {
     const token=++renderId;let selected="";try{selected=decodeURIComponent(location.hash.slice(1));}catch{}
     current=lessons.find(l=>l.path===selected)||lessons[0];
@@ -235,7 +433,14 @@
       const nodes=diagrams.map(code=>{const n=document.createElement("pre");n.className="mermaid";n.textContent=code.textContent;code.parentElement.replaceWith(n);return n;});
       await mermaid.run({nodes});
     }catch{if(token===renderId)$("status").textContent+=" · Diagram rendering failed; see Markdown source.";}
+    if(token!==renderId)return;
+    mountInteractives();
+    wrapExercises();
+    stylePractice();
+    if(window.GroundUpTutor)window.GroundUpTutor.mount(lesson.path);
+    mountCheckers(lesson);
   }
+  initTheme();
   $("search").addEventListener("input",nav);
   $("notes").addEventListener("input",()=>{if(current)$("saved").textContent=put("notes:"+current.path,$("notes").value)?"Notes saved in this browser.":"Storage unavailable; notes last only this session.";});
   $("read").addEventListener("change",()=>{if(current){put("read:"+current.path,$("read").checked?"yes":"");nav();}});

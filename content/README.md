@@ -1,6 +1,6 @@
 # GroundUp Lab — theory and practice
 
-The repository now has **43 authored lessons across 14 tracks**, with linear algebra, optimization, and probability/statistics as separate tracks. This is an initial cross-curriculum release, **not complete coverage**. Each track has substantial expansion work remaining. Depth labels are targets and have not been independently verified.
+The repository now has **44 authored lessons across 14 tracks**, with linear algebra, optimization, and probability/statistics as separate tracks. This is an initial cross-curriculum release, **not complete coverage**. Each track has substantial expansion work remaining. Depth labels are targets and have not been independently verified.
 
 ## Start here
 
@@ -21,11 +21,12 @@ Attempt these prompts before continuing. The end-of-unit practice set then mixes
 | 00 Foundations | [Mathematical language](00-foundations/00-mathematical-language.md) |
 | 00 Foundations | [Numerical stability](00-foundations/01-numerical-stability.md) |
 | 01 Python | [Objects, iteration, and streaming](01-python/01-python-memory-iteration.md) |
-| 02 Linear algebra | [Vector spaces and bases](02-linear-algebra/01-vectors-spaces-bases.md) |
-| 02 Linear algebra | [Linear maps and rank](02-linear-algebra/02-linear-maps-rank.md) |
-| 02 Linear algebra | [Projections and least squares](02-linear-algebra/03-projections-least-squares.md) |
-| 02 Linear algebra | [Eigenvalues and invariant subspaces](02-linear-algebra/04-eigenvalues-invariant-subspaces.md) |
-| 02 Linear algebra | [SVD and PCA](02-linear-algebra/05-svd-pca.md) |
+| 02 Linear algebra | [Vectors, span, independence and bases](02-linear-algebra/01-vectors-spaces-bases.md) |
+| 02 Linear algebra | [Systems, elimination and the four fundamental subspaces](02-linear-algebra/02-systems-elimination-subspaces.md) |
+| 02 Linear algebra | [Inner products, orthogonality, projection and least squares](02-linear-algebra/03-projections-least-squares.md) |
+| 02 Linear algebra | [Orthonormal bases, Gram–Schmidt and QR](02-linear-algebra/04-orthonormal-bases-qr.md) |
+| 02 Linear algebra | [Eigenvalues and invariant subspaces](02-linear-algebra/06-eigenvalues-diagonalization.md) *(stub — Module 6 of the track plan)* |
+| 02 Linear algebra | [SVD and PCA](02-linear-algebra/08-svd-low-rank.md) *(stub — Module 8 of the track plan)* |
 | 03 Optimization | [Calculus, gradients, and optimization](03-optimization/01-calculus-gradients-optimization.md) |
 | 03 Optimization | [Convexity, smoothness and duality](03-optimization/03-convexity-smoothness-duality.md) |
 | 03 Optimization | [Stochastic approximation, SGD and batch size](03-optimization/04-stochastic-approximation-sgd.md) |
@@ -93,7 +94,7 @@ The track is being expanded one unit at a time in this order:
 
 ## Hands-on resources
 
-- [Forty-three runnable exercises and behavioral checks](../labs/README.md)
+- [Fifty-five runnable exercises and behavioral checks](../labs/README.md)
 - [Learner implementation file](../labs/exercises.py)
 - [Reference solutions — attempt first](../labs/reference.py)
 - [Web reader source](../public/theory/index.html)

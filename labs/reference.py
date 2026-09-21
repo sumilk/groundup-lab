@@ -1558,3 +1558,437 @@ def gaussian_kde(samples, bandwidth, queries):
     for point in points:
         estimates.append(math.fsum(bump(point, value) for value in values) * scale)
     return estimates
+
+
+def _validated_columns(vectors, tol):
+    columns = [list(column) for column in vectors]
+    if (
+        isinstance(tol, bool)
+        or not isinstance(tol, (int, float))
+        or not math.isfinite(tol)
+        or tol <= 0.0
+    ):
+        raise ValueError("tolerance must be strictly positive and finite")
+    if columns and len({len(column) for column in columns}) != 1:
+        raise ValueError("generators must all have the same length")
+    for column in columns:
+        for entry in column:
+            if (
+                isinstance(entry, bool)
+                or not isinstance(entry, (int, float))
+                or not math.isfinite(entry)
+            ):
+                raise ValueError("coordinates must be finite numbers")
+    return columns
+
+
+def _eliminate(rows, width, tol):
+    """Forward elimination with partial pivoting; returns pivot columns."""
+    pivots, row = [], 0
+    for column in range(width):
+        best = max(range(row, len(rows)), key=lambda r: abs(rows[r][column]), default=None)
+        if best is None or abs(rows[best][column]) <= tol:
+            continue
+        rows[row], rows[best] = rows[best], rows[row]
+        for lower in range(row + 1, len(rows)):
+            factor = rows[lower][column] / rows[row][column]
+            if factor:
+                for position in range(column, len(rows[lower])):
+                    rows[lower][position] -= factor * rows[row][position]
+        pivots.append(column)
+        row += 1
+        if row == len(rows):
+            break
+    return pivots
+
+
+def span_coordinates(vectors, target, tol=1e-9):
+    columns = _validated_columns(vectors, tol)
+    goal = list(target)
+    for entry in goal:
+        if (
+            isinstance(entry, bool)
+            or not isinstance(entry, (int, float))
+            or not math.isfinite(entry)
+        ):
+            raise ValueError("coordinates must be finite numbers")
+    if not columns:
+        return [] if all(abs(entry) <= tol for entry in goal) else None
+    height = len(columns[0])
+    if len(goal) != height:
+        raise ValueError("target length must match the generator length")
+
+    width = len(columns)
+    rows = [[float(columns[j][i]) for j in range(width)] + [float(goal[i])] for i in range(height)]
+    pivots = _eliminate(rows, width, tol)
+    for index in range(len(pivots), height):
+        if abs(rows[index][width]) > tol:
+            return None
+
+    coefficients = [0.0] * width
+    for index in reversed(range(len(pivots))):
+        column = pivots[index]
+        total = rows[index][width] - math.fsum(
+            rows[index][j] * coefficients[j] for j in range(column + 1, width)
+        )
+        coefficients[column] = total / rows[index][column]
+    residual = max(
+        abs(math.fsum(columns[j][i] * coefficients[j] for j in range(width)) - goal[i])
+        for i in range(height)
+    )
+    return coefficients if residual <= tol else None
+
+
+def dependency_relation(vectors, tol=1e-9):
+    columns = _validated_columns(vectors, tol)
+    if not columns:
+        return None
+    height, width = len(columns[0]), len(columns)
+    if height == 0:
+        raise ValueError("generators must have at least one coordinate")
+
+    rows = [[float(columns[j][i]) for j in range(width)] for i in range(height)]
+    pivots = _eliminate(rows, width, tol)
+    free = [column for column in range(width) if column not in set(pivots)]
+    if not free:
+        return None
+
+    target = free[0]
+    relation = [0.0] * width
+    relation[target] = 1.0
+    for index in reversed(range(len(pivots))):
+        column = pivots[index]
+        if column > target:
+            continue
+        total = math.fsum(rows[index][j] * relation[j] for j in range(column + 1, width))
+        relation[column] = -total / rows[index][column]
+    scale = max(abs(value) for value in relation)
+    return [value / scale + 0.0 for value in relation]
+
+
+def basis_coordinates(basis, vector, tol=1e-9):
+    columns = _validated_columns(basis, tol)
+    point = list(vector)
+    for entry in point:
+        if (
+            isinstance(entry, bool)
+            or not isinstance(entry, (int, float))
+            or not math.isfinite(entry)
+        ):
+            raise ValueError("coordinates must be finite numbers")
+    width = len(columns)
+    if not width or len(columns[0]) != width or len(point) != width:
+        raise ValueError("basis must be square and match the vector length")
+
+    rows = [[float(columns[j][i]) for j in range(width)] + [float(point[i])] for i in range(width)]
+    pivots = _eliminate(rows, width, tol)
+    if len(pivots) < width:
+        raise ValueError("columns do not form a basis at this tolerance")
+
+    determinant = 1.0
+    for index in range(width):
+        determinant *= rows[index][index]
+    norms = [math.sqrt(math.fsum(entry * entry for entry in column)) for column in columns]
+    ratio = abs(determinant)
+    for norm in norms:
+        ratio /= norm
+
+    coordinates = [0.0] * width
+    for index in reversed(range(width)):
+        total = rows[index][width] - math.fsum(
+            rows[index][j] * coordinates[j] for j in range(index + 1, width)
+        )
+        coordinates[index] = total / rows[index][index]
+    return coordinates, ratio
+
+
+def _validated_matrix(matrix, tol, square=False):
+    try:
+        rows = [list(row) for row in matrix]
+    except TypeError as error:
+        raise ValueError("matrix must be a sequence of rows") from error
+    if (
+        isinstance(tol, bool)
+        or not isinstance(tol, (int, float))
+        or not math.isfinite(tol)
+        or tol <= 0.0
+    ):
+        raise ValueError("tolerance must be strictly positive and finite")
+    if not rows or not rows[0]:
+        raise ValueError("at least one row and one column required")
+    if len({len(row) for row in rows}) != 1:
+        raise ValueError("rows must all have the same length")
+    for row in rows:
+        for entry in row:
+            if (
+                isinstance(entry, bool)
+                or not isinstance(entry, (int, float))
+                or not math.isfinite(entry)
+            ):
+                raise ValueError("entries must be finite numbers")
+    if square and len(rows) != len(rows[0]):
+        raise ValueError("a square matrix is required")
+    return [[float(entry) for entry in row] for row in rows]
+
+
+def _reduce(rows, width, tol):
+    """Reduced row echelon form in place; returns the pivot columns."""
+    height = len(rows)
+    pivots, row = [], 0
+    for column in range(width):
+        if row == height:
+            break
+        best = max(range(row, height), key=lambda r: abs(rows[r][column]))
+        if abs(rows[best][column]) <= tol:
+            continue
+        rows[row], rows[best] = rows[best], rows[row]
+        pivot = rows[row][column]
+        rows[row] = [entry / pivot for entry in rows[row]]
+        for other in range(height):
+            if other == row:
+                continue
+            factor = rows[other][column]
+            # A small factor can still multiply a large entry. The tolerance
+            # decides whether to accept a pivot, not whether to perform a row operation.
+            if factor:
+                rows[other] = [
+                    entry - factor * lead for entry, lead in zip(rows[other], rows[row])
+                ]
+            rows[other][column] = 0.0
+        pivots.append(column)
+        row += 1
+    return pivots
+
+
+def row_echelon(matrix, tol=1e-9):
+    rows = _validated_matrix(matrix, tol)
+    pivots = _reduce(rows, len(rows[0]), tol)
+    cleaned = [[0.0 if abs(entry) <= tol else entry for entry in row] for row in rows]
+    return cleaned, pivots
+
+
+def solve_complete(matrix, rhs, tol=1e-9):
+    rows = _validated_matrix(matrix, tol)
+    goal = list(rhs)
+    for entry in goal:
+        if (
+            isinstance(entry, bool)
+            or not isinstance(entry, (int, float))
+            or not math.isfinite(entry)
+        ):
+            raise ValueError("right-hand side must hold finite numbers")
+    if len(goal) != len(rows):
+        raise ValueError("right-hand side must match the number of rows")
+
+    width = len(rows[0])
+    augmented = [row + [float(value)] for row, value in zip(rows, goal)]
+    pivots = _reduce(augmented, width, tol)
+    for index in range(len(pivots), len(augmented)):
+        if abs(augmented[index][width]) > tol:
+            return None
+
+    particular = [0.0] * width
+    for index, column in enumerate(pivots):
+        particular[column] = augmented[index][width]
+
+    free = [column for column in range(width) if column not in set(pivots)]
+    basis = []
+    for column in free:
+        vector = [0.0] * width
+        vector[column] = 1.0
+        for index, pivot in enumerate(pivots):
+            vector[pivot] = -augmented[index][column]
+        basis.append(vector)
+    return particular, basis
+
+
+def lu_factor(matrix, tol=1e-9):
+    rows = _validated_matrix(matrix, tol, square=True)
+    size = len(rows)
+    perm = list(range(size))
+    lower = [[0.0] * size for _ in range(size)]
+    upper = [row[:] for row in rows]
+
+    for column in range(size):
+        best = max(range(column, size), key=lambda r: abs(upper[r][column]))
+        if best != column:
+            upper[column], upper[best] = upper[best], upper[column]
+            lower[column], lower[best] = lower[best], lower[column]
+            perm[column], perm[best] = perm[best], perm[column]
+        pivot = upper[column][column]
+        if abs(pivot) <= tol:
+            continue
+        for row in range(column + 1, size):
+            factor = upper[row][column] / pivot
+            lower[row][column] = factor
+            if factor:
+                for position in range(column, size):
+                    upper[row][position] -= factor * upper[column][position]
+            upper[row][column] = 0.0
+    for index in range(size):
+        lower[index][index] = 1.0
+    return perm, lower, upper
+
+
+def _validated_vector(vector, size):
+    try:
+        values = list(vector)
+    except TypeError as error:
+        raise ValueError("a vector is required") from error
+    if len(values) != size or any(
+        isinstance(x, bool) or not isinstance(x, (int, float)) or not math.isfinite(x)
+        for x in values
+    ):
+        raise ValueError("vector must have matching length and finite real entries")
+    return [float(x) for x in values]
+
+
+def _solve_square(matrix, rhs, tol=1e-9):
+    """Small partial-pivot solve; rejects pivots at or below absolute tol."""
+    rows = _validated_matrix(matrix, tol, square=True)
+    goal = _validated_vector(rhs, len(rows))
+    n = len(rows)
+    rows = [row + [value] for row, value in zip(rows, goal)]
+    for k in range(n):
+        best = max(range(k, n), key=lambda i: abs(rows[i][k]))
+        rows[k], rows[best] = rows[best], rows[k]
+        pivot = rows[k][k]
+        if not math.isfinite(pivot) or abs(pivot) <= tol:
+            raise ValueError("system rejected at the supplied pivot tolerance")
+        for i in range(k + 1, n):
+            factor = rows[i][k] / pivot
+            for j in range(k + 1, n + 1):
+                rows[i][j] -= factor * rows[k][j]
+            rows[i][k] = 0.0
+    result = [0.0] * n
+    for i in range(n - 1, -1, -1):
+        result[i] = (rows[i][n] - math.fsum(rows[i][j] * result[j] for j in range(i + 1, n))) / rows[i][i]
+    if not all(math.isfinite(x) for x in result):
+        raise ValueError("solve produced non-finite values")
+    return result
+
+
+def project_onto(basis, vector, tol=1e-9):
+    columns = _validated_matrix(basis, tol)
+    size, count = len(columns[0]), len(columns)
+    target = _validated_vector(vector, size)
+    if count > size:
+        raise ValueError("a basis cannot have more columns than ambient dimensions")
+    gram = [[math.fsum(a * b for a, b in zip(u, v)) for v in columns] for u in columns]
+    coefficients = [_solve_square(gram, [u[j] for u in columns], tol) for j in range(size)]
+    projector = [[math.fsum(columns[k][i] * coefficients[j][k] for k in range(count))
+                  for j in range(size)] for i in range(size)]
+    projected = [math.fsum(a * b for a, b in zip(row, target)) for row in projector]
+    return projector, projected, [a - b for a, b in zip(target, projected)]
+
+
+def normal_equations(matrix, target, tol=1e-9):
+    rows = _validated_matrix(matrix, tol)
+    goal = _validated_vector(target, len(rows))
+    width = len(rows[0])
+    if width > len(rows):
+        raise ValueError("full column rank is required")
+    gram = [[math.fsum(row[i] * row[j] for row in rows) for j in range(width)] for i in range(width)]
+    rhs = [math.fsum(row[i] * value for row, value in zip(rows, goal)) for i in range(width)]
+    coefficients = _solve_square(gram, rhs, tol)
+    residual = [value - math.fsum(a * b for a, b in zip(row, coefficients))
+                for row, value in zip(rows, goal)]
+    return coefficients, residual, math.fsum(x * x for x in residual)
+
+
+def gram_metric(metric, u, v, tol=1e-9):
+    matrix = _validated_matrix(metric, tol, square=True)
+    n = len(matrix)
+    left, right = _validated_vector(u, n), _validated_vector(v, n)
+    if any(matrix[i][j] != matrix[j][i] for i in range(n) for j in range(i)):
+        raise ValueError("metric must be symmetric")
+    reduced = [row[:] for row in matrix]
+    for k in range(n):
+        pivot = reduced[k][k]
+        if not math.isfinite(pivot) or pivot <= tol:
+            raise ValueError("metric is not positive definite at the supplied tolerance")
+        for i in range(k + 1, n):
+            for j in range(i, n):
+                value = reduced[i][j] - reduced[i][k] * reduced[k][j] / pivot
+                reduced[i][j] = reduced[j][i] = value
+    value = math.fsum(left[i] * matrix[i][j] * right[j] for i in range(n) for j in range(n))
+    if not math.isfinite(value):
+        raise ValueError("inner product produced a non-finite value")
+    return value
+
+
+def gram_schmidt(matrix, tol=1e-12):
+    """Return ((Qc, Rc), (Qm, Rm)); matrices use rows, positive diagonals."""
+    rows = _validated_matrix(matrix, tol)
+    height, width = len(rows), len(rows[0])
+    if width > height:
+        raise ValueError("full column rank requires at least as many rows as columns")
+
+    def factor(modified):
+        columns, upper = [], [[0.0] * width for _ in range(width)]
+        for j in range(width):
+            original = [row[j] for row in rows]
+            residual = original[:]
+            for i, q in enumerate(columns):
+                source = residual if modified else original
+                upper[i][j] = sum(x * y for x, y in zip(q, source))
+                if modified:
+                    residual = [x - upper[i][j] * y for x, y in zip(residual, q)]
+            if not modified:
+                residual = [original[k] - sum(upper[i][j] * q[k]
+                            for i, q in enumerate(columns)) for k in range(height)]
+            norm = math.hypot(*residual)
+            if not math.isfinite(norm) or norm <= tol:
+                raise ValueError("column residual rejected at the supplied absolute tolerance")
+            upper[j][j] = norm
+            columns.append([x / norm for x in residual])
+        return [list(row) for row in zip(*columns)], upper
+
+    return factor(False), factor(True)
+
+
+def qr_solve(matrix, target, tol=1e-12):
+    """Least squares using two-pass MGS and back substitution, without a Gram matrix."""
+    rows = _validated_matrix(matrix, tol)
+    goal = _validated_vector(target, len(rows))
+    height, width = len(rows), len(rows[0])
+    if width > height:
+        raise ValueError("full column rank requires at least as many rows as columns")
+    columns, upper = [], [[0.0] * width for _ in range(width)]
+    for j in range(width):
+        residual = [row[j] for row in rows]
+        for _ in range(2):
+            for i, q in enumerate(columns):
+                correction = math.fsum(x * y for x, y in zip(q, residual))
+                upper[i][j] += correction
+                residual = [x - correction * y for x, y in zip(residual, q)]
+        norm = math.hypot(*residual)
+        if not math.isfinite(norm) or norm <= tol:
+            raise ValueError("column residual rejected at the supplied absolute tolerance")
+        upper[j][j] = norm
+        columns.append([x / norm for x in residual])
+    rhs = [math.fsum(x * y for x, y in zip(q, goal)) for q in columns]
+    coefficients = [0.0] * width
+    for i in range(width - 1, -1, -1):
+        coefficients[i] = (rhs[i] - math.fsum(upper[i][j] * coefficients[j]
+                             for j in range(i + 1, width))) / upper[i][i]
+    residual = [b - math.fsum(a * x for a, x in zip(row, coefficients))
+                for row, b in zip(rows, goal)]
+    error = math.fsum(x * x for x in residual)
+    if not all(math.isfinite(x) for x in coefficients + residual + [error]):
+        raise ValueError("solve produced non-finite values")
+    return coefficients, residual, error
+
+
+def orthogonality_defect(matrix):
+    """Maximum absolute off-diagonal entry of Q^T Q; zero for one column.
+
+    This deliberately does not test unit column lengths.
+    """
+    rows = _validated_matrix(matrix, 1e-12)
+    width = len(rows[0])
+    products = [abs(math.fsum(row[i] * row[j] for row in rows))
+                for i in range(width) for j in range(i + 1, width)]
+    if not all(math.isfinite(x) for x in products):
+        raise ValueError("overlap produced non-finite values")
+    return max(products, default=0.0)

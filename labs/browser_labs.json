@@ -63,7 +63,7 @@
     "lesson": "05-probability-statistics/07-hypothesis-testing-confidence-power.md",
     "task": "bh-fdr",
     "function": "benjamini_hochberg",
-    "title": "Benjamini\u2013Hochberg correction"
+    "title": "Benjamini–Hochberg correction"
   },
   {
     "lesson": "05-probability-statistics/08-resampling-sequential-experimental-design.md",
@@ -87,7 +87,7 @@
     "lesson": "05-probability-statistics/09-bayesian-modeling-computation.md",
     "task": "beta-update",
     "function": "beta_bernoulli_update",
-    "title": "Beta\u2013Bernoulli update"
+    "title": "Beta–Bernoulli update"
   },
   {
     "lesson": "05-probability-statistics/09-bayesian-modeling-computation.md",
@@ -111,7 +111,7 @@
     "lesson": "05-probability-statistics/10-sampling-design-ml-evaluation.md",
     "task": "horvitz-thompson",
     "function": "horvitz_thompson",
-    "title": "Horvitz\u2013Thompson weighting"
+    "title": "Horvitz–Thompson weighting"
   },
   {
     "lesson": "05-probability-statistics/10-sampling-design-ml-evaluation.md",
@@ -259,5 +259,113 @@
     "task": "kde",
     "function": "gaussian_kde",
     "title": "Gaussian kernel density estimate"
+  },
+  {
+    "lesson": "02-linear-algebra/01-vectors-spaces-bases.md",
+    "task": "span",
+    "function": "span_coordinates",
+    "title": "Membership in a span",
+    "supportFunctions": [
+      "_validated_columns",
+      "_eliminate"
+    ]
+  },
+  {
+    "lesson": "02-linear-algebra/01-vectors-spaces-bases.md",
+    "task": "dependence",
+    "function": "dependency_relation",
+    "title": "Explicit dependency relation",
+    "supportFunctions": [
+      "_validated_columns",
+      "_eliminate"
+    ]
+  },
+  {
+    "lesson": "02-linear-algebra/01-vectors-spaces-bases.md",
+    "task": "coordinates",
+    "function": "basis_coordinates",
+    "title": "Coordinates and degeneracy",
+    "supportFunctions": [
+      "_validated_columns",
+      "_eliminate"
+    ]
+  },
+  {
+    "lesson": "02-linear-algebra/02-systems-elimination-subspaces.md",
+    "task": "echelon",
+    "function": "row_echelon",
+    "title": "Reduced row echelon form"
+  },
+  {
+    "lesson": "02-linear-algebra/02-systems-elimination-subspaces.md",
+    "task": "solve-complete",
+    "function": "solve_complete",
+    "title": "The complete solution set"
+  },
+  {
+    "lesson": "02-linear-algebra/02-systems-elimination-subspaces.md",
+    "task": "lu",
+    "function": "lu_factor",
+    "title": "LU with partial pivoting"
+  },
+  {
+    "lesson": "02-linear-algebra/03-projections-least-squares.md",
+    "task": "project-onto",
+    "function": "project_onto",
+    "title": "Project onto a basis",
+    "supportFunctions": [
+      "_validated_matrix",
+      "_validated_vector",
+      "_solve_square"
+    ]
+  },
+  {
+    "lesson": "02-linear-algebra/03-projections-least-squares.md",
+    "task": "normal-equations",
+    "function": "normal_equations",
+    "title": "Solve the normal equations",
+    "supportFunctions": [
+      "_validated_matrix",
+      "_validated_vector",
+      "_solve_square"
+    ]
+  },
+  {
+    "lesson": "02-linear-algebra/03-projections-least-squares.md",
+    "task": "gram-metric",
+    "function": "gram_metric",
+    "title": "Validate and use a metric",
+    "supportFunctions": [
+      "_validated_matrix",
+      "_validated_vector"
+    ]
+  },
+  {
+    "lesson": "02-linear-algebra/04-orthonormal-bases-qr.md",
+    "task": "gram-schmidt",
+    "function": "gram_schmidt",
+    "title": "Compare classical and modified Gram–Schmidt",
+    "supportFunctions": [
+      "_validated_matrix"
+    ]
+  },
+  {
+    "lesson": "02-linear-algebra/04-orthonormal-bases-qr.md",
+    "task": "qr-solve",
+    "function": "qr_solve",
+    "title": "Least squares with reorthogonalized QR",
+    "supportFunctions": [
+      "_validated_matrix",
+      "_validated_vector"
+    ]
+  },
+  {
+    "lesson": "02-linear-algebra/04-orthonormal-bases-qr.md",
+    "task": "orthogonality-defect",
+    "function": "orthogonality_defect",
+    "title": "Audit column overlaps",
+    "supportFunctions": [
+      "_validated_matrix"
+    ]
   }
 ]

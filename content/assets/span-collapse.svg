@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="430" viewBox="0 0 900 430" role="img" aria-labelledby="title desc">
+  <title id="title">A span of two vectors, and the same span collapsed</title>
+  <desc id="desc">Independent vectors span a plane; collinear vectors span only a line through the origin.</desc>
+  <rect width="900" height="430" fill="#08111f" rx="24"/>
+  <g fill="#a8b7ca" font-family="system-ui" font-size="18"><text x="86" y="55">Independent: span is the plane</text><text x="516" y="55">Dependent: span is a line</text></g>
+  <g fill="#1d4f5e" opacity="0.55"><path d="M150 340L300 210L420 250L270 380Z"/></g>
+  <g stroke="#31445e" stroke-width="2"><path d="M60 340H410M150 395V90M490 340H840M580 395V90"/></g>
+  <g stroke="#50d2c2" stroke-width="6" fill="none"><path d="M150 340L300 210"/><path d="M291 213l12-6-3 14"/></g>
+  <g stroke="#ffb86b" stroke-width="6" fill="none"><path d="M150 340L270 380"/><path d="M261 373l11 8-13 5"/></g>
+  <g stroke="#1d4f5e" stroke-width="14" stroke-linecap="round"><path d="M490 400L790 140"/></g>
+  <g stroke="#50d2c2" stroke-width="6" fill="none"><path d="M580 340L700 236"/><path d="M691 239l12-6-3 14"/></g>
+  <g stroke="#ffb86b" stroke-width="6" fill="none"><path d="M580 340L760 184"/><path d="M751 187l12-6-3 14"/></g>
+  <g fill="#e8eef7" font-family="system-ui" font-size="17"><text x="306" y="203">u</text><text x="276" y="398">v</text><text x="706" y="229">u</text><text x="768" y="177">v = 1.5u</text></g>
+  <text x="450" y="415" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">Every span contains the origin; the question is only how much of the space it fills.</text>
+</svg>
