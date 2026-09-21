@@ -149,11 +149,48 @@ assert.match(gs.elements["[data-stage]"].textContent, /Step 5 \/ 5/);
 gs.setInView(0, [1, 0, 0], [0, 1, 0]);
 assert.doesNotMatch(gs.verdict(), /Stopped/);
 
+const determinant = mount("la-det");
+assert.match(determinant.readout(), /det A = 5/);
+assert.match(determinant.readout(), /det A = 7/);
+determinant.click("shear");
+assert.match(determinant.readout(), /det A = 5/);
+determinant.click("swap");
+assert.match(determinant.readout(), /det A = -5/);
+determinant.click("collapse");
+assert.match(determinant.verdict(), /Computed zero determinant/);
+determinant.click("thin");
+assert.match(determinant.verdict(), /Thin is not collapsed/);
+assert.match(determinant.readout(), /1.000e-6/);
+determinant.elements["[data-dimension]"].value = "3";
+determinant.elements["[data-dimension]"].events.change();
+determinant.click("collapse");
+assert.match(determinant.verdict(), /Computed zero determinant/);
+determinant.click("thin");
+assert.match(determinant.verdict(), /Thin is not collapsed/);
+determinant.click("reset");
+determinant.click("shear");
+assert.match(determinant.readout(), /det A = 7/);
+determinant.click("swap");
+assert.match(determinant.readout(), /det A = -7/);
+for (const piece of ["0", "1", "2", "all"]) {
+  determinant.elements["[data-piece]"].value = piece;
+  determinant.elements["[data-piece]"].events.change();
+  assert.match(determinant.readout(), /det A = -7/);
+}
+determinant.click("reset");
+const cell = determinant.elements["[data-cells]"].children[0];
+cell.value = "3"; cell.events.input();
+assert.match(determinant.readout(), /det A = 11/);
+cell.value = ""; cell.events.input();
+assert.match(determinant.elements["[data-input-error]"].textContent, /finite coordinate/);
+assert.match(determinant.readout(), /det A = 11/);
+
 // Marking must use the same complete exercise shown in the lesson, not an older fixture.
 for (const [bank, file] of [["01-span", "01-vectors-spaces-bases.md"],
   ["02-elimination", "02-systems-elimination-subspaces.md"],
   ["03-projection", "03-projections-least-squares.md"],
-  ["04-qr", "04-orthonormal-bases-qr.md"]]) {
+  ["04-qr", "04-orthonormal-bases-qr.md"],
+  ["05-determinant", "05-determinants-volume.md"]]) {
   const entries = {};
   vm.runInNewContext(source(`public/theory/answers/${bank}.js`), {
     GU: {answers: (key, data) => Object.assign(entries, data)}

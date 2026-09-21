@@ -2175,6 +2175,87 @@ def orthogonality_defect(m):
         _projection_rejects(m.orthogonality_defect,bad)
 
 
+def _det_permutations(rows):
+    """Independent small-matrix oracle: exact for integer fixtures."""
+    n = len(rows)
+    result = 0
+    for p in itertools.permutations(range(n)):
+        inversions = sum(p[i] > p[j] for i in range(n) for j in range(i + 1, n))
+        result += (-1) ** inversions * math.prod(rows[i][p[i]] for i in range(n))
+    return result
+
+
+def det_by_elimination(m):
+    fixtures = [([[7]], 7), ([[-2]], -2), ([[0]], 0),
+                ([[0, 1], [1, 0]], -1), ([[2, 1], [1, 3]], 5),
+                ([[1, 2], [2, 4]], 0), ([[0, 2, 1], [1, 1, 0], [2, 0, 1]], -4),
+                ([[0, 1, 0], [0, 0, 2], [3, 0, 0]], 6),
+                ([[0, 1, 2], [0, 2, 3], [0, 0, 1]], 0)]
+    for rows, expected in fixtures:
+        before = [row[:] for row in rows]
+        close(m.det_by_elimination(rows), expected)
+        assert rows == before, "determinant must preserve the input"
+    # Absolute-tolerance comparisons would falsely accept zero here.
+    small = m.det_by_elimination([[1e-10, 0], [0, 1e-10]])
+    assert small != 0 and math.isclose(small, 1e-20, rel_tol=1e-12, abs_tol=0)
+    close(m.det_by_elimination([[1e6, 0], [0, 1e-6]]), 1)
+    rng = random.Random(504)
+    for n in range(2, 5):
+        for _ in range(8):
+            rows = [[rng.randint(-3, 3) for _ in range(n)] for _ in range(n)]
+            expected = _det_permutations(rows)
+            close(m.det_by_elimination(rows), expected)
+            transposed = [list(row) for row in zip(*rows)]
+            close(m.det_by_elimination(transposed), expected)
+    for bad in [[], [[]], [[1, 2]], [[1], [2]], [[1, 2], [3]], [[True]],
+                [[float('nan')]], [[float('inf')]], [['2']], None]:
+        _projection_rejects(m.det_by_elimination, bad)
+    _projection_rejects(m.det_by_elimination, [[1e308, 0], [0, 1e308]])
+    _projection_rejects(m.det_by_elimination, [[1e308, 1e308], [-1e308, 1e308]])
+
+
+def volume_ratio(m):
+    a = [[2, 1], [0, -3]]
+    fixtures = [(a, [[1, 0], [0, 1]], 6), (a, [[1, 1], [0, 2]], 6),
+                (a, [[1, 1], [2, 0]], 6), ([[1, 2], [2, 4]], [[2, 1], [1, 1]], 0),
+                ([[0, 0], [0, 0]], [[1, 0], [0, 1]], 0), ([[-3]], [[2]], 3),
+                ([[0, 1, 0], [0, 0, 2], [3, 0, 0]],
+                 [[1, 1, 0], [0, 2, 1], [0, 0, 3]], 6)]
+    for rows, basis, expected in fixtures:
+        before = [row[:] for row in rows], [row[:] for row in basis]
+        close(m.volume_ratio(rows, basis), expected)
+        assert (rows, basis) == before, "volume ratio must preserve both inputs"
+    # A small source is still a valid source, and a small image is not zero.
+    close(m.volume_ratio(a, [[1e-8, 0], [0, 1e-8]]), 6)
+    small = m.volume_ratio([[1e-10, 0], [0, 1e-10]], [[1, 0], [0, 1]])
+    assert small != 0 and math.isclose(small, 1e-20, rel_tol=1e-12, abs_tol=0)
+    for rows, basis in [(a, [[1, 2], [2, 4]]), (a, [[1]]), ([], []),
+                        ([[True]], [[1]]), ([[1]], [[float('nan')]]),
+                        ([[1, 2]], [[1, 0], [0, 1]]), (a, [[1], [2]]),
+                        (None, [[1]]), ([[1]], None), ([[1]], [['2']]),
+                        ([[1e308]], [[2]])]:
+        _projection_rejects(m.volume_ratio, rows, basis)
+
+
+def cofactor_2x2(m):
+    for rows, expected in [([[2, 1], [1, 3]], [6, -1]),
+                           ([[1, 1], [1, 1]], [1, -1]),
+                           ([[0, 1], [1, 0]], [0, -1]),
+                           ([[1, -2], [3, 4]], [4, 6]),
+                           ([[0, 0], [0, 0]], [0, 0])]:
+        before = [row[:] for row in rows]
+        terms, total = m.cofactor_2x2(rows)
+        assert len(terms) == 2
+        for actual, want in zip(terms, expected): close(actual, want)
+        close(total, sum(expected))
+        assert rows == before
+    for bad in [[], [[1]], [[1, 0, 0], [0, 1, 0], [0, 0, 1]],
+                [[1, 2], [3]], [[True, 0], [0, 1]], [[1, float('inf')], [0, 1]],
+                [[1, float('nan')], [0, 1]], [[1, '2'], [3, 4]], None,
+                [[1e308, 0], [0, 1e308]]]:
+        _projection_rejects(m.cofactor_2x2, bad)
+
+
 CHECKS = {"moments": moments, "conditional": conditional,
           "categorical": categorical, "joint": joint,
           "convolution": convolution, "gaussian": gaussian,
@@ -2215,6 +2296,7 @@ CHECKS = {"moments": moments, "conditional": conditional,
           "coordinates": coordinates,
           "project-onto": project_onto, "normal-equations": normal_equations, "gram-metric": gram_metric,
           "gram-schmidt": gram_schmidt, "qr-solve": qr_solve, "orthogonality-defect": orthogonality_defect,
+          "det-by-elimination": det_by_elimination, "volume-ratio": volume_ratio, "cofactor-2x2": cofactor_2x2,
           "search": search, "softmax": softmax,
           "bigram": bigram, "attention": attention, "bellman": bellman}
 

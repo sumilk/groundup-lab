@@ -4,7 +4,7 @@
 working from this file as its brief. It fixes the format, names every module, and says what each one
 owes the reader. It is not a lesson and is not built into the reader.*
 
-Four modules exist. Twenty-two do not. This plan exists because the expensive mistakes in a track
+Five modules exist. Twenty-one do not. This plan exists because the expensive mistakes in a track
 like this are structural — two modules that teach the same thing differently, a theorem used three
 modules before it is proved, an identifier that breaks another track's prerequisites — and those are
 cheap to prevent here and costly to repair later.
@@ -33,7 +33,7 @@ identifier, difficulty, mode, then the name. Modes are `paper`, `NumPy`, `PyTorc
 Identifier prefixes are `A` by hand, `B` NumPy, `C` PyTorch, `M` cumulative, `K` checkpoint. The build
 fails if a header does not parse or if an identifier has no entry in the answer bank.
 
-**Practice hints are static.** Every practice prompt in Modules 1–4 has an authored `> **Hint:**` paragraph immediately after it, within the same blockquote. The reader turns it into an inline disclosure; it must never require an LLM connection. Continue this convention in new modules. General tutor questions and written-answer marking remain separate features.
+**Practice hints are static.** Every practice prompt in Modules 1–5 has an authored `> **Hint:**` paragraph immediately after it, within the same blockquote. The reader turns it into an inline disclosure; it must never require an LLM connection. Continue this convention in new modules. General tutor questions and written-answer marking remain separate features.
 
 **Every exercise is checkable.** One entry per exercise in `public/theory/answers/<bank>.js`:
 `statement`, `plain`, `solution`, plus `fields` wherever an answer is typeable (`num`, `vec`, `ratio`,
@@ -88,7 +88,7 @@ establish, and everything else in it is scaffolding for those.
 | 2 | Systems, elimination and the four fundamental subspaces | I | 28 ✅ |
 | 3 | Inner products, orthogonality, projection and least squares | II · Geometry | 30 ✅ |
 | 4 | Orthonormal bases, Gram–Schmidt and QR | II | 24 ✅ |
-| 5 | Determinants as signed volume | II | 20 |
+| 5 | Determinants as signed volume | II | 20 ✅ |
 | 6 | Eigenvalues, invariant subspaces and diagonalization | II | 30 |
 | 7 | Symmetric matrices, the spectral theorem and quadratic forms | II | 28 |
 | 8 | The SVD: geometry, rank and low-rank approximation | III · Decomposition | 34 |
@@ -111,7 +111,7 @@ establish, and everything else in it is scaffolding for those.
 | 25 | Superposition geometry and dictionary learning | VI | 32 |
 | 26 | Capstone: a linear-algebra audit of a real model | VI | 30 |
 
-Total ≈ 730 hours of study; the four built modules are 112 of them.
+Total ≈ 730 hours of study; the five built modules are 132 of them.
 
 ### Part II · Geometry (3–7)
 
@@ -160,6 +160,11 @@ cofactor expansion as a decomposition of the parallelepiped).
 Python: `det_by_elimination` (track the sign through swaps), `volume_ratio`, `cofactor_2x2`.
 Honest framing: determinants are pedagogically central and computationally marginal — say so, and
 point at \(\log|\det|\) in normalizing flows as where they do earn their keep.
+Built extensions: separate draggable 2D/3D cells, signed coordinate-piece overlays, equal-mass
+markers with inverse-density readout, exact-collapse versus thin presets, and keyboard matrix entry.
+The Python determinant tracks swaps without an absolute rank cutoff; the volume task tests
+a nonstandard source cell. The chapter separates exact algebra, floating-point evidence, and
+the calculus assumptions behind density changes.
 
 **Module 6 — Eigenvalues, invariant subspaces and diagonalization**
 `id: math.linear-algebra.eigen-invariant-subspaces` · prereq: 5 · 30h · bank `06-eigen`

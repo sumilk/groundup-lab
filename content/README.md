@@ -1,6 +1,6 @@
 # GroundUp Lab — theory and practice
 
-The repository now has **44 authored lessons across 14 tracks**, with linear algebra, optimization, and probability/statistics as separate tracks. This is an initial cross-curriculum release, **not complete coverage**. Each track has substantial expansion work remaining. Depth labels are targets and have not been independently verified.
+The repository now has **45 authored lessons across 14 tracks**, with linear algebra, optimization, and probability/statistics as separate tracks. This is an initial cross-curriculum release, **not complete coverage**. Each track has substantial expansion work remaining. Depth labels are targets and have not been independently verified.
 
 ## Start here
 
@@ -25,6 +25,7 @@ Attempt these prompts before continuing. The end-of-unit practice set then mixes
 | 02 Linear algebra | [Systems, elimination and the four fundamental subspaces](02-linear-algebra/02-systems-elimination-subspaces.md) |
 | 02 Linear algebra | [Inner products, orthogonality, projection and least squares](02-linear-algebra/03-projections-least-squares.md) |
 | 02 Linear algebra | [Orthonormal bases, Gram–Schmidt and QR](02-linear-algebra/04-orthonormal-bases-qr.md) |
+| 02 Linear algebra | [Determinants as signed volume](02-linear-algebra/05-determinants-volume.md) |
 | 02 Linear algebra | [Eigenvalues and invariant subspaces](02-linear-algebra/06-eigenvalues-diagonalization.md) *(stub — Module 6 of the track plan)* |
 | 02 Linear algebra | [SVD and PCA](02-linear-algebra/08-svd-low-rank.md) *(stub — Module 8 of the track plan)* |
 | 03 Optimization | [Calculus, gradients, and optimization](03-optimization/01-calculus-gradients-optimization.md) |

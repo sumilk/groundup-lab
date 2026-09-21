@@ -367,5 +367,33 @@
     "supportFunctions": [
       "_validated_matrix"
     ]
+  },
+  {
+    "lesson": "02-linear-algebra/05-determinants-volume.md",
+    "task": "det-by-elimination",
+    "function": "det_by_elimination",
+    "title": "Compute a determinant with a swap ledger",
+    "supportFunctions": [
+      "_validated_matrix"
+    ]
+  },
+  {
+    "lesson": "02-linear-algebra/05-determinants-volume.md",
+    "task": "volume-ratio",
+    "function": "volume_ratio",
+    "title": "Map a cell and measure its volume ratio",
+    "supportFunctions": [
+      "_validated_matrix",
+      "det_by_elimination"
+    ]
+  },
+  {
+    "lesson": "02-linear-algebra/05-determinants-volume.md",
+    "task": "cofactor-2x2",
+    "function": "cofactor_2x2",
+    "title": "Keep the signed area contributions",
+    "supportFunctions": [
+      "_validated_matrix"
+    ]
   }
 ]

@@ -618,3 +618,34 @@ def orthogonality_defect(matrix):
     supplied; pass it a fixed positive tolerance (e.g. 1e-12) to validate.
     """
     raise NotImplementedError
+
+
+def det_by_elimination(matrix):
+    """Return the determinant via partial-pivoted elimination, without mutation.
+
+    Nonempty square finite real input, no booleans; ValueError on invalid data
+    or non-finite arithmetic. Track swaps; do not normalize pivot rows. Return
+    zero only for a computed zero pivot (no absolute tolerance cutoff).
+    Raw floating-point products can underflow; this is not an exact rank test.
+    """
+    raise NotImplementedError("Track swap signs and multiply the unnormalized pivots")
+
+
+def volume_ratio(matrix, basis):
+    """Return |det(A B)| / |det(B)| for same-size square A and basis B.
+
+    Compute the image cell AB. A may be singular; reject computed-zero det(B),
+    malformed or non-finite data, and non-finite arithmetic with ValueError.
+    Preserve both inputs. det_by_elimination is supplied in the browser.
+    """
+    raise NotImplementedError("Map the source cell and compare absolute volumes")
+
+
+def cofactor_2x2(matrix):
+    """Return ([ad, -bc], ad-bc) for finite real rows [[a,b],[c,d]].
+
+    The list contains signed contributions, not bare cofactors. Require exactly
+    2x2, exclude booleans, preserve input, and raise ValueError for malformed
+    input or non-finite arithmetic. Singular inputs are valid.
+    """
+    raise NotImplementedError("Keep the two signed pieces and their sum")

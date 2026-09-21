@@ -1992,3 +1992,63 @@ def orthogonality_defect(matrix):
     if not all(math.isfinite(x) for x in products):
         raise ValueError("overlap produced non-finite values")
     return max(products, default=0.0)
+
+
+def det_by_elimination(matrix):
+    """Partial-pivoted determinant; computed zero pivots, no rank cutoff."""
+    rows = _validated_matrix(matrix, 1e-12, square=True)
+    size, sign = len(rows), 1
+    for k in range(size):
+        best = max(range(k, size), key=lambda i: abs(rows[i][k]))
+        if rows[best][k] == 0:
+            return 0.0
+        if best != k:
+            rows[k], rows[best] = rows[best], rows[k]
+            sign = -sign
+        for i in range(k + 1, size):
+            factor = rows[i][k] / rows[k][k]
+            rows[i][k] = 0.0
+            for j in range(k + 1, size):
+                rows[i][j] -= factor * rows[k][j]
+                if not math.isfinite(rows[i][j]):
+                    raise ValueError("elimination produced non-finite arithmetic")
+    result = float(sign)
+    for i in range(size):
+        result *= rows[i][i]
+        if not math.isfinite(result):
+            raise ValueError("determinant product overflowed; use sign/log storage")
+    return result
+
+
+def volume_ratio(matrix, basis):
+    """Map a nondegenerate source cell and compare ordinary volumes."""
+    rows = _validated_matrix(matrix, 1e-12, square=True)
+    source = _validated_matrix(basis, 1e-12, square=True)
+    if len(rows) != len(source):
+        raise ValueError("map and basis must have matching square dimensions")
+    before = abs(det_by_elimination(source))
+    if before == 0:
+        raise ValueError("source cell has computed zero volume")
+    try:
+        image = [[math.fsum(rows[i][k] * source[k][j] for k in range(len(rows)))
+                  for j in range(len(rows))] for i in range(len(rows))]
+    except (OverflowError, ValueError) as error:
+        raise ValueError("image cell produced non-finite arithmetic") from error
+    after = abs(det_by_elimination(image))
+    result = after / before
+    if not math.isfinite(result):
+        raise ValueError("volume ratio produced non-finite arithmetic")
+    return result
+
+
+def cofactor_2x2(matrix):
+    """Signed first-row contributions, including entries, and their sum."""
+    rows = _validated_matrix(matrix, 1e-12, square=True)
+    if len(rows) != 2:
+        raise ValueError("exactly two rows and columns required")
+    (a, b), (c, d) = rows
+    terms = [a * d, -b * c]
+    result = sum(terms)
+    if not all(math.isfinite(x) for x in terms + [result]):
+        raise ValueError("cofactor arithmetic produced non-finite values")
+    return terms, result
