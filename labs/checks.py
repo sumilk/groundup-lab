@@ -2256,7 +2256,96 @@ def cofactor_2x2(m):
         _projection_rejects(m.cofactor_2x2, bad)
 
 
-CHECKS = {"moments": moments, "conditional": conditional,
+def power_iteration(m):
+    def audit(rows, start, **kwargs):
+        before = [r[:] for r in rows], start[:]
+        report = m.power_iteration(rows, start, **kwargs)
+        assert (rows, start) == before, "preserve inputs"
+        assert set(report) == {"vector", "eigenvalue", "residual", "iterations", "converged", "reason"}
+        v = report["vector"]
+        assert len(v) == len(rows)
+        close(math.hypot(*v), 1)
+        av = [sum(a*x for a,x in zip(row,v)) for row in rows]
+        lam = sum(x*y for x,y in zip(v,av))
+        close(report["eigenvalue"], lam)
+        close(report["residual"], math.hypot(*(y-lam*x for x,y in zip(v,av))))
+        assert isinstance(report["converged"], bool)
+        assert isinstance(report["iterations"], int) and 0 <= report["iterations"] <= kwargs.get("max_iter",200)
+        assert report["reason"] == ("residual" if report["converged"] else "max_iter")
+        return report
+    for dominant in (2, -2):
+        r = audit([[dominant,0],[0,1]], [1,1])
+        assert r['converged'] and abs(r['eigenvalue']-dominant)<1e-8
+        assert r['iterations'] > 0
+    for rows,start,value in [([[2,0],[0,1]],[0,1],1), ([[0,0],[0,0]],[3,4],0),
+                             ([[2,0],[0,0]],[0,1],0), ([[3]],[2],3),
+                             ([[2,1],[0,1]],[-1,1],1)]:
+        r=audit(rows,start)
+        assert r['converged'] and r['iterations']==0
+        close(r['eigenvalue'],value)
+    for rows in ([[0,-1],[1,0]], [[1,0],[0,-1]]):
+        r=audit(rows,[1,1],max_iter=17)
+        assert not r['converged'] and r['iterations']==17
+    r=audit([[2,0],[0,1]],[1,1],max_iter=0)
+    assert not r['converged'] and r['iterations']==0
+    r=audit([[1,0],[0,.98]],[1,1],max_iter=20,tol=1e-10)
+    assert not r['converged']
+    # Rescaling a matrix must not change the relative-residual stopping decision.
+    baseline=m.power_iteration([[2,0],[0,1]],[1,1])
+    for scale in (1e-200,1e200):
+        r=m.power_iteration([[2*scale,0],[0,scale]],[1e308,1e308])
+        assert r['converged'] and r['iterations']==baseline['iterations']
+        assert math.isclose(r['eigenvalue']/scale,2,rel_tol=1e-8)
+    for rows,start in [(None,[1]), ([],[]), ([[1,2]],[1]), ([[1],[2]],[1,2]),
+                        ([[1,2],[3]],[1,1]), ([[True]],[1]), ([[float('nan')]],[1]),
+                        ([[float('inf')]],[1]), ([[1]],[False]), ([[1]],[0]),
+                        ([[1]],None), ([[1]],[1,2]), ([[1]],[float('inf')])]:
+        _projection_rejects(m.power_iteration,rows,start)
+    for budget in (-1,1.5,True):
+        _projection_rejects(m.power_iteration,[[1]],[1],budget)
+    for tol in (0,-1,True,float('nan'),float('inf')):
+        _projection_rejects(m.power_iteration,[[1]],[1],10,tol)
+    _projection_rejects(m.power_iteration,[[1e308,1e308],[1e308,1e308]],[1,1])
+
+
+def char_poly_2x2(m):
+    fixtures=[([[2,1],[0,1]],[1,-3,2]), ([[0,-1],[1,0]],[1,0,1]),
+              ([[1,1],[0,1]],[1,-2,1]), ([[0,0],[0,0]],[1,0,0]),
+              ([[3,2],[0,-1]],[1,-2,-3]), ([[1,2],[2,4]],[1,-5,0])]
+    rng=random.Random(606)
+    for _ in range(20):
+        rows=[[rng.randint(-5,5) for _ in range(2)] for _ in range(2)]
+        a,b=rows[0];c,d=rows[1]
+        fixtures.append((rows,[1,-a-d,a*d-b*c]))
+    for rows,want in fixtures:
+        before=[r[:] for r in rows]
+        got=m.char_poly_2x2(rows)
+        assert len(got)==3
+        for x,y in zip(got,want):close(x,y)
+        assert rows==before
+    for bad in (None,[],[[1]],[[1,2]],[[1,2],[3]],[[True,0],[0,1]],
+                [[float('inf'),0],[0,1]],[[float('nan'),0],[0,1]],
+                [[1e308,0],[0,1e308]]):
+        _projection_rejects(m.char_poly_2x2,bad)
+
+
+def is_diagonalizable_2x2(m):
+    huge=10**400
+    fixtures=[([[2,1],[0,1]],True), ([[1,1],[0,1]],False), ([[0,-1],[1,0]],False),
+              ([[1,0],[0,1]],True), ([[0,0],[0,0]],True), ([[0,1],[0,0]],False),
+              ([[huge,1],[0,huge+1]],True), ([[huge,1],[0,huge]],False),
+              ([[1,1],[1,1]],True), ([[3,2],[-2,-1]],False)]
+    for rows,want in fixtures:
+        before=[r[:] for r in rows]
+        assert m.is_diagonalizable_2x2(rows) is want
+        assert rows==before
+    for bad in (None,[],[[1]],[[1,2]],[[1,2],[3]],[[1.,0],[0,1]],
+                [[True,0],[0,1]],[[float('nan'),0],[0,1]],[[1,'0'],[0,1]]):
+        _projection_rejects(m.is_diagonalizable_2x2,bad)
+
+
+CHECKS = {"power-iteration": power_iteration, "char-poly-2x2": char_poly_2x2,
+          "diagonalizable-2x2": is_diagonalizable_2x2, "moments": moments, "conditional": conditional,
           "categorical": categorical, "joint": joint,
           "convolution": convolution, "gaussian": gaussian,
           "monte-carlo": monte_carlo,

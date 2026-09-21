@@ -26,7 +26,7 @@ Attempt these prompts before continuing. The end-of-unit practice set then mixes
 | 02 Linear algebra | [Inner products, orthogonality, projection and least squares](02-linear-algebra/03-projections-least-squares.md) |
 | 02 Linear algebra | [Orthonormal bases, Gram–Schmidt and QR](02-linear-algebra/04-orthonormal-bases-qr.md) |
 | 02 Linear algebra | [Determinants as signed volume](02-linear-algebra/05-determinants-volume.md) |
-| 02 Linear algebra | [Eigenvalues and invariant subspaces](02-linear-algebra/06-eigenvalues-diagonalization.md) *(stub — Module 6 of the track plan)* |
+| 02 Linear algebra | [Eigenvalues, invariant subspaces and diagonalization](02-linear-algebra/06-eigenvalues-diagonalization.md) |
 | 02 Linear algebra | [SVD and PCA](02-linear-algebra/08-svd-low-rank.md) *(stub — Module 8 of the track plan)* |
 | 03 Optimization | [Calculus, gradients, and optimization](03-optimization/01-calculus-gradients-optimization.md) |
 | 03 Optimization | [Convexity, smoothness and duality](03-optimization/03-convexity-smoothness-duality.md) |
@@ -95,7 +95,7 @@ The track is being expanded one unit at a time in this order:
 
 ## Hands-on resources
 
-- [Fifty-five runnable exercises and behavioral checks](../labs/README.md)
+- [Sixty-one runnable exercises and behavioral checks](../labs/README.md)
 - [Learner implementation file](../labs/exercises.py)
 - [Reference solutions — attempt first](../labs/reference.py)
 - [Web reader source](../public/theory/index.html)

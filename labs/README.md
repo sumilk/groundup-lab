@@ -1,6 +1,6 @@
 # Hands-on labs
 
-Use Python 3.11 or later. These fifty-eight exercises need only the standard library; no GPU, API key, package installation, or paid dataset is required.
+Use Python 3.11 or later. These sixty-one exercises need only the standard library; no GPU, API key, package installation, or paid dataset is required.
 
 In the theory reader, select the linked exercise inside a lesson to open its runnable Python workspace on the right without losing your reading position. If a lesson gains multiple coding exercises, task tabs share that workspace. The implementation and most recent output are saved in that browser for each task. **Run tests** executes the behavioral check, **Run code** supports print-based exploration, **Stop** terminates a stuck worker, and **Reset starter** restores the authored skeleton. The command-line workflow below remains available.
 
@@ -63,6 +63,9 @@ In the theory reader, select the linked exercise inside a lesson to open its run
 | det-by-elimination | [Determinants as signed volume](../content/02-linear-algebra/05-determinants-volume.md) | Pivot products with a swap sign ledger |
 | volume-ratio | [Determinants as signed volume](../content/02-linear-algebra/05-determinants-volume.md) | Volume scaling on an arbitrary nondegenerate source cell |
 | cofactor-2x2 | [Determinants as signed volume](../content/02-linear-algebra/05-determinants-volume.md) | Signed coordinate contributions and cancellation |
+| power-iteration | [Eigenvalues and diagonalization](../content/02-linear-algebra/06-eigenvalues-diagonalization.md) | Residual convergence, sign flips, scale invariance, and explicit iteration limits |
+| char-poly-2x2 | [Eigenvalues and diagonalization](../content/02-linear-algebra/06-eigenvalues-diagonalization.md) | Monic polynomial coefficients with checked shape and finite arithmetic |
+| diagonalizable-2x2 | [Eigenvalues and diagonalization](../content/02-linear-algebra/06-eigenvalues-diagonalization.md) | Exact real eigenbasis classification for integer matrices |
 | search | [DSA](../content/04-dsa/01-invariants-search-graphs-dp.md) | Exhaustive boundary cases |
 | softmax | [PyTorch](../content/08-pytorch/01-tensors-autograd-training.md) | Stability and shift invariance |
 | bigram | [NLP](../content/10-nlp/01-text-representations-language-models.md) | Correct target offsets |

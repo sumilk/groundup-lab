@@ -185,12 +185,46 @@ cell.value = ""; cell.events.input();
 assert.match(determinant.elements["[data-input-error]"].textContent, /finite coordinate/);
 assert.match(determinant.readout(), /det A = 11/);
 
+// Eigenline classification and iteration failure states exercise the real callbacks.
+const eigen = mount("la-eigen");
+const reveal = () => { eigen.elements["[data-reveal]"].checked = true; eigen.elements["[data-reveal]"].events.change(); };
+reveal(); assert.match(eigen.verdict(), /Two distinct real eigenvalues/);
+for (const [preset, text] of [["shear", /one eigenline/], ["scalar", /every line/], ["rotation", /No real invariant line/], ["collapse", /Two distinct real/]]) {
+  eigen.click(preset); reveal(); assert.match(eigen.verdict(), text);
+}
+eigen.click("flip"); eigen.elements["[data-angle]"].value = "0"; eigen.elements["[data-angle]"].events.input();
+assert.match(eigen.readout(), /λ̂ = -2/);
+assert.match(eigen.readout(), /‖Av − λ̂v‖ = 0/);
+const eigenCell = eigen.elements["[data-cells]"].children[0];
+eigenCell.value = ""; eigenCell.events.input();
+assert.match(eigen.elements["[data-error]"].textContent, /finite entry/);
+const power = mount("la-power");
+function choose(key, value) { const e = power.elements[`[data-${key}]`]; e.value=value; e.events.change(); }
+choose("preset", "rotation"); power.click("jump");
+assert.match(power.readout(), /updates = 20/);
+assert(Math.abs(Number(power.readout().split("log₁₀ raw length = ")[1])) < 1e-12);
+choose("preset", "stable"); choose("start", "second"); power.click("step");
+assert.match(power.readout(), /log₁₀ raw length = 0.605/);
+assert.match(power.verdict(), /temporary growth/);
+choose("preset", "separated");
+assert.match(power.verdict(), /not a certificate of dominance/);
+power.click("jump"); assert.match(power.readout(), /λ̂ = 1/);
+choose("preset", "zero"); power.click("step");
+assert.match(power.verdict(), /next normalized vector is undefined/);
+assert.match(power.readout(), /log₁₀ raw length = −∞/);
+choose("preset", "negative"); choose("start", "first"); power.click("step");
+assert.match(power.readout(), /line change = 0/);
+assert.match(power.readout(), /λ̂ = -2/);
+choose("preset", "close"); choose("start", "mixed"); power.click("jump");
+assert.doesNotMatch(power.verdict(), /Small computed residual/);
+
 // Marking must use the same complete exercise shown in the lesson, not an older fixture.
 for (const [bank, file] of [["01-span", "01-vectors-spaces-bases.md"],
   ["02-elimination", "02-systems-elimination-subspaces.md"],
   ["03-projection", "03-projections-least-squares.md"],
   ["04-qr", "04-orthonormal-bases-qr.md"],
-  ["05-determinant", "05-determinants-volume.md"]]) {
+  ["05-determinant", "05-determinants-volume.md"],
+  ["06-eigen", "06-eigenvalues-diagonalization.md"]]) {
   const entries = {};
   vm.runInNewContext(source(`public/theory/answers/${bank}.js`), {
     GU: {answers: (key, data) => Object.assign(entries, data)}

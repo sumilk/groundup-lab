@@ -649,3 +649,41 @@ def cofactor_2x2(matrix):
     input or non-finite arithmetic. Singular inputs are valid.
     """
     raise NotImplementedError("Keep the two signed pieces and their sum")
+
+
+def power_iteration(matrix, initial, max_iter=200, tol=1e-10):
+    """Return vector, eigenvalue, residual, iterations, converged, reason in a dict.
+
+    Require a finite nonempty square real matrix, matching nonzero real vector,
+    nonnegative integer max_iter, positive finite tol; exclude bools everywhere.
+    Preserve inputs; invalid data or non-finite output arithmetic -> ValueError.
+    Test a unit initial vector at iteration 0, then normalize A @ x each step.
+    Stop when ||A x - (x.T A x)x|| / ||A||_F <= tol (zero A converges at 0).
+    'residual' is the absolute residual norm; 'iterations' counts updates.
+    Report all diagnostics for the returned unit vector. reason is 'residual'
+    when converged, else 'max_iter'. Convergence does NOT certify dominance.
+    Normalize A by its max absolute entry internally; rescale final diagnostics.
+    _validated_matrix and _validated_vector are supplied in the browser.
+    """
+    raise NotImplementedError("Track the residual of the vector you actually return")
+
+
+def char_poly_2x2(matrix):
+    """Return [1, -(a+d), ad-bc] for rows [[a,b],[c,d]]: det(t I - A).
+
+    Require finite real 2x2 input, excluding bools; preserve input. Raise
+    ValueError for invalid shapes, entries, or non-finite coefficient arithmetic.
+    _validated_matrix is supplied for validation/copying in the browser.
+    """
+    raise NotImplementedError("Expand det(t I - A) and retain the monic convention")
+
+
+def is_diagonalizable_2x2(matrix):
+    """Return bool: diagonalizable OVER THE REALS, for exact 2x2 integers only.
+
+    Preserve inputs; reject floats (even 1.0), bools, malformed shapes, and
+    noninteger data with ValueError. Do not convert integers to floats.
+    Use discriminant (a-d)**2 + 4*b*c. Distinct real roots give True;
+    a complex pair gives False; a repeated root gives True only for scalar A.
+    """
+    raise NotImplementedError("Count independent eigenvectors, not just polynomial roots")

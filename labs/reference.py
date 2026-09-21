@@ -2052,3 +2052,63 @@ def cofactor_2x2(matrix):
     if not all(math.isfinite(x) for x in terms + [result]):
         raise ValueError("cofactor arithmetic produced non-finite values")
     return terms, result
+
+
+def power_iteration(matrix, initial, max_iter=200, tol=1e-10):
+    """Residual-tested eigenpair search; convergence does not certify dominance."""
+    rows = _validated_matrix(matrix, tol, square=True)
+    vector = _validated_vector(initial, len(rows))
+    if isinstance(max_iter, bool) or not isinstance(max_iter, int) or max_iter < 0:
+        raise ValueError("max_iter must be a nonnegative integer")
+    size = max(abs(x) for x in vector)
+    if size == 0:
+        raise ValueError("initial vector must be nonzero")
+    vector = [x / size for x in vector]
+    norm = math.hypot(*vector)
+    vector = [x / norm for x in vector]
+    scale = max(abs(x) for row in rows for x in row)
+    scaled = [[x / scale if scale else 0.0 for x in row] for row in rows]
+    frobenius = math.hypot(*(x for row in scaled for x in row))
+    for iteration in range(max_iter + 1):
+        image = [math.fsum(a * x for a, x in zip(row, vector)) for row in scaled]
+        estimate = math.fsum(x * y for x, y in zip(vector, image))
+        residual = math.hypot(*(y - estimate * x for x, y in zip(vector, image)))
+        converged = frobenius == 0 or residual / frobenius <= tol
+        if converged or iteration == max_iter:
+            eigenvalue, absolute_residual = estimate * scale, residual * scale
+            if not all(math.isfinite(x) for x in (eigenvalue, absolute_residual)):
+                raise ValueError("reported eigenvalue or residual overflowed")
+            return {"vector": vector, "eigenvalue": eigenvalue,
+                    "residual": absolute_residual, "iterations": iteration,
+                    "converged": converged,
+                    "reason": "residual" if converged else "max_iter"}
+        norm = math.hypot(*image)
+        # A computed zero image already has zero residual and returned above.
+        vector = [x / norm for x in image]
+
+
+def char_poly_2x2(matrix):
+    """Descending coefficients of det(t I - A), not det(A - t I) in general n."""
+    rows = _validated_matrix(matrix, 1e-12, square=True)
+    if len(rows) != 2:
+        raise ValueError("exactly two rows and columns required")
+    (a, b), (c, d) = rows
+    coefficients = [1.0, -(a + d), a * d - b * c]
+    if not all(math.isfinite(x) for x in coefficients):
+        raise ValueError("characteristic coefficients are non-finite")
+    return coefficients
+
+
+def is_diagonalizable_2x2(matrix):
+    """Exact classification over R for 2x2 Python integer matrices only."""
+    try:
+        rows = [list(row) for row in matrix]
+    except TypeError as error:
+        raise ValueError("matrix must contain two integer rows") from error
+    if len(rows) != 2 or any(len(row) != 2 for row in rows):
+        raise ValueError("exactly two rows and columns required")
+    if any(isinstance(x, bool) or not isinstance(x, int) for row in rows for x in row):
+        raise ValueError("exact Python integers required")
+    (a, b), (c, d) = rows
+    discriminant = (a - d) ** 2 + 4 * b * c
+    return discriminant > 0 or (discriminant == 0 and a == d and b == c == 0)

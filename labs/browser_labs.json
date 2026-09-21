@@ -63,7 +63,7 @@
     "lesson": "05-probability-statistics/07-hypothesis-testing-confidence-power.md",
     "task": "bh-fdr",
     "function": "benjamini_hochberg",
-    "title": "Benjamini–Hochberg correction"
+    "title": "Benjamini\u2013Hochberg correction"
   },
   {
     "lesson": "05-probability-statistics/08-resampling-sequential-experimental-design.md",
@@ -87,7 +87,7 @@
     "lesson": "05-probability-statistics/09-bayesian-modeling-computation.md",
     "task": "beta-update",
     "function": "beta_bernoulli_update",
-    "title": "Beta–Bernoulli update"
+    "title": "Beta\u2013Bernoulli update"
   },
   {
     "lesson": "05-probability-statistics/09-bayesian-modeling-computation.md",
@@ -111,7 +111,7 @@
     "lesson": "05-probability-statistics/10-sampling-design-ml-evaluation.md",
     "task": "horvitz-thompson",
     "function": "horvitz_thompson",
-    "title": "Horvitz–Thompson weighting"
+    "title": "Horvitz\u2013Thompson weighting"
   },
   {
     "lesson": "05-probability-statistics/10-sampling-design-ml-evaluation.md",
@@ -344,7 +344,7 @@
     "lesson": "02-linear-algebra/04-orthonormal-bases-qr.md",
     "task": "gram-schmidt",
     "function": "gram_schmidt",
-    "title": "Compare classical and modified Gram–Schmidt",
+    "title": "Compare classical and modified Gram\u2013Schmidt",
     "supportFunctions": [
       "_validated_matrix"
     ]
@@ -395,5 +395,31 @@
     "supportFunctions": [
       "_validated_matrix"
     ]
+  },
+  {
+    "lesson": "02-linear-algebra/06-eigenvalues-diagonalization.md",
+    "task": "power-iteration",
+    "function": "power_iteration",
+    "title": "Power iteration with an honest convergence report",
+    "supportFunctions": [
+      "_validated_matrix",
+      "_validated_vector"
+    ]
+  },
+  {
+    "lesson": "02-linear-algebra/06-eigenvalues-diagonalization.md",
+    "task": "char-poly-2x2",
+    "function": "char_poly_2x2",
+    "title": "Characteristic polynomial: keep the sign convention",
+    "supportFunctions": [
+      "_validated_matrix"
+    ]
+  },
+  {
+    "lesson": "02-linear-algebra/06-eigenvalues-diagonalization.md",
+    "task": "diagonalizable-2x2",
+    "function": "is_diagonalizable_2x2",
+    "title": "Exact real diagonalizability for integer matrices",
+    "supportFunctions": []
   }
 ]

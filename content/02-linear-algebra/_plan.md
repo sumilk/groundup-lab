@@ -4,7 +4,7 @@
 working from this file as its brief. It fixes the format, names every module, and says what each one
 owes the reader. It is not a lesson and is not built into the reader.*
 
-Five modules exist. Twenty-one do not. This plan exists because the expensive mistakes in a track
+Six modules exist. Twenty do not. This plan exists because the expensive mistakes in a track
 like this are structural — two modules that teach the same thing differently, a theorem used three
 modules before it is proved, an identifier that breaks another track's prerequisites — and those are
 cheap to prevent here and costly to repair later.
@@ -33,7 +33,7 @@ identifier, difficulty, mode, then the name. Modes are `paper`, `NumPy`, `PyTorc
 Identifier prefixes are `A` by hand, `B` NumPy, `C` PyTorch, `M` cumulative, `K` checkpoint. The build
 fails if a header does not parse or if an identifier has no entry in the answer bank.
 
-**Practice hints are static.** Every practice prompt in Modules 1–5 has an authored `> **Hint:**` paragraph immediately after it, within the same blockquote. The reader turns it into an inline disclosure; it must never require an LLM connection. Continue this convention in new modules. General tutor questions and written-answer marking remain separate features.
+**Practice hints are static.** Every practice prompt in Modules 1–6 has an authored `> **Hint:**` paragraph immediately after it, within the same blockquote. The reader turns it into an inline disclosure; it must never require an LLM connection. Continue this convention in new modules. General tutor questions and written-answer marking remain separate features.
 
 **Every exercise is checkable.** One entry per exercise in `public/theory/answers/<bank>.js`:
 `statement`, `plain`, `solution`, plus `fields` wherever an answer is typeable (`num`, `vec`, `ratio`,
@@ -89,7 +89,7 @@ establish, and everything else in it is scaffolding for those.
 | 3 | Inner products, orthogonality, projection and least squares | II · Geometry | 30 ✅ |
 | 4 | Orthonormal bases, Gram–Schmidt and QR | II | 24 ✅ |
 | 5 | Determinants as signed volume | II | 20 ✅ |
-| 6 | Eigenvalues, invariant subspaces and diagonalization | II | 30 |
+| 6 | Eigenvalues, invariant subspaces and diagonalization | II | 30 ✅ |
 | 7 | Symmetric matrices, the spectral theorem and quadratic forms | II | 28 |
 | 8 | The SVD: geometry, rank and low-rank approximation | III · Decomposition | 34 |
 | 9 | Norms, conditioning and numerical stability | III | 26 |
@@ -111,7 +111,7 @@ establish, and everything else in it is scaffolding for those.
 | 25 | Superposition geometry and dictionary learning | VI | 32 |
 | 26 | Capstone: a linear-algebra audit of a real model | VI | 30 |
 
-Total ≈ 730 hours of study; the five built modules are 132 of them.
+Total ≈ 730 hours of study; the six built modules are 162 of them.
 
 ### Part II · Geometry (3–7)
 
@@ -177,6 +177,13 @@ and watch convergence to the dominant direction, with a preset where the top two
 Python: `power_iteration` (with a convergence report), `char_poly_2x2`, `is_diagonalizable_2x2`.
 ML anchor: the spectral radius as the stability criterion for recurrence; why repeated multiplication
 by the same matrix explains exploding and vanishing gradients.
+Built extensions: a probe-and-reveal eigenline hunt with draggable columns and keyboard entry;
+linked normalized-direction and raw-log-length histories exposing sign flips, close eigenvalues,
+missed dominant components, rotation, annihilation, and stable transient growth. The Python solver
+reports residual convergence without certifying dominance; real 2×2 diagonalizability uses exact
+integer arithmetic to avoid presenting a floating-point tolerance as a multiplicity theorem.
+The chapter distinguishes real and complex diagonalization, states Jordan existence without proof,
+and reserves the spectral theorem and quadratic forms for Module 7.
 
 **Module 7 — Symmetric matrices, the spectral theorem and quadratic forms**
 `id: …spectral-theorem-quadratic-forms` · prereq: 6 · 28h · bank `07-spectral`
