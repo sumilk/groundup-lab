@@ -1635,6 +1635,9 @@ def kde(m):
     close(mass, 1.0, tol=1e-6)
     assert m.gaussian_kde([0.0], 1.0, [40.0])[0] < 1e-300
     assert m.gaussian_kde([0.0], 1.0, []) == []
+    # Extreme but finite inputs satisfy the contract and must not raise.
+    assert m.gaussian_kde([1e200], 1.0, [0.0])[0] == 0.0
+    assert m.gaussian_kde([0.0, 1e200], 1e-200, [0.0])[0] > 0.0
 
     bad = (
         ([], 1.0, [0.0]),

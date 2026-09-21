@@ -1546,12 +1546,15 @@ def gaussian_kde(samples, bandwidth, queries):
         raise ValueError("bandwidth must be strictly positive and finite")
 
     scale = 1.0 / (len(values) * bandwidth * math.sqrt(2.0 * math.pi))
+
+    def bump(point, value):
+        # Multiply rather than square with **: float ** overflows to
+        # OverflowError on extreme but finite inputs, while multiplication
+        # saturates to inf and exp(-inf) gives the correct 0.0.
+        deviation = (point - value) / bandwidth
+        return math.exp(-0.5 * deviation * deviation)
+
     estimates = []
     for point in points:
-        estimates.append(
-            scale
-            * math.fsum(
-                math.exp(-0.5 * ((point - value) / bandwidth) ** 2) for value in values
-            )
-        )
+        estimates.append(math.fsum(bump(point, value) for value in values) * scale)
     return estimates

@@ -15,6 +15,8 @@ This unit stays with finite tables and second moments so every operation remains
 
 You should be able to normalize a PMF, compute an expectation and variance, apply conditional probability to finite events, and explain why zero covariance need not imply independence. Review [random variables and distributions](01-random-variables-distributions.md) if those steps are not yet routine.
 
+The learning route is deliberately cumulative: construct one joint table, obtain marginals by summing, condition by slicing and renormalizing, turn conditional means into random variables, and only then compress dependence into covariance. The final sections show what that compression misses and why changing group weights can reverse an aggregate comparison.
+
 ## 1. Joint mass describes combinations
 
 For discrete variables \(X\) and \(Y\),
@@ -467,7 +469,7 @@ Using the same input format:
 
 **Foundation — problems 1–3.** Read, normalize, marginalize, and condition finite joint distributions.
 
-1. Compute both marginals and both conditional distributions in the opening table.
+1. For the joint table \(p(0,0)=0.30,p(0,1)=0.20,p(1,0)=0.10,p(1,1)=0.40\), compute both marginals, \(P(Y=\cdot\mid X=0)\), \(P(Y=\cdot\mid X=1)\), \(P(X=\cdot\mid Y=0)\), and \(P(X=\cdot\mid Y=1)\).
 2. Construct the joint PMF of two fair dice conditioned on their sum being at most five.
 3. Verify total expectation for the request-type example.
 
@@ -480,7 +482,7 @@ Using the same input format:
 
 **Stretch — problems 8–12.** Transfer joint reasoning to aggregation, clustered evaluation, and conditional structure.
 
-8. Build a second aggregation-reversal table and explain the weighting mechanism.
+8. Model A scores \(90/100\) on easy prompts and \(30/100\) on hard prompts. Model B scores \(171/200\) on easy prompts and \(14/50\) on hard prompts. Verify which model wins within each difficulty group and which wins overall; then recompute both overall accuracies under a common 50–50 difficulty mixture.
 9. Explain why an iid standard error over 20,000 turns from 200 conversations can be too small.
 10. Construct variables that are conditionally independent given a shared cause but marginally dependent.
 11. Create a three-variable binary joint PMF for which \(X\) and \(Y\) are independent marginally but dependent after conditioning on \(Z=1\). Verify all claims from the table.
@@ -488,14 +490,14 @@ Using the same input format:
 
 <details><summary>Worked solutions</summary>
 
-1. The row marginals are \((0.5,0.5)\); column marginals are \((0.4,0.6)\). Conditional pass probabilities are \(0.4\) and \(0.8\); each complementary fail probability is \(0.6\) and \(0.2\).
+1. The row marginals are \(P(X=0)=P(X=1)=0.5\); column marginals are \(P(Y=0)=0.4,P(Y=1)=0.6\). Given \(X=0\), the \(Y\) probabilities are \((0.6,0.4)\); given \(X=1\), they are \((0.2,0.8)\). Given \(Y=0\), the \(X\) probabilities are \((0.75,0.25)\); given \(Y=1\), they are \((1/3,2/3)\).
 2. The allowed ordered pairs are \((1,1),(1,2),(1,3),(1,4),(2,1),(2,2),(2,3),(3,1),(3,2),(4,1)\). Conditioning makes them equally likely with mass \(1/10\). Count appearances of each coordinate to obtain the marginals.
 3. Weighting \(50,200,800\) by \(0.5,0.3,0.2\) gives \(245\), matching direct averaging over a population with those proportions.
 4. The overall mean becomes \(180\). The within term remains 400. The between term is \(0.8(100-180)^2+0.2(500-180)^2=25{,}600\), so total variance is 26,000.
 5. At \((0,0)\), joint mass is \(1/3\), while the product of marginals is \((1/3)(1/3)=1/9\).
 6. \(\begin{bmatrix}1&2\\2&1\end{bmatrix}\) fails because direction \((1,-1)^T\) gives quadratic form \(-2\).
 7. Center \(a^TZ\), expand its squared deviation, and obtain \(a^TE[(Z-\mu)(Z-\mu)^T]a=a^T\Sigma a\).
-8. Any correct construction must show the same model winning within every group while unequal group allocations reverse the weighted marginal rates.
+8. A wins easy prompts \(0.90>0.855\) and hard prompts \(0.30>0.28\), but A's overall accuracy is \(120/200=0.60\), below B's \(185/250=0.74\). Under a common 50–50 difficulty mixture, A scores \(0.5(0.90)+0.5(0.30)=0.60\) and B scores \(0.5(0.855)+0.5(0.28)=0.5675\), restoring A's within-group advantage. Different difficulty weights, not contradictory arithmetic, produced the reversal.
 9. Turns within a conversation share history and are dependent. The row count exaggerates independent information; split or resample at conversation level, or user level if users repeat.
 10. Let \(Z\) choose a request type, and draw \(X\) and \(Y\) independently using type-specific means. They factorize given \(Z\), but the changing conditional means associate them marginally.
 11. A collider construction works: draw independent fair bits \(X,Y\), and let \(Z\) indicate whether at least one is one. Marginally the inputs factorize; given \(Z=1\), the pair \((0,0)\) is removed and the remaining three pairs each have mass \(1/3\), which does not factorize.

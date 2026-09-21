@@ -19,6 +19,17 @@ This unit solves both. The evidence lower bound handles the first; the score-fun
 
 You need the change-of-variables machinery from [transformations, convolution, and Jacobians](03-transformations-convolution-jacobians.md), importance sampling and KL divergence from [Bayesian modeling and computation](09-bayesian-modeling-computation.md), and the fact that \(E[\nabla\log q]=0\), which appeared as the justification for policy-gradient baselines in [limit theorems and Monte Carlo](05-limit-theorems-monte-carlo.md).
 
+### Learning route: one model, three approximation problems
+
+Do not memorize “ELBO = reconstruction minus KL” as an isolated formula. Follow this chain:
+
+1. The latent model defines \(p_\theta(x,z)\), but marginalization makes \(p_\theta(x)\) hard.
+2. A variational distribution \(q_\phi(z\mid x)\) creates a computable lower bound whose gap is an explicit posterior KL.
+3. Amortization replaces one optimization per observation with a learned inference map, adding another approximation gap.
+4. Monte Carlo makes the bound usable in practice; score-function and pathwise gradients trade generality and variance differently.
+
+At each step, label whether error comes from model misspecification, variational-family restriction, amortization, finite Monte Carlo, or optimization. “The ELBO is low” does not identify which one failed.
+
 ## 1. The intractable marginal
 
 A latent-variable model says: draw \(z\sim p(z)\) from a simple prior, then draw \(x\sim p_\theta(x\mid z)\). The observed likelihood requires marginalizing:
@@ -269,6 +280,33 @@ satisfies \(\mathcal L_1\le\mathcal L_K\le\mathcal L_{K+1}\le\log p_\theta(x)\),
 - **Using REINFORCE without a baseline** and concluding the method does not work.
 - **Using a relaxation and reporting it as exact.** Gumbel-softmax gradients are biased at any \(\tau>0\).
 - **Ignoring the amortization gap** and adding capacity to the wrong component.
+
+### Worked example: an ELBO whose answer is known
+
+Let \(z\sim N(0,1)\), \(x\mid z\sim N(z,1)\), and observe \(x=2\). Gaussian conditioning gives
+
+$$
+p(z\mid x=2)=N(1,1/2),
+\qquad p(x)=N(0,2).
+$$
+
+For any Gaussian \(q(z)=N(m,v)\),
+
+$$
+\mathcal L(q)=\log p(x=2)-\operatorname{KL}\!\left(N(m,v)\Vert N(1,1/2)\right).
+$$
+
+Choosing the exact posterior makes the gap zero. Choosing the prior \(q=N(0,1)\) gives
+
+$$
+\operatorname{KL}\!\left(N(0,1)\Vert N(1,1/2)\right)
+=\frac12\left[\log\frac{1/2}{1}+\frac{1+(0-1)^2}{1/2}-1\right]
+\approx1.153.
+$$
+
+The generative model is unchanged; only inference is poor. This is why an ELBO gap cannot automatically be blamed on the decoder.
+
+For \(z\sim N(\mu,\sigma^2)\) and \(J=E[z^2]=\mu^2+\sigma^2\), reparameterize \(z=\mu+\sigma\varepsilon\). A one-sample pathwise gradient for \(\mu\) is \(2(\mu+\sigma\varepsilon)\), with expectation \(2\mu\). The score-function estimator \(z^2(z-\mu)/\sigma^2\) has the same expectation but usually much larger variance. This is the concrete reason to prefer reparameterization when available.
 
 ## 8. Runnable labs
 

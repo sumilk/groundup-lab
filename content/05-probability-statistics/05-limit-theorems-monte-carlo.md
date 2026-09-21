@@ -714,15 +714,15 @@ For several batch sizes, compare the naive iid standard error with the batch-mea
 1. **Average mechanics.** Let iid observations have mean 12 and variance 25. Find the mean, variance, and standard error of \(\bar X_{100}\). Recompute for \(\bar X_{400}\).
 2. **Convergence language.** Translate the weak law and strong law into plain language, then give one claim neither law makes about a finite sample.
 3. **Bernoulli sampling.** For \(p=0.4,n=250\), compute the mean and standard deviation of the success count and the sample proportion.
-4. **Markov and Chebyshev.** Bound a nonnegative tail using Markov, then bound a centered deviation using Chebyshev for numerical values of your choice.
+4. **Markov and Chebyshev.** If \(Y\ge0\) and \(E[Y]=10\), bound \(P(Y\ge25)\) with Markov's inequality. If \(E[Z]=0\) and \(\operatorname{Var}(Z)=9\), bound \(P(|Z|\ge6)\) with Chebyshev's inequality. State why neither calculation identifies the true probability.
 
 **Core — problems 5–9.** Combine theorems, choose approximations, and quantify Monte Carlo error.
 
 5. **Weak-law proof.** Prove convergence in probability for independent variables sharing mean \(\mu\) whose variances are all at most \(V\).
 6. **Continuity correction.** Approximate \(P(S\ge65)\) for \(S\sim\operatorname{Binomial}(100,0.5)\) with and without a continuity correction; compare with an exact computation.
 7. **Monte Carlo planning.** Derive a conservative draw count for estimating any Bernoulli probability with approximate 95% half-width at most \(0.002\).
-8. **Concentration choice.** For independent losses in \([0,4]\), compare Chebyshev and Hoeffding bounds for a specified \(n,\varepsilon\). List the assumptions used by each.
-9. **Paired evaluation.** Given paired binary predictions from two models, compute the mean difference, its estimated standard error, and the result obtained after incorrectly treating model scores as independent.
+8. **Concentration choice.** For \(n=500\) independent losses in \([0,4]\), bound \(P(|\bar X-E[X]|\ge0.3)\) using (a) Chebyshev with the largest variance permitted by the range and (b) two-sided Hoeffding. List the assumptions used by each.
+9. **Paired evaluation.** On eight prompts, model A correctness is \((1,1,0,1,0,1,1,0)\) and B correctness is \((1,0,0,1,1,0,1,0)\). Compute the paired mean difference and standard error. Then compute the standard error obtained by incorrectly treating the two accuracy estimates as independent.
 
 **Stretch — problems 10–14.** Audit broken assumptions and design defensible repeated-sample evidence.
 
@@ -737,12 +737,12 @@ For several batch sizes, compare the naive iid standard error with the batch-mea
 1. The mean remains 12. Variance is \(25/n\), giving \(0.25\) and \(0.0625\); standard errors are \(0.5\) and \(0.25\). Four times the data halves the standard error.
 2. The weak law makes fixed-\(n\) deviation probabilities vanish; the strong law says almost every infinite running-average path converges. Neither guarantees exact equality, monotone error reduction, or a useful finite-\(n\) rate.
 3. The count has mean \(100\) and variance \(60\), hence standard deviation \(\sqrt{60}\). The proportion has mean \(0.4\) and standard deviation \(\sqrt{0.4(0.6)/250}\).
-4. Markov gives \(P(Y\ge a)\le E[Y]/a\) for nonnegative \(Y\). Chebyshev gives \(P(|Y-\mu|\ge\varepsilon)\le\sigma^2/\varepsilon^2\). A complete answer verifies positivity of thresholds and finite moments.
+4. Markov gives \(P(Y\ge25)\le10/25=0.4\). Chebyshev gives \(P(|Z|\ge6)\le9/36=0.25\). These are distribution-free ceilings under their moment assumptions; many different distributions share those moments and have different actual tail probabilities.
 5. The average has expectation \(\mu\) and variance at most \(V/n\) because independence removes covariance terms. Chebyshev bounds the deviation probability by \(V/(n\varepsilon^2)\), which vanishes.
 6. The uncorrected standardized boundary is \((65-50)/5=3\); the corrected one uses \(64.5\), giving \(2.9\). Exact binomial summation determines which approximation is closer.
 7. With multiplier \(1.96\) and worst-case variance \(1/4\), require \(1.96\sqrt{1/(4n)}\le0.002\), or \(n\ge1.96^2/(4\cdot0.002^2)\), approximately 240,100 independent draws.
-8. Chebyshev uses finite variance; bound it by the range if necessary. Hoeffding uses independence and boundedness and substitutes range width \(4\). Report both ceilings even if either exceeds one, then truncate a probability ceiling at one.
-9. Form differences \(D_i=A_i-B_i\) and use their sample standard deviation divided by \(\sqrt n\). Ignoring pairing omits the covariance term and is usually less precise when prompt difficulty affects both models similarly.
+8. A variable in an interval of width four has variance at most \(4\). Therefore Chebyshev gives \(4/[500(0.3)^2]\approx0.0889\). Two-sided Hoeffding gives \(2\exp[-2(500)(0.3)^2/4^2]\approx0.00721\). Chebyshev needs finite variance and independence or zero covariance to obtain the \(1/n\) mean variance; Hoeffding needs independent bounded observations but no variance value.
+9. Differences are \((0,1,0,0,-1,1,0,0)\), with mean \(0.125\), sample variance \(2.875/7\approx0.4107\), and paired standard error \(\sqrt{0.4107/8}\approx0.2266\). The separate sample variances are about \(0.2679\) and \(0.2857\), giving an independence standard error \(\sqrt{(0.2679+0.2857)/8}\approx0.2631\). Treating paired scores as independent discards their positive prompt-level covariance.
 10. Exact binomial summation is the reference under iid Bernoulli assumptions. Poisson and Gaussian values approximate it under different regimes. Hoeffding is a finite-sample upper bound and need not approximate the true probability.
 11. Results depend on the tail parameter and tuning choices. The ordinary mean targets the expectation but can be dominated by extremes; robust summaries stabilize different targets or trade bias for reduced sensitivity. Report repeated-sample distributions, not one favorable run.
 12. Positive autocorrelation inflates empirical variance above \(\sigma^2/n\). Batch means improve only when batches are long enough relative to dependence and numerous enough to estimate between-batch variance reliably.

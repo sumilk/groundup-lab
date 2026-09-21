@@ -488,9 +488,9 @@ Derive each result from the axioms or the definition of conditional probability:
 **Stretch — problems 8–12.** Transfer the probability language to evaluation, algorithms, and model criticism.
 
 8. **Research critique.** A benchmark reports the best of 40 prompt variants on the same 300 examples. Identify the event union being ignored and specify what additional data split would support an honest final estimate.
-9. **Implementation.** Compare independent sampling and sampling without replacement from a small population. Show empirically that using the independent-draw formula for both gives the wrong answer.
+9. **Implementation.** A bag contains three red and two blue balls. Estimate the probability of two red draws (a) with replacement and (b) without replacement using 100,000 trials from a local RNG seeded with 2026. Compare with both exact answers and attach a Monte Carlo standard error to each estimate.
 10. **Transfer.** Explain why next-token factorization is an application of the chain rule and not an independence assumption.
-11. **Adversarial conditioning.** Construct a population in which model A is more accurate than model B overall but less accurate inside each of two reported subgroups. State the conditioning variables and verify every rate.
+11. **Adversarial conditioning.** On easy prompts, model A gets \(81/87\) correct and B gets \(234/270\); on hard prompts, A gets \(192/263\) and B gets \(55/80\). Verify that A wins within both difficulty groups while B wins after aggregation. Identify the conditioning variable and explain exactly which unequal weights create the reversal.
 12. **Model audit.** Choose a real randomized system such as sampling, routing, or data augmentation. Specify its sample space, probability law, observables, and at least three ways the mathematical model could disagree with implementation.
 
 <details><summary>Solution sketches</summary>
@@ -503,9 +503,9 @@ Derive each result from the axioms or the definition of conditional probability:
 6. Let \(I_j\) indicate that bucket \(j\) is empty. Each item avoids it with probability \((N-1)/N\), so \(E[I_j]=(1-1/N)^m\). Summing gives \(N(1-1/N)^m\).
 7. One construction uses independent fair bits \(U,V\) and events \(U=0\), \(V=0\), and \(U\oplus V=0\).
 8. Each prompt has an event that its observed score is unusually high due to sampling noise. Selecting across 40 variants concerns their union. Use a development set for selection and a previously untouched test set for the final estimate.
-9. On a population with \(r\) red among \(n\), two red draws have probability \((r/n)^2\) with replacement and \((r/n)((r-1)/(n-1))\) without replacement.
+9. The exact probabilities are \((3/5)^2=0.36\) with replacement and \((3/5)(2/4)=0.30\) without replacement. For an indicator estimate \(\hat p\), report \(\sqrt{\hat p(1-\hat p)/100000}\), about \(0.0015\) in either experiment. A correct seeded run should land within a few such standard errors of each target; using \(0.36\) for the second design ignores depletion.
 10. Repeated multiplication by \(P(x_t\mid x_{<t})\) is the chain rule. Independence would replace these history-dependent conditionals with marginals \(P(x_t)\), a much stronger and generally false statement.
-11. Many constructions work; the key is unequal subgroup sizes for the two models. Report the four subgroup-specific counts and aggregate them to verify both within-group inequalities and the reversed overall inequality.
+11. Within easy prompts, A has \(81/87\approx0.931\) against B's \(234/270\approx0.867\). Within hard prompts, A has \(192/263\approx0.730\) against B's \(55/80=0.6875\). Overall, A has \(273/350=0.780\), while B has \(289/350\approx0.826\). Difficulty is the conditioning variable. A was evaluated mostly on hard prompts and B mostly on easy prompts, so the marginal rates use different difficulty mixtures.
 12. A complete audit names atomic outcomes, normalizes the law, defines each measured random variable, and tests assumptions such as independence, identical distributions, reproducible randomness, and faithful logging against observable behavior.
 
 </details>

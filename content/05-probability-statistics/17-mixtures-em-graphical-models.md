@@ -15,6 +15,18 @@ The second half generalizes the structure. A mixture is the simplest possible la
 
 By the end, you should be able to write a mixture likelihood and explain why maximizing it directly is hard; derive EM as coordinate ascent on the ELBO and prove its monotonicity; write the E-step and M-step for a Gaussian mixture from scratch; explain why the likelihood is unbounded and what to do about it; distinguish label switching from genuine non-identifiability; choose a component count without misusing a likelihood-ratio test; recognize K-means as a degenerate limit; apply EM to missing data and censoring; convert between directed, undirected, and factor-graph representations and say what each conversion loses; run variable elimination and predict its cost from treewidth; and recognize forward–backward as sum-product and Baum–Welch as EM.
 
+## Learning route: complete data, missing labels, computation
+
+Study the chapter around one repeated question: what would be easy if the latent variables were observed?
+
+1. Write the complete-data likelihood and solve that easy problem.
+2. Replace missing labels or states by posterior responsibilities: the E-step.
+3. Re-solve the weighted complete-data problem: the M-step.
+4. Check likelihood monotonicity, degeneracy, restart stability, and label-invariant summaries before interpreting components.
+5. For a general graph, replace “responsibility” with “message” and predict the largest intermediate factor before running inference. That factor, not node count alone, controls exact-computation cost.
+
+This route connects mixtures, missing-data EM, sum-product, forward–backward, and Baum–Welch as instances of the same marginalization problem.
+
 ## 0. What a latent variable buys, and what it costs
 
 Write the model with the latent variable included and the joint distribution is usually simple:
@@ -750,13 +762,13 @@ The checks cover chains, forks, and colliders with and without conditioning, a c
 
 **Foundation — problems 1–7.** Compute mixture and graph quantities directly.
 
-1. **Mixture moments.** Compute the mean, variance, and modality of three given two-component mixtures.
-2. **Responsibilities.** Compute responsibilities for five observations under a given two-component mixture, in logs.
-3. **One EM step.** Perform a complete E-step and M-step by hand on six observations and report the log-likelihood before and after.
-4. **Factorization.** Write the joint factorization for a six-node DAG and count parameters under binary variables.
-5. **Separation.** Decide five conditional independence queries in an undirected graph by graph separation.
-6. **Forward recursion.** Run two steps of the scaled forward algorithm by hand and report the log likelihood.
-7. **Elimination.** Eliminate two variables from a small factor set and record each intermediate factor's scope.
+1. **Mixture moments.** Compute mean, variance, and modality for \(0.5N(-2,1)+0.5N(2,1)\), \(0.9N(0,1)+0.1N(6,1)\), and \(0.5N(0,1)+0.5N(0,4)\). Confirm modality numerically from the density rather than equating components with modes.
+2. **Responsibilities.** For \(x=(-3,-1,0,1,3)\), \(\pi=(0.4,0.6)\), \(\mu=(-1,2)\), and unit component variances, compute every responsibility using log-sum-exp and verify each row sums to one.
+3. **One EM step.** For \(x=(-2,-1.5,-1,1,1.5,2)\), initialize \(\pi=(0.5,0.5)\), \(\mu=(-0.5,0.5)\), and variances \((1,1)\). Perform one E-step and M-step, using the new means in the variance updates, and report observed log likelihood before and after.
+4. **Factorization.** For binary DAG edges \(A\to C,B\to C,C\to D,C\to E,D\to F,E\to F\), write the joint factorization and count free conditional-probability parameters node by node.
+5. **Separation.** In the undirected graph with edges \(A-B,B-C,C-D,B-E,E-D\), decide \(A\perp D\mid S\) for \(S=\varnothing,\{B\},\{C\},\{B,C\},\{C,E\}\).
+6. **Forward recursion.** Use initial state probabilities \((0.6,0.4)\), transition matrix \(\begin{psmallmatrix}.7&.3\\.2&.8\end{psmallmatrix}\), emission probabilities \(P(1\mid z)=(.9,.3)\), and observations \((1,0)\). Run two scaled forward steps and recover the log likelihood from the scale factors.
+7. **Elimination.** With binary factors \(\phi_1(A,B),\phi_2(B,C),\phi_3(B,D),\phi_4(C,D)\), eliminate \(B\) and then \(C\). Write the product and sum at each step and record every intermediate scope and table size.
 
 **Core — problems 8–16.** Connect algorithms, guarantees, and diagnostics.
 
@@ -783,12 +795,12 @@ The checks cover chains, forks, and colliders with and without conditioning, a c
 
 <details><summary>Worked solution sketches</summary>
 
-1. Mean is the weighted average of component means; variance adds the weighted average of component variances to the spread of the means. Modality requires comparing separation against component width, not counting components.
+1. The three mean/variance pairs are \((0,5)\), \((0.6,4.24)\), and \((0,2.5)\). Numerical stationary-point or grid checks show the first two are bimodal at these separations and weights, while the equal-mean scale mixture is unimodal. Component count alone never establishes mode count.
 2. Work with \(\log\pi_k+\log p(x_i\mid\theta_k)\), subtract the row maximum, exponentiate, and normalize.
 3. Compute responsibilities, then effective counts, then the three weighted updates, using the new mean inside the variance. The log-likelihood must not decrease.
-4. One conditional table per node, of size \(2^{|\mathrm{pa}|}\) free parameters each; the saving over \(2^p-1\) is the omitted arrows.
-5. Undirected separation has no collider exception: a path is blocked exactly when it meets the conditioning set.
-6. Normalize the forward vector each step, accumulate \(\log c_t\), and read the filtered posterior off the normalized vector.
+4. The factorization is \(p(A)p(B)p(C\mid A,B)p(D\mid C)p(E\mid C)p(F\mid D,E)\). Binary free-parameter counts are \(1+1+4+2+2+4=14\), versus \(2^6-1=63\) for an unrestricted joint law.
+5. From \(A\) to \(D\), both paths begin through \(B\). Thus \(S=\{B\}\) and \(\{B,C\}\) separate; \(S=\varnothing\) does not. Conditioning only on \(C\) leaves \(A-B-E-D\); conditioning on \(\{C,E\}\) blocks both routes and separates.
+6. The first unnormalized forward vector is \((0.54,0.12)\), so \(c_1=0.66\) and the filtered vector is about \((0.8182,0.1818)\). Predicting then multiplying by emission probabilities for zero gives \((0.06091,0.27364)\), with \(c_2\approx0.33455\). Hence \(p(1,0)=c_1c_2=0.2208\) and \(\log p(1,0)\approx-1.510\).
 7. The eliminated variable's factor has scope equal to its current neighbours; record how the scope grows as the order proceeds.
 8. Classic bugs are the stale mean in the variance update, unnormalized responsibilities, and the log-likelihood evaluated after the update. The monotonicity assertion catches the first two; comparing against a brute-force likelihood catches the third.
 9. The basins partition the initialization grid. Boundaries are typically near symmetric configurations, which are saddle points EM cannot leave.

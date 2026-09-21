@@ -17,6 +17,17 @@ Three threads run through the unit. **Scores** let you learn a density without e
 
 You need the ELBO and the reparameterization trick from [latent variables and the ELBO](14-latent-variables-elbo-gradient-estimators.md), the convolution-of-Gaussians result from [transformations and convolution](03-transformations-convolution-jacobians.md), and the fact that a density is not a probability from [random variables and distributions](01-random-variables-distributions.md).
 
+### Learning route: field, corruption, reversal, sampler
+
+The chapter has four conceptual moves.
+
+1. A score is a vector field \(\nabla_x\log p(x)\) that forgets the unknown normalizing constant.
+2. Denoising replaces the unavailable data score with a supervised target under a known corruption process.
+3. Diffusion repeats that corruption over noise levels, yielding closed-form forward marginals and a learned reverse process.
+4. A numerical sampler, guidance rule, or decoding rule creates the distribution observed by users.
+
+Always distinguish the data distribution, learned score model, ideal reverse-time distribution, and finite-step guided or truncated sampler. They coincide only under assumptions that should be stated.
+
 ## 1. The normalizer is the enemy; the score does not care
 
 An energy-based model writes
@@ -242,6 +253,30 @@ Always report decoding parameters alongside any generation result. A generation 
 - **Forgetting that the learned score belongs to the smoothed density**, not the data density.
 - **Treating the probability-flow likelihood as the stochastic sampler's likelihood.** They are different samplers.
 - **Using a relaxation or a truncation and calling the result a sample from the model.** It is a sample from a modified model; name it.
+
+### Worked example: follow one datum through noise and back
+
+Take \(x_0=2\), \(\beta_1=0.1\), and \(\beta_2=0.2\). Then \(\alpha=(0.9,0.8)\) and \(\bar\alpha_2=0.72\), so
+
+$$
+x_2=\sqrt{0.72}\,x_0+\sqrt{0.28}\,\varepsilon.
+$$
+
+Conditional on \(x_0=2\), this is \(N(2\sqrt{0.72},0.28)\), with mean about 1.697 and standard deviation about 0.529. If \(x_2=1.5\), the noise that produced it was
+
+$$
+\varepsilon=\frac{1.5-2\sqrt{0.72}}{\sqrt{0.28}}\approx-0.372.
+$$
+
+If a network predicts \(\hat\varepsilon=-0.30\), its implied clean prediction is
+
+$$
+\hat x_0
+=\frac{x_2-\sqrt{1-\bar\alpha_2}\,\hat\varepsilon}{\sqrt{\bar\alpha_2}}
+\approx1.955.
+$$
+
+This connects the training label, noise-prediction loss, and clean-data parameterization. It is not yet a sample from the data distribution: generation must start from the terminal noise law and apply every reverse transition or a justified numerical approximation. Guidance changes those reverse scores again, so sample quality is a property of the model–sampler pair, not of the likelihood model alone.
 
 ## 9. Runnable labs
 

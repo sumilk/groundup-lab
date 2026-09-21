@@ -731,12 +731,12 @@ The checks cover deterministic and partial acceptance, reproducibility, local ra
 
 **Foundation — problems 1–6.** Reconstruct sampling designs and direct estimators.
 
-1. **Population map.** Identify target, frame, unit, sample, response mechanism, and estimand in three studies.
-2. **SRSWOR.** Enumerate samples, calculate inclusion probabilities, a sample mean, and its finite-population standard error.
-3. **Strata.** Combine stratum estimates using known population weights and calculate the design standard error.
-4. **Clusters.** Calculate design effects across cluster sizes and intraclass correlations.
-5. **Weights.** Compute Horvitz–Thompson totals and means from unequal inclusion probabilities.
-6. **Rejection sampling.** Verify an envelope, calculate acceptance probability, and trace several proposal decisions.
+1. **Population map.** Identify target, frame, unit, sample, response mechanism, and estimand for: (a) satisfaction among next month's production users sampled from request logs, (b) safety failure prevalence among public web prompts found by keyword search, and (c) mean accuracy across future customer domains estimated from 12 launch partners. For each, name one coverage failure.
+2. **SRSWOR.** For the finite population \(y=(2,4,7,9,13)\), enumerate all size-two samples without replacement, verify equal sample probability and \(\pi_i=2/5\), and calculate the exact sampling distribution and variance of \(\bar Y_s\). For sample \(\{4,13\}\), calculate the usual finite-population standard-error estimate.
+3. **Strata.** Two strata have \((N_1,N_2)=(800,200)\), \((n_1,n_2)=(80,50)\), sample means \((0.70,0.40)\), and sample variances \((0.21,0.24)\). Estimate the population mean and its design standard error with finite-population corrections. Compare with the unweighted mean of stratum means.
+4. **Clusters.** Calculate \(1+(m-1)\rho\) and effective sample size \(n/\mathrm{DEFF}\) for total \(n=1{,}000\), cluster sizes \(m=5,25,100\), and \(\rho=0,0.05,0.20\). Explain the limiting behavior as \(m\) grows.
+5. **Weights.** Units with values \((10,20,40)\) are observed with inclusion probabilities \((0.5,0.25,0.2)\). Compute their Horvitz–Thompson contribution to the population total. If the known population size is 10, compute the corresponding mean estimate and explain which randomness the weights correct.
+6. **Rejection sampling.** Target \(f(x)=2x\) on \([0,1]\) using \(q(x)=1\) and \(M=2\). Verify the envelope and acceptance probability. Trace proposals \(x=(0.2,0.8,0.5)\) with uniforms \(u=(0.1,0.9,0.4)\), accepting when \(u\le f(x)/(Mq(x))\).
 
 **Core — problems 7–13.** Design and analyze realistic sampling workflows.
 
@@ -761,12 +761,12 @@ The checks cover deterministic and partial acceptance, reproducibility, local ra
 
 <details><summary>Worked solution sketches</summary>
 
-1. The target is the intended claim population; the frame operationalizes access; inclusion and response select the observed sample; the estimand is a population functional. Keep each object explicit.
-2. Under SRSWOR every subset has equal probability, \(\pi_i=n/N\), and the mean variance is \((1-n/N)S_Y^2/n\). Estimate \(S_Y^2\) with sample variance.
-3. Weight each stratum mean by \(N_h/N\). Sum independent stratum variance contributions \(W_h^2(1-n_h/N_h)s_h^2/n_h\).
-4. The approximation \(1+(m-1)\rho\) exposes why adding correlated rows gives diminishing information. Cluster count, not raw row count, usually drives population-of-clusters precision.
-5. Sum \(y_i/\pi_i\) over observed unique units. Divide by known \(N\) for the population mean. Tiny probabilities produce unstable weights.
-6. Verify \(f(x)\leq Mq(x)\) everywhere. Propose from \(q\) and accept with \(f(X)/(Mq(X))\); the accepted joint density is proportional to \(q(x)f(x)/(Mq(x))=f(x)/M\).
+1. The target is the intended claim population; the frame operationalizes access; inclusion and response select observations; the estimand is a population functional. Request logs omit non-requesting users, keyword search misses failures outside its vocabulary, and launch partners may not cover future domains. A complete answer says whether users, prompts, or domains are the independent units.
+2. There are \(\binom52=10\) samples, each with probability 0.1, and every unit appears in 4, so \(\pi_i=0.4\). The population mean is 7 and finite-population variance is \((1-2/5)S_Y^2/2=5.55\), since \(S_Y^2=74/4=18.5\). For \((4,13)\), \(s^2=40.5\), giving estimated variance \(0.6(40.5)/2=12.15\) and SE about 3.486; with tiny samples, the variance estimate itself is noisy.
+3. The weighted estimate is \(0.8(0.70)+0.2(0.40)=0.64\), not the unweighted 0.55. Estimated variance is \(0.8^2(0.9)(0.21)/80+0.2^2(0.75)(0.24)/50\approx0.001656\), so SE \(\approx0.0407\).
+4. At \(\rho=0\), DEFF is 1. At \(\rho=0.05\), DEFF is 1.2, 2.2, 5.95; at \(\rho=0.20\), it is 1.8, 5.8, 20.8 for \(m=5,25,100\). Effective sizes are \(1000/\mathrm{DEFF}\). With positive correlation, increasing rows per cluster eventually adds little independent information.
+5. The total estimate is \(10/0.5+20/0.25+40/0.2=300\); dividing by known \(N=10\) gives mean 30. Inverse-probability weights correct unequal random inclusion under the design, not nonresponse or frame undercoverage unless those mechanisms are also modeled.
+6. Because \(2x\le2\), the envelope holds and the average acceptance probability is \(1/M=1/2\). The thresholds equal \(x\), so the three decisions are accept, reject, accept. Accepted draws have density \(f\), although rejected proposals still count toward computational cost.
 7. Proportional allocation tracks size; Neyman tracks size times standard deviation; minimum guarantees support subgroup goals. Cost-adjusted allocation also divides by square-root cost.
 8. Multiply stage-specific conditional inclusion probabilities. Preserve cluster and unit identifiers; compute a weighted estimator and a variance method matching all stages.
 9. Combine inverse sampling and response probabilities under conditional ignorability. Vary missing outcomes or response odds to expose conclusions that depend on unverifiable assumptions.

@@ -706,20 +706,20 @@ The checks cover unsorted inputs, no and multiple discoveries, ties, generators,
 
 **Foundation — problems 1–5.** Establish definitions and perform direct calculations.
 
-1. **Testing language.** For a reported experiment, identify the population, unit, estimand, null, alternative, statistic, rejection rule, and possible decisions.
-2. **Exact tail.** Compute left-, right-, and doubled-tail p-values for a small binomial observation by enumerating every possible success count.
+1. **Testing language.** A new model and baseline are scored on the same 200 prompts using a prespecified binary success rubric; the claim is that the new model improves success probability by more than 3 percentage points on fresh prompts from the deployment distribution. Identify the population, sampling unit, estimand, null, alternative, statistic, rejection rule, and possible decisions. State what changes if the 200 prompts are the complete target rather than a sample.
+2. **Exact tail.** For \(S=7\) successes in \(n=8\) trials under \(H_0:p=0.5\), enumerate \(P(S=k)\) for \(k=0,\ldots,8\). Compute left-tail, right-tail, and doubled-smaller-tail p-values and note why "two-sided" needs a convention.
 3. **Error table.** Fill the four cells formed by truth and decision; label Type I error, Type II error, power, and correct non-rejection.
 4. **Interval interpretation.** Correct five common misinterpretations of a 95% confidence interval.
-5. **Multiplicity arithmetic.** Compute Bonferroni thresholds and the independent-test probability of at least one false rejection for several family sizes.
+5. **Multiplicity arithmetic.** At family level \(\alpha=0.05\), compute Bonferroni thresholds and, under independent true nulls with unadjusted per-test level 0.05, the probability of at least one false rejection for \(m=5,20,100\).
 
 **Core — problems 6–11.** Connect tests, intervals, power, and realistic designs.
 
-6. **Test inversion.** Construct an exact binomial confidence interval numerically by finding parameter values whose tail tests just cease to reject.
-7. **Paired comparison.** From a table of two models' item-level scores, calculate paired differences, their standard error, a t statistic, interval, and interpretation.
-8. **Effect and decision.** Given an estimate and interval, evaluate both a zero-effect null and a deployment threshold. Explain why the conclusions can differ.
-9. **Power curve.** For a fixed exact rejection region, calculate binomial power over a grid of alternatives and explain its shape.
-10. **Likelihood ratio.** Calculate the restricted and unrestricted Bernoulli fits, then derive and interpret \(-2\log\Lambda\).
-11. **Stepwise correction.** Apply Bonferroni, Holm, and BH to the same p-value family. Compare rejection sets and the error criterion each method targets.
+6. **Test inversion.** For \(s=14,n=20\), construct a 95% equal-tailed exact binomial interval numerically by finding parameter values whose tail tests just cease to reject. Compare it with the Wald interval and check coverage by simulation at \(p=0.1,0.5,0.9\).
+7. **Paired comparison.** For paired score differences \(d=(1,2,-1,0,3,1,-2,2)\), calculate the mean, standard error, t statistic, 95% t interval, and interpretation. Then incorrectly treat the two systems as independent and explain what covariance information was discarded.
+8. **Effect and decision.** A measured accuracy gain is 0.018 with 95% interval \([0.004,0.032]\). Evaluate both \(H_0:\Delta=0\) and a deployment requirement \(\Delta\ge0.03\). State separately what the data establish statistically and operationally.
+9. **Power curve.** For \(S\sim\operatorname{Binomial}(20,p)\), fix the rejection region \(S\ge15\), chosen before seeing data. Calculate power at \(p=0.5,0.6,0.7,0.8\) and explain its shape.
+10. **Likelihood ratio.** For \(s=14,n=20\), compare \(H_0:p=0.5\) with unrestricted \(p\). Calculate both fitted log-likelihoods, derive \(-2\log\Lambda\), and compare asymptotic and exact-binomial calibrations.
+11. **Stepwise correction.** At level \(0.05\), apply Bonferroni, Holm, and BH to \((0.003,0.012,0.018,0.041,0.20)\). Give each rejection set and name the error criterion targeted.
 
 **Stretch — problems 12–17.** Audit complex inference and selection workflows.
 
@@ -732,17 +732,17 @@ The checks cover unsorted inputs, no and multiple discoveries, ties, generators,
 
 <details><summary>Worked solution sketches</summary>
 
-1. The estimand and hypotheses describe population quantities; the statistic is a random function of data; the decision follows a prespecified rejection rule. The sampling unit must match the claimed generalization.
+1. Let \(D_i=Y_{i,\mathrm{new}}-Y_{i,\mathrm{base}}\). For fresh deployment prompts, \(\Delta=E[D_i]\), with \(H_0:\Delta\le0.03\) versus \(H_1:\Delta>0.03\); the prompt is the paired sampling unit. A statistic such as \(\bar D\) and a prespecified level-\(\alpha\) paired rule produce reject/do-not-reject decisions. If these 200 prompts are the whole target, \(\bar D\) is the finite-population effect and prompt-sampling inference is unnecessary, though model-run or rater randomness may remain.
 2. List \(P_{p_0}(S=k)=\binom nkp_0^k(1-p_0)^{n-k}\). Sum the outcomes selected by each tail rule. State the exact definition used for “two-sided.”
 3. Rejecting a true null is Type I error; not rejecting a specified false null is Type II error. Correct rejection has probability equal to power, and correct non-rejection under a boundary null has probability at least \(1-\alpha\).
 4. Coverage concerns repeated random intervals, not posterior probability for a fixed realized interval. It does not guarantee the model, sampling design, or target population is correct, and it does not make every subgroup's coverage equal to 95%.
-5. Bonferroni uses \(\alpha/m\). Under independent true nulls, at least one rejection has probability \(1-(1-\alpha)^m\) if each uses unadjusted level \(\alpha\).
+5. Bonferroni cutoffs are 0.01, 0.0025, and 0.0005. Unadjusted independent-family false-rejection probabilities are \(1-0.95^m\): approximately 0.226, 0.642, and 0.994 for \(m=5,20,100\).
 6. For each candidate \(p_0\), evaluate the chosen exact test and retain non-rejected values. Equal-tailed endpoints can be found by bisection on the relevant binomial tail. Boundary success counts require endpoints zero or one.
-7. Form \(D_i=B_i-A_i\), then use \(\bar D\), \(s_D/\sqrt n\), and \(t=\bar D/(s_D/\sqrt n)\). The unit is the pair. Interpret the interval on the original effect scale.
-8. An interval may exclude zero while remaining entirely below a practically required improvement, or include zero while still containing important positive and negative effects. Binary significance does not replace utility.
+7. Here \(\bar d=0.75\), \(s_d^2=19.5/7\approx2.786\), \(\operatorname{SE}\approx0.590\), and \(t\approx1.27\) on 7 degrees of freedom. With \(t_{.975,7}\approx2.365\), the interval is about \([-0.645,2.145]\): inconclusive about the population mean difference. An independent analysis discards the within-prompt covariance that pairing was designed to exploit.
+8. The interval excludes zero, so a conventional two-sided zero-effect test rejects at 5%. But it includes effects far below 0.03 and is not wholly above the deployment threshold; the evidence does not establish that the gain is large enough to deploy.
 9. Sum alternative binomial probabilities over the rejection region fixed under the null. Power is low near the null and generally rises as the alternative moves into the rejection direction.
 10. The unrestricted estimate is \(s/n\); the restricted estimate is \(p_0\). Subtract maximized log-likelihoods and multiply by two. Calibration can be exact rather than asymptotic in the finite binomial model.
-11. Bonferroni uses one fixed \(\alpha/m\) cutoff; Holm steps through widening FWER cutoffs; BH finds the final rank below \(iq/m\) and rejects through that rank. BH targets expected false-discovery proportion rather than probability of any false discovery.
+11. Bonferroni's 0.01 cutoff rejects only 0.003. Holm compares with 0.01, 0.0125, 0.0167, ... and rejects 0.003 and 0.012 before stopping. BH has rank cutoffs 0.01, 0.02, 0.03, 0.04, 0.05; the largest passing rank is 3, so it rejects 0.003, 0.012, and 0.018. Bonferroni and Holm control FWER; BH controls FDR under its stated dependence conditions.
 12. Enumerate success counts and include those whose p-values cross 0.05. Sum their null probabilities. Discreteness prevents arbitrary rejection probability unless randomized tests are allowed.
 13. Positive within-task correlation makes nominal row count exaggerate independent information. Row-iid intervals become too narrow while task-level methods reflect the limited number of independent tasks.
 14. Generalizing across new items conditional on trained seeds differs from generalizing across both training reruns and items. A crossed analysis must preserve both axes rather than flattening all cells into iid rows.

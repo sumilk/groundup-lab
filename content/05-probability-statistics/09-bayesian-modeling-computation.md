@@ -899,12 +899,12 @@ The checks cover deterministic seeding, constant targets, Gaussian targets, reje
 
 **Foundation — problems 1–6.** Build fluent distinctions among Bayesian objects.
 
-1. **Bayes table.** Calculate prior, likelihood, evidence, and posterior for a finite diagnostic problem.
-2. **Conjugate update.** Update several Beta priors with the same Bernoulli data and calculate posterior summaries.
-3. **Prediction.** Calculate probabilities for one and two future Bernoulli outcomes.
+1. **Bayes table.** A condition has prevalence 0.01. A test has sensitivity 0.90 and false-positive rate 0.05. Build the full \(2\times2\) probability table, calculate evidence \(P(+)\), and find \(P(\text{condition}\mid+)\). Explain the base-rate effect in one sentence.
+2. **Conjugate update.** After \(s=8\) successes and \(f=2\) failures, update \(\operatorname{Beta}(1,1)\), \(\operatorname{Beta}(2,8)\), and \(\operatorname{Beta}(1/2,1/2)\) priors. Calculate posterior mean, mode where defined, variance, and one-step predictive probability.
+3. **Prediction.** Under each posterior from problem 2, calculate the probability that the next trial succeeds and that both of the next two trials succeed. Compare the latter with the square of the one-step probability and explain the dependence induced by parameter uncertainty.
 4. **Intervals and decisions.** Distinguish credible intervals, posterior event probabilities, and loss-optimal actions.
-5. **Weights.** Normalize log importance weights stably and calculate ESS.
-6. **Metropolis step.** Calculate proposal and acceptance probabilities by hand for a discrete target.
+5. **Weights.** For log importance weights \((-1000,-1001,-1004)\), normalize stably, calculate ESS, and show why direct exponentiation is numerically unsafe.
+6. **Metropolis step.** On states \(\{0,1,2,3\}\), let target mass be proportional to \((1,2,4,3)\). The proposal moves to either neighboring state with probability 1/2 in the interior and moves inward with probability 1 at a boundary. Calculate every nonzero Metropolis–Hastings acceptance probability, including the proposal-ratio correction.
 
 **Core — problems 7–13.** Connect models, computation, and criticism.
 
@@ -913,12 +913,12 @@ The checks cover deterministic seeding, constant targets, Gaussian targets, reje
 9. **Partial pooling.** Calculate group posterior means under several within- and between-group variances.
 10. **Decision threshold.** Derive an action threshold under asymmetric deployment loss and evaluate posterior expected utility.
 11. **Importance collapse.** Vary proposal scale and location, then relate maximum weight and ESS to estimation error across repeated runs.
-12. **Metropolis tuning.** Compare chains over proposal scales using acceptance, autocorrelation, ESS, and Monte Carlo standard error.
+12. **Metropolis tuning.** Target \(N(0,1)\) with random-walk proposals \(N(x,s^2)\) for \(s=0.1,1,10\). Run four chains of 50,000 iterations from \((-10,-2,2,10)\), discard 10,000, and compare acceptance, trace plots, autocorrelation, bulk/tail ESS, \(\hat R\), and Monte Carlo standard error for the mean and 0.99 quantile.
 13. **Approximation comparison.** Compare exact, Laplace, importance, and MCMC summaries for a one-dimensional skewed posterior.
 
 **Stretch — problems 14–20.** Diagnose realistic Bayesian failures.
 
-14. **Prior sensitivity.** Analyze a rare-event posterior under several defensible and extreme priors without selecting a preferred conclusion.
+14. **Prior sensitivity.** With zero events in 50 trials, analyze \(\operatorname{Beta}(1,1)\), \(\operatorname{Beta}(1,99)\), \(\operatorname{Beta}(1/2,1/2)\), and \(\operatorname{Beta}(20,980)\) priors. Report posterior mean, 95% credible interval, and \(P(p>0.05\mid y)\) without selecting a preferred conclusion after seeing the answers.
 15. **Marginal-likelihood sensitivity.** Change prior scale while holding the likelihood fixed and explain shifts in Bayes factors.
 16. **Missed mode.** Construct importance and MCMC procedures that both miss a posterior mode while reporting reassuring internal diagnostics.
 17. **Hierarchical funnel.** Simulate weakly informed groups and compare centered and non-centered parameterizations.
@@ -928,11 +928,11 @@ The checks cover deterministic seeding, constant targets, Gaussian targets, reje
 
 <details><summary>Worked solution sketches</summary>
 
-1. Multiply each prior mass by its data likelihood and divide by their sum. Keep \(P(d\mid h)\) distinct from \(P(h\mid d)\).
+1. \(P(C,+)=0.01(0.90)=0.009\) and \(P(C^c,+)=0.99(0.05)=0.0495\), so \(P(+)=0.0585\) and \(P(C\mid+)=0.009/0.0585\approx0.1538\). Even a fairly accurate test produces many false positives when the condition is rare.
 2. Posterior shapes are \(\alpha+s,\beta+f\). Mean is \(a/(a+b)\), variance is \(ab/[(a+b)^2(a+b+1)]\), and one-step predictive success equals the mean.
 3. Integrate products of Bernoulli probabilities over the Beta posterior. Shared uncertainty makes future outcomes positively dependent after marginalization.
 4. A credible interval is posterior probability under a model and prior. A decision minimizes posterior expected loss; it need not correspond to an interval endpoint or 0.5 probability.
-5. Subtract the maximum log weight, exponentiate, and normalize. ESS is the reciprocal sum of squared normalized weights.
+5. Subtracting \(-1000\) gives \((0,-1,-4)\); exponentiating and normalizing yields approximately \((0.7214,0.2654,0.0132)\). Thus \(\mathrm{ESS}=1/\sum_iw_i^2\approx1.69\). Direct exponentiation underflows toward zero and can create a meaningless \(0/0\) normalization.
 6. Form the target-density ratio, include the reverse/forward proposal ratio, cap at one, and compare with a uniform draw. Symmetric proposals cancel.
 7. Generate complete datasets before seeing observations. Check units, ranges, frequencies, tails, and domain constraints; revise priors that imply implausible worlds.
 8. Draw posterior parameters and replicated data. Compare discrepancies chosen for scientific relevance. Systematic mismatch indicates the model cannot reproduce an observed feature.

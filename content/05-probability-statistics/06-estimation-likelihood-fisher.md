@@ -849,38 +849,38 @@ For true probabilities \(0.02,0.2,0.5,\) and \(0.9\), and several sample sizes:
 
 **Foundation — problems 1–4.** Distinguish estimation objects and execute direct bias, likelihood, and information calculations.
 
-1. **Language.** For three studies, identify data, target population, estimand, estimator, estimate, and sampling distribution.
+1. **Language.** Make a six-column table—data, target population, estimand, estimator, realized estimate, and repeated-sampling distribution—for: (a) accuracy on a fixed 2,000-item benchmark, (b) mean latency for the next month estimated from 500 randomly sampled requests, and (c) mean benchmark accuracy over fresh training runs estimated from five independent seeds. State which apparent "rows" are and are not sampling units.
 2. **Bias and MSE.** Compute bias, variance, and MSE for \(a\bar X+b\) as an estimator of \(\mu\).
 3. **Bernoulli likelihood.** Derive and evaluate the likelihood, log-likelihood, score, MLE, and plug-in standard error for 24 successes in 40 trials.
-4. **Gaussian estimation.** Compute the Gaussian mean MLE, variance MLE, and unbiased variance estimate for a small dataset.
+4. **Gaussian estimation.** For (x=(1,2,2,5)), compute the Gaussian mean MLE, variance MLE, and unbiased variance estimate. Explain why the two variance denominators differ even though both estimators use the same squared deviations.
 
 **Core — problems 5–9.** Derive estimator properties and connect likelihood curvature to uncertainty.
 
-5. **Competing estimators.** Compare the MSE of \(\bar X_n\) and \(a\bar X_n\). Determine the region of \(\mu\) where a specified \(a<1\) improves MSE.
+5. **Competing estimators.** For iid observations with mean \(\mu\) and variance \(\sigma^2\), compare the MSE of \(\bar X_n\) and \(0.8\bar X_n\). Derive the exact region of \(\mu\) where shrinkage improves MSE and interpret that region in standard-error units.
 6. **Exponential rate.** Derive the MLE, score, Fisher information, Cramér–Rao bound, and asymptotic standard error for an iid exponential rate.
-7. **Sufficiency.** Factor three likelihoods to identify data summaries sufficient for their parameters; then describe one model change that makes each compression insufficient.
+7. **Sufficiency.** Factor the likelihood for (a) iid Bernoulli\((p)\), (b) iid Poisson\((\lambda)\), and (c) iid Gaussian\((\mu,\sigma^2)\) with both parameters unknown. Identify a sufficient statistic in each case, then give one concrete change—time-varying success probabilities, exposure-varying Poisson rates, or an ordered autoregressive Gaussian model—for which that compression loses information.
 8. **Consistency.** Prove a biased estimator is consistent by separately controlling its bias and variance.
-9. **Delta method.** Derive approximate uncertainty for a ratio, log rate, or odds transformation and validate it with repeated simulation.
+9. **Delta method.** For \(X_i\sim\operatorname{Exponential}(\lambda)\), use \(\hat\lambda=1/\bar X\) to derive the asymptotic standard error of \(\log\hat\lambda\). At \(\lambda=2,n=100\), run 10,000 repetitions with seed 2026; compare empirical standard deviation with the approximation and report Monte Carlo error for the estimated standard deviation.
 
 **Stretch — problems 10–14.** Diagnose nonregularity, misspecification, dependence, and selection in realistic research workflows.
 
 10. **Non-identifiability.** Build a model with a parameter symmetry, show the likelihood has equivalent maxima, and distinguish prediction identifiability from parameter identifiability.
 11. **Boundary behavior.** Study Bernoulli MLEs near \(p=0\) at small \(n\). Compare empirical sampling distributions with plug-in Gaussian approximations and explain the zero-standard-error pathology.
-12. **Misspecified likelihood.** Fit a single Gaussian to mixture data. Compare model-based Fisher uncertainty, repeated-sample empirical variation, and held-out predictive diagnostics.
-13. **Clustered estimation.** Estimate an accuracy difference from prompts nested within users or tasks. Compare row-iid, cluster-aware, and paired uncertainty calculations.
-14. **Post-selection estimation.** Simulate selection of the best among many equally good configurations. Quantify validation optimism and test-set correction as the number of candidates and their correlation change.
+12. **Misspecified likelihood.** Generate \(n=200\) observations from \(0.8N(0,1)+0.2N(5,1)\), fit one Gaussian, and repeat 2,000 times (seed 2026). Compare model-based Fisher uncertainty for its mean, repeated-sample empirical variation, and held-out density plus tail diagnostics.
+13. **Clustered estimation.** Simulate 40 tasks with 25 paired prompt scores per task, true mean difference zero, and intraclass correlation 0.2. Compare row-iid, task-cluster, and paired-task uncertainty calculations over 2,000 repetitions; name the population targeted by each.
+14. **Post-selection estimation.** Simulate 5, 20, and 100 equally good configurations evaluated on 200 validation and 200 fresh test items. Quantify validation optimism and test-set correction over 5,000 repetitions, then repeat with candidate-score correlations 0, 0.5, and 0.9.
 
 <details><summary>Worked solution sketches</summary>
 
-1. A complete answer separates the population quantity from its data-dependent rule and treats the sampling distribution as variation across complete repeated datasets, not variation among rows inside one observed dataset.
+1. In (a), the fixed benchmark is the target and there is no item-sampling uncertainty unless it represents a larger item population; the estimate is deterministic conditional on model and benchmark. In (b), requests are sampling units and the sampling distribution repeats the 500-request draw from next month's request population. In (c), training runs are units and the sampling distribution repeats five seeds; benchmark items are fixed unless the target also includes new items. In every case, the estimand is a population quantity, the estimator is a rule, and the estimate is its realized value.
 2. \(E[a\bar X+b]=a\mu+b\), so bias is \((a-1)\mu+b\). Under iid sampling variance is \(a^2\sigma^2/n\); MSE adds the squared bias.
 3. With \(s=24,n=40\), \(\hat p=0.6\). The maximized log-likelihood is \(24\log0.6+16\log0.4\), the score vanishes at \(0.6\), and plug-in standard error is \(\sqrt{0.6(0.4)/40}\).
-4. The mean is the arithmetic average. Squared deviations divided by \(n\) give the Gaussian variance MLE; dividing by \(n-1\) gives the unbiased estimator.
-5. The unshrunk MSE is \(\sigma^2/n\). The shrunk MSE is \(a^2\sigma^2/n+(a-1)^2\mu^2\). Solve the strict inequality between them for the requested \(a\).
+4. \(\hat\mu=2.5\) and the squared deviations sum to \(9\). Therefore \(\hat\sigma^2_{\mathrm{MLE}}=9/4=2.25\), while \(s^2=9/3=3\). Estimating the mean consumes one residual degree of freedom; unbiasedness, not likelihood maximization, produces the \(n-1\) denominator.
+5. The unshrunk MSE is \(\sigma^2/n\). For \(0.8\bar X_n\), it is \(0.64\sigma^2/n+0.04\mu^2\). Shrinkage wins exactly when \(0.04\mu^2<0.36\sigma^2/n\), or \(|\mu|<3\sigma/\sqrt n\): the true mean lies within three standard errors of the shrinkage target zero.
 6. For exponential density \(\lambda e^{-\lambda x}\), \(\hat\lambda=1/\bar X\), one-observation information is \(1/\lambda^2\), and the asymptotic variance is \(\lambda^2/n\). Verify the parameter is positive and distinguish finite-sample bias from asymptotic behavior.
 7. Factorization makes Bernoulli depend on \(\sum X_i\), Poisson on \(\sum X_i\), and Gaussian forms on sums and squared sums depending on which parameters are unknown. Time variation, dependence, or additional parameters can make order or other details informative.
 8. One route is Chebyshev around the estimator's expectation: bound stochastic deviation by its vanishing variance, then use the triangle inequality with a deterministic bias that tends to zero.
-9. Apply a first-order Taylor expansion. For a ratio, use a two-variable gradient and the full covariance matrix; simulation should resample paired inputs so covariance is preserved.
+9. Since \(\sqrt n(\hat\lambda-\lambda)\Rightarrow N(0,\lambda^2)\) and \(g'(\lambda)=1/\lambda\), \(\operatorname{SE}(\log\hat\lambda)\approx1/\sqrt n=0.1\). The simulation should be close to 0.1. If the 10,000 replicated log estimates have standard deviation \(s\), its Monte Carlo standard error is approximately \(s/\sqrt{2(10{,}000-1)}\), about \(0.00071\) when \(s=0.1\).
 10. Sign, label-switching, and hidden-unit permutation symmetries all work. Equivalent parameters can produce identical observable laws even when the induced predictive distribution is uniquely determined.
 11. Small samples near a boundary frequently produce \(\hat p=0\), whose plug-in standard error is zero. The true repeated-sample error is not zero; the regular interior Taylor approximation has failed.
 12. A single Gaussian can target mixture mean and variance while missing modes and tails. Model curvature assumes the fitted family; repeated datasets reveal estimator variation under the mixture; held-out density and residual diagnostics expose predictive misspecification.

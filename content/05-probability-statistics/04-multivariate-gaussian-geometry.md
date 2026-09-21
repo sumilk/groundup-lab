@@ -11,6 +11,8 @@ The multivariate Gaussian is more than a familiar bell curve with extra coordina
 
 This unit isolates that geometry so the formulas do not arrive as an appendix to joint distributions. By the end, you should be able to read covariance ellipsoids, sample using a matrix factor, transform and marginalize Gaussian vectors, derive the bivariate conditional formula, apply the block conditional formula, and recognize where Gaussian convenience becomes a modelling liability.
 
+The route is geometry first and formulas second: validate a covariance matrix, read its eigendirections, use a factor to generate samples, propagate it through affine maps, and finally obtain conditioning as a blockwise uncertainty update. Numerical stability and model criticism come after the exact Gaussian calculations are visible.
+
 ## 0. Random vectors and notation
 
 Let \(X=(X_1,\ldots,X_d)^T\) have mean vector
@@ -461,9 +463,16 @@ For correlations from \(-0.95\) to \(0.95\), plot conditional mean as a function
 
 **Foundation — problems 1–3.** Validate covariance and connect its algebra to geometry and sampling.
 
-1. Verify whether three proposed \(2\times2\) matrices are valid covariance matrices.
-2. Draw approximate covariance ellipses for positive, negative, and zero correlations.
-3. Construct samples using both Cholesky and eigen factors and compare empirical covariance.
+1. Determine whether each matrix is a valid covariance matrix and whether it is positive definite or singular:
+
+   $$
+   A=\begin{pmatrix}4&2\\2&3\end{pmatrix},\quad
+   B=\begin{pmatrix}1&2\\2&1\end{pmatrix},\quad
+   C=\begin{pmatrix}1&-1\\-1&1\end{pmatrix}.
+   $$
+
+2. For covariance matrices \(\begin{psmallmatrix}4&1.5\\1.5&1\end{psmallmatrix}\), \(\begin{psmallmatrix}4&-1.5\\-1.5&1\end{psmallmatrix}\), and \(\operatorname{diag}(4,1)\), identify the sign of correlation and sketch or describe the orientation and relative axis lengths of their ellipses.
+3. For \(\Sigma=\begin{psmallmatrix}4&1.5\\1.5&1\end{psmallmatrix}\), generate 100,000 standard-normal pairs using seed 2026 and transform them once with a Cholesky factor and once with an eigen factor. Report maximum absolute covariance error for each and explain why the two realized samples need not be identical.
 
 **Core — problems 4–8.** Manipulate affine maps, marginals, and conditional Gaussian distributions.
 
@@ -482,9 +491,9 @@ For correlations from \(-0.95\) to \(0.95\), plot conditional mean as a function
 
 <details><summary>Worked solutions</summary>
 
-1. Check symmetry, positive diagonal variances, and nonnegative eigenvalues or principal minors. A negative determinant in two dimensions proves invalidity.
-2. Positive correlation tilts the long axis upward, negative correlation downward, and zero correlation aligns axes when marginal variances differ.
-3. Both factors satisfy \(LL^T=\Sigma\), so sampling error aside, both empirical covariances approach \(\Sigma\).
+1. \(A\) is positive definite because its leading minors are \(4\) and \(8\). \(B\) is invalid because its determinant is \(-3\), giving a negative eigenvalue. \(C\) is positive semidefinite but singular: its determinant is zero and direction \((1,1)^T\) has zero variance.
+2. The first correlation is positive and tilts the long axis upward; the second is negative and tilts it downward. The diagonal matrix has zero correlation and axis-aligned ellipses. All three have greater spread roughly along the first coordinate because its marginal variance is four rather than one.
+3. Both constructions are valid because their factors satisfy \(LL^T=\Sigma\). Covariance error should be of ordinary \(O(n^{-1/2})\) Monte Carlo scale; report the observed maximum rather than requiring a magic tolerance. Cholesky and eigen factors map the same spherical law through different square roots, so paired draws differ even though their target distribution agrees.
 4. For \(Y=AX+b\), expectation is \(A\mu+b\) and covariance is \(A\Sigma A^T\), even when \(A\) reduces dimension.
 5. Select the corresponding mean entries and principal covariance block.
 6. Correlation is \(12/(4\cdot5)=0.6\). Conditional mean is 74.8 and variance is 10.24.

@@ -723,10 +723,10 @@ Derive these results rather than memorizing the table:
 
 **Stretch — problems 9–14.** Combine simulation, numerical reasoning, and model criticism.
 
-9. **Simulation.** Estimate \(P(X\ge8)\) for \(X\sim\operatorname{Binomial}(10,0.6)\). Compare repeated empirical estimates with the exact sum and explain their variation.
+9. **Simulation.** Estimate \(P(X\ge8)\) for \(X\sim\operatorname{Binomial}(10,0.6)\) using 50 independent batches of 10,000 draws from local RNG seeds 0 through 49. Compare the mean and standard deviation of the 50 estimates with the exact probability and its predicted Monte Carlo standard error.
 10. **Model critique.** A team models generation latency with a Gaussian because its central histogram looks symmetric. List three checks needed before using it to estimate a strict tail-latency service-level objective.
 11. **Numerics.** Explain why multiplying 2,000 next-token probabilities may underflow while the corresponding log-likelihood remains usable.
-12. **Transfer.** Match Bernoulli, categorical, binomial, geometric, Poisson, uniform, exponential, or Gaussian to four new data-generating stories, and state at least one assumption that could invalidate each choice.
+12. **Transfer.** Match a distribution to each story and state one assumption whose failure invalidates it: (a) exactly one of five routing destinations is selected per request; (b) GPU faults are counted during a fixed 24-hour window under a constant independent rate; (c) independent attempts continue until the first schema-valid response; (d) waiting time to the next request under a homogeneous Poisson arrival process. Distinguish the geometric support convention you use.
 13. **Distribution forensics.** You receive only 10,000 sampled values from an unknown scalar generator. Build a reproducible investigation that tests support, discreteness, tail behavior, candidate-family fit, and dependence across draw order without claiming that a good fit identifies the mechanism.
 14. **Sampler stress test.** Implement one categorical sampler incorrectly in a subtle way, such as renormalizing after cumulative rounding. Design tests that reliably expose the defect under both balanced and highly skewed weights.
 
@@ -740,10 +740,10 @@ Derive these results rather than memorizing the table:
 6. Solve \(1-e^{-\lambda m}=1/2\), giving \(m=(\log2)/\lambda\), which is below the mean \(1/\lambda\).
 7. For \(0\le y\le1\), \(F_Y(y)=P(X\le\sqrt y)=\sqrt y\), hence \(f_Y(y)=1/(2\sqrt y)\). It diverges near zero while remaining integrable.
 8. Relabelling classes changes \(E[X]=\sum_kkp_k\). For one-hot encoding the mean is the probability vector \(p\), whose coordinates permute with the labels.
-9. The exact probability is \(\sum_{k=8}^{10}{10\choose k}0.6^k0.4^{10-k}\). Independent simulation estimates fluctuate around it with standard deviation determined by a Bernoulli indicator divided by \(\sqrt n\).
+9. The exact probability is \(\sum_{k=8}^{10}{10\choose k}0.6^k0.4^{10-k}\approx0.16729\). A 10,000-draw batch has predicted standard error \(\sqrt{p(1-p)/10000}\approx0.00373\). Across 50 independent batches, their sample mean should be near \(0.16729\) and their sample standard deviation near \(0.00373\); report Monte Carlo uncertainty rather than demanding exact agreement from the seeds.
 10. Check impossible negative mass, tail fit rather than only the center, dependence and nonstationarity, censoring/timeouts, and whether a mixture across request types is required.
 11. The product can fall below the smallest representable positive number. Logs convert the product into a finite sum of negative log probabilities.
-12. A correct answer identifies the experiment as well as the support. For example, “Poisson because it is a count” is incomplete without an exposure, approximately constant rate, and an independence story.
+12. Use categorical for (a), Poisson for (b), geometric for (c), and exponential for (d). The choices respectively require one exclusive category with stable probabilities; a fixed exposure with approximately constant independent event rate; repeated comparable independent attempts with constant success probability; and a homogeneous Poisson arrival process. Changing routing probabilities, clustered faults, learning across attempts, or time-varying arrival intensity breaks the corresponding model.
 13. A strong investigation combines value counts or spacings, empirical CDFs and quantiles, tail-focused plots, parameter fitting on one split, fit checks on another, and lag or run diagnostics. Agreement narrows plausible descriptions but does not recover a unique data-generating process.
 14. Use deterministic boundary tests plus large seeded simulations. Include zero and tiny weights, one dominant class, weights spanning many orders of magnitude, permutation checks, and expected-frequency tolerances based on binomial sampling variation.
 

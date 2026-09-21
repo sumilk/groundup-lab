@@ -454,7 +454,7 @@ Convolve a fair-die PMF with itself repeatedly. After each addition, record the 
 
 **Foundation — problems 1–3.** Track support, preimages, and one-dimensional probability correctly.
 
-1. Transform a categorical variable under a many-to-one relabelling and verify mass conservation.
+1. Let \(P(X=-2,-1,0,1,2)=(0.1,0.2,0.4,0.2,0.1)\) and \(Y=X^2\). Derive the complete PMF of \(Y\), state its support, and verify mass conservation.
 2. If \(X\sim\operatorname{Uniform}(0,1)\), derive the density of \(Y=-\log X\).
 3. If \(X\) has density \(2x\) on \([0,1]\), derive the density of \(Y=X^2\).
 
@@ -475,7 +475,7 @@ Convolve a fair-die PMF with itself repeatedly. After each addition, record the 
 
 <details><summary>Worked solutions</summary>
 
-1. Sum the input masses for every output label. The output total equals the input total because every input belongs to exactly one preimage.
+1. The support is \(\{0,1,4\}\). Its masses are \(P(Y=0)=0.4\), \(P(Y=1)=0.2+0.2=0.4\), and \(P(Y=4)=0.1+0.1=0.2\), which sum to one. The many-to-one map adds mass over every preimage rather than assigning one input representative to each output.
 2. For \(y\ge0\), \(P(-\log X\le y)=P(X\ge e^{-y})=1-e^{-y}\); the density is \(e^{-y}\).
 3. Since \(F_X(x)=x^2\), \(F_Y(y)=P(X^2\le y)=F_X(\sqrt y)=y\). Thus \(Y\) is uniform on \([0,1]\).
 4. For \(y>0\), the branches are \(y\) and \(-y\), so \(f_{|X|}(y)=f_X(y)+f_X(-y)=2f_X(y)\) under symmetry.

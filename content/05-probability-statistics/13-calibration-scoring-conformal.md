@@ -21,6 +21,17 @@ A model can be perfectly calibrated and useless. A model can be sharp and danger
 
 You should be comfortable with conditional expectation, the law of total expectation, the idea of a sampling distribution, quantiles of an empirical distribution, and the meaning of a coverage statement from [hypothesis testing and confidence intervals](07-hypothesis-testing-confidence-power.md). Exchangeability, developed for permutation tests in [resampling and experimental design](08-resampling-sequential-experimental-design.md), is the central assumption of section 7.
 
+### Learning route: claim, score, decision, guarantee
+
+Keep four layers separate as you read.
+
+1. **Claim:** calibration says what repeated events should do conditional on a reported probability.
+2. **Score:** a proper scoring rule evaluates the full probabilistic forecast and rewards honest probabilities in expectation.
+3. **Decision:** costs convert probabilities into actions; a better score need not improve a fixed downstream policy.
+4. **Guarantee:** conformal prediction gives marginal coverage under exchangeability, not calibrated probabilities, conditional coverage, or immunity to shift.
+
+For each method, complete the sentence: “randomness is over ___, conditioning is on ___, and the guarantee is ___.” That habit prevents most category errors in calibration papers.
+
 ## 1. What calibration actually claims
 
 Let \(q(X)\in[0,1]\) be a model's predicted probability that \(Y=1\). The model is **perfectly calibrated** when
@@ -242,6 +253,20 @@ In an LLM setting this is the principled backbone of selective prediction: defin
 - **Quoting calibration measured on one distribution as if it holds on another.**
 - **Presenting conformal coverage without set size**, or using conformal sets under clear drift.
 - **Treating a proper score as a complete evaluation.** It measures forecast quality, not utility, fairness, or cost-weighted risk — those need the decision-theoretic machinery of [information, learning, and decisions](../06-information-learning-decision/01-entropy-generalization-decisions.md).
+
+### Worked deployment audit: calibration can change the action
+
+An escalation system predicts the probability of a costly failure. Missing a failure costs 4 units and an unnecessary escalation costs 1. If \(q=P(Y=1\mid X)\), escalating has expected loss \(1-q\); not escalating has loss \(4q\). Therefore
+
+$$
+1-q<4q
+\quad\Longleftrightarrow\quad
+q>0.2.
+$$
+
+Suppose the raw model outputs 0.30 for a group, but held-out recalibration maps that score to 0.18. The argmax class is unchanged, yet the loss-optimal action flips. Thus “temperature scaling cannot change accuracy” does not imply that it cannot change product behavior.
+
+Now suppose a split-conformal wrapper attains 90% marginal coverage. That does not decide whether to escalate: a prediction set answers whether the outcome is included under exchangeability, while the action depends on calibrated risk and costs. Report proper score, decision loss, and coverage plus set size separately on an untouched, deployment-representative test set.
 
 ## 9. Runnable labs
 

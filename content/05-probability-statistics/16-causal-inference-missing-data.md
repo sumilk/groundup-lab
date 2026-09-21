@@ -15,6 +15,17 @@ The unit ends with missing data, which is not an appendix. The fundamental probl
 
 By the end, you should be able to state a causal estimand precisely; encode assumptions in a DAG and read conditional independences off it by d-separation; apply the backdoor criterion and know when adjustment *creates* bias instead of removing it; derive standardization, inverse probability weighting, and the doubly robust estimator, and prove what each one needs; diagnose positivity failures; use instruments, difference-in-differences, and regression discontinuity, along with the assumption each one trades for; quantify sensitivity to unmeasured confounding; classify missingness as MCAR, MAR, or MNAR; and choose between complete cases, single imputation, and multiple imputation with Rubin's rules.
 
+## Learning route: identification before estimation
+
+Use four passes rather than reading the methods as a menu.
+
+1. **Define the counterfactual contrast.** Name treatment versions, population, time horizon, and whether the target is ATE, ATT, or CATE.
+2. **Argue identification.** Draw assignment and measurement, then state the exchangeability, consistency, positivity, exclusion, or trend assumption that turns the counterfactual into observed-data quantities.
+3. **Estimate and diagnose.** Only now choose standardization, weighting, AIPW, IV, DiD, RD, or imputation. Check overlap, balance, nuisance fit, and dependence at the units relevant to the claim.
+4. **Stress the untestable assumption.** Use negative controls, falsification tests, and sensitivity parameters. Sampling error around a nonidentified target is false precision.
+
+For every problem, write an identification line before any estimator: \(\text{causal estimand}=\text{observed-data functional}\) under named assumptions.
+
 ## 0. A regression coefficient is not an effect
 
 Lesson 11 established that a regression coefficient is a conditional comparison: with the other columns of the design matrix held fixed, \(\beta_j\) is the difference in fitted conditional mean per unit of \(x_j\). Nothing in that derivation licenses the sentence "raising \(x_j\) would raise \(Y\) by \(\beta_j\)."
@@ -803,13 +814,13 @@ The checks cover perfect compliance where the ratio reduces to the intention-to-
 
 **Foundation — problems 1–7.** Read graphs and compute direct causal quantities.
 
-1. **Estimands.** Write ATE, ATT, and CATE for a stated deployment question and say which one each of three sentences asks about.
-2. **Structures.** Classify ten three-node subgraphs as chain, fork, or collider and give the induced independence in each.
-3. **d-separation.** Determine blocking for five paths under three different conditioning sets.
-4. **Backdoor sets.** Identify all valid adjustment sets in a six-node graph and reject the invalid ones with a reason.
-5. **Standardization.** Compute a standardized effect from a three-stratum table and compare it with the crude difference.
-6. **Weights.** Compute Horvitz–Thompson and Hájek estimates and the effective sample size for a ten-unit dataset.
-7. **Mechanisms.** Classify six described missingness scenarios as MCAR, MAR, or MNAR, stating the conditioning set that makes each call.
+1. **Estimands.** A new router can be deployed to all users, and \(Y(1),Y(0)\) are next-week resolution indicators. Write ATE, ATT, and \(\operatorname{CATE}(x)\), then match them to: “effect for all eligible users,” “effect for users already routed,” and “effect for enterprise users with covariates \(X=x\).”
+2. **Structures.** For the path \(A-B-C\), classify \(A\to B\to C\), \(A\leftarrow B\leftarrow C\), \(A\leftarrow B\to C\), and \(A\to B\leftarrow C\). State whether \(A\perp C\) marginally and conditional on \(B\) in each.
+3. **d-separation.** In the DAG \(C\to T,C\to Y,T\to M,M\to Y,T\to S,Y\to S\), decide whether each path from \(T\) to \(Y\) is open given \(\varnothing\), \(\{C\}\), and \(\{C,M\}\). Then explain what conditioning on selection node \(S\) opens.
+4. **Backdoor sets.** Add \(Z\to T,Z\to Y\) to the DAG in problem 3. Evaluate candidate sets \(\varnothing,\{C\},\{Z\},\{C,Z\},\{C,Z,M\},\{C,Z,S\}\) for the total effect of \(T\) on \(Y\), rejecting each invalid set by a named open path or descendant.
+5. **Standardization.** In low-risk users, treated outcomes are 16/20 and controls 56/80; in high-risk users, treated outcomes are 32/80 and controls 6/20. Each stratum contains 100 users. Compute stratum effects, the standardized ATE, and the crude treated-minus-control difference; explain the sign reversal.
+6. **Weights.** For \(A=(1,1,1,1,1,0,0,0,0,0)\), observed \(Y=(8,7,6,5,4,3,2,2,1,0)\), and propensities \(e=(.8,.7,.6,.4,.2,.8,.6,.5,.3,.2)\), compute the Horvitz–Thompson and Hájek ATE estimates and \((\sum w_i)^2/\sum w_i^2\), where \(w_i=A_i/e_i+(1-A_i)/(1-e_i)\).
+7. **Mechanisms.** Classify as MCAR, MAR given recorded variables, or MNAR: a random logging outage; response depending on recorded country; low ratings being less likely to be submitted; lab values ordered from recorded age and diagnosis; timeouts missing because latency exceeded an unrecorded threshold; and a random 10% audit sample. State the conditioning set or missing value driving each call.
 
 **Core — problems 8–16.** Connect identification, estimation, and diagnostics.
 
@@ -836,13 +847,13 @@ The checks cover perfect compliance where the ratio reduces to the intention-to-
 
 <details><summary>Worked solution sketches</summary>
 
-1. ATE averages over everyone, ATT over the treated, CATE within a covariate cell. Match each sentence to the population it quantifies over, not to the estimator it suggests.
+1. \(\operatorname{ATE}=E[Y(1)-Y(0)]\) targets all eligible users, \(\operatorname{ATT}=E[Y(1)-Y(0)\mid A=1]\) targets already-routed users, and \(\operatorname{CATE}(x)=E[Y(1)-Y(0)\mid X=x]\) targets the named enterprise covariate cell. The estimand is fixed by the population in the question, not by the available estimator.
 2. Chains and forks are marginally dependent and conditionally independent; colliders are the reverse. The reversal is what makes covariate selection unsafe.
 3. Apply the two blocking rules path by path, and remember that a descendant of a collider counts as conditioning on it.
 4. A valid set blocks every backdoor path and contains no descendant of the treatment. Reject sets by naming the specific open path or the specific descendant.
-5. Weight stratum differences by the total stratum share, not by the treated share. Divergence from the crude difference is exactly the confounding.
-6. Horvitz–Thompson divides by \(n\); Hájek divides by realized weight sums. The effective sample size is \((\sum w)^2/\sum w^2\).
-7. Ask what the missingness depends on: nothing, observed variables, or the unobserved value itself. The answer often changes when a variable is added to the dataset.
+5. Both stratum effects equal \(0.1\), so equal population weights give standardized ATE \(0.1\). Pooled treated risk is \(48/100=0.48\), while pooled control risk is \(62/100=0.62\), giving crude difference \(-0.14\). Treatment is concentrated in the high-risk stratum, creating the reversal.
+6. Treated weighted outcome sum is 62.5 and control sum is about 25.429, so the Horvitz–Thompson ATE is \((62.5-25.429)/10\approx3.707\). Weight sums are 11.845 and 12.179, giving Hájek difference \(62.5/11.845-25.429/12.179\approx3.188\). The combined weight ESS is about 7.546, below 10 because propensities are uneven.
+7. Random outage and random audit are MCAR. Country-dependent response and ordering by recorded age/diagnosis are MAR conditional on those recorded variables. Rating-dependent submission and threshold-caused missing timeout values are MNAR unless the rating or threshold-driving quantity is observed. Adding the relevant driver can change an MNAR description to MAR.
 8. The arithmetic is a weighted-average reversal. The graph decides: confounder favors stratified, mediator favors pooled, collider favors pooled.
 9. Filtering on a common effect of treatment and outcome induces negative association among its causes within the selected set; measure it against the unfiltered truth.
 10. In \(T\leftarrow U_1\to Z\leftarrow U_2\to Y\), conditioning on \(Z\) opens the path through the two unobserved causes. Temporal priority does not protect you.

@@ -678,20 +678,20 @@ The checks cover hand calculations, evidence increases and decreases, identical 
 
 **Foundation — problems 1–5.** Reconstruct each method's hypothetical repetition.
 
-1. **Bootstrap mechanics.** From a sample of four values, list possible bootstrap samples, their probabilities, and their means.
-2. **Interval construction.** Calculate percentile and basic intervals from a supplied ordered list of bootstrap estimates.
-3. **Permutation space.** Count and enumerate allowed assignments for a small completely randomized or paired design.
-4. **Sequential evidence.** Update a Bernoulli likelihood ratio observation by observation and calculate its anytime p-value.
+1. **Bootstrap mechanics.** From \(x=(1,2,4,9)\), show that there are \(4^4=256\) equally likely ordered bootstrap index sequences. Write a program that groups them by bootstrap mean, reports each distinct mean and probability, and verifies the exact bootstrap mean and variance against the plug-in formulas.
+2. **Interval construction.** The ordered bootstrap estimates are \((1.1,1.3,1.4,1.8,2.0,2.1,2.4,2.8,3.0,3.6)\), the original estimate is \(2.0\), and this exercise defines the 10% and 90% empirical quantiles as the first and ninth entries. Calculate the corresponding 80% percentile and basic intervals.
+3. **Permutation space.** For four paired differences \(d=(1,2,-1,3)\), enumerate all \(2^4\) sign assignments and the resulting mean differences. Contrast this with a completely randomized experiment assigning two of four labeled units to treatment, which has \(\binom42\) assignments.
+4. **Sequential evidence.** For observations \((1,0,1,1,0,1)\), update the Bernoulli likelihood ratio for \(H_1:p=0.7\) against \(H_0:p=0.5\) after every observation. Report the running maximum e-value and anytime p-value \(\min(1,1/\max_{s\le t}E_s)\).
 5. **Design vocabulary.** Distinguish randomization, pairing, blocking, blinding, replication, and stratification.
 
 **Core — problems 6–11.** Select and execute methods for realistic data structures.
 
-6. **Skewed estimator.** Bootstrap a median and ratio. Compare bootstrap shape, standard error, and interval with a Gaussian approximation.
+6. **Skewed estimator.** Generate \(n=40\) iid lognormal pairs with log-scale correlation 0.6 (seed 2026). Bootstrap the sample median of the first coordinate and the ratio of coordinate means using 10,000 paired resamples. Compare distribution shape, standard error, and percentile interval with a Gaussian approximation; repeat after breaking the pairing and explain the change.
 7. **Cluster bootstrap.** Implement user-level resampling for unequal cluster sizes under both user-weighted and interaction-weighted estimands.
-8. **Exact sign flips.** Derive and calculate the paired permutation distribution for a small model-comparison dataset.
-9. **Monte Carlo calibration.** Estimate a permutation p-value with increasing \(B\), report simulation uncertainty, and decide when resolution is adequate.
-10. **Alpha spending.** Design five interim analyses, verify total error control, and compare expected stopping under null and alternative simulations.
-11. **Blocked experiment.** Analyze a randomized experiment both with and without its predeclared blocks. Compare unbiasedness and precision.
+8. **Exact sign flips.** For \(d=(1,2,-1,3)\), calculate the exact two-sided paired permutation p-value using \(|\bar d|\) and inclusive tail counting.
+9. **Monte Carlo calibration.** For the same statistic, estimate the permutation p-value using \(B=99,999,9{,}999\), seed 2026, and \((b+1)/(B+1)\). Report conditional Monte Carlo standard error and decide which \(B\) can resolve a 0.05 decision reliably.
+10. **Alpha spending.** Use five prespecified looks with levels \((0.005,0.005,0.01,0.01,0.02)\). Verify the union-bound guarantee, then simulate the whole stopping rule for Bernoulli data under \(p=0.5\) and \(p=0.65\), 10,000 trials each, seed 2026. Compare rejection probability and expected stopping look.
+11. **Blocked experiment.** In blocks A and B, outcomes under the observed assignment are treatment \((8,9)\), control \((5,6)\) and treatment \((21,20)\), control \((19,18)\), respectively. Estimate the equal-block average effect with and without block adjustment; state which target each weighting scheme estimates and why blocking can improve precision.
 
 **Stretch — problems 12–18.** Diagnose methods that appear computationally sophisticated but replay the wrong experiment.
 
@@ -705,14 +705,14 @@ The checks cover hand calculations, evidence increases and decreases, identical 
 
 <details><summary>Worked solution sketches</summary>
 
-1. Each of four draws independently chooses one of four observed positions, producing \(4^4\) equally likely index sequences. Duplicate-valued samples may have larger combined probability. Compute the mean for each sequence or group identical outcomes.
-2. Percentile endpoints are the requested empirical quantiles. Basic endpoints reflect the upper and lower quantiles around \(2\hat\theta\), reversing their order.
+1. Each of four draws independently chooses one of four positions, producing 256 index sequences. The exact bootstrap expectation is the sample mean, \(4\). Conditional variance of a single empirical-distribution draw is \(9.5\), so the mean of four draws has variance \(9.5/4=2.375\); the grouped probabilities must sum to one and reproduce both moments.
+2. The percentile interval is \([1.1,3.0]\). Reflecting endpoints around \(2\hat\theta=4\) gives the basic interval \([4-3.0,4-1.1]=[1.0,2.9]\).
 3. A completely randomized allocation has \(\binom n{n_A}\) assignments. A paired sign-flip design has \(2^n\). Enumerate only assignments permitted by the implemented design.
-4. Multiply success and failure likelihood ratios sequentially. The anytime p-value is one divided by the running maximum e-value, capped at one.
+4. Multiply by \(0.7/0.5=1.4\) after a success and by \(0.3/0.5=0.6\) after a failure. The e-values are approximately \((1.4,0.84,1.176,1.6464,0.98784,1.382976)\); the final running maximum is 1.6464 and the final anytime p-value is about 0.6074. It never approaches 0.05.
 5. Randomization creates exchangeable assignment; pairing compares within units; blocking randomizes within known groups; blinding protects measurement; replication creates independent experimental information; stratification controls sampling composition.
 6. Recompute the full statistic per resample. Skewness or unstable denominators should appear in the bootstrap distribution and can make symmetric intervals misleading.
 7. Resample complete users. For a user-weighted target, average user summaries equally. For an interaction-weighted target, pool selected users' rows with the intended weighting. Unequal sizes make these estimands differ.
-8. Flip every difference sign in all combinations, recompute the chosen statistic, and count inclusive absolute extremes. The data remain paired throughout.
+8. The observed mean is \(1.25\), so the absolute signed sum threshold is 5. Enumerating the 16 sign patterns gives 6 sums with absolute value at least 5; the exact inclusive two-sided p-value is \(6/16=0.375\).
 9. Use \((b+1)/(B+1)\). The indicator of an extreme sampled permutation is Bernoulli conditional on the data, so its Monte Carlo standard error is approximately \(\sqrt{\hat p(1-\hat p)/B}\).
 10. Select nonnegative look-specific levels summing to at most the family level. Simulate the entire stopping rule; do not compare only the final-look rejection rate.
 11. Randomization protects both analyses from systematic bias, but block adjustment removes explainable between-block variation when the design and model align.

@@ -15,6 +15,16 @@ The unifying phenomenon is **concentration of measure**: as dimension grows, wel
 
 You should be able to state the weak law and Chebyshev's inequality, compute the mean and variance of a sum of independent variables, recognize \(\chi^2\) as a sum of squared standard normals, and read \(\lVert\cdot\rVert\) and eigenvalues of a symmetric matrix. If the last item is uncertain, revisit [eigenvalues and invariant subspaces](../02-linear-algebra/04-eigenvalues-invariant-subspaces.md) first.
 
+### Learning route: scalar variance to research judgment
+
+Read this chapter in three passes.
+
+1. **Build the geometry.** Sections 1–4 use only sums, variances, and symmetry. After them, predict the scale of a norm, dot product, or cosine before calculating it.
+2. **Turn geometry into guarantees.** Sections 5–6 explain what random projection preserves and why covariance estimation fails when \(d/n\) is not small. Track whether each statement is an exact moment calculation, a high-probability bound, or an asymptotic approximation.
+3. **Audit an ML claim.** Sections 7–8 ask whether an observed effect concerns predictions, distances, eigenvectors, or parameters. Those claims require different stability checks.
+
+A useful habit is to write the scalar random sum first. The high-dimensional phenomena in this chapter are ordinary one-dimensional concentration applied to the right sum.
+
 ## 1. Two dimensions lie to you
 
 Draw \(x\sim\mathcal N(0,I_d)\): each coordinate is an independent standard normal. Ask a simple question — *where is this vector?*
@@ -231,6 +241,24 @@ This section is also the probabilistic half of a claim made in [nonconvex landsc
 - **Assuming random search explores a box.** It samples the shell.
 - **Treating JL as lossless.** Distances are preserved within \(1\pm\varepsilon\); ties, margins, and rankings are not guaranteed.
 - **Applying Gaussian intuition to heavy-tailed coordinates.** Concentration slows as the fourth moment grows, and fails entirely without one.
+
+### Worked research audit: one transformer block
+
+Suppose a head uses \(d_k=64\), a residual stream has width 4096, and a linear probe uses \(n=2000\) examples.
+
+**Attention scale.** If query and key coordinates are independent with mean zero and variance one, then
+
+$$
+q^\top k=\sum_{j=1}^{64}q_jk_j,
+\qquad E[q^\top k]=0,
+\qquad \operatorname{Var}(q^\top k)=64.
+$$
+
+Unscaled logits have standard deviation 8. Dividing by \(\sqrt{64}=8\) restores order-one variation. This is a scale argument, not a claim that trained queries and keys remain independent Gaussians.
+
+**Initialization scale.** A linear unit with 4096 independent, unit-variance inputs and weights of variance \(1/4096\) has output variance \(4096(1/4096)=1\). The \(1/\sqrt{\text{fan-in}}\) weight scale is the same variance-of-a-sum calculation.
+
+**Probe geometry.** Here \(d/n=4096/2000\approx2.05\). The sample covariance is singular, with at least \(4096-2000\) zero eigenvalues before centering costs another degree of freedom. Stable held-out predictions can coexist with unstable weights: prediction stability concerns the fitted function, whereas coefficient stability asks whether feature directions are identified. Bootstrap both held-out performance and coefficient direction; do not use one as evidence for the other.
 
 ## 9. Runnable lab: random projection distortion
 
