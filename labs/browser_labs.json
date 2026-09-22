@@ -421,5 +421,35 @@
     "function": "is_diagonalizable_2x2",
     "title": "Exact real diagonalizability for integer matrices",
     "supportFunctions": []
+  },
+  {
+    "lesson": "02-linear-algebra/07-spectral-theorem-quadratic-forms.md",
+    "task": "rayleigh-quotient",
+    "function": "rayleigh_quotient",
+    "title": "A directional Rayleigh meter",
+    "supportFunctions": [
+      "_validated_matrix",
+      "_validated_vector"
+    ]
+  },
+  {
+    "lesson": "02-linear-algebra/07-spectral-theorem-quadratic-forms.md",
+    "task": "cholesky",
+    "function": "cholesky",
+    "title": "Build a positive-definiteness certificate",
+    "supportFunctions": [
+      "_validated_matrix",
+      "_validated_symmetric"
+    ]
+  },
+  {
+    "lesson": "02-linear-algebra/07-spectral-theorem-quadratic-forms.md",
+    "task": "is-pd",
+    "function": "is_pd",
+    "title": "Audit the scope of a PD verdict",
+    "supportFunctions": [
+      "_validated_matrix",
+      "_validated_symmetric"
+    ]
   }
 ]

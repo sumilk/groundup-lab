@@ -4,7 +4,7 @@
 working from this file as its brief. It fixes the format, names every module, and says what each one
 owes the reader. It is not a lesson and is not built into the reader.*
 
-Six modules exist. Twenty do not. This plan exists because the expensive mistakes in a track
+Seven modules exist. Nineteen do not. This plan exists because the expensive mistakes in a track
 like this are structural — two modules that teach the same thing differently, a theorem used three
 modules before it is proved, an identifier that breaks another track's prerequisites — and those are
 cheap to prevent here and costly to repair later.
@@ -15,6 +15,12 @@ The reader's identifiers, exercise grammar, and answer-bank interfaces are share
 The first two modules provide a teaching baseline, not a rigid page template: use new visual
 experiments, prediction/reveal sequences, linked views, and other structures when they make an
 idea easier to understand. Preserve the checkable practice and prerequisite discipline.
+
+**Authoring freedom (explicit user instruction).** Treat the existing format as a baseline reference,
+not a ceiling. Freely add elements when they aid learning: new visualizations, linked experiments,
+prediction-and-reveal sequences, worked examples, misconception checks, and other pedagogical
+structures. Choose additions for the understanding they enable; retain the shared identifiers,
+checkable exercises, offline hints, and prerequisite contracts.
 
 **The geometry boundary.** Module 1 previews inner products, Gram matrices, and metric changes to support its overlap experiments. Module 2 uses the standard dot product explicitly when proving that the row and null spaces have trivial intersection. Module 3 develops orthogonal complements, general metrics, and projection from those definitions; Module 4 owns Gram–Schmidt and its stability comparison. Earlier numerical previews may use supplied library calls, but must not require implementing untaught later algorithms.
 
@@ -33,7 +39,7 @@ identifier, difficulty, mode, then the name. Modes are `paper`, `NumPy`, `PyTorc
 Identifier prefixes are `A` by hand, `B` NumPy, `C` PyTorch, `M` cumulative, `K` checkpoint. The build
 fails if a header does not parse or if an identifier has no entry in the answer bank.
 
-**Practice hints are static.** Every practice prompt in Modules 1–6 has an authored `> **Hint:**` paragraph immediately after it, within the same blockquote. The reader turns it into an inline disclosure; it must never require an LLM connection. Continue this convention in new modules. General tutor questions and written-answer marking remain separate features.
+**Practice hints are static.** Every practice prompt in Modules 1–7 has an authored `> **Hint:**` paragraph immediately after it, within the same blockquote. The reader turns it into an inline disclosure; it must never require an LLM connection. Continue this convention in new modules. General tutor questions and written-answer marking remain separate features.
 
 **Every exercise is checkable.** One entry per exercise in `public/theory/answers/<bank>.js`:
 `statement`, `plain`, `solution`, plus `fields` wherever an answer is typeable (`num`, `vec`, `ratio`,
@@ -90,7 +96,7 @@ establish, and everything else in it is scaffolding for those.
 | 4 | Orthonormal bases, Gram–Schmidt and QR | II | 24 ✅ |
 | 5 | Determinants as signed volume | II | 20 ✅ |
 | 6 | Eigenvalues, invariant subspaces and diagonalization | II | 30 ✅ |
-| 7 | Symmetric matrices, the spectral theorem and quadratic forms | II | 28 |
+| 7 | Symmetric matrices, the spectral theorem and quadratic forms | II | 28 ✅ |
 | 8 | The SVD: geometry, rank and low-rank approximation | III · Decomposition | 34 |
 | 9 | Norms, conditioning and numerical stability | III | 26 |
 | 10 | The pseudoinverse, regularization and rank-deficient problems | III | 26 |
@@ -111,7 +117,7 @@ establish, and everything else in it is scaffolding for those.
 | 25 | Superposition geometry and dictionary learning | VI | 32 |
 | 26 | Capstone: a linear-algebra audit of a real model | VI | 30 |
 
-Total ≈ 730 hours of study; the six built modules are 162 of them.
+Total ≈ 730 hours of study; the seven built modules are 190 of them.
 
 ### Part II · Geometry (3–7)
 
@@ -193,8 +199,13 @@ the computational test.
 Labs: `la-quadform` (drag the eigenvalues of a symmetric 2×2, watch level sets go from ellipses to
 hyperbolas to degenerate, with the Rayleigh quotient traced as a point moves round the circle).
 Python: `rayleigh_quotient`, `cholesky` (and a clean failure on an indefinite matrix), `is_pd`.
-ML anchor: covariance matrices, the Hessian's eigenvalues as curvature, why "positive definite" is
-the precondition for most of optimization.
+ML anchor: covariance matrices, the Hessian's eigenvalues as curvature, and PD as the condition
+for a strictly convex quadratic bowl (not a prerequisite for every optimizer or minimum).
+Built extensions: a calculus-free sphere-maximization proof; variational min–max and residual
+identities; linked conic level sets, a draggable unit probe, and a full directional Rayleigh trace;
+exact flat/saddle/zero presets; a computed Cholesky pivot audit; and the distinction between a
+flat quadratic with compatible linear term and an unbounded tilted valley. The Python tests use
+a documented relative pivot cutoff and distinguish invalid data from numerical non-acceptance.
 
 ### Part III · Decomposition and conditioning (8–10)
 

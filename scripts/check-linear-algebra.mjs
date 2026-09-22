@@ -218,13 +218,45 @@ assert.match(power.readout(), /λ̂ = -2/);
 choose("preset", "close"); choose("start", "mixed"); power.click("jump");
 assert.doesNotMatch(power.verdict(), /Small computed residual/);
 
+// Link geometry, directional readings, and exact degeneracies in Module 7.
+const quadratic = mount("la-quadform");
+assert.match(quadratic.verdict(), /Positive definite/);
+function quadraticInput(name, value) {
+  const control = quadratic.elements[`[data-${name}]`];
+  control.value = String(value); control.events.input();
+}
+quadraticInput("axis", 0); quadraticInput("probe", 90);
+assert.match(quadratic.readout(), /R = 3/);
+quadraticInput("probe", 0); assert.match(quadratic.readout(), /R = 1/);
+quadratic.click("saddle");
+assert.match(quadratic.verdict(), /null space is only the origin/);
+// The default probe is 45 degrees relative to the axes: zero value, residual one.
+assert.match(quadratic.readout(), /residual norm = 1/);
+quadratic.click("flat"); assert.match(quadratic.verdict(), /two parallel lines/);
+quadraticInput("probe", 120);
+assert.match(quadratic.readout(), /residual norm = /);
+quadratic.click("negative"); assert.match(quadratic.verdict(), /Negative definite/);
+quadratic.click("isotropic"); assert.match(quadratic.verdict(), /every direction is an eigenvector/);
+assert.match(quadratic.readout(), /residual norm = 0/);
+quadratic.click("zero"); assert.match(quadratic.verdict(), /zero set is the entire plane/);
+assert.match(quadratic.verdict(), /level sets are empty/);
+assert.match(quadratic.elements["[data-pivots]"].textContent, /Stop: first pivot/);
+quadratic.click("bowl");
+quadraticInput("first", -2); quadraticInput("second", 0);
+assert.match(quadratic.verdict(), /Negative semidefinite, singular/);
+quadraticInput("first", 0); quadraticInput("second", 2);
+assert.match(quadratic.verdict(), /Positive semidefinite, singular/);
+quadratic.setInView(0, [1,0]);
+assert.match(quadratic.readout(), /φ = 0°/);
+
 // Marking must use the same complete exercise shown in the lesson, not an older fixture.
 for (const [bank, file] of [["01-span", "01-vectors-spaces-bases.md"],
   ["02-elimination", "02-systems-elimination-subspaces.md"],
   ["03-projection", "03-projections-least-squares.md"],
   ["04-qr", "04-orthonormal-bases-qr.md"],
   ["05-determinant", "05-determinants-volume.md"],
-  ["06-eigen", "06-eigenvalues-diagonalization.md"]]) {
+  ["06-eigen", "06-eigenvalues-diagonalization.md"],
+  ["07-spectral", "07-spectral-theorem-quadratic-forms.md"]]) {
   const entries = {};
   vm.runInNewContext(source(`public/theory/answers/${bank}.js`), {
     GU: {answers: (key, data) => Object.assign(entries, data)}

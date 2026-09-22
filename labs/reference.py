@@ -2112,3 +2112,84 @@ def is_diagonalizable_2x2(matrix):
     (a, b), (c, d) = rows
     discriminant = (a - d) ** 2 + 4 * b * c
     return discriminant > 0 or (discriminant == 0 and a == d and b == c == 0)
+
+
+def _validated_symmetric(matrix, tol):
+    """Copy finite real square data; require exact symmetry of converted entries."""
+    rows = _validated_matrix(matrix, tol, square=True)
+    if any(rows[i][j] != rows[j][i]
+           for i in range(len(rows)) for j in range(i)):
+        raise ValueError("matrix must be symmetric; no triangle is silently discarded")
+    return rows
+
+
+def rayleigh_quotient(matrix, vector):
+    """Directional quadratic value, scaled to avoid squaring original lengths."""
+    rows = _validated_matrix(matrix, 1e-12, square=True)
+    values = _validated_vector(vector, len(rows))
+    size = max(abs(x) for x in values)
+    if size == 0:
+        raise ValueError("Rayleigh quotient requires a nonzero vector")
+    values = [x / size for x in values]
+    norm = math.hypot(*values)
+    values = [x / norm for x in values]
+    scale = max(abs(x) for row in rows for x in row)
+    if scale == 0:
+        return 0.0
+    image = [math.fsum((a / scale) * x for a, x in zip(row, values)) for row in rows]
+    result = math.fsum(x * y for x, y in zip(values, image)) * scale
+    if not math.isfinite(result):
+        raise ValueError("Rayleigh quotient produced non-finite arithmetic")
+    return result
+
+
+def cholesky(matrix, tol=1e-12):
+    """Positive-diagonal factor with a scale-relative computed-pivot cutoff."""
+    rows = _validated_symmetric(matrix, tol)
+    n = len(rows)
+    cutoff = tol * max(abs(x) for row in rows for x in row)
+    if not math.isfinite(cutoff):
+        raise ValueError("pivot cutoff overflowed")
+    lower = [[0.0] * n for _ in rows]
+    try:
+        for j in range(n):
+            pivot = rows[j][j] - math.fsum(lower[j][k] ** 2 for k in range(j))
+            if not math.isfinite(pivot):
+                raise ValueError("non-finite pivot arithmetic")
+            if pivot <= cutoff:
+                raise ValueError("matrix not accepted at supplied relative pivot tolerance")
+            lower[j][j] = math.sqrt(pivot)
+            for i in range(j + 1, n):
+                lower[i][j] = (rows[i][j] - math.fsum(
+                    lower[i][k] * lower[j][k] for k in range(j))) / lower[j][j]
+                if not math.isfinite(lower[i][j]):
+                    raise ValueError("non-finite factor arithmetic")
+    except OverflowError as error:
+        raise ValueError("factor arithmetic overflowed") from error
+    return lower
+
+
+def is_pd(matrix, tol=1e-12):
+    """Numerical acceptance, distinct from malformed input or arithmetic failure."""
+    rows = _validated_symmetric(matrix, tol)
+    n = len(rows)
+    cutoff = tol * max(abs(x) for row in rows for x in row)
+    if not math.isfinite(cutoff):
+        raise ValueError("pivot cutoff overflowed")
+    lower = [[0.0] * n for _ in rows]
+    try:
+        for j in range(n):
+            pivot = rows[j][j] - math.fsum(lower[j][k] ** 2 for k in range(j))
+            if not math.isfinite(pivot):
+                raise ValueError("non-finite pivot arithmetic")
+            if pivot <= cutoff:
+                return False
+            lower[j][j] = math.sqrt(pivot)
+            for i in range(j + 1, n):
+                lower[i][j] = (rows[i][j] - math.fsum(
+                    lower[i][k] * lower[j][k] for k in range(j))) / lower[j][j]
+                if not math.isfinite(lower[i][j]):
+                    raise ValueError("non-finite factor arithmetic")
+    except OverflowError as error:
+        raise ValueError("factor arithmetic overflowed") from error
+    return True

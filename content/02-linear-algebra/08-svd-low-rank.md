@@ -1,7 +1,7 @@
 ---
 id: math.linear-algebra.svd-pca
 title: Singular value decomposition and PCA
-prerequisites: [math.linear-algebra.projections-least-squares, math.linear-algebra.eigen-invariant-subspaces]
+prerequisites: [math.linear-algebra.spectral-theorem-quadratic-forms]
 estimated_hours: 36
 ---
 

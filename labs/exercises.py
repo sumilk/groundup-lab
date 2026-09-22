@@ -687,3 +687,42 @@ def is_diagonalizable_2x2(matrix):
     a complex pair gives False; a repeated root gives True only for scalar A.
     """
     raise NotImplementedError("Count independent eigenvectors, not just polynomial roots")
+
+
+def rayleigh_quotient(matrix, vector):
+    """Return x.T A x / (x.T x) for nonzero x; symmetry is not required.
+
+    Require a nonempty finite real square matrix and matching finite nonzero
+    vector; exclude booleans. Preserve inputs. Normalize vector by its largest
+    absolute entry then its length; scale A by its largest absolute entry while
+    computing and restore final units. Zero A returns zero. Invalid input or
+    non-finite output arithmetic raises ValueError. _validated_matrix and
+    _validated_vector are supplied. Symmetric eigenvalue bounds require A=A.T.
+    """
+    raise NotImplementedError("Measure quadratic value per squared unit length")
+
+
+def cholesky(matrix, tol=1e-12):
+    """Return lower-triangular L with positive diagonal, approximating A=L L.T.
+
+    Require nonempty finite real square input, exactly symmetric after float
+    conversion, and positive finite tol; exclude booleans and preserve input.
+    Reject computed pivots <= tol * max(abs(A_ij)) with ValueError, including
+    zero A. Invalid data and non-finite arithmetic also raise ValueError.
+    _validated_symmetric and its dependency _validated_matrix are supplied.
+    A threshold rejection does NOT prove the exact matrix is indefinite.
+    """
+    raise NotImplementedError("Pay for one square and factor the remaining form")
+
+
+def is_pd(matrix, tol=1e-12):
+    """Return whether the scale-relative Cholesky pivot test accepts A.
+
+    Use the same pivot recurrence as cholesky, returning False if a computed
+    pivot <= tol * max(abs(A_ij)), and True after all pivots pass. This is a
+    numerical acceptance rule, not an exact theorem for arbitrary real data.
+    Invalid input, nonsymmetry, invalid tol, and non-finite arithmetic raise
+    ValueError, NOT False. _validated_symmetric and _validated_matrix supplied.
+    Require finite real nonempty square input, exclude bools, preserve input.
+    """
+    raise NotImplementedError("Separate a rejected pivot from invalid arithmetic")

@@ -2344,7 +2344,89 @@ def is_diagonalizable_2x2(m):
         _projection_rejects(m.is_diagonalizable_2x2,bad)
 
 
-CHECKS = {"power-iteration": power_iteration, "char-poly-2x2": char_poly_2x2,
+def rayleigh_quotient(m):
+    fixtures = [([[2,1],[1,2]], [2,0], 2), ([[1,0],[0,3]], [1,2], 2.6),
+                ([[1,0],[0,-1]], [1,1], 0), ([[0,0],[0,0]], [3,4], 0),
+                ([[1,4],[0,1]], [1,-1], -1), ([[7]], [-3], 7),
+                ([[1e300,0],[0,3e300]], [1e300,2e300], 2.6e300),
+                ([[1,0],[0,3]], [1e-300,2e-300], 2.6)]
+    rng = random.Random(707)
+    for _ in range(20):
+        a = [[rng.uniform(-3,3) for _ in range(3)] for _ in range(3)]
+        v = [rng.uniform(-2,2) for _ in range(3)]
+        want = sum(v[i]*a[i][j]*v[j] for i in range(3) for j in range(3))/sum(x*x for x in v)
+        fixtures.append((a,v,want))
+    for a,v,want in fixtures:
+        before, old = [r[:] for r in a], v[:]
+        got = m.rayleigh_quotient(a,v)
+        assert math.isclose(got,want,rel_tol=1e-12,abs_tol=1e-12)
+        assert math.isclose(m.rayleigh_quotient(a,[-2*x for x in v]),want,rel_tol=1e-12,abs_tol=1e-12)
+        assert a==before and v==old
+    for a,v in [(None,[1]), ([],[]), ([[1,2]],[1]), ([[1],[2,3]],[1,1]),
+                ([[True]],[1]), ([[1]],[True]), ([[1]],[0]), ([[1]],[]),
+                ([[float('nan')]],[1]), ([[1]],[float('inf')]),
+                ([[1.7e308,1.7e308],[1.7e308,1.7e308]],[1,1])]:
+        _projection_rejects(m.rayleigh_quotient,a,v)
+
+
+def _spectral_invalid(function):
+    for a in (None, [], [[1,2]], [[1],[2,3]], [[True]], [[float('inf')]],
+              [[float('nan')]], [[1,'0'],['0',1]], [[1,1],[0,1]],
+              [[1,1e-15],[0,1]]):
+        _projection_rejects(function,a)
+    for tol in (0,-1,True,float('nan'),float('inf'),'small'):
+        _projection_rejects(function,[[1]],tol)
+    # Distinguish invalid/nonfinite arithmetic from an ordinary rejected pivot.
+    _projection_rejects(function,[[1e308]],1e308)
+    _projection_rejects(function,[[1,1e200],[1e200,1]],1e-310)
+
+
+def cholesky(m):
+    fixtures = [[[4,2],[2,3]], [[9,3],[3,2]], [[2]],
+                [[1e-14,0],[0,1e-14]], [[1,0],[0,1e-10]]]
+    rng = random.Random(708)
+    for n in (2,3,4):
+        lower = [[(rng.uniform(1,3) if i==j else rng.uniform(-1,1)) if j<=i else 0
+                  for j in range(n)] for i in range(n)]
+        fixtures.append([[sum(lower[i][k]*lower[j][k] for k in range(n))
+                          for j in range(n)] for i in range(n)])
+    for a in fixtures:
+        before = [row[:] for row in a]
+        lower = m.cholesky(a)
+        n = len(a)
+        assert len(lower)==n and all(len(row)==n for row in lower)
+        assert all(lower[i][i]>0 for i in range(n))
+        assert all(lower[i][j]==0 for i in range(n) for j in range(i+1,n))
+        scale = max(abs(x) for row in a for x in row)
+        for i in range(n):
+            for j in range(n):
+                got = sum(lower[i][k]*lower[j][k] for k in range(n))
+                assert abs(got-a[i][j]) <= 1e-12*scale
+        assert a==before
+    for a in ([[0]], [[1,1],[1,1]], [[1,2],[2,1]], [[-1,0],[0,-1]],
+              [[1,0],[0,1e-14]], [[1,2,2],[2,1,2],[2,2,1]]):
+        old = [row[:] for row in a]
+        _projection_rejects(m.cholesky,a)
+        assert a==old
+    assert m.cholesky([[1,0],[0,1e-14]],1e-16)[1][1]>0
+    _spectral_invalid(m.cholesky)
+
+
+def is_pd(m):
+    fixtures = [([[4,2],[2,3]], True), ([[1e-14,0],[0,1e-14]], True),
+                ([[1,0],[0,1e-14]], False), ([[0]],False), ([[1,1],[1,1]],False),
+                ([[1,2],[2,1]],False), ([[-1,0],[0,-1]],False),
+                ([[1,2,2],[2,1,2],[2,2,1]],False), ([[0,0],[0,-1]],False)]
+    for a,want in fixtures:
+        before = [row[:] for row in a]
+        assert m.is_pd(a) is want
+        assert a==before
+    assert m.is_pd([[1,0],[0,1e-14]],1e-16) is True
+    _spectral_invalid(m.is_pd)
+
+
+CHECKS = {"rayleigh-quotient": rayleigh_quotient, "cholesky": cholesky, "is-pd": is_pd,
+          "power-iteration": power_iteration, "char-poly-2x2": char_poly_2x2,
           "diagonalizable-2x2": is_diagonalizable_2x2, "moments": moments, "conditional": conditional,
           "categorical": categorical, "joint": joint,
           "convolution": convolution, "gaussian": gaussian,
