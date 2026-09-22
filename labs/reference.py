@@ -2193,3 +2193,95 @@ def is_pd(matrix, tol=1e-12):
     except OverflowError as error:
         raise ValueError("factor arithmetic overflowed") from error
     return True
+
+
+def _validated_singular_values(singular_values):
+    """Finite, nonnegative, descending nonempty gains; zero total is permitted."""
+    try:
+        values = list(singular_values)
+    except TypeError as error:
+        raise ValueError("singular values must be a sequence") from error
+    if not values or any(isinstance(v, bool) or not isinstance(v, (int, float))
+                         or not math.isfinite(v) or v < 0 for v in values):
+        raise ValueError("nonempty finite nonnegative real gains required")
+    if any(a < b for a, b in zip(values, values[1:])):
+        raise ValueError("singular values must be in descending order")
+    return [float(v) for v in values]
+
+
+def _validated_svd_factors(left, singular_values, right_t):
+    """Reduced factors with approximate orthonormality, absolute tolerance 1e-9."""
+    u = _validated_matrix(left, 1e-12)
+    s = _validated_singular_values(singular_values)
+    vt = _validated_matrix(right_t, 1e-12)
+    m, p, n = len(u), len(s), len(vt[0])
+    if p != min(m, n) or len(u[0]) != p or len(vt) != p:
+        raise ValueError("require reduced shapes m by p, p gains, p by n; p=min(m,n)")
+    for i in range(p):
+        for j in range(p):
+            try:
+                a = math.fsum(row[i] * row[j] for row in u)
+                b = math.fsum(x * y for x, y in zip(vt[i], vt[j]))
+            except OverflowError as error:
+                raise ValueError("factor validation overflowed") from error
+            target = 1.0 if i == j else 0.0
+            if not all(math.isfinite(v) and abs(v-target) <= 1e-9 for v in (a,b)):
+                raise ValueError("left columns and right rows must be orthonormal")
+    return u, s, vt
+
+
+def svd_2x2(matrix):
+    """Scaled Gram geometry and a determinant shortcut; small teaching SVD only."""
+    rows = _validated_matrix(matrix, 1e-12, square=True)
+    if len(rows) != 2:
+        raise ValueError("exactly 2 by 2 input required")
+    scale = max(abs(x) for row in rows for x in row)
+    if scale == 0:
+        return [[1.0,0.0],[0.0,1.0]], [0.0,0.0], [[1.0,0.0],[0.0,1.0]]
+    (a,b),(c,d) = [[x/scale for x in row] for row in rows]
+    g, h, j = a*a+c*c, a*b+c*d, b*b+d*d
+    theta = 0.0 if h == 0 and g == j else math.atan2(2*h,g-j)/2
+    co, si = math.cos(theta), math.sin(theta)
+    image = [a*co+b*si,c*co+d*si]
+    first = math.hypot(*image)
+    u = [x/first for x in image]
+    determinant = a*d-b*c
+    sign = -1.0 if determinant < 0 else 1.0
+    left = [[u[0],-sign*u[1]],[u[1],sign*u[0]]]
+    gains = [first*scale,abs(determinant)/first*scale]
+    right_t = [[co,si],[-si,co]]
+    if not all(math.isfinite(v) for v in gains):
+        raise ValueError("reported singular value overflowed")
+    # Near a tie, roundoff can reverse the two computed gains; swap paired axes.
+    if gains[1] > gains[0]:
+        gains.reverse()
+        right_t.reverse()
+        left = [list(reversed(row)) for row in left]
+    return left, gains, right_t
+
+
+def truncate_rank(left, singular_values, right_t, k):
+    """Sum the first k supplied reduced-SVD channels, without changing inputs."""
+    u, s, vt = _validated_svd_factors(left, singular_values, right_t)
+    if isinstance(k, bool) or not isinstance(k, int) or not 0 <= k <= len(s):
+        raise ValueError("k must be an integer from zero through the number of gains")
+    try:
+        result = [[math.fsum(u[i][a] * s[a] * vt[a][j] for a in range(k))
+                   for j in range(len(vt[0]))] for i in range(len(u))]
+    except OverflowError as error:
+        raise ValueError("truncation arithmetic overflowed") from error
+    if not all(math.isfinite(v) for row in result for v in row):
+        raise ValueError("truncation produced non-finite arithmetic")
+    return result
+
+
+def explained_variance(singular_values):
+    """Squared-gain fractions and their prefix sums; undefined for zero total."""
+    values = _validated_singular_values(singular_values)
+    if values[0] == 0:
+        raise ValueError("explained variance is undefined for zero total variation")
+    weights = [(v/values[0])**2 for v in values]
+    total = math.fsum(weights)
+    ratios = [v/total for v in weights]
+    cumulative = [math.fsum(ratios[:i+1]) for i in range(len(ratios))]
+    return ratios, cumulative

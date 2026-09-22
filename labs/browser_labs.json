@@ -451,5 +451,34 @@
       "_validated_matrix",
       "_validated_symmetric"
     ]
+  },
+  {
+    "lesson": "02-linear-algebra/08-svd-low-rank.md",
+    "task": "svd-2x2",
+    "function": "svd_2x2",
+    "title": "Build paired singular directions",
+    "supportFunctions": [
+      "_validated_matrix"
+    ]
+  },
+  {
+    "lesson": "02-linear-algebra/08-svd-low-rank.md",
+    "task": "truncate-rank",
+    "function": "truncate_rank",
+    "title": "Spend a rank budget",
+    "supportFunctions": [
+      "_validated_matrix",
+      "_validated_singular_values",
+      "_validated_svd_factors"
+    ]
+  },
+  {
+    "lesson": "02-linear-algebra/08-svd-low-rank.md",
+    "task": "explained-variance",
+    "function": "explained_variance",
+    "title": "Account for squared variation",
+    "supportFunctions": [
+      "_validated_singular_values"
+    ]
   }
 ]

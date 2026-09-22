@@ -4,7 +4,7 @@
 working from this file as its brief. It fixes the format, names every module, and says what each one
 owes the reader. It is not a lesson and is not built into the reader.*
 
-Seven modules exist. Nineteen do not. This plan exists because the expensive mistakes in a track
+Eight modules exist. Eighteen do not. This plan exists because the expensive mistakes in a track
 like this are structural — two modules that teach the same thing differently, a theorem used three
 modules before it is proved, an identifier that breaks another track's prerequisites — and those are
 cheap to prevent here and costly to repair later.
@@ -39,7 +39,7 @@ identifier, difficulty, mode, then the name. Modes are `paper`, `NumPy`, `PyTorc
 Identifier prefixes are `A` by hand, `B` NumPy, `C` PyTorch, `M` cumulative, `K` checkpoint. The build
 fails if a header does not parse or if an identifier has no entry in the answer bank.
 
-**Practice hints are static.** Every practice prompt in Modules 1–7 has an authored `> **Hint:**` paragraph immediately after it, within the same blockquote. The reader turns it into an inline disclosure; it must never require an LLM connection. Continue this convention in new modules. General tutor questions and written-answer marking remain separate features.
+**Practice hints are static.** Every practice prompt in Modules 1–8 has an authored `> **Hint:**` paragraph immediately after it, within the same blockquote. The reader turns it into an inline disclosure; it must never require an LLM connection. Continue this convention in new modules. General tutor questions and written-answer marking remain separate features.
 
 **Every exercise is checkable.** One entry per exercise in `public/theory/answers/<bank>.js`:
 `statement`, `plain`, `solution`, plus `fields` wherever an answer is typeable (`num`, `vec`, `ratio`,
@@ -97,7 +97,7 @@ establish, and everything else in it is scaffolding for those.
 | 5 | Determinants as signed volume | II | 20 ✅ |
 | 6 | Eigenvalues, invariant subspaces and diagonalization | II | 30 ✅ |
 | 7 | Symmetric matrices, the spectral theorem and quadratic forms | II | 28 ✅ |
-| 8 | The SVD: geometry, rank and low-rank approximation | III · Decomposition | 34 |
+| 8 | The SVD: geometry, rank, low-rank approximation and PCA | III · Decomposition | 34 ✅ |
 | 9 | Norms, conditioning and numerical stability | III | 26 |
 | 10 | The pseudoinverse, regularization and rank-deficient problems | III | 26 |
 | 11 | Direct solvers at scale: Cholesky, blocking and the memory hierarchy | IV · Numerical | 26 |
@@ -117,7 +117,7 @@ establish, and everything else in it is scaffolding for those.
 | 25 | Superposition geometry and dictionary learning | VI | 32 |
 | 26 | Capstone: a linear-algebra audit of a real model | VI | 30 |
 
-Total ≈ 730 hours of study; the seven built modules are 190 of them.
+Total ≈ 730 hours of study; the eight built modules are 224 of them.
 
 ### Part II · Geometry (3–7)
 
@@ -214,7 +214,8 @@ floating point.*
 
 **Module 8 — The SVD: geometry, rank and low-rank approximation**
 `id: math.linear-algebra.svd-pca` · prereq: 7 · 34h · bank `08-svd`
-Spine: every matrix is a rotation, a scaling and a rotation; singular values and vectors; the four
+Spine: every real matrix is an orthogonal input-coordinate change, a rectangular nonnegative scaling,
+and an orthogonal output-coordinate change (orthogonal factors may include reflections); singular values and vectors; the four
 subspaces read straight off \(U\) and \(V\); Eckart–Young; PCA as the SVD of a centred data matrix.
 Labs: `la-svd` (drag a 2×2, see the unit circle map to an ellipse with the singular vectors drawn, and
 the rank-1 truncation shown against the original); `la-approx` (a small image or matrix heatmap
@@ -223,6 +224,16 @@ Python: `svd_2x2` (closed form via the eigenvectors of \(A^{\mathsf T}A\)), `tru
 `explained_variance`.
 ML anchor: numerical rank versus mathematical rank; what a decaying spectrum does and does not say
 about a layer; PCA whitening and its effect on the geometry of representations.
+Built from scratch rather than extending the legacy stub. The chapter proves both spectral and
+Frobenius Eckart–Young bounds, distinguishes full/reduced/compact factors and omitted null directions,
+and derives centered PCA as an affine reconstruction problem. Built extensions: paired input/output
+views with draggable matrix columns and rank-one deletion; fixed-scale original/reconstruction/residual
+heatmaps and a rank-error curve; draggable PCA observations with a candidate-versus-optimal line,
+centering switch, and isotropic/identical-point failure cases. A short minimum-norm channel derivation
+preserves the optimization track's inbound reference; Module 10 still owns the full pseudoinverse.
+The new shared chartkit and heatkit support later modules, and svdkit provides explicitly limited
+2×2 teaching geometry. Python tasks cover scaled 2×2 factors, rectangular truncation, and squared
+variance accounting, including undefined zero-total ratios.
 
 **Module 9 — Norms, conditioning and numerical stability**
 `id: …norms-conditioning-stability` · prereq: 8 · 26h · bank `09-conditioning`
@@ -383,8 +394,8 @@ build them when the first module that needs them is written, not before.
 
 | Addition | First needed | Used by |
 |---|---|---|
-| `chartkit.js` — axes, line and scatter, log scale, error curves | 8 | 8, 9, 12, 13, 20, 24 |
-| `heatkit.js` — matrix heatmap with a diverging scale and a colour key | 8 | 8, 14, 21, 22, 23 |
+| `chartkit.js` — axes, line and scatter, log scale, error curves *(built in Module 8)* | 8 | 8, 9, 12, 13, 20, 24 |
+| `heatkit.js` — matrix heatmap with a diverging scale and a colour key *(built in Module 8)* | 8 | 8, 14, 21, 22, 23 |
 | `plot3.js` — orthographic 3D: vectors, planes, a draggable camera *(built in Module 3)* | 3 | 3, 5, 6, 7 |
 | `matrixbench.js` — the editable matrix widget generalized out of `la-elim` | 11 | 11, 12, 15, 23 |
 | `graphkit.js` — small draggable graphs with adjacency and Laplacian | 14 | 14, 24 |

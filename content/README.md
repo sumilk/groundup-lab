@@ -28,7 +28,7 @@ Attempt these prompts before continuing. The end-of-unit practice set then mixes
 | 02 Linear algebra | [Determinants as signed volume](02-linear-algebra/05-determinants-volume.md) |
 | 02 Linear algebra | [Eigenvalues, invariant subspaces and diagonalization](02-linear-algebra/06-eigenvalues-diagonalization.md) |
 | 02 Linear algebra | [Symmetric matrices, the spectral theorem and quadratic forms](02-linear-algebra/07-spectral-theorem-quadratic-forms.md) |
-| 02 Linear algebra | [SVD and PCA](02-linear-algebra/08-svd-low-rank.md) *(stub — Module 8 of the track plan)* |
+| 02 Linear algebra | [The SVD — geometry, rank, low-rank approximation and PCA](02-linear-algebra/08-svd-low-rank.md) |
 | 03 Optimization | [Calculus, gradients, and optimization](03-optimization/01-calculus-gradients-optimization.md) |
 | 03 Optimization | [Convexity, smoothness and duality](03-optimization/03-convexity-smoothness-duality.md) |
 | 03 Optimization | [Stochastic approximation, SGD and batch size](03-optimization/04-stochastic-approximation-sgd.md) |
@@ -96,7 +96,7 @@ The track is being expanded one unit at a time in this order:
 
 ## Hands-on resources
 
-- [Sixty-four runnable exercises and behavioral checks](../labs/README.md)
+- [Sixty-seven runnable exercises and behavioral checks](../labs/README.md)
 - [Learner implementation file](../labs/exercises.py)
 - [Reference solutions — attempt first](../labs/reference.py)
 - [Web reader source](../public/theory/index.html)

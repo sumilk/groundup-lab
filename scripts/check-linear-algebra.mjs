@@ -31,6 +31,24 @@ function mount(name) {
       return plot;
     }};
   kit.plot3 = kit.plot;
+  kit.chart = (canvas, getSpec) => {
+    const view = {render() {
+      const spec = getSpec();
+      assert(spec.x[1] > spec.x[0] && spec.y[1] > spec.y[0]);
+      for (const series of spec.series || [])
+        assert(series.points.every(point => point.every(Number.isFinite)));
+    }};
+    view.render(); return view;
+  };
+  kit.heatmap = (canvas, getSpec) => {
+    const view = {render() {
+      const spec = getSpec();
+      assert(spec.limit > 0);
+      assert(spec.matrix.every(row => row.every(Number.isFinite)));
+    }};
+    view.render(); return view;
+  };
+  vm.runInNewContext(source("public/theory/labs/svdkit.js"), {GU: {labkit: kit}});
   vm.runInNewContext(source(`public/theory/labs/${name}.js`), {
     GU: {lab: (id, callback) => callback(root), labkit: kit},
     document: {createElement: element, activeElement: null}
@@ -249,6 +267,58 @@ assert.match(quadratic.verdict(), /Positive semidefinite, singular/);
 quadratic.setInView(0, [1,0]);
 assert.match(quadratic.readout(), /φ = 0°/);
 
+// Module 8: real callbacks must remain truthful at rank and variance boundaries.
+const singular = mount("la-svd");
+assert.match(singular.verdict(), /Two computed positive channels/);
+singular.click("thin");assert.match(singular.verdict(), /tolerance discards a positive computed gain/);
+assert.match(singular.readout(), /numerical rank = 1/);
+singular.elements["[data-tolerance]"].value="0.0000000001";
+singular.elements["[data-tolerance]"].events.change();
+assert.match(singular.readout(), /numerical rank = 2/);
+singular.click("rankone");assert.match(singular.verdict(), /line segment/);
+singular.click("zero");assert.match(singular.verdict(), /collapses to a point/);
+singular.click("isotropic");assert.match(singular.verdict(), /not uniquely identified/);
+singular.click("reflection");assert.match(singular.readout(), /σ = \(3, 1\)/);
+singular.elements["[data-reveal]"].checked=true;singular.elements["[data-reveal]"].events.change();
+singular.elements["[data-truncate]"].checked=true;singular.elements["[data-truncate]"].events.change();
+singular.setInView(1,[1,0],[0,0]);assert.match(singular.verdict(), /rank one/);
+const singularCell=singular.elements["[data-cells]"].children[0];
+singularCell.value='';singularCell.events.input();assert.match(singular.elements["[data-error]"].textContent,/finite number/);
+const approximation=mount("la-approx");
+function approximationRank(k){const c=approximation.elements["[data-rank]"];c.value=String(k);c.events.input();}
+approximation.click("ranktwo");approximationRank(1);assert.match(approximation.readout(),/squared error = 9/);
+approximationRank(2);assert.match(approximation.verdict(),/All positive channels retained/);
+approximation.click("zero");assert.match(approximation.readout(),/undefined \(zero total\)/);
+approximation.click("flat");approximationRank(0);assert.match(approximation.readout(),/squared error = 24/);
+approximationRank(6);assert.match(approximation.readout(),/Frobenius error = 0/);
+const pca=mount("la-pca");assert.match(pca.verdict(),/Centered PCA/);
+pca.elements["[data-center]"].checked=false;pca.elements["[data-center]"].events.change();
+assert.match(pca.verdict(),/not centered explained variance/);
+pca.elements["[data-center]"].checked=true;pca.elements["[data-center]"].events.change();
+pca.click("isotropic");assert.match(pca.verdict(),/every line/);
+pca.click("identical");assert.match(pca.verdict(),/fractions are undefined/);
+assert.match(pca.readout(),/candidate error² = 0/);
+pca.click("line");assert.match(pca.readout(),/optimal error² = /);
+pca.elements["[data-reveal]"].checked=true;pca.elements["[data-reveal]"].events.change();
+// Exact hand fixture plus two mean observations: error stays 2; variances use N=6.
+const cloud=[[ -2,0],[2,0],[0,-1],[0,1],[0,0],[0,0]];
+pca.setInView(0,...cloud);
+assert.match(pca.readout(),/optimal error² = 2/);
+pca.elements["[data-angle]"].value='45';pca.elements["[data-angle]"].events.input();
+assert(Math.abs(Number(pca.readout().match(/candidate error² = ([^<]+)/)[1])-5)<1e-12);
+
+// Numerical geometry helper: audit paired equations and reconstruction independently.
+const svdMath={};vm.runInNewContext(source("public/theory/labs/svdkit.js"),{GU:{labkit:svdMath}});
+for(const A of [[[1,2],[0,1]],[[-3,0],[0,1]],[[1,2],[0,0]],[[0,0],[0,0]],[[2,0],[0,2]],[[1,0],[0,1e-10]]]){
+  const {U,s,Vt}=svdMath.svd2(A), reconstructed=svdMath.truncate(U,s,Vt,2);
+  assert(s[0]>=s[1] && s[1]>=0);
+  for(let i=0;i<2;i++)for(let j=0;j<2;j++){
+    assert(Math.abs(reconstructed[i][j]-A[i][j])<1e-12);
+    assert(Math.abs(U[0][i]*U[0][j]+U[1][i]*U[1][j]-(i===j?1:0))<1e-12);
+    assert(Math.abs(Vt[i][0]*Vt[j][0]+Vt[i][1]*Vt[j][1]-(i===j?1:0))<1e-12);
+  }
+}
+
 // Marking must use the same complete exercise shown in the lesson, not an older fixture.
 for (const [bank, file] of [["01-span", "01-vectors-spaces-bases.md"],
   ["02-elimination", "02-systems-elimination-subspaces.md"],
@@ -256,7 +326,8 @@ for (const [bank, file] of [["01-span", "01-vectors-spaces-bases.md"],
   ["04-qr", "04-orthonormal-bases-qr.md"],
   ["05-determinant", "05-determinants-volume.md"],
   ["06-eigen", "06-eigenvalues-diagonalization.md"],
-  ["07-spectral", "07-spectral-theorem-quadratic-forms.md"]]) {
+  ["07-spectral", "07-spectral-theorem-quadratic-forms.md"],
+  ["08-svd", "08-svd-low-rank.md"]]) {
   const entries = {};
   vm.runInNewContext(source(`public/theory/answers/${bank}.js`), {
     GU: {answers: (key, data) => Object.assign(entries, data)}

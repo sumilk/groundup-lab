@@ -334,3 +334,15 @@ body.lab-open{overflow-x:hidden}
 /* Linked quadratic-form views keep chart captions and traces compact. */
 .quadform-views .quadform-caption{font:12px/1.6 var(--sans);color:var(--ink-2);padding:10px 14px;margin:0}
 .quadform-views .quadform-trace{aspect-ratio:auto;height:260px;min-height:260px}
+
+/* SVD experiments share compact captions, charts, and accessible matrix entry. */
+.lab .lab-caption{font:12px/1.6 var(--sans);color:var(--ink-2);padding:10px 14px;margin:0}
+.svd-views .stage{aspect-ratio:auto;height:290px;min-height:290px}
+.svd-cells{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px;margin-top:8px}
+.svd-cells input{min-width:0;width:100%}
+.chart-stage{height:260px;min-width:0}
+.chart-stage canvas{display:block;width:100%;height:100%}
+.approx-maps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:8px}
+.approx-maps canvas{display:block;width:100%;height:240px}
+.matrix-values{font:11px/1.7 var(--mono);overflow-x:auto;max-width:100%}
+@media(max-width:560px){.approx-maps{grid-template-columns:1fr}.approx-maps canvas{height:260px}}

@@ -726,3 +726,45 @@ def is_pd(matrix, tol=1e-12):
     Require finite real nonempty square input, exclude bools, preserve input.
     """
     raise NotImplementedError("Separate a rejected pivot from invalid arithmetic")
+
+
+def svd_2x2(matrix):
+    """Return (U, gains, Vt) for a finite real 2x2 matrix, preserving input.
+
+    U and Vt are 2x2 orthogonal factors; gains are nonnegative and descending.
+    Exclude booleans; malformed/non-finite input and non-finite output arithmetic
+    raise ValueError. _validated_matrix is supplied. Scale A by its maximum
+    absolute entry; zero A may use identity factors and zero gains. Use the top
+    eigenvector of scaled A.T A to construct v1, and v2 perpendicular to v1.
+    Set s1=||A v1||, s2=|det(A)|/s1 in scaled units; normalize A v1 for u1,
+    and choose the perpendicular u2 sign to match det(A). Restore gain units.
+    If rounding reverses nearly tied gains, swap both paired vectors as well.
+    This teaching construction is not a general stable SVD or exact-rank test.
+    """
+    raise NotImplementedError("Find paired perpendicular input and output directions")
+
+
+def truncate_rank(left, singular_values, right_t, k):
+    """Return the m by n sum of the first k reduced-SVD outer products.
+
+    Require shapes m by p, p gains, p by n with p=min(m,n)>=1. Gains are finite,
+    nonnegative, descending; columns of left and rows of right_t are orthonormal
+    to absolute dot-product tolerance 1e-9. The supplied _validated_svd_factors
+    validates and copies them. k must be an integer in [0,p], excluding bools.
+    Preserve all inputs. k=0 returns the zero matrix; zero gains are valid.
+    Invalid input or non-finite output arithmetic raises ValueError.
+    """
+    raise NotImplementedError("Read each retained direction, scale it, and write it back")
+
+
+def explained_variance(singular_values):
+    """Return (ratios, cumulative) from descending nonnegative singular values.
+
+    Scale by the largest gain before squaring, then divide squared weights by
+    their sum and compute prefix sums. Require nonempty finite real input,
+    excluding bools; preserve input. All-zero gains make ratios undefined and
+    raise ValueError, as does invalid input. Repeated and trailing-zero gains
+    are valid. _validated_singular_values is supplied. Do not overwrite the
+    computed final cumulative fraction merely to force it to one.
+    """
+    raise NotImplementedError("Account for squared variation, not raw gain")

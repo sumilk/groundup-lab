@@ -2425,7 +2425,89 @@ def is_pd(m):
     _spectral_invalid(m.is_pd)
 
 
-CHECKS = {"rayleigh-quotient": rayleigh_quotient, "cholesky": cholesky, "is-pd": is_pd,
+def svd_2x2(m):
+    fixtures = [([[3,0],[0,1]],[3,1]), ([[-3,0],[0,1]],[3,1]),
+                ([[0,0],[0,0]],[0,0]), ([[1,2],[0,0]],[math.sqrt(5),0]),
+                ([[1,2],[0,1]],[math.sqrt(2)+1,math.sqrt(2)-1]),
+                ([[2,0],[0,2]],[2,2]), ([[0,-2],[2,0]],[2,2]),
+                ([[1,0],[0,1e-10]],[1,1e-10]),
+                ([[3e-200,0],[0,1e-200]],[3e-200,1e-200]),
+                ([[3e200,0],[0,1e200]],[3e200,1e200])]
+    rng = random.Random(808)
+    for _ in range(30):
+        a,b = rng.uniform(-3,3),rng.uniform(-3,3)
+        u = [[math.cos(a),-math.sin(a)],[math.sin(a),math.cos(a)]]
+        vt = [[math.cos(b),math.sin(b)],[-math.sin(b),math.cos(b)]]
+        gains = sorted([rng.uniform(.1,4),rng.uniform(.1,4)],reverse=True)
+        matrix = [[sum(u[i][k]*gains[k]*vt[k][j] for k in range(2))
+                   for j in range(2)] for i in range(2)]
+        fixtures.append((matrix,gains))
+    for a,want in fixtures:
+        before = [row[:] for row in a]
+        u,s,vt = m.svd_2x2(a)
+        assert len(s)==2 and s[0]>=s[1]>=0
+        assert len(u)==len(vt)==2 and all(len(row)==2 for row in u+vt)
+        for got,expected in zip(s,want):
+            assert math.isclose(got,expected,rel_tol=1e-10,abs_tol=0 if expected else 1e-12)
+        for i in range(2):
+            for j in range(2):
+                close(sum(u[k][i]*u[k][j] for k in range(2)),int(i==j))
+                close(sum(vt[i][k]*vt[j][k] for k in range(2)),int(i==j))
+        scale = max(abs(v) for row in a for v in row) or 1
+        for i in range(2):
+            for j in range(2):
+                got = sum(u[i][k]*(s[k]/scale)*vt[k][j] for k in range(2))
+                assert abs(got-a[i][j]/scale)<1e-10
+        assert a==before
+    for a in (None,[],[[1]],[[1,2,3],[4,5,6]],[[1,2],[3]],[[True,0],[0,1]],
+              [[float('inf'),0],[0,1]],[[1,float('nan')],[0,1]],
+              [[1.7e308,1.7e308],[1.7e308,1.7e308]]):
+        _projection_rejects(m.svd_2x2,a)
+
+
+def truncate_rank(m):
+    # Known rectangular reduced decompositions, independent of the student's SVD.
+    fixtures = [([[1,0],[0,1],[0,0]],[3,2],[[1,0],[0,1]]),
+                ([[1,0],[0,1]],[3,2],[[1,0,0],[0,1,0]]),
+                ([[.6,-.8],[.8,.6]],[5,1],[[0,1],[-1,0]]),
+                ([[1,0],[0,1]],[0,0],[[1,0],[0,1]]), ([[1]],[7],[[1]])]
+    for u,s,vt in fixtures:
+        old = ([row[:] for row in u],s[:],[row[:] for row in vt])
+        for k in range(len(s)+1):
+            result=m.truncate_rank(u,s,vt,k)
+            assert len(result)==len(u) and all(len(row)==len(vt[0]) for row in result)
+            for i in range(len(u)):
+                for j in range(len(vt[0])):
+                    close(result[i][j],sum(u[i][a]*s[a]*vt[a][j] for a in range(k)))
+        assert (u,s,vt)==old
+    I=[[1,0],[0,1]]
+    for k in (-1,3,True,1.0,None):
+        _projection_rejects(m.truncate_rank,I,[3,1],I,k)
+    for u,s,vt in [(None,[1],[[1]]), (I,[1],I), (I,[1,2],I), (I,[1,-1],I),
+                    (I,[1,True],I), (I,[float('inf'),1],I),
+                    ([[1,1],[0,1]],[2,1],I), (I,[2,1],[[1,0],[1,0]]),
+                    ([[True,0],[0,1]],[2,1],I), (I,[2,1],[[1,0,0]]),
+                    ([[1,0],[0,float('nan')]],[2,1],I)]:
+        _projection_rejects(m.truncate_rank,u,s,vt,1)
+
+
+def explained_variance(m):
+    fixtures=[([6,3,1],[36/46,9/46,1/46]),([2,2],[.5,.5]),([5,0,0],[1,0,0]),
+              ([7],[1]),([3e200,1e200],[.9,.1]),([3e-200,1e-200],[.9,.1])]
+    for s,want in fixtures:
+        old=s[:]
+        ratios,cumulative=m.explained_variance(s)
+        assert len(ratios)==len(cumulative)==len(s)
+        for i in range(len(s)):
+            close(ratios[i],want[i])
+            close(cumulative[i],sum(want[:i+1]))
+        assert s==old
+    for s in (None,[],[0],[0,0],[1,2],[-1],[True],[float('inf')],[float('nan')],['1']):
+        _projection_rejects(m.explained_variance,s)
+
+
+CHECKS = {"svd-2x2": svd_2x2, "truncate-rank": truncate_rank, "explained-variance": explained_variance,
+          "rayleigh-quotient": rayleigh_quotient, "cholesky": cholesky, "is-pd": is_pd,
           "power-iteration": power_iteration, "char-poly-2x2": char_poly_2x2,
           "diagonalizable-2x2": is_diagonalizable_2x2, "moments": moments, "conditional": conditional,
           "categorical": categorical, "joint": joint,
