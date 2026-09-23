@@ -2,6 +2,10 @@
 
 The repository now has **46 authored lessons across 14 tracks**, with linear algebra, optimization, and probability/statistics as separate tracks. This is an initial cross-curriculum release, **not complete coverage**. Each track has substantial expansion work remaining. Depth labels are targets and have not been independently verified.
 
+## Detailed build plans
+
+See the [curriculum build-plan index](_plans.md) for 13 additional subject plans modeled on the [linear algebra plan](02-linear-algebra/_plan.md) and the probability/statistics lesson structure. They specify prerequisites, derivations, interactive experiments, implementation ladders, RE/RS gates, and capstones, including a new Research Practice sequence. These are authoring plans; they do not increase authored lesson counts.
+
 ## Start here
 
 Read a lesson, write a prediction, reconstruct its derivations, implement the lab, then solve an unfamiliar variant. Use an LLM for hints and critique after an attempt. Do not infer mastery from answer length, XP, or a simple code-pattern check.
