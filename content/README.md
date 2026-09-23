@@ -4,7 +4,7 @@ The repository now has **46 authored lessons across 14 tracks**, with linear alg
 
 ## Detailed build plans
 
-See the [curriculum build-plan index](_plans.md) for 13 additional subject plans modeled on the [linear algebra plan](02-linear-algebra/_plan.md) and the probability/statistics lesson structure. They specify prerequisites, derivations, interactive experiments, implementation ladders, RE/RS gates, and capstones, including a new Research Practice sequence. These are authoring plans; they do not increase authored lesson counts.
+See the [curriculum build-plan index](_plans.md) for all 15 subject plans in a shared detailed format, including the updated [linear algebra plan](02-linear-algebra/_plan.md) and the [probability/statistics coverage and expansion plan](05-probability-statistics/_plan.md). They specify prerequisites, derivations, interactive experiments, implementation ladders, RE/RS gates, and capstones, including a new Research Practice sequence. These are authoring plans; they do not increase authored lesson counts.
 
 ## Start here
 
@@ -75,28 +75,29 @@ Study Python and mathematical language first. Move through linear algebra, then 
 
 ### Probability and statistics build order
 
-The track is being expanded one unit at a time in this order:
+The 19 numbered lessons below are authored. See the [probability/statistics plan](05-probability-statistics/_plan.md) for the coverage audit, existing-lesson improvements, explicit prerequisites, and 11 proposed additions (PS19–PS29). The list records current coverage; it does not imply every topic is complete.
 
 1. **Authored:** finite sample spaces, probability axioms, conditioning, Bayes, and independence.
-2. **Optional authored overview:** inference, estimation, and uncertainty; skim for orientation, then return after the detailed units.
-3. **Authored:** random variables, common distributions, moments, and simulation.
-4. **Authored:** joint distributions, conditioning, covariance, total expectation, and total variance.
-5. **Authored:** transformations, convolution, and one- and multi-dimensional Jacobians.
-6. **Authored:** multivariate Gaussian geometry, affine maps, marginals, and conditioning.
-7. **Authored:** laws of large numbers, central limit behavior, Monte Carlo error, concentration, heavy tails, and dependence.
-8. **Authored:** estimation, bias/variance/MSE, likelihood, identifiability, Fisher information, and asymptotics.
-9. **Authored:** hypothesis testing, confidence intervals, power, effect sizes, likelihood-ratio tests, and multiple comparisons.
-10. **Authored:** bootstrap, permutation tests, sequential testing, and experimental design.
-11. **Authored:** Bayesian modeling, posterior checks, importance sampling, and MCMC.
-12. **Authored:** sampling design and ML evaluation under seed variance, clustering, dependence, selection, contamination, and distribution shift.
-13. **Authored:** sufficient statistics, exponential families, statistical regression, GLMs, robust uncertainty, and mixed-effects partial pooling.
-14. **Authored:** high-dimensional probability, concentration in many dimensions, random vectors, and projections.
-15. **Authored:** calibration, proper scoring rules, reliability diagrams, and conformal prediction.
-16. **Authored:** latent variables, the evidence lower bound, and gradient estimators.
-17. **Authored:** score matching, diffusion, and sampling from generative models.
-18. **Authored:** observational causal inference — DAGs and d-separation, backdoor adjustment, propensity weighting, doubly robust estimation, instruments, difference-in-differences — and missing-data mechanisms with multiple imputation.
-19. **Authored:** finite mixtures, the EM algorithm, identifiability of latent structure, and directed, undirected, and factor graphical models with exact inference.
-20. **Authored:** order statistics, empirical process theory with Glivenko–Cantelli and DKW, rank and permutation tests, U-statistics, kernel density estimation, and Rao–Blackwellized Monte Carlo.
+2. **Authored:** random variables, common distributions, moments, and simulation.
+3. **Authored:** joint distributions, conditioning, covariance, total expectation, and total variance.
+4. **Authored:** transformations, convolution, and one- and multi-dimensional Jacobians.
+5. **Authored:** multivariate Gaussian geometry, affine maps, marginals, and conditioning.
+6. **Authored:** laws of large numbers, central limit behavior, Monte Carlo error, concentration, heavy tails, and dependence.
+7. **Authored:** estimation, bias/variance/MSE, likelihood, identifiability, Fisher information, and asymptotics.
+8. **Authored:** hypothesis testing, confidence intervals, power, effect sizes, likelihood-ratio tests, and multiple comparisons.
+9. **Authored:** bootstrap, permutation tests, sequential testing, and experimental design.
+10. **Authored:** Bayesian modeling, posterior checks, importance sampling, and MCMC.
+11. **Authored:** sampling design and ML evaluation under seed variance, clustering, dependence, selection, contamination, and distribution shift.
+12. **Authored:** sufficient statistics, exponential families, statistical regression, GLMs, robust uncertainty, and mixed-effects partial pooling.
+13. **Authored:** high-dimensional probability, concentration in many dimensions, random vectors, and projections.
+14. **Authored:** calibration, proper scoring rules, reliability diagrams, and conformal prediction.
+15. **Authored:** latent variables, the evidence lower bound, and gradient estimators.
+16. **Authored:** score matching, diffusion, and sampling from generative models.
+17. **Authored:** observational causal inference — DAGs and d-separation, backdoor adjustment, propensity weighting, doubly robust estimation, instruments, difference-in-differences — and missing-data mechanisms with multiple imputation.
+18. **Authored:** finite mixtures, the EM algorithm, identifiability of latent structure, and directed, undirected, and factor graphical models with exact inference.
+19. **Authored:** order statistics, empirical process theory with Glivenko–Cantelli and DKW, rank and permutation tests, U-statistics, kernel density estimation, and Rao–Blackwellized Monte Carlo.
+
+**Planned additions:** stochastic processes/Markov chains, time series, Poisson/renewal/queueing processes, martingales, measure-based probability, stochastic calculus, advanced Monte Carlo, robust/semiparametric inference, adaptive evaluation, survival/rare events, and a research capstone. These are planned units, not new authored lessons.
 
 ## Hands-on resources
 

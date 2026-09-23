@@ -1,6 +1,6 @@
 # Curriculum build plans — research engineer and research scientist preparation
 
-These plans extend the [linear algebra build plan](02-linear-algebra/_plan.md) using the depth and progression of the [probability/statistics sequence](README.md#probability-and-statistics-build-order). They are authoring briefs: **13 new track plans with 187 detailed module briefs**, including expansions of eight existing lessons. They do not represent 187 newly authored lessons, runnable labs, or completed competencies.
+These plans extend the [linear algebra build plan](02-linear-algebra/_plan.md) using the depth and progression of the [probability/statistics sequence](README.md#probability-and-statistics-build-order). They are authoring briefs: **15 track plans with 243 detailed module briefs**, including 35 already authored lesson units marked for preservation, verification, or expansion. The [probability/statistics plan](05-probability-statistics/_plan.md) now audits existing coverage and missing work, and LA uses the same detailed format. These counts describe plans, not newly authored lessons, runnable labs, or completed competencies.
 
 The organizing target is practical research at leading AI labs: derive the method, implement it correctly, diagnose failures, measure cost and quality, and defend the evidence. Research engineer (RE) and research scientist (RS) routes share that foundation. RE gates emphasize implementation, performance, and reliability; RS gates emphasize mathematical assumptions, question selection, and experimental inference. Both require coding and scientific judgment.
 
@@ -10,8 +10,10 @@ The organizing target is practical research at leading AI labs: derive the metho
 |---|---|---:|---:|
 | 00 | [Foundations](00-foundations/_plan.md) | 8 | 134 |
 | 01 | [Python and numerical programming](01-python/_plan.md) | 14 | 324 |
+| 02 | [Linear algebra](02-linear-algebra/_plan.md) | 26 | 728 |
 | 03 | [Calculus and optimization](03-optimization/_plan.md) | 12 | 414 |
 | 04 | [Data structures and algorithms](04-dsa/_plan.md) | 14 | 364 |
+| 05 | [Probability and statistics](05-probability-statistics/_plan.md) | 30 | 1060 |
 | 06 | [Information, learning, and decision theory](06-information-learning-decision/_plan.md) | 14 | 418 |
 | 07 | [Classical machine learning](07-classical-ml/_plan.md) | 15 | 436 |
 | 08 | [PyTorch and differentiable programming](08-pytorch/_plan.md) | 14 | 392 |
@@ -22,9 +24,9 @@ The organizing target is practical research at leading AI labs: derive the metho
 | 13 | [Practical AI, retrieval, and agentic systems](13-agentic-systems/_plan.md) | 14 | 406 |
 | 14 | [Research practice and RE/RS project defense](14-research-practice/_plan.md) | 12 | 430 |
 
-The estimates total **5,580 hours before diagnostic skips and reuse**, excluding the reference LA and probability/statistics tracks. This is a comprehensive authoring scope across several specializations, not a single required preparation schedule. Count a shared project only once when it satisfies both a subject capstone and Research Practice. Budget a selected route from its prerequisite closure; do not sum every track and call that a time-to-hire estimate.
+The estimates total **7,368 hours before diagnostic skips and reuse**, including LA and probability/statistics. LA contributes 728 hours (224 in authored lessons); probability/statistics contributes 1,060 hours (664 in authored lessons). Existing-unit expansion effort must be re-estimated when authored. This is a comprehensive authoring scope across several specializations, not a single required preparation schedule. Count a shared project only once when it satisfies both a subject capstone and Research Practice. Budget a selected route from its prerequisite closure; do not sum every track and call that a time-to-hire estimate.
 
-The [LA plan](02-linear-algebra/_plan.md) remains the reference for its 26 modules. The probability/statistics track already has 19 numbered detailed lessons (00–18); use those actual files as its sequence. Its README also mentions an optional overview that is not an additional numbered lesson. Research Practice is present in `lib/curriculum.ts` but had no content directory; its new plan fills that authoring gap.
+The [LA plan](02-linear-algebra/_plan.md) retains 26 modules: eight authored and 18 new. The [probability/statistics plan](05-probability-statistics/_plan.md) retains all 19 authored lessons (00–18) and adds 11 proposed modules (19–29), with a per-unit coverage audit and shared-format retrofit. Both preserve authored IDs and registered tasks. Research Practice is present in `lib/curriculum.ts` but has no authored lessons; its plan fills that authoring gap.
 
 **Status vocabulary:** an existing overview is orientation; an existing detailed lesson is an expansion target where specified; every other brief is planned. A proposed lab ID, answer bank, or function name is a reservation, not a registered implementation. No reader or curriculum completion state should be advanced until the lesson and its checks exist.
 
@@ -56,7 +58,7 @@ Handles are planning references, not reader front-matter IDs. `F00` means Founda
 | LA | [Linear algebra](02-linear-algebra/_plan.md) | 01–26; LA01–LA08 are authored |
 | OPT | [Optimization](03-optimization/_plan.md) | 01–12; existing 01 and 03–07 expand in place |
 | DS | [DSA](04-dsa/_plan.md) | 02–15; existing 01 is an overview |
-| PS | [Probability/statistics](README.md#probability-and-statistics-build-order) | Actual filename numbers 00–18, not the README list positions |
+| PS | [Probability/statistics](05-probability-statistics/_plan.md) | 00–29; 00–18 authored, 19–29 new; use handles, not README list positions |
 | IL | [Information/learning/decisions](06-information-learning-decision/_plan.md) | 02–15 |
 | ML | [Classical ML](07-classical-ml/_plan.md) | 02–16 |
 | PT | [PyTorch](08-pytorch/_plan.md) | 02–15 |
@@ -67,7 +69,7 @@ Handles are planning references, not reader front-matter IDs. `F00` means Founda
 | APP | [Practical AI Systems](13-agentic-systems/_plan.md) | 02–15 |
 | RP | [Research Practice](14-research-practice/_plan.md) | 01–12 |
 
-**Resolve prerequisites literally.** Follow each module map, including forward-numbered dependencies and cross-track gates. A range in the route sketches below describes a destination sequence, not permission to omit its prerequisites. An existing overview alone does not satisfy a detailed gate. Where LA's prose write order differs from its stated prerequisites (notably LA11/LA12), honor the prerequisite or explicitly revise it when authoring; do not silently require an untaught algorithm.
+**Resolve prerequisites literally.** Follow each module map, including forward-numbered dependencies and cross-track gates. A range in the route sketches below describes a destination sequence, not permission to omit its prerequisites. An existing overview alone does not satisfy a detailed gate. LA12 now depends on LA10 and OPT02 and can precede LA11; the earlier write-order conflict is resolved. LA18 requires tensor/block algebra and statistical Fisher prerequisites, and research units have explicit dependencies. In probability, PS23 precedes PS22 in study order. Honor these maps; numbers reserve filenames, not a universal reading order. Front-matter migrations are separate future authoring work.
 
 **Shared entry route.** Diagnose F00–F03, PY02–PY07, and DS02–DS05. Develop LA01–LA08 and OPT01–OPT03 alongside PS00–PS06. PS05 unlocks stochastic optimization; OPT06 and PT02–PT09 unlock reliable neural training. Read RP01 early; RP02–RP04 follow the required inference/design units. Use ML02–ML05 for transparent baselines and DL02–DL07 for a first neural model, completing LA09–LA10 where ridge/conditioning require them.
 
@@ -78,6 +80,8 @@ Handles are planning references, not reader front-matter IDs. `F00` means Founda
 **RS: optimization and learning.** Build toward OPT08–OPT12 and IL06–IL14, with the LA numerical/curvature and probability prerequisites actually used. Choose OPT10 as a bilevel specialization. Integrate one theoretical derivation, one exact toy oracle, and a controlled neural experiment with RP05–RP12.
 
 **RS: representations and generative modeling.** Build toward DL09–DL19 with a selected vision, sequence, diffusion, multimodal, or interpretability branch. Use PS14–PS17 for latent/generative inference, LA19–LA25 for relevant geometry, and IL04 for information objectives. An early branch project can precede the full DL19 synthesis. Success means an explicit mechanism or behavior claim tested with interventions and competing explanations.
+
+**Probability/statistics extensions.** Existing PS00–PS18 remain the base. Add PS19–PS21 for Markov/time-series/event processes; PS23 → PS22 for formal conditional expectation and martingales; PS24 for stochastic calculus/diffusion; PS25 for advanced Monte Carlo; and PS26–PS28 for robust, adaptive, and censored/rare-event inference. PS29 is the evaluation-focused capstone. Select branches by the research question and use the per-unit coverage audit to distinguish already taught material from missing depth.
 
 **RE/RS: RL and post-training.** Build RL03–RL10 first, then RL12–RL16 alongside SYS18–SYS19. Add RL11 for offline/continuous control or RL17–RL18 for planning/test-time compute. Finish RL19–RL20 and RP defense. Success means a verified estimator, valid reward/evaluation channel, and an improvement at a declared interaction or token budget.
 
@@ -106,7 +110,7 @@ Use LA's exact exercise-header grammar, for example:
 **A7 · Core · paper — a counterexample to the claim.**
 ```
 
-Prefixes: `A` paper, `B` NumPy, `C` PyTorch, `M` cumulative, `K` checkpoint. Modes are `paper`, `NumPy`, `PyTorch`, `mixed`, and `gate`; difficulty is Foundation, Core, or Stretch. New answer banks are namespaced per track and unit, such as `pt-05-autograd-vjp-jvp`, so they cannot collide with LA's `01-span` style banks.
+Prefixes: `A` paper, `B` NumPy, `C` PyTorch, `M` cumulative, `K` checkpoint. Modes are `paper`, `NumPy`, `PyTorch`, `mixed`, and `gate`; difficulty is Foundation, Core, or Stretch. New answer banks are namespaced per track and unit, such as `pt-05-autograd-vjp-jvp`, so they cannot collide with LA's `01-span` style banks. LA retains both its eight existing keys and its original reserved 09–26 keys; PS adopts `ps-NN-...` banks when its exercises are integrated. Preserve historical checkpoint difficulty labels supported by the reader when retaining existing LA exercises.
 
 Use one answer entry per exercise in `public/theory/answers/<bank>.js`, carrying `statement`, `plain`, and `solution`; include `fields` for typeable answers (`num`, `vec`, `ratio`, `set`, `choice`) and field-keyed `hints`. Typed checks and hints run offline; written proof assessment uses the explicit solution/rubric. Do not pretend a text-pattern check verifies a proof.
 

@@ -1,461 +1,662 @@
-# Linear algebra track — build plan
+# Linear algebra — build plan
 
-*Written for whoever writes the next module: you in a later session, a collaborator, or a model
-working from this file as its brief. It fixes the format, names every module, and says what each one
-owes the reader. It is not a lesson and is not built into the reader.*
+*An authoring brief in the [shared curriculum format](../_plans.md). Existing coverage is recorded separately from proposed additions. This file is excluded from the lesson reader.*
 
-Eight modules exist. Eighteen do not. This plan exists because the expensive mistakes in a track
-like this are structural — two modules that teach the same thing differently, a theorem used three
-modules before it is proved, an identifier that breaks another track's prerequisites — and those are
-cheap to prevent here and costly to repair later.
+## 1. Target and current state
 
-## 1. What is already fixed
+Develop exact vector-space arguments into numerically trustworthy algorithms, then use them to audit model geometry. The RE route emphasizes stable computation, matrix-free implementation, and measured cost; the RS route emphasizes proof assumptions, invariance, and falsifiable claims about representations. Retain the original 26-module scope and all eight authored lessons. Modules 01–02 now receive full briefs, and every research module receives explicit prerequisites and role-specific gates.
 
-The reader's identifiers, exercise grammar, and answer-bank interfaces are shared contracts.
-The first two modules provide a teaching baseline, not a rigid page template: use new visual
-experiments, prediction/reveal sequences, linked views, and other structures when they make an
-idea easier to understand. Preserve the checkable practice and prerequisite discipline.
+**Coverage audit:** 8 authored lessons, 24 registered browser Python tasks, and 224 hours in current lesson metadata. **Planned scope:** 26 modules and 728 estimated study hours, including the existing 224 hours; 18 modules are new. Existing-module hours are retained as baseline estimates, not an assertion that their expansion work costs nothing. Re-estimate when writing. These are comprehensive curriculum estimates, not a required preparation schedule; count reused capstones only once.
 
-**Authoring freedom (explicit user instruction).** Treat the existing format as a baseline reference,
-not a ceiling. Freely add elements when they aid learning: new visualizations, linked experiments,
-prediction-and-reveal sequences, worked examples, misconception checks, and other pedagogical
-structures. Choose additions for the understanding they enable; retain the shared identifiers,
-checkable exercises, offline hints, and prerequisite contracts.
+**Status vocabulary.** “Authored / expand” means the linked lesson and listed Python tasks exist, with targeted additions or verification still planned. It does not certify complete coverage or external review. “New” means no lesson, bank, figure, or Python task is being claimed as implemented. The module map and detailed briefs distinguish these states.
 
-**The geometry boundary.** Module 1 previews inner products, Gram matrices, and metric changes to support its overlap experiments. Module 2 uses the standard dot product explicitly when proving that the row and null spaces have trivial intersection. Module 3 develops orthogonal complements, general metrics, and projection from those definitions; Module 4 owns Gram–Schmidt and its stability comparison. Earlier numerical previews may use supplied library calls, but must not require implementing untaught later algorithms.
+### Coverage and remaining work
 
-**The reference page format.** Numbered teaching sections, each closing with three practice prompts tagged
-Foundation / Core / Stretch. Interactive figures embedded by a fenced `lab` block naming a registered
-lab. A runnable-labs section linking three stdlib Python exercises. Then one exercise bank in a
-single grammar, a derivations list, a cumulative set, and a six-problem checkpoint.
-
-**The exercise grammar.** Every exercise header reads
-
-```
-**A7 · Core · paper — the three faces of dependence.**
-```
-
-identifier, difficulty, mode, then the name. Modes are `paper`, `NumPy`, `PyTorch`, `mixed`, `gate`.
-Identifier prefixes are `A` by hand, `B` NumPy, `C` PyTorch, `M` cumulative, `K` checkpoint. The build
-fails if a header does not parse or if an identifier has no entry in the answer bank.
-
-**Practice hints are static.** Every practice prompt in Modules 1–8 has an authored `> **Hint:**` paragraph immediately after it, within the same blockquote. The reader turns it into an inline disclosure; it must never require an LLM connection. Continue this convention in new modules. General tutor questions and written-answer marking remain separate features.
-
-**Every exercise is checkable.** One entry per exercise in `public/theory/answers/<bank>.js`:
-`statement`, `plain`, `solution`, plus `fields` wherever an answer is typeable (`num`, `vec`, `ratio`,
-`set`, `choice`) and `hints` keyed by field. Typed answers are graded offline in the browser; written
-arguments are marked against `solution` by whichever model the reader is connected to.
-
-**Identifiers are load-bearing.** Five ids are referenced by other tracks and must survive any
-restructuring, on whichever module ends up carrying that material:
-
-| id | referenced by |
-|---|---|
-| `math.linear-algebra.vectors-spaces-bases` | optimization 01 |
-| `math.linear-algebra.linear-maps-rank` | internal |
-| `math.linear-algebra.projections-least-squares` | optimization 03, probability 11 |
-| `math.linear-algebra.eigen-invariant-subspaces` | optimization 03, 05, probability 04 |
-| `math.linear-algebra.svd-pca` | optimization 06, probability 12 |
-
-New modules take new ids of the form `math.linear-algebra.<slug>`. Never recycle an id for different
-material — a stale prerequisite is silent.
-
-**Validation.** `node scripts/build-theory.mjs && node scripts/check-theory.mjs` must pass, and
-`python -m labs.checks --reference` must be green. The checker enforces catalog freshness, link
-targets, lab registration, reader script loading, exercise grammar, and answer-bank coverage.
-
-## 2. Renames — applied
-
-The two built modules were named for their labs. That reads well on a standalone page and badly in a
-catalogue of forty-three lessons across fourteen tracks, where the title is the only thing a reader
-searching for "elimination" will see. Titles become plainly descriptive; the character moves to the
-opening line, where it belongs.
-
-| File | Was | Becomes |
+| Handle | Current coverage and evidence | Still to add or verify |
 |---|---|---|
-| `01-vectors-spaces-bases.md` | The span workbench — vectors, span, independence and bases | **Vectors, span, independence and bases** |
-| `02-linear-maps-rank.md` → `02-systems-elimination-subspaces.md` | The elimination workbench — systems, rank and the four subspaces | **Systems, elimination and the four fundamental subspaces** |
-| `03-projections-least-squares.md` | Orthogonal projections and least squares *(legacy stub)* | **Inner products, orthogonality, projection and least squares** — Module 3 complete |
-| `04-eigenvalues-invariant-subspaces.md` → `06-eigenvalues-diagonalization.md` | Eigenvalues, eigenvectors and invariant subspaces *(legacy stub)* | rewritten as Module 6 |
-| `05-svd-pca.md` → `08-svd-low-rank.md` | Singular value decomposition and PCA *(legacy stub)* | rewritten as Module 8 |
+| LA01 | [01-vectors-spaces-bases.md](01-vectors-spaces-bases.md). Vector-space axioms, dimension bound, subspaces, bases/coordinates, affine sets, Gram/metric previews, numerical dependence, and three interactive workbenches. | Retain the complete lesson; add an optional local representation-rank audit with scale-sensitive tolerances rather than duplicating the proof sequence. |
+| LA02 | [02-systems-elimination-subspaces.md](02-systems-elimination-subspaces.md). Elimination, rank-nullity, complete solution sets, all four fundamental subspaces, partial-pivot LU, and near-singular experiments. | Add an explicit pivot-growth/local residual audit in the numerical extension; retain the exact-algebra versus tolerance distinction. |
+| LA03 | [03-projections-least-squares.md](03-projections-least-squares.md). General metrics, Cauchy–Schwarz, orthogonal complements, projection theorem, rank-deficient least squares, weighted residuals, and linked geometric experiments. | Extend local comparisons with later QR/SVD implementations once authored; do not teach Gram–Schmidt early or replace the existing metric lab. |
+| LA04 | [04-orthonormal-bases-qr.md](04-orthonormal-bases-qr.md). Classical/modified Gram–Schmidt, reorthogonalization, reduced/complete/metric QR, triangular least-squares solves, and orthogonal initialization. | Reserve full Householder/blocked QR for LA11; add a local comparison of reconstruction and orthogonality errors across matrix scales. |
+| LA05 | [05-determinants-volume.md](05-determinants-volume.md). Multilinear/alternating definition, elimination sign bookkeeping, multiplicativity, QR volume proof, cofactors, and density-volume examples. | Add stable sign/log-absolute-determinant as a local extension in LA11; keep this module's computational examples small. |
+| LA06 | [06-eigenvalues-diagonalization.md](06-eigenvalues-diagonalization.md). Invariant subspaces, characteristic polynomial, real/complex distinctions, defects, matrix powers, transient growth, and qualified power-iteration convergence. | Add Schur decomposition and pseudospectral sensitivity as a bounded LA13 extension; retain the explicit limits of residual convergence. |
+| LA07 | [07-spectral-theorem-quadratic-forms.md](07-spectral-theorem-quadratic-forms.md). Calculus-free symmetric spectral theorem, variational eigenvalue results, Rayleigh/residual identities, PSD/PD geometry, and Cholesky pivot audits. | Add a short complex-Hermitian analogue before complex examples in LA13/LA14; keep probabilistic covariance assumptions in PS04. |
+| LA08 | [08-svd-low-rank.md](08-svd-low-rank.md). Full/reduced/compact SVD, four subspaces, spectral/Frobenius Eckart–Young proofs, centered affine PCA, whitening, and minimum-norm preview. | Preserve PCA in this module and its stable ID; add held-out reconstruction and repeated-singular-value subspace comparisons as local research exercises. |
+| LA09 | No authored lesson. Previewed in LA01–LA08; no dedicated lesson. | Full perturbation/backward-error development; norm controls and scale-aware condition experiments. |
+| LA10 | No authored lesson. Minimum-norm channels previewed in LA08; no full treatment. | Moore–Penrose identities, rank-deficient solves, ridge spectral filters, and explicit implicit-bias conditions. |
+| LA11 | No authored lesson. Small LU, QR, and Cholesky exist; blocked/Householder methods do not. | Householder QR, blocked LU/Cholesky, triangular solves, BLAS cost models, and stable log-determinants. |
+| LA12 | No authored lesson. No dedicated iterative-solver lesson. | Stationary splittings, steepest descent, conjugate gradients, residual stopping, and preconditioners; LA11 is no longer a required predecessor. |
+| LA13 | No authored lesson. Power iteration exists; advanced spectral methods do not. | Lanczos, reorthogonalization, Ritz residuals, real/complex Schur outline, randomized SVD, and spectral-gap sensitivity; a limited pseudospectrum example. |
+| LA14 | No authored lesson. No dedicated sparse/structured lesson. | Sparse storage, fill-in/orderings, matrix-free actions, graph Laplacians, Toeplitz/circulant families, and a complex-DFT bridge. |
+| LA15 | No authored lesson. No dedicated matrix-calculus lesson. | Fréchet derivative/local linearization, shape/layout convention, matrix products, quadratic forms, and softmax derivatives. |
+| LA16 | No authored lesson. No dedicated adjoint lesson. | Adjoint definitions in Euclidean/general metrics, JVP/VJP composition, and mode cost/memory accounting. |
+| LA17 | No authored lesson. No dedicated backpropagation lesson in this track. | Branched graphs, fan-out accumulation, broadcast/reduction adjoints, stable softmax-cross-entropy, and checkpointing cost. |
+| LA18 | No authored lesson. Curvature is previewed in LA07; structured differential treatment is absent. | HVPs, generalized Gauss–Newton, model versus empirical Fisher, natural gradient, and K-FAC approximation assumptions. |
+| LA19 | No authored lesson. No dedicated low-rank model lesson. | Low-rank updates, tangent/reachable sets, adapter composition/merging, rank budgets, and surgery/distillation geometry. |
+| LA20 | No authored lesson. JL is taught probabilistically in PS12; no computational sketching lesson. | Subspace embeddings, sketched least squares, leverage/coherence effects, and held-out distortion diagnostics. |
+| LA21 | No authored lesson. Basic matrix shape notation exists; no multilinear unit. | Tensor products and multilinear maps, einsum semantics, contraction order, logical reshape versus storage, and explicit cost models. |
+| LA22 | No authored lesson. Attention-related overlap examples appear early; no full algebraic treatment. | QK/OV composition, bilinear forms, pre-softmax score-rank bounds, softmax rank changes, positional structure, and multi-head gauge freedoms. |
+| LA23 | No authored lesson. Block notation is used in Gaussian lessons; no dedicated algebraic derivation. | Vectorization conventions, Kronecker identities/spectra, block elimination, Schur complements, and structured solve costs. |
+| LA24 | No authored lesson. Spectral basics and an MP preview exist; no trained-model audit. | Random-matrix null assumptions, spectral normalization/centering, singular versus covariance spectra, Lipschitz bounds, and qualified edge-of-stability studies. |
+| LA25 | No authored lesson. LA01 establishes the dimension/interference motivation; no dedicated recovery or dictionary unit. | Coherence, sparse identifiability, RIP as a sufficient condition, recovery objectives, dictionary symmetries, and sparse autoencoder diagnostics. |
+| LA26 | No authored lesson. No integrated capstone lesson or report template. | A reproducible audit combining rank, spectra, subspace comparisons, and an ablation predicted by the algebra. |
 
-These renames are done; the table records what moved. Ids stayed put. Filenames follow the module number, so renaming a file means updating `content/README.md`
-and any relative links; the checker catches the links, not the README. Answer-bank keys follow the
-file: `01-span`, `02-elimination`, then `03-projection`, `04-qr`, and so on.
+## 2. Teaching and authoring contract
 
-## 3. The twenty-six modules
+LA01–LA08 already have numbered practice with static hints, three registered Python tasks each, registered interactive figures, and answer banks `01-span` through `08-svd`. Preserve those bank keys and the original reserved keys for LA09–LA26; do not rename them to the newer track-prefix convention. Preserve the existing exercise grammar, including historical checkpoint difficulty labels accepted by the reader. The remaining 18 modules have briefs only. Existing figures and functions are identified explicitly below; future figures, even when their names appeared in the old plan, remain unimplemented.
 
-Six parts. Each part has a thesis; each module has a spine of two to five results it exists to
-establish, and everything else in it is scaffolding for those.
+Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_plans.md#4-shared-lesson-authoring-contract). Numbered teaching sections end with Foundation / Core / Stretch practice and static hints. Each lesson develops a finite or geometric example before abstraction, states theorem assumptions, includes a prediction/reveal experiment with a failure preset, and closes with derivations, cumulative practice, and the six-part checkpoint. Each module also has separate RE and RS evidence gates below. Authoring freedom remains: add linked views, examples, and misconception checks whenever they improve understanding.
 
-| # | Module | Part | Hours |
-|---|---|---|---|
-| 1 | Vectors, span, independence and bases | I · Structure | 30 ✅ |
-| 2 | Systems, elimination and the four fundamental subspaces | I | 28 ✅ |
-| 3 | Inner products, orthogonality, projection and least squares | II · Geometry | 30 ✅ |
-| 4 | Orthonormal bases, Gram–Schmidt and QR | II | 24 ✅ |
-| 5 | Determinants as signed volume | II | 20 ✅ |
-| 6 | Eigenvalues, invariant subspaces and diagonalization | II | 30 ✅ |
-| 7 | Symmetric matrices, the spectral theorem and quadratic forms | II | 28 ✅ |
-| 8 | The SVD: geometry, rank, low-rank approximation and PCA | III · Decomposition | 34 ✅ |
-| 9 | Norms, conditioning and numerical stability | III | 26 |
-| 10 | The pseudoinverse, regularization and rank-deficient problems | III | 26 |
-| 11 | Direct solvers at scale: Cholesky, blocking and the memory hierarchy | IV · Numerical | 26 |
-| 12 | Iterative solvers: splittings, steepest descent and conjugate gradients | IV | 30 |
-| 13 | Krylov and randomized methods for eigenproblems | IV | 30 |
-| 14 | Sparse and structured matrices, matrix-free operators | IV | 24 |
-| 15 | Matrix calculus I: derivatives, layouts and Jacobians | V · Calculus | 28 |
-| 16 | Matrix calculus II: the chain rule as composition, and adjoints | V | 28 |
-| 17 | Backpropagation as adjoint accumulation | V | 30 |
-| 18 | Second-order structure: Hessian, Gauss–Newton, Fisher, K-FAC | V | 32 |
-| 19 | Low-rank structure in trained models | VI · Research | 26 |
-| 20 | Random projections, sketching and randomized numerical linear algebra | VI | 28 |
-| 21 | Tensors as multilinear maps: contraction, einsum and cost | VI | 26 |
-| 22 | Attention as a bilinear form | VI | 28 |
-| 23 | Kronecker and block structure | VI | 24 |
-| 24 | Spectra of trained networks | VI | 30 |
-| 25 | Superposition geometry and dictionary learning | VI | 32 |
-| 26 | Capstone: a linear-algebra audit of a real model | VI | 30 |
+**Identifiers and dependencies.** Handles `LANN` are planning references. Preserve every existing filename, content ID, lab/task ID, and bank key. New content IDs use `math.linear-algebra.<slug>` unless explicitly specified; filenames use the reserved two-digit number and slug. Future IDs and bank names below are reservations, not registrations. Module-map prerequisites govern the proposed teaching route; additional or revised prerequisites on authored lessons are planning changes only until their front matter and inbound references are deliberately migrated.
 
-Total ≈ 730 hours of study; the eight built modules are 224 of them.
+**Ownership boundary.** LA01 previews dot products and Gram matrices; LA02 uses the standard dot product for subspace intersection arguments; LA03 owns general inner products and orthogonal projection; LA04 owns Gram–Schmidt. Early numerical previews may call supplied routines but must not require implementing later algorithms. LA15–LA18 own matrix derivatives and adjoint/curvature identities; Optimization owns convergence and update algorithms. PS12 owns concentration/JL probability, LA20 owns computational sketching; PS04 owns Gaussian conditioning, LA23 owns Schur-complement algebra; DL16 owns neural interpretability experiments, LA25 owns sparse geometry.
 
-### Part II · Geometry (3–7)
+## 3. Module map
 
-*Thesis: add an inner product and every structural fact from Part I acquires a picture — and a new
-class of failure, because the picture depends on a choice.*
+| Handle | Module | Status | Hours | Prerequisites |
+|---|---|---|---:|---|
+| LA01 | Vectors, span, independence, and bases | Authored / expand | 30 | F00 |
+| LA02 | Systems, elimination, and the four subspaces | Authored / expand | 28 | LA01 |
+| LA03 | Inner products, projection, and least squares | Authored / expand | 30 | LA02 |
+| LA04 | Orthonormal bases, Gram–Schmidt, and QR | Authored / expand | 24 | LA03 |
+| LA05 | Determinants as signed volume | Authored / expand | 20 | LA04 |
+| LA06 | Eigenvalues, invariant subspaces, and diagonalization | Authored / expand | 30 | LA05 |
+| LA07 | Spectral theorem and quadratic forms | Authored / expand | 28 | LA06 |
+| LA08 | SVD, low-rank approximation, and PCA | Authored / expand | 34 | LA07 |
+| LA09 | Norms, conditioning, and numerical stability | New | 26 | LA08, F01 |
+| LA10 | Pseudoinverse and regularization | New | 26 | LA09 |
+| LA11 | Direct solvers and memory-aware factorization | New | 26 | LA10, PY06 |
+| LA12 | Iterative solvers and preconditioning | New | 30 | LA10, OPT02 |
+| LA13 | Krylov, Schur, and randomized spectral methods | New | 30 | LA12, PS12 |
+| LA14 | Sparse and structured matrices | New | 24 | LA11, LA13, DS06 |
+| LA15 | Matrix calculus I: derivatives and Jacobians | New | 28 | LA10, OPT01 |
+| LA16 | Matrix calculus II: chain rule and adjoints | New | 28 | LA15 |
+| LA17 | Backpropagation as adjoint accumulation | New | 30 | LA16, PY06 |
+| LA18 | Second-order structure and natural geometry | New | 32 | LA17, LA23, PS11 |
+| LA19 | Low-rank structure in trained models | New | 26 | LA10, LA17 |
+| LA20 | Random projections and sketching | New | 28 | LA10, PS12 |
+| LA21 | Tensors, contractions, and memory layout | New | 26 | LA08, PY06 |
+| LA22 | Attention as a bilinear map | New | 28 | LA21, LA16 |
+| LA23 | Kronecker products, block matrices, and Schur complements | New | 24 | LA10, LA21 |
+| LA24 | Spectra of trained networks | New | 30 | LA13, PS12, OPT05 |
+| LA25 | Superposition, compressed sensing, and dictionary learning | New | 32 | LA20, LA17, OPT07 |
+| LA26 | Capstone: a linear-algebra audit of a model | New | 30 | LA19, LA22, LA24, LA25, RP04 |
 
-**Module 3 — Inner products, orthogonality, projection and least squares**
-`id: math.linear-algebra.projections-least-squares` · prereq: 2 · 30h · bank `03-projection`
-Spine: the inner product axioms and the \(G\)-metric as a choice; orthogonal complements and
-\(N(A)\perp C(A^{\mathsf T})\), developing the right-angled four-subspace picture previewed in
-Module 2 §§6–7; the projection theorem and the normal equations; least squares as projection onto the
-column space.
-Labs: `la-project` (drag a vector and a line/plane, watch the projection and residual, toggle the
-\(G\)-metric to see "orthogonal" change meaning); `la-lsq` (drag data points, watch the fitted line,
-the residual vector and \(\|r\|^2\) live); reuse `la-map`.
-Python: `project_onto` (projection matrix from a basis, stdlib), `normal_equations` (solve by
-elimination and report the residual), `gram_metric` (inner product under \(G\), reject non-PD \(G\)).
-ML anchor: cosine similarity is a choice of \(G\); why the normal equations square the conditioning.
-Checkpoint theme: state what the four-subspace diagram assumes and prove one of its two orthogonality
-claims.
-Built extensions: a candidate-versus-projection experiment exposing the excess-error identity,
-prediction/reveal prompts, and linked data/observation-space views for three-point regression.
-The shared `plot3.js` supplies orthographic vector/plane drawing and a draggable camera.
+## 4. Detailed module briefs
 
-**Module 4 — Orthonormal bases, Gram–Schmidt and QR**
-`id: …orthonormal-bases-qr` · prereq: 3 · 24h · bank `04-qr`
-Spine: orthonormal bases make coordinates free (\(c=Q^{\mathsf T}v\)); Gram–Schmidt and its modified
-form; QR existence and uniqueness; least squares by QR rather than the normal equations.
-Labs: `la-gramschmidt` (drag two or three vectors, watch each projection subtracted in sequence, with
-a near-dependent preset that visibly breaks the classical version).
-Python: `gram_schmidt` (classical and modified, returning both so the student compares), `qr_solve`,
-`orthogonality_defect` (max off-diagonal of \(Q^{\mathsf T}Q\)).
-ML anchor: orthogonal initialization; why QR is the stable path to least squares.
-Built extensions: a step-by-step subtraction view paired with completed CGS/MGS directions,
-float32/float64 arithmetic switching, and separate overlap, normalization, and reconstruction audits.
-The solver lab uses two-pass MGS and accumulates corrections into R; dense library Householder QR
-is distinguished from these teaching algorithms.
+### Part I · Structure
 
-**Module 5 — Determinants as signed volume**
-`id: …determinants-volume` · prereq: 4 · 20h · bank `05-determinant`
-Spine: the three defining properties (multilinear, alternating, normalized) and why they force
-uniqueness; \(\det(AB)=\det A\det B\); volume scaling and orientation; the change-of-variables
-Jacobian factor as the reason this matters at all.
-Labs: `la-det` (drag the columns of a 2×2 or 3×3, watch signed area/volume, orientation flip, and the
-cofactor expansion as a decomposition of the parallelepiped).
-Python: `det_by_elimination` (track the sign through swaps), `volume_ratio`, `cofactor_2x2`.
-Honest framing: determinants are pedagogically central and computationally marginal — say so, and
-point at \(\log|\det|\) in normalizing flows as where they do earn their keep.
-Built extensions: separate draggable 2D/3D cells, signed coordinate-piece overlays, equal-mass
-markers with inverse-density readout, exact-collapse versus thin presets, and keyboard matrix entry.
-The Python determinant tracks swaps without an absolute rank cutoff; the volume task tests
-a nonstandard source cell. The chapter separates exact algebra, floating-point evidence, and
-the calculus assumptions behind density changes.
+*Thesis: coordinates describe a vector, while subspaces and rank describe what a map can do.*
 
-**Module 6 — Eigenvalues, invariant subspaces and diagonalization**
-`id: math.linear-algebra.eigen-invariant-subspaces` · prereq: 5 · 30h · bank `06-eigen`
-Spine: invariant subspaces as the real object, eigenvectors as the one-dimensional case; the
-characteristic polynomial and why it is the wrong computational tool; diagonalizability, defective
-matrices and the Jordan story stated without proof; \(A^k\) and the dynamics of iteration.
-Labs: `la-eigen` (drag a 2×2's columns, see the image of the unit circle, the eigenvector directions
-appearing as the fixed rays, complex pairs shown as rotation); `la-power` (iterate \(x\mapsto Ax/\|Ax\|\)
-and watch convergence to the dominant direction, with a preset where the top two eigenvalues are close).
-Python: `power_iteration` (with a convergence report), `char_poly_2x2`, `is_diagonalizable_2x2`.
-ML anchor: the spectral radius as the stability criterion for recurrence; why repeated multiplication
-by the same matrix explains exploding and vanishing gradients.
-Built extensions: a probe-and-reveal eigenline hunt with draggable columns and keyboard entry;
-linked normalized-direction and raw-log-length histories exposing sign flips, close eigenvalues,
-missed dominant components, rotation, annihilation, and stable transient growth. The Python solver
-reports residual convergence without certifying dominance; real 2×2 diagonalizability uses exact
-integer arithmetic to avoid presenting a floating-point tolerance as a multiplicity theorem.
-The chapter distinguishes real and complex diagonalization, states Jordan existence without proof,
-and reserves the spectral theorem and quadratic forms for Module 7.
+**Module 01 — Vectors, span, independence, and bases**
 
-**Module 7 — Symmetric matrices, the spectral theorem and quadratic forms**
-`id: …spectral-theorem-quadratic-forms` · prereq: 6 · 28h · bank `07-spectral`
-Spine: the spectral theorem \(A=Q\Lambda Q^{\mathsf T}\); the Rayleigh quotient and the variational
-characterization of eigenvalues; quadratic forms, level sets and positive definiteness; Cholesky as
-the computational test.
-Labs: `la-quadform` (drag the eigenvalues of a symmetric 2×2, watch level sets go from ellipses to
-hyperbolas to degenerate, with the Rayleigh quotient traced as a point moves round the circle).
-Python: `rayleigh_quotient`, `cholesky` (and a clean failure on an indefinite matrix), `is_pd`.
-ML anchor: covariance matrices, the Hessian's eigenvalues as curvature, and PD as the condition
-for a strictly convex quadratic bowl (not a prerequisite for every optimizer or minimum).
-Built extensions: a calculus-free sphere-maximization proof; variational min–max and residual
-identities; linked conic level sets, a draggable unit probe, and a full directional Rayleigh trace;
-exact flat/saddle/zero presets; a computed Cholesky pivot audit; and the distinction between a
-flat quadratic with compatible linear term and an unbounded tilted valley. The Python tests use
-a documented relative pivot cutoff and distinguish invalid data from numerical non-acceptance.
+`handle: LA01` · `id: math.linear-algebra.vectors-spaces-bases` · 30h · prerequisites: F00 · existing bank: `01-span`
 
-### Part III · Decomposition and conditioning (8–10)
+**Already covered:** Vector-space axioms, dimension bound, subspaces, bases/coordinates, affine sets, Gram/metric previews, numerical dependence, and three interactive workbenches.
 
-*Thesis: one factorization subsumes the geometry of Parts I–II and quantifies how much of it survives
-floating point.*
+**Add or verify:** Retain the complete lesson; add an optional local representation-rank audit with scale-sensitive tolerances rather than duplicating the proof sequence.
 
-**Module 8 — The SVD: geometry, rank and low-rank approximation**
-`id: math.linear-algebra.svd-pca` · prereq: 7 · 34h · bank `08-svd`
-Spine: every real matrix is an orthogonal input-coordinate change, a rectangular nonnegative scaling,
-and an orthogonal output-coordinate change (orthogonal factors may include reflections); singular values and vectors; the four
-subspaces read straight off \(U\) and \(V\); Eckart–Young; PCA as the SVD of a centred data matrix.
-Labs: `la-svd` (drag a 2×2, see the unit circle map to an ellipse with the singular vectors drawn, and
-the rank-1 truncation shown against the original); `la-approx` (a small image or matrix heatmap
-reconstructed at increasing rank, with the error curve beside it).
-Python: `svd_2x2` (closed form via the eigenvectors of \(A^{\mathsf T}A\)), `truncate_rank`,
-`explained_variance`.
-ML anchor: numerical rank versus mathematical rank; what a decaying spectrum does and does not say
-about a layer; PCA whitening and its effect on the geometry of representations.
-Built from scratch rather than extending the legacy stub. The chapter proves both spectral and
-Frobenius Eckart–Young bounds, distinguishes full/reduced/compact factors and omitted null directions,
-and derives centered PCA as an affine reconstruction problem. Built extensions: paired input/output
-views with draggable matrix columns and rank-one deletion; fixed-scale original/reconstruction/residual
-heatmaps and a rank-error curve; draggable PCA observations with a candidate-versus-optimal line,
-centering switch, and isotropic/identical-point failure cases. A short minimum-norm channel derivation
-preserves the optimization track's inbound reference; Module 10 still owns the full pseudoinverse.
-The new shared chartkit and heatkit support later modules, and svdkit provides explicitly limited
-2×2 teaching geometry. Python tasks cover scaled 2×2 factors, rectangular truncation, and squared
-variance accounting, including undefined zero-total ratios.
+**Existing artifacts:** [01-vectors-spaces-bases.md](01-vectors-spaces-bases.md); registered Python tasks: `span` → `span_coordinates`, `dependence` → `dependency_relation`, `coordinates` → `basis_coordinates`. Registered lesson figures: `la-vectors`, `la-span`, `la-basis`.
 
-**Module 9 — Norms, conditioning and numerical stability**
-`id: …norms-conditioning-stability` · prereq: 8 · 26h · bank `09-conditioning`
-Spine: vector and matrix norms, induced norms, \(\|A\|_2=\sigma_1\); the condition number and the
-perturbation bound; backward stability as the right standard for an algorithm; catastrophic
-cancellation.
-Labs: `la-norms` (unit balls in \(\ell^1,\ell^2,\ell^\infty\) and the image of each under a dragged
-matrix, with the induced norm read off); `la-condition` (perturb \(b\) and watch \(x\) move, with the
-amplification measured against \(\kappa\)).
-Python: `matrix_norm_1_inf`, `condition_estimate` (power iteration on \(A^{\mathsf T}A\)),
-`cancellation_demo`.
-ML anchor: float32 versus float64 in training; why the loss going to NaN is sometimes a conditioning
-story; gradient clipping as a norm constraint.
+**Spine and derivations:** Prove the dimension bound and basis-coordinate uniqueness; distinguish vectors from coordinates and exact dependence from a numerical rank decision.
 
-**Module 10 — The pseudoinverse, regularization and rank-deficient problems**
-`id: …pseudoinverse-regularization` · prereq: 9 · 26h · bank `10-pseudoinverse`
-Spine: the Moore–Penrose pseudoinverse and its four defining properties; the minimum-norm solution;
-ridge regression as a spectral filter and its geometry; the bias–variance reading of shrinkage.
-Labs: `la-ridge` (drag the ridge parameter and watch coefficients shrink along the spectrum, with the
-near-collinear preset where two coefficients trade off wildly).
-Python: `pinv_via_svd`, `ridge_solve`, `min_norm_solution`.
-ML anchor: weight decay as ridge; why an overparameterized interpolating solution is the minimum-norm
-one, and what that implies about implicit regularization.
+**Interactive experiment:** Existing la-vectors, la-span, and la-basis: drag generators, change basis/metric, and compare exact collapse with near dependence.
 
-### Part IV · Numerical linear algebra (11–14)
+**Implementation ladder:** Keep span_coordinates, dependency_relation, and basis_coordinates. Extend local checks to rescaled inputs and dimension-limited embedding examples.
 
-*Thesis: everything above assumed you could compute it. At scale you cannot, and the algorithms that
-replace exact solves have their own geometry.*
+**RE gate:** Explain a rank verdict and show how rescaling changes an inappropriate absolute tolerance.
 
-**Module 11 — Direct solvers at scale** `id: …direct-solvers-scale` · prereq: 10 · 26h · `11-direct`
-Spine: Cholesky for symmetric positive definite systems and its cost; blocked LU and QR; BLAS levels
-and why level-3 dominates; the memory hierarchy as the actual constraint.
-Labs: `la-blocking` (an animated blocked factorization showing which submatrix is touched when, with
-an operation counter).
-Python: `cholesky_blocked` (small blocks, stdlib), `flop_count`, `triangular_solve`.
+**RS gate:** Prove a dimension claim and explain why small pairwise overlap does not imply independence.
 
-**Module 12 — Iterative solvers** `id: …iterative-solvers-cg` · prereq: 11 · 30h · `12-iterative`
-Spine: splitting methods and their convergence condition; steepest descent on a quadratic and its
-zig-zag; conjugate gradients as \(A\)-orthogonal search directions; preconditioning as a change of
-metric.
-Labs: `la-descent` (drag the condition number of a 2D quadratic and watch steepest descent zig-zag
-while CG finishes in two steps); `la-precondition` (the same problem after a metric change).
-Python: `jacobi_iteration`, `conjugate_gradient`, `residual_history`.
-ML anchor: gradient descent is steepest descent on a local quadratic; momentum and preconditioning as
-the same idea seen twice; why Adam is a diagonal preconditioner.
 
-**Module 13 — Krylov and randomized methods for eigenproblems**
-`id: …krylov-randomized-eigen` · prereq: 12 · 30h · `13-krylov`
-Spine: the Krylov subspace; Lanczos for symmetric problems; the QR algorithm in outline; randomized
-range finding and the randomized SVD with its error bound.
-Labs: `la-krylov` (watch the Krylov subspace grow and the Ritz values converge to the extreme
-eigenvalues first); `la-randsvd` (sketch size versus approximation error).
-Python: `lanczos_tridiag`, `randomized_range_finder`, `ritz_values`.
+**Module 02 — Systems, elimination, and the four subspaces**
 
-**Module 14 — Sparse and structured matrices** `id: …sparse-structured` · prereq: 13 · 24h · `14-sparse`
-Spine: sparsity patterns and fill-in; matrix-free operators — you need the action, not the matrix;
-graph Laplacians and what their spectrum says; structured families (Toeplitz, circulant, and the FFT
-connection).
-Labs: `la-graph` (drag a small graph, see the Laplacian and its Fiedler vector partition the nodes).
-Python: `sparse_matvec` (dictionary-of-keys), `laplacian_from_edges`, `fiedler_vector`.
+`handle: LA02` · `id: math.linear-algebra.linear-maps-rank` · 28h · prerequisites: LA01 · existing bank: `02-elimination`
 
-### Part V · Calculus on matrices (15–18)
+**Already covered:** Elimination, rank-nullity, complete solution sets, all four fundamental subspaces, partial-pivot LU, and near-singular experiments.
 
-*Thesis: the derivative of a map between vector spaces is a linear map, and backpropagation is what
-you get when you take that seriously.*
+**Add or verify:** Add an explicit pivot-growth/local residual audit in the numerical extension; retain the exact-algebra versus tolerance distinction.
 
-**Module 15 — Matrix calculus I** `id: …matrix-calculus-jacobians` · prereq: 10 · 28h · `15-calculus`
-Spine: the derivative as the best linear approximation; Jacobians; numerator versus denominator
-layout stated once and then held; derivatives of the maps that actually occur (\(Ax\), \(x^{\mathsf T}Ax\),
-\(\|x\|^2\), softmax, a matrix product).
-Labs: `la-jacobian` (drag an input point, see the local linearization of a nonlinear 2D map as the
-image of a small circle becoming an ellipse).
-Python: `numeric_jacobian` (central differences), `jacobian_check` (compare an analytic Jacobian
-against the numeric one — the gradient check every practitioner should be able to write).
+**Existing artifacts:** [02-systems-elimination-subspaces.md](02-systems-elimination-subspaces.md); registered Python tasks: `echelon` → `row_echelon`, `solve-complete` → `solve_complete`, `lu` → `lu_factor`. Registered lesson figures: `la-elim`, `la-picture`, `la-map`.
 
-**Module 16 — Matrix calculus II: composition and adjoints**
-`id: …chain-rule-adjoints` · prereq: 15 · 28h · `16-adjoints`
-Spine: the chain rule as composition of linear maps; the adjoint of a linear map and why the
-transpose appears; JVP versus VJP; the cost asymmetry that decides forward versus reverse mode.
-Labs: `la-vjp` (a three-layer chain drawn as maps, with the forward and reverse passes animated and
-their costs counted).
-Python: `jvp_chain`, `vjp_chain`, `mode_cost` (operation counts for both modes given layer shapes).
+**Spine and derivations:** Derive solution existence/uniqueness and null-space parameterization; prove rank-nullity and the standard-dot-product row/null orthogonality.
+
+**Interactive experiment:** Existing la-elim, la-picture, and la-map: step through elimination and vary a matrix between full rank, near singular, and exact collapse.
+
+**Implementation ladder:** Keep row_echelon, solve_complete, and lu_factor; compare PA with LU and check residuals for consistent and inconsistent systems.
+
+**RE gate:** Return a complete solution description and diagnose a tolerance-induced rank mistake.
+
+**RS gate:** Prove why arbitrary pivot choices preserve exact solution sets but not necessarily numerical behavior.
+
+
+### Part II · Geometry
+
+*Thesis: an inner product turns algebraic structure into projection and metric-dependent statements.*
+
+**Module 03 — Inner products, projection, and least squares**
+
+`handle: LA03` · `id: math.linear-algebra.projections-least-squares` · 30h · prerequisites: LA02 · existing bank: `03-projection`
+
+**Already covered:** General metrics, Cauchy–Schwarz, orthogonal complements, projection theorem, rank-deficient least squares, weighted residuals, and linked geometric experiments.
+
+**Add or verify:** Extend local comparisons with later QR/SVD implementations once authored; do not teach Gram–Schmidt early or replace the existing metric lab.
+
+**Existing artifacts:** [03-projections-least-squares.md](03-projections-least-squares.md); registered Python tasks: `project-onto` → `project_onto`, `normal-equations` → `normal_equations`, `gram-metric` → `gram_metric`. Registered lesson figures: `la-map`, `la-project`, `la-lsq`.
+
+**Spine and derivations:** Prove projection existence/uniqueness in finite dimensions, normal equations, the excess-error identity, and uniqueness of fitted values despite nonunique coefficients.
+
+**Interactive experiment:** Existing la-project/la-lsq and reused la-map: vary candidate projection and metric, inspect residual orthogonality and degenerate design matrices.
+
+**Implementation ladder:** Keep project_onto, normal_equations, and gram_metric; use small exact cases and invalid/non-PD metric inputs.
+
+**RE gate:** Explain why a correct normal-equation formula may be a poor solver.
+
+**RS gate:** Distinguish orthogonality under different metrics and prove the least-squares optimality condition.
+
+**Implementation notes retained:** a candidate-versus-projection experiment exposing the excess-error identity, prediction/reveal prompts, and linked data/observation-space views for three-point regression. The shared `plot3.js` supplies orthographic vector/plane drawing and a draggable camera.
+
+
+**Module 04 — Orthonormal bases, Gram–Schmidt, and QR**
+
+`handle: LA04` · `id: math.linear-algebra.orthonormal-bases-qr` · 24h · prerequisites: LA03 · existing bank: `04-qr`
+
+**Already covered:** Classical/modified Gram–Schmidt, reorthogonalization, reduced/complete/metric QR, triangular least-squares solves, and orthogonal initialization.
+
+**Add or verify:** Reserve full Householder/blocked QR for LA11; add a local comparison of reconstruction and orthogonality errors across matrix scales.
+
+**Existing artifacts:** [04-orthonormal-bases-qr.md](04-orthonormal-bases-qr.md); registered Python tasks: `gram-schmidt` → `gram_schmidt`, `qr-solve` → `qr_solve`, `orthogonality-defect` → `orthogonality_defect`. Registered lesson figures: `la-gramschmidt`.
+
+**Spine and derivations:** Derive Gram–Schmidt and QR, state full-rank and sign conventions for uniqueness, and derive least squares through a triangular system.
+
+**Interactive experiment:** Existing la-gramschmidt: vary near dependence and float precision; inspect normalization, overlap, and reconstruction independently.
+
+**Implementation ladder:** Keep gram_schmidt, qr_solve, and orthogonality_defect; compare classical, modified, and two-pass variants.
+
+**RE gate:** Diagnose a factorization with a small residual but poor orthogonality.
+
+**RS gate:** Explain the difference between exact QR existence and numerical stability of a specific construction.
+
+**Implementation notes retained:** a step-by-step subtraction view paired with completed CGS/MGS directions, float32/float64 arithmetic switching, and separate overlap, normalization, and reconstruction audits. The solver lab uses two-pass MGS and accumulates corrections into R; dense library Householder QR is distinguished from these teaching algorithms.
+
+
+**Module 05 — Determinants as signed volume**
+
+`handle: LA05` · `id: math.linear-algebra.determinants-volume` · 20h · prerequisites: LA04 · existing bank: `05-determinant`
+
+**Already covered:** Multilinear/alternating definition, elimination sign bookkeeping, multiplicativity, QR volume proof, cofactors, and density-volume examples.
+
+**Add or verify:** Add stable sign/log-absolute-determinant as a local extension in LA11; keep this module's computational examples small.
+
+**Existing artifacts:** [05-determinants-volume.md](05-determinants-volume.md); registered Python tasks: `det-by-elimination` → `det_by_elimination`, `volume-ratio` → `volume_ratio`, `cofactor-2x2` → `cofactor_2x2`. Registered lesson figures: `la-det`.
+
+**Spine and derivations:** Derive uniqueness from the determinant axioms, det(AB), orientation/volume scaling, and the limited change-of-variables preview.
+
+**Interactive experiment:** Existing la-det: drag 2D/3D cells, compare thin versus collapsed shapes, and inspect inverse-density readouts.
+
+**Implementation ladder:** Keep det_by_elimination, volume_ratio, and cofactor_2x2; test nonstandard source cells and swap signs.
+
+**RE gate:** Choose a determinant representation that does not overflow and avoid using its magnitude as a rank test.
+
+**RS gate:** Distinguish an algebraic volume identity from the calculus hypotheses needed for a density transformation.
+
+**Implementation notes retained:** separate draggable 2D/3D cells, signed coordinate-piece overlays, equal-mass markers with inverse-density readout, exact-collapse versus thin presets, and keyboard matrix entry. The Python determinant tracks swaps without an absolute rank cutoff; the volume task tests a nonstandard source cell. The chapter separates exact algebra, floating-point evidence, and the calculus assumptions behind density changes.
+
+
+**Module 06 — Eigenvalues, invariant subspaces, and diagonalization**
+
+`handle: LA06` · `id: math.linear-algebra.eigen-invariant-subspaces` · 30h · prerequisites: LA05 · existing bank: `06-eigen`
+
+**Already covered:** Invariant subspaces, characteristic polynomial, real/complex distinctions, defects, matrix powers, transient growth, and qualified power-iteration convergence.
+
+**Add or verify:** Add Schur decomposition and pseudospectral sensitivity as a bounded LA13 extension; retain the explicit limits of residual convergence.
+
+**Existing artifacts:** [06-eigenvalues-diagonalization.md](06-eigenvalues-diagonalization.md); registered Python tasks: `power-iteration` → `power_iteration`, `char-poly-2x2` → `char_poly_2x2`, `diagonalizable-2x2` → `is_diagonalizable_2x2`. Registered lesson figures: `la-eigen`, `la-power`.
+
+**Spine and derivations:** Prove diagonalization criteria in stated cases; derive power iteration under a spectral gap and nonzero dominant component; contrast spectral radius with transient amplification.
+
+**Interactive experiment:** Existing la-eigen/la-power: edit eigenlines, sign flips, rotations, annihilation, missed dominant components, and nearly tied eigenvalues.
+
+**Implementation ladder:** Keep power_iteration, char_poly_2x2, and is_diagonalizable_2x2 with its exact-integer small-case contract.
+
+**RE gate:** Interpret a small eigenpair residual without claiming dominance or a multiplicity theorem.
+
+**RS gate:** Construct a nonnormal matrix with transient growth despite asymptotic decay.
+
+**Implementation notes retained:** a probe-and-reveal eigenline hunt with draggable columns and keyboard entry; linked normalized-direction and raw-log-length histories exposing sign flips, close eigenvalues, missed dominant components, rotation, annihilation, and stable transient growth. The Python solver reports residual convergence without certifying dominance; real 2×2 diagonalizability uses exact integer arithmetic to avoid presenting a floating-point tolerance as a multiplicity theorem. The chapter distinguishes real and complex diagonalization, states Jordan existence without proof, and reserves the spectral theorem and quadratic forms for Module 7.
+
+
+**Module 07 — Spectral theorem and quadratic forms**
+
+`handle: LA07` · `id: math.linear-algebra.spectral-theorem-quadratic-forms` · 28h · prerequisites: LA06 · existing bank: `07-spectral`
+
+**Already covered:** Calculus-free symmetric spectral theorem, variational eigenvalue results, Rayleigh/residual identities, PSD/PD geometry, and Cholesky pivot audits.
+
+**Add or verify:** Add a short complex-Hermitian analogue before complex examples in LA13/LA14; keep probabilistic covariance assumptions in PS04.
+
+**Existing artifacts:** [07-spectral-theorem-quadratic-forms.md](07-spectral-theorem-quadratic-forms.md); registered Python tasks: `rayleigh-quotient` → `rayleigh_quotient`, `cholesky` → `cholesky`, `is-pd` → `is_pd`. Registered lesson figures: `la-quadform`.
+
+**Spine and derivations:** Prove the real symmetric spectral theorem, characterize quadratic signs and Rayleigh extrema, and derive Cholesky for positive-definite matrices.
+
+**Interactive experiment:** Existing la-quadform: drag eigenvalues and a unit probe; compare bounded bowls, flat compatible valleys, tilted unbounded valleys, and saddles.
+
+**Implementation ladder:** Keep rayleigh_quotient, cholesky, and is_pd, preserving documented relative pivot cutoffs.
+
+**RE gate:** Distinguish invalid input, mathematical indefiniteness, and numerical non-acceptance.
+
+**RS gate:** Explain why PSD curvature alone does not imply a unique minimizer or bounded affine-quadratic objective.
+
+**Implementation notes retained:** a calculus-free sphere-maximization proof; variational min–max and residual identities; linked conic level sets, a draggable unit probe, and a full directional Rayleigh trace; exact flat/saddle/zero presets; a computed Cholesky pivot audit; and the distinction between a flat quadratic with compatible linear term and an unbounded tilted valley. The Python tests use a documented relative pivot cutoff and distinguish invalid data from numerical non-acceptance.
+
+
+### Part III · Decomposition and conditioning
+
+*Thesis: singular directions quantify approximation and sensitivity.*
+
+**Module 08 — SVD, low-rank approximation, and PCA**
+
+`handle: LA08` · `id: math.linear-algebra.svd-pca` · 34h · prerequisites: LA07 · existing bank: `08-svd`
+
+**Already covered:** Full/reduced/compact SVD, four subspaces, spectral/Frobenius Eckart–Young proofs, centered affine PCA, whitening, and minimum-norm preview.
+
+**Add or verify:** Preserve PCA in this module and its stable ID; add held-out reconstruction and repeated-singular-value subspace comparisons as local research exercises.
+
+**Existing artifacts:** [08-svd-low-rank.md](08-svd-low-rank.md); registered Python tasks: `svd-2x2` → `svd_2x2`, `truncate-rank` → `truncate_rank`, `explained-variance` → `explained_variance`. Registered lesson figures: `la-svd`, `la-approx`, `la-pca`.
+
+**Spine and derivations:** Construct SVD from the spectral theorem, prove both low-rank error bounds, and derive centered PCA as an affine reconstruction problem.
+
+**Interactive experiment:** Existing la-svd/la-approx/la-pca: compare paired directions, rank-one removal, fixed-scale error maps, and isotropic/identical data.
+
+**Implementation ladder:** Keep svd_2x2, truncate_rank, and explained_variance; preserve the undefined zero-total-variance case.
+
+**RE gate:** Report approximation error and numerical-rank tolerance, including omitted null directions.
+
+**RS gate:** Explain why individual singular vectors can be unstable while a separated subspace remains meaningful.
+
+**Implementation notes retained:** paired input/output views with draggable matrix columns and rank-one deletion; fixed-scale original/reconstruction/residual heatmaps and a rank-error curve; draggable PCA observations with a candidate-versus-optimal line, centering switch, and isotropic/identical-point failure cases. A short minimum-norm channel derivation preserves the optimization track's inbound reference; Module 10 still owns the full pseudoinverse. The new shared chartkit and heatkit support later modules, and svdkit provides explicitly limited 2×2 teaching geometry. Python tasks cover scaled 2×2 factors, rectangular truncation, and squared variance accounting, including undefined zero-total ratios.
+
+
+**Module 09 — Norms, conditioning, and numerical stability**
+
+`handle: LA09` · `id: math.linear-algebra.norms-conditioning-stability` · 26h · prerequisites: LA08, F01 · proposed bank: `09-conditioning`
+
+**Already covered:** Previewed in LA01–LA08; no dedicated lesson.
+
+**Add or verify:** Full perturbation/backward-error development; norm controls and scale-aware condition experiments.
+
+**Spine and derivations:** Derive induced norms, spectral norm, relative perturbation bounds with denominator conditions, and backward error; distinguish sensitivity from solver stability.
+
+**Interactive experiment:** Proposed la-norms/la-condition: vary norm ball, singular spectrum, and perturbation direction; include a small-residual/large-forward-error case.
+
+**Implementation ladder:** Implement matrix_norm_1_inf, condition_estimate, and cancellation_demo; estimate both extreme singular scales or use solves, not only a largest-eigenvalue iteration.
+
+**RE gate:** Diagnose error using scale, residual, and conditioning together.
+
+**RS gate:** Prove a qualified perturbation bound and expose the worst-direction assumption behind its ceiling.
+
+
+**Module 10 — Pseudoinverse and regularization**
+
+`handle: LA10` · `id: math.linear-algebra.pseudoinverse-regularization` · 26h · prerequisites: LA09 · proposed bank: `10-pseudoinverse`
+
+**Already covered:** Minimum-norm channels previewed in LA08; no full treatment.
+
+**Add or verify:** Moore–Penrose identities, rank-deficient solves, ridge spectral filters, and explicit implicit-bias conditions.
+
+**Spine and derivations:** Derive all four pseudoinverse identities and the minimum-norm least-squares solution; show ridge filtering and zero-initialized least-squares GD's restricted minimum-norm result.
+
+**Interactive experiment:** Proposed la-ridge: move the penalty and singular values; display stable predictions with unstable coefficients near collinearity.
+
+**Implementation ladder:** Implement pinv_via_svd, ridge_solve, and min_norm_solution with explicit cutoffs; use library SVD locally and supplied tiny factors in-browser.
+
+**RE gate:** Choose a rank cutoff or penalty and report its effect on predictions and parameter estimates.
+
+**RS gate:** Explain why overparameterization alone does not force a minimum-norm solution; use PS06 for a separate statistical bias/variance extension.
+
+
+### Part IV · Numerical algorithms
+
+*Thesis: matrix actions and memory traffic matter as much as factorization identities.*
+
+**Module 11 — Direct solvers and memory-aware factorization**
+
+`handle: LA11` · `id: math.linear-algebra.direct-solvers-scale` · 26h · prerequisites: LA10, PY06 · proposed bank: `11-direct`
+
+**Already covered:** Small LU, QR, and Cholesky exist; blocked/Householder methods do not.
+
+**Add or verify:** Householder QR, blocked LU/Cholesky, triangular solves, BLAS cost models, and stable log-determinants.
+
+**Spine and derivations:** Derive block updates and operation counts; contrast pivoting/orthogonality guarantees with memory-traffic models.
+
+**Interactive experiment:** Proposed la-blocking: choose block size and watch touched submatrices, estimated operations, and traffic; flag that animation is not a hardware benchmark.
+
+**Implementation ladder:** Implement cholesky_blocked, flop_count, and triangular_solve; add local Householder and sign/logdet checks.
+
+**RE gate:** Match a reference solve and report residual, memory, and measured local timing.
+
+**RS gate:** Explain when more arithmetic can still lead to faster execution and where the hardware model stops applying.
+
+
+**Module 12 — Iterative solvers and preconditioning**
+
+`handle: LA12` · `id: math.linear-algebra.iterative-solvers-cg` · 30h · prerequisites: LA10, OPT02 · proposed bank: `12-iterative`
+
+**Already covered:** No dedicated iterative-solver lesson.
+
+**Add or verify:** Stationary splittings, steepest descent, conjugate gradients, residual stopping, and preconditioners; LA11 is no longer a required predecessor.
+
+**Spine and derivations:** Derive splitting convergence in its stated norm/spectral setting, CG conjugacy and exact-arithmetic finite termination, and conditioning-dependent bounds.
+
+**Interactive experiment:** Proposed la-descent/la-precondition: change SPD spectrum and stopping tolerance; contrast exact 2D termination with finite-precision behavior.
+
+**Implementation ladder:** Implement jacobi_iteration, conjugate_gradient, and residual_history with breakdown and invalid-SPD handling.
+
+**RE gate:** Solve from matrix-vector actions and distinguish stopping tolerance from solution accuracy.
+
+**RS gate:** Prove a CG property and explain why its SPD/exact-arithmetic claims do not extend unchanged to arbitrary matrices.
+
+
+**Module 13 — Krylov, Schur, and randomized spectral methods**
+
+`handle: LA13` · `id: math.linear-algebra.krylov-randomized-eigen` · 30h · prerequisites: LA12, PS12 · proposed bank: `13-krylov`
+
+**Already covered:** Power iteration exists; advanced spectral methods do not.
+
+**Add or verify:** Lanczos, reorthogonalization, Ritz residuals, real/complex Schur outline, randomized SVD, and spectral-gap sensitivity; a limited pseudospectrum example.
+
+**Spine and derivations:** Derive Krylov projection and Ritz residual tests; state randomized approximation bounds with oversampling, failure probability, and spectrum assumptions.
+
+**Interactive experiment:** Proposed la-krylov/la-randsvd: change gap, sketch size, and precision; reveal ghost Ritz values and missed subspaces.
+
+**Implementation ladder:** Implement lanczos_tridiag, randomized_range_finder, and ritz_values; use supplied small eigensolvers in-browser and stable libraries locally.
+
+**RE gate:** Report residuals, orthogonality loss, and randomness alongside approximate eigenvalues.
+
+**RS gate:** Distinguish a residual guarantee from eigenvector/subspace accuracy and from dominance.
+
+
+**Module 14 — Sparse and structured matrices**
+
+`handle: LA14` · `id: math.linear-algebra.sparse-structured` · 24h · prerequisites: LA11, LA13, DS06 · proposed bank: `14-sparse`
+
+**Already covered:** No dedicated sparse/structured lesson.
+
+**Add or verify:** Sparse storage, fill-in/orderings, matrix-free actions, graph Laplacians, Toeplitz/circulant families, and a complex-DFT bridge.
+
+**Spine and derivations:** Derive graph quadratic energy, zero-eigenvalue multiplicity for components, and circulant diagonalization with conjugate-transpose conventions.
+
+**Interactive experiment:** Proposed la-graph: edit edges and ordering; display Laplacian spectrum, disconnected components, fill-in, and a nonunique Fiedler direction.
+
+**Implementation ladder:** Implement sparse_matvec, laplacian_from_edges, and fiedler_vector using a local reference solver; benchmark storage separately from toy counts.
+
+**RE gate:** Implement a matrix-free operator and account for fill-in and index-storage overhead.
+
+**RS gate:** State when a spectral partition is ambiguous and why sparsity alone does not guarantee a fast factorization.
+
+
+### Part V · Calculus on matrices
+
+*Thesis: derivatives are linear maps and backpropagation composes their adjoints.*
+
+**Module 15 — Matrix calculus I: derivatives and Jacobians**
+
+`handle: LA15` · `id: math.linear-algebra.matrix-calculus-jacobians` · 28h · prerequisites: LA10, OPT01 · proposed bank: `15-calculus`
+
+**Already covered:** No dedicated matrix-calculus lesson.
+
+**Add or verify:** Fréchet derivative/local linearization, shape/layout convention, matrix products, quadratic forms, and softmax derivatives.
+
+**Spine and derivations:** Derive differential rules for Ax, matrix products, quadratic forms, and softmax; quantify local linearization error on smooth maps.
+
+**Interactive experiment:** Proposed la-jacobian: move input and neighborhood radius; compare exact mapped points and the Jacobian ellipse at a singular derivative.
+
+**Implementation ladder:** Implement numeric_jacobian, jacobian_check, and local_linearization_error with step-size sweeps.
+
+**RE gate:** Verify derivatives in random directions with documented shapes and scales.
+
+**RS gate:** Explain the difference between a derivative map and its coordinate matrix, including layout conventions.
+
+
+**Module 16 — Matrix calculus II: chain rule and adjoints**
+
+`handle: LA16` · `id: math.linear-algebra.chain-rule-adjoints` · 28h · prerequisites: LA15 · proposed bank: `16-adjoints`
+
+**Already covered:** No dedicated adjoint lesson.
+
+**Add or verify:** Adjoint definitions in Euclidean/general metrics, JVP/VJP composition, and mode cost/memory accounting.
+
+**Spine and derivations:** Derive the chain rule as composition and the adjoint identity; show why transposes appear under Euclidean coordinates and how metrics change them.
+
+**Interactive experiment:** Proposed la-vjp: vary layer shapes and metric; compare forward/reverse arithmetic and a transpose mistaken for a general-metric adjoint.
+
+**Implementation ladder:** Implement jvp_chain, vjp_chain, and mode_cost with an inner-product consistency check.
+
+**RE gate:** Choose differentiation mode from input/output dimensions and intermediate storage.
+
+**RS gate:** Prove an adjoint-composition identity and state the metric under which the matrix transpose represents it.
+
 
 **Module 17 — Backpropagation as adjoint accumulation**
-`id: …backpropagation-adjoints` · prereq: 16 · 30h · `17-backprop`
-Spine: the computational graph; reverse accumulation; per-layer VJPs for linear, elementwise and
-softmax-cross-entropy layers; checkpointing as a memory–compute trade.
-Labs: `la-graphflow` (a small graph where you step the reverse pass node by node and watch adjoints
-accumulate).
-Python: `backward_linear`, `backward_softmax_ce`, `finite_difference_check`.
-ML anchor: this is the module that makes a from-scratch training loop unmysterious.
 
-**Module 18 — Second-order structure** `id: …second-order-curvature` · prereq: 17 · 32h · `18-curvature`
-Spine: the Hessian and its spectrum; Gauss–Newton as a positive semidefinite surrogate; the Fisher
-information and its equivalence to Gauss–Newton for exponential families; natural gradient; K-FAC as
-a Kronecker approximation.
-Labs: `la-curvature` (level sets of a quadratic with a draggable Hessian spectrum, Newton versus
-gradient step drawn); `la-hvp` (Hessian-vector products without forming the Hessian).
-Python: `hessian_vector_product`, `gauss_newton_step`, `spectral_summary`.
+`handle: LA17` · `id: math.linear-algebra.backpropagation-adjoints` · 30h · prerequisites: LA16, PY06 · proposed bank: `17-backprop`
 
-### Part VI · The research layer (19–26)
+**Already covered:** No dedicated backpropagation lesson in this track.
 
-*Thesis: the linear algebra a research engineer actually argues with — claims about rank, spectra and
-geometry made about real models, and the standards of evidence they need.*
+**Add or verify:** Branched graphs, fan-out accumulation, broadcast/reduction adjoints, stable softmax-cross-entropy, and checkpointing cost.
 
-**Module 19 — Low-rank structure in trained models** `id: …low-rank-models` · 26h · `19-lowrank`
-LoRA and its reachable set; adapter composition; the difference between a low-rank *parameterization*
-and a merely low-rank *initialization*; distillation and model surgery. Labs: `la-lora` (the reachable
-update set drawn as a rank-constrained manifold in a small case). Python: `rank_of_product`,
-`best_rank_k`, `merge_adapter`.
+**Spine and derivations:** Derive reverse accumulation and per-layer VJPs; show why every outgoing use contributes to a shared variable's adjoint.
 
-**Module 20 — Random projections and sketching** `id: …random-projections-sketching` · 28h · `20-sketch`
-Johnson–Lindenstrauss with a proof sketch; subspace embeddings; sketched least squares; when a
-sketch is safe and when it is not. Labs: `la-jl` (distortion of pairwise distances as the target
-dimension drops). Python: `jl_projection`, `distortion_stats`, `sketched_lstsq`.
+**Interactive experiment:** Proposed la-graphflow: step through a branched graph and remove an accumulation edge; compare analytic and finite-difference derivatives.
 
-**Module 21 — Tensors as multilinear maps** `id: …tensors-contraction` · 26h · `21-tensors`
-Contraction as the primitive; einsum read as a specification rather than a trick; reshapes and
-memory layout; contraction cost and why the order matters. Labs: `la-einsum` (an einsum string with
-its contraction drawn and its cost computed). Python: `einsum_cost`, `contract_pair`, `reshape_view`.
+**Implementation ladder:** Implement backward_linear, backward_softmax_ce, and finite_difference_check; extend to a shared-parameter graph locally.
 
-**Module 22 — Attention as a bilinear form** `id: …attention-bilinear` · 28h · `22-attention`
-\(q^{\mathsf T}Kk\) as a bilinear form; the rank bound on \(QK^{\mathsf T}\) and what softmax does to it;
-QK and OV circuits as compositions; positional structure as additive or multiplicative terms. Labs:
-`la-attention` (a small score matrix with draggable queries/keys, its rank shown before and after
-softmax). Python: `score_rank`, `softmax_rows`, `ov_circuit`.
+**RE gate:** Find a missing-gradient contribution and demonstrate parity after the repair.
 
-**Module 23 — Kronecker and block structure** `id: …kronecker-block` · 24h · `23-kronecker`
-The Kronecker product and its spectrum; vec and the mixed-product identity; block matrices and
-Schur complements; structured parameterizations as constraints on reachable weights. Labs:
-`la-kron` (a Kronecker product built visually from its factors). Python: `kron`, `vec_identity`,
-`schur_complement`.
+**RS gate:** Derive the executed function's gradient and explain how a stop-gradient changes the mathematical program.
 
-**Module 24 — Spectra of trained networks** `id: …spectra-trained-networks` · 30h · `24-spectra`
-Marchenko–Pastur as the null model; heavy-tailed deviations and what they are claimed to mean;
-spectral norm and Lipschitz bounds; the edge of stability. Labs: `la-mp` (empirical spectrum against
-the MP law as aspect ratio changes). Python: `empirical_spectrum`, `mp_density`, `spectral_norm`.
-This module is mostly about standards of evidence: most public claims here are underspecified.
 
-**Module 25 — Superposition geometry and dictionary learning**
-`id: …superposition-geometry` · 32h · `25-superposition`
-Almost-orthogonal codes and how many fit; interference as a measurable quantity; compressed sensing
-and the restricted isometry property; dictionary learning and sparse autoencoders as the practical
-instrument. Labs: `la-superpose` (pack \(m\) unit vectors in \(\mathbb R^d\) and watch maximum
-interference grow with \(m\)). Python: `max_coherence`, `sparse_recovery`, `dictionary_step`.
-This is the payoff of Module 1's Theorem 2, four hundred hours later.
+**Module 18 — Second-order structure and natural geometry**
 
-**Module 26 — Capstone: a linear-algebra audit of a real model** `id: …capstone-audit` · 30h · `26-audit`
-No new theory. One model, one report: numerical rank per layer with stated tolerances, spectra
-against the MP null, subspace overlap between layers, probe null spaces, an ablation whose predicted
-effect follows from the rank argument. The deliverable is the report, and the checkpoint is whether a
-sceptical reader could reproduce every number in it.
+`handle: LA18` · `id: math.linear-algebra.second-order-curvature` · 32h · prerequisites: LA17, LA23, PS11 · proposed bank: `18-curvature`
 
-## 4. Infrastructure the plan needs
+**Already covered:** Curvature is previewed in LA07; structured differential treatment is absent.
 
-The current lab kit draws 2D vectors on a canvas. Five additions, each shared by several modules —
-build them when the first module that needs them is written, not before.
+**Add or verify:** HVPs, generalized Gauss–Newton, model versus empirical Fisher, natural gradient, and K-FAC approximation assumptions.
 
-| Addition | First needed | Used by |
-|---|---|---|
-| `chartkit.js` — axes, line and scatter, log scale, error curves *(built in Module 8)* | 8 | 8, 9, 12, 13, 20, 24 |
-| `heatkit.js` — matrix heatmap with a diverging scale and a colour key *(built in Module 8)* | 8 | 8, 14, 21, 22, 23 |
-| `plot3.js` — orthographic 3D: vectors, planes, a draggable camera *(built in Module 3)* | 3 | 3, 5, 6, 7 |
-| `matrixbench.js` — the editable matrix widget generalized out of `la-elim` | 11 | 11, 12, 15, 23 |
-| `graphkit.js` — small draggable graphs with adjacency and Laplacian | 14 | 14, 24 |
+**Spine and derivations:** Derive HVP identities and GGN PSD structure; state precisely when an exponential-family output model yields the GGN/model-Fisher identity.
 
-**The Python labs are stdlib only.** No NumPy in the browser runtime, so browser labs stay small:
-3×3 and 4×4 matrices, a few hundred iterations. Anything needing real arrays belongs in Track B,
-which runs locally. When a module's natural lab cannot be written in stdlib Python at a sensible
-size, say so in the lesson rather than shipping a toy that misleads about cost.
+**Interactive experiment:** Proposed la-curvature/la-hvp: vary residual curvature and damping; compare Hessian, GGN, and empirical Fisher on an exact small model.
 
-## 5. Writing one module
+**Implementation ladder:** Implement hessian_vector_product, gauss_newton_step, and spectral_summary with a dense oracle; leave optimizer performance comparisons to OPT08.
 
-1. **Fix the spine.** Two to five results the module exists to establish. If you cannot name them,
-   the module is not ready to write.
-2. **Write the teaching sections** with their practice prompts. This is the part that most repays
-   care and the strongest model available: the value is in the hedging — what a theorem forces versus
-   what remains empirical — and that is exactly what a weaker model smooths over.
-3. **Specify the labs** before writing them: what the reader drags, what the readout says, and which
-   misconception the degenerate preset exposes. A lab with no failure state is decoration.
-4. **Write the labs** against `GU.labkit`, declaring every control before `K.plot`, since the draw
-   function runs once during construction. Register with `GU.lab(id, mount)`.
-5. **Write the Python labs**: stub in `labs/exercises.py`, reference in `labs/reference.py`, checks in
-   `labs/checks.py`, registry entry in `labs/browser_labs.json`. Checks should cover the degenerate
-   case, input preservation, and invalid input, not just the happy path.
-6. **Write the exercise bank** in the fixed grammar, then the answer bank with typed fields wherever
-   an answer is typeable. Verify every numeric answer by running it, not by reading it.
-7. **Validate**: `node scripts/build-theory.mjs && node scripts/check-theory.mjs`, then
-   `python -m labs.checks --reference`.
-8. **Read it in the reader** in both themes, work one exercise end to end, and check that a lab's
-   degenerate preset still says something true.
+**RE gate:** Compute a curvature action without constructing the dense Hessian and audit damping.
 
-Steps 4, 5 and the mechanical half of 6 follow established patterns and are good candidates for a
-cheaper model working from an existing module as the template. Steps 1, 2 and the proofs in 6 are not.
+**RS gate:** Explain why empirical Fisher, model Fisher, and Hessian are not interchangeable and identify each approximation in K-FAC.
 
-## 6. Write order
 
-Dependencies allow some freedom; these three sequences are each internally ordered and can be worked
-in parallel by different people or sessions.
+### Part VI · Research geometry
 
-- **Spine first:** 3 → 4 → 6 → 7 → 8. This is the classical core and the prerequisite for everything
-  else; module 8 is the hinge the whole track turns on. Module 5 can be slotted in any time after 4.
-- **Then applied numerics:** 9 → 10 → 12 → 11 → 13 → 14. Note 12 before 11: iterative methods connect
-  directly to optimization and are more useful sooner than blocking and BLAS levels.
-- **Then the autodiff line:** 15 → 16 → 17 → 18, which needs only 10 and can start early if the
-  interest is training rather than theory.
-- **The research layer** 19–26 needs 8, and each module is close to independent of the others. Write
-  them in whatever order the current work makes urgent; 26 comes last by construction.
+*Thesis: rank, spectra, and representation claims need both mathematical qualifications and empirical controls.*
 
-**Milestones worth naming.** After 8, the track can honestly claim to cover undergraduate linear
-algebra. After 18, a reader can derive and implement a training step from first principles. After 26,
-the track does what it set out to do: let someone read a paper's linear-algebra claims and say
-precisely which are theorems, which are measurements, and which are neither.
+**Module 19 — Low-rank structure in trained models**
 
-## 7. Open questions
+`handle: LA19` · `id: math.linear-algebra.low-rank-models` · 26h · prerequisites: LA10, LA17 · proposed bank: `19-lowrank`
 
-- **Module 5's weight.** Twenty hours on determinants is generous for something computationally
-  marginal. If the track runs long, this is the first module to compress into a section of 6.
-- **Where PCA lives.** Currently inside module 8 to keep the `svd-pca` id truthful. If PCA grows past
-  a section it should become its own module and the id should move with the statistical material.
-- **Whether Part IV should precede Part V.** Autodiff needs almost nothing from numerics; a reader
-  who wants to build rather than analyse would be better served by 15–18 immediately after 10.
-- **Interference between tracks.** Modules 18 and 24 overlap the optimization track's material on
-  curvature and training dynamics. Decide per module which track owns the treatment and have the
-  other link to it, rather than writing both.
+**Already covered:** No dedicated low-rank model lesson.
+
+**Add or verify:** Low-rank updates, tangent/reachable sets, adapter composition/merging, rank budgets, and surgery/distillation geometry.
+
+**Spine and derivations:** Derive rank bounds for products and sums; distinguish a fixed low-rank parameterization from unconstrained training after low-rank initialization.
+
+**Interactive experiment:** Proposed la-lora: change factors/rank and compose adapters; expose a sum whose rank exceeds each component's rank.
+
+**Implementation ladder:** Implement rank_of_product, best_rank_k, and merge_adapter; compare merged outputs against the factored computation.
+
+**RE gate:** Verify merge parity and report reachable update rank without overstating task equivalence.
+
+**RS gate:** Show why a low-rank trained update does not prove that every useful task update is low rank.
+
+
+**Module 20 — Random projections and sketching**
+
+`handle: LA20` · `id: math.linear-algebra.random-projections-sketching` · 28h · prerequisites: LA10, PS12 · proposed bank: `20-sketch`
+
+**Already covered:** JL is taught probabilistically in PS12; no computational sketching lesson.
+
+**Add or verify:** Subspace embeddings, sketched least squares, leverage/coherence effects, and held-out distortion diagnostics.
+
+**Spine and derivations:** Reuse the finite-set JL bound; derive what uniform subspace preservation buys for least squares and why pairwise distances alone are insufficient.
+
+**Interactive experiment:** Proposed la-jl: vary sketch dimension and data coherence; show acceptable pairwise error with a missed low-energy regression direction.
+
+**Implementation ladder:** Implement jl_projection, distortion_stats, and sketched_lstsq using stable local solves.
+
+**RE gate:** Report sketch randomness, residual inflation, and cost against an unsketched baseline.
+
+**RS gate:** Distinguish a finite-set embedding from a subspace guarantee and give the required failure probability.
+
+
+**Module 21 — Tensors, contractions, and memory layout**
+
+`handle: LA21` · `id: math.linear-algebra.tensors-contraction` · 26h · prerequisites: LA08, PY06 · proposed bank: `21-tensors`
+
+**Already covered:** Basic matrix shape notation exists; no multilinear unit.
+
+**Add or verify:** Tensor products and multilinear maps, einsum semantics, contraction order, logical reshape versus storage, and explicit cost models.
+
+**Spine and derivations:** Derive indexed contraction identities and operation/intermediate-memory counts; distinguish tensor order from matrix rank of an unfolding.
+
+**Interactive experiment:** Proposed la-einsum: change index expression, shapes, and contraction order; reveal large intermediates and accidental repeated-index reductions.
+
+**Implementation ladder:** Implement einsum_cost, contract_pair, and reshape_view as a storage simulation; use NumPy locally for parity.
+
+**RE gate:** Choose a contraction order that respects peak-memory constraints and preserves the expression.
+
+**RS gate:** Explain which properties survive a reshape and why an unfolding rank is not a universal tensor-rank claim.
+
+
+**Module 22 — Attention as a bilinear map**
+
+`handle: LA22` · `id: math.linear-algebra.attention-bilinear` · 28h · prerequisites: LA21, LA16 · proposed bank: `22-attention`
+
+**Already covered:** Attention-related overlap examples appear early; no full algebraic treatment.
+
+**Add or verify:** QK/OV composition, bilinear forms, pre-softmax score-rank bounds, softmax rank changes, positional structure, and multi-head gauge freedoms.
+
+**Spine and derivations:** Derive qᵀBk, rank bounds on QKᵀ, and invariances of factored maps; give an explicit example where row softmax increases rank.
+
+**Interactive experiment:** Proposed la-attention: drag queries/keys and apply a basis change; compare scores, normalized weights, outputs, and ranks.
+
+**Implementation ladder:** Implement score_rank, softmax_rows, and ov_circuit with all-masked-row handling and local numerical-rank audits.
+
+**RE gate:** Trace tensor shapes and verify a factor transformation preserves the intended attention function.
+
+**RS gate:** Explain why low score rank does not imply the same rank bound after softmax or a causal interpretation of attention weights.
+
+
+**Module 23 — Kronecker products, block matrices, and Schur complements**
+
+`handle: LA23` · `id: math.linear-algebra.kronecker-block` · 24h · prerequisites: LA10, LA21 · proposed bank: `23-kronecker`
+
+**Already covered:** Block notation is used in Gaussian lessons; no dedicated algebraic derivation.
+
+**Add or verify:** Vectorization conventions, Kronecker identities/spectra, block elimination, Schur complements, and structured solve costs.
+
+**Spine and derivations:** Prove vec identities and mixed-product rules; derive block inverse/Schur formulas with invertibility assumptions and PSD special cases.
+
+**Interactive experiment:** Proposed la-kron: edit factors and block pivots; display spectrum products and failure of an inverse formula at a singular pivot.
+
+**Implementation ladder:** Implement kron, vec_identity, and schur_complement with consistent row/column vectorization.
+
+**RE gate:** Match structured and dense matrix actions and expose the memory saved.
+
+**RS gate:** State every invertibility assumption and distinguish a structured approximation from an exact identity.
+
+
+**Module 24 — Spectra of trained networks**
+
+`handle: LA24` · `id: math.linear-algebra.spectra-trained-networks` · 30h · prerequisites: LA13, PS12, OPT05 · proposed bank: `24-spectra`
+
+**Already covered:** Spectral basics and an MP preview exist; no trained-model audit.
+
+**Add or verify:** Random-matrix null assumptions, spectral normalization/centering, singular versus covariance spectra, Lipschitz bounds, and qualified edge-of-stability studies.
+
+**Spine and derivations:** Map singular values to sample-covariance eigenvalues with aspect ratio/scaling explicit; derive layerwise norm bounds and test a predeclared null.
+
+**Interactive experiment:** Proposed la-mp: change aspect ratio, entry distribution, and correlations; compare iid nulls with structured weights and finite-sample deviations.
+
+**Implementation ladder:** Implement empirical_spectrum, mp_density, and spectral_norm with explicit zero-atom handling where applicable.
+
+**RE gate:** Reproduce a spectral plot with matrix orientation, normalization, seed, and rank tolerance disclosed.
+
+**RS gate:** Explain why deviation from an iid null does not by itself establish a useful learned mechanism.
+
+
+**Module 25 — Superposition, compressed sensing, and dictionary learning**
+
+`handle: LA25` · `id: math.linear-algebra.superposition-geometry` · 32h · prerequisites: LA20, LA17, OPT07 · proposed bank: `25-superposition`
+
+**Already covered:** LA01 establishes the dimension/interference motivation; no dedicated recovery or dictionary unit.
+
+**Add or verify:** Coherence, sparse identifiability, RIP as a sufficient condition, recovery objectives, dictionary symmetries, and sparse autoencoder diagnostics.
+
+**Spine and derivations:** Derive coherence bounds and one qualified sparse-recovery guarantee; distinguish exact recovery, reconstruction, sparsity, and semantic interpretability.
+
+**Interactive experiment:** Proposed la-superpose: pack vectors and vary sparsity; show low reconstruction error with nonunique or uninterpretable dictionary atoms.
+
+**Implementation ladder:** Implement max_coherence, sparse_recovery, and dictionary_step; use controlled synthetic ground truth before real activations.
+
+**RE gate:** Report reconstruction/sparsity/recovery separately and detect dead or duplicated dictionary features.
+
+**RS gate:** Defend a geometry or identifiability claim without treating sparse reconstruction as proof of a semantic feature.
+
+
+**Module 26 — Capstone: a linear-algebra audit of a model**
+
+`handle: LA26` · `id: math.linear-algebra.capstone-audit` · 30h · prerequisites: LA19, LA22, LA24, LA25, RP04 · proposed bank: `26-audit`
+
+**Already covered:** No integrated capstone lesson or report template.
+
+**Add or verify:** A reproducible audit combining rank, spectra, subspace comparisons, and an ablation predicted by the algebra.
+
+**Spine and derivations:** No new theory: define numerical rank, null model, subspace metric, intervention, and a falsifiable prediction before measuring.
+
+**Interactive experiment:** Proposed la-audit: link layer selection, singular cutoffs, subspace overlap, and ablation outcomes; expose conclusions that reverse under a tolerance change.
+
+**Implementation ladder:** Deliver audit_model, reproduce_figures, and ablation_parity_check with a small exact reference and a local model.
+
+**RE gate:** Another researcher regenerates every table and verifies the intervention changed only the declared component.
+
+**RS gate:** Separate theorem, empirical observation, and speculation; defend an alternative explanation and a decisive follow-up.
+
+## 5. Write order and milestones
+
+The first eight modules are authored; begin with their diagnostics rather than rewriting them. Their formal dependency chain remains LA01 → LA02 → LA03 → LA04 → LA05 → LA06 → LA07 → LA08.
+
+**Next numerical branch:** LA09 → LA10, then LA12 and LA11 as separate branches. LA12 now explicitly depends on LA10 and OPT02, so it may precede LA11 without the old prerequisite/write-order contradiction. LA13 follows LA12 and PS12; LA14 joins LA11, LA13, and graph fundamentals.
+
+**Derivative branch:** LA15 → LA16 → LA17 after LA10 and scalar calculus. LA21 → LA23 supplies tensor/block algebra before LA18; PS11 supplies the probability model needed for Fisher statements. This makes the old hidden K-FAC prerequisites explicit. OPT02 remains an independent early multivariable bridge, so no optimization/autodiff cycle is introduced.
+
+**Research branches:** LA19 follows pseudoinverse and adjoints; LA20 follows PS12 and regularized solves; LA21 can start after LA08 and NumPy; LA22 needs tensors and adjoints; LA24 needs spectral algorithms and probability/optimization; LA25 needs sketching, adjoints, and constrained optimization. LA26 joins these branches; its explicit dependencies replace the old claim that nearly every research module needs only LA08.
+
+**Milestones:** after LA08, defend finite-dimensional geometry and decompositions; after LA09–LA14, choose and audit a numerical method; after LA15–LA18, derive and verify model derivatives/curvature; after a selected research branch, complete a smaller focused audit before the full LA26 synthesis. The RE route prioritizes numerics/tensors/derivatives; the RS route adds proof, invariance, null-model, and identifiability depth.
+
+## 6. Capstone and assessment
+
+Audit one small real model with a synthetic exact control. Report layerwise numerical rank with tolerance and scaling; spectra against an explicitly qualified null; principal-angle or projection-based subspace overlap; and a controlled ablation with a prediction derived before execution. Record code, versions, shapes, data, weights, all relevant seeds, and executable figures. An attention or low-rank audit may be an earlier branch project; full LA26 adds the spectrum and sparse-geometry synthesis. Reuse the report for Research Practice with work counted once.
+
+Every unit uses six checkpoint tasks: explain the central concept; derive a result with assumptions; calculate a small case; implement or debug; critique misleading evidence; and defend an unfamiliar extension. Repair critical conceptual or correctness failures before advancing. A proof is assessed against a rubric, a numerical answer against an independent oracle, and an empirical claim against its design and uncertainty. Separate theoretical mastery, browser exercises, and local research implementation in progress records.
+
+## 7. Infrastructure and validation
+
+Already present: `chartkit.js`, `heatkit.js`, `plot3.js`, and the intentionally small `svdkit.js` in `public/theory/labs/`. Reuse them. `matrixbench.js` and `graphkit.js` remain proposed, first needed for LA11 and LA14 respectively. Keep built figure registrations, theme behavior, keyboard matrix entry, and exact/near-degenerate presets intact. The existing eight answer banks and 24 Python tasks are contracts, not placeholders to replace.
+
+Python in the browser is standard-library-only; local NumPy/PyTorch experiments and any accelerator measurements must be labeled separately. Register a lesson's stubs, reference functions, checks, browser entries, figures, and answer bank together. Verify numeric answers by execution and proofs by an explicit argument. Tests include invalid inputs, degeneracies, input preservation, and stated tolerance behavior.
+
+For authored changes, run `node scripts/build-theory.mjs`, `node scripts/check-theory.mjs`, and `python3 -m labs.checks --reference`. Inspect the reader in both themes, exercise the failure preset, and complete one typed and one written answer. For this plan-only change, validate links, unique IDs, prerequisite resolution and cycles, existing-artifact claims, and exclusion from the lesson catalog. No new lessons or runtime features are implemented by this document.
+
+### Migration notes retained
+
+Past renames are already applied: `02-linear-maps-rank.md` became `02-systems-elimination-subspaces.md`; the old eigenvalue stub became `06-eigenvalues-diagonalization.md`; the SVD stub became `08-svd-low-rank.md`. Preserve the current paths and their IDs. PCA remains under `math.linear-algebra.svd-pca`; expanding PCA later must not make that ID misleading.
+
+Particularly sensitive inbound IDs are `math.linear-algebra.vectors-spaces-bases`, `math.linear-algebra.linear-maps-rank`, `math.linear-algebra.projections-least-squares`, `math.linear-algebra.eigen-invariant-subspaces`, and `math.linear-algebra.svd-pca`. Preserve all eight authored IDs, not only these five. Determinants may use diagnostic skips on a shorter route; the authored lesson and its place before eigenvalues remain intact. New complex/Schur material is a bounded extension, not a claim that the current real-matrix lessons already teach it.
