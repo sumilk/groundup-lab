@@ -889,5 +889,21 @@ K6: {
     "rank": "Centering removes at least one observation-space degree of freedom.",
     "nullity": "Apply rank–nullity in six-dimensional feature space."
   }
+},
+M7: {
+  "statement": "**M7 · Stretch · mixed — Compare subspaces and evaluate PCA out of sample.** For diag(2,2,1), rotate the first two right singular vectors by 45°. What is the Frobenius distance between the old and new rank-two projectors? Is the rank-one optimum unique?",
+  "plain": "The rank-two projectors are identical, so their distance is zero. A rank-one optimum is not unique: every unit direction in the leading two-dimensional subspace captures the same gain. Rotated vectors need not be individually close.",
+  "solution": "<p>The rank-two projectors are identical, so their distance is zero. A rank-one optimum is not unique: every unit direction in the leading two-dimensional subspace captures the same gain. Rotated vectors need not be individually close.</p>",
+  "fields": [
+    {
+      "id": "audit",
+      "label": "Numerical result(s), in requested order",
+      "type": "num",
+      "ans": 0
+    }
+  ],
+  "hints": {
+    "audit": "Use the concrete matrix in the question and keep the numerical diagnostic separate from the exact algebraic claim."
+  }
 }
 });

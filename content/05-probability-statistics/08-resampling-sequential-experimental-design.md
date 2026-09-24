@@ -2,6 +2,7 @@
 id: math.statistics.resampling-sequential-experimental-design
 title: Bootstrap, permutation tests, sequential inference, and experimental design
 prerequisites: [math.statistics.hypothesis-testing-confidence-power]
+answers: ps-08-resampling-sequential-experimental-design
 estimated_hours: 36
 ---
 
@@ -37,11 +38,17 @@ That does not make resampling assumption-free. It moves assumptions into the res
 
 **Worked example — median latency.** The sample median is easy to compute but has a sampling distribution that depends on population density near the true median. A bootstrap can approximate its variability without explicitly estimating that density. It still fails if requests were serially dependent and individual requests are resampled as though independent.
 
-> **Practice — Foundation:** Describe the repeated-sampling experiment whose distribution would quantify uncertainty in a sample mean.
+> **Practice — Foundation:** The mean latency of \(n=50\) requests sampled from last week's traffic is 210 ms with sample standard deviation 60 ms. Describe the repeated-sampling experiment whose distribution quantifies uncertainty in this mean, and compute its approximate standard error.
 >
-> **Practice — Core:** Explain what assumption is introduced by resampling individual rows from a clustered dataset.
+> **Hint:** Each repetition redraws 50 fresh requests from the same week's traffic; the SD of those means is approximated by \(s/\sqrt n\).
 >
-> **Practice — Stretch:** Give an estimator whose uncertainty depends strongly on rare observations. Predict when an observed-sample resampling method will underestimate its error.
+> **Practice — Core:** A dataset has 10 users with 30 rows each and within-user correlation \(\rho=0.2\). By what factor does a row-level bootstrap understate the variance of the overall mean, and what assumption does it introduce?
+>
+> **Hint:** The row bootstrap treats all 300 rows as independent; the true variance carries the design effect \(1+(m-1)\rho\) with \(m=30\).
+>
+> **Practice — Stretch:** In 1,000 requests, 999 cost \$0 and one incident costs \$10,000. Compute the plug-in bootstrap standard error of the mean cost, and predict when this observed-sample bootstrap underestimates the true error (for example, if real incidents can cost up to \$100,000).
+>
+> **Hint:** The bootstrap variance of the mean is \((n^{-1}\sum x_i^2-\bar x^2)/n\); no resample can contain a cost above the \$10,000 actually observed.
 
 ## 1. The empirical distribution is a fitted population
 
@@ -73,9 +80,15 @@ This is a plug-in argument. The unknown population \(P\) is replaced by \(\hat P
 
 > **Practice — Foundation:** Write the empirical probabilities assigned to values in the sample \(2,2,5,9\).
 >
-> **Practice — Core:** List all conceptual steps from one observed dataset to a bootstrap distribution of the median.
+> **Hint:** Each of the four observations gets mass \(1/4\), and repeated values add their masses.
 >
-> **Practice — Stretch:** Explain why using bootstrap samples of size \(n/2\) changes the target distribution unless an additional scaling argument is supplied.
+> **Practice — Core:** List the steps from the dataset \((3,1,4,1,5,9,2,6)\) to a bootstrap distribution of the median with \(B=2{,}000\) and seed 0, and report the observed median and the bootstrap standard error you obtain.
+>
+> **Hint:** Each replicate draws 8 indices with replacement, recomputes the median (the average of the two middle values), and stores it; the SD of the 2,000 medians is the bootstrap SE.
+>
+> **Practice — Stretch:** For a sample mean with plug-in variance \(\hat\sigma^2=4\) and \(n=100\), compute the bootstrap variance of the resampled mean with resample size \(m=n\) and with \(m=n/2\). Explain why the \(n/2\) version targets a different distribution and give the rescaling that fixes it for the mean.
+>
+> **Hint:** Conditional on the data, a size-\(m\) resample mean has variance \(\hat\sigma^2/m\); multiply by \(m/n\) to target the size-\(n\) sampling law.
 
 ## 2. The bootstrap algorithm
 
@@ -116,11 +129,17 @@ Increasing \(B\) reduces the second error but cannot create population support m
 
 **Worked example — sample mean.** For iid data, the bootstrap standard error of the sample mean approximates \(s/\sqrt n\). This familiar case is useful for debugging code. The real value of the bootstrap is applying the same repeated-computation idea to statistics whose analytic standard errors are less convenient.
 
-> **Practice — Foundation:** Distinguish sample size \(n\) from bootstrap repetition count \(B\).
+> **Practice — Foundation:** A dataset has \(n=250\) users and \(B=2{,}000\) bootstrap replicates are drawn. How many users are in each replicate, and how many estimates make up the bootstrap distribution?
 >
-> **Practice — Core:** Explain why increasing \(B\) from 1,000 to 100,000 does not repair a biased sample of the target population.
+> **Hint:** Each replicate has the original sample size; \(B\) counts replicates.
 >
-> **Practice — Stretch:** Derive the conditional variance of a bootstrap sample mean and compare it with the usual plug-in variance of the original sample mean.
+> **Practice — Core:** A sample of 500 users is drawn only from desktop traffic (true success rate 0.8), while deployment traffic is half desktop and half mobile (mobile rate 0.6). Compute the target, the estimator's limit, and its bootstrap SE, and explain why increasing \(B\) from 1,000 to 100,000 does not repair the bias.
+>
+> **Hint:** The target is \(0.5(0.8)+0.5(0.6)\), while the desktop-only mean converges to 0.8; \(B\) only reduces Monte Carlo error around that wrong centre, and the SE is about \(\sqrt{0.16/500}\).
+>
+> **Practice — Stretch:** Derive the conditional variance of a bootstrap sample mean and compare it with the usual variance estimate \(s^2/n\) of the original sample mean, evaluating both for \(x=(2,4,6,8)\).
+>
+> **Hint:** Each resampled draw has conditional variance \(\hat\sigma^2=n^{-1}\sum(x_i-\bar x)^2\); the mean of \(n\) iid draws divides this by \(n\), while \(s^2\) divides the squared deviations by \(n-1\).
 
 ## 3. Bootstrap intervals summarize the resampling distribution
 
@@ -164,11 +183,17 @@ Bias-corrected and accelerated intervals additionally adjust for median bias and
 
 **Worked example — ratio metric.** A conversion-per-cost ratio is right-skewed when cost can be small. A symmetric estimate \(\pm 1.96\) standard-error interval may extend into impossible values. A bootstrap distribution can reveal skewness, but resamples with near-zero denominator may also expose that the ratio itself is unstable.
 
-> **Practice — Foundation:** Write the endpoints of a 95% percentile interval from bootstrap quantiles.
+> **Practice — Foundation:** From \(B=1{,}000\) sorted bootstrap estimates, which order statistics give the endpoints of a 95% percentile interval?
 >
-> **Practice — Core:** Derive the basic interval by reflecting bootstrap error quantiles around \(\hat\theta\).
+> **Hint:** Take the 2.5% and 97.5% empirical quantiles, the entries near positions \(0.025B\) and \(0.975B\).
 >
-> **Practice — Stretch:** Compare percentile and basic intervals under the transformation \(\phi=\log\theta\). Explain why only one transforms automatically.
+> **Practice — Core:** Derive the basic interval by reflecting bootstrap error quantiles around \(\hat\theta\), and compute it for \(\hat\theta=5\) with bootstrap 2.5% and 97.5% quantiles 4.2 and 6.5.
+>
+> **Hint:** Approximate quantiles of \(\hat\theta-\theta\) by those of \(\theta^*-\hat\theta\), then solve for \(\theta\): \([2\hat\theta-q_{0.975},\,2\hat\theta-q_{0.025}]\).
+>
+> **Practice — Stretch:** With \(\hat\theta=2\) and bootstrap 2.5% and 97.5% quantiles 1.5 and 3.2, compute the percentile and basic intervals for \(\theta\), then compute each on the scale \(\phi=\log\theta\) and map back. Which one transforms automatically?
+>
+> **Hint:** Percentile endpoints pass through any increasing transformation; basic endpoints use \(2\hat\theta-q\), and \(2\log2-\log3.2\neq\log(2\cdot2-3.2)\).
 
 ## 4. The resampling unit must match the sampling unit
 
@@ -196,11 +221,17 @@ For time series, sample contiguous blocks rather than individual times. Blocks p
 
 **Worked example — call-quality evaluation.** Ten thousand utterances come from 80 calls. A row bootstrap treats 10,000 utterances as independent. A call bootstrap draws 80 calls with replacement and includes each selected call's utterances. If deployment generalization is to new calls, the latter mirrors the study's independent sampling axis.
 
-> **Practice — Foundation:** Choose the resampling unit for responses nested within users.
+> **Practice — Foundation:** You have 300 responses from 30 users. Choose the resampling unit and describe one bootstrap replicate.
 >
-> **Practice — Core:** Contrast an interaction-weighted mean with a user-weighted mean when user activity varies greatly.
+> **Hint:** Draw 30 users with replacement and carry every response of each drawn user together.
 >
-> **Practice — Stretch:** Design a two-stage bootstrap for tasks containing prompts, and state whether it targets new tasks, new prompts within fixed tasks, or both.
+> **Practice — Core:** User A has 100 interactions with success rate 0.9; users B, C, and D have 10 interactions each at rate 0.5. Compute the interaction-weighted and user-weighted mean success rates and say which question each answers.
+>
+> **Hint:** Pool successes over all 130 interactions for one; average the four per-user rates for the other.
+>
+> **Practice — Stretch:** A benchmark has 20 tasks with 25 prompts each, task variance component 0.01, and prompt variance component 0.04. Design a two-stage bootstrap, and compute the standard error of the grand mean when targeting new tasks and new prompts versus new prompts within these fixed tasks.
+>
+> **Hint:** Resampling tasks captures \(\sigma^2_{\text{task}}/20\); resampling prompts within fixed tasks captures only \(\sigma^2_{\text{prompt}}/500\).
 
 ## 5. Bootstrap failure modes are structural
 
@@ -226,11 +257,17 @@ Regression residuals should not be resampled blindly when their variance changes
 
 **Worked example — parametric rare failures.** After observing no failures, an ordinary row bootstrap always estimates zero. A parametric bootstrap from a boundary estimate \(p=0\) does too. Smoothing or a prior-like correction can move the fitted model away from the boundary, but then the result reflects that added model assumption. The data alone did not contain a failure-rate scale.
 
-> **Practice — Foundation:** Explain why an ordinary bootstrap cannot generate an observation above the sample maximum.
+> **Practice — Foundation:** For the data \((3,7,12,5)\), what values can the maximum of an ordinary bootstrap resample take, and what is \(P(\text{bootstrap max}=12)\)?
 >
-> **Practice — Core:** Predict the ordinary bootstrap interval after observing zero failures in 30 trials and explain why it is misleading.
+> **Hint:** Resamples contain only observed values, and the maximum is below 12 only if all four draws avoid 12: probability \((3/4)^4\).
 >
-> **Practice — Stretch:** Construct a selection pipeline for which bootstrapping only the selected estimator understates uncertainty. Describe how to bootstrap the complete pipeline.
+> **Practice — Core:** Predict the ordinary bootstrap percentile interval for the failure rate after zero failures in 30 trials, compare it with the exact one-sided 95% upper bound, and explain why the bootstrap is misleading.
+>
+> **Hint:** Every resample of 30 all-success rows has zero failures; the exact bound solves \((1-p)^{30}=0.05\).
+>
+> **Practice — Stretch:** Ten checkpoints with equal true accuracy 0.70 are scored on the same 500 items and the best is reported. Bootstrapping only the winner's accuracy gives SE about \(\sqrt{0.7(0.3)/500}\). Using \(E[\max\text{ of 10 iid }\mathcal N(0,1)]\approx1.54\), estimate the winner's optimism, and describe how to bootstrap the complete pipeline.
+>
+> **Hint:** Each score has SE about 0.0205, so the winner sits about \(1.54\times0.0205\) above the truth; the full-pipeline bootstrap reselects the winner inside every replicate.
 
 ## 6. A permutation test needs exchangeability
 
@@ -251,11 +288,17 @@ Arbitrarily shuffling labels can be invalid when:
 - only some assignments were possible;
 - the null makes means equal but not full distributions exchangeable.
 
-> **Practice — Foundation:** Define exchangeability in the context of a permutation test.
+> **Practice — Foundation:** Four units have outcomes \((3,5,8,10)\) and labels A, A, B, B. Define exchangeability for a permutation test here, and count the equally likely labelings under the null.
 >
-> **Practice — Core:** Count the possible assignments of four units to A and four to B.
+> **Hint:** Under the null, relabeling does not change the joint distribution, so each of the \(\binom42=6\) labelings is equally likely.
 >
-> **Practice — Stretch:** Give two data-generating distributions with equal means but unequal variances and explain why unrestricted label permutation may test more than mean equality.
+> **Practice — Core:** Count the possible assignments of four units to A and four to B, and give the smallest attainable one-sided permutation p-value.
+>
+> **Hint:** Choose which 4 of 8 units get A: \(\binom84\); the smallest p-value counts only the observed assignment.
+>
+> **Practice — Stretch:** Group A has \(n=10\) draws from \(\mathcal N(0,9)\) and group B has \(n=40\) draws from \(\mathcal N(0,1)\), so the means are equal. Simulate 5,000 datasets (seed 0) and run a 999-permutation test of the absolute mean difference on each. Report the rejection rate at 5% and explain why unrestricted label permutation tests more than mean equality.
+>
+> **Hint:** The permutation test is exact only if groups are exchangeable; when the small group has the large variance, permuted differences understate the spread of the observed difference.
 
 ## 7. Paired permutation tests become sign-flip tests
 
@@ -283,9 +326,15 @@ For paired binary predictions, sign flipping the discordant outcomes yields the 
 
 > **Practice — Foundation:** How many sign assignments exist for six nonzero paired differences?
 >
-> **Practice — Core:** Enumerate all sign assignments for differences \(2,-1,3\) and verify the two-sided p-value.
+> **Hint:** Each difference independently keeps or flips its sign: \(2^6\).
 >
-> **Practice — Stretch:** Distinguish the sharp pairwise null needed for literal within-pair swaps from the weaker null that only the average difference is zero.
+> **Practice — Core:** Enumerate all sign assignments for differences \(2,-1,3\) and verify the two-sided p-value for the statistic \(|\sum_id_i|\).
+>
+> **Hint:** List the eight sums \(\pm2\pm1\pm3\) and count those with absolute value at least the observed \(|4|\).
+>
+> **Practice — Stretch:** Four pairs have individual treatment effects \((+3,-3,+1,-1)\). Decide whether the sharp null (every within-pair effect is zero) and the weak null (average effect zero) hold, and explain which one a literal within-pair swap argument needs.
+>
+> **Hint:** The sharp null requires \(Y_i(1)=Y_i(0)\) for every pair; check each individual effect, then their average.
 
 ## 8. Independent-group randomization follows the assignment mechanism
 
@@ -303,11 +352,17 @@ For observational groups, label exchangeability is an assumption rather than a c
 
 **Worked example — blocked prompt assignment.** Prompts are divided into coding, reasoning, and safety strata before randomly choosing which model serves each prompt. A valid randomization test reassigns model labels within each stratum while preserving its allocation counts. Shuffling across all prompts would allow assignments excluded by the design and could confound domain with model.
 
-> **Practice — Foundation:** State what remains fixed and what changes in a randomization test.
+> **Practice — Foundation:** Units with outcomes \((3,5,8,10)\) were randomized with units 3 and 4 treated. State what remains fixed and what changes in the randomization test of the sharp null.
 >
-> **Practice — Core:** Describe the allowed permutations for an experiment assigning one treatment per user, with many responses per user.
+> **Hint:** Outcomes stay fixed under the sharp null; only the treatment vector is redrawn from the design's \(\binom42\) assignments.
 >
-> **Practice — Stretch:** Compare the null tested by a randomized-label test with the null tested by an asymptotic unequal-variance t test.
+> **Practice — Core:** Six users are randomized with three treated, and each contributes 20 responses. Describe the allowed permutations and count them; contrast this with permuting all 120 responses.
+>
+> **Hint:** Assignment happened at the user level, so permute whole users' labels: \(\binom63\) assignments.
+>
+> **Practice — Stretch:** Treated outcomes are \((1,1,1,9)\) and control outcomes \((3,3,3,3)\). Compute the difference in means, state the null tested by a randomized-label test and by a Welch unequal-variance \(t\) test, and say whether each null is plausible here.
+>
+> **Hint:** The randomization test's null is \(Y_i(1)=Y_i(0)\) for all \(i\); Welch's null is equal population means. Here the means are equal but the distributions clearly differ.
 
 ## 9. Monte Carlo permutation tests need finite-simulation correction
 
@@ -329,9 +384,15 @@ Simulation randomness should be reproducible without mutating application-wide r
 
 > **Practice — Foundation:** Calculate the corrected p-value for \(b=0,B=999\).
 >
-> **Practice — Core:** Explain why 999 permutations cannot resolve whether a p-value is \(10^{-5}\) or \(10^{-4}\).
+> **Hint:** Use \((b+1)/(B+1)\), counting the observed assignment as one of the draws.
 >
-> **Practice — Stretch:** Construct a confidence interval for the Monte Carlo tail probability and use it to decide whether more permutations are needed.
+> **Practice — Core:** Explain why 999 permutations cannot resolve whether a p-value is \(10^{-5}\) or \(10^{-4}\): compute the smallest attainable corrected p-value and the expected number of exceedances \(b\) under each.
+>
+> **Hint:** The corrected p-value cannot fall below \(1/(B+1)\); the expected exceedance count is \(Bp\).
+>
+> **Practice — Stretch:** A permutation test finds \(b=38\) exceedances in \(B=999\) permutations, and the decision threshold is 0.05. Construct a 95% confidence interval for the Monte Carlo tail probability and decide whether more permutations are needed.
+>
+> **Hint:** Treat \(b\) as Binomial\((B,p)\): the interval \(\hat p\pm1.96\sqrt{\hat p(1-\hat p)/B}\) with \(\hat p=(b+1)/(B+1)\) tells you whether 0.05 is excluded.
 
 ## 10. Bootstrap and permutation answer different questions
 
@@ -346,11 +407,17 @@ A bootstrap sample repeats and omits observations. A permutation usually uses ea
 
 **Worked example — paired model scores.** Resampling prompt pairs estimates uncertainty in the average model difference over new prompts. Sign-flipping differences tests a symmetry or sharp-null claim conditional on the observed magnitudes. The numerical answers can differ because the hypothetical repetitions differ.
 
-> **Practice — Foundation:** State what is resampled in a row bootstrap and what is shuffled in a two-group permutation test.
+> **Practice — Foundation:** For groups A \((4,6,9)\) and B \((1,2,5)\), state what is resampled in a row bootstrap and what is shuffled in a two-group permutation test.
+>
+> **Hint:** The bootstrap redraws 3 values from each group with replacement; the permutation test reassigns the six pooled values to two groups of 3 without replacement.
 >
 > **Practice — Core:** Choose between bootstrap and permutation for estimating the standard error of a median and for testing a randomized treatment assignment.
 >
-> **Practice — Stretch:** Give a setting where a bootstrap test and permutation test target meaningfully different null hypotheses despite using the same statistic.
+> **Hint:** A median's SE needs replayed sampling; a randomized assignment test needs replayed assignment.
+>
+> **Practice — Stretch:** In observational data, 5,000 users who opted in to a feature have retention 0.62 and 5,000 who did not have 0.55. Compute the bootstrap-style SE of the difference, and explain why a label-permutation p-value here does not test a causal null.
+>
+> **Hint:** The SE is \(\sqrt{p_1(1-p_1)/n_1+p_2(1-p_2)/n_2}\); permutation presumes labels were assigned at random, which opt-in violates.
 
 ## 11. Randomization creates causal identification
 
@@ -379,11 +446,17 @@ does not specify every missing outcome, so exact finite-sample testing requires 
 
 Randomization does not prevent attrition, noncompliance, measurement bias, interference between units, or failure to generalize beyond study units. It identifies a contrast under the implemented intervention and design.
 
-> **Practice — Foundation:** Explain why both potential outcomes cannot usually be observed for one unit.
+> **Practice — Foundation:** Three users are each shown exactly one of models A or B, with observed outcomes \(Y_1=4\) (A), \(Y_2=7\) (B), \(Y_3=5\) (A). Fill the table of \(Y_i(A)\) and \(Y_i(B)\) with the observed values and '?' marks, and explain why both potential outcomes cannot usually be observed.
 >
-> **Practice — Core:** Show why the sharp null allows every outcome under every assignment to be known.
+> **Hint:** Consistency says the observed outcome equals the potential outcome under the treatment actually received; the other is counterfactual.
 >
-> **Practice — Stretch:** Describe interference in a multi-agent system experiment and explain how it violates a no-interference analysis.
+> **Practice — Core:** Units 1 and 2 are treated with outcomes 5 and 7; units 3 and 4 are controls with outcomes 4 and 6. Under the sharp null, fill in every potential outcome, compute the difference in means for all six assignments, and give the two-sided p-value.
+>
+> **Hint:** Under \(Y_i(1)=Y_i(0)\), each observed value is both potential outcomes; recompute the statistic for each of the \(\binom42=6\) assignments.
+>
+> **Practice — Stretch:** Ten agents share a tool rate limit of 100 calls per minute, and treated agents make three times as many calls. Describe the interference and explain how it violates a no-interference analysis of an agent-level randomization.
+>
+> **Hint:** Ask whether a control agent's outcome depends on how many others are treated; if it does, \(Y_i\) is a function of the whole assignment vector.
 
 ## 12. Repeated peeking invalidates a fixed-sample threshold
 
@@ -412,11 +485,17 @@ There are several valid responses:
 
 **Worked example — union-bound spending.** If five planned analyses use levels \(\alpha_1,\ldots,\alpha_5\) with \(\sum_t\alpha_t\leq0.05\), then the union bound limits the chance of any null rejection to 0.05 regardless of dependence among looks. This simple rule is valid but can be conservative because looks are strongly correlated.
 
-> **Practice — Foundation:** Distinguish a fixed-time Type I error event from an ever-crossing event.
+> **Practice — Foundation:** Under a true null, compare \(P(|Z|>1.96)\) at one fixed time with the probability of ever crossing 1.96 across two looks whose \(z\) statistics are independent.
 >
-> **Practice — Core:** Construct a simple alpha-spending schedule for four planned looks with total at most 0.05.
+> **Hint:** The fixed-time event has probability 0.05; the union over two independent looks has probability \(1-0.95^2\).
 >
-> **Practice — Stretch:** Simulate a true-null z statistic as data accumulate and compare false-rejection rates for fixed 0.05 thresholds and a valid sequential boundary.
+> **Practice — Core:** Construct an alpha-spending schedule for four planned looks with total at most 0.05, such as \((0.005,0.01,0.015,0.02)\); verify the union-bound guarantee and give the two-sided \(z\) cutoffs.
+>
+> **Hint:** Nonnegative levels summing to at most 0.05 control the error by the union bound; convert each level \(\alpha_k\) to \(z_{1-\alpha_k/2}\).
+>
+> **Practice — Stretch:** Simulate 5,000 true-null paths of \(z_t=S_t/\sqrt t\) for standard-normal data up to \(t=1{,}000\) (seed 0), looking after every observation. Compare the fraction that ever cross 1.96 with the fraction that ever cross the Bonferroni boundary \(z_{1-0.025/1000}\approx4.06\).
+>
+> **Hint:** Compute the cumulative sums along each path, divide by \(\sqrt t\), and count paths whose maximum \(|z_t|\) exceeds each boundary.
 
 ## 13. Likelihood-ratio e-values support anytime-valid testing
 
@@ -457,11 +536,17 @@ $$
 
 A poorly chosen point alternative may accumulate evidence slowly even when the null is false. Mixtures over alternatives or predictable adaptive bets can provide broader power while preserving the supermartingale property.
 
-> **Practice — Foundation:** State the e-value rejection threshold for \(\alpha=0.05\).
+> **Practice — Foundation:** State the e-value rejection threshold for \(\alpha=0.05\), and decide whether \(E=12\) rejects.
 >
-> **Practice — Core:** Derive the Bernoulli log likelihood ratio after \(s\) successes in \(t\) observations.
+> **Hint:** Ville's inequality gives \(P(\sup_tE_t\ge1/\alpha)\le\alpha\), so reject when \(E\ge1/\alpha\).
 >
-> **Practice — Stretch:** Explain why choosing \(p_1\) after inspecting the complete data generally breaks the simple martingale argument, and describe a valid mixture alternative.
+> **Practice — Core:** Derive the Bernoulli log likelihood ratio after \(s\) successes in \(t\) observations for \(p_1=0.7\) against \(p_0=0.5\), and evaluate it and the e-value for \(s=7,t=10\).
+>
+> **Hint:** \(\log E_t=s\log(p_1/p_0)+(t-s)\log((1-p_1)/(1-p_0))\).
+>
+> **Practice — Stretch:** After \(s=14\) successes in \(t=20\), compute the likelihood ratio against \(p_0=0.5\) with \(p_1=\hat p=0.7\) chosen after seeing the data, and the Beta\((1,1)\) mixture e-value. Explain why the first breaks the martingale argument while the second is valid.
+>
+> **Hint:** Choosing \(p_1=\hat p\) gives the maximized likelihood ratio, which is not a supermartingale under \(H_0\); the mixture is \(\int_0^1p^{14}(1-p)^6\,dp/0.5^{20}=B(15,7)\,2^{20}\).
 
 ## 14. Confidence sequences cover at every time
 
@@ -478,11 +563,17 @@ Confidence sequences can be constructed by inverting families of sequential test
 
 Optional continuation matters too. If a disappointing study is extended while a favorable one is stopped, a fixed interval at the eventual stopping time inherits selection. An anytime-valid sequence is designed for that behavior.
 
-> **Practice — Foundation:** Distinguish pointwise confidence intervals from a confidence sequence.
+> **Practice — Foundation:** An analyst reports a pointwise 95% interval at each of 100 looks. Give the union bound on the probability that at least one interval misses, and the per-look level that would make the union bound 0.05.
 >
-> **Practice — Core:** Explain why inverting anytime-valid tests yields simultaneous coverage.
+> **Hint:** Each pointwise interval misses with probability 0.05, so the bound is \(\min(1,100\times0.05)\); a confidence sequence must cover at all times simultaneously.
 >
-> **Practice — Stretch:** Design stopping rules for efficacy and futility using a confidence sequence and a practically meaningful effect threshold.
+> **Practice — Core:** Explain why inverting anytime-valid tests yields simultaneous coverage. Then, after \(s=14\) successes in \(t=20\), use the Beta\((1,1)\) mixture e-value \(E(\theta_0)=B(15,7)/(\theta_0^{14}(1-\theta_0)^6)\) to decide which of \(\theta_0\in\{0.3,0.5,0.9\}\) lie in the 95% confidence sequence.
+>
+> **Hint:** The confidence sequence is \(\{\theta_0:E_t(\theta_0)<20\}\); its miss event is the null's ever-rejection event, which has probability at most \(\alpha\).
+>
+> **Practice — Stretch:** Use a confidence sequence \(\hat\Delta_t\pm2.5/\sqrt t\) for a unit-variance effect and a practical threshold 0.1. Design efficacy and futility stopping rules, and find the time at which the expected estimate would trigger efficacy when \(\Delta=0.3\) and futility when \(\Delta=0\).
+>
+> **Hint:** Stop for efficacy when \(\hat\Delta_t-2.5/\sqrt t>0.1\) and for futility when \(\hat\Delta_t+2.5/\sqrt t<0.1\); substitute \(\hat\Delta_t=\Delta\) and solve for \(t\).
 
 ## 15. Design dominates analysis
 
@@ -512,11 +603,17 @@ Replicate at the unit where randomness enters. Repeating deterministic scoring o
 
 **Worked example — online latency experiment.** Sending model A traffic in the morning and model B traffic in the evening confounds model with load and user mix. Randomly route requests concurrently, block or stratify by region and device when needed, and log assignment before the outcome. If users make repeated requests, randomize at the user level when spillover across a user's sessions is likely.
 
-> **Practice — Foundation:** Give one purpose each for randomization, blocking, and blinding.
+> **Practice — Foundation:** In a human-rating study of two chatbots over five topics, give one purpose each for randomization, blocking, and blinding.
 >
-> **Practice — Core:** Design a paired human-preference evaluation while preventing order and identity effects.
+> **Hint:** Randomization removes systematic assignment bias; blocking by topic removes topic variation from the comparison; blinding keeps raters' knowledge of the model out of the ratings.
 >
-> **Practice — Stretch:** Choose between request-level and user-level randomization for a conversational assistant whose earlier responses influence later behavior.
+> **Practice — Core:** Design a paired human-preference evaluation for 200 prompts, 10 raters, and models A and B that prevents order and identity effects, stating how many prompts each rater sees in each display order.
+>
+> **Hint:** Randomize left/right order within each pair (half AB, half BA), hide model names, and give each rater 20 prompts balanced 10 and 10 across the two orders.
+>
+> **Practice — Stretch:** A conversational assistant has users with 10 turns each, and a treated response on one turn changes the user's later messages. Choose between request-level randomization (10,000 requests) and user-level randomization (1,000 users), and explain the trade-off.
+>
+> **Hint:** Request-level assignment lets treatment leak into control turns of the same user; user-level randomization keeps each history in one arm at the cost of fewer independent units.
 
 ## 16. Factorial designs reveal interactions
 
@@ -539,11 +636,17 @@ Testing one factor at a time can miss interactions and uses runs inefficiently. 
 
 Interactions must be interpreted on the chosen outcome scale. No interaction in additive accuracy points does not imply no interaction in odds or utility. Multiple planned factors and outcomes also create a test family.
 
-> **Practice — Foundation:** Name the three effects estimable in a two-factor \(2\times2\) design.
+> **Practice — Foundation:** Name the three effects estimable in a two-factor \(2\times2\) design and write each in terms of the cell means \(\mu_{00},\mu_{10},\mu_{01},\mu_{11}\).
 >
-> **Practice — Core:** Calculate a difference-in-differences interaction from four supplied cell means.
+> **Hint:** Main effects average one factor's difference over the other factor's levels; the interaction is the difference of differences.
 >
-> **Practice — Stretch:** Design a factorial experiment for model, prompting strategy, and tool access. Identify prohibited combinations and how they alter estimability.
+> **Practice — Core:** Cell accuracies are: baseline prompt without tools 0.60, new prompt without tools 0.66, baseline prompt with tools 0.70, new prompt with tools 0.82. Calculate the difference-in-differences interaction and both main effects.
+>
+> **Hint:** Compute the prompt effect within each tools level (0.06 and 0.12), then subtract; average them for the main effect.
+>
+> **Practice — Stretch:** Design a \(2\times2\times2\) factorial for model (M1, M2), prompting strategy, and tool access, where M1 cannot use tools. Identify the prohibited cells and which effects are no longer estimable.
+>
+> **Hint:** List the 8 cells, strike the two with M1 and tools, and check which contrasts need those cells: any tools effect for M1, and the interactions involving model and tools.
 
 ## 17. Sample size, attrition, noncompliance, and interference
 
@@ -562,11 +665,17 @@ An **intention-to-treat** effect compares outcomes by randomized assignment, pre
 
 **Worked example — tool-use rollout.** Users randomized to tool access may never invoke the tool. The intention-to-treat estimand measures the effect of offering access. The effect among users who would use the tool is different and generally requires stronger assumptions. Reporting only active tool users destroys the original randomized comparison.
 
-> **Practice — Foundation:** Explain why post-assignment attrition can bias a randomized experiment.
+> **Practice — Foundation:** Treatment has 100 randomized users, of whom the 30 least satisfied drop out; control has 100, of whom 5 drop out. Completer satisfaction is 7.5 (treatment) versus 7.0 (control). Explain why this post-assignment attrition can bias the comparison.
 >
-> **Practice — Core:** Distinguish the effect of offering a feature from the effect of actually using it.
+> **Hint:** Compare who remains in each arm: selective dropout of the least satisfied treated users makes completers no longer comparable randomized groups.
 >
-> **Practice — Stretch:** Describe interference between agents sharing a memory or rate limit, then propose a cluster-randomized design.
+> **Practice — Core:** A feature is offered to 1,000 randomized users and 40% of offered users use it (no control user can). The intent-to-treat difference in outcome is 0.02. Distinguish the effect of offering from the effect of using it, and compute the complier average effect.
+>
+> **Hint:** The ITT is the randomized contrast; divide it by the uptake difference 0.4 to get the complier effect, under exclusion and monotonicity.
+>
+> **Practice — Stretch:** Forty agents are organized in 8 pools of 5 that share a memory store and a rate limit. Describe the interference, propose a cluster-randomized design with half the pools treated, and count the number of possible assignments.
+>
+> **Hint:** Randomize whole pools so interference stays within an arm; the randomization units drop to 8, giving \(\binom84\) assignments.
 
 ## 18. Resampling and design for AI research
 
@@ -595,11 +704,17 @@ Selection must be replayed. If the best checkpoint is chosen within each seed, a
 
 **Worked example — hierarchical benchmark bootstrap.** To target new tasks and new prompts, resample tasks; inside each selected task, resample its prompts; keep both models' results paired on every prompt; recompute task aggregation and the overall difference. If the target treats the twelve benchmark tasks as fixed, do not pretend task resampling estimates a larger task population.
 
-> **Practice — Foundation:** Draw the hierarchy for an evaluation with tasks, prompts, seeds, sampled outputs, and raters.
+> **Practice — Foundation:** Draw the hierarchy for an evaluation with 8 tasks, 25 prompts per task, 3 seeds, 4 sampled outputs per prompt and seed, and 2 raters per output, and count the total ratings.
 >
-> **Practice — Core:** Specify a hierarchical bootstrap for generalizing across both tasks and prompts while preserving model pairing.
+> **Hint:** Write the nesting task ⊃ prompt, crossed with seed, then output ⊃ rating, and multiply the counts per level.
 >
-> **Practice — Stretch:** Audit an agent evaluation in which trajectories share tools, memory, and rate limits. Identify dependence, interference, stopping, and assignment issues.
+> **Practice — Core:** Specify a hierarchical bootstrap for 10 tasks × 30 prompts, both models run on every prompt, that generalizes across both tasks and prompts while preserving model pairing.
+>
+> **Hint:** Resample 10 tasks with replacement, then 30 prompts within each selected task, and carry both models' scores for each selected prompt together.
+>
+> **Practice — Stretch:** Audit an agent evaluation: 200 trajectories from 20 agents run on 5 shared tool servers with a common rate limit, the experimenter stopped after trajectory 120 because success looked good, and agents were assigned to conditions by who was free. Identify dependence, interference, stopping, and assignment issues.
+>
+> **Hint:** Check each in turn: trajectories within agents, shared servers and rate limits, the data-dependent stop at 120, and the non-random mapping of agents to conditions.
 
 ## 19. Runnable labs
 
@@ -674,57 +789,77 @@ The checks cover hand calculations, evidence increases and decreases, identical 
 13. Explain confidence-sequence coverage by inversion.
 14. Derive a \(2\times2\) factorial interaction contrast.
 
+## Prediction experiment
+
+Predict both the baseline and failure-preset results before revealing the calculation. Record the assumptions, change one control at a time, and explain the boundary case. This small deterministic model isolates a mechanism; it is not an empirical validation of a trained system.
+
+```lab
+lab: ps-design
+```
+
 ## 21. End-of-unit practice (graded)
 
-**Foundation — problems 1–5.** Reconstruct each method's hypothetical repetition.
+Work each problem before opening its authored solution. Written proofs and design answers require self-review against the rubric; numeric fields check only the stated quantities.
 
-1. **Bootstrap mechanics.** From \(x=(1,2,4,9)\), show that there are \(4^4=256\) equally likely ordered bootstrap index sequences. Write a program that groups them by bootstrap mean, reports each distinct mean and probability, and verifies the exact bootstrap mean and variance against the plug-in formulas.
-2. **Interval construction.** The ordered bootstrap estimates are \((1.1,1.3,1.4,1.8,2.0,2.1,2.4,2.8,3.0,3.6)\), the original estimate is \(2.0\), and this exercise defines the 10% and 90% empirical quantiles as the first and ninth entries. Calculate the corresponding 80% percentile and basic intervals.
-3. **Permutation space.** For four paired differences \(d=(1,2,-1,3)\), enumerate all \(2^4\) sign assignments and the resulting mean differences. Contrast this with a completely randomized experiment assigning two of four labeled units to treatment, which has \(\binom42\) assignments.
-4. **Sequential evidence.** For observations \((1,0,1,1,0,1)\), update the Bernoulli likelihood ratio for \(H_1:p=0.7\) against \(H_0:p=0.5\) after every observation. Report the running maximum e-value and anytime p-value \(\min(1,1/\max_{s\le t}E_s)\).
-5. **Design vocabulary.** Distinguish randomization, pairing, blocking, blinding, replication, and stratification.
 
-**Core — problems 6–11.** Select and execute methods for realistic data structures.
+### Foundation — problems 1–5. Reconstruct each method's hypothetical repetition.
 
-6. **Skewed estimator.** Generate \(n=40\) iid lognormal pairs with log-scale correlation 0.6 (seed 2026). Bootstrap the sample median of the first coordinate and the ratio of coordinate means using 10,000 paired resamples. Compare distribution shape, standard error, and percentile interval with a Gaussian approximation; repeat after breaking the pairing and explain the change.
-7. **Cluster bootstrap.** Implement user-level resampling for unequal cluster sizes under both user-weighted and interaction-weighted estimands.
-8. **Exact sign flips.** For \(d=(1,2,-1,3)\), calculate the exact two-sided paired permutation p-value using \(|\bar d|\) and inclusive tail counting.
-9. **Monte Carlo calibration.** For the same statistic, estimate the permutation p-value using \(B=99,999,9{,}999\), seed 2026, and \((b+1)/(B+1)\). Report conditional Monte Carlo standard error and decide which \(B\) can resolve a 0.05 decision reliably.
-10. **Alpha spending.** Use five prespecified looks with levels \((0.005,0.005,0.01,0.01,0.02)\). Verify the union-bound guarantee, then simulate the whole stopping rule for Bernoulli data under \(p=0.5\) and \(p=0.65\), 10,000 trials each, seed 2026. Compare rejection probability and expected stopping look.
-11. **Blocked experiment.** In blocks A and B, outcomes under the observed assignment are treatment \((8,9)\), control \((5,6)\) and treatment \((21,20)\), control \((19,18)\), respectively. Estimate the equal-block average effect with and without block adjustment; state which target each weighting scheme estimates and why blocking can improve precision.
+**A1 · Foundation · paper — Bootstrap mechanics.** From \(x=(1,2,4,9)\), show that there are \(4^4=256\) equally likely ordered bootstrap index sequences. Write a program that groups them by bootstrap mean, reports each distinct mean and probability, and verifies the exact bootstrap mean and variance against the plug-in formulas.
 
-**Stretch — problems 12–18.** Diagnose methods that appear computationally sophisticated but replay the wrong experiment.
+**A2 · Foundation · paper — Interval construction.** The ordered bootstrap estimates are \((1.1,1.3,1.4,1.8,2.0,2.1,2.4,2.8,3.0,3.6)\), the original estimate is \(2.0\), and this exercise defines the 10% and 90% empirical quantiles as the first and ninth entries. Calculate the corresponding 80% percentile and basic intervals.
 
-12. **Rare-event bootstrap.** Study zero and near-zero observed failures. Explain ordinary bootstrap collapse and compare an exact model-based interval.
-13. **Time dependence.** Compare row and moving-block bootstraps for an autocorrelated metric while varying block length.
-14. **Selection replay.** Select a checkpoint and metric, then compare uncertainty when the bootstrap does and does not repeat selection.
-15. **Weak versus sharp null.** Construct potential outcomes with zero average effect but heterogeneous individual effects. Test a sharp null and explain the mismatch.
-16. **Adaptive evidence.** Compare a point-alternative e-process with a mixture over alternatives under several true effects.
-17. **Interference.** Simulate users sharing an agent memory. Compare individual and cluster randomization under spillovers.
-18. **Full protocol.** Design a multi-task, multi-seed AI experiment with randomization, blocking, a sampling hierarchy, sequential stopping, resampling-based uncertainty, and multiplicity control.
+**A3 · Foundation · paper — Permutation space.** For four paired differences \(d=(1,2,-1,3)\), enumerate all \(2^4\) sign assignments and the resulting mean differences. Contrast this with a completely randomized experiment assigning two of four labeled units to treatment, which has \(\binom42\) assignments.
 
-<details><summary>Worked solution sketches</summary>
+**A4 · Foundation · paper — Sequential evidence.** For observations \((1,0,1,1,0,1)\), update the Bernoulli likelihood ratio for \(H_1:p=0.7\) against \(H_0:p=0.5\) after every observation. Report the running maximum e-value and anytime p-value \(\min(1,1/\max_{s\le t}E_s)\).
 
-1. Each of four draws independently chooses one of four positions, producing 256 index sequences. The exact bootstrap expectation is the sample mean, \(4\). Conditional variance of a single empirical-distribution draw is \(9.5\), so the mean of four draws has variance \(9.5/4=2.375\); the grouped probabilities must sum to one and reproduce both moments.
-2. The percentile interval is \([1.1,3.0]\). Reflecting endpoints around \(2\hat\theta=4\) gives the basic interval \([4-3.0,4-1.1]=[1.0,2.9]\).
-3. A completely randomized allocation has \(\binom n{n_A}\) assignments. A paired sign-flip design has \(2^n\). Enumerate only assignments permitted by the implemented design.
-4. Multiply by \(0.7/0.5=1.4\) after a success and by \(0.3/0.5=0.6\) after a failure. The e-values are approximately \((1.4,0.84,1.176,1.6464,0.98784,1.382976)\); the final running maximum is 1.6464 and the final anytime p-value is about 0.6074. It never approaches 0.05.
-5. Randomization creates exchangeable assignment; pairing compares within units; blocking randomizes within known groups; blinding protects measurement; replication creates independent experimental information; stratification controls sampling composition.
-6. Recompute the full statistic per resample. Skewness or unstable denominators should appear in the bootstrap distribution and can make symmetric intervals misleading.
-7. Resample complete users. For a user-weighted target, average user summaries equally. For an interaction-weighted target, pool selected users' rows with the intended weighting. Unequal sizes make these estimands differ.
-8. The observed mean is \(1.25\), so the absolute signed sum threshold is 5. Enumerating the 16 sign patterns gives 6 sums with absolute value at least 5; the exact inclusive two-sided p-value is \(6/16=0.375\).
-9. Use \((b+1)/(B+1)\). The indicator of an extreme sampled permutation is Bernoulli conditional on the data, so its Monte Carlo standard error is approximately \(\sqrt{\hat p(1-\hat p)/B}\).
-10. Select nonnegative look-specific levels summing to at most the family level. Simulate the entire stopping rule; do not compare only the final-look rejection rate.
-11. Randomization protects both analyses from systematic bias, but block adjustment removes explainable between-block variation when the design and model align.
-12. With no observed failures, every ordinary nonparametric resample has none. More resamples do not add missing support. Exact binomial reasoning uses a population model to express remaining uncertainty.
-13. Row resampling destroys autocorrelation. Contiguous blocks retain local structure; too-short blocks miss long dependence, while too-long blocks leave few effective resampling units.
-14. The valid pipeline resamples data, reruns checkpoint and metric selection, then records the selected result. Conditioning on the observed winner omits winner's-curse variation.
-15. A sharp null says every individual effect is zero. Effects can cancel to zero on average while violating the sharp null, so the sharp-null randomization distribution answers a stronger question.
-16. A point alternative grows quickly near its chosen effect and slowly elsewhere. A prespecified mixture averages likelihood ratios and remains an e-process while spreading power across effects.
-17. Individual assignment allows treated units to alter controls through shared memory. Randomizing isolated clusters aligns assignment with interference groups, though inference then depends on the number of clusters.
-18. A complete protocol names all target populations and random axes, preserves paired outputs, randomizes interventions, blocks on task, declares primary contrasts, uses a valid stopping rule, resamples at generalization units, and corrects the full confirmatory family.
+**A5 · Foundation · paper — Design vocabulary.** An experiment compares two summarization models on 120 documents from 4 domains, with 6 annotators scoring outputs. Give one concrete implementation of each of randomization, pairing, blocking, blinding, replication, and stratification in this experiment, and say what each protects against.
 
-</details>
+### Core — problems 6–11. Select and execute methods for realistic data structures.
+
+**A6 · Core · paper — Skewed estimator.** Generate \(n=40\) iid lognormal pairs with log-scale correlation 0.6 (seed 2026). Bootstrap the sample median of the first coordinate and the ratio of coordinate means using 10,000 paired resamples. Compare distribution shape, standard error, and percentile interval with a Gaussian approximation; repeat after breaking the pairing and explain the change.
+
+**A7 · Core · paper — Cluster bootstrap.** Four users have (successes, interactions) \((6,8),(0,2),(2,2),(1,4)\). Compute the user-weighted mean of per-user rates and the interaction-weighted pooled rate, then implement a user-level bootstrap (10,000 resamples, seed 2026) and report the bootstrap SE of each estimand.
+
+**A8 · Core · paper — Exact sign flips.** For \(d=(1,2,-1,3)\), calculate the exact two-sided paired permutation p-value using \(|\bar d|\) and inclusive tail counting.
+
+**A9 · Core · paper — Monte Carlo calibration.** For the same statistic, estimate the permutation p-value using \(B=99,999,9{,}999\), seed 2026, and \((b+1)/(B+1)\). Report conditional Monte Carlo standard error and decide which \(B\) can resolve a 0.05 decision reliably.
+
+**A10 · Core · paper — Alpha spending.** Use five prespecified looks after 20, 40, 60, 80, and 100 Bernoulli observations with levels \((0.005,0.005,0.01,0.01,0.02)\), rejecting \(H_0:p=0.5\) at look \(k\) when the one-sided exact binomial p-value is at most \(\alpha_k\). Verify the union-bound guarantee, then simulate the whole stopping rule under \(p=0.5\) and \(p=0.65\), 10,000 trials each, seed 2026. Compare rejection probability and expected stopping look.
+
+**A11 · Core · paper — Blocked experiment.** In blocks A and B, outcomes under the observed assignment are treatment \((8,9)\), control \((5,6)\) and treatment \((21,20)\), control \((19,18)\), respectively. Estimate the equal-block average effect with and without block adjustment; state which target each weighting scheme estimates and why blocking can improve precision.
+
+### Stretch — problems 12–18. Diagnose methods that appear computationally sophisticated but replay the wrong experiment.
+
+**A12 · Stretch · paper — Rare-event bootstrap.** For 0 failures in 30 trials and for 1 failure in 30, compute the ordinary bootstrap 95% percentile interval for the failure rate (10,000 resamples, seed 0) and the exact Clopper–Pearson 95% interval. Explain the bootstrap collapse.
+
+**A13 · Stretch · paper — Time dependence.** Generate 1,000 AR(1) series of length 200 with \(\phi=0.7\) and unit marginal variance (seed 2026). For each, estimate the SE of the series mean using a moving-block bootstrap with block lengths \(L=1,5,10,20,50\) (500 resamples). Compare the average bootstrap SE with the true SD of the mean across series.
+
+**A14 · Stretch · paper — Selection replay.** Ten checkpoints each have true accuracy 0.70 and independent correctness on the same 500 items; the checkpoint with the best observed accuracy is reported. Over 1,000 datasets (seed 2026, 1,000 item-bootstrap resamples each), compare (i) the coverage of 0.70 by a naive 95% percentile interval for the selected checkpoint's accuracy, (ii) the actual mean optimism, and (iii) the bootstrap-estimated optimism from replaying the selection inside each resample.
+
+**A15 · Stretch · paper — Weak versus sharp null.** Eight units have \(Y_i(0)=0\) for all \(i\) and \(Y_i(1)=4\) for \(i=1,\ldots,4\), \(Y_i(1)=-4\) for \(i=5,\ldots,8\), and 4 units are randomized to treatment. Over all 70 assignments, compute the difference-in-means statistic and the randomization p-value for the sharp null using (a) the difference in means and (b) the difference in mean absolute outcomes. Explain the mismatch with the zero average effect.
+
+**A16 · Stretch · paper — Adaptive evidence.** For Bernoulli data testing \(H_0:p=0.5\), compare the point-alternative e-process with \(p_1=0.7\) and the uniform Beta\((1,1)\) mixture e-process, rejecting when \(E_t\ge20\) with at most 500 observations. For true \(p\in\{0.5,0.55,0.6,0.7,0.8,0.9\}\) and 2,000 streams each (seed 2026), report rejection rate and median stopping time.
+
+**A17 · Stretch · paper — Interference.** Twenty groups of 10 users share an agent memory, with outcome \(y=T_i+0.5\bar T_g+\varepsilon\), \(\varepsilon\sim\mathcal N(0,1)\), where \(\bar T_g\) is the treated fraction in the user's group. Over 2,000 repetitions (seed 2026), compare the difference in means under individual randomization (5 of 10 treated in each group) and under cluster randomization (10 of 20 groups fully treated), relative to the total effect of treating everyone versus no one.
+
+**A18 · Stretch · paper — Full protocol.** Design an experiment comparing two models on 12 tasks × 50 prompts with 3 training seeds per model, one primary metric and 3 secondary metrics, human raters, and interim looks after 200, 400, and 600 prompts. Specify randomization, blocking, the sampling hierarchy, a sequential stopping rule with explicit alpha levels, the resampling scheme, and multiplicity control, with total family-wise error 0.05.
+
+
+## Six-part checkpoint
+
+Complete these without notes, then use the solutions to audit assumptions and reasoning. Passing a numeric check alone does not establish mastery. For implementation and transfer, retain the code/results or written protocol as evidence.
+
+**K1 · Foundation · gate — Concept.** What is the resampling unit in a clustered experiment?
+
+**K2 · Core · gate — Derivation.** Derive the equal-cluster design effect.
+
+**K3 · Core · gate — Calculation.** For cluster size 10 and intraclass correlation 0.2, compute the variance design effect.
+
+**K4 · Core · gate — Implementation audit.** Reproduce two settings of the ps-design experiment independently, including its failure preset. State a numerical invariant or analytic oracle and explain what the plot does not establish.
+
+**K5 · Stretch · gate — Claim audit.** Is repeatedly checking an ordinary fixed-sample p-value until it crosses 0.05 a level-0.05 procedure?
+
+**K6 · Stretch · gate — RE/RS transfer.** Design an evaluation with repeated users and sequential monitoring.
 
 ## Mastery check
 

@@ -8,6 +8,8 @@ Build systems whose retrieval, model, tools, and evaluation can be inspected ind
 
 The existing [retrieval, tools, evaluation, and deployment overview](01-retrieval-tools-evaluation.md) is retained. Detailed units reserve 02–15. Tools and external services are simulated first; real external side effects are not needed to learn the contracts.
 
+**Legacy-page review:** Keep the overview: retrieval-versus-generation failure attribution, idempotent tool actions, deployment state and rollback are distinct system contracts. Fold its concrete exercises into APP02/APP03/APP04/APP06/APP10/APP12 before retiring the bridge. See the [cross-track audit](../_legacy-audit.md) for the removal criteria and current coverage.
+
 **Scope:** 14 units; 406 estimated study hours including derivations, practice, and the capstone. These are planning estimates, not elapsed-time requirements or hiring guarantees. Diagnose existing knowledge and use the gates to skip material already mastered. Module numbers below are file-number reservations within this track; retained overview pages are outside the new sequence unless explicitly listed.
 
 ## 2. Teaching and authoring contract

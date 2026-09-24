@@ -14,25 +14,25 @@ Build probabilistic models from finite experiments through research-grade infere
 
 | Handle | Current coverage and evidence | Still to add or verify |
 |---|---|---|
-| PS00 | [00-probability-foundations.md](00-probability-foundations.md). Finite sample spaces, axioms, counting, conditioning, Bayes, independence, indicators, and exact conditional probability lab. | Common format retrofit; conditional-event enumerator and independence counterexample tasks; diagnostic repair links. |
-| PS01 | [01-random-variables-distributions.md](01-random-variables-distributions.md). PMFs/CDFs/densities, moments, common families, inverse-CDF simulation, log-space discipline, and categorical sampling. | Common retrofit; explicit atoms/mixed laws and quantile conventions; numerical tail-probability exercises and additional sampler tests. |
-| PS02 | [02-joint-distributions-conditioning-covariance.md](02-joint-distributions-conditioning-covariance.md). Marginals, conditional laws/expectations, total expectation/variance, covariance matrices, Simpson reversals, and conditional independence. | Common retrofit; conditional-mixture simulation and covariance PSD checks, with a finite nonzero-mean example. |
-| PS03 | [03-transformations-convolution-jacobians.md](03-transformations-convolution-jacobians.md). Discrete pushforwards, CDF method, inverse branches, Jacobians, affine/polar transformations, convolution, and flow examples. | Common retrofit; explicit singular-map/support cases; invertible-flow round-trip and density-normalization checks. |
-| PS04 | [04-multivariate-gaussian-geometry.md](04-multivariate-gaussian-geometry.md). Covariance ellipsoids, affine sampling, Gaussian closure, marginals/conditionals, independence, whitening, and singular covariance caveats. | Common retrofit; stable block solves without explicit inverses; contrast a full density with a degenerate Gaussian on a subspace. |
-| PS05 | [05-limit-theorems-monte-carlo.md](05-limit-theorems-monte-carlo.md). Weak/strong laws, CLT, standard errors, concentration/Chernoff methods, heavy tails, dependence, and batch-means estimation. | Common retrofit; convergence-mode counterexamples, coverage simulations, and robust-mean extensions; formal process guarantees deferred to PS19/PS22. |
-| PS06 | [06-estimation-likelihood-fisher.md](06-estimation-likelihood-fisher.md). Estimands/estimators, bias/variance/MSE, likelihood, Bernoulli/Gaussian MLE, identifiability, Fisher, CRLB, delta method, and misspecification. | Common retrofit; worked irregular/boundary models, likelihood profiles, and analytic-versus-simulated coverage; clarify conditions for score/interchange identities. |
-| PS07 | [07-hypothesis-testing-confidence-power.md](07-hypothesis-testing-confidence-power.md). Tests/p-values, confidence duality, exact binomial inference, mean tests, pairing/clustering, power/effect sizes, LRTs, Holm/BH, and selection pitfalls. | Common retrofit; equivalence/noninferiority with prespecified margins; null calibration of boundary tests and dependent-comparison qualifications. |
-| PS08 | [08-resampling-sequential-experimental-design.md](08-resampling-sequential-experimental-design.md). Bootstrap/permutation variants, resampling units, failure modes, e-processes/confidence sequences, randomization, blocking, factorial designs, and interference. | Common retrofit; stronger studentized/cluster examples and explicit optional-stopping conditions; full martingale proofs belong to PS22. |
-| PS09 | [09-bayesian-modeling-computation.md](09-bayesian-modeling-computation.md). Priors, conjugacy, posterior prediction, sensitivity, hierarchies, importance sampling, chain stationary/limiting behavior, MH, diagnostics, and HMC/VI overview. | Common retrofit; multi-chain diagnostics and simulation-based calibration as local work; full HMC/SMC in PS25, not a claim they are already implemented. |
-| PS10 | [10-sampling-design-ml-evaluation.md](10-sampling-design-ml-evaluation.md). Frames/estimands, finite-population corrections, strata/clusters/weights, nonresponse, simulation variance reduction, adaptive sampling, seeds, contamination, and shift. | Common retrofit; crossed task/seed uncertainty examples, judge-error sensitivity, and a fully replayable evaluation protocol; adaptive collection deepens in PS27. |
-| PS11 | [11-exponential-families-regression-glms.md](11-exponential-families-regression-glms.md). Sufficiency, exponential-family geometry, OLS uncertainty, ANOVA, sandwich/GLS, logistic/Poisson/Bradley–Terry, IRLS, and partial pooling. | Common retrofit; explicit separation/weak overlap cases, cluster-robust uncertainty, and a connected-comparison-graph check for preferences. |
-| PS12 | [12-high-dimensional-probability.md](12-high-dimensional-probability.md). Norm/angle concentration, thin shells, JL, sample-covariance spectra, attention/initialization scale, and projection-distortion lab. | Common retrofit; qualify finite-probability versus almost-sure wording in the JL discussion, dimension-bound constants, covariance-null assumptions, and eigenvector stability. |
-| PS13 | [13-calibration-scoring-conformal.md](13-calibration-scoring-conformal.md). Reliability/ECE, proper Brier/log scores, decomposition, recalibration, prior shift, split conformal, and threshold/ECE labs. | Common retrofit plus priority claim audit: binning versus finite-sample ECE bias, conditional versus marginal validity, dependence counterexamples, and ambiguous score-impossibility exercise. |
-| PS14 | [14-latent-variables-elbo-gradient-estimators.md](14-latent-variables-elbo-gradient-estimators.md). ELBO derivations, amortization, score-function/pathwise gradients, an exact variance comparison, Gumbel-max/relaxation, and Gaussian ELBO lab. | Common retrofit; explicit differentiation-under-integral conditions, baseline/stop-gradient checks, finite discrete oracles, and biased-relaxation comparisons. |
-| PS15 | [15-score-matching-diffusion-sampling.md](15-score-matching-diffusion-sampling.md). Score/normalizer identity, Hyvärinen/denoising arguments, Gaussian forward chain, diffusion ELBO, sampler/guidance overview, and decoding surgery. | Common retrofit; boundary assumptions in integration by parts, explicit reverse-time conventions, analytic score/sampler checks; rigorous SDE work belongs to PS24. |
-| PS16 | [16-causal-inference-missing-data.md](16-causal-inference-missing-data.md). Potential outcomes, DAGs/d-separation, adjustment/IPW/AIPW, instruments/weak instruments, DiD/RD, sensitivity, missingness, and Rubin pooling. | Common retrofit; executable cross-fitted AIPW and imputation studies, nuisance-rate qualifications, and better distinction between diagnostics and identification. |
-| PS17 | [17-mixtures-em-graphical-models.md](17-mixtures-em-graphical-models.md). Mixture responsibilities/EM, singularities, label switching/identifiability, model selection, exact graphical inference, junction trees, and HMMs. | Common retrofit; executable backward/smoothing and variable-elimination tasks, missing-information examples, and singular-model selection qualifications. |
-| PS18 | [18-order-statistics-empirical-processes-nonparametrics.md](18-order-statistics-empirical-processes-nonparametrics.md). Quantiles/extremes, GC/DKW, empirical-process overview, rank/U-statistic tests, KDE/regression, and Rao–Blackwellization. | Common retrofit; exact quantile/tie cases, dependent-data counterexamples, and qualified block-resampling repairs; rare-tail modeling expands in PS28. |
+| PS00 | [00-probability-foundations.md](00-probability-foundations.md). Finite sample spaces, axioms, counting, conditioning, Bayes, independence, indicators, and exact conditional probability lab. | Maintain the implemented common format; conditional-event enumerator and independence counterexample tasks; diagnostic repair links. |
+| PS01 | [01-random-variables-distributions.md](01-random-variables-distributions.md). PMFs/CDFs/densities, moments, common families, inverse-CDF simulation, log-space discipline, and categorical sampling. | Maintain the implemented common format; explicit atoms/mixed laws and quantile conventions; numerical tail-probability exercises and additional sampler tests. |
+| PS02 | [02-joint-distributions-conditioning-covariance.md](02-joint-distributions-conditioning-covariance.md). Marginals, conditional laws/expectations, total expectation/variance, covariance matrices, Simpson reversals, and conditional independence. | Maintain the implemented common format; conditional-mixture simulation and covariance PSD checks, with a finite nonzero-mean example. |
+| PS03 | [03-transformations-convolution-jacobians.md](03-transformations-convolution-jacobians.md). Discrete pushforwards, CDF method, inverse branches, Jacobians, affine/polar transformations, convolution, and flow examples. | Maintain the implemented common format; explicit singular-map/support cases; invertible-flow round-trip and density-normalization checks. |
+| PS04 | [04-multivariate-gaussian-geometry.md](04-multivariate-gaussian-geometry.md). Covariance ellipsoids, affine sampling, Gaussian closure, marginals/conditionals, independence, whitening, and singular covariance caveats. | Maintain the implemented common format; stable block solves without explicit inverses; contrast a full density with a degenerate Gaussian on a subspace. |
+| PS05 | [05-limit-theorems-monte-carlo.md](05-limit-theorems-monte-carlo.md). Weak/strong laws, CLT, standard errors, concentration/Chernoff methods, heavy tails, dependence, and batch-means estimation. | Maintain the implemented common format; convergence-mode counterexamples, coverage simulations, and robust-mean extensions; formal process guarantees deferred to PS19/PS22. |
+| PS06 | [06-estimation-likelihood-fisher.md](06-estimation-likelihood-fisher.md). Estimands/estimators, bias/variance/MSE, likelihood, Bernoulli/Gaussian MLE, identifiability, Fisher, CRLB, delta method, and misspecification. | Maintain the implemented common format; worked irregular/boundary models, likelihood profiles, and analytic-versus-simulated coverage; clarify conditions for score/interchange identities. |
+| PS07 | [07-hypothesis-testing-confidence-power.md](07-hypothesis-testing-confidence-power.md). Tests/p-values, confidence duality, exact binomial inference, mean tests, pairing/clustering, power/effect sizes, LRTs, Holm/BH, and selection pitfalls. | Maintain the implemented common format; equivalence/noninferiority with prespecified margins; null calibration of boundary tests and dependent-comparison qualifications. |
+| PS08 | [08-resampling-sequential-experimental-design.md](08-resampling-sequential-experimental-design.md). Bootstrap/permutation variants, resampling units, failure modes, e-processes/confidence sequences, randomization, blocking, factorial designs, and interference. | Maintain the implemented common format; stronger studentized/cluster examples and explicit optional-stopping conditions; full martingale proofs belong to PS22. |
+| PS09 | [09-bayesian-modeling-computation.md](09-bayesian-modeling-computation.md). Priors, conjugacy, posterior prediction, sensitivity, hierarchies, importance sampling, chain stationary/limiting behavior, MH, diagnostics, and HMC/VI overview. | Maintain the implemented common format; multi-chain diagnostics and simulation-based calibration as local work; full HMC/SMC in PS25, not a claim they are already implemented. |
+| PS10 | [10-sampling-design-ml-evaluation.md](10-sampling-design-ml-evaluation.md). Frames/estimands, finite-population corrections, strata/clusters/weights, nonresponse, simulation variance reduction, adaptive sampling, seeds, contamination, and shift. | Maintain the implemented common format; crossed task/seed uncertainty examples, judge-error sensitivity, and a fully replayable evaluation protocol; adaptive collection deepens in PS27. |
+| PS11 | [11-exponential-families-regression-glms.md](11-exponential-families-regression-glms.md). Sufficiency, exponential-family geometry, OLS uncertainty, ANOVA, sandwich/GLS, logistic/Poisson/Bradley–Terry, IRLS, and partial pooling. | Maintain the implemented common format; explicit separation/weak overlap cases, cluster-robust uncertainty, and a connected-comparison-graph check for preferences. |
+| PS12 | [12-high-dimensional-probability.md](12-high-dimensional-probability.md). Norm/angle concentration, thin shells, JL, sample-covariance spectra, attention/initialization scale, and projection-distortion lab. | Maintain the implemented common format; qualify finite-probability versus almost-sure wording in the JL discussion, dimension-bound constants, covariance-null assumptions, and eigenvector stability. |
+| PS13 | [13-calibration-scoring-conformal.md](13-calibration-scoring-conformal.md). Reliability/ECE, proper Brier/log scores, decomposition, recalibration, prior shift, split conformal, and threshold/ECE labs. | Completed common format and claim corrections; continue deeper verification of binning versus finite-sample ECE bias, conditional versus marginal validity, dependence counterexamples, and ambiguous score-impossibility exercise. |
+| PS14 | [14-latent-variables-elbo-gradient-estimators.md](14-latent-variables-elbo-gradient-estimators.md). ELBO derivations, amortization, score-function/pathwise gradients, an exact variance comparison, Gumbel-max/relaxation, and Gaussian ELBO lab. | Maintain the implemented common format; explicit differentiation-under-integral conditions, baseline/stop-gradient checks, finite discrete oracles, and biased-relaxation comparisons. |
+| PS15 | [15-score-matching-diffusion-sampling.md](15-score-matching-diffusion-sampling.md). Score/normalizer identity, Hyvärinen/denoising arguments, Gaussian forward chain, diffusion ELBO, sampler/guidance overview, and decoding surgery. | Maintain the implemented common format; boundary assumptions in integration by parts, explicit reverse-time conventions, analytic score/sampler checks; rigorous SDE work belongs to PS24. |
+| PS16 | [16-causal-inference-missing-data.md](16-causal-inference-missing-data.md). Potential outcomes, DAGs/d-separation, adjustment/IPW/AIPW, instruments/weak instruments, DiD/RD, sensitivity, missingness, and Rubin pooling. | Maintain the implemented common format; executable cross-fitted AIPW and imputation studies, nuisance-rate qualifications, and better distinction between diagnostics and identification. |
+| PS17 | [17-mixtures-em-graphical-models.md](17-mixtures-em-graphical-models.md). Mixture responsibilities/EM, singularities, label switching/identifiability, model selection, exact graphical inference, junction trees, and HMMs. | Maintain the implemented common format; executable backward/smoothing and variable-elimination tasks, missing-information examples, and singular-model selection qualifications. |
+| PS18 | [18-order-statistics-empirical-processes-nonparametrics.md](18-order-statistics-empirical-processes-nonparametrics.md). Quantiles/extremes, GC/DKW, empirical-process overview, rank/U-statistic tests, KDE/regression, and Rao–Blackwellization. | Maintain the implemented common format; exact quantile/tie cases, dependent-data counterexamples, and qualified block-resampling repairs; rare-tail modeling expands in PS28. |
 | PS19 | No authored lesson. Stationary/limiting chain ideas exist in PS09 and HMMs in PS17; no general process unit. | A dedicated process sequence, finite-dimensional distributions, stationarity, transition powers, communicating classes, hitting times, and ergodic averages. |
 | PS20 | No authored lesson. Autocorrelation/batch means are previewed; no dedicated time-series course. | Weak/strict stationarity, ACF/PACF, AR/MA/ARMA models, spectral intuition, HAC/block bootstrap conditions, and rolling-origin evaluation. |
 | PS21 | No authored lesson. Poisson/exponential marginal families exist in PS01; no process or queueing unit. | Independent/stationary increments, exponential interarrivals, renewal reward, inspection paradox, and finite-state queue models. |
@@ -47,13 +47,15 @@ Build probabilistic models from finite experiments through research-grade infere
 
 ## 2. Teaching and authoring contract
 
-The current 19 lessons already include explanations, worked examples, graded practice, solution sketches, and mastery statements. Their registered Python tasks are listed below: retain all 37. However, none currently declares an `answers:` bank, a fenced registered interactive figure, or the LA-style `> **Hint:**` paragraphs. Completing the new format therefore needs an explicit retrofit across PS00–PS18: static per-prompt hints, registered prediction/failure experiments, consistently identified exercises with offline answer banks, and six-task checkpoints. Some units have one or two browser tasks; add complementary small tasks to reach the three-task ladder without discarding the existing ones. Existing end-of-unit solution sketches are not substitutes for per-prompt hints or typed answer coverage.
+The 19 authored lessons now include offline hints after every section-practice prompt, one registered prediction/reveal experiment with a boundary or failure preset per lesson, identified cumulative exercises with authored answer banks, and six-part checkpoints with numerical checks and written rubrics. All 37 registered Python tasks are retained. The experiments deliberately isolate one mechanism each; they do not yet implement every proposed view in the briefs below. Some units still have only one or two registered Python tasks: the complementary three-task implementation ladders remain expansion work. New advanced modules remain unauthored.
+
+**Completed correctness pass:** PS12 now distinguishes finite-probability JL bounds, norm-concentration approximations and asymptotic covariance spectra; PS13 separates binned/population calibration, proper-score claims and marginal conformal guarantees; PS14 distinguishes evidence estimation from self-normalized expectations and qualifies importance-weighted-bound convergence; PS15 distinguishes a reverse posterior conditioned on clean data from a learned reverse transition; PS16 states nuisance-rate conditions for cross-fitted inference; PS18 qualifies dependent-data resampling. PS03 supplies a local multivariable-calculus bridge until OPT02 is authored.
 
 Retain existing `math.probability.*` and `math.statistics.*` IDs exactly. New probability/process units use `math.probability.*`; new statistical units use `math.statistics.*`. Every proposed bank uses a `ps-NN-` prefix. The maps below distinguish an already covered concept, a deeper extension, and a wholly new lesson rather than labeling all advanced topics absent.
 
 Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_plans.md#4-shared-lesson-authoring-contract). Numbered teaching sections end with Foundation / Core / Stretch practice and static hints. Each lesson develops a finite or geometric example before abstraction, states theorem assumptions, includes a prediction/reveal experiment with a failure preset, and closes with derivations, cumulative practice, and the six-part checkpoint. Each module also has separate RE and RS evidence gates below. Authoring freedom remains: add linked views, examples, and misconception checks whenever they improve understanding.
 
-**Identifiers and dependencies.** Handles `PSNN` are planning references. Preserve every existing filename, content ID, lab/task ID, and bank key. New content IDs use `math.probability.<slug>` unless explicitly specified; filenames use the reserved two-digit number and slug. Future IDs and bank names below are reservations, not registrations. Module-map prerequisites govern the proposed teaching route; additional or revised prerequisites on authored lessons are planning changes only until their front matter and inbound references are deliberately migrated.
+**Identifiers and dependencies.** Handles `PSNN` are planning references. Preserve every existing filename, content ID, lab/task ID, and bank key. New content IDs use `math.probability.<slug>` unless explicitly specified; filenames use the reserved two-digit number and slug. Future IDs and bank names below are reservations, not registrations. Authored front matter now follows the module map where predecessors exist. Planned OPT02 is temporarily replaced by authored OPT01 plus the local calculus bridge in PS03; PS06, PS11 and PS14 link to that bridge. Future modules are not registered as authored prerequisites.
 
 **Ownership boundary.** Own probability models, statistical inference, stochastic simulation, sampling/evaluation design, and dependent-data foundations. LA owns matrix geometry and numerical factorizations; Optimization owns convergence of training algorithms; IL owns information theory, learning guarantees, and decision optimization. PS14–PS15 own latent/score probability identities, DL11–DL13 own neural architectures and training, and RL owns policy algorithms. New PS27 develops validity under adaptive data collection; RP04 owns project execution. Do not duplicate existing GLM, EM, causal, nonparametric, or calibration material in new modules.
 
@@ -100,13 +102,13 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Module 00 — Finite probability foundations**
 
-`handle: PS00` · `id: math.probability.foundations` · 24h · prerequisites: F00 · proposed bank: `ps-00-foundations`
+`handle: PS00` · `id: math.probability.foundations` · 24h · prerequisites: F00 · registered bank: `ps-00-foundations`
 
 **Already covered:** Finite sample spaces, axioms, counting, conditioning, Bayes, independence, indicators, and exact conditional probability lab.
 
-**Add or verify:** Common format retrofit; conditional-event enumerator and independence counterexample tasks; diagnostic repair links.
+**Add or verify:** Maintain the implemented common format; conditional-event enumerator and independence counterexample tasks; diagnostic repair links.
 
-**Existing artifacts:** [00-probability-foundations.md](00-probability-foundations.md); registered Python tasks: `conditional` → `conditional_probability`. No fenced registered interactive figure or `answers:` bank is declared in this lesson.
+**Existing artifacts:** [00-probability-foundations.md](00-probability-foundations.md); registered Python tasks: `conditional` → `conditional_probability`. Registered figure: `ps-events`; offline bank: `ps-00-foundations`; six checkpoint tasks K1–K6. The proposed experiment below is a broader expansion of this current view.
 
 **Spine and derivations:** Derive total probability/Bayes and indicator expectation; distinguish model probability from empirical frequency and pairwise from mutual independence.
 
@@ -121,13 +123,13 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Module 01 — Random variables, distributions, and simulation**
 
-`handle: PS01` · `id: math.probability.random-variables-distributions` · 32h · prerequisites: PS00, OPT01 · proposed bank: `ps-01-random-variables-distributions`
+`handle: PS01` · `id: math.probability.random-variables-distributions` · 32h · prerequisites: PS00, OPT01 · registered bank: `ps-01-random-variables-distributions`
 
 **Already covered:** PMFs/CDFs/densities, moments, common families, inverse-CDF simulation, log-space discipline, and categorical sampling.
 
-**Add or verify:** Common retrofit; explicit atoms/mixed laws and quantile conventions; numerical tail-probability exercises and additional sampler tests.
+**Add or verify:** Maintain the implemented common format; explicit atoms/mixed laws and quantile conventions; numerical tail-probability exercises and additional sampler tests.
 
-**Existing artifacts:** [01-random-variables-distributions.md](01-random-variables-distributions.md); registered Python tasks: `categorical` → `sample_categorical`. No fenced registered interactive figure or `answers:` bank is declared in this lesson.
+**Existing artifacts:** [01-random-variables-distributions.md](01-random-variables-distributions.md); registered Python tasks: `categorical` → `sample_categorical`. Registered figure: `ps-distributions`; offline bank: `ps-01-random-variables-distributions`; six checkpoint tasks K1–K6. The proposed experiment below is a broader expansion of this current view.
 
 **Spine and derivations:** Derive expectations and variances for representative families; distinguish density from mass and generalized-inverse quantiles from ordinary inverses.
 
@@ -142,13 +144,13 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Module 02 — Joint laws, conditioning, and covariance**
 
-`handle: PS02` · `id: math.probability.joint-conditioning-covariance` · 24h · prerequisites: PS01 · proposed bank: `ps-02-joint-conditioning-covariance`
+`handle: PS02` · `id: math.probability.joint-conditioning-covariance` · 24h · prerequisites: PS01 · registered bank: `ps-02-joint-conditioning-covariance`
 
 **Already covered:** Marginals, conditional laws/expectations, total expectation/variance, covariance matrices, Simpson reversals, and conditional independence.
 
-**Add or verify:** Common retrofit; conditional-mixture simulation and covariance PSD checks, with a finite nonzero-mean example.
+**Add or verify:** Maintain the implemented common format; conditional-mixture simulation and covariance PSD checks, with a finite nonzero-mean example.
 
-**Existing artifacts:** [02-joint-distributions-conditioning-covariance.md](02-joint-distributions-conditioning-covariance.md); registered Python tasks: `joint` → `joint_marginals_covariance`. No fenced registered interactive figure or `answers:` bank is declared in this lesson.
+**Existing artifacts:** [02-joint-distributions-conditioning-covariance.md](02-joint-distributions-conditioning-covariance.md); registered Python tasks: `joint` → `joint_marginals_covariance`. Registered figure: `ps-joint`; offline bank: `ps-02-joint-conditioning-covariance`; six checkpoint tasks K1–K6. The proposed experiment below is a broader expansion of this current view.
 
 **Spine and derivations:** Derive tower and total-variance identities, covariance bilinearity, and covariance PSD; distinguish zero covariance from independence.
 
@@ -163,13 +165,13 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Module 03 — Transformations, convolution, and Jacobians**
 
-`handle: PS03` · `id: math.probability.transformations-convolution-jacobians` · 28h · prerequisites: PS02, OPT02, LA05 · proposed bank: `ps-03-transformations-convolution-jacobians`
+`handle: PS03` · `id: math.probability.transformations-convolution-jacobians` · 28h · prerequisites: PS02, OPT02, LA05 · registered bank: `ps-03-transformations-convolution-jacobians`
 
 **Already covered:** Discrete pushforwards, CDF method, inverse branches, Jacobians, affine/polar transformations, convolution, and flow examples.
 
-**Add or verify:** Common retrofit; explicit singular-map/support cases; invertible-flow round-trip and density-normalization checks.
+**Add or verify:** Maintain the implemented common format; explicit singular-map/support cases; invertible-flow round-trip and density-normalization checks.
 
-**Existing artifacts:** [03-transformations-convolution-jacobians.md](03-transformations-convolution-jacobians.md); registered Python tasks: `convolution` → `discrete_convolution`. No fenced registered interactive figure or `answers:` bank is declared in this lesson.
+**Existing artifacts:** [03-transformations-convolution-jacobians.md](03-transformations-convolution-jacobians.md); registered Python tasks: `convolution` → `discrete_convolution`. Registered figure: `ps-transform`; offline bank: `ps-03-transformations-convolution-jacobians`; six checkpoint tasks K1–K6. The proposed experiment below is a broader expansion of this current view.
 
 **Spine and derivations:** Derive one/many-branch change of variables, determinant volume correction, and convolution under independence.
 
@@ -184,13 +186,13 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Module 04 — Multivariate Gaussian geometry and conditioning**
 
-`handle: PS04` · `id: math.probability.multivariate-gaussian-geometry` · 22h · prerequisites: PS03, LA07 · proposed bank: `ps-04-multivariate-gaussian-geometry`
+`handle: PS04` · `id: math.probability.multivariate-gaussian-geometry` · 22h · prerequisites: PS03, LA07 · registered bank: `ps-04-multivariate-gaussian-geometry`
 
 **Already covered:** Covariance ellipsoids, affine sampling, Gaussian closure, marginals/conditionals, independence, whitening, and singular covariance caveats.
 
-**Add or verify:** Common retrofit; stable block solves without explicit inverses; contrast a full density with a degenerate Gaussian on a subspace.
+**Add or verify:** Maintain the implemented common format; stable block solves without explicit inverses; contrast a full density with a degenerate Gaussian on a subspace.
 
-**Existing artifacts:** [04-multivariate-gaussian-geometry.md](04-multivariate-gaussian-geometry.md); registered Python tasks: `gaussian` → `condition_bivariate_gaussian`. No fenced registered interactive figure or `answers:` bank is declared in this lesson.
+**Existing artifacts:** [04-multivariate-gaussian-geometry.md](04-multivariate-gaussian-geometry.md); registered Python tasks: `gaussian` → `condition_bivariate_gaussian`. Registered figure: `ps-gaussian`; offline bank: `ps-04-multivariate-gaussian-geometry`; six checkpoint tasks K1–K6. The proposed experiment below is a broader expansion of this current view.
 
 **Spine and derivations:** Derive Gaussian affine moments and conditional mean/covariance by completing the square; distinguish Gaussian-specific zero-covariance independence.
 
@@ -209,13 +211,13 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Module 05 — Limit theorems, concentration, and Monte Carlo error**
 
-`handle: PS05` · `id: math.probability.limit-theorems-monte-carlo` · 30h · prerequisites: PS02 · proposed bank: `ps-05-limit-theorems-monte-carlo`
+`handle: PS05` · `id: math.probability.limit-theorems-monte-carlo` · 30h · prerequisites: PS02 · registered bank: `ps-05-limit-theorems-monte-carlo`
 
 **Already covered:** Weak/strong laws, CLT, standard errors, concentration/Chernoff methods, heavy tails, dependence, and batch-means estimation.
 
-**Add or verify:** Common retrofit; convergence-mode counterexamples, coverage simulations, and robust-mean extensions; formal process guarantees deferred to PS19/PS22.
+**Add or verify:** Maintain the implemented common format; convergence-mode counterexamples, coverage simulations, and robust-mean extensions; formal process guarantees deferred to PS19/PS22.
 
-**Existing artifacts:** [05-limit-theorems-monte-carlo.md](05-limit-theorems-monte-carlo.md); registered Python tasks: `monte-carlo` → `batch_means_standard_error`. No fenced registered interactive figure or `answers:` bank is declared in this lesson.
+**Existing artifacts:** [05-limit-theorems-monte-carlo.md](05-limit-theorems-monte-carlo.md); registered Python tasks: `monte-carlo` → `batch_means_standard_error`. Registered figure: `ps-limits`; offline bank: `ps-05-limit-theorems-monte-carlo`; six checkpoint tasks K1–K6. The proposed experiment below is a broader expansion of this current view.
 
 **Spine and derivations:** Prove a finite-variance weak law and selected concentration bounds; state LLN/CLT hypotheses and distinguish Monte Carlo error from sampling/model error.
 
@@ -230,13 +232,13 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Module 06 — Estimation, likelihood, Fisher information, and asymptotics**
 
-`handle: PS06` · `id: math.statistics.estimation-likelihood-fisher` · 28h · prerequisites: PS05, OPT02 · proposed bank: `ps-06-estimation-likelihood-fisher`
+`handle: PS06` · `id: math.statistics.estimation-likelihood-fisher` · 28h · prerequisites: PS05, OPT02 · registered bank: `ps-06-estimation-likelihood-fisher`
 
 **Already covered:** Estimands/estimators, bias/variance/MSE, likelihood, Bernoulli/Gaussian MLE, identifiability, Fisher, CRLB, delta method, and misspecification.
 
-**Add or verify:** Common retrofit; worked irregular/boundary models, likelihood profiles, and analytic-versus-simulated coverage; clarify conditions for score/interchange identities.
+**Add or verify:** Maintain the implemented common format; worked irregular/boundary models, likelihood profiles, and analytic-versus-simulated coverage; clarify conditions for score/interchange identities.
 
-**Existing artifacts:** [06-estimation-likelihood-fisher.md](06-estimation-likelihood-fisher.md); registered Python tasks: `bernoulli-mle` → `bernoulli_mle`. No fenced registered interactive figure or `answers:` bank is declared in this lesson.
+**Existing artifacts:** [06-estimation-likelihood-fisher.md](06-estimation-likelihood-fisher.md); registered Python tasks: `bernoulli-mle` → `bernoulli_mle`. Registered figure: `ps-likelihood`; offline bank: `ps-06-estimation-likelihood-fisher`; six checkpoint tasks K1–K6. The proposed experiment below is a broader expansion of this current view.
 
 **Spine and derivations:** Derive MLE score/Hessian and regular asymptotic variance; state CRLB regularity and contrast pseudo-true parameters under misspecification.
 
@@ -251,13 +253,13 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Module 07 — Testing, confidence, power, and multiplicity**
 
-`handle: PS07` · `id: math.statistics.hypothesis-testing-confidence-power` · 34h · prerequisites: PS06 · proposed bank: `ps-07-hypothesis-testing-confidence-power`
+`handle: PS07` · `id: math.statistics.hypothesis-testing-confidence-power` · 34h · prerequisites: PS06 · registered bank: `ps-07-hypothesis-testing-confidence-power`
 
 **Already covered:** Tests/p-values, confidence duality, exact binomial inference, mean tests, pairing/clustering, power/effect sizes, LRTs, Holm/BH, and selection pitfalls.
 
-**Add or verify:** Common retrofit; equivalence/noninferiority with prespecified margins; null calibration of boundary tests and dependent-comparison qualifications.
+**Add or verify:** Maintain the implemented common format; equivalence/noninferiority with prespecified margins; null calibration of boundary tests and dependent-comparison qualifications.
 
-**Existing artifacts:** [07-hypothesis-testing-confidence-power.md](07-hypothesis-testing-confidence-power.md); registered Python tasks: `binomial-test` → `exact_binomial_test`, `bh-fdr` → `benjamini_hochberg`. No fenced registered interactive figure or `answers:` bank is declared in this lesson.
+**Existing artifacts:** [07-hypothesis-testing-confidence-power.md](07-hypothesis-testing-confidence-power.md); registered Python tasks: `binomial-test` → `exact_binomial_test`, `bh-fdr` → `benjamini_hochberg`. Registered figure: `ps-testing`; offline bank: `ps-07-hypothesis-testing-confidence-power`; six checkpoint tasks K1–K6. The proposed experiment below is a broader expansion of this current view.
 
 **Spine and derivations:** Derive test/interval duality and power in a tractable model; separate FWER/FDR and model assumptions behind each procedure.
 
@@ -272,13 +274,13 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Module 08 — Resampling, sequential inference, and experimental design**
 
-`handle: PS08` · `id: math.statistics.resampling-sequential-experimental-design` · 36h · prerequisites: PS07 · proposed bank: `ps-08-resampling-sequential-experimental-design`
+`handle: PS08` · `id: math.statistics.resampling-sequential-experimental-design` · 36h · prerequisites: PS07 · registered bank: `ps-08-resampling-sequential-experimental-design`
 
 **Already covered:** Bootstrap/permutation variants, resampling units, failure modes, e-processes/confidence sequences, randomization, blocking, factorial designs, and interference.
 
-**Add or verify:** Common retrofit; stronger studentized/cluster examples and explicit optional-stopping conditions; full martingale proofs belong to PS22.
+**Add or verify:** Maintain the implemented common format; stronger studentized/cluster examples and explicit optional-stopping conditions; full martingale proofs belong to PS22.
 
-**Existing artifacts:** [08-resampling-sequential-experimental-design.md](08-resampling-sequential-experimental-design.md); registered Python tasks: `bootstrap` → `bootstrap_mean_interval`, `permutation` → `paired_permutation_test`, `e-process` → `bernoulli_e_process`. No fenced registered interactive figure or `answers:` bank is declared in this lesson.
+**Existing artifacts:** [08-resampling-sequential-experimental-design.md](08-resampling-sequential-experimental-design.md); registered Python tasks: `bootstrap` → `bootstrap_mean_interval`, `permutation` → `paired_permutation_test`, `e-process` → `bernoulli_e_process`. Registered figure: `ps-design`; offline bank: `ps-08-resampling-sequential-experimental-design`; six checkpoint tasks K1–K6. The proposed experiment below is a broader expansion of this current view.
 
 **Spine and derivations:** Derive exact randomization/permutation validity under the assignment/exchangeability model; construct a finite e-process and state its conditional null requirement.
 
@@ -293,13 +295,13 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Module 09 — Bayesian models, posterior checks, and computation**
 
-`handle: PS09` · `id: math.statistics.bayesian-modeling-computation` · 44h · prerequisites: PS08, PS04 · proposed bank: `ps-09-bayesian-modeling-computation`
+`handle: PS09` · `id: math.statistics.bayesian-modeling-computation` · 44h · prerequisites: PS08, PS04 · registered bank: `ps-09-bayesian-modeling-computation`
 
 **Already covered:** Priors, conjugacy, posterior prediction, sensitivity, hierarchies, importance sampling, chain stationary/limiting behavior, MH, diagnostics, and HMC/VI overview.
 
-**Add or verify:** Common retrofit; multi-chain diagnostics and simulation-based calibration as local work; full HMC/SMC in PS25, not a claim they are already implemented.
+**Add or verify:** Maintain the implemented common format; multi-chain diagnostics and simulation-based calibration as local work; full HMC/SMC in PS25, not a claim they are already implemented.
 
-**Existing artifacts:** [09-bayesian-modeling-computation.md](09-bayesian-modeling-computation.md); registered Python tasks: `beta-update` → `beta_bernoulli_update`, `importance` → `self_normalized_importance`, `metropolis` → `random_walk_metropolis`. No fenced registered interactive figure or `answers:` bank is declared in this lesson.
+**Existing artifacts:** [09-bayesian-modeling-computation.md](09-bayesian-modeling-computation.md); registered Python tasks: `beta-update` → `beta_bernoulli_update`, `importance` → `self_normalized_importance`, `metropolis` → `random_walk_metropolis`. Registered figure: `ps-posterior`; offline bank: `ps-09-bayesian-modeling-computation`; six checkpoint tasks K1–K6. The proposed experiment below is a broader expansion of this current view.
 
 **Spine and derivations:** Derive posterior/predictive quantities and MH acceptance; separate stationary distribution, exploration, Monte Carlo precision, and model adequacy.
 
@@ -314,13 +316,13 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Module 10 — Sampling design and rigorous ML evaluation**
 
-`handle: PS10` · `id: math.statistics.sampling-design-ml-evaluation` · 42h · prerequisites: PS09 · proposed bank: `ps-10-sampling-design-ml-evaluation`
+`handle: PS10` · `id: math.statistics.sampling-design-ml-evaluation` · 42h · prerequisites: PS09 · registered bank: `ps-10-sampling-design-ml-evaluation`
 
 **Already covered:** Frames/estimands, finite-population corrections, strata/clusters/weights, nonresponse, simulation variance reduction, adaptive sampling, seeds, contamination, and shift.
 
-**Add or verify:** Common retrofit; crossed task/seed uncertainty examples, judge-error sensitivity, and a fully replayable evaluation protocol; adaptive collection deepens in PS27.
+**Add or verify:** Maintain the implemented common format; crossed task/seed uncertainty examples, judge-error sensitivity, and a fully replayable evaluation protocol; adaptive collection deepens in PS27.
 
-**Existing artifacts:** [10-sampling-design-ml-evaluation.md](10-sampling-design-ml-evaluation.md); registered Python tasks: `stratified` → `stratified_mean_standard_error`, `horvitz-thompson` → `horvitz_thompson`, `rejection` → `rejection_sample`. No fenced registered interactive figure or `answers:` bank is declared in this lesson.
+**Existing artifacts:** [10-sampling-design-ml-evaluation.md](10-sampling-design-ml-evaluation.md); registered Python tasks: `stratified` → `stratified_mean_standard_error`, `horvitz-thompson` → `horvitz_thompson`, `rejection` → `rejection_sample`. Registered figure: `ps-sampling`; offline bank: `ps-10-sampling-design-ml-evaluation`; six checkpoint tasks K1–K6. The proposed experiment below is a broader expansion of this current view.
 
 **Spine and derivations:** Derive Horvitz–Thompson and stratified estimators under known designs; make every random axis and target population explicit.
 
@@ -335,13 +337,13 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Module 11 — Exponential families, regression, GLMs, and pooling**
 
-`handle: PS11` · `id: math.statistics.exponential-families-regression-glms` · 50h · prerequisites: PS10, LA03, OPT02 · proposed bank: `ps-11-exponential-families-regression-glms`
+`handle: PS11` · `id: math.statistics.exponential-families-regression-glms` · 50h · prerequisites: PS10, LA03, OPT02 · registered bank: `ps-11-exponential-families-regression-glms`
 
 **Already covered:** Sufficiency, exponential-family geometry, OLS uncertainty, ANOVA, sandwich/GLS, logistic/Poisson/Bradley–Terry, IRLS, and partial pooling.
 
-**Add or verify:** Common retrofit; explicit separation/weak overlap cases, cluster-robust uncertainty, and a connected-comparison-graph check for preferences.
+**Add or verify:** Maintain the implemented common format; explicit separation/weak overlap cases, cluster-robust uncertainty, and a connected-comparison-graph check for preferences.
 
-**Existing artifacts:** [11-exponential-families-regression-glms.md](11-exponential-families-regression-glms.md); registered Python tasks: `simple-ols` → `simple_ols`, `logistic-gradient` → `logistic_loss_gradient`, `partial-pooling` → `partial_pooling_means`. No fenced registered interactive figure or `answers:` bank is declared in this lesson.
+**Existing artifacts:** [11-exponential-families-regression-glms.md](11-exponential-families-regression-glms.md); registered Python tasks: `simple-ols` → `simple_ols`, `logistic-gradient` → `logistic_loss_gradient`, `partial-pooling` → `partial_pooling_means`. Registered figure: `ps-glm`; offline bank: `ps-11-exponential-families-regression-glms`; six checkpoint tasks K1–K6. The proposed experiment below is a broader expansion of this current view.
 
 **Spine and derivations:** Derive log-partition moments, GLM score/IRLS, and normal-normal pooling; separate model-based, heteroskedastic, and cluster uncertainty assumptions.
 
@@ -360,13 +362,13 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Module 12 — High-dimensional probability and random geometry**
 
-`handle: PS12` · `id: math.probability.high-dimensional` · 30h · prerequisites: PS05, LA08 · proposed bank: `ps-12-high-dimensional`
+`handle: PS12` · `id: math.probability.high-dimensional` · 30h · prerequisites: PS05, LA08 · registered bank: `ps-12-high-dimensional`
 
 **Already covered:** Norm/angle concentration, thin shells, JL, sample-covariance spectra, attention/initialization scale, and projection-distortion lab.
 
-**Add or verify:** Common retrofit; qualify finite-probability versus almost-sure wording in the JL discussion, dimension-bound constants, covariance-null assumptions, and eigenvector stability.
+**Add or verify:** Maintain the implemented common format; qualify finite-probability versus almost-sure wording in the JL discussion, dimension-bound constants, covariance-null assumptions, and eigenvector stability.
 
-**Existing artifacts:** [12-high-dimensional-probability.md](12-high-dimensional-probability.md); registered Python tasks: `projection` → `projection_distortion`. No fenced registered interactive figure or `answers:` bank is declared in this lesson.
+**Existing artifacts:** [12-high-dimensional-probability.md](12-high-dimensional-probability.md); registered Python tasks: `projection` → `projection_distortion`. Registered figure: `ps-highdim`; offline bank: `ps-12-high-dimensional`; six checkpoint tasks K1–K6. The proposed experiment below is a broader expansion of this current view.
 
 **Spine and derivations:** Derive Gaussian norm/dot-product moments and a qualified JL bound; state aspect ratio, normalization, and distribution assumptions for spectral nulls.
 
@@ -381,13 +383,13 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Module 13 — Calibration, proper scores, and conformal prediction**
 
-`handle: PS13` · `id: math.statistics.calibration-scoring-conformal` · 32h · prerequisites: PS07, PS08, PS02 · proposed bank: `ps-13-calibration-scoring-conformal`
+`handle: PS13` · `id: math.statistics.calibration-scoring-conformal` · 32h · prerequisites: PS07, PS08, PS02 · registered bank: `ps-13-calibration-scoring-conformal`
 
 **Already covered:** Reliability/ECE, proper Brier/log scores, decomposition, recalibration, prior shift, split conformal, and threshold/ECE labs.
 
-**Add or verify:** Common retrofit plus priority claim audit: binning versus finite-sample ECE bias, conditional versus marginal validity, dependence counterexamples, and ambiguous score-impossibility exercise.
+**Add or verify:** Completed common format and claim corrections; continue deeper verification of binning versus finite-sample ECE bias, conditional versus marginal validity, dependence counterexamples, and ambiguous score-impossibility exercise.
 
-**Existing artifacts:** [13-calibration-scoring-conformal.md](13-calibration-scoring-conformal.md); registered Python tasks: `calibration` → `expected_calibration_error`, `conformal` → `conformal_threshold`. No fenced registered interactive figure or `answers:` bank is declared in this lesson.
+**Existing artifacts:** [13-calibration-scoring-conformal.md](13-calibration-scoring-conformal.md); registered Python tasks: `calibration` → `expected_calibration_error`, `conformal` → `conformal_threshold`. Registered figure: `ps-calibration`; offline bank: `ps-13-calibration-scoring-conformal`; six checkpoint tasks K1–K6. The proposed experiment below is a broader expansion of this current view.
 
 **Spine and derivations:** Prove properness and finite-sample split-conformal rank coverage under exchangeability; distinguish a binned target from population calibration error.
 
@@ -402,13 +404,13 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Module 14 — Latent variables, ELBO, and gradient estimators**
 
-`handle: PS14` · `id: math.probability.latent-variables-elbo-gradient-estimators` · 36h · prerequisites: PS09, PS03, OPT02 · proposed bank: `ps-14-latent-variables-elbo-gradient-estimators`
+`handle: PS14` · `id: math.probability.latent-variables-elbo-gradient-estimators` · 36h · prerequisites: PS09, PS03, OPT02 · registered bank: `ps-14-latent-variables-elbo-gradient-estimators`
 
 **Already covered:** ELBO derivations, amortization, score-function/pathwise gradients, an exact variance comparison, Gumbel-max/relaxation, and Gaussian ELBO lab.
 
-**Add or verify:** Common retrofit; explicit differentiation-under-integral conditions, baseline/stop-gradient checks, finite discrete oracles, and biased-relaxation comparisons.
+**Add or verify:** Maintain the implemented common format; explicit differentiation-under-integral conditions, baseline/stop-gradient checks, finite discrete oracles, and biased-relaxation comparisons.
 
-**Existing artifacts:** [14-latent-variables-elbo-gradient-estimators.md](14-latent-variables-elbo-gradient-estimators.md); registered Python tasks: `elbo-terms` → `gaussian_elbo_terms`, `gumbel` → `gumbel_max_sample`. No fenced registered interactive figure or `answers:` bank is declared in this lesson.
+**Existing artifacts:** [14-latent-variables-elbo-gradient-estimators.md](14-latent-variables-elbo-gradient-estimators.md); registered Python tasks: `elbo-terms` → `gaussian_elbo_terms`, `gumbel` → `gumbel_max_sample`. Registered figure: `ps-gradient`; offline bank: `ps-14-latent-variables-elbo-gradient-estimators`; six checkpoint tasks K1–K6. The proposed experiment below is a broader expansion of this current view.
 
 **Spine and derivations:** Derive ELBO/KL gap and both gradient identities with support/regularity conditions; separate estimator variance, approximation bias, and optimization error.
 
@@ -423,13 +425,13 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Module 15 — Score matching, diffusion, and generative sampling**
 
-`handle: PS15` · `id: math.probability.score-matching-diffusion-sampling` · 36h · prerequisites: PS14, PS04 · proposed bank: `ps-15-score-matching-diffusion-sampling`
+`handle: PS15` · `id: math.probability.score-matching-diffusion-sampling` · 36h · prerequisites: PS14, PS04 · registered bank: `ps-15-score-matching-diffusion-sampling`
 
 **Already covered:** Score/normalizer identity, Hyvärinen/denoising arguments, Gaussian forward chain, diffusion ELBO, sampler/guidance overview, and decoding surgery.
 
-**Add or verify:** Common retrofit; boundary assumptions in integration by parts, explicit reverse-time conventions, analytic score/sampler checks; rigorous SDE work belongs to PS24.
+**Add or verify:** Maintain the implemented common format; boundary assumptions in integration by parts, explicit reverse-time conventions, analytic score/sampler checks; rigorous SDE work belongs to PS24.
 
-**Existing artifacts:** [15-score-matching-diffusion-sampling.md](15-score-matching-diffusion-sampling.md); registered Python tasks: `decoding` → `decode_distribution`, `diffusion` → `forward_diffusion_coefficients`. No fenced registered interactive figure or `answers:` bank is declared in this lesson.
+**Existing artifacts:** [15-score-matching-diffusion-sampling.md](15-score-matching-diffusion-sampling.md); registered Python tasks: `decoding` → `decode_distribution`, `diffusion` → `forward_diffusion_coefficients`. Registered figure: `ps-score`; offline bank: `ps-15-score-matching-diffusion-sampling`; six checkpoint tasks K1–K6. The proposed experiment below is a broader expansion of this current view.
 
 **Spine and derivations:** Derive denoising targets and forward Gaussian coefficients; distinguish data, smoothed, learned, and guidance-modified scores.
 
@@ -444,13 +446,13 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Module 16 — Causal inference and missing data**
 
-`handle: PS16` · `id: math.statistics.causal-inference-missing-data` · 48h · prerequisites: PS11, PS10 · proposed bank: `ps-16-causal-inference-missing-data`
+`handle: PS16` · `id: math.statistics.causal-inference-missing-data` · 48h · prerequisites: PS11, PS10 · registered bank: `ps-16-causal-inference-missing-data`
 
 **Already covered:** Potential outcomes, DAGs/d-separation, adjustment/IPW/AIPW, instruments/weak instruments, DiD/RD, sensitivity, missingness, and Rubin pooling.
 
-**Add or verify:** Common retrofit; executable cross-fitted AIPW and imputation studies, nuisance-rate qualifications, and better distinction between diagnostics and identification.
+**Add or verify:** Maintain the implemented common format; executable cross-fitted AIPW and imputation studies, nuisance-rate qualifications, and better distinction between diagnostics and identification.
 
-**Existing artifacts:** [16-causal-inference-missing-data.md](16-causal-inference-missing-data.md); registered Python tasks: `backdoor` → `backdoor_adjustment`, `ipw` → `ipw_ate`, `iv-wald` → `wald_iv_estimate`. No fenced registered interactive figure or `answers:` bank is declared in this lesson.
+**Existing artifacts:** [16-causal-inference-missing-data.md](16-causal-inference-missing-data.md); registered Python tasks: `backdoor` → `backdoor_adjustment`, `ipw` → `ipw_ate`, `iv-wald` → `wald_iv_estimate`. Registered figure: `ps-causal`; offline bank: `ps-16-causal-inference-missing-data`; six checkpoint tasks K1–K6. The proposed experiment below is a broader expansion of this current view.
 
 **Spine and derivations:** Derive adjustment/IPW and the double-robust bias identity; state consistency, positivity, exchangeability, and the distinct assumptions behind IV/DiD.
 
@@ -465,13 +467,13 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Module 17 — Mixtures, EM, and graphical models**
 
-`handle: PS17` · `id: math.probability.mixtures-em-graphical-models` · 44h · prerequisites: PS14, PS16, PS04 · proposed bank: `ps-17-mixtures-em-graphical-models`
+`handle: PS17` · `id: math.probability.mixtures-em-graphical-models` · 44h · prerequisites: PS14, PS16, PS04 · registered bank: `ps-17-mixtures-em-graphical-models`
 
 **Already covered:** Mixture responsibilities/EM, singularities, label switching/identifiability, model selection, exact graphical inference, junction trees, and HMMs.
 
-**Add or verify:** Common retrofit; executable backward/smoothing and variable-elimination tasks, missing-information examples, and singular-model selection qualifications.
+**Add or verify:** Maintain the implemented common format; executable backward/smoothing and variable-elimination tasks, missing-information examples, and singular-model selection qualifications.
 
-**Existing artifacts:** [17-mixtures-em-graphical-models.md](17-mixtures-em-graphical-models.md); registered Python tasks: `em-step` → `em_step_gaussian_mixture`, `hmm-forward` → `hmm_forward`, `d-separation` → `d_separated`. No fenced registered interactive figure or `answers:` bank is declared in this lesson.
+**Existing artifacts:** [17-mixtures-em-graphical-models.md](17-mixtures-em-graphical-models.md); registered Python tasks: `em-step` → `em_step_gaussian_mixture`, `hmm-forward` → `hmm_forward`, `d-separation` → `d_separated`. Registered figure: `ps-latent`; offline bank: `ps-17-mixtures-em-graphical-models`; six checkpoint tasks K1–K6. The proposed experiment below is a broader expansion of this current view.
 
 **Spine and derivations:** Derive EM monotonicity and Gaussian updates; derive sum-product/forward-backward and explain graph-width cost.
 
@@ -486,13 +488,13 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Module 18 — Order statistics, empirical processes, and nonparametrics**
 
-`handle: PS18` · `id: math.statistics.order-statistics-empirical-processes` · 44h · prerequisites: PS08, PS11 · proposed bank: `ps-18-order-statistics-empirical-processes`
+`handle: PS18` · `id: math.statistics.order-statistics-empirical-processes` · 44h · prerequisites: PS08, PS11 · registered bank: `ps-18-order-statistics-empirical-processes`
 
 **Already covered:** Quantiles/extremes, GC/DKW, empirical-process overview, rank/U-statistic tests, KDE/regression, and Rao–Blackwellization.
 
-**Add or verify:** Common retrofit; exact quantile/tie cases, dependent-data counterexamples, and qualified block-resampling repairs; rare-tail modeling expands in PS28.
+**Add or verify:** Maintain the implemented common format; exact quantile/tie cases, dependent-data counterexamples, and qualified block-resampling repairs; rare-tail modeling expands in PS28.
 
-**Existing artifacts:** [18-order-statistics-empirical-processes-nonparametrics.md](18-order-statistics-empirical-processes-nonparametrics.md); registered Python tasks: `dkw-band` → `ecdf_dkw_band`, `mann-whitney` → `mann_whitney_u`, `kde` → `gaussian_kde`. No fenced registered interactive figure or `answers:` bank is declared in this lesson.
+**Existing artifacts:** [18-order-statistics-empirical-processes-nonparametrics.md](18-order-statistics-empirical-processes-nonparametrics.md); registered Python tasks: `dkw-band` → `ecdf_dkw_band`, `mann-whitney` → `mann_whitney_u`, `kde` → `gaussian_kde`. Registered figure: `ps-empirical`; offline bank: `ps-18-order-statistics-empirical-processes`; six checkpoint tasks K1–K6. The proposed experiment below is a broader expansion of this current view.
 
 **Spine and derivations:** Derive order-statistic distributions, uniform bands and selected rank/U-statistic properties; distinguish pointwise and simultaneous inference.
 
@@ -727,9 +729,9 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 ## 5. Write order and milestones
 
-**First preserve, audit, and retrofit.** PS00–PS18 already have substantial teaching and runnable tasks. Add static hints and answer-bank coverage incrementally rather than rewriting them as new lessons. Prioritize PS12–PS13 claim repairs and PS08/PS10 evaluation exercises because many later tracks depend on these guarantees.
+**Common format update completed.** PS00–PS18 retain their existing teaching and runnable tasks, now supplemented with static hints, answer banks, prediction experiments and six-part checkpoints. The priority claim repairs below are implemented. Continue with the deeper lesson-specific extensions and implementation ladders listed in the briefs, then author new modules in the dependency order below.
 
-**Foundation/inference route:** PS00 → PS01 → PS02, with the calculus bridge before continuous-distribution manipulations; PS03 follows multivariable derivatives and determinant volume, PS04 follows symmetric geometry. PS05–PS08 develop inference; PS09–PS11 add computation, design, and GLMs. Explicitly added prerequisites in this plan acknowledge material already used but absent from some front matter. They do not silently edit existing metadata.
+**Foundation/inference route:** PS00 → PS01 → PS02, with the calculus bridge before continuous-distribution manipulations; PS03 follows multivariable derivatives and determinant volume, PS04 follows symmetric geometry. PS05–PS08 develop inference; PS09–PS11 add computation, design, and GLMs. Authored front matter now includes the available prerequisite lessons; the local calculus bridge covers the specific multivariable tools used before OPT02 is written.
 
 **Existing advanced branches:** PS12 follows concentration/SVD; PS13 follows conditional expectation and exchangeability; PS14 → PS15 follows Bayesian computation and transformations. PS16 → PS17 retains the current causal/graphical route, strengthened with the Gaussian bridge. PS18 adds PS11 because its Rao–Blackwell/sufficiency discussion uses that material; a shorter standalone rank-test route can be designed later with an explicit diagnostic.
 
@@ -747,20 +749,20 @@ Every unit uses six checkpoint tasks: explain the central concept; derive a resu
 
 ## 7. Infrastructure and validation
 
-All 37 current browser task IDs remain registered under their existing lesson paths. No dedicated PS interactive/bank implementation is claimed. Build a finite-distribution/table widget first, then reusable sampling/coverage charts, reliability/rank views, a process timeline, and a small Markov graph only when an authored lesson needs them. Reuse LA chartkit/heatkit rather than creating a second chart system. New `ps-NN-...` answer banks must be loaded and checked explicitly; the current LA-only coverage assertions do not establish probability-bank correctness.
+All 37 current browser Python task IDs remain registered under their existing lesson paths. PS00–PS18 now have 19 dedicated figures in `public/theory/labs/ps-workbenches.js`, 19 `ps-NN-...` answer banks with 416 entries, and 909 offline practice hints. The figures reuse LA chartkit. `scripts/check-probability.mjs`, included by `scripts/check-theory.mjs`, checks analytic oracles, control boundaries, bank/exercise alignment, checkpoint coverage, hints and authored prerequisite resolution. More elaborate sampling/coverage charts, process timelines and Markov graphs remain future work.
 
 Python in the browser is standard-library-only; local NumPy/PyTorch experiments and any accelerator measurements must be labeled separately. Register a lesson's stubs, reference functions, checks, browser entries, figures, and answer bank together. Verify numeric answers by execution and proofs by an explicit argument. Tests include invalid inputs, degeneracies, input preservation, and stated tolerance behavior.
 
-For authored changes, run `node scripts/build-theory.mjs`, `node scripts/check-theory.mjs`, and `python3 -m labs.checks --reference`. Inspect the reader in both themes, exercise the failure preset, and complete one typed and one written answer. For this plan-only change, validate links, unique IDs, prerequisite resolution and cycles, existing-artifact claims, and exclusion from the lesson catalog. No new lessons or runtime features are implemented by this document.
+For authored changes, run `node scripts/build-theory.mjs`, `node scripts/check-theory.mjs`, and `python3 -m labs.checks --reference`. Inspect the reader in both themes, exercise the failure preset, and complete one typed and one written answer. For plan changes, validate links, unique IDs, prerequisite resolution and cycles, existing-artifact claims, and exclusion of plans from the lesson catalog. The current implementation has also passed a 27-lesson browser smoke check and all 67 browser Python reference payloads; the reader now contains 45 pages after the separate legacy-overview cleanup.
 
-### Priority accuracy and scope audit
+### Completed priority accuracy repairs
 
-These are authoring repair tasks, not edits performed to the existing lessons in this planning change.
+These corrections are implemented in the authored lessons and their migrated solutions. Retain them when extending the lessons; this is a targeted audit, not an independent certification of the entire curriculum.
 
-- **PS12, JL wording:** replace the implication from concentration to “almost surely” with an explicit success probability or existence statement. Keep square-norm versus norm distortion, constants, and finite-sample versus asymptotic covariance claims consistent.
-- **PS13, ECE bias:** separate sampling noise relative to a fixed binned calibration target from information lost through binning relative to the population target. The current unconditional “biased upward, always” statement is too broad. Use exact/simulated counterexamples and [Roelofs et al., calibration-estimation bias](https://proceedings.mlr.press/v151/roelofs22a.html) to delimit the claim.
-- **PS13, dependent conformal examples:** broken exchangeability does not alone determine whether coverage goes up or down; grouping is a justified repair only under an explicitly suitable group-level design/guarantee. Keep marginal and conditional coverage distinct; use the assumptions in [Angelopoulos and Bates](https://arxiv.org/abs/2107.07511). Rewrite the underspecified scoring-rule/base-rate impossibility exercise with a precise definition and proof or remove that claim.
+- **PS12, JL wording:** replaced the implication from concentration to “almost surely” with an explicit success probability or existence statement. Keep square-norm versus norm distortion, constants, and finite-sample versus asymptotic covariance claims consistent.
+- **PS13, ECE bias:** separate sampling noise relative to a fixed binned calibration target from information lost through binning relative to the population target. The unconditional “biased upward, always” statement has been removed. Use exact/simulated counterexamples and [Roelofs et al., calibration-estimation bias](https://proceedings.mlr.press/v151/roelofs22a.html) to delimit the claim.
+- **PS13, dependent conformal examples:** broken exchangeability does not alone determine whether coverage goes up or down; grouping is a justified repair only under an explicitly suitable group-level design/guarantee. Keep marginal and conditional coverage distinct; use the assumptions in [Angelopoulos and Bates](https://arxiv.org/abs/2107.07511). The underspecified scoring-rule/base-rate impossibility exercise has been replaced with a precise binary weak-versus-strict propriety task.
 - **PS16, cross-fitting:** qualify the connection between nuisance consistency, double robustness, and asymptotically valid intervals. Cross-fitting does not remove rate, overlap, or moment requirements. Use the conditions in [Double/debiased machine learning](https://arxiv.org/abs/1608.00060) for PS26's extension.
-- **PS18, dependence repairs:** replace blanket “block or thin” solution advice with a specified dependent-data model, block scheme, and justified approximation or theorem. Do not promise the original iid DKW guarantee after an arbitrary thinning operation.
+- **PS18, dependence repairs:** replaced blanket “block or thin” solution advice with a specified dependent-data model, block scheme, and justified approximation or theorem. Do not promise the original iid DKW guarantee after an arbitrary thinning operation.
 
 The coverage audit records existing teaching, not an exhaustive mathematical review. New modules are justified by a distinct missing treatment: process/time-series theory (19–22), formal probability/stochastic calculus (23–24), advanced computation (25), robust/adaptive inference (26–27), censored/rare outcomes (28), and an integrated research audit (29). Existing EM, causal inference, GLMs, calibration, and nonparametrics remain owned by 00–18 rather than being reintroduced under new names.

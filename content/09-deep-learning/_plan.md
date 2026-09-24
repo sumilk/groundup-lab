@@ -8,6 +8,8 @@ Build networks from their computational and statistical assumptions, then study 
 
 The [backpropagation, initialization, and regularization overview](01-backprop-initialization-regularization.md) is retained. Detailed units reserve 02–19. A learner should implement the first MLP in NumPy before relying on a framework trainer.
 
+**Legacy-page review:** Keep the overview: the complete batched ReLU-network backward pass, initialization argument and dropout exercise form a useful NumPy-to-autograd bridge. The corresponding DL02/DL04/DL05 lessons are still planned. Absorb the examples there before retiring the overview. See the [cross-track audit](../_legacy-audit.md) for the removal criteria and current coverage.
+
 **Scope:** 18 units; 570 estimated study hours including derivations, practice, and the capstone. These are planning estimates, not elapsed-time requirements or hiring guarantees. Diagnose existing knowledge and use the gates to skip material already mastered. Module numbers below are file-number reservations within this track; retained overview pages are outside the new sequence unless explicitly listed.
 
 ## 2. Teaching and authoring contract

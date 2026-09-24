@@ -175,9 +175,9 @@ A10: {
     "solution": "<p>Equating real and imaginary parts gives Au=au−bv and Av=bu+av, so the block columns are (a,−b) and (b,a). If u,v were dependent, the nonzero complex eigenvector would be a complex scalar times a real vector w, forcing Aw=(a+ib)w despite b≠0, impossible. The resulting real plane is invariant.</p>"
   },
 A11: {
-    "statement": "**A11 · Core · paper — a precise 2×2 criterion.** Prove the real diagonalizability rule used in Lab C, including the discriminant-zero case.",
-    "plain": "Positive discriminant means two distinct real eigenvalues, whose eigenvectors are independent. Negative discriminant means no real eigenvalues, hence no real eigenbasis. At zero discriminant both roots are λ; any diagonalization would yield A=V(λI)V⁻¹=λI. Conversely λI is already diagonal. This is an exact algebraic rule; floating-point proximity to zero is not exact equality.",
-    "solution": "<p>Positive discriminant means two distinct real eigenvalues, whose eigenvectors are independent. Negative discriminant means no real eigenvalues, hence no real eigenbasis. At zero discriminant both roots are λ; any diagonalization would yield A=V(λI)V⁻¹=λI. Conversely λI is already diagonal. This is an exact algebraic rule; floating-point proximity to zero is not exact equality.</p>"
+    "statement": "**A11 · Core · paper — a precise 2×2 criterion.** Prove the Lab C rule: a real 2×2 matrix \\(A=\\begin{pmatrix}a&b\\\\c&d\\end{pmatrix}\\) is diagonalizable over the reals exactly when \\(\\Delta=(a-d)^2+4bc>0\\), or Δ=0 and A is scalar. Include the discriminant-zero case, then apply the rule to \\(\\begin{pmatrix}3&1\\\\2&2\\end{pmatrix}\\), \\(\\begin{pmatrix}1&-2\\\\1&3\\end{pmatrix}\\), and \\(\\begin{pmatrix}2&1\\\\0&2\\end{pmatrix}\\).",
+    "plain": "Positive discriminant means two distinct real eigenvalues, whose eigenvectors are independent. Negative discriminant means no real eigenvalues, hence no real eigenbasis. At zero discriminant both roots are λ; any diagonalization would yield A=V(λI)V⁻¹=λI. Conversely λI is already diagonal. Applications: [[3,1],[2,2]] has Δ=1+8=9>0 and eigenvalues 4,1, so it is diagonalizable; [[1,−2],[1,3]] has Δ=4−8=−4<0 and eigenvalues 2±i, so it is not diagonalizable over the reals; [[2,1],[0,2]] has Δ=0 but is not scalar, so it is defective. This is an exact algebraic rule; floating-point proximity to zero is not exact equality.",
+    "solution": "<p>Positive discriminant means two distinct real eigenvalues, whose eigenvectors are independent. Negative discriminant means no real eigenvalues, hence no real eigenbasis. At zero discriminant both roots are λ; any diagonalization would yield A=V(λI)V⁻¹=λI. Conversely λI is already diagonal. Applications: [[3,1],[2,2]] has Δ=1+8=9>0 and eigenvalues 4,1, so it is diagonalizable; [[1,−2],[1,3]] has Δ=4−8=−4<0 and eigenvalues 2±i, so it is not diagonalizable over the reals; [[2,1],[0,2]] has Δ=0 but is not scalar, so it is defective. This is an exact algebraic rule; floating-point proximity to zero is not exact equality.</p>"
   },
 A12: {
     "statement": "**A12 · Stretch · paper — stable factors, unstable product.** Let \\(B=\\begin{pmatrix}0&2\\\\0&0\\end{pmatrix}\\), \\(C=\\begin{pmatrix}0&0\\\\2&0\\end{pmatrix}\\). Compute ρ(B), ρ(C), ρ(BC), and explain what this prevents you from claiming about varying recurrent derivatives.",
@@ -465,5 +465,24 @@ K6: {
     "statement": "**K6 · Stretch · gate — transfer from a line to a subsystem.** Let B have independent columns and satisfy AB=BC. Prove AᵏB=BCᵏ. If ρ(C)<1, what happens to all starts in range(B)? Must ρ(A)<1? Give an example.",
     "plain": "Induct: A⁰B=B=BC⁰, and A^(k+1)B=A(BCᵏ)=(AB)Cᵏ=BC^(k+1). Thus x₀=Bc yields Aᵏx₀=BCᵏc→0 when ρ(C)<1. Nothing follows about starts outside that range. Example A=diag(2,0.5), B=e₂, C=[0.5]: every start in the second axis decays although ρ(A)=2.",
     "solution": "<p>Induct: A⁰B=B=BC⁰, and A^(k+1)B=A(BCᵏ)=(AB)Cᵏ=BC^(k+1). Thus x₀=Bc yields Aᵏx₀=BCᵏc→0 when ρ(C)&lt;1. Nothing follows about starts outside that range. Example A=diag(2,0.5), B=e₂, C=[0.5]: every start in the second axis decays although ρ(A)=2.</p>"
+  },
+M7: {
+  "statement": "**M7 · Stretch · mixed — A residual measures a local eigenpair claim.** For [[1,10⁶],[10⁻⁶,1]], compute its two eigenvalues and compare them with those before adding the lower-left entry.",
+  "plain": "The characteristic equation is (1−λ)²−1=0, so the new eigenvalues are 0 and 2. The original pair was 1,1. The perturbation has norm 10⁻⁶ but moves the eigenvalues by one.",
+  "solution": "<p>The characteristic equation is (1−λ)²−1=0, so the new eigenvalues are 0 and 2. The original pair was 1,1. The perturbation has norm 10⁻⁶ but moves the eigenvalues by one.</p>",
+  "fields": [
+    {
+      "id": "audit",
+      "label": "Numerical result(s), in requested order",
+      "type": "vec",
+      "ans": [
+        0,
+        2
+      ]
+    }
+  ],
+  "hints": {
+    "audit": "Use the concrete matrix in the question and keep the numerical diagnostic separate from the exact algebraic claim."
   }
+}
 });

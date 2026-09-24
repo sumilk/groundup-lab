@@ -642,5 +642,24 @@ K6: {
   "hints": {
     "eigen": "Compare the residual bound with each of the three supplied eigenvalues."
   }
+},
+M7: {
+  "statement": "**M7 · Stretch · mixed — The complex-Hermitian analogue.** Compute the eigenvalues of H=[[2,i],[−i,2]] and determine whether H is positive definite.",
+  "plain": "det(H−λI)=(2−λ)²−1 gives λ=1,3. The matrix is Hermitian with positive eigenvalues, hence positive definite.",
+  "solution": "<p>det(H−λI)=(2−λ)²−1 gives λ=1,3. The matrix is Hermitian with positive eigenvalues, hence positive definite.</p>",
+  "fields": [
+    {
+      "id": "audit",
+      "label": "Numerical result(s), in requested order",
+      "type": "vec",
+      "ans": [
+        1,
+        3
+      ]
+    }
+  ],
+  "hints": {
+    "audit": "Use the concrete matrix in the question and keep the numerical diagnostic separate from the exact algebraic claim."
+  }
 }
 });

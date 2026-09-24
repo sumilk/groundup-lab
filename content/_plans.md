@@ -28,6 +28,8 @@ The estimates total **7,368 hours before diagnostic skips and reuse**, including
 
 The [LA plan](02-linear-algebra/_plan.md) retains 26 modules: eight authored and 18 new. The [probability/statistics plan](05-probability-statistics/_plan.md) retains all 19 authored lessons (00–18) and adds 11 proposed modules (19–29), with a per-unit coverage audit and shared-format retrofit. Both preserve authored IDs and registered tasks. Research Practice is present in `lib/curriculum.ts` but has no authored lessons; its plan fills that authoring gap.
 
+**Legacy cleanup:** the [cross-track audit](_legacy-audit.md) reviewed all 19 existing pages outside LA and probability/statistics. One redundant classical ML overview was removed; 10 useful introductory overviews and eight Foundations/Optimization expansion targets remain. The reader now has 45 pages across 13 tracks and the same 67 registered Python tasks. Classical ML and Research Practice are plan-only tracks; the [ML plan](07-classical-ml/_plan.md#current-reading-route-and-preserved-implementation-work) links an authored entry route. The 243 module briefs, 35 existing mapped units, handles and planned study-hour totals are unchanged.
+
 **Status vocabulary:** an existing overview is orientation; an existing detailed lesson is an expansion target where specified; every other brief is planned. A proposed lab ID, answer bank, or function name is a reservation, not a registered implementation. No reader or curriculum completion state should be advanced until the lesson and its checks exist.
 
 ## 2. What is restructured and why
@@ -60,7 +62,7 @@ Handles are planning references, not reader front-matter IDs. `F00` means Founda
 | DS | [DSA](04-dsa/_plan.md) | 02–15; existing 01 is an overview |
 | PS | [Probability/statistics](05-probability-statistics/_plan.md) | 00–29; 00–18 authored, 19–29 new; use handles, not README list positions |
 | IL | [Information/learning/decisions](06-information-learning-decision/_plan.md) | 02–15 |
-| ML | [Classical ML](07-classical-ml/_plan.md) | 02–16 |
+| ML | [Classical ML](07-classical-ml/_plan.md) | 02–16; legacy 01 retired, no authored ML module yet |
 | PT | [PyTorch](08-pytorch/_plan.md) | 02–15 |
 | DL | [Deep Learning](09-deep-learning/_plan.md) | 02–19 |
 | NLP | [NLP](10-nlp/_plan.md) | 02–15 |

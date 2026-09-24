@@ -1,7 +1,8 @@
 ---
 id: math.probability.random-variables-distributions
 title: Random variables, distributions, moments, and simulation
-prerequisites: [math.probability.foundations]
+prerequisites: [math.probability.foundations, math.calculus.gradients-optimization]
+answers: ps-01-random-variables-distributions
 estimated_hours: 32
 ---
 
@@ -33,9 +34,15 @@ A named distribution is not a substitute for a data-generating story. Start with
 
 > **Practice — Foundation:** For one die roll, separate the outcome, the event “even,” and the observed value “number of dots.” Which object is a set?
 >
-> **Practice — Core:** Describe the experiment, sample space, and measurement for the length of a generated response. Identify one source of randomness besides token sampling.
+> **Hint:** An event is a subset; an observed value is the output of a measurement.
 >
-> **Practice — Stretch:** Give two different experiments that induce the same distribution for a binary measurement. Explain what the distribution hides about their mechanisms.
+> **Practice — Core:** An evaluation picks prompt 1 or prompt 2 with probability \(1/2\) each. For prompt 1 the response length is 20 or 40 tokens with probability \(1/2\) each; for prompt 2 it is always 100 tokens. Write the sample space as (prompt, length) outcomes with their masses, define the measurement \(L\), and compute \(P(L\ge40)\).
+>
+> **Hint:** Multiply the prompt-selection probability by the generation probability for each outcome; the three outcomes have masses 1/4, 1/4, 1/2.
+>
+> **Practice — Stretch:** Experiment 1 flips a fair coin and sets \(B=1\) on heads. Experiment 2 draws \(U\sim\text{Uniform}(0,1)\) and sets \(B=\mathbf 1\{U<0.5\}\). Show that both give \(B\sim\text{Bernoulli}(1/2)\), then compute \(P(U<0.1\mid B=1)\) and explain why no analogous question exists for the coin.
+>
+> **Hint:** Given B = 1, U is uniform on (0, 0.5), so the conditional probability is 0.1/0.5; the coin's sample space has nothing finer than heads and tails.
 
 ## 1. A random variable is a function
 
@@ -68,9 +75,15 @@ Thus \(P(X\le x)\) is shorthand for the probability of a set of outcomes. This i
 
 > **Practice — Foundation:** On two coin tosses, define \(X\) as the number of heads. Write the function from all four outcomes to numbers.
 >
-> **Practice — Core:** Define two random variables on a die roll whose supports are identical but whose probabilities differ. Derive both distributions.
+> **Hint:** Map each ordered outcome to its head count before combining masses.
 >
-> **Practice — Stretch:** Explain why asking whether “the random variable happened” is a type error. Rewrite the question in two mathematically meaningful ways.
+> **Practice — Core:** On one fair die roll \(\omega\), let \(X=\mathbf 1\{\omega\text{ is even}\}\) and \(Y=\mathbf 1\{\omega=6\}\). Show that both have support \(\{0,1\}\) and derive both PMFs.
+>
+> **Hint:** Count the outcomes each map sends to 1: three for X and one for Y.
+>
+> **Practice — Stretch:** Let \(X\) be the number of dots on a fair die. Explain why “what is the probability that \(X\) happened?” is a type error, then answer two corrected questions: \(P(X\ge5)\), and the realized value of \(X\) when the outcome is \(\omega=4\).
+>
+> **Hint:** X is a function, not an event; the event {X ≥ 5} = {5, 6} has probability 1/3, and the realized value is X(4) = 4.
 
 ## 2. Discrete distributions: PMFs and support
 
@@ -111,9 +124,15 @@ The notation \(p_X(x)\) describes a probability distribution. A model output suc
 
 > **Practice — Foundation:** Check whether \(p(0)=0.1,p(1)=0.3,p(2)=0.6\) is a valid PMF and compute \(P(X\ge1)\).
 >
+> **Hint:** Check nonnegativity and sum one, then add the requested cells.
+>
 > **Practice — Core:** A token sampler returns ranks 1, 2, and 3 with probabilities proportional to 6, 3, and 1. Normalize the weights and compute the expected rank.
 >
-> **Practice — Stretch:** Construct two PMFs with the same support and mean but very different tail probabilities. Explain why the mean alone misses that difference.
+> **Hint:** Divide by the sum of weights before taking a weighted rank average.
+>
+> **Practice — Stretch:** On support \(\{0,5,10\}\), let PMF A be \((0.1,0.8,0.1)\) and PMF B be \((0.45,0.1,0.45)\). Verify that both have mean 5, compute \(P(|X-5|\ge5)\) under each, and explain why the mean alone misses the difference.
+>
+> **Hint:** Both PMFs are symmetric about 5, so the mean is 5; the tail event is {0, 10}, with probability 0.2 under A and 0.9 under B.
 
 ## 3. CDFs unify discrete and continuous variables
 
@@ -152,11 +171,17 @@ $$
 
 This definition works even when a flat region or jump prevents solving \(F_X(x)=q\) exactly. The median is a 0.5-quantile. Quantiles are often more informative than means for skewed latency, loss, or response-length distributions.
 
-> **Practice — Foundation:** Given a small discrete PMF, compute its CDF at points below, on, and between support values.
+> **Practice — Foundation:** For \(P(X=1)=0.2\), \(P(X=2)=0.5\), \(P(X=4)=0.3\), compute \(F_X(0.5)\), \(F_X(1)\), \(F_X(3)\), and \(F_X(4)\).
 >
-> **Practice — Core:** Recover \(P(a<X\le b)\), \(P(X=b)\), and the median set from a supplied step-function CDF.
+> **Hint:** Add the masses at support points less than or equal to the argument; F(1) includes the jump at 1, and F(3) = F(2) because there is no mass at 3.
 >
-> **Practice — Stretch:** Write a function that numerically checks monotonicity, range, and right-continuity clues for tabulated CDF values. Describe what a finite grid cannot prove.
+> **Practice — Core:** A CDF equals \(0\) for \(x<0\), \(0.25\) on \([0,1)\), \(0.5\) on \([1,3)\), \(0.9\) on \([3,5)\), and \(1\) for \(x\ge5\). Recover \(P(1<X\le5)\), \(P(X=3)\), and the median set.
+>
+> **Hint:** Use F(5) − F(1) for the interval and the jump size at 3 for the point mass; a median m needs F(m) ≥ 0.5 and P(X ≥ m) ≥ 0.5, which holds on the whole interval [1, 3].
+>
+> **Practice — Stretch:** Write `check_cdf(xs, Fs)` that reports monotonicity and range violations for tabulated CDF values. Test it on `xs=[0,1,2,3]` with `Fs=[0.1,0.4,0.35,1.0]` and with `Fs=[0,0.5,1.2,1.0]`, then give a function that passes on this grid but is not a valid CDF between the grid points.
+>
+> **Hint:** The first table decreases from 0.4 to 0.35 at index 2 and the second exceeds 1 at index 2; a function can pass at the integers yet dip between them, for example dropping to 0 on (1.4, 1.6).
 
 ## 4. Continuous distributions: density is not probability
 
@@ -202,9 +227,15 @@ Yes. If \(X\sim\operatorname{Uniform}(0,0.2)\), then \(f_X(x)=5\) inside the int
 
 > **Practice — Foundation:** For density \(f(x)=2x\) on \([0,1]\), verify normalization and compute \(P(X>1/2)\).
 >
-> **Practice — Core:** Find a density greater than one on part of its support and show that every interval probability remains at most one.
+> **Hint:** Integrate 2x over the full interval, then over the requested tail.
 >
-> **Practice — Stretch:** Compare the probability of an exact floating-point output in mathematical continuous sampling with the probability of that machine value in an actual finite-precision implementation.
+> **Practice — Core:** Let \(X\sim\text{Uniform}(0,0.25)\). Write its density, note where it exceeds one, and show that \(P(a<X<b)\le1\) for every interval \((a,b)\).
+>
+> **Hint:** The height is 1/0.25 = 4, and an interval's probability is 4 times the length of its overlap with (0, 0.25), which is at most 0.25.
+>
+> **Practice — Stretch:** Python's `random.random()` returns multiples of \(2^{-53}\) in \([0,1)\), each with equal probability. Compare \(P(U=0.5)\) for an ideal \(U\sim\text{Uniform}(0,1)\) with the probability that the machine sampler returns exactly 0.5.
+>
+> **Hint:** The ideal continuous law gives any single point probability 0; the machine sampler has \(2^{53}\) equally likely outputs, so 0.5 has probability \(2^{-53}\approx1.1\times10^{-16}\).
 
 ## 5. Expectation is an average under a distribution
 
@@ -246,9 +277,15 @@ More generally, \(E[\sum_i a_iX_i]=\sum_i a_iE[X_i]\) whether or not the \(X_i\)
 
 > **Practice — Foundation:** Compute \(E[X]\) for a fair die and explain why the answer need not be a possible outcome.
 >
+> **Hint:** Average the six values with equal weights.
+>
 > **Practice — Core:** For \(X\sim\text{Bernoulli}(p)\), derive \(E[3X-2]\) two ways: from its distribution and from linearity.
 >
-> **Practice — Stretch:** Give two distributions with the same expectation but different operational risk. Choose and justify a second summary that separates them.
+> **Hint:** Map zero and one through the affine function, then compare with linearity.
+>
+> **Practice — Stretch:** Option A always loses 10. Option B loses 0 with probability \(0.99\) and 1,000 with probability \(0.01\). Verify that both expected losses are 10, then compute each standard deviation and \(P(\text{loss}>100)\).
+>
+> **Hint:** For B, E[L²] = 0.01·1,000,000 = 10,000, so Var = 10,000 − 100; the tail probability is 0 for A and 0.01 for B.
 
 ## 6. Moments summarize location and spread
 
@@ -288,9 +325,15 @@ Higher moments describe additional shape but can be fragile under heavy tails. A
 
 > **Practice — Foundation:** For \(P(X=-1)=P(X=1)=1/2\), compute the first two raw moments, variance, and standard deviation.
 >
+> **Hint:** The sign changes the first moment, but not the square.
+>
 > **Practice — Core:** Prove \(\operatorname{Var}(aX+b)=a^2\operatorname{Var}(X)\) from the definition, carefully tracking the shifted mean.
 >
-> **Practice — Stretch:** Construct a sequence of distributions whose means stay fixed while variances grow without bound. Explain what changes in the tails.
+> **Hint:** Subtract the transformed mean before squaring; the additive shift cancels.
+>
+> **Practice — Stretch:** Let \(X_n=\pm n\) with probability \(1/2\) each. Compute \(E[X_n]\), \(\operatorname{Var}(X_n)\), and \(P(|X_n|\ge10)\) for \(n=1,10,100\), and explain what changes in the tails.
+>
+> **Hint:** The symmetric values keep the mean at 0 while \(E[X_n^2]=n^2\); the tail event has probability 0 for n = 1 and 1 for n = 10 and 100.
 
 ## 7. Bernoulli and categorical variables
 
@@ -342,9 +385,15 @@ Adding the same constant to every logit leaves the distribution unchanged. Numer
 
 > **Practice — Foundation:** Encode a correctness outcome as Bernoulli and compute its mean and variance when accuracy is \(0.8\).
 >
+> **Hint:** For a Bernoulli variable, X² equals X.
+>
 > **Practice — Core:** Normalize categorical weights \((2,5,3)\), sample conceptually with a uniform number, and show which cumulative interval maps to each label.
 >
-> **Practice — Stretch:** A label set is duplicated so two labels represent the same semantic answer. Analyze how categorical entropy and semantic-answer probability respond differently.
+> **Hint:** Cumulative intervals must cover [0,1) without overlaps or gaps.
+>
+> **Practice — Stretch:** A model outputs “Paris” with probability 0.5, “paris” with 0.3, and “Lyon” with 0.2, where the first two are the same semantic answer. Compute the label entropy in bits, then the semantic-answer probability of Paris and the entropy after merging synonyms.
+>
+> **Hint:** Label entropy uses (0.5, 0.3, 0.2) and is about 1.485 bits; merge synonyms first to get (0.8, 0.2), with probability 0.8 for Paris and entropy about 0.722 bits.
 
 ## 8. Binomial, geometric, and Poisson counts
 
@@ -428,9 +477,15 @@ Using \(\lambda=2\) would mix an hourly rate with a half-hour exposure. Paramete
 
 > **Practice — Foundation:** Identify whether each variable is best modelled initially as binomial, geometric, or Poisson: successes in fixed trials, trials until first success, arrivals in a fixed interval.
 >
+> **Hint:** Distinguish a fixed number of trials, a stopping time, and a count over exposure.
+>
 > **Practice — Core:** Derive the mean of a geometric variable by a tail-sum argument, then state which support convention you used.
 >
-> **Practice — Stretch:** Simulate rare Bernoulli counts with \(np\) fixed while changing \(n\) and \(p\). Quantify when the Poisson approximation is poor and propose a diagnostic.
+> **Hint:** For support 1,2,..., sum P(X>k) starting at k=0.
+>
+> **Practice — Stretch:** Hold \(np=2\) and compare Binomial\((n,p)\) with Poisson\((2)\) for \((n,p)=(10,0.2),(100,0.02),(1000,0.002)\). Compute \(P(X=0)\) under each binomial and the total-variation distance \(\tfrac12\sum_k|p_{\text{bin}}(k)-p_{\text{Pois}}(k)|\), and state at which \(n\) the approximation is poor.
+>
+> **Hint:** P(X=0) is \((1-p)^n\) against \(e^{-2}\approx0.135\); the total-variation distances are about 0.052, 0.0046 and 0.00045, so n = 10 is the poor case.
 
 ## 9. Uniform, exponential, and Gaussian variables
 
@@ -523,11 +578,17 @@ $$
 
 The Gaussian approximation places about 2.3% of observations above this value. This conclusion depends on the Gaussian model; “two standard deviations” alone does not determine a tail probability for arbitrary data.
 
-> **Practice — Foundation:** Compute an interval probability for a uniform variable and a survival probability for an exponential variable.
+> **Practice — Foundation:** For \(U\sim\text{Uniform}(2,10)\), compute \(P(3<U<7)\). For \(T\sim\text{Exponential}(\lambda=0.5)\), compute \(P(T>4)\).
 >
-> **Practice — Core:** Verify the exponential memoryless property algebraically and explain what it claims in conditional-probability language.
+> **Hint:** The uniform probability is 4/8, the interval length over the support length; the exponential survival is \(e^{-\lambda t}=e^{-2}\approx0.135\).
 >
-> **Practice — Stretch:** A latency histogram is positive, right-skewed, and multimodal. Critique both a Gaussian and a single exponential model, then propose a better generative story.
+> **Practice — Core:** Verify the exponential memoryless property \(P(T>s+t\mid T>s)=P(T>t)\) algebraically, check it for \(\lambda=0.5\), \(s=2\), \(t=4\), and explain what it claims in conditional-probability language.
+>
+> **Hint:** Divide survival at s + t by survival at s: \(e^{-3}/e^{-1}=e^{-2}=P(T>4)\).
+>
+> **Practice — Stretch:** Latencies come from fast requests, Normal\((80,10^2)\) ms with probability 0.7, and slow requests, Normal\((400,50^2)\) ms with probability 0.3. Compute the mixture mean and standard deviation, then compare \(P(Y<0)\) and \(P(150<Y<250)\) under a Gaussian with those moments and under the mixture. Explain why a single exponential also fails.
+>
+> **Hint:** Total variance equals the within-type variances plus the spread of the type means, giving mean 176 and SD about 149.4; the fitted Gaussian puts about 0.12 below 0 and about 0.26 in (150, 250), where the mixture has almost no mass.
 
 ## 10. How the common families relate
 
@@ -544,11 +605,17 @@ The Gaussian approximation places about 2.3% of observations above this value. T
 
 This table is a recognition aid, not a model-selection algorithm. Independence, stationarity, support, censoring, truncation, and selection mechanisms matter as much as the shape of a histogram.
 
-> **Practice — Foundation:** For each common family in the table, name its support and one parameter constraint without looking back.
+> **Practice — Foundation:** Without looking back, decide whether each value is in the support: 0 under Geometric\((0.3)\) (support \(1,2,\ldots\)), 12 under Binomial\((12,0.3)\), \(-0.5\) under Exponential\((2)\), and \(2.5\) under Poisson\((3)\). Then state which constraint Poisson\((\lambda=-1)\) violates.
 >
-> **Practice — Core:** Starting from independent Bernoulli trials, explain the different stopping rules that produce binomial and geometric variables.
+> **Hint:** Write each support first: {1, 2, …}, {0, …, 12}, [0, ∞) and {0, 1, 2, …}; a Poisson rate must be positive.
 >
-> **Practice — Stretch:** Build a decision tree that chooses a first-pass family from support, repetition structure, and stopping rule. Test it on three ML observables where the first-pass choice ultimately fails.
+> **Practice — Core:** Independent trials succeed with probability \(p=0.3\). Compute \(P(\text{exactly 2 successes in 5 trials})\) and \(P(\text{first success on trial 3})\), and state which stopping rule produces each distribution.
+>
+> **Hint:** The binomial count uses \({5\choose2}0.3^2 0.7^3\) because the experiment stops after 5 trials; the geometric uses \(0.7^2(0.3)\) because it stops at the first success.
+>
+> **Practice — Stretch:** Build a decision tree that chooses a first-pass family from support, repetition structure, and stopping rule. Apply it to (a) correct answers among 50 questions of varying difficulty, (b) retries until success when failures are cached and repeated, and (c) daily error counts with bursty incidents. For each, name the first-pass family and the assumption that fails.
+>
+> **Hint:** The tree suggests binomial, geometric and Poisson; they fail because of unequal success probabilities, dependence between attempts, and clustered or varying event rates.
 
 ## 11. Transformations: distinguish values from density
 
@@ -580,9 +647,15 @@ Non-one-to-one transformations require summing contributions from every inverse 
 
 > **Practice — Foundation:** If \(Y=2X+3\), compute the transformed support when \(X\in\{-1,0,2\}\).
 >
+> **Hint:** Transform every support point, including negative ones.
+>
 > **Practice — Core:** For \(X\sim\text{Uniform}(0,1)\) and \(Y=X^2\), derive the CDF and density of \(Y\), including its support.
 >
-> **Practice — Stretch:** Explain why mapping density heights directly through \(g\) fails. Use interval compression or expansion to predict the direction of the missing correction.
+> **Hint:** For y between zero and one, rewrite X²<=y as X<=sqrt(y).
+>
+> **Practice — Stretch:** Let \(X\sim\text{Uniform}(0,1)\) and \(Y=2X\). Show that the naive density \(f_Y(y)=f_X(y/2)=1\) on \([0,2]\) integrates to 2, derive the correct density, and explain the correction through interval stretching.
+>
+> **Hint:** The map doubles every interval's length but keeps its probability, so the density height must halve: \(f_Y(y)=f_X(y/2)\cdot\tfrac12\).
 
 ## 12. Sampling constructs observations from a distribution
 
@@ -626,9 +699,15 @@ Thus typical noise shrinks like \(1/\sqrt n\), not \(1/n\). Reducing Monte Carlo
 
 > **Practice — Foundation:** Use inverse-CDF sampling to map \(u=0.72\) into a categorical distribution with probabilities \((0.2,0.5,0.3)\).
 >
-> **Practice — Core:** Implement inverse-CDF sampling for a discrete PMF and validate it with empirical frequencies and a fixed random seed.
+> **Hint:** Find the first cumulative mass strictly above the supplied uniform draw.
 >
-> **Practice — Stretch:** Compare inverse-transform and direct-library sampling for an extreme parameter setting. Identify whether discrepancies come from theory, numerical precision, or the random generator.
+> **Practice — Core:** Implement inverse-CDF sampling for the PMF \((0.2,0.5,0.3)\) on labels 0, 1, 2. Draw 10,000 samples using `random.Random(0)`, report the label frequencies, and check that each is within three standard errors \(\sqrt{p(1-p)/10000}\) of its target.
+>
+> **Hint:** Return the first label whose cumulative mass exceeds u; the standard errors are 0.004, 0.005 and about 0.0046, and this seed gives counts 1983, 5015 and 3002.
+>
+> **Practice — Stretch:** Sample Exponential\((\lambda=10^6)\) by the inverse transform \(-\log(1-U)/\lambda\) with \(U\) from `random.Random(0).random()`, taking \(10^6\) draws, and compare the sample mean with \(10^{-6}\) and with `random.expovariate`. Explain why \(-\log(U)/\lambda\) is not safe even though it has the same law in theory.
+>
+> **Hint:** `random()` can return exactly 0 but never 1, so 1 − U lies in (0, 1] and its log is finite, while log(0) raises an error; the seeded mean should be within about 0.1% of \(10^{-6}\).
 
 ## 13. Numerical and modelling discipline
 
@@ -664,11 +743,17 @@ Ask:
 
 A histogram that resembles a named density is weak evidence if these questions fail.
 
-> **Practice — Foundation:** List the validation checks a categorical sampler should perform before drawing a sample.
+> **Practice — Foundation:** For each weight vector, decide whether a categorical sampler should accept it and name the check involved: \((1,2,3)\), \((0,0,0)\), \((1,-1,2)\), \((1,\text{NaN},1)\), and \((0,0,5)\).
+>
+> **Hint:** Check that every weight is finite, every weight is nonnegative, and the total is positive; a vector with zeros but a positive total is valid.
 >
 > **Practice — Core:** Create three deliberately invalid inputs—negative weight, all-zero weights, and a NaN—and specify the safest failure behavior for each.
 >
-> **Practice — Stretch:** Design a reproducibility report that distinguishes algorithm, seed, library version, hardware, and nondeterministic parallel execution. Explain which guarantees each field can and cannot provide.
+> **Hint:** Reject invalid inputs before consuming randomness; do not silently renormalize NaN.
+>
+> **Practice — Stretch:** A script seeds `random.Random(0)` and four threads draw 1,000 numbers from the shared generator in arrival order. Two runs produce the same set of 1,000 values but different per-thread sums. Design a reproducibility report (algorithm, seed, library version, hardware, execution order) and say which field would have predicted this discrepancy.
+>
+> **Hint:** The seed fixes the sequence of values, not which thread receives each value; only a recorded deterministic execution order, or one generator per thread, makes the per-thread results reproducible.
 
 ## 14. Runnable lab: categorical sampling from weights
 
@@ -705,49 +790,69 @@ Derive these results rather than memorizing the table:
 8. The affine density transformation and its absolute scale factor.
 9. Unbiasedness and variance of an iid Monte Carlo average.
 
+## Prediction experiment
+
+Predict both the baseline and failure-preset results before revealing the calculation. Record the assumptions, change one control at a time, and explain the boundary case. This small deterministic model isolates a mechanism; it is not an empirical validation of a trained system.
+
+```lab
+lab: ps-distributions
+```
+
 ## 16. End-of-unit practice (graded)
 
-**Foundation — problems 1–3.** Read PMFs, CDFs, densities, and moments accurately.
+Work each problem before opening its authored solution. Written proofs and design answers require self-review against the rubric; numeric fields check only the stated quantities.
 
-1. **PMF and CDF.** Let \(p_X(x)=cx\) for \(x\in\{1,2,3,4\}\). Find \(c\), write the complete CDF, and compute \(P(1<X\le3)\).
-2. **Density versus probability.** Let \(X\sim\operatorname{Uniform}(0,0.2)\). Find \(f_X(0.1)\), \(P(X=0.1)\), and \(P(0.08<X<0.12)\). Explain why the three answers are different kinds of quantities.
-3. **Moments.** Derive \(\operatorname{Var}(aX+b)=a^2\operatorname{Var}(X)\) directly from the definition.
 
-**Core — problems 4–8.** Select and manipulate distribution families while auditing assumptions.
+### Foundation — problems 1–3. Read PMFs, CDFs, densities, and moments accurately.
 
-4. **Binomial assumptions.** A moderation dataset contains 1,000 messages from 40 users. Explain why the number of policy violations need not be binomial even if every row is binary.
-5. **Overdispersion.** A request count has empirical mean 8 and variance 31. Give two process-level reasons a single Poisson model may fail.
-6. **Waiting times.** For \(X\sim\operatorname{Exponential}(\lambda)\), find its median and compare it with its mean.
-7. **Transformation.** If \(X\sim\operatorname{Uniform}(0,1)\) and \(Y=X^2\), derive \(F_Y\) and \(f_Y\). Identify where the density is largest.
-8. **Categorical encoding.** Show why treating class IDs as numerical values produces a representation-dependent mean. Give the one-hot mean instead.
+**A1 · Foundation · paper — PMF and CDF.** Let \(p_X(x)=cx\) for \(x\in\{1,2,3,4\}\). Find \(c\), write the complete CDF, and compute \(P(1<X\le3)\).
 
-**Stretch — problems 9–14.** Combine simulation, numerical reasoning, and model criticism.
+**A2 · Foundation · paper — Density versus probability.** Let \(X\sim\operatorname{Uniform}(0,0.2)\). Find \(f_X(0.1)\), \(P(X=0.1)\), and \(P(0.08<X<0.12)\). Explain why the three answers are different kinds of quantities.
 
-9. **Simulation.** Estimate \(P(X\ge8)\) for \(X\sim\operatorname{Binomial}(10,0.6)\) using 50 independent batches of 10,000 draws from local RNG seeds 0 through 49. Compare the mean and standard deviation of the 50 estimates with the exact probability and its predicted Monte Carlo standard error.
-10. **Model critique.** A team models generation latency with a Gaussian because its central histogram looks symmetric. List three checks needed before using it to estimate a strict tail-latency service-level objective.
-11. **Numerics.** Explain why multiplying 2,000 next-token probabilities may underflow while the corresponding log-likelihood remains usable.
-12. **Transfer.** Match a distribution to each story and state one assumption whose failure invalidates it: (a) exactly one of five routing destinations is selected per request; (b) GPU faults are counted during a fixed 24-hour window under a constant independent rate; (c) independent attempts continue until the first schema-valid response; (d) waiting time to the next request under a homogeneous Poisson arrival process. Distinguish the geometric support convention you use.
-13. **Distribution forensics.** You receive only 10,000 sampled values from an unknown scalar generator. Build a reproducible investigation that tests support, discreteness, tail behavior, candidate-family fit, and dependence across draw order without claiming that a good fit identifies the mechanism.
-14. **Sampler stress test.** Implement one categorical sampler incorrectly in a subtle way, such as renormalizing after cumulative rounding. Design tests that reliably expose the defect under both balanced and highly skewed weights.
+**A3 · Foundation · paper — Moments.** Derive \(\operatorname{Var}(aX+b)=a^2\operatorname{Var}(X)\) directly from the definition.
 
-<details><summary>Solution sketches</summary>
+### Core — problems 4–8. Select and manipulate distribution families while auditing assumptions.
 
-1. Normalization gives \(c(1+2+3+4)=1\), so \(c=0.1\). The CDF jumps to 0.1, 0.3, 0.6, and 1 at 1, 2, 3, and 4. The requested probability is \(0.2+0.3=0.5\).
-2. The density is 5, the point probability is 0, and the interval probability is \(0.04/0.2=0.2\). Density has inverse units, point mass is zero, and interval probability is area.
-3. Since \(E[aX+b]=a\mu+b\), subtracting the transformed mean gives \(a(X-\mu)\); square and take expectation.
-4. Messages from one user can be dependent, users can have different violation probabilities, and the row-selection mechanism can vary. These break independence or common \(p\).
-5. Heterogeneous latent rates create a mixture; temporal clustering or shared incidents create dependence. Either can produce variance above the mean.
-6. Solve \(1-e^{-\lambda m}=1/2\), giving \(m=(\log2)/\lambda\), which is below the mean \(1/\lambda\).
-7. For \(0\le y\le1\), \(F_Y(y)=P(X\le\sqrt y)=\sqrt y\), hence \(f_Y(y)=1/(2\sqrt y)\). It diverges near zero while remaining integrable.
-8. Relabelling classes changes \(E[X]=\sum_kkp_k\). For one-hot encoding the mean is the probability vector \(p\), whose coordinates permute with the labels.
-9. The exact probability is \(\sum_{k=8}^{10}{10\choose k}0.6^k0.4^{10-k}\approx0.16729\). A 10,000-draw batch has predicted standard error \(\sqrt{p(1-p)/10000}\approx0.00373\). Across 50 independent batches, their sample mean should be near \(0.16729\) and their sample standard deviation near \(0.00373\); report Monte Carlo uncertainty rather than demanding exact agreement from the seeds.
-10. Check impossible negative mass, tail fit rather than only the center, dependence and nonstationarity, censoring/timeouts, and whether a mixture across request types is required.
-11. The product can fall below the smallest representable positive number. Logs convert the product into a finite sum of negative log probabilities.
-12. Use categorical for (a), Poisson for (b), geometric for (c), and exponential for (d). The choices respectively require one exclusive category with stable probabilities; a fixed exposure with approximately constant independent event rate; repeated comparable independent attempts with constant success probability; and a homogeneous Poisson arrival process. Changing routing probabilities, clustered faults, learning across attempts, or time-varying arrival intensity breaks the corresponding model.
-13. A strong investigation combines value counts or spacings, empirical CDFs and quantiles, tail-focused plots, parameter fitting on one split, fit checks on another, and lag or run diagnostics. Agreement narrows plausible descriptions but does not recover a unique data-generating process.
-14. Use deterministic boundary tests plus large seeded simulations. Include zero and tiny weights, one dominant class, weights spanning many orders of magnitude, permutation checks, and expected-frequency tolerances based on binomial sampling variation.
+**A4 · Core · paper — Binomial assumptions.** A moderation dataset contains 1,000 messages from 40 users, 25 messages each. Each user is independently high-risk (violation probability \(0.38\)) or low-risk (\(0.02\)) with probability \(1/2\), so the overall violation rate is \(0.2\). Compute the variance of the total violation count and compare it with the Binomial\((1000,0.2)\) variance. Explain why the count need not be binomial even though every row is binary.
 
-</details>
+**A5 · Core · paper — Overdispersion.** A per-minute request count has empirical mean 8 and variance 24. Compute its dispersion index, show that an equal mixture of Poisson\((4)\) and Poisson\((12)\) minutes reproduces both moments, and give a second process-level reason a single Poisson model may fail.
+
+**A6 · Core · paper — Waiting times.** For \(X\sim\operatorname{Exponential}(\lambda)\), find its median and compare it with its mean. Evaluate both for \(\lambda=0.5\) per second.
+
+**A7 · Core · paper — Transformation.** If \(X\sim\operatorname{Uniform}(0,1)\) and \(Y=X^2\), derive \(F_Y\) and \(f_Y\). Identify where the density is largest.
+
+**A8 · Core · paper — Categorical encoding.** Three classes occur with probabilities \((0.5,0.3,0.2)\). Compute the mean class ID under the labelling \((0,1,2)\) and under the relabelling \((2,0,1)\), explain why the numeric mean is representation-dependent, and give the one-hot mean instead.
+
+### Stretch — problems 9–14. Combine simulation, numerical reasoning, and model criticism.
+
+**A9 · Stretch · paper — Simulation.** Estimate \(P(X\ge8)\) for \(X\sim\operatorname{Binomial}(10,0.6)\) using 50 independent batches of 10,000 draws from local RNG seeds 0 through 49. Compare the mean and standard deviation of the 50 estimates with the exact probability and its predicted Monte Carlo standard error.
+
+**A10 · Stretch · paper — Model critique.** A team fits a Gaussian with mean 800 ms and standard deviation 150 ms to generation latency because its central histogram looks symmetric; in 10,000 logged requests, 37 exceeded 1,500 ms. Compute the Gaussian-implied \(P(Y>1500)\), compare it with the empirical rate, and list three checks needed before using any model to estimate a strict tail-latency service-level objective.
+
+**A11 · Stretch · paper — Numerics.** A sequence has 2,000 next-token probabilities, each equal to \(0.6\). Compute the base-10 exponent of their product and the natural-log likelihood, and explain why the product underflows in double precision while the log-likelihood remains usable.
+
+**A12 · Stretch · paper — Transfer.** Match a distribution to each story and state one assumption whose failure invalidates it: (a) exactly one of five routing destinations is selected per request; (b) GPU faults are counted during a fixed 24-hour window under a constant independent rate; (c) independent attempts continue until the first schema-valid response; (d) waiting time to the next request under a homogeneous Poisson arrival process. Distinguish the geometric support convention you use.
+
+**A13 · Stretch · paper — Distribution forensics.** Treat this as an unknown generator: with `random.Random(13)`, draw 10,000 values `floor(r.expovariate(1/3))`. Without using its definition, report the minimum and number of distinct values, the fraction of zeros, the sample mean and variance, and the lag-1 autocorrelation. Compare these with a Geometric model on \(\{0,1,\ldots\}\) with success probability \(1-e^{-1/3}\), and explain why a good fit does not identify the mechanism.
+
+**A14 · Stretch · paper — Sampler stress test.** A buggy categorical sampler rounds each cumulative probability to two decimals and divides by the last one before sampling. Compute its effective probabilities for weights \((1,1,1)\) and \((996,2,2)\), then design tests that reliably expose the defect in each case: give the number of draws needed and the expected size of the discrepancy in standard errors.
+
+
+## Six-part checkpoint
+
+Complete these without notes, then use the solutions to audit assumptions and reasoning. Passing a numeric check alone does not establish mastery. For implementation and transfer, retain the code/results or written protocol as evidence.
+
+**K1 · Foundation · gate — Concept.** How does a density differ from a point probability?
+
+**K2 · Core · gate — Derivation.** Derive the mean and variance of a binomial count using indicators.
+
+**K3 · Core · gate — Calculation.** Find the variance of Binomial(20, 0.3).
+
+**K4 · Core · gate — Implementation audit.** Reproduce two settings of the ps-distributions experiment independently, including its failure preset. State a numerical invariant or analytic oracle and explain what the plot does not establish.
+
+**K5 · Stretch · gate — Claim audit.** Must a sample average estimate a finite population mean for every named distribution?
+
+**K6 · Stretch · gate — RE/RS transfer.** Specify a model for generation lengths with a hard token cap.
 
 ## Mastery check
 

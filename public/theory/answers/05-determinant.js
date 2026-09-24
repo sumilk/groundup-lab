@@ -508,5 +508,24 @@ K6: {
     "v": "Evaluate eˢ at log 2.",
     "p": "Conserve probability mass as the cell expands."
   }
+},
+M7: {
+  "statement": "**M7 · Stretch · mixed — Sign and log-volume without overflow.** For A=diag(−10²⁰⁰,10²⁰⁰), give the determinant sign and log absolute determinant divided by log(10), without forming the product.",
+  "plain": "The sign is −1 and log|det A|/log 10 is 400. Multiplying first can overflow; adding logarithms avoids that representational failure.",
+  "solution": "<p>The sign is −1 and log|det A|/log 10 is 400. Multiplying first can overflow; adding logarithms avoids that representational failure.</p>",
+  "fields": [
+    {
+      "id": "audit",
+      "label": "Numerical result(s), in requested order",
+      "type": "vec",
+      "ans": [
+        -1,
+        400
+      ]
+    }
+  ],
+  "hints": {
+    "audit": "Use the concrete matrix in the question and keep the numerical diagnostic separate from the exact algebraic claim."
+  }
 }
 });

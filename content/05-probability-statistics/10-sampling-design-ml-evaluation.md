@@ -2,6 +2,7 @@
 id: math.statistics.sampling-design-ml-evaluation
 title: Sampling design, dataset construction, and rigorous ML evaluation
 prerequisites: [math.statistics.bayesian-modeling-computation]
+answers: ps-10-sampling-design-ml-evaluation
 estimated_hours: 42
 ---
 
@@ -31,11 +32,17 @@ Coverage error occurs when target units are absent from the frame or frame units
 
 **Worked example — product feedback.** The target is all active users, but the frame contains users who opened a feedback widget. Randomly sampling widget openers does not make silent users representative. The selection event may depend on dissatisfaction, platform, language, or engagement.
 
-> **Practice — Foundation:** Distinguish a target population, sampling frame, sample, and estimand in a voter survey.
+> **Practice — Foundation:** A poll about a ballot measure targets 2,000,000 registered voters. It dials 1,000 numbers drawn from a list of 1,500,000 landlines; 600 people answer and 330 favor the measure. Identify the target population, sampling frame, sample, and estimand, and compute the naive estimate.
 >
-> **Practice — Core:** Define these four objects for evaluating an assistant on future customer conversations.
+> **Hint:** The frame is the landline list, while the estimand is the favorable share among all 2,000,000 voters; the naive estimate is \(330/600\).
 >
-> **Practice — Stretch:** Construct a complete sampling frame whose measurement process still creates selection bias.
+> **Practice — Core:** An assistant will serve next quarter's conversations for five enterprise customers. You hold 50,000 logged conversations from last month for three of them, who will generate 60% of next quarter's traffic. Define the target population, frame, sample, and estimand, and state the share of target traffic the frame cannot reach at all.
+>
+> **Hint:** Write the estimand as a mean over next quarter's conversations; traffic from the two missing customers never appears in the frame.
+>
+> **Practice — Stretch:** The frame lists all 10,000 users, so coverage is complete. True satisfaction is 70%, but satisfied users answer the survey with probability 0.4 and dissatisfied users with probability 0.1. Compute the expected satisfaction share among respondents.
+>
+> **Hint:** The respondent share is \(P(\text{sat})P(R\mid\text{sat})/P(R)=0.28/(0.28+0.03)\).
 
 ## 1. Sampling with and without replacement
 
@@ -61,11 +68,17 @@ Equal marginal inclusion probabilities alone do not define SRSWOR; joint probabi
 
 **Worked example — sample two of four.** The six possible unordered samples are \(\{1,2\},\{1,3\},\{1,4\},\{2,3\},\{2,4\},\{3,4\}\). Each unit appears in three samples, so \(\pi_i=3/6=1/2=n/N\). Each pair appears once, so \(\pi_{ij}=1/6\).
 
-> **Practice — Foundation:** Count the SRSWOR samples of size three from ten units.
+> **Practice — Foundation:** Count the SRSWOR samples of size three from ten units, and compare with the number of ordered with-replacement draw sequences of length three.
 >
-> **Practice — Core:** Derive first- and second-order inclusion probabilities under SRSWOR.
+> **Hint:** Without replacement and unordered gives \(\binom{10}{3}\); ordered with replacement gives \(10^3\).
 >
-> **Practice — Stretch:** Build a fixed-size design with equal first-order probabilities but unequal joint inclusion probabilities, then explain why its variance differs from SRSWOR.
+> **Practice — Core:** For \(N=10\) and \(n=3\), derive \(\pi_i\) and \(\pi_{ij}\) by counting subsets, and check them against \(n/N\) and \(n(n-1)/[N(N-1)]\).
+>
+> **Hint:** Subsets containing unit \(i\) choose the other two from nine: \(\binom92/\binom{10}3\); for a pair, choose the remaining unit from eight.
+>
+> **Practice — Stretch:** Units 1–4 form fixed pairs \(\{1,2\}\) and \(\{3,4\}\), and the design picks one pair with probability \(1/2\). Show that \(\pi_i=1/2\) as under SRSWOR with \(n=2\), but \(\pi_{12}=1/2\) and \(\pi_{13}=0\). For \(y=(1,1,5,5)\), compute \(\operatorname{Var}(\bar y_s)\) under this design and under SRSWOR.
+>
+> **Hint:** Under the pair design \(\bar y_s\) is either 1 or 5; under SRSWOR use \((1-n/N)S_Y^2/n\) with \(S_Y^2=16/3\).
 
 ## 2. The finite-population correction measures information left behind
 
@@ -103,9 +116,15 @@ The FPC does not eliminate measurement error, missing outcomes, future-populatio
 
 > **Practice — Foundation:** Calculate the FPC for \(n=200,N=800\).
 >
-> **Practice — Core:** Derive the SRSWOR mean variance using inclusion indicators and their negative covariance.
+> **Hint:** The sampling fraction is \(f=200/800=0.25\); the SE correction is \(\sqrt{1-f}\).
 >
-> **Practice — Stretch:** Explain why applying an FPC to a benchmark score can be inappropriate when the inferential population is future tasks rather than the finite observed item list.
+> **Practice — Core:** Derive the SRSWOR variance of the mean from inclusion indicators, then verify it by enumerating all samples of size 2 from \(y=(1,2,6)\).
+>
+> **Hint:** Use \(\operatorname{Cov}(I_i,I_j)=\pi_{ij}-\pi_i\pi_j<0\); the three sample means are 1.5, 3.5, and 4, and \(S_Y^2=7\).
+>
+> **Practice — Stretch:** All 500 items of a benchmark are scored, and accuracy is 0.80. Compute the FPC-corrected design SE and the iid SE \(\sqrt{0.8(0.2)/500}\), and explain which is appropriate when the claim concerns future items from the same generator.
+>
+> **Hint:** With \(f=1\) the design SE is zero for this fixed list; a future-item claim treats the 500 items as draws from a superpopulation.
 
 ## 3. Stratified sampling guarantees coverage of declared groups
 
@@ -145,11 +164,17 @@ placing more samples in large, variable strata. Minimum per-stratum sizes may be
 
 **Worked example — language evaluation.** If deployment is 70% English, 20% Hindi, and 10% Tamil but the evaluation samples 200 examples from every language, the raw average targets an equal-language mixture. Weighting stratum means by \(0.7,0.2,0.1\) targets deployment composition while retaining sufficient Tamil observations for subgroup analysis.
 
-> **Practice — Foundation:** Calculate a stratified mean from two stratum means and known population weights.
+> **Practice — Foundation:** English makes up 80% of deployment traffic with sample accuracy 0.9; other languages make up 20% with sample accuracy 0.6. Compute the stratified mean and compare it with the unweighted mean of the two stratum means.
 >
-> **Practice — Core:** Derive the stratified variance estimator under independent within-stratum SRSWOR.
+> **Hint:** Weight each stratum mean by its population share: \(0.8(0.9)+0.2(0.6)\).
 >
-> **Practice — Stretch:** Design an allocation balancing overall-score precision, minimum subgroup precision, labeling cost, and a rare safety stratum.
+> **Practice — Core:** Derive the stratified variance estimator under independent within-stratum SRSWOR, then evaluate the SE for \(N=(800,200)\), \(n=(40,40)\), and \(s^2=(0.09,0.25)\).
+>
+> **Hint:** Independence across strata makes the variance a sum; stratum \(h\) contributes \(W_h^2(1-n_h/N_h)s_h^2/n_h\).
+>
+> **Practice — Stretch:** Allocate \(n=1{,}000\) labels over strata with \(N=(9000,900,100)\) and \(S=(0.3,0.5,0.1)\), where the third is a rare safety stratum. Compute proportional and Neyman allocations, then a Neyman allocation constrained to at least 100 labels in the safety stratum.
+>
+> **Hint:** Neyman uses \(n_h\propto N_hS_h=(2700,450,10)\); impose the minimum first and split the remaining 900 in proportion to \(N_hS_h\).
 
 ## 4. Cluster sampling trades collection efficiency for information
 
@@ -178,11 +203,17 @@ The same labels—such as regions—can serve either role depending on the desig
 
 **Worked example — prompt tasks.** One thousand prompts from each of three tasks may provide precise means for those tasks but weak evidence about a broader task population. Thirty prompts from each of one hundred sampled tasks can contain much more information about cross-task generalization.
 
-> **Practice — Foundation:** Calculate the design effect for \(m=20,\rho=0.1\).
+> **Practice — Foundation:** Calculate the design effect for \(m=20,\rho=0.1\), and the effective sample size of 2,000 rows.
 >
-> **Practice — Core:** Compare information from increasing cluster count versus increasing rows per cluster.
+> **Hint:** \(\operatorname{DEFF}=1+(m-1)\rho\); divide the row count by it.
 >
-> **Practice — Stretch:** Design a three-stage sample of domains, documents, and passages, then derive each passage's inclusion probability.
+> **Practice — Core:** With a budget of 1,200 rows and \(\rho=0.1\), compare 40 clusters of 30 rows with 120 clusters of 10 rows by DEFF and effective sample size, and find the limit of the effective size for 40 clusters as rows per cluster grow without bound.
+>
+> **Hint:** With \(k\) clusters of size \(m\), \(n_{\mathrm{eff}}=km/(1+(m-1)\rho)\), which tends to \(k/\rho\) as \(m\to\infty\).
+>
+> **Practice — Stretch:** Sample 5 of 50 domains by SRS, then 4 of each selected domain's 40 documents, then 3 of each selected document's 30 passages. Derive a passage's inclusion probability and its Horvitz–Thompson weight.
+>
+> **Hint:** Multiply the conditional inclusion probabilities of the three stages: \(5/50\times4/40\times3/30\).
 
 ## 5. Unequal inclusion probabilities require weights
 
@@ -224,11 +255,17 @@ $$
 
 Do not interchange inclusion probability \(\pi_i\) with per-draw selection probability \(p_i\).
 
-> **Practice — Foundation:** Calculate a Horvitz–Thompson total from three observed values and inclusion probabilities.
+> **Practice — Foundation:** Observed values \((3,8,5)\) have inclusion probabilities \((0.1,0.4,0.5)\). Calculate the Horvitz–Thompson total.
 >
-> **Practice — Core:** Prove design unbiasedness using inclusion indicators.
+> **Hint:** Sum \(y_i/\pi_i\): \(3/0.1+8/0.4+5/0.5\).
 >
-> **Practice — Stretch:** Construct a design-unbiased estimator dominated by one tiny inclusion probability and compare bias–variance tradeoffs under weight trimming.
+> **Practice — Core:** Prove design unbiasedness using inclusion indicators, then verify it for \(y=(2,4,6)\) under the design that selects \(\{1,2\}\), \(\{1,3\}\), \(\{2,3\}\) with probabilities 0.5, 0.3, 0.2.
+>
+> **Hint:** Each \(\pi_i\) is the total probability of the samples containing \(i\), giving \((0.8,0.7,0.5)\); average the three HT totals with the design probabilities.
+>
+> **Practice — Stretch:** Under independent (Poisson) sampling, 100 units have \(y=1\) and \(\pi=0.5\), and one unit has \(y=100\) and \(\pi=0.01\). Compute the HT variance \(\sum_i(1-\pi_i)y_i^2/\pi_i\), then the bias, variance, and RMSE after trimming the rare unit's weight from 100 to 10.
+>
+> **Hint:** Trimming changes the rare unit's expected contribution from \(0.01\times100\times100=100\) to \(0.01\times10\times100=10\).
 
 ## 6. Nonresponse introduces a second selection mechanism
 
@@ -254,11 +291,17 @@ These are assumptions about distributions, not labels diagnosed conclusively fro
 
 **Worked example — human ratings.** Raters may skip outputs that are very long, unsafe, or difficult to assess. Complete-case averages then target easy-to-rate outputs. Logging skip reasons and assignment features supports response modeling, but unseen discomfort may still make missingness nonignorable.
 
-> **Practice — Foundation:** Distinguish sampling probability from response probability.
+> **Practice — Foundation:** From 1,000 users, 200 are sampled by SRS and 150 respond. Give the sampling probability, the response rate, and the combined weight, assuming response is uniform.
 >
-> **Practice — Core:** Derive a combined inverse-probability weight for sampling followed by nonresponse.
+> **Hint:** The overall probability of observing a user is \(\pi r=0.2\times0.75\); the weight is its inverse.
 >
-> **Practice — Stretch:** Specify a sensitivity analysis for ratings missing not at random because low-quality outputs are more often skipped.
+> **Practice — Core:** Units are sampled with \(\pi=0.1\). Group A responds with \(r=0.8\) and group B with \(r=0.4\). Respondents are 40 from A with mean 4 and 20 from B with mean 2. Derive the combined weights and compare the weighted mean with the unweighted respondent mean.
+>
+> **Hint:** \(w=1/(\pi r)\) gives 12.5 and 25; the weighted mean is \(\sum wy/\sum w\).
+>
+> **Practice — Stretch:** Of 200 outputs, 150 are rated with mean quality 4.0 and 50 are skipped. Suppose skipped outputs have mean \(4.0-\delta\). Compute the overall mean for \(\delta\in\{0,0.5,1,2\}\) and find the \(\delta\) at which it drops below 3.7.
+>
+> **Hint:** The overall mean is \((150\cdot4+50(4-\delta))/200=4-\delta/4\).
 
 ## 7. Convenience samples need an identification argument
 
@@ -274,11 +317,17 @@ Post-stratification or calibration weighting chooses weights so sample covariate
 
 **Worked example — web preference data.** Millions of public comparisons may precisely estimate preferences of participating users and prompts. They need not estimate preferences of enterprise users, low-resource languages, or people who decline data sharing. “Internet-scale” is not a sampling design.
 
-> **Practice — Foundation:** Explain why a very large convenience sample can be precisely biased.
+> **Practice — Foundation:** A voluntary survey collects 100,000 responses with satisfaction 80%, while the population rate is 60%. Compute the bias and the naive SE \(\sqrt{0.8(0.2)/100000}\), and compare them.
 >
-> **Practice — Core:** State the assumptions needed for post-stratification to recover a target mean.
+> **Hint:** The SE shrinks like \(1/\sqrt n\); the bias \(0.8-0.6\) does not depend on \(n\).
 >
-> **Practice — Stretch:** Give two target populations compatible with one web dataset and show why each requires different weights and conclusions.
+> **Practice — Core:** A sample is 70% young (mean outcome 0.8) and 30% old (mean 0.5); the population is 40% young. Compute the raw and post-stratified estimates, and state the assumptions under which the latter recovers the target mean.
+>
+> **Hint:** Reweight the cell means by population shares: \(0.4(0.8)+0.6(0.5)\).
+>
+> **Practice — Stretch:** A web dataset is 90% English and 10% other languages, with preference for model A of 0.6 in English and 0.3 otherwise. Compute the estimate for a global target with a 50/50 language mix and for an enterprise target that is 20% English, and compare both with the raw average.
+>
+> **Hint:** The cell means stay fixed and only the weights \(W_h\) change; the raw average uses \((0.9,0.1)\).
 
 ## 8. Domain mixtures determine what an average means
 
@@ -312,11 +361,17 @@ This requires overlap: source probability must be positive wherever the target p
 
 Class balancing is another mixture choice. Oversampling rare classes can improve training, but evaluation must reweight to the intended class prevalence when estimating deployed average loss. Per-class reporting prevents one mixture from hiding failures.
 
-> **Practice — Foundation:** Compute a target metric from three domain means and deployment weights.
+> **Practice — Foundation:** Domain accuracies are \((0.9,0.7,0.5)\). Compute the metric under deployment weights \((0.5,0.3,0.2)\) and under benchmark composition \((0.2,0.3,0.5)\).
 >
-> **Practice — Core:** Derive the covariate-shift importance identity.
+> **Hint:** Each answer is \(\sum_hW_h\mu_h\) with its own weights.
 >
-> **Practice — Stretch:** Construct two models whose ranking reverses when domain mixture changes, and relate the reversal to the deployment estimand.
+> **Practice — Core:** Derive the covariate-shift importance identity, then check it with \(X\in\{0,1\}\), \(p_S(X=1)=0.2\), \(p_T(X=1)=0.6\), \(E[g\mid X=0]=0.9\), and \(E[g\mid X=1]=0.4\).
+>
+> **Hint:** The weights are \(w(1)=0.6/0.2\) and \(w(0)=0.4/0.8\); compute \(E_S[wg]\) and compare it with \(\sum_xp_T(x)E[g\mid x]\).
+>
+> **Practice — Stretch:** Model A scores \((0.95,0.60)\) on two domains and model B scores \((0.85,0.75)\). Find the weight \(W\) on domain 1 at which the ranking flips, and compute both scores at \(W=0.8\) and \(W=0.3\).
+>
+> **Hint:** Both scores are linear in \(W\): \(0.60+0.35W\) and \(0.75+0.10W\); set them equal.
 
 ## 9. Random-variate generation has several basic constructions
 
@@ -358,11 +413,17 @@ The acceptance rate is \(1/M\) when \(f\) and \(q\) are normalized. An invalid e
 
 CDF lookup supports moderate categorical distributions. Alias tables use preprocessing to permit constant-time repeated draws. The preprocessing, normalization, and finite-precision edge cases remain part of correctness.
 
-> **Practice — Foundation:** Describe the two random draws in rejection sampling.
+> **Practice — Foundation:** Target \(f(x)=6x(1-x)\) on \([0,1]\), proposal \(q=\operatorname{Uniform}(0,1)\), and \(M=1.5\). Decide acceptance for \((x,u)=(0.5,0.9)\) and \((0.1,0.5)\).
 >
-> **Practice — Core:** Prove the conditional density of an accepted rejection-sampling proposal is \(f\).
+> **Hint:** Accept when \(u\le f(x)/(Mq(x))\); \(f(0.5)=1.5\) and \(f(0.1)=0.54\).
 >
-> **Practice — Stretch:** Choose proposals for a bounded multimodal target and explain the tradeoff between envelope validity and acceptance rate.
+> **Practice — Core:** Prove that an accepted rejection-sampling proposal has density \(f\), and compute the acceptance rate for the \(f(x)=6x(1-x)\), \(M=1.5\) example.
+>
+> **Hint:** \(P(X\in dx,\text{accept})=q(x)\frac{f(x)}{Mq(x)}dx=f(x)dx/M\); divide by \(P(\text{accept})=1/M\).
+>
+> **Practice — Stretch:** The bimodal target \(f(x)=1+\cos(4\pi x)\) on \([0,1]\) is sampled with a uniform proposal. Give the smallest valid \(M\) and its acceptance rate, then find the fraction of \([0,1]\) where the envelope fails if someone uses \(M=1.5\).
+>
+> **Hint:** Validity needs \(M\ge\max f=2\); the \(M=1.5\) envelope fails where \(\cos(4\pi x)>0.5\).
 
 ## 10. Variance reduction changes the simulation design
 
@@ -407,11 +468,17 @@ $$
 
 Common random numbers create positive covariance and can greatly reduce comparison variance.
 
-> **Practice — Foundation:** Explain the intended effect of antithetic sampling on covariance.
+> **Practice — Foundation:** To estimate \(E[U^2]=1/3\) with \(U\sim\operatorname{Uniform}(0,1)\), compute \(\operatorname{Cov}(U^2,(1-U)^2)\), then the variance of the antithetic pair average and of the average of two iid draws.
 >
-> **Practice — Core:** Derive the optimal control-variate coefficient.
+> **Hint:** \(E[U^2(1-U)^2]=\int_0^1u^2(1-u)^2du=1/30\) and \(\operatorname{Var}(U^2)=1/5-1/9\).
 >
-> **Practice — Stretch:** Compare iid, stratified, Latin hypercube, and randomized quasi-Monte Carlo designs for a high-dimensional simulator with only a few influential coordinates.
+> **Practice — Core:** Derive the optimal control-variate coefficient, then compute it for \(Y=e^U\) with control \(C=U\) (\(E[C]=1/2\)), together with the fraction of \(\operatorname{Var}(Y)\) removed.
+>
+> **Hint:** \(\operatorname{Cov}(e^U,U)=E[Ue^U]-(e-1)/2\) with \(\int_0^1ue^udu=1\), and \(\operatorname{Var}(U)=1/12\).
+>
+> **Practice — Stretch:** A simulator on \([0,1]^{50}\) is \(f(x)=x_1+x_2+0.01\sum_{j=3}^{50}x_j\). Compute \(\operatorname{Var}f(X)\) and the iid Monte Carlo variance with \(n=100\), then explain why Latin hypercube sampling removes most of this variance for an additive \(f\), and what randomized QMC adds.
+>
+> **Hint:** Coordinates are independent with variance \(1/12\) each, so \(\operatorname{Var}f=(1+1+48\times10^{-4})/12\); LHS stratifies every one-dimensional margin.
 
 ## 11. Active and adaptive sampling must record selection probabilities
 
@@ -429,11 +496,17 @@ Model uncertainty is not itself an inclusion probability. A heuristic ranking mu
 
 **Worked example — safety red teaming.** Oversampling prompts likely to elicit failures improves failure discovery. The raw failure fraction then estimates the red-team mixture, not deployment prevalence. Retain known sampling probabilities or combine a probability deployment sample for prevalence with targeted samples for taxonomy and stress testing.
 
-> **Practice — Foundation:** Explain why an active-learning labeled set is not generally an iid population sample.
+> **Practice — Foundation:** A pool has 900 easy items (error 0.02) and 100 hard items (error 0.5). An active learner labels exactly the 100 hard items. Compute the error rate of the labeled set and the population error rate.
 >
-> **Practice — Core:** Write a history-dependent inclusion probability and its inverse-probability contribution.
+> **Hint:** The population rate is \(0.9(0.02)+0.1(0.5)\); the labeled set contains only the hard stratum.
 >
-> **Practice — Stretch:** Design a hybrid evaluation combining representative sampling with adaptive rare-failure search while keeping prevalence estimation identifiable.
+> **Practice — Core:** Item \(t\) is labeled with logged probability \(\pi_t=0.8\) if the model is uncertain and 0.1 otherwise. The labeled uncertain items have losses \((1,0,1)\) and the labeled certain items \((0,1)\). Write each inverse-probability contribution and the estimated total loss.
+>
+> **Hint:** Divide each labeled loss by its \(\pi_t\); \(E[I_t/\pi_t\mid\mathcal H_{t-1},X_t]=1\) gives unbiasedness.
+>
+> **Practice — Stretch:** From 1,000,000 prompts, 500 uniform-random labels find 5 failures, and 500 targeted labels find 200 failures. Estimate prevalence and its SE from the probability sample, compute the naive pooled rate, and explain how logging targeted \(\pi\) would let both streams be combined.
+>
+> **Hint:** The prevalence estimate uses only the uniform stream: \(5/500\) with SE \(\sqrt{0.01(0.99)/500}\); the raw pooled rate is \(205/1000\).
 
 ## 12. Dataset splits must separate the dependence that matters
 
@@ -458,11 +531,17 @@ Every data-dependent transformation belongs inside the training fold. A pipeline
 
 **Worked example — conversation leakage.** Splitting messages randomly lets the same conversation appear in train and test. Style, user identity, and earlier context make rows dependent. A conversation-level split estimates transfer to new conversations; a user-level split asks the harder question of transfer to new users.
 
-> **Practice — Foundation:** Explain why fitting a scaler before splitting leaks test information.
+> **Practice — Foundation:** A feature has training values \((1,2,3)\) and test value \(10\). Compute the centering mean when a scaler is fit on training rows only and when it is fit on all four rows, and explain the leak.
 >
-> **Practice — Core:** Choose row, document, user, or time splitting for three deployment scenarios.
+> **Hint:** The training-only mean is 2; including the test value moves it to 4, so test information enters the training features.
 >
-> **Practice — Stretch:** Draw a nested evaluation pipeline that tunes features, model, and decision threshold without exposing the outer test fold.
+> **Practice — Core:** Choose row, document, user, or time splitting for: (a) a spam filter for new users next month, (b) an OCR model for new multi-page documents from known scanners, (c) a weekly demand forecast.
+>
+> **Hint:** Match the split to what is new at prediction time: new users and a later month, new documents, a later week.
+>
+> **Practice — Stretch:** A nested evaluation has 5 outer folds and 4 inner folds and searches 3 feature sets × 4 models × 5 thresholds. Count the model fits per outer fold and in total, and state which data each selection step may see.
+>
+> **Hint:** The inner search fits 60 configurations × 4 folds, plus one refit of the winner on the outer training data.
 
 ## 13. Seeds sample some randomness but not all uncertainty
 
@@ -491,11 +570,17 @@ where \(s\) indexes seed, \(t\) task, and \(i\) item. Whether each term is fixed
 
 **Worked example — five seeds on one benchmark.** The mean across seeds estimates average performance over the implemented seed distribution conditional on that benchmark and training dataset. Treating all seed-item predictions as iid exaggerates information because every seed sees the same items and every item is scored by all seeds.
 
-> **Practice — Foundation:** Name what changes and what stays fixed across ordinary training seeds.
+> **Practice — Foundation:** Five seeds on a fixed benchmark give accuracies \((0.81,0.83,0.80,0.84,0.82)\). Compute the mean, SD, and seed SE, and name what the seeds changed and what stayed fixed.
 >
-> **Practice — Core:** Write two different estimands: one over new seeds on fixed tasks and one over both new seeds and new tasks.
+> **Hint:** The SD uses denominator 4; the seed SE is \(\text{SD}/\sqrt5\).
 >
-> **Practice — Stretch:** Design a crossed seed-by-task sampling plan and state how you would estimate each variance component.
+> **Practice — Core:** In \(Y_{st}=\mu+A_s+B_t+\varepsilon_{st}\), take \(\operatorname{Var}(A)=0.0004\), \(\operatorname{Var}(B)=0.01\), and \(\operatorname{Var}(\varepsilon)=0.0025\). For \(S=5\) seeds and \(T=10\) tasks, compute the variance of the grand mean for new seeds on fixed tasks and for new seeds and new tasks.
+>
+> **Hint:** Each random term's variance is divided by the number of distinct levels averaged over: \(\sigma_A^2/S\), \(\sigma_B^2/T\), \(\sigma_\varepsilon^2/(ST)\).
+>
+> **Practice — Stretch:** In a fully crossed 4-seed × 6-task design with one run per cell, the mean squares are \(\mathrm{MS}_{\mathrm{seed}}=0.02\), \(\mathrm{MS}_{\mathrm{task}}=0.05\), and \(\mathrm{MS}_{\mathrm{res}}=0.002\). Estimate \(\sigma_A^2\), \(\sigma_B^2\), and \(\sigma_\varepsilon^2\).
+>
+> **Hint:** With one observation per cell, \(E[\mathrm{MS}_{\mathrm{seed}}]=\sigma_\varepsilon^2+T\sigma_A^2\) and \(E[\mathrm{MS}_{\mathrm{task}}]=\sigma_\varepsilon^2+S\sigma_B^2\).
 
 ## 14. Metric aggregation defines the estimand
 
@@ -520,11 +605,17 @@ Changing \(W_h\) changes the question, not merely presentation.
 
 **Worked example — task macro versus item micro.** Model A excels on one enormous easy task and loses slightly on nine small tasks. It can win the item-micro average and lose the task-macro average. Neither ranking is contradictory; they target different populations of items or tasks.
 
-> **Practice — Foundation:** Distinguish micro-, macro-, and deployment-weighted accuracy.
+> **Practice — Foundation:** Task 1 has 90/100 correct and task 2 has 5/10, with deployment weights 0.3 and 0.7. Compute micro, macro, and deployment-weighted accuracy.
 >
-> **Practice — Core:** Construct task sizes and accuracies that reverse two models' ranking under micro and macro averages.
+> **Hint:** Micro pools counts, \(95/110\); macro averages 0.9 and 0.5 equally.
 >
-> **Practice — Stretch:** Define an estimand for tail latency subject to a quality constraint and explain why separate marginal tests may not answer it.
+> **Practice — Core:** Model A scores 0.95 on a 1,000-item task and 0.60 on two 10-item tasks; model B scores 0.90 on all three. Compute micro and macro accuracy for both models and state which wins under each.
+>
+> **Hint:** Micro weights tasks 1000:10:10, macro weights them equally.
+>
+> **Practice — Stretch:** System A has 80% of requests under 500 ms, 90% correct, and 70% both; system B has 75% fast, 85% correct, and 72% both. Show that marginal comparisons favor A, while the estimand \(P(\text{fast and correct})\) favors B.
+>
+> **Hint:** The joint rate is not determined by the two marginal rates, so separate tests of speed and quality cannot answer the joint question.
 
 ## 15. Evaluation uncertainty should replay the claimed generalization
 
@@ -541,11 +632,17 @@ For stochastic generators, repeated outputs within one prompt estimate condition
 
 **Worked example — win rate with ties.** Resampling individual model outputs separately breaks prompt pairing. Resample the prompt record containing both outputs and the judge result. If multiple judges rate each pair, decide whether the target averages over this fixed panel or predicts a new rater.
 
-> **Practice — Foundation:** Explain why paired resampling preserves shared item difficulty.
+> **Practice — Foundation:** On four items, model A is correct on \((1,1,0,0)\) and model B on \((1,1,1,0)\). Compute the paired mean difference and its SE, and compare with the unpaired SE.
 >
-> **Practice — Core:** Specify a bootstrap for new prompts within fixed tasks and another for new tasks.
+> **Hint:** Form the per-item differences \((0,0,1,0)\) first; the paired SE is \(\mathrm{SD}(d)/\sqrt4\).
 >
-> **Practice — Stretch:** Build an uncertainty procedure for tasks, prompts, stochastic outputs, and crossed human raters without flattening all ratings into iid rows.
+> **Practice — Core:** Three fixed tasks have 50 prompts each, with task mean differences \((0.10,0.02,-0.03)\). Specify a bootstrap for new prompts within the fixed tasks and another for new tasks, and give the between-task SE that the new-task bootstrap approximates.
+>
+> **Hint:** The new-task bootstrap resamples the three task records first; its SE is dominated by \(\mathrm{SD}(\text{task means})/\sqrt3\).
+>
+> **Practice — Stretch:** Three raters score all 100 prompts, with rater variance 0.04, prompt variance 0.09, and residual variance 0.25. Compute the variance of the grand mean under the crossed model and compare it with the value from treating all 300 ratings as iid.
+>
+> **Hint:** Crossed: \(\sigma_r^2/R+\sigma_p^2/P+\sigma_e^2/(RP)\); flat iid: total variance divided by 300.
 
 ## 16. Adaptive selection expands the analysis family
 
@@ -566,11 +663,17 @@ Nested evaluation repeats selection inside each outer training sample. Selective
 
 **Worked example — best seed reporting.** Selecting the highest of 20 noisy seed scores and attaching a standard error as though the seed were prespecified ignores the maximum operation. The valid repeated experiment must rerun all 20 seeds and reselect the winner, or the estimand must instead average over seeds.
 
-> **Practice — Foundation:** List four choices that belong to an ML analysis family.
+> **Practice — Foundation:** List four choices that belong to an ML analysis family, and count the family for 3 checkpoints, 4 prompt templates, 2 metrics, and 5 seeds.
 >
-> **Practice — Core:** Explain how nested cross-validation includes hyperparameter selection in the evaluation repetition.
+> **Hint:** The family size multiplies the option counts.
 >
-> **Practice — Stretch:** Simulate a full checkpoint-by-seed-by-metric selection workflow and estimate optimism as each search dimension grows.
+> **Practice — Core:** Nested cross-validation uses 5 outer folds, 3 inner folds, and 10 hyperparameter settings. Count the model fits and explain how the outer estimate includes the selection step.
+>
+> **Hint:** Each outer fold runs its own \(10\times3\) inner search plus one refit, so selection is repeated as part of every evaluation replicate.
+>
+> **Practice — Stretch:** Every one of \(K\) configurations has true accuracy 0.80 and a validation score \(0.80+\mathcal N(0,0.01^2)\). Compute the expected optimism of the best score for \(K=1,10,100\), then confirm it by simulation with seed 0 and 10,000 replications.
+>
+> **Hint:** Optimism is \(0.01\,E[\max\text{ of }K\text{ standard normals}]\), about \(1.54\) for \(K=10\) and \(2.51\) for \(K=100\).
 
 ## 17. Benchmark contamination is dependence, not only duplication
 
@@ -589,11 +692,17 @@ Auditing uses provenance, time, semantic similarity, memorization probes, held-o
 
 **Worked example — benchmark saturation.** Even if a final model's training corpus has no exact test rows, years of public optimization against the benchmark can make architectures, prompts, and preprocessing benchmark-specific. Community-level adaptive reuse narrows the meaning of the test set.
 
-> **Practice — Foundation:** Distinguish exact duplication from semantic contamination.
+> **Practice — Foundation:** A 1,000-item test set has 20 items found verbatim in training data and 50 found as paraphrases. Classify each kind and compute the exact, semantic, and total contamination rates.
 >
-> **Practice — Core:** Design a temporal provenance audit for a model and benchmark.
+> **Hint:** Exact means a string match after normalization; semantic means the same problem with a different surface form.
 >
-> **Practice — Stretch:** Explain how public leaderboard feedback creates adaptive overfitting without any participant seeing hidden labels.
+> **Practice — Core:** A model's training cutoff is June 2024. Benchmark items were released in January 2023 (400 items, accuracy 0.85), March 2024 (300, 0.80), and September 2024 (300, 0.62). Compute accuracy on pre-cutoff and post-cutoff items and design a temporal provenance audit.
+>
+> **Hint:** Pool the two pre-cutoff batches: \((340+240)/700\); compare with the post-cutoff batch.
+>
+> **Practice — Stretch:** Fifty teams each have true accuracy 0.70. Each team submits 20 variants to a public leaderboard of 500 items and keeps its best public score. Estimate the expected inflation of a team's best public score, and explain how this overfits without anyone seeing hidden labels.
+>
+> **Hint:** Each public score has SE \(\sqrt{0.21/500}\approx0.0205\), and \(E[\max\text{ of }20\text{ standard normals}]\approx1.87\).
 
 ## 18. Distribution shift changes either inputs, outcomes, or their relationship
 
@@ -611,11 +720,17 @@ Detect shift with domain classifiers, density-ratio diagnostics, feature and lab
 
 **Worked example — policy-induced shift.** Deploying a refusal model changes which users continue interacting and which prompts arrive later. The system affects its own future input distribution. A static benchmark sampled before deployment cannot capture this feedback without an explicit longitudinal or causal model.
 
-> **Practice — Foundation:** Distinguish covariate, label, and concept shift.
+> **Practice — Foundation:** Classify each change as covariate, label, or concept shift: (a) more night-time photos with the same labeling rule; (b) flu prevalence rises from 5% to 20% with stable symptoms given flu; (c) the definition of spam is changed.
 >
-> **Practice — Core:** State the invariance and overlap assumptions required for covariate-shift weighting.
+> **Hint:** Check which of \(P(X)\), \(P(Y)\) with stable \(P(X\mid Y)\), or \(P(Y\mid X)\) changes.
 >
-> **Practice — Stretch:** Construct a feedback loop where deployment changes future data and propose an evaluation that measures the induced dynamics.
+> **Practice — Core:** The source has \(X\sim\operatorname{Uniform}(0,1)\) and the target \(X\sim\operatorname{Uniform}(0,2)\). State the invariance and overlap assumptions for covariate-shift weighting, and compute the target mass that has no source overlap.
+>
+> **Hint:** \(w(x)=p_T(x)/p_S(x)\) is undefined where \(p_S(x)=0\), here for \(x\in(1,2]\).
+>
+> **Practice — Stretch:** Borderline prompts are 20% of traffic. The model refuses 60% of them, and refused users leave with probability 0.5; other users always return. Compute next month's borderline share and propose an evaluation that measures this feedback.
+>
+> **Hint:** Borderline retention is \(1-0.6\times0.5=0.7\); multiply each group's mass by its retention and renormalize.
 
 ## 19. A rigorous ML evaluation protocol
 
@@ -647,11 +762,17 @@ After collection:
 6. state unsupported populations and likely failure modes;
 7. preserve enough provenance to reproduce the sampling path.
 
-> **Practice — Foundation:** Turn an informal claim that “model B is better” into a population, estimand, and sampling statement.
+> **Practice — Foundation:** Turn "model B is better (60% win rate over A on 500 internal prompts)" into a population, estimand, and sampling statement, and compute the SE of the win rate.
 >
-> **Practice — Core:** Audit a study protocol against the three phases above and identify the first validity break.
+> **Hint:** The win rate is a proportion over prompts, with SE \(\sqrt{p(1-p)/n}\).
 >
-> **Practice — Stretch:** Design a full evaluation for an agent deployed across languages, organizations, and time, including adaptive safety sampling without corrupting prevalence estimates.
+> **Practice — Core:** A protocol samples 2,000 prompts from last month's logs, tunes a decision threshold on the same 2,000, and reports accuracy 0.80 with a 95% CI of \(\pm0.02\). Identify the first validity break in the three phases above, and compute the correct iid half-width \(1.96\sqrt{0.8(0.2)/2000}\).
+>
+> **Hint:** Walk the phases in order; tuning on the evaluation data breaks the requirement to separate selection and confirmation data.
+>
+> **Practice — Stretch:** An agent serves three languages with traffic shares \((0.6,0.3,0.1)\). A monthly budget of 1,200 labels allocates 900 to a probability sample with at least 150 per language and 300 to targeted safety search. Compute the allocation and the relative weights \(W_h/(n_h/n)\), and explain how the targeted labels stay out of prevalence estimates.
+>
+> **Hint:** Give the smallest language its minimum first, split the remaining 750 in proportion 0.6:0.3, then divide population shares by sample shares.
 
 ## 20. Runnable labs
 
@@ -727,63 +848,83 @@ The checks cover deterministic and partial acceptance, reproducibility, local ra
 13. Expand a crossed seed-by-task variance decomposition.
 14. Specify a hierarchical resampling distribution matching an AI generalization claim.
 
+## Prediction experiment
+
+Predict both the baseline and failure-preset results before revealing the calculation. Record the assumptions, change one control at a time, and explain the boundary case. This small deterministic model isolates a mechanism; it is not an empirical validation of a trained system.
+
+```lab
+lab: ps-sampling
+```
+
 ## 22. End-of-unit practice (graded)
 
-**Foundation — problems 1–6.** Reconstruct sampling designs and direct estimators.
+Work each problem before opening its authored solution. Written proofs and design answers require self-review against the rubric; numeric fields check only the stated quantities.
 
-1. **Population map.** Identify target, frame, unit, sample, response mechanism, and estimand for: (a) satisfaction among next month's production users sampled from request logs, (b) safety failure prevalence among public web prompts found by keyword search, and (c) mean accuracy across future customer domains estimated from 12 launch partners. For each, name one coverage failure.
-2. **SRSWOR.** For the finite population \(y=(2,4,7,9,13)\), enumerate all size-two samples without replacement, verify equal sample probability and \(\pi_i=2/5\), and calculate the exact sampling distribution and variance of \(\bar Y_s\). For sample \(\{4,13\}\), calculate the usual finite-population standard-error estimate.
-3. **Strata.** Two strata have \((N_1,N_2)=(800,200)\), \((n_1,n_2)=(80,50)\), sample means \((0.70,0.40)\), and sample variances \((0.21,0.24)\). Estimate the population mean and its design standard error with finite-population corrections. Compare with the unweighted mean of stratum means.
-4. **Clusters.** Calculate \(1+(m-1)\rho\) and effective sample size \(n/\mathrm{DEFF}\) for total \(n=1{,}000\), cluster sizes \(m=5,25,100\), and \(\rho=0,0.05,0.20\). Explain the limiting behavior as \(m\) grows.
-5. **Weights.** Units with values \((10,20,40)\) are observed with inclusion probabilities \((0.5,0.25,0.2)\). Compute their Horvitz–Thompson contribution to the population total. If the known population size is 10, compute the corresponding mean estimate and explain which randomness the weights correct.
-6. **Rejection sampling.** Target \(f(x)=2x\) on \([0,1]\) using \(q(x)=1\) and \(M=2\). Verify the envelope and acceptance probability. Trace proposals \(x=(0.2,0.8,0.5)\) with uniforms \(u=(0.1,0.9,0.4)\), accepting when \(u\le f(x)/(Mq(x))\).
 
-**Core — problems 7–13.** Design and analyze realistic sampling workflows.
+### Foundation — problems 1–6. Reconstruct sampling designs and direct estimators.
 
-7. **Allocation.** Compare proportional, Neyman, and minimum-subgroup allocations under costs and heterogeneous variance.
-8. **Multistage sample.** Sample organizations, users, and conversations; derive final inclusion weights and the target mean.
-9. **Nonresponse.** Fit or specify response propensities, combine them with design weights, and run an informative-missingness sensitivity analysis.
-10. **Variance reduction.** Apply antithetic and control-variate estimators and compare variance through repeated simulation.
-11. **Active labels.** Build a randomized active-sampling policy that preserves population-risk estimation.
-12. **Leakage-safe split.** Design nested group-and-time evaluation with preprocessing and calibration fitted in the correct folds.
-13. **Evaluation uncertainty.** Construct paired hierarchical resampling across tasks, prompts, outputs, and raters.
+**A1 · Foundation · paper — Population map.** Identify target, frame, unit, sample, response mechanism, and estimand for: (a) satisfaction among next month's production users sampled from request logs, (b) safety failure prevalence among public web prompts found by keyword search, and (c) mean accuracy across future customer domains estimated from 12 launch partners. For each, name one coverage failure.
 
-**Stretch — problems 14–21.** Diagnose selection, contamination, and shift in research-scale evaluations.
+**A2 · Foundation · paper — SRSWOR.** For the finite population \(y=(2,4,7,9,13)\), enumerate all size-two samples without replacement, verify equal sample probability and \(\pi_i=2/5\), and calculate the exact sampling distribution and variance of \(\bar Y_s\). For sample \(\{4,13\}\), calculate the usual finite-population standard-error estimate.
 
-14. **Weight instability.** Simulate rare inclusion and evaluate bias, variance, trimming, and effective sample size.
-15. **Convenience-data limits.** Reweight a web sample to known margins, then construct an unobserved selection variable that defeats the correction.
-16. **Adaptive safety search.** Separate representative prevalence estimation from targeted failure discovery and maintain valid accounting for both.
-17. **Seed fallacy.** Show that increasing seeds cannot estimate new-task uncertainty when tasks remain fixed.
-18. **Benchmark reuse.** Simulate repeated leaderboard selection and measure community-level overfitting.
-19. **Contamination audit.** Combine exact, semantic, temporal, and provenance checks while quantifying uncertain matches.
-20. **Shift failure.** Build covariate shift where weighting succeeds, then concept shift with the same marginals where it fails.
-21. **Complete protocol.** Design a deployment-facing evaluation with finite-population structure, clusters, weights, missingness, adaptive sampling, selection, contamination, and temporal shift.
+**A3 · Foundation · paper — Strata.** Two strata have \((N_1,N_2)=(800,200)\), \((n_1,n_2)=(80,50)\), sample means \((0.70,0.40)\), and sample variances \((0.21,0.24)\). Estimate the population mean and its design standard error with finite-population corrections. Compare with the unweighted mean of stratum means.
 
-<details><summary>Worked solution sketches</summary>
+**A4 · Foundation · paper — Clusters.** Calculate \(1+(m-1)\rho\) and effective sample size \(n/\mathrm{DEFF}\) for total \(n=1{,}000\), cluster sizes \(m=5,25,100\), and \(\rho=0,0.05,0.20\). Explain the limiting behavior as \(m\) grows.
 
-1. The target is the intended claim population; the frame operationalizes access; inclusion and response select observations; the estimand is a population functional. Request logs omit non-requesting users, keyword search misses failures outside its vocabulary, and launch partners may not cover future domains. A complete answer says whether users, prompts, or domains are the independent units.
-2. There are \(\binom52=10\) samples, each with probability 0.1, and every unit appears in 4, so \(\pi_i=0.4\). The population mean is 7 and finite-population variance is \((1-2/5)S_Y^2/2=5.55\), since \(S_Y^2=74/4=18.5\). For \((4,13)\), \(s^2=40.5\), giving estimated variance \(0.6(40.5)/2=12.15\) and SE about 3.486; with tiny samples, the variance estimate itself is noisy.
-3. The weighted estimate is \(0.8(0.70)+0.2(0.40)=0.64\), not the unweighted 0.55. Estimated variance is \(0.8^2(0.9)(0.21)/80+0.2^2(0.75)(0.24)/50\approx0.001656\), so SE \(\approx0.0407\).
-4. At \(\rho=0\), DEFF is 1. At \(\rho=0.05\), DEFF is 1.2, 2.2, 5.95; at \(\rho=0.20\), it is 1.8, 5.8, 20.8 for \(m=5,25,100\). Effective sizes are \(1000/\mathrm{DEFF}\). With positive correlation, increasing rows per cluster eventually adds little independent information.
-5. The total estimate is \(10/0.5+20/0.25+40/0.2=300\); dividing by known \(N=10\) gives mean 30. Inverse-probability weights correct unequal random inclusion under the design, not nonresponse or frame undercoverage unless those mechanisms are also modeled.
-6. Because \(2x\le2\), the envelope holds and the average acceptance probability is \(1/M=1/2\). The thresholds equal \(x\), so the three decisions are accept, reject, accept. Accepted draws have density \(f\), although rejected proposals still count toward computational cost.
-7. Proportional allocation tracks size; Neyman tracks size times standard deviation; minimum guarantees support subgroup goals. Cost-adjusted allocation also divides by square-root cost.
-8. Multiply stage-specific conditional inclusion probabilities. Preserve cluster and unit identifiers; compute a weighted estimator and a variance method matching all stages.
-9. Combine inverse sampling and response probabilities under conditional ignorability. Vary missing outcomes or response odds to expose conclusions that depend on unverifiable assumptions.
-10. Antithetic pairs seek negative error covariance. A control variate subtracts correlated noise with known expectation; \(c^*=\operatorname{Cov}(Y,C)/\operatorname{Var}(C)\).
-11. Randomize label requests with known nonzero probabilities based on history. Weight labeled losses by inverse probabilities or use a justified doubly robust estimator.
-12. Keep entities and future times outside training. Refit every learned transformation inside inner folds; use outer folds only for pipeline evaluation.
-13. Resample every claimed population axis, preserve system pairing, and recompute the complete nonlinear metric. Do not flatten outputs or ratings into independent rows.
-14. A few inverse probabilities dominate the estimator. Trimming reduces variance but changes bias. Report weight distributions, target coverage, and sensitivity to trimming.
-15. Calibration fixes imbalance only on observed variables with overlap. An unmeasured variable affecting selection and outcomes leaves residual nonidentifiability.
-16. Use a probability sample to estimate prevalence and a separately labeled adaptive stream to discover modes. Do not combine raw rates without known mixture and inclusion weights.
-17. Seeds sample training randomness conditional on fixed tasks. New-task uncertainty requires sampled tasks or a task-population model regardless of seed count.
-18. Selecting leaders using repeated noisy feedback raises hidden-test performance even when true performance is equal. A fresh benchmark or reuse-aware protocol is needed.
-19. Each contamination detector has error. Report match rules and uncertain cases, preserve time and source provenance, and validate on newly collected data.
-20. Importance weighting works when conditional outcome behavior is invariant and overlap holds. Changing \(P(Y\mid X)\) breaks that identification even if density ratios are known exactly.
-21. A complete answer aligns population, frame, design, weights, splits, random axes, estimand, uncertainty, selection control, provenance, shift monitoring, and deployment decision.
+**A5 · Foundation · paper — Weights.** Units with values \((10,20,40)\) are observed with inclusion probabilities \((0.5,0.25,0.2)\). Compute their Horvitz–Thompson contribution to the population total. If the known population size is 10, compute the corresponding mean estimate and explain which randomness the weights correct.
 
-</details>
+**A6 · Foundation · paper — Rejection sampling.** Target \(f(x)=2x\) on \([0,1]\) using \(q(x)=1\) and \(M=2\). Verify the envelope and acceptance probability. Trace proposals \(x=(0.2,0.8,0.5)\) with uniforms \(u=(0.1,0.9,0.4)\), accepting when \(u\le f(x)/(Mq(x))\).
+
+### Core — problems 7–13. Design and analyze realistic sampling workflows.
+
+**A7 · Core · paper — Allocation.** Three strata have \(N=(6000,3000,1000)\), SDs \(S=(0.2,0.4,0.5)\), and per-label costs \(c=(1,1,4)\). Ignoring FPCs, compute the allocation and the variance \(\sum_hW_h^2S_h^2/n_h\) of the stratified mean for (a) proportional allocation with \(n=1000\), (b) Neyman allocation with \(n=1000\), (c) Neyman with at least 200 labels in stratum 3 and \(n=1000\), and (d) cost-optimal allocation \(n_h\propto N_hS_h/\sqrt{c_h}\) under a budget of 1,600 cost units. Also compute proportional allocation under the same 1,600-unit budget.
+
+**A8 · Core · paper — Multistage sample.** From 10 organizations, select 2 by SRS: org A (100 users) and org B (40 users). Within each org, select 2 users by SRS, and within each selected user select 1 conversation by SRS. The selected users have conversation counts and sampled satisfaction scores: a1 (10 conversations, score 4), a2 (30, score 2), b1 (20, score 5), b2 (5, score 3). Derive each sampled conversation's inclusion probability and weight, the HT estimate of the total score, the estimated number of conversations \(\hat N=\sum w\), the Hájek mean, and the HT mean if \(N=12{,}000\) is known. Compare with the unweighted mean.
+
+**A9 · Core · paper — Nonresponse.** From 10,000 users, 400 are sampled by SRS (\(\pi=0.04\)): 300 on the free plan and 100 on the paid plan. Of these, 150 free users respond with mean satisfaction 3.0 and 80 paid users respond with mean 4.0. Compute (a) the respondent mean, (b) the mean using combined weights \(1/(\pi\hat r_{\mathrm{plan}})\) with response propensities estimated by plan, and (c) a sensitivity analysis in which free-plan nonrespondents have mean \(3.0-\delta\) for \(\delta\in\{0,0.5,1\}\).
+
+**A10 · Core · paper — Variance reduction.** Estimate \(I=E[e^U]=e-1\) for \(U\sim\operatorname{Uniform}(0,1)\) using 1,000 function evaluations: (a) plain Monte Carlo, (b) 500 antithetic pairs \((U,1-U)\), and (c) a control variate \(C=U\) with the optimal coefficient. Derive each estimator's variance analytically, then confirm with 2,000 repeated simulations (seed 0).
+
+**A11 · Core · paper — Active labels.** A pool of 10,000 items has 1,000 with model uncertainty \(u>0.8\) and 9,000 below. The policy requests each label independently with logged probability \(\pi=0.5\) if \(u>0.8\) and \(\pi=0.02\) otherwise. It labels 510 high-uncertainty items (204 errors) and 171 low-uncertainty items (5 errors). Compute the naive labeled error rate, the HT estimate of the population error rate with its SE \(\big(\sum_{\text{labeled}}(1-\pi_i)y_i^2/\pi_i^2\big)^{1/2}/N\), and explain why \(\pi>0\) for every item is essential.
+
+**A12 · Core · paper — Leakage-safe split.** Data cover 200 users over 12 months (January–December); the deployment serves new users next month. Design an outer split that holds out 40 users' December rows, with 4-fold user-grouped inner CV on the remaining users' January–November rows to choose among 6 hyperparameter settings. The pipeline learns a vocabulary, a feature scaler, and a probability calibrator. State (a) where each learned transformation is fit, (b) how many model fits occur, and (c) which rows are used by neither training nor testing and why.
+
+**A13 · Core · paper — Evaluation uncertainty.** Paired differences (system B minus A) on 4 tasks × 3 prompts are: task 1 \((0.2,0.1,0.3)\), task 2 \((0,-0.1,0.1)\), task 3 \((0.4,0.3,0.5)\), task 4 \((-0.2,-0.1,0)\). Compute the mean difference and its SE under (a) treating the 12 values as iid, (b) new prompts within these fixed tasks (stratified by task, equal task weights), and (c) new tasks (between-task variation). Say which resampling scheme each SE corresponds to.
+
+### Stretch — problems 14–21. Diagnose selection, contamination, and shift in research-scale evaluations.
+
+**A14 · Stretch · paper — Weight instability.** Under independent (Poisson) sampling, a population of 1,000 has 990 units with \(y=1\) and \(\pi=0.1\) and 10 rare units with \(y=50\) and \(\pi=0.005\). Compute the true total, the HT variance \(\sum_i(1-\pi_i)y_i^2/\pi_i\), the probability that no rare unit is sampled and the estimate in that event, and the bias, SD, and RMSE after trimming weights at 50. Compute the Kish ESS \((\sum w)^2/\sum w^2\) for a realized sample of 99 common units and 1 rare unit.
+
+**A15 · Stretch · paper — Convenience-data limits.** A web sample is 80% young (mean outcome 0.7) and 20% old (mean 0.4), and the population is 50/50. Compute the age-reweighted estimate. Now suppose an unrecorded trait \(H\) (enthusiast) makes up 90% of the sample in both age groups but only 30% of young and 10% of old people in the population. Young: \(H\) mean 0.75, non-\(H\) mean 0.25. Old: \(H\) mean 0.42, non-\(H\) mean 0.22. Verify that the sample cell means are reproduced, compute the true population mean, and explain why age calibration cannot fix the gap.
+
+**A16 · Stretch · paper — Adaptive safety search.** Weekly traffic is 1,000,000 prompts, and a classifier flags 5% of them. Stream 1 is a uniform sample of 2,000 prompts, with 6 failures. Stream 2 is a stratified design: 500 random flagged prompts (30 failures) and 500 random unflagged prompts (0 failures). Estimate prevalence with an SE from stream 1, form the stratified estimate from stream 2, give a rule-of-three upper bound for the unflagged stratum, and compare with the naive pooled rate across all 3,000 labels.
+
+**A17 · Stretch · paper — Seed fallacy.** In \(Y_{st}=\mu+A_s+B_t+\varepsilon_{st}\), take \(\sigma_A=0.01\), \(\sigma_B=0.05\), \(\sigma_\varepsilon=0.02\), and \(T=8\) fixed tasks. Compute the SE of the grand mean for \(S=5\), \(S=20\), and \(S\to\infty\) seeds under the fixed-task estimand and under the new-task estimand, and show that the new-task SE has a floor no seed count can remove.
+
+**A18 · Stretch · paper — Benchmark reuse.** A leaderboard's public split has 1,000 items. Fifty teams each have true accuracy 0.75, and each submits 10 variants with independent public-score noise. Compute the expected best public score per team, the expected top public score across all 500 variants, and the expected private-split score of that top variant.
+
+**A19 · Stretch · paper — Contamination audit.** Of 1,000 test items, exact matching flags 30 and semantic similarity flags 120 more. A manual check of 40 randomly chosen semantic flags confirms 24 as true paraphrases. Accuracy is 0.97 on exact-flagged items, 0.85 on semantic-flagged items, and 0.70 on the 850 unflagged items. Estimate the number of contaminated items with an SE (with and without an FPC over the 120 flags), the overall accuracy, and the clean accuracy, and state what this audit cannot detect.
+
+**A20 · Stretch · paper — Shift failure.** Let \(X\in\{0,1\}\) with source \(P_S(X=1)=0.2\) and target \(P_T(X=1)=0.7\), and source accuracy \(P(\text{correct}\mid X=0)=0.9\), \(P(\text{correct}\mid X=1)=0.5\). (a) Under covariate shift, compute the source accuracy, the importance weights, the weighted estimate, and the true target accuracy. (b) Keep the same \(P_T(X)\) but let the target have \(P(\text{correct}\mid X=1)=0.3\) (concept shift). Compute the weighted estimate and the true target accuracy.
+
+**A21 · Stretch · paper — Complete protocol.** An assistant serves 30 enterprise organizations with about 600,000 conversations per quarter. The quarterly budget is 3,000 labels: 2,400 for a probability sample (12 organizations drawn with probability proportional to traffic, then 200 conversations each by SRS) and 600 for targeted safety search. Compute the conversation inclusion probability and weight, and the DEFF and effective sample size for \(\rho=0.05\). Then specify the population, frame, estimand, random axes and uncertainty method, the handling of nonresponse, contamination and temporal checks, and the deployment decision rule.
+
+
+## Six-part checkpoint
+
+Complete these without notes, then use the solutions to audit assumptions and reasoning. Passing a numeric check alone does not establish mastery. For implementation and transfer, retain the code/results or written protocol as evidence.
+
+**K1 · Foundation · gate — Concept.** Why must an evaluation state its estimand and sampling frame?
+
+**K2 · Core · gate — Derivation.** Derive a two-stratum target mean.
+
+**K3 · Core · gate — Calculation.** Group accuracies are 0.9 and 0.3; the target assigns 0.25 to the first group. Find target accuracy.
+
+**K4 · Core · gate — Implementation audit.** Reproduce two settings of the ps-sampling experiment independently, including its failure preset. State a numerical invariant or analytic oracle and explain what the plot does not establish.
+
+**K5 · Stretch · gate — Claim audit.** Will more observations remove bias from an unrepresentative sampling frame?
+
+**K6 · Stretch · gate — RE/RS transfer.** Write a replayable evaluation protocol for task and seed variation.
 
 ## Mastery check
 

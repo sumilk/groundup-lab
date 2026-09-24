@@ -1,10 +1,14 @@
 # GroundUp Lab — theory and practice
 
-The repository now has **46 authored lessons across 14 tracks**, with linear algebra, optimization, and probability/statistics as separate tracks. This is an initial cross-curriculum release, **not complete coverage**. Each track has substantial expansion work remaining. Depth labels are targets and have not been independently verified.
+The repository now has **45 authored lesson pages across 13 tracks**, including 10 retained introductory overviews, with linear algebra, optimization, and probability/statistics as separate tracks. This is an initial cross-curriculum release, **not complete coverage**. Each track has substantial expansion work remaining. Depth labels are targets and have not been independently verified.
 
 ## Detailed build plans
 
 See the [curriculum build-plan index](_plans.md) for all 15 subject plans in a shared detailed format, including the updated [linear algebra plan](02-linear-algebra/_plan.md) and the [probability/statistics coverage and expansion plan](05-probability-statistics/_plan.md). They specify prerequisites, derivations, interactive experiments, implementation ladders, RE/RS gates, and capstones, including a new Research Practice sequence. These are authoring plans; they do not increase authored lesson counts.
+
+The existing LA and probability lessons have also received a correctness and practice update. All 19 probability lessons now include static hints, a prediction/reveal experiment, an offline answer bank, and six-part checkpoints. LA01–LA08 include targeted numerical/research audits. These additions preserve the existing lesson IDs and Python tasks; broader experiments, additional implementation ladders and new advanced lessons in the plans remain future work.
+
+See the [legacy-page audit](_legacy-audit.md) for retention and retirement decisions. Classical ML currently has a [reading route through authored material and a detailed build plan](07-classical-ml/_plan.md#current-reading-route-and-preserved-implementation-work), rather than a duplicate overview lesson. Research Practice also remains plan-only. The 10 retained overviews are useful entry bridges, not completion of their proposed detailed modules.
 
 ## Start here
 
@@ -12,7 +16,7 @@ Read a lesson, write a prediction, reconstruct its derivations, implement the la
 
 ### Practice difficulty convention
 
-Every numbered teaching section is followed by three short practice prompts:
+The shared format, implemented across LA and probability/statistics, uses three short practice prompts after numbered teaching sections. Retained legacy pages still need their planned format expansion:
 
 - **Foundation** checks definitions, notation, or a direct one-step calculation.
 - **Core** combines ideas in a calculation, derivation, or interpretation task.
@@ -60,7 +64,6 @@ Attempt these prompts before continuing. The end-of-unit practice set then mixes
 | 05 Probability and statistics | [Mixtures, the EM algorithm, and graphical models](05-probability-statistics/17-mixtures-em-graphical-models.md) |
 | 05 Probability and statistics | [Order statistics, empirical processes, rank tests, and density estimation](05-probability-statistics/18-order-statistics-empirical-processes-nonparametrics.md) |
 | 06 Information, learning, and decisions | [Entropy, generalization, and decisions](06-information-learning-decision/01-entropy-generalization-decisions.md) |
-| 07 Classical ML | [Regression, classification, evaluation](07-classical-ml/01-regression-classification-evaluation.md) |
 | 08 PyTorch | [Tensors, autograd, training](08-pytorch/01-tensors-autograd-training.md) |
 | 09 Deep learning | [Backprop, initialization, regularization](09-deep-learning/01-backprop-initialization-regularization.md) |
 | 10 NLP | [Text representations and language models](10-nlp/01-text-representations-language-models.md) |

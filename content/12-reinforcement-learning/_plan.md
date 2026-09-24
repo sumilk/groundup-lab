@@ -8,6 +8,8 @@ Build sequential decision-making from finite problems with exact solutions to po
 
 Two overviews exist: [MDPs, Bellman equations, and TD](01-mdps-bellman-td.md) and [policy gradients and actor–critic](02-policy-gradients-actor-critic.md). Preserve both paths. Detailed units reserve 03–20 so the new bandit-to-control sequence does not require destructive renumbering.
 
+**Legacy-page review:** Keep both overviews: the first develops Bellman contraction, termination/truncation and the `bellman` task; the second connects trajectory gradients, baselines, GAE and PPO semantics. PS14 supplies gradient-estimator tools, not the complete RL setting. Migrate the first into RL04/RL05 and the second into RL08/RL09/RL10 before retiring either. See the [cross-track audit](../_legacy-audit.md) for the removal criteria and current coverage.
+
 **Scope:** 18 units; 596 estimated study hours including derivations, practice, and the capstone. These are planning estimates, not elapsed-time requirements or hiring guarantees. Diagnose existing knowledge and use the gates to skip material already mastered. Module numbers below are file-number reservations within this track; retained overview pages are outside the new sequence unless explicitly listed.
 
 ## 2. Teaching and authoring contract

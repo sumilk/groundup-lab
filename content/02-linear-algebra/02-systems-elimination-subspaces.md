@@ -73,17 +73,17 @@ la-elim
 
 **What the pivots are telling you.** The number of pivots is the rank. Pivot columns add something new to the span; free columns are the ones already reachable. A pivot in the *right-hand* column is the signature of \(0=1\): the system is inconsistent and \(b\) lies outside the span of the columns.
 
-> **Practice — Foundation:** Apply one row operation of each kind to a \(2\times3\) system and confirm the solution set is unchanged.
+> **Practice — Foundation:** For the \(2\times3\) system \(x+2y+z=4\), \(2x+3y-z=3\), apply each operation to the original augmented matrix separately: swap \(R_1\leftrightarrow R_2\); scale \(R_1\) by 3; replace \(R_2\) by \(R_2-2R_1\). Check that \((-1,2,1)\) solves all three new systems, and write the inverse of each operation.
 >
-> **Hint:** Operate on the augmented rows, including the right-hand side. Exhibit the inverse operation for each change to prove equivalence.
+> **Hint:** The third operation gives the row [0 −1 −3 | −5]. The inverses are the same swap, scaling by 1/3, and R₂ ← R₂+2R₁.
 >
 > **Practice — Core:** Explain why scaling a row by zero is not permitted, in terms of reversibility rather than convention.
 >
 > **Hint:** Compare a nonzero equation with the equation obtained by multiplying it by zero. Can the original restriction be recovered from the new one?
 >
-> **Practice — Stretch:** Reduce a matrix two different ways to reduced row echelon form and argue from uniqueness that the pivot columns cannot differ.
+> **Practice — Stretch:** Reduce \(A=\begin{pmatrix}1&2&1\\2&4&3\end{pmatrix}\) to reduced row echelon form twice: once starting with \(R_2\leftarrow R_2-2R_1\), once starting with \(R_1\leftrightarrow R_2\) and then scaling the new first row by \(\tfrac12\). Confirm both routes reach the same form, and argue from uniqueness that no sequence of operations can make column 2 a pivot column.
 >
-> **Hint:** Once you reach reduced row echelon form, each pivot is the leading 1 of its nonzero row. Uniqueness of that form fixes those positions.
+> **Hint:** Both routes end at rows (1,2,0) and (0,0,1), with pivots in columns 1 and 3. Column 2 is twice column 1, and row operations preserve that column relation.
 
 ## 3. Rank is one number that answers both questions
 
@@ -233,17 +233,17 @@ Module 1 introduced inner products for its overlap experiments, and section 6 us
 
 Module 3 develops orthogonal complements and projections. For the standard Euclidean inner products, \(N(A)\perp C(A^{\mathsf T})\) and \(N(A^{\mathsf T})\perp C(A)\). For other metrics, the corresponding statements use the adjoint for those metrics rather than the bare transpose. A passive coordinate change preserves a fixed geometry only when its metric is transformed too, as Module 1 showed.
 
-> **Practice — Foundation:** State which quantities in this unit would change if every vector were re-expressed in a skewed basis.
+> **Practice — Foundation:** Let \(A=\begin{pmatrix}1&1\\2&2\end{pmatrix}\) and re-express input vectors in the skewed basis \(B=((1,0),(1,1))\), so the matrix acting on coordinates is \(AB\). Say whether each of these changes: the coordinates of the null vector \((1,-1)\); the raw dot product of the coordinate lists of \(e_1\) and \(e_2\); the rank; the nullity; and the set of points solving \(Ax=(2,4)\).
 >
-> **Hint:** Separate coordinate entries and raw dot products from dimensions, rank, and the underlying solution set. A change of basis changes descriptions of intrinsic objects.
+> **Hint:** (1,−1) has B-coordinates (2,−1), and AB(2,−1)=0. The coordinates of e₁,e₂ are (1,0),(−1,1), with raw dot product −1 instead of 0.
 >
 > **Practice — Core:** Give a change of coordinates that preserves rank but changes a raw coordinate dot product from zero to nonzero. Explain how transforming the metric preserves the original orthogonality relation.
 >
 > **Hint:** Start with two perpendicular standard basis vectors, then express them in a skew basis B. Test their coordinate dot product and then the corrected metric BᵀB.
 >
-> **Practice — Stretch:** Distinguish a proved rank bound from a measured numerical rank, and distinguish exact orthogonality from a measured small inner product. State the metric, precision, and tolerances needed to reproduce the measurements.
+> **Practice — Stretch:** For \(A=\operatorname{diag}(1,10^{-10})\), give the exact rank and the numerical rank that counts singular values above \(10^{-8}\). For \(u=(1,1)\) and \(v=(1,-1+10^{-12})\), give the exact Euclidean inner product and the value float64 returns, and say whether "orthogonal to tolerance \(10^{-10}\)" is a theorem or a measurement. List what must be reported to reproduce each measured claim.
 >
-> **Hint:** For exact claims, identify a symbolic relation or theorem. For measurements, record the matrix, dtype, metric, absolute/relative threshold, and the diagnostic being thresholded.
+> **Hint:** Exact rank is 2 but only one singular value exceeds 10⁻⁸. The exact inner product is 10⁻¹², nonzero; float64 returns about 9.9998×10⁻¹³ because −1+10⁻¹² is rounded.
 
 ## 8. Elimination on a real machine
 
@@ -257,17 +257,27 @@ Everything above is exact arithmetic. Floating point changes the algorithm, not 
 
 **Conditioning.** The condition number \(\kappa(A)\) bounds how much a relative error in \(b\) is amplified in \(x\). In the worst case, relative errors can grow by a factor of \(\kappa\): the usual rule of thumb is a loss of about \(\log_{10}\kappa\) decimal digits. At \(\kappa\approx10^8\), float32's roughly seven decimal digits can be exhausted; float64's roughly sixteen can lose about half. This is a sensitivity bound, not a prediction that every right-hand side loses that many digits. For a full-column-rank design matrix, forming the normal equations squares the 2-norm condition number, which is why QR is often preferred. These ideas are developed in Modules 4 and 9.
 
-> **Practice — Foundation:** Count the operations in one elimination and in one triangular solve, and state the ratio for twenty right-hand sides.
+> **Practice — Foundation:** For \(n=1000\), use \(\tfrac23n^3\) flops for an LU factorization and \(2n^2\) flops for one forward-plus-back substitution. Count the flops for twenty right-hand sides done as (a) twenty full factor-and-solve passes and (b) one factorization reused twenty times, and give the ratio.
 >
-> **Hint:** For a square n×n system, elimination costs order n³ and each triangular solve order n². Compare refactoring twenty times with factoring once and reusing it.
+> **Hint:** (a) is 20(⅔n³+2n²) and (b) is ⅔n³+20·2n². With n=1000 the ratio is just under 19, not 20, because the substitutions are not free.
 >
-> **Practice — Core:** Explain why partial pivoting bounds the multipliers by 1, and why that alone does not bound growth of all intermediate entries or guarantee a small forward error.
+> **Practice — Core:** Eliminate \(A=\begin{pmatrix}1&0&1\\-1&1&1\\-1&-1&1\end{pmatrix}\) with partial pivoting, keeping the current row on ties. Explain why every multiplier has magnitude at most 1, show that the last entry of \(U\) nevertheless grows to 4, and say why bounded multipliers alone do not guarantee a small forward error.
 >
-> **Hint:** The chosen pivot has largest magnitude in its active column, so each multiplier is a ratio of a smaller entry to it. Updates can still add large contributions elsewhere.
+> **Hint:** Each pivot has the largest magnitude in its column, and here every multiplier is −1. Each step adds the pivot row to the rows below, doubling the last column: 1, 2, 4.
 >
-> **Practice — Stretch:** Construct a matrix whose numerical rank changes with the tolerance and state what you would report about it.
+> **Practice — Stretch:** For \(A=\operatorname{diag}(1,10^{-6})\), report the numerical rank at tolerances \(10^{-4}\) and \(10^{-8}\), then multiply \(A\) by 1000 and repeat at \(10^{-4}\). State the exact rank in every case and list what you would report alongside a numerical rank.
 >
-> **Hint:** Use a diagonal matrix with entries 1 and a tiny positive ε. Test thresholds on both sides of ε and distinguish exact rank from reported numerical rank.
+> **Hint:** The singular values are 1 and 10⁻⁶, giving numerical ranks 1 and 2; after scaling they are 1000 and 10⁻³, so the count at 10⁻⁴ becomes 2. Exact rank is 2 throughout.
+
+## Local numerical and research audit
+
+### Pivot growth and backward error
+
+Partial pivoting avoids division by a needlessly small entry in the current pivot column, but it does not guarantee that all elimination intermediates stay small. Track element growth as \(\rho=\max_{i,j,k}|a_{ij}^{(k)}|/\max_{i,j}|a_{ij}|\), over the active elimination matrices, as well as the factorization residual. Growth is a risk diagnostic, not a forward-error estimate.
+
+For a computed solution \(\hat x\), report \(r=b-A\hat x\) and the normwise backward-error indicator \(\eta=\|r\|_\infty/(\|A\|_\infty\|\hat x\|_\infty+\|b\|_\infty)\). Define the all-zero exact problem as zero error; do not divide by zero. Small backward error says the result solves a nearby problem. It does not say the solution is accurate when the original problem is ill-conditioned.
+
+**M9 · Stretch · mixed — Pivot growth and backward error.** For A=diag(1,10⁻⁸), b=(1,10⁻⁸), and x̂=(1,0), calculate the infinity-norm residual and explain why it understates solution error.
 
 ## 9. Runnable labs
 
@@ -374,11 +384,11 @@ No `np.linalg.solve` and no `matrix_rank` until a problem says to compare agains
 
 **C3 · Core · PyTorch — a rank bound that survives training.** For one attention head with \(d_\text{head}=64\) and sequence length 1024, compute the rank of the pre-softmax score matrix \(QK^{\mathsf T}\), explain the bound from section 3, then check whether the rank survives the softmax.
 
-**C4 · Core · PyTorch — what a probe cannot see.** Train a linear probe on frozen activations, find a direction in its null space, add a large multiple of it to an activation, and confirm the probe output is unchanged. Write two sentences on what this means for "the probe found the feature".
+**C4 · Core · PyTorch — what a probe cannot see.** With `torch.manual_seed(0)`, draw frozen activations \(H\in\mathbb R^{500\times16}\) (`float64`, standard normal) and labels \(y=\mathbb 1[h_1>0]\). Fit a least-squares probe \(w\) minimizing \(\|Hw-(2y-1)\|\) with `torch.linalg.lstsq`. State the nullity of \(w^{\mathsf T}\), form \(z=e_2-w(w^{\mathsf T}e_2)/(w^{\mathsf T}w)\), replace the first activation \(h_1\) by \(h_1+100z\), and report \(w^{\mathsf T}z\), \(\|100z\|\), and the change in that activation's probe output. Write two sentences on what this means for "the probe found the feature".
 
-**C5 · Stretch · PyTorch — conditioning in a regression.** Fit least squares on a design matrix with two near-duplicate columns. Report the condition number, the coefficients, and the coefficients after a \(10^{-6}\) perturbation of the data. Re-run with one column dropped and compare stability.
+**C5 · Stretch · PyTorch — conditioning in a regression.** With `torch.manual_seed(0)` and `float64`, draw \(x,u\in\mathbb R^{100}\) standard normal, set the design \(A=[\,x,\ x+10^{-4}u\,]\), and the target \(b=2x+0.01\,\epsilon\) with \(\epsilon\) standard normal. Using `torch.linalg.lstsq`, report `torch.linalg.cond(A)`, the two coefficients and their sum, and the residual norm. Perturb \(b\) by \(10^{-6}\) times fresh standard normal noise and report the coefficient change. Re-run with the single-column design \(A=[\,x\,]\) and compare coefficient stability.
 
-**C6 · Stretch · PyTorch — audit a rank claim.** Take a trained weight matrix, plot its singular values on a log scale, and state the numerical rank at three tolerances. Say what, if anything, follows about the layer.
+**C6 · Stretch · PyTorch — audit a rank claim.** With `torch.manual_seed(0)` and `float64`, build a stand-in weight \(W=U\operatorname{diag}(s)V^{\mathsf T}+E\in\mathbb R^{256\times256}\), where \(U,V\) are the Q factors of two standard normal \(256\times256\) matrices, \(s_i=0.9^{\,i}\) for \(i=0,\dots,255\), and \(E\) has independent \(\mathcal N(0,10^{-12})\) entries (standard deviation \(10^{-6}\)). Plot the singular values of \(W\) on a log scale, report the numerical rank at absolute tolerances \(10^{-1}\), \(10^{-2}\), and \(10^{-10}\), and report the fraction of squared Frobenius norm discarded by a rank-32 truncation. Say what, if anything, follows about a layer with this weight.
 
 ## 13. Derivations to own
 

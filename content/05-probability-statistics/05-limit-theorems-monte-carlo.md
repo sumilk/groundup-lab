@@ -1,7 +1,8 @@
 ---
 id: math.probability.limit-theorems-monte-carlo
 title: Repeated samples, limit theorems, and Monte Carlo error
-prerequisites: [math.probability.random-variables-distributions, math.probability.joint-conditioning-covariance]
+prerequisites: [math.probability.joint-conditioning-covariance]
+answers: ps-05-limit-theorems-monte-carlo
 estimated_hours: 30
 ---
 
@@ -39,9 +40,15 @@ The third layer is easy to miss. An estimator is a function of random data, so b
 
 > **Practice — Foundation:** Identify the experiment, observation, estimator, and target when estimating a model's success probability from 200 independently sampled prompts.
 >
-> **Practice — Core:** Describe a simulation that approximates the sampling distribution of a five-die average. Explain the two nested repetitions.
+> **Hint:** The experiment is drawing 200 prompts and running the model; each observation is one 0/1 success; the estimator is the proportion of successes; the target is the model's success probability over the prompt population, which stays fixed across repetitions.
 >
-> **Practice — Stretch:** A report bootstraps rows from one fixed dataset. Explain why that resampling distribution is conceptually different from repeatedly drawing fresh datasets from the unknown population.
+> **Practice — Core:** Simulate the sampling distribution of the average of five fair-die rolls: with NumPy `default_rng(0)`, draw 10,000 datasets of 5 rolls each. Report the mean and standard deviation of the 10,000 averages and compare them with \(3.5\) and \(\sqrt{(35/12)/5}\approx0.764\). Identify the two nested repetitions.
+>
+> **Hint:** The inner repetition rolls 5 dice to make one dataset and one average; the outer repetition makes 10,000 such datasets. One die has variance \(35/12\), so the average has variance \(35/60\).
+>
+> **Practice — Stretch:** A report bootstraps rows from the fixed dataset \((2,3,5,7,11)\). List the only values a bootstrap resample can contain, give the smallest and largest possible bootstrap mean, and compute the bootstrap standard deviation of the mean, \(\sqrt{\hat\sigma^2/n}\) with the divisor-\(n\) variance \(\hat\sigma^2\). Explain why this differs conceptually from drawing fresh datasets from the unknown population.
+>
+> **Hint:** Resamples only reuse 2, 3, 5, 7 and 11, so bootstrap means lie in \([2,11]\). The plug-in variance is \(\hat\sigma^2=10.24\), so the bootstrap SD is \(\sqrt{10.24/5}\approx1.43\). Fresh population draws could include values such as 1 or 13, which the empirical distribution never produces.
 
 ## 1. Why averaging reduces variance
 
@@ -89,9 +96,15 @@ At \(n=10{,}000\), it is approximately \(0.00458\). One extra decimal place of s
 
 > **Practice — Foundation:** Derive the mean and variance of an average of 25 iid variables with mean 4 and variance 9.
 >
+> **Hint:** The mean of \(\bar X\) is still 4; the variance of an iid mean is the individual variance divided by \(n\), here \(9/25\).
+>
 > **Practice — Core:** Two independent estimates use \(n\) and \(9n\) observations. Compare their standard deviations and the widths of equally calibrated error bars.
 >
-> **Practice — Stretch:** Derive the variance of a weighted average \(\sum_iw_iX_i\) for independent observations. Under the constraint \(\sum_iw_i=1\) and equal variances, show why equal weights minimize variance.
+> **Hint:** Standard deviation scales with the inverse square root of sample size.
+>
+> **Practice — Stretch:** Derive the variance of a weighted average \(\sum_iw_iX_i\) for independent observations with common variance \(\sigma^2\). Show that under \(\sum_iw_i=1\) equal weights minimize it, and check with \(n=3\), \(\sigma^2=1\): compare \(w=(0.5,0.25,0.25)\) with \(w=(1/3,1/3,1/3)\).
+>
+> **Hint:** The variance is \(\sigma^2\sum_iw_i^2\). Write \(w_i=1/n+d_i\) with \(\sum_id_i=0\), so \(\sum_iw_i^2=1/n+\sum_id_i^2\); the check gives \(0.375\) versus \(0.333\).
 
 ## 2. Convergence in probability and the weak law
 
@@ -127,11 +140,17 @@ $$
 
 The law says the probability of this event vanishes with \(n\); it does not supply a usable sample size by itself.
 
-> **Practice — Foundation:** Write in words what \(\bar X_n\xrightarrow{P}\mu\) means for a fixed \(\varepsilon=0.01\).
+> **Practice — Foundation:** For the accuracy \(\bar X_n\) of a model with true accuracy \(\mu=0.7\), write in words what \(\bar X_n\xrightarrow{P}\mu\) means for the fixed tolerance \(\varepsilon=0.01\).
 >
-> **Practice — Core:** Give a numerical sequence of realized running means that moves away from \(\mu\) several times but still approaches it. Explain why this does not contradict convergence.
+> **Hint:** Fix \(\varepsilon=0.01\) first: the claim is that \(P(|\bar X_n-0.7|>0.01)\) tends to zero as \(n\) grows. It says nothing about one particular run of evaluations.
 >
-> **Practice — Stretch:** Construct random variables \(Y_n\) that equal 1 with probability \(1/n\) and 0 otherwise. Prove convergence in probability to zero and discuss whether any single realization must be eventually zero.
+> **Practice — Core:** The coin flips \(1,0,1,1,0,0,1,0\) (\(\mu=0.5\)) give running means \(\bar x_1,\dots,\bar x_8\). Compute them, count how many times the error \(|\bar x_n-0.5|\) increases from one step to the next, and explain why this does not contradict convergence.
+>
+> **Hint:** The running means are \(1,0.5,0.667,0.75,0.6,0.5,0.571,0.5\). Convergence in probability is a statement about the probability of large error at each large \(n\); it does not require each successive error to shrink.
+>
+> **Practice — Stretch:** Let \(Y_n\) equal 1 with probability \(1/n\) and 0 otherwise. Prove that \(Y_n\xrightarrow{P}0\). Then compare two constructions: (a) the \(Y_n\) are independent; (b) \(Y_n=\mathbf 1\{U\le1/n\}\) for one shared \(U\sim\text{Uniform}(0,1)\). In which construction is every realization eventually zero?
+>
+> **Hint:** \(P(|Y_n|>\varepsilon)=1/n\to0\) in both constructions. In (a), \(\sum1/n=\infty\) and the second Borel–Cantelli lemma gives infinitely many 1s almost surely. In (b), every path with \(U>0\) is zero once \(n>1/U\).
 
 ## 3. A weak-law proof from Chebyshev's inequality
 
@@ -172,9 +191,15 @@ The true probability might be far smaller. An inequality is a guaranteed ceiling
 
 > **Practice — Foundation:** Use Chebyshev to bound \(P(|\bar X_n-\mu|\ge0.5)\) when \(\sigma^2=9\) and \(n=400\).
 >
-> **Practice — Core:** Solve \(\sigma^2/(n\varepsilon^2)\le\delta\) for \(n\). Interpret the resulting sample-size requirement.
+> **Hint:** Insert the variance of the mean, not the variance of one observation.
 >
-> **Practice — Stretch:** Repeat the proof for independent but non-identically distributed variables with common mean and variances bounded by \(V\). Identify the precise step where independence is used.
+> **Practice — Core:** Solve \(\sigma^2/(n\varepsilon^2)\le\delta\) for \(n\), then evaluate it for \(\sigma^2=4\), \(\varepsilon=0.1\), \(\delta=0.05\), and interpret the resulting sample-size requirement.
+>
+> **Hint:** Rearrange to \(n\ge\sigma^2/(\varepsilon^2\delta)\) and round up: \(4/(0.01\times0.05)\). This is a distribution-free guarantee, so it is usually conservative.
+>
+> **Practice — Stretch:** Repeat the weak-law proof for independent, non-identically distributed variables with common mean \(\mu\) and variances bounded by \(V\); for example, variances alternating between 1 and 4, so \(V=4\). Evaluate the resulting bound at \(n=100\), \(\varepsilon=0.5\), compare it with the bound from the actual average variance 2.5, and identify the precise step where independence is used.
+>
+> **Hint:** \(\operatorname{Var}(\bar X_n)=n^{-2}\sum_i\operatorname{Var}X_i\le V/n\) holds only because independence removes the off-diagonal covariances; then Chebyshev gives \(V/(n\varepsilon^2)=0.16\), versus \(0.1\) using 2.5.
 
 ## 4. Almost-sure convergence and the strong law
 
@@ -195,11 +220,17 @@ A useful mental picture is:
 
 We will use the strong law as a theorem rather than prove it here. Its proof requires tools beyond the finite-variance Chebyshev argument above.
 
-> **Practice — Foundation:** State the difference between convergence in probability and almost-sure convergence without using the phrase “stronger convergence.”
+> **Practice — Foundation:** For iid fair-coin running proportions \(\hat p_n\), state in one sentence each what \(P(|\hat p_n-0.5|>0.01)\to0\) claims and what \(P(\hat p_n\to0.5)=1\) claims, without using the phrase “stronger convergence.”
 >
-> **Practice — Core:** Draw or describe three infinite paths where most are close at every large fixed \(n\), then explain what additional pathwise behavior almost-sure convergence requires.
+> **Hint:** The first is a statement about the distribution of \(\hat p_n\) at each fixed large \(n\). The second is about whole infinite paths: almost every path eventually stays within any band forever.
 >
-> **Practice — Stretch:** Explain why a probability-one statement about an infinite sequence cannot generally be verified by observing one very long finite prefix.
+> **Practice — Core:** Let \(Y_n\) be independent Bernoulli\((1/n)\). Compute \(P(Y_n=1)\) at \(n=1000\) and the probability that a path has at least one 1 among \(n=1001,\dots,2000\). Use the two numbers to explain what almost-sure convergence requires beyond a small failure probability at each fixed \(n\).
+>
+> **Hint:** \(\prod_{n=1001}^{2000}(1-1/n)\) telescopes to \(1000/2000\), so half of all paths leave the band somewhere in that block even though each single time has failure probability about \(0.001\).
+>
+> **Practice — Stretch:** For independent \(Y_n\sim\text{Bernoulli}(1/n)\), show that the probability of no 1 among \(n=N+1,\dots,2N\) equals \(1/2\) for every \(N\). Use this to explain why even a very long prefix of zeros cannot verify the probability-one statement that the path is eventually zero, and which of the two is actually true here.
+>
+> **Hint:** \(\prod_{n=N+1}^{2N}\frac{n-1}{n}=\frac N{2N}\). Each future block independently has probability \(1/2\) of containing a 1, so any finite prefix is followed by more 1s almost surely.
 
 ## 5. Sampling distributions and standard error
 
@@ -231,11 +262,17 @@ A standard error is not the realized error and does not guarantee that the targe
 
 **Worked example — seed-to-seed variation.** Five independent training runs produce evaluation scores \(0.71,0.75,0.69,0.74,0.76\). Their mean is \(0.73\). The sample standard deviation is about \(0.029\), so the estimated standard error of the five-run mean is about \(0.013\). Reporting \(0.73\pm0.029\) describes run spread; reporting a multiple of \(0.013\) addresses uncertainty in the average under an iid-run model.
 
-> **Practice — Foundation:** Explain the difference between standard deviation and standard error for 100 observed losses.
+> **Practice — Foundation:** One hundred observed losses have sample standard deviation 2.0. State what 2.0 describes, compute the standard error of the mean loss, and say what happens to each quantity if 400 losses are collected instead.
+>
+> **Hint:** The SD describes the spread of individual losses and stays near 2.0 as \(n\) grows; the standard error \(s/\sqrt n=2.0/10\) describes the spread of the mean and halves at \(n=400\).
 >
 > **Practice — Core:** Compute the sample standard deviation and estimated standard error for \(2,4,4,6\). Then predict how the standard error changes if the same distribution is sampled 16 times.
 >
-> **Practice — Stretch:** A paper reports a tiny standard error over one million tokens from only four independently trained models. Identify two possible observational units and explain which target each uncertainty calculation would address.
+> **Hint:** The mean is 4 and the squared deviations are \(4,0,0,4\), so \(s^2=8/3\) with divisor \(n-1=3\); divide \(s\) by \(\sqrt4\), and by \(\sqrt{16}\) for the larger sample.
+>
+> **Practice — Stretch:** A paper reports accuracy \(0.625\) with standard error \(0.001\) computed over one million tokens, but the four independently trained models score \(0.61, 0.64, 0.58, 0.67\). Compute the model-level standard error of the mean, compare it with \(0.001\), and explain which target each uncertainty calculation addresses.
+>
+> **Hint:** Treat each model as one unit: the sample SD of the four scores is about \(0.0387\), so the standard error is about \(0.0387/2\approx0.019\). The token SE covers new tokens for these fixed models; the model SE covers retraining.
 
 ## 6. The central limit theorem
 
@@ -270,9 +307,15 @@ If the observations themselves are Gaussian, the sample mean is exactly Gaussian
 
 > **Practice — Foundation:** Standardize a sample mean of iid variables when \(n=64\), \(\mu=10\), and \(\sigma=4\).
 >
-> **Practice — Core:** Starting from the standardized CLT, derive the approximate distribution of the sum \(S_n=\sum_iX_i\).
+> **Hint:** \(\bar X_{64}\) has standard deviation \(\sigma/\sqrt n=4/8=0.5\), so \(Z=(\bar X_{64}-10)/0.5\).
 >
-> **Practice — Stretch:** Explain why the unscaled error \(\bar X_n-\mu\) converges to zero while the scaled error \(\sqrt n(\bar X_n-\mu)\) can converge to a non-degenerate distribution.
+> **Practice — Core:** Starting from the standardized CLT, derive the approximate distribution of the sum \(S_n=\sum_iX_i\). Then, for \(n=64\), \(\mu=10\), \(\sigma=4\), approximate \(P(S_{64}>680)\).
+>
+> **Hint:** \(S_n=n\bar X_n\approx N(n\mu,n\sigma^2)\), which here is \(N(640,32^2)\); standardize \(680\) to \(z=40/32=1.25\).
+>
+> **Practice — Stretch:** For iid Uniform\((0,1)\) variables (\(\sigma^2=1/12\)), compute the standard deviation of \(\bar X_n-\mu\) and of \(\sqrt n(\bar X_n-\mu)\) at \(n=100\) and \(n=10{,}000\). Explain why the first converges to zero while the second converges to a non-degenerate distribution.
+>
+> **Hint:** \(\operatorname{sd}(\bar X_n-\mu)=0.2887/\sqrt n\) shrinks (0.0289, then 0.0029), while multiplying by \(\sqrt n\) keeps the SD at \(0.2887\) for every \(n\).
 
 ## 7. Using a Gaussian approximation carefully
 
@@ -310,9 +353,15 @@ Do not turn “\(n\ge30\)” into a law. Approximation quality depends on skewne
 
 > **Practice — Foundation:** For \(p=0.5,n=100\), compute the mean and standard deviation of the success count and of the observed proportion.
 >
+> **Hint:** For the count use np and sqrt(np(1-p)); divide by n for the proportion.
+>
 > **Practice — Core:** Approximate \(P(\bar X_n\le0.4)\) for \(p=0.5,n=100\), first without and then with a continuity correction.
 >
-> **Practice — Stretch:** Compare exact binomial and Gaussian-approximation tail probabilities over several \(p,n\) pairs. Find a case where the center is approximated well but an extreme tail is not.
+> **Hint:** \(\bar X\le0.4\) is \(S\le40\) with \(S\) having mean 50 and SD 5; without correction use \(z=-2\), and with correction use the boundary \(40.5\), so \(z=-1.9\). The exact value is about \(0.0284\).
+>
+> **Practice — Stretch:** Compare the exact binomial probability with the continuity-corrected Gaussian approximation for \(n=100,p=0.5\) at \(P(S\le40)\), \(P(S\le30)\), \(P(S\le25)\), and for \(n=100,p=0.05\) at \(P(S\ge12)\) and \(P(S\ge15)\). Report the ratio approximation/exact in each case and identify where the center is fine but the tail is not.
+>
+> **Hint:** Use `scipy.stats.binom` for the exact values. The ratio should be about 1.01 at \(S\le40\) but about 1.7 at \(S\le25\), and it falls to about 0.05 at \(p=0.05\), \(S\ge15\): a small absolute error can be a large relative tail error.
 
 ## 8. When the ordinary CLT approximation fails
 
@@ -336,9 +385,15 @@ The count distribution has a large point mass at zero and strong right skew. A G
 
 > **Practice — Foundation:** For a Bernoulli sum, calculate \(np\) and \(n(1-p)\) at \(n=1{,}000,p=0.001\) and assess a Gaussian approximation.
 >
-> **Practice — Core:** Give one example for each failure category above and state which part of the standard CLT argument becomes doubtful.
+> **Hint:** A large n does not imply a large expected number of rare successes.
 >
-> **Practice — Stretch:** Simulate means from a heavy-tailed distribution at growing sample sizes. Compare their sampling histograms with those from a finite-variance distribution and explain why “more data” can look erratic for a long time.
+> **Practice — Core:** For three failure categories above—rare events, infinite variance, and dependence—give a concrete numerical example of each (for instance \(n=100\), \(p=0.002\); a Cauchy sample; and \(X_i\) all equal to one shared fair coin), and state which step of the standard CLT argument breaks.
+>
+> **Hint:** Rare events: \(np=0.2\) leaves a point mass at zero. Cauchy: there is no finite \(\sigma^2\) to standardize by. Shared coin: \(\operatorname{Var}(\bar X_n)=\operatorname{Var}(X_1)=0.25\) never shrinks, because the independence step fails.
+>
+> **Practice — Stretch:** With NumPy `default_rng(0)`, for \(n=100,1000,10000\), simulate 1,000 datasets from a Pareto distribution with \(x_m=1\), \(\alpha=1.5\) (mean 3, infinite variance; `1 + rng.pareto(1.5, size)`) and 1,000 from an Exponential with mean 3. Report the 5th, 50th and 95th percentiles of the sample means and the largest single draw for each \(n\). Explain why the Pareto means look erratic for a long time.
+>
+> **Hint:** Expect the Exponential 5–95% range to shrink like \(1/\sqrt n\) around 3, while the Pareto range stays right-skewed with a median below 3 (about 2.7 at \(n=100\)), and single draws in the tens of thousands appear at \(n=10^4\).
 
 ## 9. Monte Carlo estimation is expectation by sampling
 
@@ -380,11 +435,17 @@ $$
 
 Only 48 effective hits support the estimate. The large total draw count should not create false confidence about a very small tail probability.
 
-> **Practice — Foundation:** Write an indicator-based Monte Carlo estimator for \(P(g(X)>t)\).
+> **Practice — Foundation:** Let \(X\sim N(0,1)\), \(g(x)=x^2\) and \(t=4\). Write the indicator-based Monte Carlo estimator of \(P(g(X)>t)\) from \(N\) independent draws, give the true value, and compute the estimator's standard error for \(N=10{,}000\).
 >
-> **Practice — Core:** Derive the variance of the event-probability estimator and find its worst case over \(p\in[0,1]\).
+> **Hint:** \(\hat p=N^{-1}\sum_j\mathbf 1\{X_j^2>4\}\); the true value is \(P(|X|>2)\approx0.0455\) and the SE is \(\sqrt{p(1-p)/N}\).
 >
-> **Practice — Stretch:** Design a paired Monte Carlo comparison of two systems using the same random inputs. Derive why estimating the mean paired difference can have lower variance than subtracting two independent estimates.
+> **Practice — Core:** Derive the variance of the event-probability estimator \(\hat p\) from \(N\) independent draws, find its worst case over \(p\in[0,1]\), and evaluate the standard error at \(N=10{,}000\) for \(p=0.0455\) and for the worst case.
+>
+> **Hint:** Each indicator is Bernoulli\((p)\), so \(\operatorname{Var}\hat p=p(1-p)/N\), which is maximized at \(p=1/2\); the SEs are about \(0.0021\) and \(0.005\).
+>
+> **Practice — Stretch:** Two simulated systems have outputs \(A=U^2\) and \(B=U^2+0.1U\) for \(U\sim\text{Uniform}(0,1)\). Compare the variance per draw of the paired estimator of \(E[A-B]\) (same \(U\) for both) with that of the difference of two independent estimates, and derive why pairing helps.
+>
+> **Hint:** Paired: \(A-B=-0.1U\) has variance \(0.01/12\). Independent: \(\operatorname{Var}A+\operatorname{Var}B\) with \(\operatorname{Var}(U^2)=4/45\) and \(\operatorname{Cov}(U^2,U)=1/12\). Pairing subtracts \(2\operatorname{Cov}(A,B)\).
 
 ## 10. Planning and monitoring Monte Carlo error
 
@@ -416,9 +477,15 @@ Also separate Monte Carlo error from model error. A billion flawless simulations
 
 > **Practice — Foundation:** Under the worst-case Bernoulli variance, calculate the sample size needed for standard error at most \(0.005\).
 >
-> **Practice — Core:** A pilot run estimates \(\sigma_h=12\). Determine the approximate draw count required to halve the current standard error.
+> **Hint:** Solve 0.25/n <= the square of the desired standard error.
 >
-> **Practice — Stretch:** Design a simulation report that separates random-number seed, Monte Carlo standard error, numerical error, and simulator misspecification.
+> **Practice — Core:** A pilot run of 900 draws estimates \(\sigma_h=12\). Compute the current standard error and the approximate draw count required to halve it.
+>
+> **Hint:** The current SE is \(12/\sqrt{900}=0.4\); halving the SE requires four times as many independent draws.
+>
+> **Practice — Stretch:** A queue simulator's mean wait from seeds 1–5 (10,000 draws each) is \(4.12, 4.09, 4.15, 4.10, 4.14\), each with within-run standard error 0.02. Halving the time step changes the pooled estimate from 4.12 to 4.11. Real measurements (500 observations) give \(4.60\) with standard error 0.10. Write a short report that separates seed variation, Monte Carlo standard error, numerical error and simulator misspecification, with a number for each.
+>
+> **Hint:** The seed-to-seed SD is about \(0.026\), consistent with SE \(0.02\); the pooled MC SE is about \(0.02/\sqrt5\), the discretization error is about \(0.01\), and the gap of \(0.48\) from reality is about \(4.8\) combined SEs, which more draws cannot close.
 
 ## 11. Concentration inequalities give finite-sample ceilings
 
@@ -470,9 +537,15 @@ Neither is automatically close to the true tail probability. Choose a bound by c
 
 > **Practice — Foundation:** Use Markov to bound \(P(Y\ge20)\) for nonnegative \(Y\) with mean 3.
 >
+> **Hint:** Markov applies because \(Y\ge0\): \(P(Y\ge20)\le E[Y]/20=3/20\).
+>
 > **Practice — Core:** Derive Chebyshev from Markov, then apply Hoeffding to a mean of 800 independent values in \([-1,1]\) with tolerance \(0.1\).
 >
-> **Practice — Stretch:** Find a regime where the numerical Chebyshev bound is smaller than the Hoeffding bound even though Hoeffding has exponential decay. Explain why “asymptotically sharper” need not mean smaller for every parameter choice.
+> **Hint:** Apply Markov to a squared centered deviation; Hoeffding uses the full range width.
+>
+> **Practice — Stretch:** For the mean of \(n\) independent values in \([0,1]\) with tolerance \(t=0.1\), compute Chebyshev's bound (using the worst-case variance \(1/4\)) and the two-sided Hoeffding bound \(2e^{-2nt^2}\), at \(n=100\) and at \(n=1000\). Explain why “asymptotically sharper” need not mean smaller for every parameter choice.
+>
+> **Hint:** At \(n=100\), Chebyshev gives \(0.25/(100\times0.01)=0.25\) while Hoeffding gives \(2e^{-2}\approx0.27\); at \(n=1000\) they are \(0.025\) and about \(4\times10^{-9}\).
 
 ## 12. The Chernoff method generates every exponential bound
 
@@ -539,9 +612,15 @@ Taking \(f=\bar X_n\) with \(c_i=(b-a)/n\) recovers Hoeffding, so this is a stri
 
 > **Practice — Foundation:** Derive the Chernoff form \(P(X\ge t)\le e^{-\lambda t}E[e^{\lambda X}]\) from Markov's inequality in two lines.
 >
+> **Hint:** Apply Markov to exp(lambda X), with lambda positive.
+>
 > **Practice — Core:** Optimize \(\lambda\) for a \(\sigma\)-sub-Gaussian variable and confirm the \(\exp(-t^2/2\sigma^2)\) tail. Then redo the worked rare-event comparison at \(p=0.001\) and report both bounds.
 >
-> **Practice — Stretch:** A leave-one-out cross-validation estimate is not a sum. State a bounded-difference constant for it under a stability assumption, apply McDiarmid, and explain precisely which assumption is doing the work and how it could fail for a high-capacity model.
+> **Hint:** Minimize \(-\lambda t+\lambda^2\sigma^2/2\) at \(\lambda=t/\sigma^2\). For the rerun, \(\sigma^2=0.001\times0.999\) and the Bernstein denominator is \(2\sigma^2+\tfrac23(1)(0.005)\approx0.00533\), while Hoeffding stays at \(2e^{-0.5}\).
+>
+> **Practice — Stretch:** A leave-one-out error with 0-1 loss is computed on \(n=10{,}000\) independent examples. Under a stability assumption that replacing one example changes at most \(k=5\) other leave-one-out predictions, take \(c_i=(k+1)/n\). Apply McDiarmid for \(t=0.05\) and \(t=0.1\), then redo it for \(k=100\). Explain which assumption is doing the work and how it could fail for a high-capacity model.
+>
+> **Hint:** \(\sum_ic_i^2=n(k+1)^2/n^2=(k+1)^2/n\), and the bound is \(2\exp(-2t^2/\sum_ic_i^2)\). At \(k=5\) this gives about \(0.50\) and \(0.0077\); at \(k=100\) the bound is vacuous.
 
 ## 13. Heavy tails and robust summaries
 
@@ -572,11 +651,17 @@ Robust options include:
 
 Never delete extreme observations solely because they are inconvenient. First distinguish data errors, rare valid events, and a misspecified model.
 
-> **Practice — Foundation:** Compare the mean and median before and after adding one extreme value to a small dataset.
+> **Practice — Foundation:** For the dataset \((3,5,6,8,9)\), compute the mean and median, then add the extreme value 100 and recompute both.
 >
-> **Practice — Core:** Implement median-of-means for 100 values using ten groups. Explain how group count trades robustness against the stability of each group mean.
+> **Hint:** The mean moves from \(6.2\) to \(131/6\approx21.8\), while the median moves only from 6 to the average of the two middle values, \(7\).
 >
-> **Practice — Stretch:** Construct a decision problem where the mean is essential despite heavy tails and another where a high quantile is the more relevant target. Justify both choices.
+> **Practice — Core:** Take the 100 values \(x_i=i\) for \(i=1,\dots,99\) and a corrupted \(x_{100}=10{,}000\), split in order into ten consecutive groups of ten. Compute the ordinary mean and the median-of-means, and compare them with the clean mean 50.5. Then explain how using 2 or 50 groups would trade robustness against the stability of each group mean.
+>
+> **Hint:** The group means are \(5.5,15.5,\dots,85.5\) and \((855+10000)/10=1085.5\); the median of these ten is the average of the 5th and 6th values. The ordinary mean is \(14950/100\).
+>
+> **Practice — Stretch:** A service's cost per request is 1 dollar with probability 0.99 and 500 dollars with probability 0.01. Compute the mean, the median and the 99.9th percentile. Which one should set a monthly budget for \(10^6\) requests, and which one a guarantee that 999 of every 1,000 requests stay below a threshold?
+>
+> **Hint:** The mean is \(0.99+5=5.99\), the median is 1, and the 99.9th percentile is 500. Total cost is \(n\) times the mean, so the budget needs the mean; the guarantee is a quantile target.
 
 ## 14. Dependence changes the effective sample size
 
@@ -628,9 +713,15 @@ For clustered data, resample or aggregate at the independent unit: user, convers
 
 > **Practice — Foundation:** Identify the likely independent unit for tokens within responses, responses within users, and seeds within one training configuration.
 >
-> **Practice — Core:** Derive the variance of the mean when every distinct pair has covariance \(c\). Describe what happens when \(c>0\) stays fixed as \(n\) grows.
+> **Hint:** Group observations by the randomness shared between them.
 >
-> **Practice — Stretch:** Simulate an autocorrelated sequence, compare the iid standard error with a batch-means estimate, and study sensitivity to batch length and number of batches.
+> **Practice — Core:** Derive the variance of the mean of \(n\) variables with variance \(\sigma^2\) when every distinct pair has covariance \(c\). Evaluate it for \(\sigma^2=1\), \(c=0.05\) at \(n=10\) and \(n=100\), and describe what happens as \(n\to\infty\) with \(c>0\) fixed.
+>
+> **Hint:** There are \(n\) diagonal terms and \(n(n-1)\) off-diagonal terms, so \(\operatorname{Var}\bar X=\sigma^2/n+(n-1)c/n\), which tends to \(c\), not 0.
+>
+> **Practice — Stretch:** With NumPy `default_rng(0)`, simulate an AR(1) sequence \(x_t=0.8x_{t-1}+\varepsilon_t\), \(\varepsilon_t\sim N(0,1)\), of length \(n=10{,}000\), starting from the stationary law. Compare the iid standard error of the mean, \(s/\sqrt n\), with batch-means estimates using batch lengths 10, 100 and 1,000, and with the true long-run value \(\sqrt{25/n}=0.05\).
+>
+> **Hint:** The iid SE ignores autocorrelation and comes out near \(0.017\). Batches of length 10 are still correlated and come out low (about \(0.04\)); lengths 100 and 1,000 are near \(0.05\), but only 10 batches makes the estimate itself noisy.
 
 ## 15. Research and ML evaluation patterns
 
@@ -663,11 +754,17 @@ Before attaching an error bar, answer:
 4. Is the estimator's variance finite and stable?
 5. Were stopping, filtering, or model selection decisions data-dependent?
 
-> **Practice — Foundation:** For each ML example above, name the estimator, target, and plausible independent unit.
+> **Practice — Foundation:** For three examples above—benchmark accuracy on 2,000 rows drawn from 40 templates, a result averaged over 5 training seeds, and 300 agent episodes of 20 turns each—name the estimator, the target, and the plausible independent unit.
 >
-> **Practice — Core:** Redesign an evaluation with 5,000 prompts nested in 100 tasks so that uncertainty reflects task-to-task variation rather than treating all rows as iid.
+> **Hint:** Ask what would be drawn again in a repetition: the templates (40 units), the seeds (5 units), and the episodes (300 units, not 6,000 turns).
 >
-> **Practice — Stretch:** Write an uncertainty audit for a best-of-20-seeds result. Separate within-seed evaluation noise, seed variation, selection bias, and uncertainty about transfer to a new dataset.
+> **Practice — Core:** An evaluation has 5,000 prompts nested in 100 tasks of 50 prompts each. Overall accuracy is 0.70, and the 100 task-level accuracies have sample SD 0.15. Compute the naive row-iid standard error, the task-level standard error, and their design effect, then describe how to compare two models with task-level pairing.
+>
+> **Hint:** The naive SE is \(\sqrt{0.7\times0.3/5000}\approx0.0065\) and the task-level SE is \(0.15/\sqrt{100}=0.015\); the design effect is the squared ratio, about 5.4. For two models, average the per-task differences.
+>
+> **Practice — Stretch:** The best of 20 seeds scores 0.742 on a 2,000-example eval set; across seeds the scores have mean 0.720 and SD 0.010. Write an uncertainty audit that puts a number on within-seed evaluation noise, seed variation and the selection bias of taking the maximum, and states what remains unknown about transfer to a new dataset.
+>
+> **Hint:** The eval-set SE is \(\sqrt{0.74\times0.26/2000}\approx0.0098\). The expected maximum of 20 iid normals is about \(\mu+1.87\sigma=0.739\), so most of the gap to 0.720 is selection.
 
 ## 16. Runnable lab: batch-means standard error
 
@@ -707,49 +804,69 @@ For several batch sizes, compare the naive iid standard error with the batch-mea
 9. Derive the effective-sample-size expression from autocorrelations.
 10. Derive the variance of a paired estimator and state when pairing helps.
 
+## Prediction experiment
+
+Predict both the baseline and failure-preset results before revealing the calculation. Record the assumptions, change one control at a time, and explain the boundary case. This small deterministic model isolates a mechanism; it is not an empirical validation of a trained system.
+
+```lab
+lab: ps-limits
+```
+
 ## 18. End-of-unit practice (graded)
 
-**Foundation — problems 1–4.** Read sampling distributions and execute direct variance and approximation calculations.
+Work each problem before opening its authored solution. Written proofs and design answers require self-review against the rubric; numeric fields check only the stated quantities.
 
-1. **Average mechanics.** Let iid observations have mean 12 and variance 25. Find the mean, variance, and standard error of \(\bar X_{100}\). Recompute for \(\bar X_{400}\).
-2. **Convergence language.** Translate the weak law and strong law into plain language, then give one claim neither law makes about a finite sample.
-3. **Bernoulli sampling.** For \(p=0.4,n=250\), compute the mean and standard deviation of the success count and the sample proportion.
-4. **Markov and Chebyshev.** If \(Y\ge0\) and \(E[Y]=10\), bound \(P(Y\ge25)\) with Markov's inequality. If \(E[Z]=0\) and \(\operatorname{Var}(Z)=9\), bound \(P(|Z|\ge6)\) with Chebyshev's inequality. State why neither calculation identifies the true probability.
 
-**Core — problems 5–9.** Combine theorems, choose approximations, and quantify Monte Carlo error.
+### Foundation — problems 1–4. Read sampling distributions and execute direct variance and approximation calculations.
 
-5. **Weak-law proof.** Prove convergence in probability for independent variables sharing mean \(\mu\) whose variances are all at most \(V\).
-6. **Continuity correction.** Approximate \(P(S\ge65)\) for \(S\sim\operatorname{Binomial}(100,0.5)\) with and without a continuity correction; compare with an exact computation.
-7. **Monte Carlo planning.** Derive a conservative draw count for estimating any Bernoulli probability with approximate 95% half-width at most \(0.002\).
-8. **Concentration choice.** For \(n=500\) independent losses in \([0,4]\), bound \(P(|\bar X-E[X]|\ge0.3)\) using (a) Chebyshev with the largest variance permitted by the range and (b) two-sided Hoeffding. List the assumptions used by each.
-9. **Paired evaluation.** On eight prompts, model A correctness is \((1,1,0,1,0,1,1,0)\) and B correctness is \((1,0,0,1,1,0,1,0)\). Compute the paired mean difference and standard error. Then compute the standard error obtained by incorrectly treating the two accuracy estimates as independent.
+**A1 · Foundation · paper — Average mechanics.** Let iid observations have mean 12 and variance 25. Find the mean, variance, and standard error of \(\bar X_{100}\). Recompute for \(\bar X_{400}\).
 
-**Stretch — problems 10–14.** Audit broken assumptions and design defensible repeated-sample evidence.
+**A2 · Foundation · paper — Convergence language.** For iid fair-coin flips with running proportion \(\hat p_n\), translate the weak law and the strong law into plain language. Then show that neither law guarantees \(|\hat p_{1000}-0.5|\le0.01\) by computing the CLT approximation, with continuity correction, to \(P(490\le S_{1000}\le510)\).
 
-10. **Rare events.** Compare exact binomial, Poisson, Gaussian, and Hoeffding calculations for at least one rare-event setting. Explain which numbers are approximations, exact probabilities, or guaranteed ceilings.
-11. **Heavy tails.** Simulate a finite-mean, infinite-variance distribution. Compare sample mean, trimmed mean, median, and median-of-means across increasing sample sizes and repeated datasets.
-12. **Dependence.** Generate sequences with several autocorrelation strengths. Compare empirical variance across repeated sequence means with iid and batch-means standard-error predictions.
-13. **Hierarchical benchmark.** Design an estimator and uncertainty procedure for prompts nested within tasks, tasks nested within domains, and multiple stochastic model runs. State the population to which each conclusion generalizes.
-14. **Research critique.** Find or invent a result that reports a mean over a huge row count but has few independent units. Reconstruct a plausible dependence structure, estimate how uncertainty changes, and rewrite the claim conservatively.
+**A3 · Foundation · paper — Bernoulli sampling.** For \(p=0.4,n=250\), compute the mean and standard deviation of the success count and the sample proportion.
 
-<details><summary>Worked solution sketches</summary>
+**A4 · Foundation · paper — Markov and Chebyshev.** If \(Y\ge0\) and \(E[Y]=10\), bound \(P(Y\ge25)\) with Markov's inequality. If \(E[Z]=0\) and \(\operatorname{Var}(Z)=9\), bound \(P(|Z|\ge6)\) with Chebyshev's inequality. State why neither calculation identifies the true probability.
 
-1. The mean remains 12. Variance is \(25/n\), giving \(0.25\) and \(0.0625\); standard errors are \(0.5\) and \(0.25\). Four times the data halves the standard error.
-2. The weak law makes fixed-\(n\) deviation probabilities vanish; the strong law says almost every infinite running-average path converges. Neither guarantees exact equality, monotone error reduction, or a useful finite-\(n\) rate.
-3. The count has mean \(100\) and variance \(60\), hence standard deviation \(\sqrt{60}\). The proportion has mean \(0.4\) and standard deviation \(\sqrt{0.4(0.6)/250}\).
-4. Markov gives \(P(Y\ge25)\le10/25=0.4\). Chebyshev gives \(P(|Z|\ge6)\le9/36=0.25\). These are distribution-free ceilings under their moment assumptions; many different distributions share those moments and have different actual tail probabilities.
-5. The average has expectation \(\mu\) and variance at most \(V/n\) because independence removes covariance terms. Chebyshev bounds the deviation probability by \(V/(n\varepsilon^2)\), which vanishes.
-6. The uncorrected standardized boundary is \((65-50)/5=3\); the corrected one uses \(64.5\), giving \(2.9\). Exact binomial summation determines which approximation is closer.
-7. With multiplier \(1.96\) and worst-case variance \(1/4\), require \(1.96\sqrt{1/(4n)}\le0.002\), or \(n\ge1.96^2/(4\cdot0.002^2)\), approximately 240,100 independent draws.
-8. A variable in an interval of width four has variance at most \(4\). Therefore Chebyshev gives \(4/[500(0.3)^2]\approx0.0889\). Two-sided Hoeffding gives \(2\exp[-2(500)(0.3)^2/4^2]\approx0.00721\). Chebyshev needs finite variance and independence or zero covariance to obtain the \(1/n\) mean variance; Hoeffding needs independent bounded observations but no variance value.
-9. Differences are \((0,1,0,0,-1,1,0,0)\), with mean \(0.125\), sample variance \(2.875/7\approx0.4107\), and paired standard error \(\sqrt{0.4107/8}\approx0.2266\). The separate sample variances are about \(0.2679\) and \(0.2857\), giving an independence standard error \(\sqrt{(0.2679+0.2857)/8}\approx0.2631\). Treating paired scores as independent discards their positive prompt-level covariance.
-10. Exact binomial summation is the reference under iid Bernoulli assumptions. Poisson and Gaussian values approximate it under different regimes. Hoeffding is a finite-sample upper bound and need not approximate the true probability.
-11. Results depend on the tail parameter and tuning choices. The ordinary mean targets the expectation but can be dominated by extremes; robust summaries stabilize different targets or trade bias for reduced sensitivity. Report repeated-sample distributions, not one favorable run.
-12. Positive autocorrelation inflates empirical variance above \(\sigma^2/n\). Batch means improve only when batches are long enough relative to dependence and numerous enough to estimate between-batch variance reliably.
-13. A defensible design names whether domains and tasks are fixed or sampled, aggregates or resamples at the intended generalization unit, preserves run and prompt pairing, and reports variance components rather than one row-level iid interval.
-14. Replacing row count by independent cluster count usually widens uncertainty. The revised claim should name the observed clusters, avoid unsupported population generalization, and distinguish descriptive precision from evidence across genuinely new units.
+### Core — problems 5–9. Combine theorems, choose approximations, and quantify Monte Carlo error.
 
-</details>
+**A5 · Core · paper — Weak-law proof.** Prove convergence in probability for independent variables sharing mean \(\mu\) whose variances are all at most \(V\).
+
+**A6 · Core · paper — Continuity correction.** Approximate \(P(S\ge65)\) for \(S\sim\operatorname{Binomial}(100,0.5)\) with and without a continuity correction; compare with an exact computation.
+
+**A7 · Core · paper — Monte Carlo planning.** Derive a conservative draw count for estimating any Bernoulli probability with approximate 95% half-width at most \(0.002\).
+
+**A8 · Core · paper — Concentration choice.** For \(n=500\) independent losses in \([0,4]\), bound \(P(|\bar X-E[X]|\ge0.3)\) using (a) Chebyshev with the largest variance permitted by the range and (b) two-sided Hoeffding. List the assumptions used by each.
+
+**A9 · Core · paper — Paired evaluation.** On eight prompts, model A correctness is \((1,1,0,1,0,1,1,0)\) and B correctness is \((1,0,0,1,1,0,1,0)\). Compute the paired mean difference and standard error. Then compute the standard error obtained by incorrectly treating the two accuracy estimates as independent.
+
+### Stretch — problems 10–14. Audit broken assumptions and design defensible repeated-sample evidence.
+
+**A10 · Stretch · paper — Rare events.** Requests fail independently with probability \(p=0.002\), and \(n=1000\) requests are observed. Compute \(P(S\ge5)\) exactly (binomial), with the Poisson\((2)\) approximation, with the continuity-corrected Gaussian approximation, and bound it with one-sided Hoeffding and Bernstein applied to \(\bar X\ge0.005\). Explain which numbers are approximations, exact probabilities, or guaranteed ceilings.
+
+**A11 · Stretch · paper — Heavy tails.** With NumPy `default_rng(0)`, simulate 500 datasets of size \(n=100,1000,10000\) from a Pareto distribution with \(x_m=1\), \(\alpha=1.5\) (mean 3, infinite variance). For each \(n\), report the 5th, 50th and 95th percentiles across datasets of the sample mean, the 10% trimmed mean (trimming each tail), the median, and median-of-means with 10 groups, and state which population quantity each estimator targets.
+
+**A12 · Stretch · paper — Dependence.** With NumPy `default_rng(0)`, generate 2,000 stationary AR(1) sequences \(x_t=\phi x_{t-1}+\varepsilon_t\), \(\varepsilon_t\sim N(0,1)\), of length \(n=1000\) for each \(\phi\in\{0,0.5,0.9\}\). For each \(\phi\), compare the empirical variance of the 2,000 sequence means with the average iid prediction \(s^2/n\), the average batch-means prediction (20 batches of 50), and the theoretical long-run value \(1/((1-\phi)^2n)\).
+
+**A13 · Stretch · paper — Hierarchical benchmark.** A benchmark has 4 domains × 10 tasks per domain × 20 prompts per task, and each prompt is run 3 times. A variance-components fit gives domain variance 0.004, task variance 0.01, prompt variance 0.04 and run-noise variance 0.02 for the per-run score. Write the grand-mean estimator, and compute its standard error when generalizing to (a) new domains, (b) new tasks in these domains, (c) new prompts in these tasks, and (d) new runs on these prompts only. State the population each conclusion covers.
+
+**A14 · Stretch · paper — Research critique.** A paper reports token-level accuracy \(0.832\) over \(2{,}000{,}000\) tokens with the row-iid standard error \(\sqrt{0.832\cdot0.168/n}\), but the tokens come from only 50 documents whose per-document accuracies have standard deviation 0.06. Compute the naive and document-level standard errors, the design effect and the effective sample size, and rewrite the claim conservatively.
+
+
+## Six-part checkpoint
+
+Complete these without notes, then use the solutions to audit assumptions and reasoning. Passing a numeric check alone does not establish mastery. For implementation and transfer, retain the code/results or written protocol as evidence.
+
+**K1 · Foundation · gate — Concept.** What does the central limit theorem approximate?
+
+**K2 · Core · gate — Derivation.** Derive the variance of the average of n identically distributed variables with variance v and common pairwise correlation rho.
+
+**K3 · Core · gate — Calculation.** For 100 independent Bernoulli(0.5) observations, find the standard error of the mean.
+
+**K4 · Core · gate — Implementation audit.** Reproduce two settings of the ps-limits experiment independently, including its failure preset. State a numerical invariant or analytic oracle and explain what the plot does not establish.
+
+**K5 · Stretch · gate — Claim audit.** Does multiplying a correlated dataset’s row count by ten necessarily reduce its standard error by sqrt(10)?
+
+**K6 · Stretch · gate — RE/RS transfer.** Compare two Monte Carlo estimators for a fixed compute budget.
 
 ## Mastery check
 

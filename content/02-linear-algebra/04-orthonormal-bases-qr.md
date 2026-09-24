@@ -98,9 +98,9 @@ The raw residual and its normalized direction are different objects. The former 
 >
 > **Hint:** The subtraction formula puts qⱼ in the old columns’ span. Rearrange it to put aⱼ in the new directions’ span.
 >
-> **Practice — Stretch:** If a dependent column occurs halfway through a spanning list, explain how to continue constructing a basis and why a square invertible \(R\) is no longer the right output.
+> **Practice — Stretch:** Run Gram–Schmidt on the spanning list \((1,0,0),(2,0,0),(0,1,0)\), skipping the dependent middle column when its residual is zero and continuing with the third. Give the accepted orthonormal directions and the coefficient matrix that reconstructs all three original columns, and explain why a square invertible \(R\) is no longer the right output.
 >
-> **Hint:** Skip a zero residual and continue testing later generators. Track how many directions are accepted versus how many original columns still need reconstruction coefficients.
+> **Hint:** The residual of (2,0,0) after removing its q₁ component is zero, so only e₁ and e₂ are accepted. Two directions must reconstruct three columns, so the coefficients form a 2×3 matrix, (1,2,0) over (0,0,1).
 
 ## 3. Watch the subtraction, then audit the result
 
@@ -140,9 +140,9 @@ Here \(\|M\|_F=\sqrt{\sum_{ij}M_{ij}^2}\), just the square root of the sum of sq
 >
 > **Hint:** For column 2 there is only one previous direction. Its current residual before that one subtraction is still the original column.
 >
-> **Practice — Stretch:** Hold the near-dependent input fixed, switch precision, and predict which measurements should improve. Explain why changing precision does not change the exact rank of the intended real matrix.
+> **Practice — Stretch:** Hold the section-3 fixture \(a_1=(1,\varepsilon,\varepsilon)\), \(a_2=(1,\varepsilon,0)\), \(a_3=(1,0,\varepsilon)\) with \(\varepsilon=10^{-4}\) fixed and switch from float32 to float64. Predict how the classical overlap (about 0.707 in float32), the unit-length error, and the reconstruction error should change, then explain why changing precision does not change the exact rank of the intended real matrix.
 >
-> **Hint:** Keep ε and the original coordinates fixed. Compare rounding in overlap calculations and normalization; numerical improvements do not supply an exact rank argument.
+> **Hint:** Subtracting a₁ from a₂ and a₃ leaves (0,0,−ε) and (0,−ε,0), so the exact rank is 3 for any ε≠0. Smaller unit roundoff shrinks the overlap, which is driven by cancellation in the subtractions; it proves nothing about rank.
 
 ## 4. Modified Gram–Schmidt and a second pass
 
@@ -207,9 +207,9 @@ Without positive diagonal entries, choose any diagonal sign matrix \(D\) with en
 >
 > **Hint:** Use D²=I to check the product. For orthonormality compute (QD)ᵀ(QD) and use QᵀQ=I.
 >
-> **Practice — Stretch:** Explain precisely where the uniqueness proof fails for dependent input columns.
+> **Practice — Stretch:** For the dependent columns \(a_1=(1,0)\), \(a_2=(2,0)\), exhibit two different factorizations \(A=QR\) with orthonormal \(Q\) and upper-triangular \(R\) having \(r_{11}>0\). Explain precisely which step of the uniqueness proof fails.
 >
-> **Hint:** Find the step that normalizes the residual. If that residual is zero, neither a positive diagonal nor a uniquely forced new direction is available.
+> **Hint:** Here q₁=e₁, r₁₁=1, r₁₂=2, and the residual of a₂ is zero, so r₂₂=0. Then q₂=e₂ and q₂=−e₂ both work with the same R, because nothing forces the second direction.
 
 ## 6. Reduced, complete, and metric QR
 
@@ -314,9 +314,9 @@ The NumPy experiments compare four approaches on the **same stored input**: CGS,
 >
 > **Hint:** Expand the product and use uᵀu=1 to simplify uuᵀuuᵀ. Also note that uuᵀ is symmetric.
 >
-> **Practice — Stretch:** Design an experiment that distinguishes input sensitivity from the extra arithmetic error of forming the normal equations.
+> **Practice — Stretch:** In float64 take \(A_\varepsilon\) with \(\varepsilon=10^{-8}\) and \(b=(2,10^{-8})\). (i) Solve by QR, then perturb \(b_2\) by \(10^{-10}\) and solve by QR again. (ii) Holding \(A\) and \(b\) fixed, solve by the normal equations. Report the coefficients in each case and say which comparison measures input sensitivity and which measures the extra arithmetic error of forming \(A^{\mathsf T}A\).
 >
-> **Hint:** Perturb b while holding A fixed to measure sensitivity. Then hold both stored A and b fixed while changing the solving algorithm to measure arithmetic differences.
+> **Hint:** Exactly, x=(1,1) and the perturbed solution is (0.99,1.01), so (i) shows sensitivity of 10⁻² per 10⁻¹⁰. In (ii) the stored Gram entry 1+10⁻¹⁶ rounds to 1, so the stored Gram matrix is exactly singular.
 
 ## 9. Orthogonal initialization: what it promises
 
@@ -339,6 +339,16 @@ QR sign conventions also matter when comparing seeded implementations. To put a 
 > **Practice — Stretch:** Give one explicit nonlinear-layer counterexample and one explicit parameter update that break a length-preservation claim after orthogonal initialization.
 >
 > **Hint:** Try ReLU after the identity on a vector with a negative coordinate. Separately perturb one diagonal entry of the identity and inspect its Gram matrix.
+
+## Local numerical and research audit
+
+### Audit QR across scales
+
+For reduced QR, inspect both reconstruction \(e_{\mathrm{rec}}=\|A-QR\|_F/\|A\|_F\) for nonzero \(A\), and orthogonality \(e_{\mathrm{orth}}=\|Q^TQ-I\|_F\). For a zero matrix use an absolute reconstruction error. The two checks answer different questions: accurate reconstruction does not imply that the basis columns are orthogonal.
+
+Repeat a nearly dependent example at common scales \(10^{-8},1,10^8\), retaining dtype and a documented relative rank rule. Compare classical and modified Gram–Schmidt, with and without reorthogonalization. Report discarded columns explicitly rather than padding a supposedly orthonormal basis with zero columns.
+
+**M9 · Stretch · mixed — Audit QR across scales.** If Q=2I₂ and R=A/2, does exact reconstruction certify QR with orthonormal columns? Find ‖QᵀQ−I₂‖F.
 
 ## 10. Three runnable coding labs
 

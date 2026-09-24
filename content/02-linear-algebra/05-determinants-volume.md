@@ -50,9 +50,9 @@ No. The map \(\operatorname{diag}(2,1/2)\) doubles horizontal lengths and halves
 >
 > **Hint:** The top edge slides parallel to the base. Its perpendicular distance from the base does not change.
 >
-> **Practice — Stretch:** Give a nonzero map with zero determinant, and identify exactly which input direction disappears.
+> **Practice — Stretch:** For \(A=\begin{pmatrix}1&2\\2&4\end{pmatrix}\), compute \(\det A\), find the unit input direction that A sends to zero, and name the line onto which A flattens the whole plane.
 >
-> **Hint:** Try a diagonal matrix with one zero entry. Follow each coordinate arrow and connect the lost arrow to the null space.
+> **Hint:** The second column is twice the first, so solve \(x_1+2x_2=0\) for the lost direction. Every output is a multiple of the first column \((1,2)\), and that lost direction is the null space.
 
 ## 2. Make a prediction, then move the columns
 
@@ -72,17 +72,17 @@ Try these experiments in order:
 
 The left grid contains 25 equal-mass markers. They label small source cells; their apparent dot density is illustrative, while the numeric density multiplier \(1/|\det A|\) is exact for an invertible linear map. At collapse the display refuses to divide by zero: mass is confined to a line, so an ordinary two-dimensional density is no longer the right description.
 
-> **Practice — Foundation:** Use the swap preset twice. What returns to its original value?
+> **Practice — Foundation:** Start from columns \((2,1),(1,3)\), whose determinant is 5. Apply the swap preset twice. Give the signed determinant and the ordinary area after the first swap and after the second.
 >
-> **Hint:** Two swaps restore the original ordered columns. Check both the signed number and the unchanged ordinary volume.
+> **Hint:** Each swap multiplies the signed value by −1 and leaves its absolute value alone. Two swaps restore the original ordered columns.
 >
-> **Practice — Core:** Explain why collapse and thin must have different verdicts even if their pictures look identical.
+> **Practice — Core:** In 2D the thin preset has columns \((1,0),(1,10^{-6})\), while collapse replaces the second column by the first, giving \((1,0),(1,0)\). Compute both determinants and explain why their verdicts must differ even though the pictures look identical.
 >
-> **Hint:** Compare an exact zero height with a small positive height. Screen resolution cannot certify mathematical dependence.
+> **Hint:** Each determinant is base 1 times the vertical height of the second column: exactly 0 versus \(10^{-6}\). Screen resolution cannot certify mathematical dependence.
 >
-> **Practice — Stretch:** Explain how two large signed contributions can produce a very small determinant, and what information a rounded display could hide.
+> **Practice — Stretch:** For \(A=\begin{pmatrix}10^8+1&10^8\\10^8&10^8-1\end{pmatrix}\), compute the two diagonal products and \(\det A\) exactly. Then explain why float64 evaluation of \(ad-bc\) returns 0, and what a rounded display of that result would hide.
 >
-> **Hint:** Compare the magnitudes of the separate products with their difference. Cancellation concerns arithmetic as well as the geometry of nearly dependent columns.
+> **Hint:** Exactly, \(ad=10^{16}-1\) and \(bc=10^{16}\), so the two large contributions nearly cancel. float64 keeps about 16 significant digits, so \(10^{16}-1\) rounds to \(10^{16}\) before the subtraction happens.
 
 ## 3. Three rules force the formula
 
@@ -123,13 +123,13 @@ The familiar subtraction is the cost of reversing the basis order in the second 
 >
 > **Hint:** There are four terms. The two with repeated coordinate directions vanish; the two remaining terms have opposite orientation.
 >
-> **Practice — Core:** Give a 2×2 counterexample to \(\det(A+B)=\det A+\det B\).
+> **Practice — Core:** For \(A=B=I_2\), compute \(\det(A+B)\) and \(\det A+\det B\). Then show that \(\det(2A)=4\det A\) for every 2×2 A, so additivity fails whenever \(\det A\ne0\).
 >
-> **Hint:** Choose A=B=I. Scaling both columns by 2 applies the one-column rule twice.
+> **Hint:** A+B=2I scales both columns by 2. The one-column scaling rule applies once per column, giving a factor \(2^2\).
 >
-> **Practice — Stretch:** Prove the scalar-multiple statement for F when \(F(e_1,\ldots,e_n)=0\), without dividing by that number.
+> **Practice — Stretch:** Let F be alternating and multilinear on two columns in \(\mathbb R^2\) with \(F(e_1,e_2)=k\), where k may be 0. Expand \(F(ae_1+ce_2,\,be_1+de_2)\) and prove \(F=k\det\) without dividing by k; then say how the same argument extends to n columns.
 >
-> **Hint:** Expand every column in the standard basis. Every surviving permutation term is a signed copy of the same value, even when that value is zero.
+> **Hint:** Of the four terms, the two with a repeated basis vector vanish, and \(F(e_2,e_1)=-k\). Every surviving term is a signed copy of k, so nothing requires k≠0.
 
 ## 4. Elimination becomes volume bookkeeping
 
@@ -163,13 +163,13 @@ Partial pivoting chooses the largest available absolute entry in a pivot column 
 >
 > **Hint:** Multiply the three diagonal entries, retaining their signs. Entries above the diagonal do not enter the product.
 >
-> **Practice — Core:** Track the determinant through the worked elimination and explain why the final answer is negative.
+> **Practice — Core:** For \(A=\begin{pmatrix}0&2&1\\1&1&0\\2&0&1\end{pmatrix}\), track the determinant through each step of the worked elimination and explain why \(\det A=-4\) is negative although U's diagonal \((1,2,2)\) is positive.
 >
 > **Hint:** Keep a separate sign ledger. There is one swap and two row additions; only the swap changes the sign.
 >
-> **Practice — Stretch:** A nonsingular matrix reduces to I after swaps, row additions, and scaling row i by nonzero factors c. Derive the formula recovering its original determinant.
+> **Practice — Stretch:** Reduce \(A=\begin{pmatrix}0&2\\3&1\end{pmatrix}\) to I by a row swap, scaling row 1 by 1/3, scaling row 2 by 1/2, and one row addition. Use the operation factors to recover \(\det A\), then derive the general formula for a nonsingular matrix reduced to I with s swaps and row scalings by \(c_1,\ldots,c_m\).
 >
-> **Hint:** The determinant of the final matrix equals the original determinant times every operation's factor. Solve that scalar equation backwards.
+> **Hint:** \(\det I=1\) equals \(\det A\) times −1 for the swap, 1/3 and 1/2 for the scalings, and 1 for the addition. Solve that scalar equation for \(\det A\) and check it against ad−bc.
 
 ## 5. Composition multiplies the budget
 
@@ -197,13 +197,13 @@ No. Take \(A=\operatorname{diag}(2,1)\), \(B=\begin{pmatrix}1&1\\0&1\end{pmatrix
 >
 > **Hint:** Composition multiplies the two signed factors. An inverse must multiply the original factor back to 1.
 >
-> **Practice — Core:** Derive the determinant under a simultaneous change of input and output basis.
+> **Practice — Core:** For \(A=\begin{pmatrix}2&1\\0&3\end{pmatrix}\) and \(S=\begin{pmatrix}1&1\\0&1\end{pmatrix}\), compute \(S^{-1}AS\) and check that its determinant equals \(\det A\). Then derive \(\det(S^{-1}AS)=\det A\) for every invertible S.
 >
-> **Hint:** Write the representation as S⁻¹AS and use multiplicativity three times. The two basis factors cancel.
+> **Hint:** Use \(S^{-1}=\begin{pmatrix}1&-1\\0&1\end{pmatrix}\); the product comes out diagonal. For the general case apply multiplicativity three times with \(\det S^{-1}=1/\det S\).
 >
-> **Practice — Stretch:** Explain why normalizing F by \(\det A\) would leave a hole in the product proof.
+> **Practice — Stretch:** A tempting proof of \(\det(AB)=\det A\det B\) defines \(F(B)=\det(AB)/\det A\). Show this F is undefined for \(A=\begin{pmatrix}1&2\\2&4\end{pmatrix}\), and explain which version of uniqueness still covers this A.
 >
-> **Hint:** The theorem also covers singular A. The scalar-multiple version of uniqueness covers that case without division.
+> **Hint:** Here \(\det A=4-4=0\), so the normalization divides by zero. The scalar-multiple version \(F=F(I)\det\) needs no division and applies directly to \(F(B)=\det(AB)\).
 
 ## 6. QR supplies the missing geometric proof
 
@@ -229,13 +229,13 @@ For rectangular full-column-rank \(A\in\mathbb R^{m\times n}\), \(m>n\), the emb
 >
 > **Hint:** Multiply the diagonal heights for the magnitude. The orientation of Q determines the remaining sign.
 >
-> **Practice — Core:** Prove that an orthogonal square matrix has determinant +1 or −1.
+> **Practice — Core:** Compute \(\det Q\) for the rotation \(\begin{pmatrix}\cos\theta&-\sin\theta\\\sin\theta&\cos\theta\end{pmatrix}\) and the reflection \(\begin{pmatrix}0&1\\1&0\end{pmatrix}\). Then prove that every orthogonal square matrix has determinant +1 or −1.
 >
 > **Hint:** Take determinants in QᵀQ=I and use transpose invariance. Over the reals the resulting square equals 1.
 >
-> **Practice — Stretch:** Use continuity to show that a path from I to a reflection must contain a singular matrix.
+> **Practice — Stretch:** For the path \(M(t)=\operatorname{diag}(1,1-2t)\), \(0\le t\le1\), from I to the reflection \(\operatorname{diag}(1,-1)\), find every t at which M(t) is singular. Then use continuity to show that every continuous path from I to \(\operatorname{diag}(1,-1)\) contains a singular matrix.
 >
-> **Hint:** Compose the continuous path with the determinant polynomial. Apply the intermediate value theorem to its endpoint values 1 and −1.
+> **Hint:** Here \(\det M(t)=1-2t\), which vanishes only at t=1/2. In general compose the path with the determinant polynomial and apply the intermediate value theorem to the endpoint values 1 and −1.
 
 ## 7. Cofactors are signed coordinate pieces
 
@@ -269,7 +269,7 @@ the first-column pieces contribute \(8,-2,1\), totaling 7. “Subtract the middl
 
 Cofactor expansion is excellent for a small proof, a sparse row, or a visual explanation. Recursively expanding a dense matrix creates factorial growth in work. Elimination takes order \(n^3\) arithmetic. Do not turn the most memorable formula into the default numerical algorithm.
 
-> **Practice — Foundation:** Compute the three first-column contributions for the displayed 3×3 example.
+> **Practice — Foundation:** For \(A=\begin{pmatrix}2&1&0\\1&2&1\\1&0&2\end{pmatrix}\), compute the three first-column contributions \(a_{i1}C_{i1}\) and their sum.
 >
 > **Hint:** Delete one row at a time and the first column. Apply the +, −, + cofactor signs before adding the products.
 >
@@ -277,9 +277,9 @@ Cofactor expansion is excellent for a small proof, a sparse row, or a visual exp
 >
 > **Hint:** You should obtain two nonzero products and one zero product. Different decompositions must agree by uniqueness.
 >
-> **Practice — Stretch:** Explain why replacing all cofactors by their absolute values is not a volume algorithm.
+> **Practice — Stretch:** For the singular matrix \(\begin{pmatrix}1&2&3\\4&5&6\\7&8&9\end{pmatrix}\), compute the three signed first-column contributions, their sum, and the sum of their absolute values. Explain why the absolute-value version is not a volume algorithm.
 >
-> **Hint:** Use a singular matrix with nonzero entries and nonzero individual contributions. Cancellation is how the signed pieces detect collapse.
+> **Hint:** The three minors are −3, −6, −3, with cofactor signs +, −, +. The signed pieces cancel to detect the collapse; their absolute values add to a positive number for a flat cell.
 
 ## 8. Density pays the inverse of the volume factor
 
@@ -313,9 +313,9 @@ A tiny cell near \(s=0\) keeps its area; near \(s=\log2\) its area doubles and i
 >
 > **Hint:** Use the absolute factor for area. Divide the unchanged mass by the new area; the negative sign describes orientation only.
 >
-> **Practice — Core:** Derive the affine density formula by equating the mass in a small source cell with the mass in its image.
+> **Practice — Core:** Let \(y=Ax+b\) with \(A=\begin{pmatrix}2&1\\0&3\end{pmatrix}\) and \(b=(1,-1)\). A small source square of side ε at x maps to a parallelogram. Equate the two masses to derive \(p_Y(y)\) in terms of \(p_X\), and give the numeric density multiplier.
 >
-> **Hint:** Write mass as density times volume on each side. Substitute the image-volume factor, then solve for the output density.
+> **Hint:** Source mass is \(p_X(x)\varepsilon^2\) and the image area is \(|\det A|\varepsilon^2\). Set the image mass \(p_Y(y)|\det A|\varepsilon^2\) equal to it and substitute \(x=A^{-1}(y-b)\).
 >
 > **Practice — Stretch:** For the supplied nonlinear map, find the density multiplier at \(s=-\log3\) and explain why translation alone could never produce it.
 >
@@ -343,13 +343,23 @@ Even when every matrix entry is representable, the determinant can overflow or u
 >
 > **Hint:** Multiply the two axis factors, then compare them individually. The product discards their imbalance.
 >
-> **Practice — Core:** Derive the sign and log-magnitude from an upper-triangular factor and the number of row swaps.
+> **Practice — Core:** Elimination of a 3×3 A uses one row swap and produces an upper-triangular U with diagonal \((-2,\,0.5,\,4)\). Give the sign of \(\det A\) and \(\log|\det A|\), computed by adding logarithms rather than multiplying.
 >
-> **Hint:** Keep the swap sign and the signs of all diagonal entries. Add logarithms of their absolute values, handling a zero pivot separately.
+> **Hint:** The sign is \((-1)^1\) times the signs of the three pivots. Add \(\log2+\log0.5+\log4\); a zero pivot would instead give sign 0 and log-magnitude −∞.
 >
 > **Practice — Stretch:** Two invertible flow steps have determinant −2 and −3. State the combined orientation and the log-density correction.
 >
 > **Hint:** The signs multiply, while density uses absolute values. Convert the total expansion into a subtraction from log density.
+
+## Local numerical and research audit
+
+### Sign and log-volume without overflow
+
+A determinant can overflow or underflow even when its factors are easy to compute. Track its sign and log absolute value separately. If a nonsingular factorization satisfies \(PA=LU\) with unit-diagonal \(L\), then \(\operatorname{sign}\det A=\det(P)\prod_i\operatorname{sign}(u_{ii})\) and \(\log|\det A|=\sum_i\log|u_{ii}|\). A singular factorization has sign zero and log absolute determinant \(-\infty\); that is not a finite log-density contribution.
+
+For a small diagonal example, \(\operatorname{diag}(10^{200},10^{200})\) has log absolute determinant \(400\log 10\) even though its determinant exceeds ordinary double-precision range. Near-singularity and conditioning remain separate questions: storing a logarithm prevents range overflow, not inaccurate factorization.
+
+**M7 · Stretch · mixed — Sign and log-volume without overflow.** For A=diag(−10²⁰⁰,10²⁰⁰), give the determinant sign and log absolute determinant divided by log(10), without forming the product.
 
 ## 10. Three runnable coding labs
 

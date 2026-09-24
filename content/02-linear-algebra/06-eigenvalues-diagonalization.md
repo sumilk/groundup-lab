@@ -52,17 +52,17 @@ $$
 
 the xy-plane is invariant: it rotates by a quarter-turn. The z-axis is invariant: it stretches by 2. There is no real invariant line inside the xy-plane. An invariant subspace can be useful even when it contains no real eigenvector.
 
-> **Practice — Foundation:** Show that the xy-plane stays invariant in the displayed 3×3 example.
+> **Practice — Foundation:** For \(A=\begin{pmatrix}0&-1&0\\1&0&0\\0&0&2\end{pmatrix}\), compute \(A(s,t,0)\) and show that the xy-plane stays invariant.
 >
-> **Hint:** Apply A to an arbitrary vector (s,t,0), not merely one selected point.
+> **Hint:** Apply A to an arbitrary vector (s,t,0), not merely one selected point, and check the third output coordinate.
 >
 > **Practice — Core:** For \(A=\begin{pmatrix}2&1\\0&3\end{pmatrix}\), which coordinate axes are invariant?
 >
 > **Hint:** Read the images of the coordinate vectors from the columns. The first axis stays inside itself; the second receives a horizontal component.
 >
-> **Practice — Stretch:** Prove \(AB=BC\) is equivalent to invariance when B has independent columns.
+> **Practice — Stretch:** For the 3×3 A above and \(B=[e_1\ e_2]\), find the 2×2 C with AB=BC. Then prove that AB=BC for some C is equivalent to invariance of range(B) when B has independent columns.
 >
-> **Hint:** First express each Ab_j in the basis B. For the reverse implication, write an arbitrary vector in S as Bc.
+> **Hint:** Here Ae₁=e₂ and Ae₂=−e₁ give C's columns. In general express each Ab_j in the basis B; for the reverse implication, write an arbitrary vector in S as Bc.
 
 ## 2. An eigenvector is an invariant room of dimension one
 
@@ -92,13 +92,13 @@ Take \(A=\begin{pmatrix}2&1\\0&1\end{pmatrix}\). The vectors \(v_1=(1,0)\), \(v_
 >
 > **Hint:** A zero output does not disqualify the nonzero input as an eigenvector. Only the eigenvector itself must be nonzero.
 >
-> **Practice — Core:** Find both eigenspaces of the displayed upper-triangular A and check their dot product.
+> **Practice — Core:** For \(A=\begin{pmatrix}2&1\\0&1\end{pmatrix}\), find both eigenspaces and compute the dot product of their basis vectors.
 >
 > **Hint:** Solve one homogeneous system per eigenvalue. Independent directions need not be perpendicular.
 >
-> **Practice — Stretch:** Identify exactly where distinctness is used in the proof of Theorem 19.
+> **Practice — Stretch:** Run the proof of Theorem 19 on \(A=I_2\) with eigenvectors \(v_1=(1,0)\), \(v_2=(2,0)\), both for eigenvalue 1, and the relation \(2v_1-v_2=0\). Identify exactly where the proof breaks and which step uses distinctness.
 >
-> **Hint:** The shortened relation must still contain nonzero coefficients. Inspect each factor λ_i−λ_m.
+> **Hint:** Applying A and subtracting 1 times the relation leaves the coefficient \(c_1(\lambda_1-\lambda_2)=0\). The shortened relation must still contain a nonzero coefficient, which needs every factor λ_i−λ_m≠0.
 
 ## 3. Hunt for a line before asking for a number
 
@@ -127,17 +127,17 @@ No. An eigenvector compares an input with its own output: Av must lie on the inp
 
 </details>
 
-> **Practice — Foundation:** In the flip preset, follow the horizontal probe. Does the arrow stay fixed, or does its line stay invariant?
+> **Practice — Foundation:** The flip preset is \(\operatorname{diag}(-2,1)\). Compute its image of the horizontal probe (1,0). Does the arrow stay fixed, or does its line stay invariant?
 >
 > **Hint:** Compare the sign of the horizontal output with the input. Negative scaling reverses the arrow but preserves its span.
 >
-> **Practice — Core:** Explain why the shear and scalar presets can have the same two eigenvalues but different numbers of eigenlines.
+> **Practice — Core:** The shear preset is \(\begin{pmatrix}1&1\\0&1\end{pmatrix}\) and the scalar preset is I; both have eigenvalues 1, 1. Compute the null space of A−I for each and explain their different numbers of eigenlines.
 >
 > **Hint:** Compare the null spaces of A−I. The roots alone do not tell you the dimension of the solution set.
 >
-> **Practice — Stretch:** Derive the residual formula by minimizing over the scalar t, without assuming A is symmetric.
+> **Practice — Stretch:** For \(A=\begin{pmatrix}2&1\\0&1\end{pmatrix}\) and unit \(v=(0,1)\), minimize \(\|Av-tv\|^2\) over t and give the minimizer and the residual. Then derive \(\widehat\lambda=v^{\mathsf T}Av\) in general without assuming A is symmetric.
 >
-> **Hint:** Decompose Av into its orthogonal projection onto span(v) and its perpendicular residual using Module 3.
+> **Hint:** Av=(1,1), so \(\|Av-tv\|^2=1+(1-t)^2\). In general decompose Av into its projection onto span(v) and a perpendicular residual, as in Module 3.
 
 ## 4. The polynomial is a certificate, not a large-scale algorithm
 
@@ -171,13 +171,13 @@ Do not form polynomial coefficients and find their roots as your general numeric
 >
 > **Hint:** Triangular matrices make the determinant of tI−A a product of its diagonal entries.
 >
-> **Practice — Core:** Two matrices share the same characteristic polynomial. Must they act identically on all vectors?
+> **Practice — Core:** Compute the characteristic polynomials of I and \(J=\begin{pmatrix}1&1\\0&1\end{pmatrix}\), then their images of e₂. Must two matrices with the same characteristic polynomial act identically on all vectors?
 >
-> **Hint:** Compare the scalar identity with a nontrivial shear. Their polynomial forgets the off-diagonal coupling.
+> **Hint:** Both polynomials are (t−1)², but Ie₂=e₂ while Je₂=(1,1). The polynomial forgets the off-diagonal coupling.
 >
-> **Practice — Stretch:** Prove similarity invariance of p_A and explain why multiplying A on the right by T alone is not enough.
+> **Practice — Stretch:** For \(A=\begin{pmatrix}2&1\\0&1\end{pmatrix}\) and \(T=\begin{pmatrix}0&1\\1&0\end{pmatrix}\), compute the characteristic polynomials of A, AT, and \(T^{-1}AT\). Then prove similarity invariance of p_A and explain why multiplying A on the right by T alone is not enough.
 >
-> **Hint:** The cancellation of det(T) requires the inverse on the left as well. A basis change must apply at both ends of the operator.
+> **Hint:** AT=[[1,2],[1,0]] has trace 1 and determinant −2, unlike A. The cancellation of det(T) requires the inverse on the left as well.
 
 ## 5. Diagonalization means finding enough independent rooms
 
@@ -209,11 +209,11 @@ After three steps the answer is (7,1). The horizontal growth comes from a compon
 
 Distinct eigenvalues are sufficient for diagonalization by Theorem 19; they are not necessary. The identity is already diagonal despite a repeated eigenvalue. For a general matrix, the **algebraic multiplicity** of λ is its multiplicity as a root; the **geometric multiplicity** is dim ker(A−λI). The latter is at least one and at most the former. To see the upper bound, extend a basis of E_λ to a full basis: the invariant block λI contributes that many factors (t−λ) to the characteristic polynomial. When the polynomial splits over the chosen field, diagonalizability is equivalent to equality of the two multiplicities for every eigenvalue. Eigenspaces for distinct eigenvalues form a direct sum by the same subtraction argument as Theorem 19.
 
-> **Practice — Foundation:** Use the displayed diagonalization to compute A²(0,1).
+> **Practice — Foundation:** For \(A=\begin{pmatrix}2&1\\0&1\end{pmatrix}=V\Lambda V^{-1}\) with the displayed V and Λ=diag(2,1), compute A²(0,1) from its eigen-coordinates (1,1).
 >
 > **Hint:** Raise 2 and 1 to the second power in eigen-coordinates, then recombine the two eigenvectors.
 >
-> **Practice — Core:** Why is replacing V⁻¹ by Vᵀ wrong in this example?
+> **Practice — Core:** For \(V=\begin{pmatrix}1&-1\\0&1\end{pmatrix}\), compute VᵀV and compare \(V^{-1}(0,1)\) with \(V^{\mathsf T}(0,1)\). Why is replacing V⁻¹ by Vᵀ wrong here?
 >
 > **Hint:** Compute VᵀV. Its off-diagonal entries reveal that the chosen basis is not orthonormal.
 >
@@ -257,17 +257,17 @@ Allow \(i^2=-1\). Then λ=i has eigenvector (1,−i), and λ=−i has eigenvecto
 
 More generally a real matrix with eigenvalue a+ib, b≠0, and eigenvector u+iv satisfies Au=au−bv and Av=bu+av. The real vectors u,v are independent (otherwise a real vector would have a nonreal scalar as eigenvalue). Their plane is invariant, and in the basis (u,v) the restriction is \(\begin{pmatrix}a&b\\-b&a\end{pmatrix}\). This is scaling by \(\sqrt{a^2+b^2}\) and rotation in those coordinates. That basis need not be orthonormal in the original metric.
 
-> **Practice — Foundation:** Compute J⁴e₂ and R⁴e₁ without four separate matrix products.
+> **Practice — Foundation:** For \(J=\begin{pmatrix}1&1\\0&1\end{pmatrix}\) and \(R=\begin{pmatrix}0&-1\\1&0\end{pmatrix}\), compute J⁴e₂ and R⁴e₁ without four separate matrix products.
 >
 > **Hint:** The shear adds one horizontal unit each step; the quarter-turn returns after four turns.
 >
-> **Practice — Core:** Explain why “not diagonalizable over the reals” does not always mean a shortage of complex eigenvectors.
+> **Practice — Core:** Over the complex numbers, find the eigenvalues of J and of R above and count the independent eigenvectors of each. Use those counts to explain why “not diagonalizable over the reals” does not always mean a shortage of complex eigenvectors.
 >
-> **Hint:** Compare J with R. One has a repeated root with too small an eigenspace; the other needs a larger scalar field.
+> **Hint:** J has the repeated root 1 with eigenspace span(e₁) even over C; R has distinct roots ±i with eigenvectors (1,∓i). One has too small an eigenspace; the other needs a larger scalar field.
 >
-> **Practice — Stretch:** Derive the displayed real 2×2 block by equating real and imaginary parts.
+> **Practice — Stretch:** For R above with λ=i and eigenvector \((1,-i)=u+iv\), read off u, v, a, b and check the block \(\begin{pmatrix}a&b\\-b&a\end{pmatrix}\) against Ru and Rv. Then derive the block for a general real A by equating real and imaginary parts.
 >
-> **Hint:** Expand (a+ib)(u+iv), remembering i²=−1. The two coefficient lists become the block's columns.
+> **Hint:** Here u=(1,0), v=(0,−1), a=0, b=1. In general expand (a+ib)(u+iv) with i²=−1; the two coefficient lists become the block's columns.
 
 ## 7. Eventual decay and immediate growth are different questions
 
@@ -298,13 +298,13 @@ The starting vector has length 1. The first two outputs are (4,1/2) and (4,1/4),
 >
 > **Hint:** Check the largest eigenvalue magnitude, not its sign or the determinant magnitude.
 >
-> **Practice — Core:** Explain how H can increase length on its first step while all its eigenvalues lie inside the unit circle.
+> **Practice — Core:** For \(H=\begin{pmatrix}1/2&4\\0&1/2\end{pmatrix}\), compute \(\|He_2\|\) and ρ(H). Explain how H can increase length on its first step while all its eigenvalues lie inside the unit circle.
 >
 > **Hint:** Eigenvalues describe invariant directions. The vector e₂ is coupled into e₁ and is not an eigenvector of H.
 >
-> **Practice — Stretch:** Construct two matrices with spectral radius zero whose product has spectral radius above one.
+> **Practice — Stretch:** For \(B=\begin{pmatrix}0&c\\0&0\end{pmatrix}\) and \(C=\begin{pmatrix}0&0\\c&0\end{pmatrix}\) with c>0, compute ρ(B), ρ(C), and ρ(BC) as functions of c. For which c does the product have spectral radius above one?
 >
-> **Hint:** Use one strictly upper-triangular 2×2 matrix and one strictly lower-triangular matrix. Each squares to zero, while their product can be diagonal with a large entry.
+> **Hint:** Each factor squares to zero, so its only eigenvalue is 0. BC is diagonal; compare its largest entry c² with 1.
 
 ## 8. Power iteration is a race between coordinates
 
@@ -341,13 +341,13 @@ Even a zero residual can belong to a smaller eigenvalue. An iteration limit shou
 >
 > **Hint:** Each multiplication halves that ratio. Normalization divides both coordinates by the same number.
 >
-> **Practice — Core:** Why can a test based on \(\|x_{k+1}-x_k\|\) wrongly reject an accurately found negative eigenvalue?
+> **Practice — Core:** For \(A=\operatorname{diag}(-2,1)\) and \(x_0=(1,0)\), compute the normalized x₁, x₂ and \(\|x_{k+1}-x_k\|\). Why would a stopping test based on that distance wrongly reject the exactly found eigenvalue −2?
 >
-> **Hint:** A sign flip moves unit arrows almost distance 2 apart, even when both lie on precisely the same line.
+> **Hint:** The normalized iterates alternate between e₁ and −e₁, exactly distance 2 apart, although both lie on the same eigenline.
 >
-> **Practice — Stretch:** Explain why a tiny residual does not establish that an eigenpair is dominant.
+> **Practice — Stretch:** For \(A=\operatorname{diag}(2,1)\) and start \(x_0=e_2\), compute λ̂ and the eigen-residual at step 0 and after 10 exact power steps. Explain why a tiny residual does not establish that an eigenpair is dominant.
 >
-> **Hint:** Start diag(2,1) on e₂. Its residual is zero before taking a single power step.
+> **Hint:** Ae₂=e₂, so the iterate never moves: λ̂=1 with residual 0 at every step. Compare with the dominant eigenvalue 2, which this start never sees.
 
 ## 9. Two clocks: where the arrow points and how large it becomes
 
@@ -371,17 +371,27 @@ For the close preset, the ratio after 100 steps is about 0.133: much larger than
 
 The raw magnitude is accumulated as a sum of logarithms of step gains. This lets the display follow growth and decay without storing enormous or tiny raw vectors. It does not fix inaccurate directions or prove a computed eigenvalue exact. At exact annihilation, log-length is −∞ and the plot stops rather than inventing a finite point.
 
-> **Practice — Foundation:** Use the negative preset and predict the sign of the horizontal coordinate after one and two steps.
+> **Practice — Foundation:** The negative preset is \(\operatorname{diag}(-2,1)\). Starting from \((1,1)/\sqrt2\), predict the sign of the horizontal coordinate after one and two steps.
 >
 > **Hint:** Every multiplication contributes a factor −2 to the horizontal coordinate; normalization uses a positive norm.
 >
-> **Practice — Core:** Select the smaller-eigenline start under the separated preset. Explain its tiny residual and its failure to find 2.
+> **Practice — Core:** In the separated preset \(\operatorname{diag}(2,1)\), start on the smaller eigenline e₂. Give λ̂ and the residual after one step, and explain why the iteration never finds 2.
 >
 > **Hint:** Distinguish convergence to an eigenpair from identification of the largest eigenvalue magnitude.
 >
-> **Practice — Stretch:** Under the stable shear, compare the time of largest raw length with the time of a small eigen-residual. Why need they not agree?
+> **Practice — Stretch:** For the stable shear \(H=\begin{pmatrix}1/2&4\\0&1/2\end{pmatrix}\) started at e₂, compute the raw length at k=1, 2, and 10. The eigen-residual is about 0.062 at k=1 and 0.0006 at k=10. Why need the time of largest raw length and the time of a small residual not agree?
 >
-> **Hint:** One diagnostic tracks accumulated gains. The other measures the alignment of the current normalized vector with its next image.
+> **Hint:** Use \(H^ke_2=(4k(1/2)^{k-1},(1/2)^k)\) for the raw lengths. The residual depends only on the normalized direction, whose tilt from e₁ shrinks like 1/(8k), not on accumulated gains.
+
+## Local numerical and research audit
+
+### A residual measures a local eigenpair claim
+
+For \(A=\begin{pmatrix}1&10^6\\0&1\end{pmatrix}\), the eigenvalues are both one, while \(Ae_2=(10^6,1)^T\) exhibits large one-step amplification. Now perturb the lower-left entry by \(\varepsilon>0\): the eigenvalues become \(1\pm\sqrt{10^6\varepsilon}\). A small entry perturbation can move this nonnormal spectrum substantially.
+
+Keep three claims distinct in an experiment: a small eigenpair residual, convergence to an eigenvalue of largest magnitude, and stability of the spectrum under perturbations. A residual alone cannot establish all three. Symmetric matrices admit stronger residual-to-spectrum bounds in the next lesson; do not transfer those bounds to arbitrary nonnormal matrices.
+
+**M7 · Stretch · mixed — A residual measures a local eigenpair claim.** For [[1,10⁶],[10⁻⁶,1]], compute its two eigenvalues and compare them with those before adding the lower-left entry.
 
 ## 10. Three runnable coding labs
 
@@ -427,7 +437,7 @@ Run `python -m labs.checks power-iteration`, `python -m labs.checks char-poly-2x
 
 **A10 · Stretch · paper — a rotating room.** If A is real and \(A(u+iv)=(a+ib)(u+iv)\) with b≠0, derive the real invariant-plane block in the basis (u,v) and justify independence of u,v.
 
-**A11 · Core · paper — a precise 2×2 criterion.** Prove the real diagonalizability rule used in Lab C, including the discriminant-zero case.
+**A11 · Core · paper — a precise 2×2 criterion.** Prove the Lab C rule: a real 2×2 matrix \(A=\begin{pmatrix}a&b\\c&d\end{pmatrix}\) is diagonalizable over the reals exactly when \(\Delta=(a-d)^2+4bc>0\), or Δ=0 and A is scalar. Include the discriminant-zero case, then apply the rule to \(\begin{pmatrix}3&1\\2&2\end{pmatrix}\), \(\begin{pmatrix}1&-2\\1&3\end{pmatrix}\), and \(\begin{pmatrix}2&1\\0&2\end{pmatrix}\).
 
 **A12 · Stretch · paper — stable factors, unstable product.** Let \(B=\begin{pmatrix}0&2\\0&0\end{pmatrix}\), \(C=\begin{pmatrix}0&0\\2&0\end{pmatrix}\). Compute ρ(B), ρ(C), ρ(BC), and explain what this prevents you from claiming about varying recurrent derivatives.
 

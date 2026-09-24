@@ -58,9 +58,9 @@ The forms from \(\operatorname{diag}(1,0)\) and \(\operatorname{diag}(1,-1)\) fa
 >
 > **Hint:** Expand the quadratic form and compare it with x²+y²+(x+y)². Explain why the sum is strictly positive away from the origin.
 >
-> **Practice — Stretch:** Why is a nonsymmetric matrix not an inner-product matrix even if its quadratic form is positive for every nonzero vector?
+> **Practice — Stretch:** For the nonsymmetric \(G=\begin{pmatrix}1&1\\-1&1\end{pmatrix}\), show that \(v^{\mathsf T}Gv>0\) for every nonzero \(v\), then compute \(e_1^{\mathsf T}Ge_2\) and \(e_2^{\mathsf T}Ge_1\). Which inner-product axiom fails, and why can a positive quadratic form not detect it?
 >
-> **Hint:** Test symmetry of the bilinear form on coordinate vectors eᵢ,eⱼ. A skew-symmetric part cancels in vᵀGv but need not cancel in uᵀGv.
+> **Hint:** Expanding gives vᵀGv=x²+y² because the off-diagonal entries 1 and −1 cancel. The two mixed values are G₁₂=1 and G₂₁=−1, so the form is not symmetric.
 
 ## 2. Length, distance, and Cauchy–Schwarz
 
@@ -446,9 +446,19 @@ Always report the reconstruction and the residual orthogonality defect, such as 
 >
 > **Hint:** Inspect the already stored Gram entries before choosing a solver. No method solving that rounded system can restore a term that was discarded while forming it.
 >
-> **Practice — Stretch:** Build a perturbation experiment in which fitted values barely change but coefficients change substantially; distinguish problem sensitivity from additional error due to forming the Gram matrix.
+> **Practice — Stretch:** In float64, fit \(A=\begin{pmatrix}1&1\\0&10^{-6}\\0&0\end{pmatrix}\) to \(y=(1,0,1)\) and to the perturbed \(y+(0,10^{-8},0)\), once with `np.linalg.lstsq` and once by solving the normal equations. Report both coefficient vectors and both fitted vectors in each case, and separate the change due to problem sensitivity from the extra error due to forming the Gram matrix.
 >
-> **Hint:** Use nearly parallel columns and perturb the target in their separating direction. Compare a direct solve with a Gram solve on the same stored inputs and report both coefficient and fitted-vector changes.
+> **Hint:** Exactly, the coefficients move from (1,0) to (0.99,0.01) while the fit moves only by 10⁻⁸. The Gram entry 1+10⁻¹² keeps only about four significant digits of its 10⁻¹² part, so the normal-equation coefficients are off by roughly 10⁻⁵ (about 0.00999 instead of 0.01).
+
+## Local numerical and research audit
+
+### Compare least-squares algorithms on the same problem
+
+The normal equations establish the projection condition, but forming \(A^T A\) can be an unreliable computational route. For full column rank, \(\kappa_2(A^T A)=\kappa_2(A)^2\). Later [QR](04-orthonormal-bases-qr.md) and [SVD](08-svd-low-rank.md) solve the same geometric problem with different numerical behavior; return here after those lessons.
+
+Use a fixed small nearly dependent design, a known coefficient vector, and a controlled perturbation in the observations. Compare residual norm, coefficient error and projection optimality \(A^Tr\), with scale-aware normalizations. State rank and tolerance policies. A good fit can coexist with unreliable coefficients; comparing residuals alone cannot rank coefficient accuracy.
+
+**M9 · Stretch · mixed — Compare least-squares algorithms on the same problem.** A full-column-rank design has 2-norm condition number 10⁴. What is the condition number of its Gram matrix, and why can a small fitted residual coexist with a large coefficient error?
 
 ## 11. Three runnable coding labs
 
@@ -555,7 +565,7 @@ Use CPU tensors, `torch.manual_seed(0)`, and `torch.float64`. No model download 
 
 **C1 · Foundation · PyTorch — measure the normal-equation defect.** With `torch.manual_seed(0)` and float64, generate a full-column-rank \(A\in\mathbb R^{20\times3}\) and \(y\in\mathbb R^{20}\). Use `torch.linalg.lstsq(A, y).solution`; report the residual and \(A^{\mathsf T}r\). Compare the objective at the solution and at ten perturbed coefficient vectors.
 
-**C2 · Core · PyTorch — the best code for a fixed decoder.** Let a fixed decoder \(B\in\mathbb R^{8\times3}\) have independent nonorthogonal columns. For a batch of row-vector targets \(X\in\mathbb R^{32\times8}\), compare reconstruction using optimal Gram-system coefficients against the naive codes `X @ B`. Explain when the naive codes would be correct.
+**C2 · Core · PyTorch — the best code for a fixed decoder.** With `torch.manual_seed(0)` and `float64`, draw a fixed decoder \(B\in\mathbb R^{8\times3}\) and a batch of row-vector targets \(X\in\mathbb R^{32\times8}\), both standard normal (so the columns of \(B\) are independent and nonorthogonal). Compare reconstruction using optimal Gram-system codes \(C=XB(B^{\mathsf T}B)^{-1}\) (computed with a solve) against the naive codes `X @ B`: report the mean squared reconstruction error of each and \(\max|B^{\mathsf T}(X-CB^{\mathsf T})^{\mathsf T}|\). Repeat with \(B\) replaced by its Q factor from `torch.linalg.qr`, and explain when the naive codes would be correct.
 
 **C3 · Stretch · PyTorch — erase a probe with the smallest edit.** A fixed nonzero probe reads \(w^{\mathsf T}h\). Derive the edit \(\delta\) of smallest \(G\)-norm such that \(w^{\mathsf T}(h+\delta)=0\). Implement it with a solve, verify the constraint, and compare with Euclidean erasure for \(w=(1,1)\), \(h=(2,0)\), \(G=\operatorname{diag}(1,4)\).
 
@@ -563,7 +573,7 @@ Use CPU tensors, `torch.manual_seed(0)`, and `torch.float64`. No model download 
 
 **C5 · Core · PyTorch — fit ambiguity survives a successful solver.** Build a float64 design with two identical nonzero columns. Obtain a least-squares solution, then add multiples of \((1,-1)\). Check fitted values and loss, and report what the solver's particular returned coefficients do and do not establish.
 
-**C6 · Stretch · PyTorch — restrict an update to allowed directions.** A model parameter update must lie in a fixed subspace with basis \(B\). Project a proposed update \(d\) under both Euclidean and nonidentity positive definite metrics. Compare the distances to several allowed candidate updates. State precisely what this projection guarantees and what it does not say about loss improvement.
+**C6 · Stretch · PyTorch — restrict an update to allowed directions.** A parameter update in \(\mathbb R^3\) must lie in the subspace with basis \(B=[\,(1,0,0),\,(0,1,1)\,]\). Project the proposed update \(d=(1,2,0)\) onto it under the Euclidean metric and under \(G=\operatorname{diag}(1,1,4)\), using a solve of \(B^{\mathsf T}GB\,c=B^{\mathsf T}Gd\). Compare the squared distances from \(d\) to the allowed candidates \(q\in\{(1,1,1),(1,0.4,0.4),(0,0,0),(1,2,2)\}\) under both metrics, and check the excess-distance identity for one candidate. State precisely what this projection guarantees and what it does not say about loss improvement.
 
 ## 15. Derivations to own
 

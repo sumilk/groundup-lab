@@ -71,4 +71,5 @@ for(const lesson of catalog.lessons){
   }
 }
 await import("./check-linear-algebra.mjs");
+await import("./check-probability.mjs");
 console.log("Validated catalog freshness, lesson links, browser labs, interactive figures, UI anchors, and JavaScript syntax.");

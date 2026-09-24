@@ -8,6 +8,8 @@ Learn to turn equations into correct, inspectable, reproducible tensor programs.
 
 The existing [tensor/autograd/training overview](01-tensors-autograd-training.md) remains a bridge. New detailed units reserve 02–15. These are implementation plans; framework versions must be pinned and API examples verified against official documentation when lessons are authored.
 
+**Legacy-page review:** Keep the overview: tensor strides, autograd accumulation, train/eval versus gradient mode, and unequal-microbatch semantics are distinct implementation content. It also owns `softmax`. Transfer its examples and task into PT02/PT03/PT05/PT07/PT09/PT13 before retirement. See the [cross-track audit](../_legacy-audit.md) for the removal criteria and current coverage.
+
 **Scope:** 14 units; 392 estimated study hours including derivations, practice, and the capstone. These are planning estimates, not elapsed-time requirements or hiring guarantees. Diagnose existing knowledge and use the gates to skip material already mastered. Module numbers below are file-number reservations within this track; retained overview pages are outside the new sequence unless explicitly listed.
 
 ## 2. Teaching and authoring contract

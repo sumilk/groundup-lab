@@ -6,9 +6,24 @@
 
 Use classical models as tractable research instruments: derive an objective, implement its solver, compare against strong baselines, and analyze failure under changed data. Strong performance is evidence only when preprocessing, selection, and uncertainty are correct.
 
-The [regression, classification, and evaluation overview](01-regression-classification-evaluation.md) remains an orientation page. New detailed units reserve 02–16. Statistical derivations already authored in PS06, PS11, PS13, and PS17 are prerequisites or linked readings rather than duplicate lessons.
+The legacy `01-regression-classification-evaluation.md` overview has been removed after a [cross-track redundancy audit](../_legacy-audit.md). Its substantive derivations and evaluation rules already have authored homes listed below, it had no stable front-matter ID or registered browser task, and its only inbound links were the indexes and this plan. **This track currently has no standalone authored lesson.** New detailed units remain reserved as ML02–ML16; do not renumber the cross-track handles or recreate a summary page to fill 01.
 
-**Scope:** 15 units; 436 estimated study hours including derivations, practice, and the capstone. These are planning estimates, not elapsed-time requirements or hiring guarantees. Diagnose existing knowledge and use the gates to skip material already mastered. Module numbers below are file-number reservations within this track; retained overview pages are outside the new sequence unless explicitly listed.
+### Current reading route and preserved implementation work
+
+Until ML02–ML16 are authored, use these existing lessons as the entry route. They provide the mathematical and evaluation foundations; they do not count as completed ML modules.
+
+| Retired overview material | Authored home to read now | Future ML ownership |
+|---|---|---|
+| Least-squares geometry and stable solves | [LA03: projections and least squares](../02-linear-algebra/03-projections-least-squares.md), [LA04: QR](../02-linear-algebra/04-orthonormal-bases-qr.md) | ML03 adds model-fitting pipelines and comparisons. |
+| Gaussian likelihood, ridge/MAP scaling, logistic derivatives and separation | [PS11: regression and GLMs](../05-probability-statistics/11-exponential-families-regression-glms.md), [PS09: Bayesian modeling](../05-probability-statistics/09-bayesian-modeling-computation.md), [OPT03: convexity and duality](../03-optimization/03-convexity-smoothness-duality.md) | ML03/ML04 reuse derivations and own robust implementations, regularization paths and predictive comparisons. |
+| Bias, variance and estimation error | [PS06: estimation](../05-probability-statistics/06-estimation-likelihood-fisher.md) | ML03/ML12 apply the decomposition to model selection. |
+| Training-only preprocessing, temporal/group splits and honest comparisons | [PS10: sampling and ML evaluation](../05-probability-statistics/10-sampling-design-ml-evaluation.md), [PS08: experimental design](../05-probability-statistics/08-resampling-sequential-experimental-design.md) | ML02/ML12 own executable fit/transform and tuning pipelines. |
+| Calibration, thresholds and decision costs | [PS13: calibration and scoring](../05-probability-statistics/13-calibration-scoring-conformal.md), [information and decisions overview](../06-information-learning-decision/01-entropy-generalization-decisions.md) | ML13 evaluates complete model-and-decision pipelines. |
+| Trees, boosting and kernels | The retired page only named these families; it did not teach them. | ML06/ML07 remain entirely new lessons. |
+
+Preserve the useful implementation sequence in the future briefs: ML04 must include stable logit-space logistic loss (`max(z,0) - y*z + log1p(exp(-abs(z)))`), analytic-gradient checks at ordinary and extreme logits, and a tiny separable-data comparison with and without regularization. ML03 must track sum-versus-mean loss when translating a Gaussian prior into a ridge penalty; its model-variance experiment must distinguish prediction variance from estimator bias. ML02 must demonstrate a validation-refitted scaler and a random-versus-chronological split on autocorrelated data. ML12/ML13 must include an evaluation with explicit deployment costs and subgroup errors. These are preserved authoring requirements, not newly implemented labs.
+
+**Scope:** 15 units; 436 estimated study hours including derivations, practice, and the capstone. These are planning estimates, not elapsed-time requirements or hiring guarantees. Diagnose existing knowledge and use the gates to skip material already mastered. Module numbers below remain file-number reservations; 01 is retired and is not an authored prerequisite.
 
 ## 2. Teaching and authoring contract
 

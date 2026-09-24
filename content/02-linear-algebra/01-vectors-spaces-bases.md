@@ -501,6 +501,16 @@ The draggable figures warn about near-singularity separately from collapse. A sm
 >
 > **Hint:** Act on each coordinate unit vector and compare inverse scaling in the two directions. Uniform smallness differs from an imbalance between directions.
 
+## Local numerical and research audit
+
+### Scale-aware rank reporting
+
+Exact independence is unchanged when every coordinate is multiplied by a nonzero scalar. A fixed absolute numerical threshold does not share that invariance. For \(A=\operatorname{diag}(1,10^{-8})\), a threshold of \(10^{-6}\) reports one usable direction, while applying that same threshold to \(10^8 A\) reports two. Neither decision changes the exact rank, which is two.
+
+For an embedding audit, report the matrix shape, dtype, feature scaling, algorithm and tolerance. A relative threshold tied to the largest gain (developed in [SVD](08-svd-low-rank.md)) is invariant under a common nonzero rescaling in exact arithmetic; separate feature rescaling changes the geometry and may change the decision. Include an absolute floor only with a stated measurement or rounding rationale.
+
+**M13 · Stretch · mixed — Scale-aware rank reporting.** For diag(1,10⁻⁸), report exact rank and numerical rank using the rule “count gains strictly larger than 10⁻⁶”. Repeat after multiplying the matrix by 10⁸. Explain which claim is invariant.
+
 ## 13. Three runnable coding labs
 
 These exercises use only standard-library Python and run in the reader's Python workspace. Each link opens its own task tab. The inputs are lists of **columns**; validate their lengths, finite entries, and positive finite tolerance, and do not mutate them. `None` means a valid mathematical query has no requested solution; malformed input should raise `ValueError`.
@@ -543,17 +553,17 @@ python -m labs.checks coordinates
 
 The checks reconstruct the target in standard, skewed, rotated, and random bases; compare the ratio with \(|\sin\theta|\) as two columns approach each other; and reject invalid or singular inputs. Passing these checks supports the implementation on the tested cases. Your explanation of why it works is separate evidence.
 
-> **Practice — Foundation:** For each function, name one successful result and one valid query that returns `None` or raises for a singular basis.
+> **Practice — Foundation:** Predict the output of `span_coordinates([[1, 0], [1, 1]], [3, 2])` and `span_coordinates([[1, 2], [2, 4]], [4, 5])`; of `dependency_relation([[1, 0], [0, 1]])` and `dependency_relation([[1, 2], [2, 4]])`; and of `basis_coordinates([[1, 0], [1, 1]], [3, 2])` and `basis_coordinates([[1, 2], [2, 4]], [1, 0])`.
 >
-> **Hint:** Use an ordinary independent basis for success. For a nonmembership query use a target off a line; for a singular-basis error use repeated columns.
+> **Hint:** The columns (1,2),(2,4) are parallel with 2(1,2)−(2,4)=0, so they give the `None`, the relation (rescale it so the largest entry has magnitude 1), and the singular-basis `ValueError`. For the (1,0),(1,1) queries solve c₁+c₂=3, c₂=2.
 >
 > **Practice — Core:** Explain why the span and dependence tests verify reconstructed vectors rather than matching one expected coefficient list.
 >
 > **Hint:** Dependent generators can represent one vector with several coefficient lists. The reconstructed vector tests the mathematical claim without choosing an arbitrary representative.
 >
-> **Practice — Stretch:** Construct a scale change that changes an absolute-tolerance decision without changing the exact span. Record the inputs, tolerance, result, and reconstruction residual.
+> **Practice — Stretch:** Run `span_coordinates([[1, 0]], [1, 1], tol=1e-9)`, then multiply the generator and the target by \(10^{-10}\) and run it again with the same tolerance. Record both results and both reconstruction residuals, and explain why the decision changed although the exact span and the exact answer did not.
 >
-> **Hint:** Try a nonzero generator whose magnitude lies just above tol, then scale it below tol. Keep the exact one-dimensional span and record the implementation’s decision.
+> **Hint:** The target is (1,1) off the x-axis in both runs, so it is never exactly in the span. After scaling, the best reconstruction misses by 10⁻¹⁰, which is below the absolute tolerance 10⁻⁹.
 
 ## 14. Exercises · by hand
 
@@ -599,17 +609,17 @@ A1–A5: expand the coordinates before reaching for a determinant. For A4, a rel
 
 </details>
 
-> **Practice — Foundation:** Which A problem can be settled by one substitution, and which needs a universal argument?
+> **Practice — Foundation:** A1 asks you to check a proposed pair \(a,b\) with \(au+bv=(7,4)\); A10 asks you to prove that \(v_1,\dots,v_k,w\) are independent. Which one can be settled by one substitution, and which needs a universal argument? Name the quantifier ("there exist" or "for all") in each.
 >
-> **Hint:** A substitution verifies a particular equality; a universal proof must cover all permitted vectors or coefficient choices. Compare the quantifiers in the A prompts.
+> **Hint:** A1's check substitutes one particular pair into two equations. A10 must rule out every nonzero coefficient list, which no finite number of substitutions can do.
 >
-> **Practice — Core:** Exchange an A7 or A9 proof with a tutor. Identify the line where a nonzero coefficient or uniqueness is used.
+> **Practice — Core:** The list \((1,0),(0,1),(1,1)\) is dependent. Write \((2,3)\) using two different coefficient lists, subtract them, and check that the difference is a nonzero relation. Which direction of Theorem 3 (A9) does this subtraction prove?
 >
-> **Hint:** In an independence proof, locate the coefficient you would divide by. In a coordinate proof, subtract two representations and inspect the resulting zero combination.
+> **Hint:** Start from (2,3,0), then trade one unit using (1,1)=(1,0)+(0,1). Two recipes for one vector giving a nonzero relation is the contrapositive of "independent implies unique recipe".
 >
-> **Practice — Stretch:** Rewrite A10 as a procedure for extending a basis, and use the dimension bound to explain why it terminates in \(\mathbb R^n\).
+> **Practice — Stretch:** Rewrite A10 as a procedure for extending a basis: start from \(\{(1,1,0)\}\) in \(\mathbb R^3\) and try \(e_1,e_2,e_3\) in that order, appending each one that lies outside the current span. Give the resulting basis, then use the dimension bound to explain why the procedure terminates for any start in \(\mathbb R^n\).
 >
-> **Hint:** Append a vector outside the current span whenever one exists. Each append preserves independence, and an independent family in Rⁿ cannot grow beyond n members.
+> **Hint:** e₁ is appended; e₂=(1,1,0)−e₁ is already in the span, so it is skipped. Each append preserves independence, and an independent family in Rⁿ cannot grow beyond n members.
 
 **A14 · Stretch · paper — unions and sums.** Prove that a union of two subspaces of \(\mathbb R^n\) is a subspace exactly when one contains the other. Then show the *sum* \(S+T=\{s+t\}\) always is, and that it equals \(\operatorname{span}(S\cup T)\).
 
@@ -681,17 +691,17 @@ rejecting a determinant too small under your stated tolerance. Check standard, s
 >
 > **Hint:** Count ambient coordinates as rows and generators as columns. Check that the inner dimensions agree in each product before predicting its shape.
 >
-> **Practice — Core:** Reproduce one tolerance-sensitive result in both `float32` and `float64`. Separate the chosen tolerance from rounding error in your explanation.
+> **Practice — Core:** Apply B2's test \(|u_1v_2-u_2v_1|\le\mathrm{tol}\) to \(u=(1,1)\), \(v=(1,1+10^{-8})\): with `tol=1e-9` in `float64`, with `tol=1e-9` after casting to `float32`, and with `tol=1e-7` in `float64`. Report the three decisions and say which change is caused by rounding and which by the chosen threshold.
 >
-> **Hint:** Keep the same mathematical input and explicit threshold, then cast to each dtype. A threshold is a chosen decision rule; rounding changes the numbers supplied to that rule.
+> **Hint:** In float64 the determinant is about 10⁻⁸. In float32, 1+10⁻⁸ rounds to exactly 1, so the determinant becomes 0 before any threshold is applied.
 >
-> **Practice — Stretch:** Design a case where a Boolean “in span” result hides unstable coefficients. Report the reconstruction error and a perturbation experiment alongside the Boolean result.
+> **Practice — Stretch:** With B4's `in_span` and `atol=rtol=1e-9`, test the columns \((1,0)\), \((1,10^{-6})\) and target \(w=(0,1)\). Report the Boolean, the coefficients, and the reconstruction residual. Then perturb the target to \((0,1.001)\) and report how far the coefficients move compared with the \(10^{-3}\) move of the target.
 >
-> **Hint:** Use two almost parallel independent columns with a target transverse to them. Solve, reconstruct, then slightly perturb the target and compare coefficient changes.
+> **Hint:** The second equation is 10⁻⁶c₂=w₂, so c₂=10⁶w₂ and c₁=−c₂. Both calls return True with residuals near zero, which hides a coefficient change of 1000 in each entry.
 
 **B8 · Stretch · NumPy — geometry under a coordinate change.** Use \(B=\begin{pmatrix}1&1\\0&1\end{pmatrix}\). For several vectors \(x,y\), solve for their coordinate lists \(c,d\). Compare \(x^Ty\), \(c^Td\), and \(c^T(B^TB)d\). Include \(x=(1,0),y=(0,1)\). Explain which calculation preserves the original geometry and why an invertible coordinate change preserves independence even when the raw coordinate cosine changes. Gram–Schmidt and its numerical variants belong to Module 4.
 
-**B9 · Stretch · NumPy — two degeneracy measures.** Implement `hadamard_ratio(B)` and plot it beside `np.linalg.cond(B)` as a basis closes to degeneracy. State which you would put in a bug report, which you would put in a loss curve, and why they are not interchangeable.
+**B9 · Stretch · NumPy — two degeneracy measures.** Implement `hadamard_ratio(B)` and compare it with `np.linalg.cond(B)` on two paths: \(B_\theta\) with columns \((1,0)\) and \((\cos\theta,\sin\theta)\) for \(\theta=10^{-k}\), and \(D_t=\operatorname{diag}(1,t)\) for \(t=10^{-k}\), with \(k=0,1,\dots,8\) in both. Plot both measures against \(k\) on a log scale and report their values at \(\theta=10^{-4}\) and at \(t=10^{-4}\). State which you would put in a bug report, which you would put in a loss curve, and why they are not interchangeable.
 
 ## 16. Exercises · PyTorch
 
@@ -744,9 +754,9 @@ Train both with gradient descent and report the losses and ranks. At the project
 >
 > **Hint:** Differentiate the specified squared Frobenius loss entry by entry. Express the new weight as a multiple of the old weight plus a multiple of I; track the error W−I.
 
-**C6 · Core · PyTorch — probes and null spaces.** Train a linear probe \(w\) on frozen activations. Describe the null space of the probe in words: which directions of activation change can it not see at all? Construct an edit to an activation that the probe provably cannot detect, verify it numerically, and say what that implies for "the probe's accuracy did not move".
+**C6 · Core · PyTorch — probes and null spaces.** With `torch.manual_seed(0)` and `float64`, draw activations \(H\in\mathbb R^{200\times8}\) from a standard normal and labels \(y_i=\mathbb 1[h_{i1}+h_{i2}>0]\). Train a bias-free logistic-regression probe \(w\in\mathbb R^8\) by full-batch gradient descent from \(w=0\) (learning rate 0.5, 500 steps). Describe the null space of \(w\) in words and give its dimension. Form \(z=e_3-w(w^Te_3)/(w^Tw)\), edit every activation to \(h_i'=h_i+5z\), and report \(w^Tz\), \(\|5z\|\), \(\max_i|w^Th_i'-w^Th_i|\), and the probe accuracy before and after. Then say what "the probe's accuracy did not move" does and does not imply.
 
-**C7 · Core · PyTorch — what survives a change of coordinates.** Take one layer's activations and map them through an invertible matrix fitted on a subset. Check which of span, independence, dimension, rank, norm and cosine similarity survive that map. Relate the split to the inner-product section: the survivors are the properties that never needed a geometry.
+**C7 · Core · PyTorch — what survives a change of coordinates.** Stack the activation vectors \(v_1=(1,1,0,0)\), \(v_2=(1,-1,0,0)\), \(v_3=(0,0,1,1)\), \(v_4=v_1+v_3\) as rows of a `float64` tensor and map each through the invertible \(A=\operatorname{diag}(2,1,1,3)\). Before and after the map, report `torch.linalg.matrix_rank` of the stack, whether the relation \(v_1+v_3-v_4=0\) still holds for the images, whether the images of \(v_1,v_2,v_3\) are independent, \(\|v_1\|\), and the cosines of the pairs \((v_1,v_2)\) and \((v_1,v_4)\). Classify span, independence, dimension, rank, norm and cosine similarity as surviving or not, and relate the split to the inner-product section: the survivors are the properties that never needed a geometry.
 
 ## 17. Derivations to own
 
@@ -777,9 +787,9 @@ Write \(0v=(0+0)v=0v+0v\), then add the additive inverse of \(0v\) to both sides
 >
 > **Hint:** Suppose two representations exist, subtract them, and inspect their coefficient differences. For the converse, turn a nonzero dependence relation into two representations.
 >
-> **Practice — Stretch:** Extend derivation 6 to an abstract finite-dimensional space of polynomials. What do the columns of the conversion matrix represent when there are no physical arrows?
+> **Practice — Stretch:** Extend derivation 6 to \(P_2\) with old basis \((1,x,x^2)\) and new basis \(B=(1,1+x,1+x+x^2)\). Write the \(3\times3\) matrix converting \(B\)-coordinates to old coordinates, use it on \([3+2x-x^2]_B=(1,3,-1)\), and say what its columns represent when there are no physical arrows.
 >
-> **Hint:** Each column consists of coordinates of one new basis polynomial in the old polynomial basis. Compose coordinate maps exactly as with arrows.
+> **Hint:** Each column lists the coefficients of one new basis polynomial in (1,x,x²); for example 1+x+x² gives (1,1,1). Multiply the matrix by (1,3,−1) and compare with (3,2,−1).
 
 ## 18. Exercises · cumulative
 
@@ -808,17 +818,17 @@ These mix the ideas rather than repeating one track. Each carries the same heade
 **M11 · Stretch · mixed — Keep the logits unchanged.** Row embeddings transform as \(x'=xA\), where \(A\in\mathbb R^{d\times d}\) is invertible. Original logits are \(xW\), with \(W\in\mathbb R^{d\times k}\). Derive the new downstream weights that preserve every logit. Does Euclidean cosine between embeddings have to remain unchanged?
 
 **M12 · Stretch · mixed — Audit a rank claim.** “Our layer starts at rank 4, so it can only learn four output directions.” State a parameterization under which this is true at every step and one under which it is false. Use C4 to give an exact loss comparison, then state why it does not establish a universal claim about nonlinear networks.
-> **Practice — Foundation:** Choose one answer above and check it by direct substitution before opening its reference solution.
+> **Practice — Foundation:** A classmate's M1 answer lists the pairs \((1,1)\), \((5,-1)\), and \((2,1)\). Check each by direct substitution into \(au+bv\) with \(u=(1,2)\), \(v=(2,4)\) before opening the reference solution. Which pair fails, and what does it produce?
 >
-> **Hint:** Use the original definition or equation, not an intermediate calculation from your solution. For a claimed span representation, multiply the displayed generators by the coefficients.
+> **Hint:** Compute a(1,2)+b(2,4) for each pair from the original vectors and compare with (3,6). Every valid pair satisfies a+2b=3.
 >
-> **Practice — Core:** Find a proof in your answers that uses both directions of an equivalence. Label the directions explicitly.
+> **Practice — Core:** Split M5 into its two implications and label them "independent ⇒ unique" and "unique ⇒ independent". Test both on the list \((1,2),(2,4)\): give two coefficient lists for \((3,6)\), and say which hypothesis fails and which conclusion fails.
 >
-> **Hint:** Look for “if and only if,” equality of sets, or uniqueness claims. Split the proof into the forward implication and reverse implication, or into the two inclusions.
+> **Hint:** (3,0) and (1,1) both give (3,6). The list is dependent, so "independent ⇒ unique" is not contradicted; the two recipes show that the hypothesis of "unique ⇒ independent" fails too.
 >
-> **Practice — Stretch:** Change one assumption in problem 11 — for example, make \(A\) singular — and construct a case where preserving all original logits becomes impossible.
+> **Practice — Stretch:** Change one assumption in M11: take \(d=k=2\), the singular map \(A=\operatorname{diag}(1,0)\), and \(W=I_2\). Compare the inputs \(x=(0,0)\) and \(x=(0,1)\), and show that no weights \(W'\) satisfy \(xAW'=xW\) for every \(x\).
 >
-> **Hint:** If the representation map kills a direction, any later readout must assign the same logits to inputs differing only in that direction. Choose original logits that distinguish them.
+> **Hint:** Both inputs map to xA=(0,0), so any W′ gives them the same new logits (0,0). Their original logits are (0,0) and (0,1).
 
 ## 19. Checkpoint
 

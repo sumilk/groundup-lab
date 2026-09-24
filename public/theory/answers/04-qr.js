@@ -632,5 +632,21 @@ K6: {
       "c": "Use the defining identities and check the result by substitution.",
       "sse": "Use the defining identities and check the result by substitution."
     }
+  },
+M9: {
+  "statement": "**M9 · Stretch · mixed — Audit QR across scales.** If Q=2I₂ and R=A/2, does exact reconstruction certify QR with orthonormal columns? Find ‖QᵀQ−I₂‖F.",
+  "plain": "QR=A exactly, but QᵀQ=4I₂, so orthogonality error is ‖3I₂‖F=3√2. Reconstruction and orthogonality must be tested separately.",
+  "solution": "<p>QR=A exactly, but QᵀQ=4I₂, so orthogonality error is ‖3I₂‖F=3√2. Reconstruction and orthogonality must be tested separately.</p>",
+  "fields": [
+    {
+      "id": "audit",
+      "label": "Numerical result(s), in requested order",
+      "type": "num",
+      "ans": 4.242640687119286
+    }
+  ],
+  "hints": {
+    "audit": "Use the concrete matrix in the question and keep the numerical diagnostic separate from the exact algebraic claim."
   }
+}
 });

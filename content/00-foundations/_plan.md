@@ -8,6 +8,8 @@ Build the mathematical language, numerical judgment, and reproducible working ha
 
 Two lessons exist: [mathematical language](00-mathematical-language.md) (`foundations.mathematical-language`) and [numerical stability](01-numerical-stability.md) (`foundations.numerical-stability`). F00 and F01 expand those pages in place; both retain their IDs. The diagnostic is an entry activity, not a new lesson masquerading as authored coverage.
 
+**Legacy-page review:** Keep and expand F00/F01 in place. Their notation, proof-reading and numerical-stability material supplies live prerequisites throughout LA, probability and optimization. Short length is not evidence of redundancy. See the [cross-track audit](../_legacy-audit.md) for the removal criteria and current coverage.
+
 **Scope:** 8 units; 134 estimated study hours including derivations, practice, and the capstone. These are planning estimates, not elapsed-time requirements or hiring guarantees. Diagnose existing knowledge and use the gates to skip material already mastered. Module numbers below are file-number reservations within this track; retained overview pages are outside the new sequence unless explicitly listed.
 
 ## 2. Teaching and authoring contract

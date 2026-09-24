@@ -8,6 +8,8 @@ Build a correct small language model, then understand the hardware and distribut
 
 The [causal transformers and training systems overview](01-causal-transformers-training-systems.md) is retained. Detailed units reserve 02–21. This plan expands the combined PyTorch & Systems and NLP & LLM catalog topics into explicit model, accelerator, distributed, and inference branches.
 
+**Legacy-page review:** Keep the overview: causal masking, next-token alignment, a causality perturbation check and KV-cache equivalence are concrete implementation material. It owns `attention`. Transfer this material to SYS02/SYS03/SYS15, including the registered task and workload diagnostics, before retirement. See the [cross-track audit](../_legacy-audit.md) for the removal criteria and current coverage.
+
 **Scope:** 20 units; 682 estimated study hours including derivations, practice, and the capstone. These are planning estimates, not elapsed-time requirements or hiring guarantees. Diagnose existing knowledge and use the gates to skip material already mastered. Module numbers below are file-number reservations within this track; retained overview pages are outside the new sequence unless explicitly listed.
 
 ## 2. Teaching and authoring contract

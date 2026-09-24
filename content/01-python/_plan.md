@@ -8,6 +8,8 @@ Progress from reasoning about objects to building reliable, profiled research co
 
 The existing [objects and iteration overview](01-python-memory-iteration.md) remains a bridge and retains its path. It has no front-matter ID today; do not invent an existing contract. Detailed new units reserve file numbers 02–15.
 
+**Legacy-page review:** Keep the overview as a temporary entry bridge: it teaches aliasing, mutation, iterator lifetime and streaming memory, and owns the `moments` browser task. Transfer these examples to PY02, PY04 and PY07 when those lessons are authored; then retire the overview after migrating its task and inbound links. See the [cross-track audit](../_legacy-audit.md) for the removal criteria and current coverage.
+
 **Scope:** 14 units; 324 estimated study hours including derivations, practice, and the capstone. These are planning estimates, not elapsed-time requirements or hiring guarantees. Diagnose existing knowledge and use the gates to skip material already mastered. Module numbers below are file-number reservations within this track; retained overview pages are outside the new sequence unless explicitly listed.
 
 ## 2. Teaching and authoring contract

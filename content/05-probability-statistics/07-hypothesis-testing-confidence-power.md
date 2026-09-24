@@ -2,6 +2,7 @@
 id: math.statistics.hypothesis-testing-confidence-power
 title: Hypothesis testing, confidence intervals, power, and multiple comparisons
 prerequisites: [math.statistics.estimation-likelihood-fisher]
+answers: ps-07-hypothesis-testing-confidence-power
 estimated_hours: 34
 ---
 
@@ -28,11 +29,17 @@ If the 100 prompts were repeatedly tuned against, they are not an untouched rand
 
 **Worked example — a model upgrade.** Model A and model B answer the same 500 prompts. The natural observation is the within-prompt difference, not two unrelated accuracy counts. Easy prompts may be answered correctly by both models and difficult prompts incorrectly by both, so pairing removes shared prompt difficulty from the comparison. The estimand might be the expected accuracy difference on new prompts drawn from the specified deployment mixture.
 
-> **Practice — Foundation:** For a coin-flip study, name the target, sampling unit, estimand, null, and alternative.
+> **Practice — Foundation:** A coin is flipped 50 times to test whether it is fair, and 31 heads are observed. Name the target, sampling unit, estimand, null, and alternative.
 >
-> **Practice — Core:** In an evaluation with 20 completions from each of 50 users, argue whether the response or user should be the independent unit.
+> **Hint:** The target is this coin's long-run heads probability \(p\); each flip is a sampling unit, and fairness means \(H_0:p=0.5\).
 >
-> **Practice — Stretch:** Describe an evaluation in which the mathematical test is executed correctly but the scientific conclusion is invalid because the target population was never sampled.
+> **Practice — Core:** An evaluation has 20 completions from each of 50 users, with within-user correlation \(\rho=0.25\) in the scores. Compute the design effect and the effective sample size, and argue whether the response or the user should be the independent unit.
+>
+> **Hint:** Use the design effect \(1+(m-1)\rho\) with \(m=20\); the effective sample size is \(1000\) divided by it.
+>
+> **Practice — Stretch:** A model succeeds on 440 of 500 English prompts, and a one-sided test of \(H_0:p\le0.80\) gives \(z\approx4.47\). Deployment traffic is 60% Spanish. Verify the \(z\) value, then explain why the correctly executed test does not support a claim about deployment success.
+>
+> **Hint:** \(z=(0.88-0.80)/\sqrt{0.8(0.2)/500}\); then ask what these data say about the 60% of traffic that was never sampled.
 
 ## 1. A hypothesis is a set of probability models
 
@@ -70,9 +77,15 @@ $$
 
 > **Practice — Foundation:** Classify \(H_0:p=0.2\) and \(H_0:p\leq0.2\) as simple or composite.
 >
+> **Hint:** A simple null specifies exactly one distribution; count how many values of \(p\) each set contains.
+>
 > **Practice — Core:** Write null and alternative hypotheses for detecting either improvement or degradation relative to 80% accuracy.
 >
-> **Practice — Stretch:** Formalize a non-inferiority question in which a cheaper model may be at most two percentage points worse than a reference model.
+> **Hint:** Either direction counts as a finding, so the alternative must be two-sided around \(p=0.8\).
+>
+> **Practice — Stretch:** Formalize a non-inferiority question in which a cheaper model may be at most two percentage points worse than a reference model. If the observed difference (cheap minus reference) is \(-0.5\) points with 95% interval \([-1.8,0.8]\) points, what do you conclude?
+>
+> **Hint:** Put the unacceptable region in the null, \(H_0:\delta\le-0.02\); then compare the interval's lower endpoint with \(-2\) points.
 
 ## 2. A test statistic compresses the evidence
 
@@ -108,11 +121,17 @@ $$
 
 No limiting approximation is needed.
 
-> **Practice — Foundation:** State the null distribution of \(S\) when \(n=20\) and \(p_0=0.3\).
+> **Practice — Foundation:** State the null distribution of \(S\) when \(n=20\) and \(p_0=0.3\), and give its mean and variance.
+>
+> **Hint:** Under \(H_0\) each of the 20 independent trials succeeds with probability 0.3, so use the binomial mean \(np\) and variance \(np(1-p)\).
 >
 > **Practice — Core:** Calculate the exact probability of at least four successes in five trials under \(p_0=0.5\).
 >
-> **Practice — Stretch:** Give two statistics for comparing paired binary predictions and explain what information one discards that the other retains.
+> **Hint:** Add \(P(S=4)=5/32\) and \(P(S=5)=1/32\).
+>
+> **Practice — Stretch:** On 100 items two models give: both correct 60, only A correct 15, only B correct 5, both wrong 20. Compute the accuracy difference and the exact two-sided McNemar p-value, and explain what the marginal accuracies discard that McNemar retains.
+>
+> **Hint:** Marginal accuracies are 75/100 and 65/100; McNemar conditions on the 20 discordant items and asks whether a 15-to-5 split is plausible under Binomial\((20,0.5)\).
 
 ## 3. The p-value is a probability under the null
 
@@ -152,11 +171,17 @@ $$
 
 For asymmetric discrete distributions, “two-sided” has several defensible definitions: double the smaller tail, sum outcomes no more likely than the observed outcome, or invert a chosen family of tests. Software output is not interpretable until its definition is known.
 
-> **Practice — Foundation:** Explain what is random and what is fixed in the definition of a p-value.
+> **Practice — Foundation:** For 9 heads in 10 flips, the right-tail p-value is \(P_{H_0}(S\ge9)\) with \(H_0:p=0.5\). Identify what is random and what is fixed in this expression, and evaluate it.
+>
+> **Hint:** \(S\) is a random variable distributed under the null model, while the observed count 9 is fixed; the tail is \((10+1)/1024\).
 >
 > **Practice — Core:** Compute right-sided and doubled-tail p-values for nine successes in ten fair trials.
 >
-> **Practice — Stretch:** Construct an example showing why \(P(\text{data}\mid H_0)\) cannot be reversed into \(P(H_0\mid\text{data})\) without additional assumptions.
+> **Hint:** Right tail \(=P(S=9)+P(S=10)=11/1024\); the doubled-tail convention multiplies it by two.
+>
+> **Practice — Stretch:** Suppose 90% of the hypotheses a lab tests are true nulls, every test has \(\alpha=0.05\), and power is 0.5 for the real effects. Compute the fraction of \(p<0.05\) results that are true nulls, and explain why \(P(\text{data}\mid H_0)\) cannot be reversed into \(P(H_0\mid\text{data})\) without such assumptions.
+>
+> **Hint:** Apply Bayes' rule: \(P(H_0\mid\text{reject})=\pi_0\alpha/(\pi_0\alpha+(1-\pi_0)\,\text{power})\).
 
 ## 4. Rejection rules control long-run errors
 
@@ -179,11 +204,17 @@ There is no single Type II error rate unless a particular alternative or distrib
 
 Discrete tests may be conservative. If attainable binomial tail probabilities jump from 0.061 to 0.031, a nominal 0.05 rule may have an actual Type I error below 0.05 because no boundary produces exactly 0.05.
 
-> **Practice — Foundation:** Define Type I error, Type II error, and power in words.
+> **Practice — Foundation:** For a test with \(\alpha=0.05\) and power 0.80 at the alternative \(\delta=1\), define Type I error, Type II error, and power in words and give each probability.
+>
+> **Hint:** Type I is rejecting when \(H_0\) holds; Type II is failing to reject at the specified alternative, so its probability is \(1-\)power.
 >
 > **Practice — Core:** A procedure rejects 4% of the time at the null and 83% at a specified alternative. Identify its actual size and power.
 >
-> **Practice — Stretch:** Explain why decreasing \(\alpha\) while holding sample size and rejection-statistic family fixed usually decreases power.
+> **Hint:** Size is the rejection probability under the null (the worst case over a composite null); power is the rejection probability at the stated alternative.
+>
+> **Practice — Stretch:** For a one-sided \(z\) test with standardized effect \(\delta\sqrt n/\sigma=2.5\), compute power at \(\alpha=0.05\) and at \(\alpha=0.01\), and explain why decreasing \(\alpha\) with fixed sample size lowers power.
+>
+> **Hint:** Power is \(\Phi(\delta\sqrt n/\sigma-z_{1-\alpha})\); a smaller \(\alpha\) raises the cutoff \(z_{1-\alpha}\) from 1.645 to 2.326.
 
 ## 5. One-sided and two-sided tests answer different questions
 
@@ -201,11 +232,17 @@ H_0:\delta\leq-\Delta,
 H_1:\delta>-\Delta.
 $$
 
-> **Practice — Foundation:** Choose a direction for detecting whether a defect rate exceeds 1%.
+> **Practice — Foundation:** You inspect 1,000 units to detect whether the defect rate exceeds 1%. Choose the direction: write \(H_0\), \(H_1\), and which tail of the defect count gives evidence.
 >
-> **Practice — Core:** Explain why changing from two-sided to one-sided after observing the data invalidates the advertised error rate.
+> **Hint:** The claim of concern is \(p>0.01\), so it belongs in the alternative; large defect counts are evidence.
 >
-> **Practice — Stretch:** Write hypotheses for an equivalence test with margin \(\Delta\), then explain why rejecting \(H_0:\delta=0\) is neither necessary nor sufficient for equivalence.
+> **Practice — Core:** An analyst looks at the sign of \(z\) and then applies the one-sided 5% cutoff 1.645 in that direction. Compute the actual size of this procedure and explain why it invalidates the advertised error rate.
+>
+> **Hint:** The procedure rejects whenever \(|z|>1.645\); compute \(P(|Z|>1.645)\) under \(H_0\).
+>
+> **Practice — Stretch:** Write hypotheses for an equivalence test with margin \(\Delta=0.02\). Study 1 has estimate 0.001 with 95% interval \([-0.035,0.037]\); study 2 has estimate 0.012 with 90% interval \([0.008,0.016]\). For each, say whether \(H_0:\delta=0\) is rejected and whether equivalence is shown.
+>
+> **Hint:** Equivalence at level 5% by two one-sided tests holds when the 90% interval lies inside \((-\Delta,\Delta)\); rejecting \(\delta=0\) is a separate question about whether 0 is outside the interval.
 
 ## 6. Confidence is coverage by a procedure
 
@@ -231,11 +268,17 @@ $$
 
 has coverage \(1-\alpha\). At 95%, \(z_{0.975}\approx1.96\). The margin of error shrinks as \(1/\sqrt n\), so halving it requires roughly four times as many independent observations.
 
-> **Practice — Foundation:** In repeated confidence-interval construction, identify which quantity is fixed and which quantities vary.
+> **Practice — Foundation:** A 95% interval procedure for a fixed \(p=0.3\) is applied to 1,000 independent datasets. How many intervals are expected to contain 0.3, and which quantities vary across repetitions?
+>
+> **Hint:** The parameter 0.3 is fixed; the endpoints are functions of the random data, and coverage is their probability of capturing it.
 >
 > **Practice — Core:** If a margin of error is 6 points at \(n=100\), estimate the sample size required for a 3-point margin under the same design.
 >
-> **Practice — Stretch:** Explain why an interval can have correct unconditional coverage but poor coverage for a selected subgroup or after choosing the most favorable metric.
+> **Hint:** The margin scales as \(1/\sqrt n\), so halving it takes four times the sample.
+>
+> **Practice — Stretch:** Ten subgroups each get an independent, exact 95% interval for an effect whose true value is 0 in every subgroup, and only the subgroup with the largest estimate is reported. Compute the probability that at least one interval misses 0, and approximate the coverage of the reported interval.
+>
+> **Hint:** The first is \(1-0.95^{10}\); the reported interval misses essentially when the largest of 10 independent \(z\) values exceeds 1.96, which has probability \(1-0.975^{10}\).
 
 ## 7. Tests and confidence sets are dual views
 
@@ -254,11 +297,17 @@ It also clarifies what an interval communicates beyond a binary decision: the wi
 
 **Worked example — practical threshold.** Suppose an estimated accuracy gain is 0.8 percentage points with a 95% interval from 0.1 to 1.5. A test of zero rejects at 5%, but the interval also says that gains above a required 2-point deployment threshold are not supported. Statistical detection does not establish operational value.
 
-> **Practice — Foundation:** State the interval criterion for rejecting \(H_0:\theta=\theta_0\) with a matching two-sided test.
+> **Practice — Foundation:** A 95% confidence interval for \(\theta\) is \([0.12,0.31]\). Which of \(H_0:\theta=0.10\), \(\theta=0.20\), and \(\theta=0.35\) does the matching two-sided 5% test reject?
+>
+> **Hint:** The matching test rejects exactly the null values outside the interval.
 >
 > **Practice — Core:** Interpret an interval \([-0.03,0.12]\) for a model's accuracy difference relative to both zero and a required improvement of 0.10.
 >
-> **Practice — Stretch:** Prove coverage of an inverted confidence set directly from the test's Type I error guarantee.
+> **Hint:** Check whether each reference value lies inside the interval: a value inside is not rejected, so neither 0 nor 0.10 is ruled out.
+>
+> **Practice — Stretch:** Prove coverage of an inverted confidence set directly from the test's Type I error guarantee. Illustrate with \(s=4\) successes in \(n=5\): using equal-tailed exact tests at level 0.10, decide which of \(p_0\in\{0.1,0.3,0.5,0.7,0.9\}\) are retained.
+>
+> **Hint:** The event “true \(\theta\notin C(X)\)” equals “the level-\(\alpha\) test of the true \(\theta\) rejects”; for the illustration retain \(p_0\) when both \(P_{p_0}(S\ge4)\) and \(P_{p_0}(S\le4)\) exceed 0.05.
 
 ## 8. Exact binomial inference and the limits of Wald intervals
 
@@ -298,11 +347,17 @@ $$
 
 so \(u=1-0.05^{1/20}\approx0.139\). Twenty clean trials still allow a substantial rare failure rate.
 
-> **Practice — Foundation:** Write the exact right-tail sum for at least 8 successes in 10 trials under \(p_0=0.5\).
+> **Practice — Foundation:** Write and evaluate the exact right-tail sum for at least 8 successes in 10 trials under \(p_0=0.5\).
 >
-> **Practice — Core:** Derive the one-sided upper bound after zero events in \(n\) trials at tail probability \(\alpha\).
+> **Hint:** Sum \(\binom{10}{k}/1024\) for \(k=8,9,10\): the coefficients are 45, 10, and 1.
 >
-> **Practice — Stretch:** Simulate coverage of the Wald and exact intervals at \(n=20\) for \(p\in\{0.01,0.1,0.5\}\), and explain the patterns.
+> **Practice — Core:** Derive the one-sided upper bound after zero events in \(n\) trials at tail probability \(\alpha\), and evaluate it for \(n=100\), \(\alpha=0.05\).
+>
+> **Hint:** The largest \(p\) still consistent with zero events solves \((1-p)^n=\alpha\); compare with the approximation \(-\log\alpha/n\approx3/n\).
+>
+> **Practice — Stretch:** Simulate coverage of the Wald and exact (Clopper–Pearson) 95% intervals at \(n=20\) for \(p\in\{0.01,0.1,0.5\}\) using seed 0 and 10,000 repetitions, and explain the patterns.
+>
+> **Hint:** Check the simulation against the exact coverage: sum the binomial probabilities of the counts whose interval contains \(p\); Wald collapses when \(\hat p=0\).
 
 ## 9. Tests for means: standardization and Student's t
 
@@ -324,11 +379,17 @@ For non-Gaussian data, the t procedure is often approximately valid for a mean w
 
 **Worked example — paired latency measurements.** Measure both systems on each of 30 requests and define \(D_i=X_{i,B}-X_{i,A}\). A paired t test is simply a one-sample t test of \(E[D_i]=0\). Its standard error uses variation among differences. An unpaired analysis discards the covariance between measurements and may be much less precise.
 
-> **Practice — Foundation:** Why does a t statistic use \(n-1\) degrees of freedom in the one-sample Gaussian case?
+> **Practice — Foundation:** For the sample \(2,4,4,5,5\), compute \(s^2\), and state the degrees of freedom and \(t_{0.975}\) used for a one-sample Gaussian interval. Why \(n-1\)?
 >
-> **Practice — Core:** Convert paired observations into a one-sample testing problem and write its statistic.
+> **Hint:** The five deviations from \(\bar x=4\) must sum to zero, so only four are free; divide their squared sum by \(n-1=4\).
 >
-> **Practice — Stretch:** Give a heavy-tailed data-generating process for which the sample mean and t approximation converge slowly, then propose a diagnostic simulation.
+> **Practice — Core:** Convert paired observations before \((5,7,6,9)\) and after \((6,9,6,11)\) into a one-sample testing problem, and compute the \(t\) statistic and its degrees of freedom.
+>
+> **Hint:** Form \(d_i=\text{after}-\text{before}=(1,2,0,2)\), then \(t=\bar d/(s_d/\sqrt n)\) with \(n-1\) degrees of freedom.
+>
+> **Practice — Stretch:** Draw \(n=20\) observations from Lognormal\((0,\sigma=2)\) (seed 0, 10,000 repetitions) and estimate the coverage of the nominal 95% \(t\) interval for the true mean. Report how often the interval misses low versus high, and explain why convergence is slow.
+>
+> **Hint:** The true mean is \(e^{\sigma^2/2}=e^2\approx7.39\); the skewed sample mean is usually below it while \(s\) is small, so misses pile up on one side.
 
 ## 10. Independent, paired, clustered, and repeated data
 
@@ -387,11 +448,17 @@ This is the exact paired binary, or McNemar, test. Agreements contain informatio
 
 **Worked example — benchmark items and seeds.** Evaluating five seeds on the same 1,000 items produces a crossed structure: seed variability and item variability both matter. Treating all 5,000 predictions as iid ignores shared model instances and shared items. A defensible analysis must say whether it targets a new seed, new item, both, or only these fixed instances.
 
-> **Practice — Foundation:** Classify three designs as independent, paired, or clustered.
+> **Practice — Foundation:** Classify each design as independent, paired, or clustered: (a) two models scored on disjoint random prompt sets; (b) two models scored on the same 500 prompts; (c) 40 users each contributing 25 ratings of one model.
 >
-> **Practice — Core:** Show algebraically how positive within-pair covariance reduces the variance of a difference.
+> **Hint:** Ask whether measurements share a prompt (paired), a grouping unit such as a user (clustered), or nothing (independent).
 >
-> **Practice — Stretch:** Design an uncertainty analysis for models evaluated across seeds, tasks, and examples, making the intended generalization axes explicit.
+> **Practice — Core:** Show algebraically how positive within-pair covariance reduces the variance of a difference, and evaluate \(\operatorname{Var}(X-Y)\) for \(\operatorname{Var}X=\operatorname{Var}Y=4\) with \(\operatorname{Cov}(X,Y)=3\) versus 0.
+>
+> **Hint:** Use \(\operatorname{Var}(X-Y)=\operatorname{Var}X+\operatorname{Var}Y-2\operatorname{Cov}(X,Y)\).
+>
+> **Practice — Stretch:** Models are evaluated on 3 seeds × 10 tasks × 50 examples per task, with variance components seed 0.0004, task 0.0025, and example 0.04. Compute the standard error of the grand mean for generalizing to new seeds and new tasks, and compare it with the row-iid standard error over 1,500 rows.
+>
+> **Hint:** Each random axis contributes its variance component divided by its number of levels (\(3\), \(10\), \(1500\)); row-iid divides the total variance by 1,500.
 
 ## 11. Effect size answers “how much?”
 
@@ -412,11 +479,17 @@ With very large \(n\), a negligible effect can produce a tiny p-value. With smal
 
 **Worked example — cheap but slightly weaker.** A smaller model is 0.4 percentage points less accurate, with a 95% interval from -0.9 to 0.1 points, and cuts cost by 60%. A zero-effect test does not answer whether that trade is acceptable. A non-inferiority margin based on product utility is more relevant than insisting on exact equality.
 
-> **Practice — Foundation:** Name an interpretable raw effect size for binary accuracy.
+> **Practice — Foundation:** Accuracies are 0.82 for the new model and 0.78 for the baseline. Give the risk difference, the relative reduction in error rate, and the odds ratio.
 >
-> **Practice — Core:** Explain how the same effect estimate can be statistically significant at \(n=100{,}000\) and non-significant at \(n=100\).
+> **Hint:** Error rates are 0.18 and 0.22; odds are \(p/(1-p)\).
 >
-> **Practice — Stretch:** Define a utility-weighted estimand that combines model quality, latency, and cost, then identify assumptions needed to test it.
+> **Practice — Core:** An accuracy difference of 0.01 between two independent groups with accuracies near 0.5 is observed with \(n\) per group. Compute \(z\) at \(n=100\) and \(n=100{,}000\), and explain how the same effect can be significant in one case only.
+>
+> **Hint:** The SE of a difference of two proportions near 0.5 is \(\sqrt{0.5/n}\); \(z=0.01/\text{SE}\).
+>
+> **Practice — Stretch:** Define utility \(U=\text{accuracy}-0.0001\cdot\text{latency (ms)}-10\cdot\text{cost (\$)}\) per query. Model A: 0.80, 400 ms, \$0.002; model B: 0.84, 900 ms, \$0.004. Compute each utility and identify the assumptions needed to test \(\Delta U\).
+>
+> **Hint:** Compute \(U\) for each model; \(\Delta U\) is a mean of per-query paired differences, so testing it requires the joint distribution of the three components on the same queries.
 
 ## 12. Power and sample-size planning
 
@@ -447,11 +520,17 @@ The rejection rule is calibrated under \(p_0\); its detection probability is eva
 
 Planning should use the **smallest effect worth detecting**, not an optimistic effect chosen to make \(n\) small. Account for attrition, invalid samples, clustering, and multiplicity before data collection.
 
-> **Practice — Foundation:** What happens approximately to required \(n\) when the target effect is halved?
+> **Practice — Foundation:** A design with \(n=200\) per group has 80% power for effect \(\delta=0.4\). Approximately what \(n\) per group gives the same power for \(\delta=0.2\)?
 >
-> **Practice — Core:** Given a rejection region for a binomial test, write its exact power at an alternative \(p_1\).
+> **Hint:** Required \(n\) scales as \((z_{1-\alpha}+z_{\text{power}})^2\sigma^2/\delta^2\).
 >
-> **Practice — Stretch:** Plan a benchmark comparison in which prompts are clustered by task and five primary metrics are tested. Explain every adjustment to the naive iid single-test sample size.
+> **Practice — Core:** For \(S\sim\operatorname{Binomial}(10,p)\) with rejection region \(S\ge8\), write the exact size at \(p=0.5\) and the exact power at \(p_1=0.8\).
+>
+> **Hint:** Sum \(\binom{10}{k}p^k(1-p)^{10-k}\) for \(k=8,9,10\) at each value of \(p\).
+>
+> **Practice — Stretch:** A naive iid calculation says 400 prompts give 80% power at two-sided \(\alpha=0.05\). Prompts come in tasks of 20 with ICC 0.05, and five primary metrics will be Bonferroni-corrected. Compute the adjusted sample size and explain each adjustment.
+>
+> **Hint:** Multiply by the design effect \(1+19(0.05)\) and by \(((z_{0.995}+z_{0.8})/(z_{0.975}+z_{0.8}))^2\) for the per-metric level 0.01.
 
 ## 13. Likelihood-ratio tests compare best fits
 
@@ -486,11 +565,17 @@ with zero-count terms interpreted as zero. This is twice \(n\) times the Bernoul
 
 Wilks' approximation can fail at boundaries, under non-identifiability, with small samples, after model selection, or when the assumed likelihood is wrong. In finite simple settings, enumerate or simulate the null distribution instead of invoking an asymptotic label automatically.
 
-> **Practice — Foundation:** Explain why \(\Lambda\leq1\).
+> **Practice — Foundation:** For \(s=7\) successes in \(n=10\), compute \(\Lambda=L(0.5)/L(0.7)\) and explain why \(\Lambda\leq1\) always.
 >
-> **Practice — Core:** Derive the Bernoulli likelihood-ratio statistic from the restricted and unrestricted maximized log-likelihoods.
+> **Hint:** The denominator maximizes over a parameter set that contains the null value, so it cannot be smaller than the numerator.
 >
-> **Practice — Stretch:** Give one boundary and one non-identifiable model where a naive chi-squared calibration is suspect, and propose a finite-sample calibration method.
+> **Practice — Core:** Derive the Bernoulli likelihood-ratio statistic from the restricted and unrestricted maximized log-likelihoods, and evaluate \(-2\log\Lambda\) and its \(\chi^2_1\) p-value for \(s=7,n=10,p_0=0.5\).
+>
+> **Hint:** \(-2\log\Lambda=2[s\log(\hat p/p_0)+(n-s)\log((1-\hat p)/(1-p_0))]\) with \(\hat p=s/n\).
+>
+> **Practice — Stretch:** Testing \(H_0:\sigma^2_{\text{task}}=0\) in a random-effects model puts the null on the boundary, and the LRT's limiting law is \(\tfrac12\chi^2_0+\tfrac12\chi^2_1\). Find its 5% critical value and compare with the naive 3.84. Name a non-identifiable model where calibration is also suspect, and propose a finite-sample calibration.
+>
+> **Hint:** Under the mixture, \(P(\text{stat}>c)=\tfrac12P(\chi^2_1>c)\); set this to 0.05. A parametric bootstrap from the fitted null model calibrates either case.
 
 ## 14. One study can contain a family of tests
 
@@ -520,9 +605,15 @@ The family must be defined by the scientific workflow, not only by the tests dis
 
 > **Practice — Foundation:** Compute the Bonferroni per-test threshold for 20 tests at family level 0.05.
 >
+> **Hint:** Divide the family level by the number of tests in the family.
+>
 > **Practice — Core:** Apply Holm's rule to p-values \(0.003,0.018,0.021,0.20\) at \(\alpha=0.05\).
 >
-> **Practice — Stretch:** Define the appropriate testing family when a team compares four models on six metrics and reports only the strongest metric for each model.
+> **Hint:** Compare the \(k\)-th smallest p-value with \(\alpha/(m-k+1)\): 0.0125, 0.0167, 0.025, 0.05, and stop at the first failure.
+>
+> **Practice — Stretch:** A team compares four models on six metrics and reports only the strongest metric for each model, comparing it with 0.05. If all 24 nulls are true and the tests independent, compute the per-model and overall probabilities of at least one false “win,” and define the appropriate testing family.
+>
+> **Hint:** The family is every model–metric test examined; compute \(1-0.95^6\) and \(1-0.95^{24}\).
 
 ## 15. False discovery rate permits a different tradeoff
 
@@ -560,11 +651,17 @@ The reverse cumulative minimum is essential: it makes adjusted values nondecreas
 
 **Worked example.** For p-values \(0.004,0.011,0.03,0.20\) and \(q=0.05\), thresholds are \(0.0125,0.025,0.0375,0.05\). The first three pass their thresholds and the fourth does not, so \(k=3\) and the first three hypotheses are rejected.
 
-> **Practice — Foundation:** Distinguish FWER from FDR in one sentence each.
+> **Practice — Foundation:** A run makes 10 rejections, one of which is a true null. Compute the false discovery proportion, say whether a family-wise error occurred, and distinguish FWER from FDR in one sentence each.
+>
+> **Hint:** FWER asks whether \(V\ge1\); FDR is the expected value of \(V/\max(R,1)\) over repetitions.
 >
 > **Practice — Core:** Apply BH at \(q=0.05\) to \(0.004,0.011,0.03,0.20\).
 >
-> **Practice — Stretch:** Explain why interpreting \(q=0.05\) as “every rejected hypothesis has a 5% probability of being false” is incorrect.
+> **Hint:** Compare the \(k\)-th smallest p-value with \(kq/m=0.0125k\) and reject everything up to the largest passing \(k\).
+>
+> **Practice — Stretch:** In one run, BH at \(q=0.05\) rejects 10 hypotheses, 3 of which are true nulls. Compute the false discovery proportion, decide whether this violates FDR control, and explain why “every rejected hypothesis has a 5% probability of being false” is incorrect.
+>
+> **Hint:** FDR is an average of \(V/R\) over repeated experiments, so a single run's proportion of 0.3 is allowed; no individual hypothesis is assigned a probability.
 
 ## 16. Selection, optional stopping, and data leakage
 
@@ -583,11 +680,17 @@ These choices change the distribution of the final reported statistic. A correct
 
 Holdout separation helps only when it is real. Once test-set outcomes guide model changes, the set becomes part of training and selection. A new untouched sample, nested evaluation, or explicit reusable-holdout method may be needed.
 
-> **Practice — Foundation:** Give two examples of researcher degrees of freedom that create hidden multiplicity.
+> **Practice — Foundation:** An analyst tries 3 outlier-removal rules and 4 metric definitions on the same data and reports the best combination. How many implicit tests were run, and what are the two researcher degrees of freedom?
 >
-> **Practice — Core:** Explain why optional stopping changes the Type I error of an ordinary fixed-sample test.
+> **Hint:** Each combination of choices made after seeing the outcomes is an implicit test: multiply the options.
 >
-> **Practice — Stretch:** Design a three-way data split for architecture selection, threshold tuning, and final evaluation, stating exactly what information may cross each boundary.
+> **Practice — Core:** A study takes two looks, at \(n=50\) and \(n=100\) standard-normal observations, and rejects if \(|z|>1.96\) at either look. Estimate the actual Type I error by simulation (seed 0, 100,000 repetitions), and explain why optional stopping changes it.
+>
+> **Hint:** Compute \(z_1\) from the first 50 and \(z_2\) from all 100 observations (correlation \(\sqrt{0.5}\)); count rejections at either look.
+>
+> **Practice — Stretch:** Design a split of 10,000 examples into 6,000 train, 2,000 validation, and 2,000 test for architecture selection, threshold tuning, and final evaluation. State exactly what information may cross each boundary, and compute the standard error of a final test accuracy of 0.85.
+>
+> **Hint:** The test set is scored once after everything is frozen; its SE is \(\sqrt{0.85(0.15)/2000}\).
 
 ## 17. Testing in leading AI research workflows
 
@@ -610,11 +713,17 @@ Then build the test around those units. Prefer paired comparisons when systems s
 
 **Worked example — twelve tasks, five seeds.** If the scientific claim generalizes to new tasks, task-level variation cannot be ignored. One defensible summary computes a paired model difference within each task, aggregates seeds within task according to the desired seed estimand, and treats tasks as the top-level sampling units. With only twelve tasks, uncertainty will honestly be wide. Counting every generated token as independent would manufacture precision.
 
-> **Practice — Foundation:** List the randomness sources in a two-model benchmark with sampled responses and human ratings.
+> **Practice — Foundation:** Two models answer 300 prompts, with 3 sampled responses per prompt at temperature 0.7, and each response is rated by 2 of 10 human raters. List the randomness sources.
 >
-> **Practice — Core:** Write an estimand sentence for generalization to new tasks and new training seeds.
+> **Hint:** Walk the pipeline: prompt sampling, response sampling, rater assignment and rater noise, plus training seeds if generalizing across runs.
 >
-> **Practice — Stretch:** Audit a leaderboard where hundreds of teams repeatedly submit to a fixed hidden test set. Identify selection effects that an individual team's nominal p-value omits.
+> **Practice — Core:** A benchmark has 12 tasks and 3 training seeds per model. Write an estimand sentence for generalization to new tasks and new training seeds.
+>
+> **Hint:** Name the population of tasks, the population of training runs, and the summary (for example, mean accuracy difference), treating both task and seed as random.
+>
+> **Practice — Stretch:** On a leaderboard, 300 teams each submit 10 times to a fixed hidden test set of 2,000 items, and every submission has true accuracy 0.80. Estimate the expected top leaderboard score (seed 0 simulation, or \(E[\max\text{ of }3000\ \mathcal N(0,1)]\approx3.5\)), and identify the selection effects an individual team's nominal p-value omits.
+>
+> **Hint:** Each submission's score has SE \(\sqrt{0.8(0.2)/2000}\approx0.0089\); the maximum over 3,000 sits about 3.5 SEs above the truth.
 
 ## 18. A disciplined analysis and reporting workflow
 
@@ -640,9 +749,15 @@ Avoid “accept the null” unless an acceptance or equivalence design supports 
 
 > **Practice — Foundation:** Rewrite “the null is true because \(p=0.31\)” as a calibrated statement.
 >
-> **Practice — Core:** Produce a minimal results sentence containing an effect estimate, interval, test, p-value, and analysis unit.
+> **Hint:** A large p-value means the data are compatible with \(H_0\) at this sample size, not that \(H_0\) is true; pair it with the interval.
 >
-> **Practice — Stretch:** Create a preregistration outline for comparing two language models across quality, safety, latency, and cost without allowing the final claim to depend on an undisclosed metric search.
+> **Practice — Core:** A paired comparison over 400 prompts finds a mean difference of 0.035 with SE 0.012. Produce a minimal results sentence containing the effect estimate, 95% interval, test, p-value, and analysis unit.
+>
+> **Hint:** Compute \(z=0.035/0.012\), its two-sided p-value, and the interval \(0.035\pm1.96(0.012)\); the prompt is the unit.
+>
+> **Practice — Stretch:** Create a preregistration outline for comparing two language models on quality (primary), safety (non-inferiority margin 1 point), latency, and cost, with family level 0.05, so that the final claim cannot depend on an undisclosed metric search.
+>
+> **Hint:** Fix one primary test, give safety its prespecified margin and alpha share, mark latency and cost as descriptive, and freeze the population, sample size, and stopping rule before data.
 
 ## 19. Runnable labs
 
@@ -702,55 +817,75 @@ The checks cover unsorted inputs, no and multiple discoveries, ties, generators,
 11. Execute Holm and BH by hand on a small family.
 12. Derive BH adjusted p-values using a reverse cumulative minimum.
 
+## Prediction experiment
+
+Predict both the baseline and failure-preset results before revealing the calculation. Record the assumptions, change one control at a time, and explain the boundary case. This small deterministic model isolates a mechanism; it is not an empirical validation of a trained system.
+
+```lab
+lab: ps-testing
+```
+
 ## 21. End-of-unit practice (graded)
 
-**Foundation — problems 1–5.** Establish definitions and perform direct calculations.
+Work each problem before opening its authored solution. Written proofs and design answers require self-review against the rubric; numeric fields check only the stated quantities.
 
-1. **Testing language.** A new model and baseline are scored on the same 200 prompts using a prespecified binary success rubric; the claim is that the new model improves success probability by more than 3 percentage points on fresh prompts from the deployment distribution. Identify the population, sampling unit, estimand, null, alternative, statistic, rejection rule, and possible decisions. State what changes if the 200 prompts are the complete target rather than a sample.
-2. **Exact tail.** For \(S=7\) successes in \(n=8\) trials under \(H_0:p=0.5\), enumerate \(P(S=k)\) for \(k=0,\ldots,8\). Compute left-tail, right-tail, and doubled-smaller-tail p-values and note why "two-sided" needs a convention.
-3. **Error table.** Fill the four cells formed by truth and decision; label Type I error, Type II error, power, and correct non-rejection.
-4. **Interval interpretation.** Correct five common misinterpretations of a 95% confidence interval.
-5. **Multiplicity arithmetic.** At family level \(\alpha=0.05\), compute Bonferroni thresholds and, under independent true nulls with unadjusted per-test level 0.05, the probability of at least one false rejection for \(m=5,20,100\).
 
-**Core — problems 6–11.** Connect tests, intervals, power, and realistic designs.
+### Foundation — problems 1–5. Establish definitions and perform direct calculations.
 
-6. **Test inversion.** For \(s=14,n=20\), construct a 95% equal-tailed exact binomial interval numerically by finding parameter values whose tail tests just cease to reject. Compare it with the Wald interval and check coverage by simulation at \(p=0.1,0.5,0.9\).
-7. **Paired comparison.** For paired score differences \(d=(1,2,-1,0,3,1,-2,2)\), calculate the mean, standard error, t statistic, 95% t interval, and interpretation. Then incorrectly treat the two systems as independent and explain what covariance information was discarded.
-8. **Effect and decision.** A measured accuracy gain is 0.018 with 95% interval \([0.004,0.032]\). Evaluate both \(H_0:\Delta=0\) and a deployment requirement \(\Delta\ge0.03\). State separately what the data establish statistically and operationally.
-9. **Power curve.** For \(S\sim\operatorname{Binomial}(20,p)\), fix the rejection region \(S\ge15\), chosen before seeing data. Calculate power at \(p=0.5,0.6,0.7,0.8\) and explain its shape.
-10. **Likelihood ratio.** For \(s=14,n=20\), compare \(H_0:p=0.5\) with unrestricted \(p\). Calculate both fitted log-likelihoods, derive \(-2\log\Lambda\), and compare asymptotic and exact-binomial calibrations.
-11. **Stepwise correction.** At level \(0.05\), apply Bonferroni, Holm, and BH to \((0.003,0.012,0.018,0.041,0.20)\). Give each rejection set and name the error criterion targeted.
+**A1 · Foundation · paper — Testing language.** A new model and baseline are scored on the same 200 prompts using a prespecified binary success rubric; the claim is that the new model improves success probability by more than 3 percentage points on fresh prompts from the deployment distribution. Identify the population, sampling unit, estimand, null, alternative, statistic, rejection rule, and possible decisions. State what changes if the 200 prompts are the complete target rather than a sample.
 
-**Stretch — problems 12–17.** Audit complex inference and selection workflows.
+**A2 · Foundation · paper — Exact tail.** For \(S=7\) successes in \(n=8\) trials under \(H_0:p=0.5\), enumerate \(P(S=k)\) for \(k=0,\ldots,8\). Compute left-tail, right-tail, and doubled-smaller-tail p-values and note why "two-sided" needs a convention.
 
-12. **Discrete calibration.** Find the exact size of a nominal 5% binomial test for several \(n\) and explain why attainable sizes jump.
-13. **Clustered benchmark.** Simulate prompts nested in tasks. Compare row-iid and task-level uncertainty as within-task correlation changes.
-14. **Seeds and items.** Construct a crossed seed-by-item evaluation. State two different estimands and show why they require different variance calculations.
-15. **Optional stopping.** Simulate repeated fixed-threshold peeking under a true null. Measure false-rejection probability as the maximum number of looks increases.
-16. **Hidden multiplicity.** Simulate selecting the strongest among metrics, checkpoints, and subgroups. Compare the advertised single-test error with the workflow's actual error.
-17. **Research audit.** Take an unfamiliar model-comparison claim and reconstruct its intended population, sampling units, selection path, test family, practical threshold, and unsupported extrapolations.
+**A3 · Foundation · paper — Error table.** A one-sided \(z\) test of \(H_0:\delta=0\) has \(\alpha=0.05\) and power 0.80 at \(\delta=0.5\). Fill the four cells formed by truth (\(\delta=0\) or \(\delta=0.5\)) and decision (reject or not), give each cell's conditional probability, and label Type I error, Type II error, power, and correct non-rejection.
 
-<details><summary>Worked solution sketches</summary>
+**A4 · Foundation · paper — Interval interpretation.** From 400 prompts, a model's accuracy has 95% confidence interval \([0.62,0.70]\). Correct each claim: (a) there is a 95% probability the true accuracy is in \([0.62,0.70]\); (b) 95% of prompts have accuracy between 0.62 and 0.70; (c) a repeat study would give an estimate in this interval with probability 0.95; (d) values just outside, like 0.71, are ruled out; (e) the interval also covers the model's accuracy on a different deployment domain.
 
-1. Let \(D_i=Y_{i,\mathrm{new}}-Y_{i,\mathrm{base}}\). For fresh deployment prompts, \(\Delta=E[D_i]\), with \(H_0:\Delta\le0.03\) versus \(H_1:\Delta>0.03\); the prompt is the paired sampling unit. A statistic such as \(\bar D\) and a prespecified level-\(\alpha\) paired rule produce reject/do-not-reject decisions. If these 200 prompts are the whole target, \(\bar D\) is the finite-population effect and prompt-sampling inference is unnecessary, though model-run or rater randomness may remain.
-2. List \(P_{p_0}(S=k)=\binom nkp_0^k(1-p_0)^{n-k}\). Sum the outcomes selected by each tail rule. State the exact definition used for “two-sided.”
-3. Rejecting a true null is Type I error; not rejecting a specified false null is Type II error. Correct rejection has probability equal to power, and correct non-rejection under a boundary null has probability at least \(1-\alpha\).
-4. Coverage concerns repeated random intervals, not posterior probability for a fixed realized interval. It does not guarantee the model, sampling design, or target population is correct, and it does not make every subgroup's coverage equal to 95%.
-5. Bonferroni cutoffs are 0.01, 0.0025, and 0.0005. Unadjusted independent-family false-rejection probabilities are \(1-0.95^m\): approximately 0.226, 0.642, and 0.994 for \(m=5,20,100\).
-6. For each candidate \(p_0\), evaluate the chosen exact test and retain non-rejected values. Equal-tailed endpoints can be found by bisection on the relevant binomial tail. Boundary success counts require endpoints zero or one.
-7. Here \(\bar d=0.75\), \(s_d^2=19.5/7\approx2.786\), \(\operatorname{SE}\approx0.590\), and \(t\approx1.27\) on 7 degrees of freedom. With \(t_{.975,7}\approx2.365\), the interval is about \([-0.645,2.145]\): inconclusive about the population mean difference. An independent analysis discards the within-prompt covariance that pairing was designed to exploit.
-8. The interval excludes zero, so a conventional two-sided zero-effect test rejects at 5%. But it includes effects far below 0.03 and is not wholly above the deployment threshold; the evidence does not establish that the gain is large enough to deploy.
-9. Sum alternative binomial probabilities over the rejection region fixed under the null. Power is low near the null and generally rises as the alternative moves into the rejection direction.
-10. The unrestricted estimate is \(s/n\); the restricted estimate is \(p_0\). Subtract maximized log-likelihoods and multiply by two. Calibration can be exact rather than asymptotic in the finite binomial model.
-11. Bonferroni's 0.01 cutoff rejects only 0.003. Holm compares with 0.01, 0.0125, 0.0167, ... and rejects 0.003 and 0.012 before stopping. BH has rank cutoffs 0.01, 0.02, 0.03, 0.04, 0.05; the largest passing rank is 3, so it rejects 0.003, 0.012, and 0.018. Bonferroni and Holm control FWER; BH controls FDR under its stated dependence conditions.
-12. Enumerate success counts and include those whose p-values cross 0.05. Sum their null probabilities. Discreteness prevents arbitrary rejection probability unless randomized tests are allowed.
-13. Positive within-task correlation makes nominal row count exaggerate independent information. Row-iid intervals become too narrow while task-level methods reflect the limited number of independent tasks.
-14. Generalizing across new items conditional on trained seeds differs from generalizing across both training reruns and items. A crossed analysis must preserve both axes rather than flattening all cells into iid rows.
-15. Each look is another chance to cross a fixed boundary. Simulated false-rejection frequency rises with the number of allowed looks. Sequentially valid boundaries explicitly budget evidence across time.
-16. The selected maximum is compared with the distribution of one prespecified statistic unless the whole search is included in calibration. Resimulate the complete selection procedure under the null to measure its real error.
-17. A complete audit distinguishes design facts from analysis assumptions, includes unreported selection opportunities in the test family, reports effects and intervals, and limits claims to the sampled population and randomness sources.
+**A5 · Foundation · paper — Multiplicity arithmetic.** At family level \(\alpha=0.05\), compute Bonferroni thresholds and, under independent true nulls with unadjusted per-test level 0.05, the probability of at least one false rejection for \(m=5,20,100\).
 
-</details>
+### Core — problems 6–11. Connect tests, intervals, power, and realistic designs.
+
+**A6 · Core · paper — Test inversion.** For \(s=14,n=20\), construct a 95% equal-tailed exact binomial interval numerically by finding parameter values whose tail tests just cease to reject. Compare it with the Wald interval and check coverage by simulation at \(p=0.1,0.5,0.9\).
+
+**A7 · Core · paper — Paired comparison.** For paired score differences \(d=(1,2,-1,0,3,1,-2,2)\), calculate the mean, standard error, t statistic, 95% t interval, and interpretation. Then incorrectly treat the two systems as independent and explain what covariance information was discarded.
+
+**A8 · Core · paper — Effect and decision.** A measured accuracy gain is 0.018 with 95% interval \([0.004,0.032]\). Evaluate both \(H_0:\Delta=0\) and a deployment requirement \(\Delta\ge0.03\). State separately what the data establish statistically and operationally.
+
+**A9 · Core · paper — Power curve.** For \(S\sim\operatorname{Binomial}(20,p)\), fix the rejection region \(S\ge15\), chosen before seeing data. Calculate power at \(p=0.5,0.6,0.7,0.8\) and explain its shape.
+
+**A10 · Core · paper — Likelihood ratio.** For \(s=14,n=20\), compare \(H_0:p=0.5\) with unrestricted \(p\). Calculate both fitted log-likelihoods, derive \(-2\log\Lambda\), and compare asymptotic and exact-binomial calibrations.
+
+**A11 · Core · paper — Stepwise correction.** At level \(0.05\), apply Bonferroni, Holm, and BH to \((0.003,0.012,0.018,0.041,0.20)\). Give each rejection set and name the error criterion targeted.
+
+### Stretch — problems 12–17. Audit complex inference and selection workflows.
+
+**A12 · Stretch · paper — Discrete calibration.** For the one-sided exact test of \(H_0:p=0.5\) that rejects for large \(S\sim\operatorname{Binomial}(n,0.5)\), find for each \(n=10,11,\ldots,20\) the smallest cutoff \(c\) with \(P(S\ge c)\le0.05\) and the exact size. Explain why attainable sizes jump.
+
+**A13 · Stretch · paper — Clustered benchmark.** Simulate 30 tasks with 20 prompts each, score \(y=u_{\text{task}}+e\) with total variance 1, true mean 0, and within-task correlation \(\rho\in\{0,0.1,0.3\}\). Over 2,000 repetitions (seed 2026), report the coverage of the row-iid 95% interval and of the task-level \(t\) interval on the 30 task means, and compare the SE ratio with \(\sqrt{1+(m-1)\rho}\).
+
+**A14 · Stretch · paper — Seeds and items.** A model is trained with \(S=5\) seeds and each run is scored on the same \(I=200\) items, with \(y_{si}=\mu+a_s+b_i+e_{si}\), \(\operatorname{sd}(a)=0.03\), \(\operatorname{sd}(b)=0.2\), \(\operatorname{sd}(e)=0.1\). State two estimands (new items with these five seeds fixed; new seeds and new items) and compute the standard error of the grand mean for each.
+
+**A15 · Stretch · paper — Optional stopping.** Under a true null, draw standard-normal observations and look after every 10, rejecting at the first look with \(|z|>1.96\). With a maximum of \(K\in\{1,2,5,10,20\}\) looks and 10,000 repetitions (seed 0), report the false-rejection probability for each \(K\).
+
+**A16 · Stretch · paper — Hidden multiplicity.** A workflow computes 60 null \(z\) statistics (4 metrics × 5 checkpoints × 3 subgroups) and reports the most significant as a single test at 5%. With 20,000 repetitions (seed 0), estimate the workflow's actual false-rejection probability when the statistics are independent and when they are equicorrelated with \(\rho=0.3\), and compare with the advertised 0.05.
+
+**A17 · Stretch · paper — Research audit.** A report says: “Model B beats model A at coding: 71.3% vs 68.9% on 1,200 prompts from 40 tasks (\(p=0.01\), two-proportion \(z\) test); B's checkpoint was chosen on this test set; this was the best of 6 metrics.” Assume within-task ICC 0.1. Reconstruct the population, sampling units, selection path, test family, practical threshold, and unsupported extrapolations, and recompute the evidence after a design-effect and Bonferroni adjustment.
+
+
+## Six-part checkpoint
+
+Complete these without notes, then use the solutions to audit assumptions and reasoning. Passing a numeric check alone does not establish mastery. For implementation and transfer, retain the code/results or written protocol as evidence.
+
+**K1 · Foundation · gate — Concept.** Is a p-value the probability that the null hypothesis is true?
+
+**K2 · Core · gate — Derivation.** Explain test inversion for a confidence set.
+
+**K3 · Core · gate — Calculation.** An exact one-sided test of p≤0.5 with five Bernoulli trials rejects only for five successes. Find its null size.
+
+**K4 · Core · gate — Implementation audit.** Reproduce two settings of the ps-testing experiment independently, including its failure preset. State a numerical invariant or analytic oracle and explain what the plot does not establish.
+
+**K5 · Stretch · gate — Claim audit.** Can a nonsignificant result establish equivalence?
+
+**K6 · Stretch · gate — RE/RS transfer.** Specify a comparison of two AI systems on shared tasks.
 
 ## Mastery check
 

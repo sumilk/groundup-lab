@@ -8,6 +8,8 @@ Understand text as structured, multilingual data before treating it as token IDs
 
 The [text representations and language models overview](01-text-representations-language-models.md) stays as orientation. Detailed units reserve 02–15. Tokenizer algorithms reuse DSA; transformer architecture and scaled execution belong to their own tracks.
 
+**Legacy-page review:** Keep the overview: Unicode/token units, TF–IDF, multinomial naive Bayes and perplexity conventions are not replaced by a generic probability lesson. It owns `bigram`; preserve its fixtures and migrate them into NLP02/NLP03/NLP04/NLP06/NLP07 before retirement. See the [cross-track audit](../_legacy-audit.md) for the removal criteria and current coverage.
+
 **Scope:** 14 units; 414 estimated study hours including derivations, practice, and the capstone. These are planning estimates, not elapsed-time requirements or hiring guarantees. Diagnose existing knowledge and use the gates to skip material already mastered. Module numbers below are file-number reservations within this track; retained overview pages are outside the new sequence unless explicitly listed.
 
 ## 2. Teaching and authoring contract

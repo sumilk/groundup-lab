@@ -2,6 +2,7 @@
 id: math.probability.foundations
 title: Probability foundations from finite events
 prerequisites: [foundations.mathematical-language]
+answers: ps-00-foundations
 estimated_hours: 24
 ---
 
@@ -62,9 +63,15 @@ $$
 
 > **Practice — Foundation:** A coin is tossed and a six-sided die is rolled. Write the sample space and the event “heads or an even roll.”
 >
+> **Hint:** Use ordered pairs (coin, die); the union includes either condition.
+>
 > **Practice — Core:** Let \(A\) be “heads” and \(B\) be “roll at least 5.” Write \(A\cap B\), \(A\cup B\), and \(A^c\) as sets of outcomes.
 >
-> **Practice — Stretch:** Model two dice once with ordered pairs and once only by their sum. What information is lost, and which questions can no longer be answered?
+> **Hint:** An intersection requires both conditions; the complement changes only the coin condition.
+>
+> **Practice — Stretch:** Model two fair dice once with the 36 ordered pairs and once with only the 11 possible sums. Compute \(P(\text{sum}=7)\) in both models, then show that \(P(\text{first die}=6)\) can be computed in the pair model but is not an event of the sum model.
+>
+> **Hint:** In the sum model, the outcome 7 lumps together six ordered pairs, so it must carry mass 6/36; no set of sums corresponds to “first die shows 6” because the sum 7 contains both (6,1) and (1,6).
 
 ## 2. The probability axioms
 
@@ -120,9 +127,15 @@ If \(P(A)=0.4\), \(P(B)=0.5\), and \(P(A\cap B)=0.2\), then \(P(A\cup B)=0.4+0.5
 
 > **Practice — Foundation:** If \(P(A)=0.37\), compute \(P(A^c)\). Name the axiom or consequence you used.
 >
+> **Hint:** Partition the whole space into A and its complement.
+>
 > **Practice — Core:** Suppose \(P(A)=0.55\), \(P(B)=0.40\), and \(P(A\cap B)=0.20\). Compute \(P(A\cup B)\) and the probability that exactly one event occurs.
 >
+> **Hint:** Subtract the intersection once for the union, twice for exactly one.
+>
 > **Practice — Stretch:** Starting only from the axioms, prove that \(A\subseteq B\) implies \(P(A)\le P(B)\), then use that fact to justify the two-event union bound.
+>
+> **Hint:** Write B as the disjoint union of A and the part outside A.
 
 ## 3. Counting only when outcomes are equally likely
 
@@ -169,9 +182,15 @@ The complement is often easier because "at least one" contains overlapping cases
 
 > **Practice — Foundation:** How many five-person teams can be chosen from twelve people? State why order does or does not matter.
 >
+> **Hint:** Count ordered choices first, then divide by permutations within a team.
+>
 > **Practice — Core:** Derive the probability that at least two people share a birthday in a group of 25 under the usual simplifying assumptions. Compute it through the complement.
 >
-> **Practice — Stretch:** A generator emits three labels with probabilities \(0.8,0.15,0.05\). Explain why counting labels gives a wrong probability model and construct the correct weighted sample space.
+> **Hint:** Multiply successive probabilities of avoiding earlier birthdays, then take the complement.
+>
+> **Practice — Stretch:** A generator emits labels a, b, c with probabilities \(0.8,0.15,0.05\). Compute \(P(\text{label}\ne a)\) by naively counting labels as equally likely and then with the stated weights, and write the correct weighted sample space.
+>
+> **Hint:** Counting gives 2 of 3 labels, i.e. 2/3; the weighted model adds the masses of b and c, giving 0.20.
 
 ## 4. Conditional probability changes the reference population
 
@@ -225,9 +244,15 @@ If the first ball were replaced, the second red probability would remain \(3/5\)
 
 > **Practice — Foundation:** In a dataset, 120 of 300 examples are positive and 90 of those positives pass a filter. Compute the probability of passing given positive.
 >
-> **Practice — Core:** Build a \(2\times2\) count table in which \(P(A\mid B)=0.75\), then calculate \(P(B\mid A)\). Explain why the two conditionals differ.
+> **Hint:** Use the positive examples as the denominator.
 >
-> **Practice — Stretch:** A benchmark reports accuracy only on prompts that another model judged “answerable.” Draw the conditioning event and describe one way this selection could reverse a model comparison.
+> **Practice — Core:** Among 200 examples, 30 are in \(A\cap B\), 10 in \(A^c\cap B\), 50 in \(A\cap B^c\), and 110 in \(A^c\cap B^c\). Verify \(P(A\mid B)=0.75\), compute \(P(B\mid A)\), and explain why the two conditionals differ.
+>
+> **Hint:** P(A|B) divides the 30 shared examples by the 40 examples in B; P(B|A) divides the same 30 by the 80 examples in A.
+>
+> **Practice — Stretch:** A benchmark has 1,000 prompts; a judge model marks 400 as “answerable.” Model A solves 360 answerable and 150 other prompts; model B solves 340 answerable and 300 other prompts. Compute both models' accuracy on the filtered set and on all 1,000 prompts, and name the conditioning event that reverses the comparison.
+>
+> **Hint:** Filtered accuracy divides by 400 (A 0.90, B 0.85); full accuracy adds the unanswerable successes and divides by 1,000.
 
 ## 5. Total probability and Bayes' rule
 
@@ -270,9 +295,15 @@ The detector's 95% sensitivity is not a 95% posterior probability. The low base 
 
 > **Practice — Foundation:** A detector has sensitivity \(0.90\), false-positive rate \(0.08\), and the condition prevalence is \(0.02\). Compute the probability of a positive detection by total probability.
 >
+> **Hint:** Partition positive detections by whether the condition is present.
+>
 > **Practice — Core:** For the same detector, compute the posterior probability of the condition after a positive result. Recompute it when prevalence rises to \(0.20\).
 >
-> **Practice — Stretch:** Express Bayes' rule in posterior-odds form and explain how a fixed likelihood ratio behaves when deployment base rates change.
+> **Hint:** The true-positive contribution is the numerator; total detections form the denominator.
+>
+> **Practice — Stretch:** Express Bayes' rule in posterior-odds form. For the detector with sensitivity \(0.90\) and false-positive rate \(0.08\), compute the likelihood ratio of a positive result and the posterior probability at prevalences \(0.02\) and \(0.20\), and explain why the ratio stays fixed while the posterior moves.
+>
+> **Hint:** The likelihood ratio is 0.90/0.08 = 11.25; multiply it by prior odds p/(1−p), then convert odds o back with o/(1+o).
 
 ## 6. Independence is a factorization statement
 
@@ -309,11 +340,17 @@ If nonempty events \(A\) and \(B\) are disjoint, observing \(B\) makes \(A\) imp
 
 </details>
 
-> **Practice — Foundation:** Give an example of two disjoint events that are not independent, and verify the failure numerically.
+> **Practice — Foundation:** Roll one fair die and let \(A=\{1,2\}\) and \(B=\{5,6\}\). Compute \(P(A\cap B)\) and \(P(A)P(B)\), and conclude whether these disjoint events are independent.
 >
-> **Practice — Core:** For a \(2\times2\) table of your choice, test independence using both \(P(A\cap B)=P(A)P(B)\) and \(P(A\mid B)=P(A)\).
+> **Hint:** The events share no outcome, so the intersection has mass 0, while the product is (1/3)(1/3).
+>
+> **Practice — Core:** In 100 examples, 12 are in \(A\cap B\), 28 in \(A\cap B^c\), 18 in \(A^c\cap B\), and 42 in \(A^c\cap B^c\). Test independence using both \(P(A\cap B)=P(A)P(B)\) and \(P(A\mid B)=P(A)\).
+>
+> **Hint:** First get P(A)=40/100 and P(B)=30/100; then compare 12/100 with their product and 12/30 with P(A).
 >
 > **Practice — Stretch:** Construct three events that are pairwise independent but not mutually independent. Check every required factorization explicitly.
+>
+> **Hint:** Use two fair bits and their exclusive-or; list the four possible triples.
 
 ## 7. Random variables turn outcomes into numbers
 
@@ -341,9 +378,15 @@ is defined for discrete and continuous random variables. It is nondecreasing, ri
 
 > **Practice — Foundation:** For two fair coin tosses, define \(X\) as the number of heads and list \(X(\omega)\) for every outcome.
 >
+> **Hint:** List HH, HT, TH, TT before grouping by head count.
+>
 > **Practice — Core:** Let \(Y=X^2\). Derive the PMF of \(Y\) from the outcome map rather than guessing from its possible values.
 >
-> **Practice — Stretch:** Construct two different random variables on the same sample space that have the same distribution but assign values to individual outcomes differently.
+> **Hint:** Sum masses of every outcome sent to the same squared value.
+>
+> **Practice — Stretch:** On the two-toss sample space \(\{HH,HT,TH,TT\}\), let \(X\) count heads and \(W\) count tails. Show that \(X\) and \(W\) have the same PMF, and list the outcomes on which \(X(\omega)\ne W(\omega)\).
+>
+> **Hint:** Tabulate both functions outcome by outcome; each takes values 0, 1, 2 with masses 1/4, 1/2, 1/4, but they disagree on HH and TT.
 
 ## 8. Expectation and the indicator method
 
@@ -390,9 +433,15 @@ No independence between the indicators was required for this expectation.
 
 > **Practice — Foundation:** For \(P(X=0)=0.2\), \(P(X=1)=0.5\), and \(P(X=3)=0.3\), compute \(E[X]\).
 >
-> **Practice — Core:** A random permutation of \(n\) items is generated. Introduce indicator variables and derive the expected number of fixed points without enumerating permutations.
+> **Hint:** Multiply each value by its mass and add.
 >
-> **Practice — Stretch:** Give a heavy-tailed discrete distribution for which total probability is one but \(E[X]\) is infinite. Explain which series fails to converge.
+> **Practice — Core:** A uniformly random permutation of \(n\) items is generated. Introduce indicator variables and derive the expected number of fixed points without enumerating permutations; then check your answer for \(n=3\) by listing all six permutations.
+>
+> **Hint:** Each position is fixed with probability 1/n, so the n indicators sum to expectation 1; for n = 3 the fixed-point counts are 3, 1, 1, 1, 0, 0.
+>
+> **Practice — Stretch:** Let \(P(X=k)=\frac{6}{\pi^2k^2}\) for \(k=1,2,\ldots\). Verify that the masses sum to one and show that \(E[X]\) is infinite by identifying which series diverges.
+>
+> **Hint:** Use \(\sum 1/k^2=\pi^2/6\) for normalization; the first-moment series becomes \((6/\pi^2)\sum 1/k\), the harmonic series.
 
 ## 9. Model probability is not empirical frequency
 
@@ -412,11 +461,17 @@ Research code should make the random mechanism inspectable:
 4. report the number of trials and variability, not only one estimate;
 5. test the simulator on cases with an exact answer.
 
-> **Practice — Foundation:** Simulate 100 fair coin tosses by hand or in code and compare the empirical head frequency with \(0.5\).
+> **Practice — Foundation:** In Python, create `r = random.Random(1)` and count heads among 100 tosses coded as `r.random() < 0.5`. Report the empirical frequency and its distance from \(0.5\) in units of the standard error \(0.05\).
 >
-> **Practice — Core:** Repeat the estimate at sample sizes 100, 1,000, and 10,000 over many trials. Plot or tabulate how the typical absolute error changes.
+> **Hint:** The standard error is sqrt(0.5·0.5/100) = 0.05; this seed gives 47 heads, a distance of 0.6 standard errors.
 >
-> **Practice — Stretch:** Create a dependent sequence with marginal success probability \(0.5\). Compare its empirical-frequency stability with independent Bernoulli trials and explain the difference.
+> **Practice — Core:** With `random.Random(1)`, generate 500 independent samples of fair tosses at each size \(n=100,1{,}000,10{,}000\). Tabulate the mean absolute error \(|\hat p-0.5|\) for each \(n\) and compare it with \(0.5\sqrt{2/(\pi n)}\).
+>
+> **Hint:** Repeat whole samples, not one running path; the predicted values are about 0.040, 0.0126 and 0.0040, shrinking by √10 per tenfold increase.
+>
+> **Practice — Stretch:** With `random.Random(2)`, create 500 sequences of length 1,000 in two ways: independent fair bits, and one fair bit copied to all 1,000 positions. Both have marginal success probability \(0.5\). Report the standard deviation of the 500 empirical frequencies in each case and explain the difference.
+>
+> **Hint:** Independent bits give about sqrt(0.25/1000) ≈ 0.016; the copied bit makes every frequency exactly 0 or 1, so its standard deviation is about 0.5.
 
 ## 10. ML connections and common failure modes
 
@@ -427,11 +482,17 @@ Research code should make the random mechanism inspectable:
 - **Conditional versus causal:** \(P(Y\mid X)\) describes an observational distribution. It does not by itself describe what happens when an intervention changes \(X\).
 - **Union over many choices:** repeatedly selecting the best-looking model or prompt increases the chance that at least one result looks good by noise. Later units turn this observation into multiple-testing corrections and uniform generalization bounds.
 
-> **Practice — Foundation:** For each failure mode above, name the probability assumption or conditioning mistake being violated.
+> **Practice — Foundation:** A classifier has sensitivity \(0.90\) and false-positive rate \(0.05\) on a class with base rate \(0.01\). Compute its precision \(P(Y=1\mid\widehat Y=1)\) and name which failure mode above the gap between 0.90 and your answer illustrates.
 >
-> **Practice — Core:** Design train, validation, and test splits for repeated users whose records arrive over time. State exactly which dependence and leakage risks your split prevents.
+> **Hint:** Precision is 0.009/(0.009+0.0495); the missing ingredient in reading 0.90 as precision is the class base rate.
 >
-> **Practice — Stretch:** Suppose twenty prompt variants are tried and only the best score is reported. Describe the hidden conditioning event and propose an evaluation protocol that accounts for selection.
+> **Practice — Core:** A log has 1,000 users, each with daily records from January to December. Design train, validation, and test splits (give user counts and date ranges) for predicting next-month behavior of new users, and state which dependence and leakage risks each choice prevents.
+>
+> **Hint:** Assign each user to exactly one split (for example 700/150/150) and train only on records dated before the evaluation window, so neither the same user nor future information crosses splits.
+>
+> **Practice — Stretch:** Twenty prompt variants all have true accuracy \(0.70\) and are scored on the same 200 validation examples; only the best score is reported. Simulate 300 repetitions with `random.Random(3)`, report the average best score, name the hidden conditioning event, and propose an evaluation protocol that removes the bias.
+>
+> **Hint:** Each score has standard error about sqrt(0.21/200) ≈ 0.032, and the maximum of 20 such scores averages about 0.76; rescoring only the selected prompt on fresh data removes the selection.
 
 ## 11. Runnable lab: exact conditional probability
 
@@ -470,45 +531,65 @@ Derive each result from the axioms or the definition of conditional probability:
 6. Bayes' rule from two expressions for \(P(A\cap B)\).
 7. Linearity of expectation for two finite random variables.
 
+## Prediction experiment
+
+Predict both the baseline and failure-preset results before revealing the calculation. Record the assumptions, change one control at a time, and explain the boundary case. This small deterministic model isolates a mechanism; it is not an empirical validation of a trained system.
+
+```lab
+lab: ps-events
+```
+
 ## 13. End-of-unit practice (graded)
 
-**Foundation — problems 1–3.** Build accurate finite models and execute direct calculations.
+Work each problem before opening its authored solution. Written proofs and design answers require self-review against the rubric; numeric fields check only the stated quantities.
 
-1. **Routine.** Two fair dice are rolled. Compute the probability that their sum is at least ten.
-2. **Complement.** Derive the probability of at least one shared birthday among \(m\) people under a uniform 365-day model.
-3. **Conditioning.** Two cards are drawn without replacement from a standard deck. Given that at least one is an ace, compute the probability both are aces. State whether the observation reveals which draw was an ace.
 
-**Core — problems 4–7.** Combine conditioning, factorization, and indicator arguments.
+### Foundation — problems 1–3. Build accurate finite models and execute direct calculations.
 
-4. **Bayes.** Recompute the contamination example if the base rate falls from 2% to 0.2%, holding detector behavior fixed. Explain the direction of change before calculating.
-5. **Independence.** Prove that if \(A\) and \(B\) are independent, then \(A^c\) and \(B\) are independent.
-6. **Indicators.** Derive the expected number of empty buckets after hashing \(m\) items independently into \(N\) uniform buckets.
-7. **Counterexample.** Construct events that are pairwise independent but not mutually independent, different from the two-coin example.
+**A1 · Foundation · paper — Routine.** Two fair dice are rolled. Compute the probability that their sum is at least ten.
 
-**Stretch — problems 8–12.** Transfer the probability language to evaluation, algorithms, and model criticism.
+**A2 · Foundation · paper — Complement.** Derive the probability of at least one shared birthday among \(m\) people under a uniform 365-day model, then evaluate it for \(m=23\).
 
-8. **Research critique.** A benchmark reports the best of 40 prompt variants on the same 300 examples. Identify the event union being ignored and specify what additional data split would support an honest final estimate.
-9. **Implementation.** A bag contains three red and two blue balls. Estimate the probability of two red draws (a) with replacement and (b) without replacement using 100,000 trials from a local RNG seeded with 2026. Compare with both exact answers and attach a Monte Carlo standard error to each estimate.
-10. **Transfer.** Explain why next-token factorization is an application of the chain rule and not an independence assumption.
-11. **Adversarial conditioning.** On easy prompts, model A gets \(81/87\) correct and B gets \(234/270\); on hard prompts, A gets \(192/263\) and B gets \(55/80\). Verify that A wins within both difficulty groups while B wins after aggregation. Identify the conditioning variable and explain exactly which unequal weights create the reversal.
-12. **Model audit.** Choose a real randomized system such as sampling, routing, or data augmentation. Specify its sample space, probability law, observables, and at least three ways the mathematical model could disagree with implementation.
+**A3 · Foundation · paper — Conditioning.** Two cards are drawn without replacement from a standard deck. Given that at least one is an ace, compute the probability both are aces. State whether the observation reveals which draw was an ace.
 
-<details><summary>Solution sketches</summary>
+### Core — problems 4–7. Combine conditioning, factorization, and indicator arguments.
 
-1. There are six favorable ordered pairs: \((4,6),(5,5),(6,4),(5,6),(6,5),(6,6)\), so the answer is \(6/36=1/6\).
-2. The complement probability is \(\prod_{j=0}^{m-1}(365-j)/365\) for \(m\le365\); subtract it from one. For \(m>365\), the collision probability is one.
-3. Of \({52\choose2}\) unordered pairs, those with at least one ace number \({52\choose2}-{48\choose2}=198\). The six two-ace pairs are favorable, giving \(6/198=1/33\). Observing a specified draw to be an ace would define a different conditioning event.
-4. In 100,000 cases, expect 200 contaminated, 190 true flags, and \(0.04(99{,}800)=3{,}992\) false flags. The posterior is \(190/4{,}182\approx0.0454\); reducing the prior reduces the posterior.
-5. Write \(P(A^c\cap B)=P(B)-P(A\cap B)=P(B)-P(A)P(B)=P(A^c)P(B)\).
-6. Let \(I_j\) indicate that bucket \(j\) is empty. Each item avoids it with probability \((N-1)/N\), so \(E[I_j]=(1-1/N)^m\). Summing gives \(N(1-1/N)^m\).
-7. One construction uses independent fair bits \(U,V\) and events \(U=0\), \(V=0\), and \(U\oplus V=0\).
-8. Each prompt has an event that its observed score is unusually high due to sampling noise. Selecting across 40 variants concerns their union. Use a development set for selection and a previously untouched test set for the final estimate.
-9. The exact probabilities are \((3/5)^2=0.36\) with replacement and \((3/5)(2/4)=0.30\) without replacement. For an indicator estimate \(\hat p\), report \(\sqrt{\hat p(1-\hat p)/100000}\), about \(0.0015\) in either experiment. A correct seeded run should land within a few such standard errors of each target; using \(0.36\) for the second design ignores depletion.
-10. Repeated multiplication by \(P(x_t\mid x_{<t})\) is the chain rule. Independence would replace these history-dependent conditionals with marginals \(P(x_t)\), a much stronger and generally false statement.
-11. Within easy prompts, A has \(81/87\approx0.931\) against B's \(234/270\approx0.867\). Within hard prompts, A has \(192/263\approx0.730\) against B's \(55/80=0.6875\). Overall, A has \(273/350=0.780\), while B has \(289/350\approx0.826\). Difficulty is the conditioning variable. A was evaluated mostly on hard prompts and B mostly on easy prompts, so the marginal rates use different difficulty mixtures.
-12. A complete audit names atomic outcomes, normalizes the law, defines each measured random variable, and tests assumptions such as independence, identical distributions, reproducible randomness, and faithful logging against observable behavior.
+**A4 · Core · paper — Bayes.** Recompute the contamination example if the base rate falls from 2% to 0.2%, holding detector behavior fixed. Explain the direction of change before calculating.
 
-</details>
+**A5 · Core · paper — Independence.** Prove that if \(A\) and \(B\) are independent, then \(A^c\) and \(B\) are independent.
+
+**A6 · Core · paper — Indicators.** Derive the expected number of empty buckets after hashing \(m\) items independently into \(N\) uniform buckets.
+
+**A7 · Core · paper — Counterexample.** Roll a fair four-sided die with faces \(1,2,3,4\) and let \(A=\{1,2\}\), \(B=\{1,3\}\), \(C=\{1,4\}\). Verify that the three events are pairwise independent but not mutually independent.
+
+### Stretch — problems 8–12. Transfer the probability language to evaluation, algorithms, and model criticism.
+
+**A8 · Stretch · paper — Research critique.** A benchmark reports the best of 40 prompt variants on the same 300 examples. Suppose every variant has true accuracy \(0.60\). Compute the standard error of one variant's score, simulate the reported best score over 200 repetitions (seed 4), identify the event union being ignored, and specify what additional data split would support an honest final estimate.
+
+**A9 · Stretch · paper — Implementation.** A bag contains three red and two blue balls. Estimate the probability of two red draws (a) with replacement and (b) without replacement using 100,000 trials from a local RNG seeded with 2026. Compare with both exact answers and attach a Monte Carlo standard error to each estimate.
+
+**A10 · Stretch · paper — Transfer.** For two-token sequences over \(\{a,b\}\), let \(P(x_1=a)=0.6\), \(P(x_2=a\mid x_1=a)=0.9\), and \(P(x_2=a\mid x_1=b)=0.2\). Compute \(P(aa)\) by the chain rule and by the product of marginals \(P(x_1=a)P(x_2=a)\), and explain why next-token factorization is an application of the chain rule and not an independence assumption.
+
+**A11 · Stretch · paper — Adversarial conditioning.** On easy prompts, model A gets \(81/87\) correct and B gets \(234/270\); on hard prompts, A gets \(192/263\) and B gets \(55/80\). Verify that A wins within both difficulty groups while B wins after aggregation. Identify the conditioning variable and explain exactly which unequal weights create the reversal.
+
+**A12 · Stretch · paper — Model audit.** An augmentation pipeline flips each image horizontally with probability \(0.5\) and independently chooses one of 4 crop offsets uniformly. Write its sample space and probability law, compute \(P(\text{flipped and offset }0)\) and the mean and standard deviation of the number of flipped images in a batch of 256, and name three concrete implementation behaviors that would make this model disagree with the real pipeline.
+
+
+## Six-part checkpoint
+
+Complete these without notes, then use the solutions to audit assumptions and reasoning. Passing a numeric check alone does not establish mastery. For implementation and transfer, retain the code/results or written protocol as evidence.
+
+**K1 · Foundation · gate — Concept.** Distinguish an outcome, event, and conditioning event.
+
+**K2 · Core · gate — Derivation.** Derive Bayes’ rule from the definition of conditional probability.
+
+**K3 · Core · gate — Calculation.** A detector has sensitivity 0.9, false-positive rate 0.1 and prevalence 0.1. Find P(positive case | positive detector).
+
+**K4 · Core · gate — Implementation audit.** Reproduce two settings of the ps-events experiment independently, including its failure preset. State a numerical invariant or analytic oracle and explain what the plot does not establish.
+
+**K5 · Stretch · gate — Claim audit.** Does pairwise independence justify multiplying the probabilities of three events?
+
+**K6 · Stretch · gate — RE/RS transfer.** Design a final evaluation after choosing among 30 prompts.
 
 ## Mastery check
 

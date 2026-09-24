@@ -10,18 +10,22 @@ Develop exact vector-space arguments into numerically trustworthy algorithms, th
 
 **Status vocabulary.** “Authored / expand” means the linked lesson and listed Python tasks exist, with targeted additions or verification still planned. It does not certify complete coverage or external review. “New” means no lesson, bank, figure, or Python task is being claimed as implemented. The module map and detailed briefs distinguish these states.
 
+### Existing-lesson update completed
+
+LA01–LA08 retain their derivations, interactive figures and 24 registered Python tasks. Each now has a bounded local audit and an additional checked cumulative exercise: scale-aware rank; pivot growth/backward error; normal-equation versus QR/SVD diagnostics; QR reconstruction versus orthogonality; sign/log-volume; nonnormal spectral sensitivity; the complex-Hermitian convention; and stable subspace/held-out PCA comparisons. Full new modules below remain planned.
+
 ### Coverage and remaining work
 
 | Handle | Current coverage and evidence | Still to add or verify |
 |---|---|---|
-| LA01 | [01-vectors-spaces-bases.md](01-vectors-spaces-bases.md). Vector-space axioms, dimension bound, subspaces, bases/coordinates, affine sets, Gram/metric previews, numerical dependence, and three interactive workbenches. | Retain the complete lesson; add an optional local representation-rank audit with scale-sensitive tolerances rather than duplicating the proof sequence. |
-| LA02 | [02-systems-elimination-subspaces.md](02-systems-elimination-subspaces.md). Elimination, rank-nullity, complete solution sets, all four fundamental subspaces, partial-pivot LU, and near-singular experiments. | Add an explicit pivot-growth/local residual audit in the numerical extension; retain the exact-algebra versus tolerance distinction. |
-| LA03 | [03-projections-least-squares.md](03-projections-least-squares.md). General metrics, Cauchy–Schwarz, orthogonal complements, projection theorem, rank-deficient least squares, weighted residuals, and linked geometric experiments. | Extend local comparisons with later QR/SVD implementations once authored; do not teach Gram–Schmidt early or replace the existing metric lab. |
-| LA04 | [04-orthonormal-bases-qr.md](04-orthonormal-bases-qr.md). Classical/modified Gram–Schmidt, reorthogonalization, reduced/complete/metric QR, triangular least-squares solves, and orthogonal initialization. | Reserve full Householder/blocked QR for LA11; add a local comparison of reconstruction and orthogonality errors across matrix scales. |
-| LA05 | [05-determinants-volume.md](05-determinants-volume.md). Multilinear/alternating definition, elimination sign bookkeeping, multiplicativity, QR volume proof, cofactors, and density-volume examples. | Add stable sign/log-absolute-determinant as a local extension in LA11; keep this module's computational examples small. |
-| LA06 | [06-eigenvalues-diagonalization.md](06-eigenvalues-diagonalization.md). Invariant subspaces, characteristic polynomial, real/complex distinctions, defects, matrix powers, transient growth, and qualified power-iteration convergence. | Add Schur decomposition and pseudospectral sensitivity as a bounded LA13 extension; retain the explicit limits of residual convergence. |
-| LA07 | [07-spectral-theorem-quadratic-forms.md](07-spectral-theorem-quadratic-forms.md). Calculus-free symmetric spectral theorem, variational eigenvalue results, Rayleigh/residual identities, PSD/PD geometry, and Cholesky pivot audits. | Add a short complex-Hermitian analogue before complex examples in LA13/LA14; keep probabilistic covariance assumptions in PS04. |
-| LA08 | [08-svd-low-rank.md](08-svd-low-rank.md). Full/reduced/compact SVD, four subspaces, spectral/Frobenius Eckart–Young proofs, centered affine PCA, whitening, and minimum-norm preview. | Preserve PCA in this module and its stable ID; add held-out reconstruction and repeated-singular-value subspace comparisons as local research exercises. |
+| LA01 | [01-vectors-spaces-bases.md](01-vectors-spaces-bases.md). Vector-space axioms, dimension bound, subspaces, bases/coordinates, affine sets, Gram/metric previews, numerical dependence, and three interactive workbenches. | Scale-sensitive local rank audit added; broader representation datasets remain an extension. |
+| LA02 | [02-systems-elimination-subspaces.md](02-systems-elimination-subspaces.md). Elimination, rank-nullity, complete solution sets, all four fundamental subspaces, partial-pivot LU, and near-singular experiments. | Pivot-growth and local backward-error audit added; a full perturbation treatment remains LA09. |
+| LA03 | [03-projections-least-squares.md](03-projections-least-squares.md). General metrics, Cauchy–Schwarz, orthogonal complements, projection theorem, rank-deficient least squares, weighted residuals, and linked geometric experiments. | Added a local algorithm-comparison protocol linked to the existing QR/SVD lessons; a broader numerical implementation remains LA11. |
+| LA04 | [04-orthonormal-bases-qr.md](04-orthonormal-bases-qr.md). Classical/modified Gram–Schmidt, reorthogonalization, reduced/complete/metric QR, triangular least-squares solves, and orthogonal initialization. | Reconstruction/orthogonality comparison across scales added; full Householder/blocked QR remains LA11. |
+| LA05 | [05-determinants-volume.md](05-determinants-volume.md). Multilinear/alternating definition, elimination sign bookkeeping, multiplicativity, QR volume proof, cofactors, and density-volume examples. | Small sign/log-absolute-determinant extension added; production factorization algorithms remain LA11. |
+| LA06 | [06-eigenvalues-diagonalization.md](06-eigenvalues-diagonalization.md). Invariant subspaces, characteristic polynomial, real/complex distinctions, defects, matrix powers, transient growth, and qualified power-iteration convergence. | Local nonnormal sensitivity counterexample added; Schur decomposition and the full pseudospectral extension remain LA13. |
+| LA07 | [07-spectral-theorem-quadratic-forms.md](07-spectral-theorem-quadratic-forms.md). Calculus-free symmetric spectral theorem, variational eigenvalue results, Rayleigh/residual identities, PSD/PD geometry, and Cholesky pivot audits. | Short complex-Hermitian analogue added; Fourier applications remain LA13/LA14 and covariance assumptions stay in PS04. |
+| LA08 | [08-svd-low-rank.md](08-svd-low-rank.md). Full/reduced/compact SVD, four subspaces, spectral/Frobenius Eckart–Young proofs, centered affine PCA, whitening, and minimum-norm preview. | Held-out reconstruction and repeated-singular-value projector comparisons added; larger empirical audits remain extensions. |
 | LA09 | No authored lesson. Previewed in LA01–LA08; no dedicated lesson. | Full perturbation/backward-error development; norm controls and scale-aware condition experiments. |
 | LA10 | No authored lesson. Minimum-norm channels previewed in LA08; no full treatment. | Moore–Penrose identities, rank-deficient solves, ridge spectral filters, and explicit implicit-bias conditions. |
 | LA11 | No authored lesson. Small LU, QR, and Cholesky exist; blocked/Householder methods do not. | Householder QR, blocked LU/Cholesky, triangular solves, BLAS cost models, and stable log-determinants. |
@@ -94,7 +98,7 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Already covered:** Vector-space axioms, dimension bound, subspaces, bases/coordinates, affine sets, Gram/metric previews, numerical dependence, and three interactive workbenches.
 
-**Add or verify:** Retain the complete lesson; add an optional local representation-rank audit with scale-sensitive tolerances rather than duplicating the proof sequence.
+**Add or verify:** Scale-sensitive local rank audit added; broader representation datasets remain an extension.
 
 **Existing artifacts:** [01-vectors-spaces-bases.md](01-vectors-spaces-bases.md); registered Python tasks: `span` → `span_coordinates`, `dependence` → `dependency_relation`, `coordinates` → `basis_coordinates`. Registered lesson figures: `la-vectors`, `la-span`, `la-basis`.
 
@@ -115,7 +119,7 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Already covered:** Elimination, rank-nullity, complete solution sets, all four fundamental subspaces, partial-pivot LU, and near-singular experiments.
 
-**Add or verify:** Add an explicit pivot-growth/local residual audit in the numerical extension; retain the exact-algebra versus tolerance distinction.
+**Add or verify:** Pivot-growth and local backward-error audit added; a full perturbation treatment remains LA09.
 
 **Existing artifacts:** [02-systems-elimination-subspaces.md](02-systems-elimination-subspaces.md); registered Python tasks: `echelon` → `row_echelon`, `solve-complete` → `solve_complete`, `lu` → `lu_factor`. Registered lesson figures: `la-elim`, `la-picture`, `la-map`.
 
@@ -140,7 +144,7 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Already covered:** General metrics, Cauchy–Schwarz, orthogonal complements, projection theorem, rank-deficient least squares, weighted residuals, and linked geometric experiments.
 
-**Add or verify:** Extend local comparisons with later QR/SVD implementations once authored; do not teach Gram–Schmidt early or replace the existing metric lab.
+**Add or verify:** Added a local algorithm-comparison protocol linked to the existing QR/SVD lessons; a broader numerical implementation remains LA11.
 
 **Existing artifacts:** [03-projections-least-squares.md](03-projections-least-squares.md); registered Python tasks: `project-onto` → `project_onto`, `normal-equations` → `normal_equations`, `gram-metric` → `gram_metric`. Registered lesson figures: `la-map`, `la-project`, `la-lsq`.
 
@@ -163,7 +167,7 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Already covered:** Classical/modified Gram–Schmidt, reorthogonalization, reduced/complete/metric QR, triangular least-squares solves, and orthogonal initialization.
 
-**Add or verify:** Reserve full Householder/blocked QR for LA11; add a local comparison of reconstruction and orthogonality errors across matrix scales.
+**Add or verify:** Reconstruction/orthogonality comparison across scales added; full Householder/blocked QR remains LA11.
 
 **Existing artifacts:** [04-orthonormal-bases-qr.md](04-orthonormal-bases-qr.md); registered Python tasks: `gram-schmidt` → `gram_schmidt`, `qr-solve` → `qr_solve`, `orthogonality-defect` → `orthogonality_defect`. Registered lesson figures: `la-gramschmidt`.
 
@@ -186,7 +190,7 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Already covered:** Multilinear/alternating definition, elimination sign bookkeeping, multiplicativity, QR volume proof, cofactors, and density-volume examples.
 
-**Add or verify:** Add stable sign/log-absolute-determinant as a local extension in LA11; keep this module's computational examples small.
+**Add or verify:** Small sign/log-absolute-determinant extension added; production factorization algorithms remain LA11.
 
 **Existing artifacts:** [05-determinants-volume.md](05-determinants-volume.md); registered Python tasks: `det-by-elimination` → `det_by_elimination`, `volume-ratio` → `volume_ratio`, `cofactor-2x2` → `cofactor_2x2`. Registered lesson figures: `la-det`.
 
@@ -209,7 +213,7 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Already covered:** Invariant subspaces, characteristic polynomial, real/complex distinctions, defects, matrix powers, transient growth, and qualified power-iteration convergence.
 
-**Add or verify:** Add Schur decomposition and pseudospectral sensitivity as a bounded LA13 extension; retain the explicit limits of residual convergence.
+**Add or verify:** Local nonnormal sensitivity counterexample added; Schur decomposition and the full pseudospectral extension remain LA13.
 
 **Existing artifacts:** [06-eigenvalues-diagonalization.md](06-eigenvalues-diagonalization.md); registered Python tasks: `power-iteration` → `power_iteration`, `char-poly-2x2` → `char_poly_2x2`, `diagonalizable-2x2` → `is_diagonalizable_2x2`. Registered lesson figures: `la-eigen`, `la-power`.
 
@@ -232,7 +236,7 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Already covered:** Calculus-free symmetric spectral theorem, variational eigenvalue results, Rayleigh/residual identities, PSD/PD geometry, and Cholesky pivot audits.
 
-**Add or verify:** Add a short complex-Hermitian analogue before complex examples in LA13/LA14; keep probabilistic covariance assumptions in PS04.
+**Add or verify:** Short complex-Hermitian analogue added; Fourier applications remain LA13/LA14 and covariance assumptions stay in PS04.
 
 **Existing artifacts:** [07-spectral-theorem-quadratic-forms.md](07-spectral-theorem-quadratic-forms.md); registered Python tasks: `rayleigh-quotient` → `rayleigh_quotient`, `cholesky` → `cholesky`, `is-pd` → `is_pd`. Registered lesson figures: `la-quadform`.
 
@@ -259,7 +263,7 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Already covered:** Full/reduced/compact SVD, four subspaces, spectral/Frobenius Eckart–Young proofs, centered affine PCA, whitening, and minimum-norm preview.
 
-**Add or verify:** Preserve PCA in this module and its stable ID; add held-out reconstruction and repeated-singular-value subspace comparisons as local research exercises.
+**Add or verify:** Held-out reconstruction and repeated-singular-value projector comparisons added; larger empirical audits remain extensions.
 
 **Existing artifacts:** [08-svd-low-rank.md](08-svd-low-rank.md); registered Python tasks: `svd-2x2` → `svd_2x2`, `truncate-rank` → `truncate_rank`, `explained-variance` → `explained_variance`. Registered lesson figures: `la-svd`, `la-approx`, `la-pca`.
 

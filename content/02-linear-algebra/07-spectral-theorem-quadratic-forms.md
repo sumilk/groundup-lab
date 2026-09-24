@@ -46,13 +46,13 @@ We still owe existence: perpendicularity of eigenvectors does not itself produce
 >
 > **Hint:** Each expression reads one off-diagonal entry. Then identify which equality would fail if only a₁₂ changed.
 >
-> **Practice — Core:** Let A be symmetric and Aq=λq. Prove q⊥ is invariant without assuming an eigenbasis.
+> **Practice — Core:** For \(A=\begin{pmatrix}2&1\\1&2\end{pmatrix}\) and its eigenvector q=(1,1), check that A(1,−1) is perpendicular to q. Then prove for any symmetric A with Aq=λq that q⊥ is invariant, without assuming an eigenbasis.
 >
-> **Hint:** For x perpendicular to q, move A across the dot product and use the single supplied eigenvector equation.
+> **Hint:** A(1,−1)=(1,−1). For general x⊥q, move A across the dot product: qᵀ(Ax)=(Aq)ᵀx=λqᵀx=0.
 >
-> **Practice — Stretch:** Give two nonorthogonal eigenvectors of a symmetric matrix, and explain why they do not contradict the distinct-eigenvalue claim.
+> **Practice — Stretch:** For \(A=\operatorname{diag}(3,3,5)\), give two nonorthogonal eigenvectors, and explain why they do not contradict the claim that a symmetric matrix's eigenvectors for distinct eigenvalues are orthogonal.
 >
-> **Hint:** A scalar matrix makes every nonzero vector an eigenvector. The eigenvalues of your two vectors will coincide.
+> **Hint:** Every nonzero vector in span(e₁,e₂) is an eigenvector for 3, for example (1,0,0) and (1,1,0). Their eigenvalues coincide, while any eigenvector for 5 is still orthogonal to both.
 
 ## 2. Find one axis, then reduce the room
 
@@ -95,13 +95,13 @@ $$
 
 Reading eigen-coordinates and taking dot products are now the same operation. Unlike a general eigenbasis, this change of coordinates preserves lengths and angles. It may include a reflection; “orthogonal” does not mean “rotation only.”
 
-> **Practice — Foundation:** Verify Aq₁=q₁ and Aq₂=3q₂ for the displayed matrix.
+> **Practice — Foundation:** For \(A=\begin{pmatrix}2&1\\1&2\end{pmatrix}\), \(q_1=(1,-1)/\sqrt2\), and \(q_2=(1,1)/\sqrt2\), verify Aq₁=q₁ and Aq₂=3q₂.
 >
 > **Hint:** Multiply before dividing by √2. The normalization affects length, not the eigenvalue equation.
 >
-> **Practice — Core:** Explain why the small-t argument must permit both signs of t.
+> **Practice — Core:** In the maximality inequality \(2t\,v^{\mathsf T}Aq+t^2(v^{\mathsf T}Av-\lambda)\le0\), suppose \(v^{\mathsf T}Aq=-0.5\) and \(v^{\mathsf T}Av-\lambda=-1\). Evaluate the left side at t=0.1 and t=−0.1. Which sign exposes the contradiction, and why must the argument permit both signs of t?
 >
-> **Hint:** A nonzero linear coefficient can have either sign. Choose t so their product is positive; a quadratic term cannot dominate it for every sufficiently small t.
+> **Hint:** The left side is \(-t-t^2\). Only t<0 makes the linear term positive, and for small |t| the quadratic term cannot cancel it.
 >
 > **Practice — Stretch:** Prove the converse of the spectral theorem and use it to rule out an orthogonal diagonalization of [[1,1],[0,1]].
 >
@@ -162,9 +162,9 @@ No. Ax=(−1,1)/√2 is perpendicular to x, so the projection coefficient vanish
 >
 > **Hint:** The eigenvalue weights are 1/5 and 4/5, not 1/3 and 2/3. Divide by squared length.
 >
-> **Practice — Core:** Prove the residual identity by expressing both Ax and Rx in the same orthonormal eigenbasis.
+> **Practice — Core:** For A=diag(1,3) and unit x=(1,2)/√5, compute R, the residual r=Ax−Rx, and ‖r‖². Then prove \(\|r\|^2=\sum_i(\lambda_i-R)^2y_i^2\) by expressing Ax and Rx in the same orthonormal eigenbasis.
 >
-> **Hint:** The coefficient of r along q_i is (λ_i−R)y_i. Pythagoras turns its norm squared into a sum.
+> **Hint:** Here R=13/5 and r=(−8,4)/(5√5), so ‖r‖²=0.64. In general the coefficient of r along q_i is (λ_i−R)y_i, and Pythagoras turns its norm squared into a sum.
 >
 > **Practice — Stretch:** For diag(1,4,9), explain why every two-dimensional subspace contains a vector with Rayleigh quotient at least 4.
 >
@@ -197,17 +197,17 @@ $$
 
 It repeats every 180°, because an arrow and its negative give the same measurement. The laboratory also reports the first Cholesky pivot a₁₁ and, when it is positive, the second pivot a₂₂−a₁₂²/a₁₁. Watch where the factorization stops as the bowl flattens. The geometric classification uses the controlled eigenvalues; rounded matrix entries and computed pivots are numerical readouts.
 
-> **Practice — Foundation:** In the bowl preset, find the minimum and maximum readings without changing either eigenvalue.
+> **Practice — Foundation:** In the bowl preset (λ₁=1, λ₂=3, axis angle θ), evaluate R(φ) at φ=θ, θ+45°, and θ+90°, then give the minimum and maximum readings without changing either eigenvalue.
 >
-> **Hint:** Move the probe onto each principal axis. The value depends on angle relative to the axes, not on the plot's horizontal direction alone.
+> **Hint:** Use \(R(\varphi)=\lambda_1\cos^2(\varphi-\theta)+\lambda_2\sin^2(\varphi-\theta)\). The value depends on angle relative to the axes, so the extremes sit on the principal axes.
 >
-> **Practice — Core:** Explain why the long axis of the q=1 ellipse belongs to the smaller positive eigenvalue.
+> **Practice — Core:** For A=diag(1,4), find the distance from the origin to the contour xᵀAx=1 along e₁ and along e₂. Explain why the long axis of the q=1 ellipse belongs to the smaller positive eigenvalue.
 >
 > **Hint:** Along a unit eigenvector, q(tq_i)=λ_i t². Solve for the distance t needed to reach height one.
 >
-> **Practice — Stretch:** In the saddle preset, find two perpendicular zero-value lines. Why are neither of them the null space?
+> **Practice — Stretch:** In the saddle preset (λ₁=1, λ₂=−1) with axis angle 0, so A=diag(1,−1), find the two zero-value lines of q and check that they are perpendicular. Compute A(1,1). Why is neither line the null space?
 >
-> **Hint:** For eigenvalues 1 and −1, the squares cancel at equal eigen-coordinate magnitudes. Both eigenvalues are nonzero, so A is invertible.
+> **Hint:** q(x)=x₁²−x₂² vanishes exactly on x₂=±x₁. A(1,1)=(1,−1)≠0, and both eigenvalues are nonzero, so A is invertible.
 
 ## 5. Read a quadratic form from its signs
 
@@ -291,9 +291,9 @@ For PD A, λ₁ is the weakest stiffness. As it approaches zero, motion in that 
 >
 > **Hint:** Square roots of eigenvalues build the factor; reciprocal square roots build the contour radii.
 >
-> **Practice — Stretch:** Explain why positive diagonal plus positive determinant is sufficient for symmetric 2×2 matrices but insufficient in dimension three.
+> **Practice — Stretch:** Show that positive diagonal plus positive determinant forces a symmetric 2×2 matrix to be PD. Then show it fails in 3D for \(A=\begin{pmatrix}1&2&2\\2&1&2\\2&2&1\end{pmatrix}\) by computing det A and xᵀAx at x=(1,−1,0).
 >
-> **Hint:** In 2D complete the square using a₁₁>0. In 3D try a symmetric matrix with diagonal 1 and every off-diagonal entry 2.
+> **Hint:** In 2D complete the square using a₁₁>0. For the 3×3 matrix, write A=2·11ᵀ−I to read its eigenvalues, then evaluate the form at (1,−1,0) directly.
 
 ## 7. Cholesky: pay for one square at a time
 
@@ -343,9 +343,9 @@ For a small 2×2, a>0 and det(A)>0 are equivalent to positive pivots because p�
 >
 > **Hint:** The off-diagonal factor is 2/√4=1; subtract its square from the second diagonal entry.
 >
-> **Practice — Core:** In the block proof, why choose the first coordinate −rᵀz/a?
+> **Practice — Core:** In the block proof take A=[[4,2],[2,3]], so a=4 and r=2. Set x=(−rz/a, z)=(−z/2, z) and evaluate xᵀAx. Why is the first coordinate chosen as −rᵀz/a?
 >
-> **Hint:** It makes the completed first square zero, isolating the remaining quadratic form on z.
+> **Hint:** You should get 2z², the Schur complement 3−2²/4 times z². The choice makes the completed first square zero, isolating the remaining quadratic form on z.
 >
 > **Practice — Stretch:** At tol=10⁻¹², compare the lab's decisions on 10⁻¹⁴I and diag(1,10⁻¹⁴). Are either matrices mathematically non-PD?
 >
@@ -381,17 +381,27 @@ Here the gradient contains first derivatives; the Hessian contains second deriva
 
 Finally, adding αI shifts every eigenvalue by α. A+αI is PD exactly when λ₁+α>0. A shift can repair a quadratic model, but it changes the model. In an implementation, record it rather than presenting the shifted matrix's factor as a factor of the original.
 
-> **Practice — Foundation:** Why is XᵀX PSD even if X is rectangular or has dependent columns?
+> **Practice — Foundation:** For \(X=\begin{pmatrix}1&2\\2&4\\3&6\end{pmatrix}\), compute XᵀX and evaluate xᵀXᵀXx at x=(1,0) and x=(2,−1). Why is XᵀX PSD even though X is rectangular with dependent columns?
 >
-> **Hint:** Evaluate its quadratic form as a squared Euclidean norm. Strict positivity requires an extra condition on the null space.
+> **Hint:** Each value equals ‖Xx‖², a squared Euclidean norm. X(2,−1)=0 gives the zero value, so strict positivity fails exactly on the null space.
 >
 > **Practice — Core:** For A=diag(2,0), compare the minimizers of ½xᵀAx−bᵀx for b=(2,0) and b=(2,1).
 >
 > **Hint:** Write the function as x₁²−2x₁−b₂x₂. The second coordinate is either free or a direction of unlimited descent.
 >
-> **Practice — Stretch:** A report says “the Hessian is PSD, so this stationary point is a strict local minimum.” Refute it with two smooth losses having the same Hessian there.
+> **Practice — Stretch:** For \(f(x,y)=x^2+y^4\) and \(g(x,y)=x^2-y^4\), compute the gradient and Hessian at the origin. Use them to refute the report “the Hessian is PSD, so this stationary point is a strict local minimum.”
 >
-> **Hint:** Fourth-degree terms disappear from the Hessian at zero but can determine opposite behaviors near zero.
+> **Hint:** Both have zero gradient and Hessian diag(2,0) at the origin. Fourth-degree terms vanish from the Hessian but decide the behavior: compare f and g along the y-axis.
+
+## Local numerical and research audit
+
+### The complex-Hermitian analogue
+
+Over complex coordinates replace transpose by conjugate transpose: \(\langle x,y\rangle=x^*y\). A Hermitian matrix satisfies \(H=H^*\); its quadratic form \(x^*Hx\) is real because it equals its complex conjugate. The spectral theorem becomes \(H=U\Lambda U^*\), with unitary \(U\) and real diagonal \(\Lambda\). Positive definiteness means \(x^*Hx>0\) for every nonzero complex \(x\).
+
+For example, \(H=\begin{pmatrix}2&i\\-i&2\end{pmatrix}\) is Hermitian and has eigenvalues one and three. It is not real symmetric. This is the convention needed for later Fourier and complex spectral examples; replacing \(*\) by a plain transpose would lose the inner-product and positivity identities.
+
+**M7 · Stretch · mixed — The complex-Hermitian analogue.** Compute the eigenvalues of H=[[2,i],[−i,2]] and determine whether H is positive definite.
 
 ## 9. Three runnable coding labs
 

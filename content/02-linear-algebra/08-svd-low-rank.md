@@ -46,17 +46,17 @@ It sends e₁∈ℝ³ to 3e₁∈ℝ², e₂ to 2e₂, and e₃ to zero. Its ran
 
 Before going on, say aloud which space each symbol belongs to: x and vᵢ are inputs, Ax and uᵢ are outputs. An SVD does not generally make vᵢ and uᵢ the same arrow.
 
-> **Practice — Foundation:** For the displayed 2×3 matrix, give Ae₁, Ae₂, and Ae₃ with the correct output dimension.
+> **Practice — Foundation:** For \(A=\begin{pmatrix}3&0&0\\0&2&0\end{pmatrix}\), give Ae₁, Ae₂, and Ae₃ with the correct output dimension.
 >
 > **Hint:** Read its three columns. Every output has two coordinates, including the zero output.
 >
-> **Practice — Core:** Why can a 2×3 matrix have all its listed singular values positive and still have a null direction?
+> **Practice — Core:** The same A has singular values 3 and 2, both positive. Find a unit input it sends to zero, and explain why every 2×3 matrix has a null direction.
 >
-> **Hint:** The list has min(m,n) entries. Compare the input dimension with the largest possible rank.
+> **Hint:** Ae₃=0. The list has min(2,3)=2 entries and the rank is at most 2, so rank–nullity leaves at least 3−2=1 null dimension.
 >
-> **Practice — Stretch:** Find a unit input whose length grows under the shear, despite both eigenvalues being 1. Why does that not contradict Module 7?
+> **Practice — Stretch:** For the shear \(S=\begin{pmatrix}1&2\\0&1\end{pmatrix}\), compute \(\|Se_2\|\) and show it exceeds 1 although both eigenvalues are 1. Why does that not contradict Module 7's eigenvalue bound on output length?
 >
-> **Hint:** Try the second coordinate vector and then check whether the shear satisfies the symmetry hypothesis.
+> **Hint:** Se₂=(2,1). Module 7's bound needs an orthonormal eigenbasis, which requires the symmetry hypothesis; check whether S equals Sᵀ.
 
 ## 2. Construct the SVD from one symmetric matrix
 
@@ -98,17 +98,17 @@ The first equation follows by substituting uᵢ=Avᵢ/σᵢ, and the second by a
 
 **An existence proof is not automatically a numerical algorithm.** Forming AᵀA squares singular values, making small directions harder to resolve amid rounding. For example, with A=[[1,1],[0,ε]], its determinant is ε, so it is full rank whenever ε≠0. Yet the Gram entry 1+ε² can round to 1, erasing that distinction. Production SVD routines work with A directly rather than using this proof as a recipe. Our 2×2 teaching task uses Gram geometry with explicitly limited numerical claims.
 
-> **Practice — Foundation:** Why is every eigenvalue of AᵀA nonnegative?
+> **Practice — Foundation:** For \(A=\begin{pmatrix}1&2\\2&1\end{pmatrix}\), compute AᵀA, then evaluate \(v^{\mathsf T}A^{\mathsf T}Av\) and \(\|Av\|^2\) at the unit eigenvector \(v=(1,1)/\sqrt2\). Why is every eigenvalue of AᵀA nonnegative?
 >
-> **Hint:** Evaluate the Gram quadratic form on a unit eigenvector and recognize a squared norm.
+> **Hint:** AᵀA=[[5,4],[4,5]]. On a unit eigenvector the Gram quadratic form equals the eigenvalue and also equals a squared norm.
 >
-> **Practice — Core:** Derive Aᵀuᵢ=σᵢvᵢ from the construction, stating where positivity of σᵢ is needed.
+> **Practice — Core:** For \(A=\begin{pmatrix}1&1\\1&1\\1&-1\end{pmatrix}\) with \(v_1=(1,1)/\sqrt2\) and σ₁=2, compute u₁=Av₁/σ₁ and verify Aᵀu₁=σ₁v₁. Then derive Aᵀuᵢ=σᵢvᵢ in general, stating where positivity of σᵢ is needed.
 >
-> **Hint:** Substitute Avᵢ/σᵢ and use the eigenvector equation for AᵀA.
+> **Hint:** Here u₁=(1,1,0)/√2. In general substitute uᵢ=Avᵢ/σᵢ and use AᵀAvᵢ=σᵢ²vᵢ; defining uᵢ requires dividing by σᵢ>0.
 >
-> **Practice — Stretch:** For a rank-one 3×2 matrix, explain how to construct a full U even though only one nonzero output can be normalized.
+> **Practice — Stretch:** For the rank-one \(A=\begin{pmatrix}1&2\\2&4\\2&4\end{pmatrix}\), find σ₁, v₁, and u₁, then complete a full orthogonal 3×3 U even though only one nonzero output can be normalized.
 >
-> **Hint:** One unit output spans the range. Extend it with two orthonormal vectors in its orthogonal complement; do not divide by the zero singular value.
+> **Hint:** Write A as the outer product (1,2,2)ᵀ(1,2). Extend u₁ with two orthonormal vectors orthogonal to it, for example starting from (2,−1,0); do not divide by the zero singular value.
 
 ## 3. Read, scale, write—and distinguish an image from a contour
 
@@ -136,7 +136,7 @@ An SVD is not fully unique. For a positive channel you may change the signs of u
 >
 > **Hint:** Gains are nonnegative. Put the sign reversal into one orthogonal factor instead.
 >
-> **Practice — Core:** In the shear preset, compare its eigenvalue magnitudes with its largest singular value. Explain the different questions they answer.
+> **Practice — Core:** The shear preset is \(\begin{pmatrix}1&2\\0&1\end{pmatrix}\), with singular values √2±1. Compare its eigenvalue magnitudes with its largest singular value and explain the different questions they answer.
 >
 > **Hint:** One compares an input with itself after mapping; the other maximizes output length over all unit inputs.
 >
@@ -189,9 +189,9 @@ Coordinates in ker(A) are free. Since V is orthogonal, setting all free coordina
 >
 > **Hint:** The first two coordinates are fixed by the two gains. The third does not affect the output but does add squared length.
 >
-> **Practice — Stretch:** Why can a reduced SVD of a wide full-row-rank matrix fail to display any basis of its null space?
+> **Practice — Stretch:** For the wide full-row-rank \(A=\begin{pmatrix}3&0&0\\0&2&0\end{pmatrix}\), give the reduced SVD factor shapes and the rows of its reduced Vᵀ. Why does this reduced factorization display no basis of the null space?
 >
-> **Hint:** Its p right-factor rows are all positive-gain directions. The omitted n−p columns of the full V carry the null space.
+> **Hint:** The reduced Vᵀ is 2×3 with rows e₁ᵀ and e₂ᵀ, both positive-gain directions. The omitted third column e₃ of the full V carries the null space.
 
 ## 5. Two error measures, two precise promises
 
@@ -236,9 +236,9 @@ If instead x is uniform on the unit sphere in ℝⁿ, its second moment is I/n, 
 >
 > **Hint:** Rank–nullity guarantees an input direction with zero output, even though both listed gains are positive.
 >
-> **Practice — Stretch:** Derive E‖Ex‖²=‖E‖_F² from E[xⱼxₖ]=δⱼₖ without invoking any probability theorem beyond linearity of expectation.
+> **Practice — Stretch:** For \(E=\begin{pmatrix}1&2\\0&3\end{pmatrix}\) and a random x with \(\mathbb E[x_jx_k]=\delta_{jk}\), expand \(\|Ex\|^2\), take its expectation, and compare with \(\|E\|_F^2\). Then derive \(\mathbb E\|Ex\|^2=\|E\|_F^2\) in general using only linearity of expectation.
 >
-> **Hint:** Expand each squared output coordinate and take the expectation of each cross term.
+> **Hint:** ‖Ex‖²=(x₁+2x₂)²+9x₂²; cross terms have expectation 0 and squares have expectation 1. In general expand each squared output coordinate the same way.
 
 ## 6. A rank budget means choosing channels
 
@@ -292,9 +292,9 @@ The “budget” step is a small optimization argument: if some weight is placed
 >
 > **Hint:** Keep 5 and inspect the tail. The two error measures aggregate it differently.
 >
-> **Practice — Core:** Explain why the spectral proof finds a vector killed by B inside a space of dimension k+1.
+> **Practice — Core:** For A=diag(3,2,1), k=1, and the rank-one candidate \(B=\begin{pmatrix}1&1&0\\0&0&0\\0&0&0\end{pmatrix}\), find a unit x in span(v₁,v₂)=span(e₁,e₂) with Bx=0 and compute \(\|(A-B)x\|\). Why does the proof search inside a space of dimension k+1=2?
 >
-> **Hint:** Apply rank–nullity to the restriction of B to that subspace, rather than to all of input space.
+> **Hint:** Restricted to span(e₁,e₂), B has rank at most 1, so rank–nullity gives a killed direction. Then (A−B)x=Ax, whose length is at least σ₂=2.
 >
 > **Practice — Stretch:** Verify both errors for the two rank-one approximations to diag(3,1) in the nonuniqueness example.
 >
@@ -333,9 +333,9 @@ Here trace is the sum of diagonal entries. Expand the sum as in section 5 to ver
 >
 > **Hint:** Count both collections of singular vectors and the five scalar gains. No bytes-per-number assumption is needed.
 >
-> **Practice — Stretch:** Construct an input distribution on which a matrix's small Frobenius truncation error causes 100% relative output error.
+> **Practice — Stretch:** Truncate A=diag(10,1) to rank one, which keeps 100/101 of the squared energy. For inputs x=±e₂, each with probability 1/2, compute the relative output error \(\|(A-A_1)x\|/\|Ax\|\).
 >
-> **Hint:** Concentrate inputs along a discarded positive-gain right singular vector. Compare output error with the original output norm on those inputs.
+> **Hint:** A₁=diag(10,0) kills e₂ entirely. Compare the lost output (0,±1) with the original output norm on those inputs.
 
 ## 8. PCA chooses an affine subspace for observations
 
@@ -388,13 +388,13 @@ provided the denominator is positive. The covariance divisor cancels in the rati
 >
 > **Hint:** Scores have one row per observation and one column per retained direction.
 >
-> **Practice — Core:** Why must the feature mean be added back after reconstructing from centered scores?
+> **Practice — Core:** For \(X=\begin{pmatrix}8&1\\12&1\\10&0\\10&2\end{pmatrix}\) with μ=(10,1), the rank-one centered reconstruction has rows (−2,0),(2,0),(0,0),(0,0). Compute the squared error against X with and without adding μ back, and explain why the mean must be restored.
 >
-> **Hint:** The centered reconstruction lives around the origin; the fitted affine subspace passes through the original mean.
+> **Hint:** Without the mean every residual row still contains the offset (10,1). The centered reconstruction lives around the origin; the fitted affine line passes through μ.
 >
-> **Practice — Stretch:** Prove the displayed affine-distance decomposition and explain why it does not uniquely identify a location parameter a along the fitted subspace.
+> **Practice — Stretch:** Prove the displayed affine-distance decomposition. Check it on the dataset above with P the horizontal projector and a=(13,1), then a=(10,2), and explain why it does not uniquely identify a location parameter a along the fitted subspace.
 >
-> **Hint:** Expand the squares; the centered residuals sum to zero. Only the perpendicular part of μ−a appears in the added term.
+> **Hint:** Expand the squares; the centered residuals sum to zero. Only the perpendicular part of μ−a appears in the added term: it is (0,0) for a=(13,1) and (0,−1) for a=(10,2).
 
 ## 9. Fit a line by moving the data, not a formula
 
@@ -434,7 +434,7 @@ The excess above optimal is explicit. This is a useful prediction test for the l
 >
 > **Hint:** Substitute sin²45°=1/2 into the derived excess-error formula.
 >
-> **Practice — Stretch:** Explain why coincident observations should produce undefined variance fractions but zero reconstruction error after centering.
+> **Practice — Stretch:** For three coincident observations X=[[3,5],[3,5],[3,5]], center the data, then compute the rank-one reconstruction error and the leading explained-variance ratio. Why is the first zero and the second undefined?
 >
 > **Hint:** Every centered observation is zero. The error is a sum of zeros; the fraction divides zero by zero.
 
@@ -462,13 +462,23 @@ What is a decaying spectrum evidence for? A good low-rank approximation **under 
 >
 > **Hint:** Use inverse square roots of covariance eigenvalues, not inverse singular values without the sample-size factor.
 >
-> **Practice — Core:** A feature's sample variance is zero. Explain why neither standardization nor whitening may silently divide by it.
+> **Practice — Core:** For X=[[1,5],[3,5],[5,5]], compute each feature's sample variance. Explain why neither standardization nor whitening may silently divide by the second feature's standard deviation.
 >
-> **Hint:** The proposed scaling is undefined. Dropping a direction or using a floor is an explicit change of the transform.
+> **Hint:** The second column is constant, so its variance is 0 and the scaling 1/0 is undefined. Dropping that direction or using a floor is an explicit change of the transform.
 >
-> **Practice — Stretch:** Construct a two-feature dataset or distribution whose lower-variance coordinate predicts a label and whose higher-variance coordinate is irrelevant to it.
+> **Practice — Stretch:** Let y=±1 with equal probability, \(x_1\sim N(0,100)\) independent of y, and \(x_2=0.1y\). Compute the variances of x₁ and x₂, the first principal direction, and which coordinate predicts y. What does this show about keeping only top-variance directions?
 >
-> **Hint:** Let one coordinate be a large independent nuisance and the other a small signed copy of the label.
+> **Hint:** The covariance is diag(100, 0.01), so the first principal direction is e₁. Yet x₁ is an independent nuisance, while sign(x₂) equals y exactly.
+
+## Local numerical and research audit
+
+### Compare subspaces and evaluate PCA out of sample
+
+Repeated singular values identify a subspace without identifying a preferred basis within it. For \(A=\operatorname{diag}(2,2,1)\), the two-dimensional leading right subspace has projector \(P=\operatorname{diag}(1,1,0)\). Rotating its two basis columns changes individual vectors but leaves \(VV^T=P\) unchanged. Compare projectors or principal angles rather than raw signed columns. Stability of the chosen subspace also needs a gap at its boundary; if truncation cuts through a repeated group, even that selected subspace may be nonunique.
+
+For held-out PCA, fit the mean and feature directions on training data only. Transform validation/test rows using that same mean, and reconstruct with \(\hat x=\mu_{\mathrm{train}}+(x-\mu_{\mathrm{train}})V_kV_k^T\). Select rank using validation data, then report reconstruction on an untouched test set. Recomputing the test mean or test PCA changes the fitted procedure and leaks information into that evaluation.
+
+**M7 · Stretch · mixed — Compare subspaces and evaluate PCA out of sample.** For diag(2,2,1), rotate the first two right singular vectors by 45°. What is the Frobenius distance between the old and new rank-two projectors? Is the rank-one optimum unique?
 
 ## 11. Three runnable coding labs
 

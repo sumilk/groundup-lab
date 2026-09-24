@@ -1,7 +1,8 @@
 ---
 id: math.probability.score-matching-diffusion-sampling
 title: Score matching, diffusion, and sampling from generative models
-prerequisites: [math.probability.latent-variables-elbo-gradient-estimators, math.probability.transformations-convolution-jacobians]
+prerequisites: [math.probability.latent-variables-elbo-gradient-estimators, math.probability.multivariate-gaussian-geometry]
+answers: ps-15-score-matching-diffusion-sampling
 estimated_hours: 36
 ---
 
@@ -50,11 +51,17 @@ $$
 
 Geometrically the score is a vector field pointing uphill in density: follow it and you move toward regions where data lives.
 
-> **Practice — Foundation:** Compute \(\nabla_x\log p(x)\) for \(p=\mathcal N(\mu,\sigma^2)\) and confirm it points toward \(\mu\).
+> **Practice — Foundation:** For \(p=\mathcal N(2,4)\), compute the score \(\nabla_x\log p(x)\) at \(x=0\) and at \(x=5\), and confirm that each points toward the mean 2.
 >
-> **Practice — Core:** Show that two energies differing by a constant give the same score and the same distribution, and explain what this means for identifiability of \(E_\theta\).
+> **Hint:** Differentiating \(-(x-\mu)^2/(2\sigma^2)\) gives \(-(x-2)/4\), so the values are \(+0.5\) and \(-0.75\).
 >
-> **Practice — Stretch:** Given a score field, describe a procedure to recover the density up to normalization, and state when the field is a valid score at all (hint: it must be a gradient).
+> **Practice — Core:** Take \(E_1(x)=x^2/2\) and \(E_2(x)=x^2/2+7\). Compute both scores, both normalizers \(Z_1,Z_2\), and both normalized densities, and explain what this means for identifiability of \(E_\theta\).
+>
+> **Hint:** Both scores are \(-x\); \(Z_1=\sqrt{2\pi}\) and \(Z_2=e^{-7}\sqrt{2\pi}\), so the factor \(e^{-7}\) cancels and both densities are \(\mathcal N(0,1)\).
+>
+> **Practice — Stretch:** (a) For \(s(x)=x-x^3\) on \(\mathbb R\), recover \(\log p\) up to a constant and check normalizability. (b) Show \(s(x,y)=(-x-y,\;x-y)\) is not the score of any density. (c) Show \(s(x)=x\) integrates to a potential but is still not a valid score.
+>
+> **Hint:** Integrate along a path: (a) gives \(x^2/2-x^4/4\), whose exponential is integrable; in (b) the mixed partials are \(-1\) and \(+1\), so no potential exists; in (c) \(e^{x^2/2}\) has infinite integral.
 
 ## 2. Score matching and Hyvärinen's identity
 
@@ -90,11 +97,17 @@ The unknown density appears only as the distribution we average over — which w
 
 The catch is \(\operatorname{tr}(\nabla_xs_\theta)\), the trace of a \(d\times d\) Jacobian, costing \(d\) backward passes. At \(d=10^5\) that is fatal. Sliced score matching estimates the trace with random projections (the Hutchinson estimator, \(\operatorname{tr}(A)=E_v[v^TAv]\) for \(E[vv^T]=I\)), which works but adds variance. The next section removes the problem entirely.
 
-> **Practice — Foundation:** For \(s_\theta(x)=-\theta x\) in one dimension, write \(J(\theta)\) explicitly using the identity.
+> **Practice — Foundation:** For \(s_\theta(x)=-\theta x\) in one dimension and data with \(E[x^2]=4\), write \(J(\theta)\) (up to its constant) using the identity and find the minimizing \(\theta\).
 >
-> **Practice — Core:** Carry out the integration-by-parts step in one dimension, stating the decay condition used.
+> **Hint:** The derivative of \(-\theta x\) is \(-\theta\), so \(J=-\theta+\tfrac12\theta^2E[x^2]=-\theta+2\theta^2\), minimized at \(\theta=0.25\), the score of \(\mathcal N(0,4)\).
 >
-> **Practice — Stretch:** Verify the Hutchinson identity \(E_v[v^TAv]=\operatorname{tr}(A)\) for \(v\) with independent \(\pm1\) entries, and compute the variance of the single-sample estimate.
+> **Practice — Core:** Carry out the integration-by-parts step in one dimension, stating the decay condition used, then check it for \(p=\mathcal N(0,1)\) and \(s_\theta(x)=-\theta x\) by computing both \(-E_p[s_\theta(x)\,\partial_x\log p(x)]\) and \(E_p[s_\theta'(x)]\).
+>
+> **Hint:** The boundary term is \([s_\theta p]_{-\infty}^{\infty}=[-\theta x\varphi(x)]_{-\infty}^{\infty}=0\); both sides equal \(-\theta\) because \(E[x^2]=1\).
+>
+> **Practice — Stretch:** For \(A=\begin{pmatrix}2&1\\3&4\end{pmatrix}\), enumerate the four Rademacher vectors \(v\in\{\pm1\}^2\), confirm \(E_v[v^TAv]=\operatorname{tr}A=6\), compute the variance of the single-sample estimate, and prove that in general it equals \(\sum_{i<j}(A_{ij}+A_{ji})^2\).
+>
+> **Hint:** The values are \(10,2,2,10\), giving variance 16 \(=(1+3)^2\); in general \(v^TAv=\operatorname{tr}A+\sum_{i<j}(A_{ij}+A_{ji})v_iv_j\) and the products \(v_iv_j\) are uncorrelated with variance 1.
 
 ## 3. Denoising score matching: the trace disappears
 
@@ -123,11 +136,17 @@ $$
 
 Two consequences worth stating plainly. The minimizer is \(\hat\varepsilon^\star(\tilde x)=E[\varepsilon\mid\tilde x]\), a conditional expectation — the same object that the law of total expectation in the joint-distributions lesson called the best mean-squared predictor. And you learn the score of the **smoothed** density \(q_\sigma\), not of \(p_{\text{data}}\); the two agree only as \(\sigma\to0\), which is precisely the regime where the score is hardest to estimate because data lies on a thin manifold. This tension is why a *range* of noise levels is used.
 
-> **Practice — Foundation:** Verify \(\nabla_{\tilde x}\log\mathcal N(\tilde x;x,\sigma^2I)=-(\tilde x-x)/\sigma^2\).
+> **Practice — Foundation:** Verify \(\nabla_{\tilde x}\log\mathcal N(\tilde x;x,\sigma^2I)=-(\tilde x-x)/\sigma^2\), then evaluate it for \(x=1\), \(\sigma=0.5\), \(\tilde x=1.4\), and confirm it equals \(-\varepsilon/\sigma\) for the noise \(\varepsilon\) that produced \(\tilde x\).
 >
-> **Practice — Core:** Show the minimizer of the denoising objective is \(E[\varepsilon\mid\tilde x]\), and rewrite it as a statement about \(E[x\mid\tilde x]\).
+> **Hint:** Differentiate \(-\lVert\tilde x-x\rVert^2/(2\sigma^2)\) in \(\tilde x\); here the score is \(-0.4/0.25=-1.6\) and \(\varepsilon=0.8\), so \(-\varepsilon/\sigma=-1.6\).
 >
-> **Practice — Stretch:** Explain why small \(\sigma\) gives an accurate target but a poorly conditioned learning problem, and why large \(\sigma\) gives the reverse. Propose a weighting across noise levels and justify it.
+> **Practice — Core:** Show the minimizer of the denoising objective is \(E[\varepsilon\mid\tilde x]\) and rewrite it as a statement about \(E[x\mid\tilde x]\). Check both for \(x\sim\mathcal N(0,1)\), \(\sigma=1\): compute \(E[\varepsilon\mid\tilde x]\), \(E[x\mid\tilde x]\), and \(\nabla\log q_\sigma(\tilde x)\).
+>
+> **Hint:** Conditional expectation minimizes squared loss and \(\tilde x=E[x\mid\tilde x]+\sigma E[\varepsilon\mid\tilde x]\); here \(\tilde x\sim\mathcal N(0,2)\), both conditional means are \(\tilde x/2\), and the score \(-\tilde x/2\) equals \(-E[\varepsilon\mid\tilde x]/\sigma\).
+>
+> **Practice — Stretch:** Data are \(\pm1\) with probability \(\tfrac12\) each, so \(\nabla\log q_\sigma(\tilde x)=(\tanh(\tilde x/\sigma^2)-\tilde x)/\sigma^2\). For \(\sigma=0.1\) and \(\sigma=2\), compute the variance of the regression target \(-\varepsilon/\sigma\) and the smoothed score at \(\tilde x=0.5\). Use the numbers to explain why small \(\sigma\) gives an accurate but poorly conditioned problem and large \(\sigma\) the reverse, and justify the weighting \(\lambda(\sigma)=\sigma^2\) across levels.
+>
+> **Hint:** Target variances are \(1/\sigma^2=100\) and \(0.25\); the scores are about \(+50\) (toward the datum 1) and \(-0.094\) (toward the blurred centre 0); weighting by \(\sigma^2\) turns each level's loss into \(E\lVert\sigma s_\theta+\varepsilon\rVert^2\), of order 1.
 
 ## 4. The forward process is a Gaussian chain with a closed form
 
@@ -175,9 +194,15 @@ The model does not know \(x_0\) at sampling time, so it predicts it (equivalentl
 
 > **Practice — Foundation:** For \(\beta=(0.5,0.5)\), compute \(\bar\alpha_1,\bar\alpha_2\) and the signal and noise coefficients at each step.
 >
-> **Practice — Core:** Complete the induction above, stating where independence of \(\varepsilon'\) and \(\varepsilon''\) is used.
+> **Hint:** Each alpha is one minus beta; cumulative alphas multiply.
 >
-> **Practice — Stretch:** Show \(\tilde\beta_t\le\beta_t\) and interpret the inequality: why is the reverse step less uncertain than the forward step it undoes?
+> **Practice — Core:** Complete the induction above, stating where independence of \(\varepsilon'\) and \(\varepsilon''\) is used, and check the variance identity numerically for \(\beta=(0.5,0.5)\) at \(t=2\).
+>
+> **Hint:** Independent Gaussian noises add their scaled variances; here \(\alpha_2(1-\bar\alpha_1)+(1-\alpha_2)=0.25+0.5=0.75=1-\bar\alpha_2\).
+>
+> **Practice — Stretch:** Show \(\tilde\beta_t\le\beta_t\) in general and compute \(\tilde\beta_2\) for \(\beta=(0.1,0.2)\). Then, for data \(x_0\sim\mathcal N(0,s^2)\), compute \(\operatorname{Var}(x_1\mid x_2)\), which does not condition on \(x_0\), for \(s^2=1\) and \(s^2=100\), and use the results to explain why \(\tilde\beta_t\le\beta_t\) does not bound the variance of the reverse law conditioned only on \(x_t\).
+>
+> **Hint:** \(\tilde\beta_2=(0.1/0.28)(0.2)\approx0.071\); with \(\operatorname{Var}x_1=0.9s^2+0.1\), \(\operatorname{Var}x_2=0.72s^2+0.28\), \(\operatorname{Cov}=\sqrt{0.8}\operatorname{Var}x_1\), you get 0.2 and about 0.249, the latter above \(\beta_2\).
 
 ## 5. Diffusion is the ELBO of a fixed-encoder hierarchical VAE
 
@@ -198,6 +223,20 @@ The same objective arrived at from denoising score matching in section 3. **Two 
 
 One honest caveat: the simple unweighted MSE used in practice is *not* the ELBO — it drops the per-timestep weights. It works better empirically, and it means the reported loss is not a likelihood bound. If you want a likelihood number, compute the weighted bound.
 
+> **Practice — Foundation:** For \(T=2\) and \(\beta=(0.1,0.2)\), write the diffusion encoder \(q(x_1,x_2\mid x_0)\) as a product of two Gaussians with explicit means and variances, and state which of its parameters are learned.
+>
+> **Hint:** The forward chain is the encoder: \(q(x_1\mid x_0)=\mathcal N(\sqrt{0.9}\,x_0,0.1)\) and \(q(x_2\mid x_1)=\mathcal N(\sqrt{0.8}\,x_1,0.2)\), with nothing learned.
+>
+
+> **Practice — Core:** Two models have per-timestep noise-prediction MSEs \((0.10,0.50)\) (model A) and \((0.30,0.20)\) (model B) on a two-step schedule. Rank them under the unweighted sum and under weights \((5,1)\), and explain what this shows about changing the weighting.
+>
+> **Hint:** Unweighted totals are 0.6 and 0.5 (B wins); weighted totals are 1.0 and 1.7 (A wins), so the weights define which model the objective prefers.
+>
+
+> **Practice — Stretch:** Suppose the ELBO's timestep weights for the Core schedule are \((w,1)\) and all other bound terms are equal for A and B. For which \(w\) does B's lower unweighted loss coincide with a higher ELBO? Explain why an unweighted improvement therefore does not certify a likelihood improvement.
+>
+> **Hint:** B has the smaller weighted loss iff \(0.3w+0.2<0.1w+0.5\), that is \(w<1.5\); the unweighted loss certifies nothing about the bound unless the true weights are known to fall in that range.
+
 ## 6. Sampling: stochastic, deterministic, and guided
 
 Training gives a score field. Getting samples is a separate algorithmic question.
@@ -211,6 +250,20 @@ $$
 $$
 
 For \(w>1\) this is a score of \(p(x)\,p(c\mid x)^{w}\) up to normalization — a **sharpened**, temperature-like distribution, not \(p(x\mid c)\). Samples look better on human preference and are *less diverse and less faithful to the model's actual conditional*. Report \(w\); a guided FID is not comparable to an unguided one.
+
+> **Practice — Foundation:** The forward SDE is \(dx=-\tfrac12x\,dt+dW\) on \(t\in[0,1]\). Write one Euler–Maruyama step of the reverse SDE \(dx=[-\tfrac12x-s(x,t)]dt+d\bar W\) run from \(t=1\) to \(t=0\) with \(N=10\) steps, stating the step size, the noise standard deviation per step, and the initialization.
+>
+> **Hint:** Stepping backward by \(\Delta=0.1\) gives \(x_{t-\Delta}=x_t+(\tfrac12x_t+s(x_t,t))\Delta+\sqrt{\Delta}\,z\) with noise sd \(\sqrt{0.1}\approx0.316\), started from the terminal law (approximately \(\mathcal N(0,1)\)).
+>
+
+> **Practice — Core:** For data \(\mathcal N(0,4)\) under the Foundation SDE, the exact marginal is \(\mathcal N(0,v_t)\) with \(v_t=4e^{-t}+1-e^{-t}\), so \(s(x,t)=-x/v_t\). Design a test that runs the reverse Euler–Maruyama sampler from \(\mathcal N(0,v_1)\) with \(N\in\{10,100,1000\}\) and checks the final variance against 4; predict how the error should scale with \(N\).
+>
+> **Hint:** The update is linear, so the variance obeys \(V\leftarrow(1+(\tfrac12-1/v_t)\Delta)^2V+\Delta\) exactly; it gives about 3.901, 3.990, 3.999, an error shrinking like \(1/N\).
+>
+
+> **Practice — Stretch:** Let \(p(x)=\mathcal N(0,1)\) and \(p(c\mid x)\propto\exp(-(x-2)^2/2)\). Compute \(p(x\mid c)\) and the distribution \(\propto p(x)p(c\mid x)^w\) targeted by guidance weight \(w=3\), and explain why guidance changes the sampling target even when every score is exact.
+>
+> **Hint:** Precisions add: \(p(x\mid c)=\mathcal N(1,\tfrac12)\), while \(w=3\) gives precision 4 and mean \(2w/(1+w)=1.5\), i.e. \(\mathcal N(1.5,0.25)\); the guided score is the exact score of a different, sharper law.
 
 ## 7. Decoding is distribution surgery
 
@@ -239,9 +292,15 @@ Always report decoding parameters alongside any generation result. A generation 
 
 > **Practice — Foundation:** For logits \((0,\log 3)\), compute the distribution at \(T=1\) and at \(T=2\).
 >
-> **Practice — Core:** Show \(p_T\propto p^{1/T}\) follows from the softmax definition, and explain why adding a constant to all logits changes nothing.
+> **Hint:** At T=1 normalize (1,3); at T=2 normalize (1,sqrt(3)).
 >
-> **Practice — Stretch:** Construct a case where nucleus sampling at \(p=0.9\) removes the correct answer, and propose an evaluation protocol that would have detected the problem.
+> **Practice — Core:** Show \(p_T\propto p^{1/T}\) follows from the softmax definition, check it for logits \((2,1,0)\) at \(T=0.5\) by computing \(p_T\) both from the logits and by squaring and renormalizing \(p_1\), and explain why adding a constant to all logits changes nothing.
+>
+> **Hint:** \(e^{z_i/T}=(e^{z_i})^{1/T}\); both routes give about \((0.867,0.117,0.016)\), and a shift \(c\) multiplies every term by \(e^{c/T}\), which cancels.
+>
+> **Practice — Stretch:** A model's distribution over four candidate answers is \((0.55,0.25,0.12,0.08)\), and the correct answer is the fourth. Compute the nucleus set at \(p=0.9\), the probability of a correct generation before and after truncation, and propose an evaluation protocol that would have detected the problem.
+>
+> **Hint:** Cumulative mass is 0.55, 0.80, 0.92, so three answers survive and the correct one drops from 0.08 to 0; evaluate accuracy or coverage at the deployed decoding settings, not only likelihood.
 
 ## 8. Failure modes
 
@@ -278,6 +337,20 @@ $$
 
 This connects the training label, noise-prediction loss, and clean-data parameterization. It is not yet a sample from the data distribution: generation must start from the terminal noise law and apply every reverse transition or a justified numerical approximation. Guidance changes those reverse scores again, so sample quality is a property of the model–sampler pair, not of the likelihood model alone.
 
+> **Practice — Foundation:** Model A has denoising loss 0.051 and model B 0.049. With a 10-step solver A scores FID 12.0 and B 15.0; with 1000 steps A scores 4.1 and B 3.8. Which model is better under each solver, and does a lower training loss guarantee better samples under every solver?
+>
+> **Hint:** B wins at 1000 steps but loses at 10; sample quality mixes score-approximation error with solver and initialization error, so the loss alone guarantees nothing.
+>
+
+> **Practice — Core:** One noising step from \(x_0=0\) with \(\beta=0.04\) should give \(x_1\sim\mathcal N(0,0.04)\). A buggy implementation multiplies the noise by \(\beta\) instead of \(\sqrt\beta\). Describe a test (\(10^5\) draws, seed 0) that detects the bug, and state the empirical variance each version should produce.
+>
+> **Hint:** The correct step has variance \(\beta=0.04\) (sd 0.2); the bug gives \(\beta^2=0.0016\), a 25-fold gap far beyond the Monte Carlo error of about \(0.04\sqrt{2/10^5}\).
+>
+
+> **Practice — Stretch:** With a fixed trained score model, design an ablation over guidance \(w\in\{1,2,3\}\) and step counts \(N\in\{10,50,250,1000\}\) (5 seeds, \(10^4\) samples per cell) that separates guidance effects from discretization error, stating exactly which differences estimate each.
+>
+> **Hint:** At fixed \(w\), metric\((N)-\)metric\((1000)\) estimates discretization error; at \(N=1000\), differences across \(w\) estimate the guidance effect; the seed spread gives their standard errors.
+
 ## 9. Runnable labs
 
 **Lab A — decoding as distribution surgery.** Implement `decode_distribution` in the [learner exercises file](../../labs/exercises.py). Given logits, a temperature, and a nucleus threshold, divide the logits by the temperature, convert to probabilities with a numerically stable softmax, keep the smallest prefix of the descending-sorted probabilities whose cumulative mass reaches the threshold, and renormalize over the kept tokens, returning probabilities in the original index order. Break ties toward the lower index. Reject empty logits, non-finite values, non-positive temperature, and a threshold outside \((0,1]\).
@@ -298,41 +371,61 @@ Then investigate: compare a linear and a cosine schedule at \(T=1000\) by plotti
 6. The reverse posterior mean \(\tilde\mu_t\) and variance \(\tilde\beta_t\).
 7. \(p_T\propto p^{1/T}\), and top-\(p\) as conditioning on a set.
 
+## Prediction experiment
+
+Predict both the baseline and failure-preset results before revealing the calculation. Record the assumptions, change one control at a time, and explain the boundary case. This small deterministic model isolates a mechanism; it is not an empirical validation of a trained system.
+
+```lab
+lab: ps-score
+```
+
 ## 11. End-of-unit practice (graded)
+
+Work each problem before opening its authored solution. Written proofs and design answers require self-review against the rubric; numeric fields check only the stated quantities.
+
 
 **Foundation**
 
-1. Compute the score of \(\mathcal N(3,4)\) at \(x=1\).
-2. For \(\beta=(0.1,0.2)\), compute \(\bar\alpha_1,\bar\alpha_2\) and the noise coefficient at \(t=2\).
-3. For logits \((2,1,0)\), give the distribution at \(T=1\) and the surviving set at \(p=0.7\).
+**A1 · Foundation · paper — Cumulative problem 1.** Compute the score of \(\mathcal N(3,4)\) at \(x=1\).
+
+**A2 · Foundation · paper — Cumulative problem 2.** For \(\beta=(0.1,0.2)\), compute \(\bar\alpha_1,\bar\alpha_2\) and the noise coefficient at \(t=2\).
+
+**A3 · Foundation · paper — Cumulative problem 3.** For logits \((2,1,0)\), give the distribution at \(T=1\) and the surviving set at \(p=0.7\).
 
 **Core**
 
-4. Derive Hyvärinen's identity in one dimension and state precisely which boundary condition you used.
-5. Show that predicting \(\varepsilon\) and predicting \(x_0\) are equivalent parameterizations, and write the conversion formula.
-6. Explain why classifier-free guidance with \(w=3\) does not sample from \(p(x\mid c)\), and identify the distribution it does target.
-7. A model's perplexity improves by 4% but human raters prefer the old model's generations at \(T=0.8,p=0.95\). Give three explanations consistent with both facts.
+**A4 · Core · paper — Cumulative problem 4.** Derive Hyvärinen's identity in one dimension and state precisely which boundary condition you used.
+
+**A5 · Core · paper — Cumulative problem 5.** Show that predicting \(\varepsilon\) and predicting \(x_0\) are equivalent parameterizations, and write the conversion formula.
+
+**A6 · Core · paper — Cumulative problem 6.** Let \(p(x)=\mathcal N(0,1)\) and \(p(c\mid x)\propto\exp(-(x-1)^2/2)\). Compute \(p(x\mid c)\), show that classifier-free guidance with exact scores and \(w=3\) targets a density \(\propto p(x)p(c\mid x)^3\) rather than \(p(x\mid c)\), and give the mean and variance of that target.
+
+**A7 · Core · paper — Cumulative problem 7.** A model's perplexity improves by 4% but human raters prefer the old model's generations at \(T=0.8,p=0.95\). Give three explanations consistent with both facts.
 
 **Stretch**
 
-8. Prove that the probability-flow ODE permits exact likelihood computation, naming the theorem from the transformations lesson that makes it possible, and state the cost.
-9. A team reports FID improving with guidance weight up to \(w=7\) and concludes the model has improved. Critique the claim, name the quantity that is silently degrading, and design the measurement that exposes it.
-10. Argue whether denoising score matching can recover the data score exactly in the limit of infinite data and capacity at a fixed \(\sigma>0\). State what it recovers instead and what that implies for sampling.
+**A8 · Stretch · paper — Cumulative problem 8.** Prove that the probability-flow ODE permits exact likelihood computation, naming the theorem from the transformations lesson that makes it possible, and state the cost.
 
-<details><summary>Solution sketches</summary>
+**A9 · Stretch · paper — Cumulative problem 9.** A team reports, for guidance weights \(w=1,3,5,7\), FID \(18.0,11.5,9.2,8.4\), precision \(0.61,0.74,0.81,0.85\) and recall \(0.63,0.52,0.41,0.30\), and concludes the model has improved. Critique the claim, compute the relative drop in recall from \(w=1\) to \(w=7\), name the quantity that is silently degrading, and design the measurement that exposes it.
 
-1. \(\nabla\log p=-(x-\mu)/\sigma^2=-(1-3)/4=0.5\), pointing toward the mean.
-2. \(\alpha=(0.9,0.8)\), \(\bar\alpha_1=0.9\), \(\bar\alpha_2=0.72\); noise coefficient \(\sqrt{1-0.72}=\sqrt{0.28}\approx0.529\).
-3. Denominator \(e^2+e^1+e^0=7.389+2.718+1=11.107\), giving \((0.665,0.245,0.090)\). At \(p=0.7\) the first token alone gives \(0.665<0.7\), so two tokens survive, renormalized to \((0.731,0.269,0)\).
-4. Expand the square, write \(p\,\partial_x\log p=\partial_xp\), integrate \(-\int s_\theta\partial_xp\) by parts to get \(\int p\,\partial_xs_\theta\); the boundary term \([s_\theta p]_{-\infty}^{\infty}\) must vanish, which holds when \(p\) decays faster than \(s_\theta\) grows.
-5. From \(x_t=\sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\varepsilon\), solve \(\hat x_0=(x_t-\sqrt{1-\bar\alpha_t}\hat\varepsilon)/\sqrt{\bar\alpha_t}\). The two parameterizations are affine reparameterizations of each other at fixed \(t\), differing only in loss weighting.
-6. The guided score is \(\nabla\log p(x)+w\nabla\log p(c\mid x)\), which is the score of \(p(x)p(c\mid x)^w\) up to normalization. For \(w=1\) this is \(p(x\mid c)\); for \(w>1\) it is a sharpened version that over-weights the conditioning signal.
-7. Perplexity is measured on the untruncated distribution while generation uses truncation; the improvement may live entirely in the tail that decoding discards. Alternatively the gain is on a domain unlike the rating prompts, or the new model is better calibrated but less confident, which interacts badly with a fixed nucleus threshold.
-8. The instantaneous change-of-variables formula: along a deterministic flow, \(d\log p/dt=-\nabla\cdot f\), so the log-density change is the integrated divergence. That divergence is a Jacobian trace, estimated by Hutchinson, so the cost is an ODE solve with trace estimates at each step.
-9. FID is computed against a reference set and rewards sharpened, prototypical samples; diversity is the quantity degrading. Measure recall or coverage alongside precision, report per-prompt sample diversity at fixed conditioning, and compare at matched diversity rather than matched \(w\).
-10. At fixed \(\sigma>0\) it recovers \(\nabla\log q_\sigma\), the score of the data convolved with Gaussian noise — not \(\nabla\log p_{\text{data}}\). Sampling from that score produces a slightly blurred distribution, which is why a schedule of decreasing \(\sigma\) is used rather than one fixed level.
+**A10 · Stretch · paper — Cumulative problem 10.** Data are \(x=\pm1\) with probability \(\tfrac12\) each, and denoising score matching is run at a single fixed \(\sigma=0.5\) with infinite data and capacity. Argue whether it recovers the data score, write the function it does recover, and compute the variance of the distribution an exact sampler with that score produces, compared with the data variance.
 
-</details>
+
+## Six-part checkpoint
+
+Complete these without notes, then use the solutions to audit assumptions and reasoning. Passing a numeric check alone does not establish mastery. For implementation and transfer, retain the code/results or written protocol as evidence.
+
+**K1 · Foundation · gate — Concept.** What is a score function in score-based modeling?
+
+**K2 · Core · gate — Derivation.** Derive the score of a one-dimensional Gaussian with mean mu and variance v.
+
+**K3 · Core · gate — Calculation.** Find the score of N(0,4) at x=2.
+
+**K4 · Core · gate — Implementation audit.** Reproduce two settings of the ps-score experiment independently, including its failure preset. State a numerical invariant or analytic oracle and explain what the plot does not establish.
+
+**K5 · Stretch · gate — Claim audit.** Does an exact continuous-time score make every discretized sampler exact?
+
+**K6 · Stretch · gate — RE/RS transfer.** Validate a diffusion sampler before a large model run.
 
 ## Mastery check
 

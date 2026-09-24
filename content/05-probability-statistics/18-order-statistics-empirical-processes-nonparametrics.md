@@ -1,7 +1,8 @@
 ---
 id: math.statistics.order-statistics-empirical-processes
 title: Order statistics, empirical processes, rank tests, and density estimation
-prerequisites: [math.statistics.hypothesis-testing-confidence-power, math.statistics.resampling-sequential-experimental-design]
+prerequisites: [math.statistics.resampling-sequential-experimental-design, math.statistics.exponential-families-regression-glms]
+answers: ps-18-order-statistics-empirical-processes
 estimated_hours: 44
 ---
 
@@ -41,11 +42,17 @@ Three clarifications prevent most confusion.
 
 **Worked example — the same question, three commitments.** "Is model B better?" can mean: the mean score difference is positive (a parametric or asymptotic claim about one number), the median difference is positive (a location claim needing much less structure), or \(P(B>A)>1/2\) (a purely ordinal claim). The three can disagree in sign on the same data, and the choice among them is substantive, not statistical.
 
-> **Practice — Foundation:** Distinguish distribution-free from nonparametric with one example of each.
+> **Practice — Foundation:** Classify each as distribution-free, nonparametric, both, or neither: (a) the Wilcoxon rank-sum test with \(m=n=5\); (b) a kernel density estimate of latencies; (c) a two-sample \(t\)-test. For (a), compute the null probability that the first sample holds exactly the ranks \(\{1,\dots,5\}\), and say why it is the same for every continuous population.
 >
-> **Practice — Core:** Name three assumptions a "nonparametric" evaluation still makes, and which is most likely to fail on logged traffic.
+> **Hint:** Under the null all \(\binom{10}{5}=252\) rank subsets are equally likely whatever \(F\) is, so the probability is \(1/252\approx0.004\); a KDE estimates \(F\) itself (nonparametric) but has no \(F\)-free null law.
 >
-> **Practice — Stretch:** Construct a distribution where the mean difference and the ordinal comparison \(P(B>A)\) point in opposite directions, and say which claim a deployment decision needs.
+> **Practice — Core:** A 'nonparametric' A/B comparison uses 10,000 logged requests from 200 sessions of 50 requests each, with within-session correlation 0.1. Name three assumptions the rank test still makes, compute the design effect and effective sample size, and say which assumption fails.
+>
+> **Hint:** The design effect for clusters of size \(m\) is \(1+(m-1)\rho=1+49(0.1)=5.9\), so the 10,000 rows carry the information of about 1,700 independent ones; independence is the assumption that fails.
+>
+> **Practice — Stretch:** Model A scores 1 on every prompt; model B scores 2 with probability 0.9 and \(-20\) with probability 0.1. Compute \(P(B>A)\) and \(E[B-A]\), and say which one a deployment decision that cares about catastrophic failures needs.
+>
+> **Hint:** \(P(B>A)=0.9\) while \(E[B-A]=0.9(2)+0.1(-20)-1=-1.2\); the ordinal and mean estimands disagree in sign.
 
 ## 1. Order statistics
 
@@ -85,11 +92,17 @@ Everything else follows by the transformation \(X_{(k)}=F^{-1}(U_{(k)})\), which
 
 **Worked example — where the expected maximum sits.** For \(n=100\) uniforms, \(E[U_{(100)}]=100/101\approx0.990\), not \(1\). The expected largest of \(n\) draws sits at the \(n/(n+1)\) quantile — a useful sanity check whenever a maximum is being used to estimate a bound, and the source of the standard bias correction in "largest observed value" estimators.
 
-> **Practice — Foundation:** Write the CDF of the maximum and the minimum of \(n\) iid observations.
+> **Practice — Foundation:** For \(n=5\) iid Exponential(1) observations, write the CDFs of the maximum and the minimum and evaluate \(P(X_{(5)}\le1)\) and \(P(X_{(1)}\le1)\).
 >
-> **Practice — Core:** Derive the density of \(X_{(k)}\) from the multinomial argument and check it integrates to one for \(n=2\).
+> **Hint:** \(P(X_{(n)}\le x)=F(x)^n\) and \(P(X_{(1)}\le x)=1-(1-F(x))^n\) with \(F(1)=1-e^{-1}\): about 0.101 and \(1-e^{-5}\approx0.993\).
 >
-> **Practice — Stretch:** Use the probability integral transform to obtain the distribution of the median of five exponential observations.
+> **Practice — Core:** Derive the density of \(X_{(k)}\) from the multinomial argument, specialize to \(n=2\) uniforms to get \(f_{(1)}(u)=2(1-u)\) and \(f_{(2)}(u)=2u\), check each integrates to one, and compute \(E[U_{(1)}]\) and \(E[U_{(2)}]\).
+>
+> **Hint:** Count \(k-1\) points below \(u\), one at \(u\), \(n-k\) above: \(\frac{n!}{(k-1)!(n-k)!}u^{k-1}(1-u)^{n-k}\); the means are \(k/(n+1)=1/3\) and \(2/3\).
+>
+> **Practice — Stretch:** Use the probability integral transform to write the median of five Exponential(1) observations as \(X_{(3)}=-\log(1-U_{(3)})\) with \(U_{(3)}\sim\mathrm{Beta}(3,3)\); compute \(P(X_{(3)}\le\log2)\) and \(E[X_{(3)}]\).
+>
+> **Hint:** \(X_{(3)}\le\log2\) iff \(U_{(3)}\le1/2\), which has probability 1/2 by the symmetry of Beta(3,3); for the mean use Rényi, \(1/5+1/4+1/3=47/60\approx0.783\).
 
 ## 2. Joint distributions and spacings
 
@@ -114,11 +127,17 @@ Spacings are the basis of several practical tools: goodness-of-fit tests that lo
 
 **Worked example — why the last gaps are enormous.** With \(n=1000\) exponential latencies, the expected gap between the 999th and 1000th order statistic is \(\lambda^{-1}/1\), while the gap between the 500th and 501st is \(\lambda^{-1}/501\). The tail is sparse by construction, which is precisely why estimating a p999 from 1,000 observations is hopeless: the data in that region is a single gap.
 
-> **Practice — Foundation:** Write the joint density of the ordered sample and explain the factorial.
+> **Practice — Foundation:** Write the joint density of the ordered sample for \(n=3\) iid Uniform(0,1) and verify it integrates to one over \(0<x_1<x_2<x_3<1\); explain the factor \(3!\).
 >
-> **Practice — Core:** Derive the distribution of the smallest spacing for exponential data using the Rényi representation.
+> **Hint:** The density is \(3!\cdot1=6\) on the ordered region, whose volume is \(1/3!\); the 6 counts the unordered samples that sort to the same ordered one.
 >
-> **Practice — Stretch:** Explain why extreme quantile estimates have variance dominated by a handful of gaps, and relate this to the bootstrap's failure for extremes from lesson 08.
+> **Practice — Core:** For \(n=10\) iid Exponential(rate 2), use the Rényi representation to find the distributions and means of the first spacing \(X_{(1)}\) and the last spacing \(X_{(10)}-X_{(9)}\).
+>
+> **Hint:** \((n-k+1)(X_{(k)}-X_{(k-1)})\sim\text{Exp}(2)\) independently, so the first spacing is Exp(rate 20) with mean 0.05 and the last is Exp(rate 2) with mean 0.5.
+>
+> **Practice — Stretch:** For \(n=1000\) iid Exponential(1), write \(X_{(1000)}=\sum_{k}E_k/(n-k+1)\), compute \(\operatorname{Var}(X_{(1000)})=\sum_{j=1}^{1000}j^{-2}\), and find the share contributed by the last three gaps. Relate this to why the bootstrap fails for extremes.
+>
+> **Hint:** The variance is about 1.644, and the last three gaps contribute \(1+1/4+1/9\approx1.361\), about 83%; resampling cannot create values beyond the observed maximum, so it cannot reproduce those gaps.
 
 ## 3. Sample quantiles and the density in the denominator
 
@@ -142,11 +161,17 @@ The distribution-free alternative is exact and often better: since \(\sum_i 1\{X
 
 **Worked example — a p99 latency SLO.** With 2,000 logged requests, the p99 is roughly \(X_{(1980)}\), and the binomial method gives an exact central interval from \(X_{(1971)}\) to \(X_{(1989)}\) for 95% coverage — 95.78% precisely, since discreteness forbids hitting 95% exactly — a range spanning 19 order statistics. Reporting the p99 as a single number without that width is the most common quantitative error in latency reporting.
 
-> **Practice — Foundation:** State the asymptotic variance of a sample quantile and identify each factor.
+> **Practice — Foundation:** State the asymptotic variance of a sample quantile and evaluate the standard error of the median and of the 0.99 quantile for \(n=100\) draws from \(N(0,1)\).
 >
-> **Practice — Core:** Compute the asymptotic relative efficiency of the median against the mean for a Gaussian population.
+> **Hint:** Use \(p(1-p)/(nf(q_p)^2)\) with \(f(0)=0.399\) and \(f(2.326)=0.0267\): the SEs are about 0.125 and 0.373.
 >
-> **Practice — Stretch:** Construct a distribution-free confidence interval for the 0.9 quantile from binomial tail probabilities, and verify its coverage by simulation.
+> **Practice — Core:** Compute the asymptotic relative efficiency of the median against the mean for a Gaussian population, and use it to say how many observations the median needs to match the mean's precision at \(n=100\).
+>
+> **Hint:** \(\operatorname{Var}(\text{median})\approx\frac{1}{4nf(0)^2}=\frac{\pi\sigma^2}{2n}\) against \(\sigma^2/n\), so the ARE is \(2/\pi\approx0.637\) and the median needs about 157 observations.
+>
+> **Practice — Stretch:** For \(n=50\), find order statistics \([X_{(r)},X_{(s)}]\) forming the shortest distribution-free interval for the 0.9 quantile with coverage at least 95%, compute its exact coverage from the binomial, and describe a simulation that would confirm it.
+>
+> **Hint:** Coverage is \(P(r\le B\le s-1)\) with \(B\sim\text{Bin}(50,0.9)\); searching over \((r,s)\) gives \([X_{(40)},X_{(49)}]\) with coverage about 0.957, whatever the continuous \(F\).
 
 ## 4. Extremes need their own theory
 
@@ -166,11 +191,17 @@ Two warnings. First, **the bootstrap fails for extremes**, as lesson 08 stated: 
 
 **Worked example — a tail index changes the question.** Two latency distributions have identical medians and p95s. One has \(\xi=0\), so the p9999 is about 1.3 times the p99; the other has \(\xi=0.4\), so the p9999 is about 6 times the p99. The central statistics that a dashboard reports are identical, and the capacity plan implied by the two is not.
 
-> **Practice — Foundation:** Name the three extreme-value families and the tail behaviour each corresponds to.
+> **Practice — Foundation:** Name the three extreme-value families, and classify the maximum of Exponential(1), Pareto(\(\alpha=3\)), and Uniform(0,1) data with the value of \(\xi\) for each.
 >
-> **Practice — Core:** Derive the limiting distribution of the maximum of \(n\) exponential observations with the right centring and scaling.
+> **Hint:** Light tails give Gumbel (\(\xi=0\)), polynomial tails give Fréchet (\(\xi=1/\alpha\)), and bounded support gives Weibull (\(\xi<0\), here \(-1\)).
 >
-> **Practice — Stretch:** Fit a generalized Pareto to exceedances at three thresholds, assess stability of \(\hat\xi\), and state what you would report.
+> **Practice — Core:** For the maximum \(M_n\) of \(n\) Exponential(1) observations, show \(P(M_n-\log n\le x)=(1-e^{-x}/n)^n\to\exp(-e^{-x})\), and compare the exact value at \(n=100\), \(x=1\) with the Gumbel limit.
+>
+> **Hint:** Use \(P(M_n\le x+\log n)=F(x+\log n)^n\) and \((1+a/n)^n\to e^a\); the two values are about 0.6917 and 0.6922.
+>
+> **Practice — Stretch:** For Pareto(\(x_m=1,\alpha=2\)), show that exceedances \(X-u\) given \(X>u\) are exactly generalized Pareto with \(\xi=1/2\) and \(\sigma=u/2\) at every threshold \(u\in\{2,5,10\}\), and recover the p9999 from the \(u=10\) fit with \(P(X>10)=0.01\). Then say what you would report if \(\hat\xi\) drifted across thresholds on real data.
+>
+> **Hint:** \(P(X>u+y\mid X>u)=(1+y/u)^{-2}=(1+\xi y/\sigma)^{-1/\xi}\); solve \(0.01(1+y/10)^{-2}=10^{-4}\) to get \(y=90\), so the p9999 is 100.
 
 ## 5. The empirical CDF as a random function
 
@@ -196,11 +227,17 @@ which is the covariance of a Brownian bridge divided by \(n\). The variance vani
 
 **Worked example — the band that was not a band.** An engineer plots an empirical CDF with pointwise 95% intervals and observes the fitted lognormal leaving the interval somewhere in the middle. That excursion is not evidence at the 5% level, because the maximum of many pointwise deviations exceeds any single one. The correct object is a uniform band, and it is roughly 1.4 times wider at the centre.
 
-> **Practice — Foundation:** State the mean and variance of the empirical CDF at a fixed point.
+> **Practice — Foundation:** At a point where \(F(x)=0.3\), state the mean, variance, and standard error of \(\hat F_n(x)\) for \(n=50\).
 >
-> **Practice — Core:** Derive the covariance of \(\hat F_n(s)\) and \(\hat F_n(t)\) and note where it vanishes.
+> **Hint:** \(n\hat F_n(x)\sim\text{Bin}(50,0.3)\), so the mean is 0.3, the variance \(0.3(0.7)/50=0.0042\), and the SE about 0.065.
 >
-> **Practice — Stretch:** Explain precisely why pointwise intervals cannot be read as a band, and quantify the difference for \(n=200\).
+> **Practice — Core:** Derive \(\operatorname{Cov}(\hat F_n(s),\hat F_n(t))\), evaluate it and the correlation for \(F(s)=0.2\), \(F(t)=0.6\), \(n=50\), and say where the covariance vanishes.
+>
+> **Hint:** For \(s<t\), \(\operatorname{Cov}(\mathbf1\{X\le s\},\mathbf1\{X\le t\})=F(s)-F(s)F(t)\): the covariance is \(0.08/50=0.0016\) and the correlation \(0.08/\sqrt{0.16\cdot0.24}\approx0.41\); it vanishes when \(F(s)=0\) or \(F(t)=1\).
+>
+> **Practice — Stretch:** For \(n=200\), compare the half-width of a pointwise 95% interval for \(F(x)\) at \(F(x)=0.5\) with the DKW 95% uniform band, explain why the pointwise intervals cannot be read as a band, and give the ratio.
+>
+> **Hint:** The pointwise half-width is \(1.96\sqrt{0.25/200}\approx0.069\) and the band is \(\sqrt{\ln40/400}\approx0.096\), a ratio of about 1.39; scanning the whole curve is a multiple comparison.
 
 ## 6. Glivenko–Cantelli: the fundamental theorem of statistics
 
@@ -220,11 +257,17 @@ The generalization is one of the load-bearing ideas of statistical learning theo
 
 **Worked example — why "it works on my sample" generalizes.** Evaluating one fixed metric on a held-out sample needs only the pointwise law of large numbers. Selecting the best of 500 model variants on that sample needs uniform convergence over 500 functions, and the penalty is roughly \(\sqrt{\log 500/(2n)}\). Glivenko–Cantelli is the continuum version of the same accounting.
 
-> **Practice — Foundation:** State Glivenko–Cantelli and say what distinguishes it from the pointwise law of large numbers.
+> **Practice — Foundation:** State Glivenko–Cantelli, then compute \(\sup_x|\hat F_n(x)-x|\) for the sample \((0.1,0.4,0.7)\) from Uniform(0,1), and say how this differs from the pointwise law of large numbers.
 >
-> **Practice — Core:** Sketch the grid-plus-monotonicity proof and identify where monotonicity is essential.
+> **Hint:** The supremum is attained at a jump: check \(|i/n-x_{(i)}|\) and \(|(i-1)/n-x_{(i)}|\) at each point; the largest, \(1-0.7=0.3\), is the uniform distance that GC sends to zero.
 >
-> **Practice — Stretch:** Explain the connection between uniform convergence of the empirical CDF and generalization bounds over a hypothesis class.
+> **Practice — Core:** Sketch the grid-plus-monotonicity proof. With grid points \(t_j\) at \(F(t_j)=j/10\), show that if \(|\hat F_n(t_j)-F(t_j)|\le0.02\) at every grid point, then \(\sup_x|\hat F_n(x)-F(x)|\le0.12\).
+>
+> **Hint:** For \(t_{j-1}\le x<t_j\), monotonicity sandwiches both \(\hat F_n(x)\) and \(F(x)\) between their values at \(t_{j-1}\) and \(t_j\), which are \(0.1\) apart in \(F\).
+>
+> **Practice — Stretch:** For threshold classifiers \(h_t(x)=\mathbf1\{x\le t\}\), show the empirical risks over all \(t\) are exactly \(\hat F_n(t)\). Use DKW at \(n=1000\), \(\alpha=0.05\) to bound the uniform deviation, and compare with Hoeffding for one fixed threshold. What does this say about generalization bounds?
+>
+> **Hint:** DKW gives \(\sqrt{\ln40/2000}\approx0.043\) simultaneously for all \(t\), exactly the single-threshold Hoeffding radius; this class pays nothing for uniformity, which is what a small-capacity class means.
 
 ## 7. DKW gives a finite-sample band you can draw
 
@@ -257,9 +300,15 @@ For \(\alpha=0.05\), \(\varepsilon_n=\sqrt{\ln 40/(2n)}\approx1.358/\sqrt n\). A
 
 > **Practice — Foundation:** Compute \(\varepsilon_n\) for \(\alpha=0.05\) at \(n=400\) and state what the band guarantees.
 >
-> **Practice — Core:** Convert a DKW band on the CDF into simultaneous bounds on a set of quantiles.
+> **Hint:** Solve \(2e^{-2n\varepsilon^2}=0.05\) to get \(\varepsilon=\sqrt{\ln40/800}\approx0.068\); the band holds simultaneously at every \(x\) with probability at least 0.95.
 >
-> **Practice — Stretch:** Explain why the constant-width band is conservative in the tails, and propose a weighting that is not.
+> **Practice — Core:** With \(n=400\) and \(\varepsilon=0.068\), convert the DKW band into simultaneous bounds on the p50 and p90, naming the order statistics that bracket each.
+>
+> **Hint:** The true \(q_p\) lies between the empirical \((p-\varepsilon)\) and \((p+\varepsilon)\) quantiles: \([X_{(173)},X_{(228)}]\) for the p50 and \([X_{(333)},X_{(388)}]\) for the p90, clipped to \([0,1]\) where needed.
+>
+> **Practice — Stretch:** At \(n=400\), compare the DKW radius 0.068 with the pointwise binomial SE of \(\hat F_n\) where \(F=0.01\), explain why a constant-width band is conservative in the tails, and propose a variance-weighted band.
+>
+> **Hint:** The pointwise SE at \(F=0.01\) is \(\sqrt{0.01(0.99)/400}\approx0.005\), about 14 times smaller; weight the deviation by \(\sqrt{F(1-F)}\), as Anderson–Darling does, and calibrate the weighted supremum.
 
 ## 8. The empirical process and where bootstrap guarantees come from
 
@@ -279,11 +328,17 @@ Influence functions are also the bridge to the sandwich estimators of lesson 11 
 
 **Worked example — reading the bridge.** Simulate 10,000 datasets of \(n=500\) uniforms, compute \(\sqrt n\sup|\hat F_n-F|\), and the histogram matches the Kolmogorov distribution regardless of whether you generated uniforms, exponentials, or Cauchy variables and transformed. That invariance *is* distribution-freeness, visible in one experiment.
 
-> **Practice — Foundation:** State the limit of the empirical process and name its covariance function.
+> **Practice — Foundation:** State the limit of \(\sqrt n(\hat F_n-F)\), name its covariance function, and evaluate that covariance for uniform data at \(s=0.25\), \(t=0.75\).
 >
-> **Practice — Core:** Explain why the Kolmogorov–Smirnov null distribution does not depend on \(F\), using the probability integral transform.
+> **Hint:** The limit is the Brownian bridge \(B(F(\cdot))\) with covariance \(s\wedge t-st\), here \(0.25-0.1875=0.0625\).
 >
-> **Practice — Stretch:** Define the influence function of the mean and of the median, and relate their forms to the robustness of each estimator.
+> **Practice — Core:** For the sample \((0.5,1.2,2.0)\) tested against Exponential(1), transform by \(u=1-e^{-x}\) and show the KS statistic equals the KS statistic of the \(u\) values against Uniform(0,1). Explain why this makes the null distribution independent of \(F\).
+>
+> **Hint:** The \(u\) values are about \((0.393,0.699,0.865)\), and \(\hat F_n(x)-F(x)=\hat G_n(u)-u\) at matching points, so both statistics equal about 0.393; under the null the \(u\) values are iid uniforms for every continuous \(F\).
+>
+> **Practice — Stretch:** Write the influence functions of the mean and of the median at \(N(0,1)\), evaluate each at \(x=100\), and compute their variances \(E[\mathrm{IF}^2]\). Relate the two forms to robustness.
+>
+> **Hint:** \(\mathrm{IF}_{\text{mean}}(x)=x\) and \(\mathrm{IF}_{\text{med}}(x)=\operatorname{sign}(x)/(2f(0))\): at \(x=100\) they are 100 and 1.253, with variances 1 and \(\pi/2\); a bounded IF means one point cannot move the estimate far.
 
 ## 9. Ranks are distribution-free because the rank vector is uniform
 
@@ -309,11 +364,17 @@ The connection to lesson 13 is exact and worth making explicit: split conformal 
 
 **Worked example — counting instead of assuming.** With \(n=6\) paired differences, the signed-rank statistic takes finitely many values, and the exact null probability of each is a count over the \(2^6=64\) sign assignments. A p-value from that enumeration is exact at any sample size, where a \(t\)-test at \(n=6\) is leaning entirely on an assumption you cannot check.
 
-> **Practice — Foundation:** State why the rank vector is uniform over permutations under exchangeability.
+> **Practice — Foundation:** For \(n=4\) exchangeable continuous observations, give the probability of any specific rank vector and of the event \(R_1=4\), and state why these hold for every population.
+>
+> **Hint:** Exchangeability makes all \(4!=24\) orderings equally likely, so the answers are \(1/24\) and \(6/24=1/4\), with no dependence on \(F\).
 >
 > **Practice — Core:** Enumerate the null distribution of the sum of the ranks of a randomly chosen subset of size 2 from 4 observations.
 >
-> **Practice — Stretch:** Show that conformal coverage is a rank statement, and identify the exchangeability assumption it needs.
+> **Hint:** List the 6 pairs from \(\{1,2,3,4\}\): the sums are \(3,4,5,5,6,7\), so \(P(5)=1/3\) and each other value has probability \(1/6\).
+>
+> **Practice — Stretch:** With \(n=19\) calibration scores and \(\alpha=0.1\), split conformal uses the \(\lceil(n+1)(1-\alpha)\rceil\)-th smallest score. Compute that rank, show the coverage is exactly \(18/20\) by a rank argument, and identify the exchangeability assumption it needs.
+>
+> **Hint:** The test score is equally likely to take any of the 20 ranks among the \(n+1\) scores, and it is covered iff its rank is at most 18; ties or drift between calibration and test break this.
 
 ## 10. The sign test and the Wilcoxon signed-rank test
 
@@ -337,9 +398,15 @@ The extra assumption is **symmetry** of the difference distribution about its ce
 
 > **Practice — Foundation:** Compute an exact sign-test p-value for 9 positives out of 12.
 >
-> **Practice — Core:** Compute the signed-rank statistic for eight paired differences and compare exact and normal-approximation p-values.
+> **Hint:** \(P(B\ge9)=(220+66+12+1)/4096\approx0.073\) for \(B\sim\text{Bin}(12,1/2)\); double it for the two-sided p-value, about 0.146.
 >
-> **Practice — Stretch:** Construct a skewed difference distribution with median zero where the signed-rank test rejects at nominal 5% far more often than 5%.
+> **Practice — Core:** For the paired differences \((1.2,-0.4,2.5,0.8,-0.1,1.9,3.1,0.6)\), compute \(W^+\), its exact two-sided p-value by enumerating the \(2^8\) sign assignments, and the normal-approximation p-value with continuity correction.
+>
+> **Hint:** The ranks of \(|d|\) give \(W^+=33\) (only ranks 1 and 2 are negative); \(P(W^+\ge33)=5/256\) under the null, and \(E=18\), \(\operatorname{Var}=51\).
+>
+> **Practice — Stretch:** Let the differences be \(D=-E\) with probability 1/2 and \(D=3E\) with probability 1/2, where \(E\sim\text{Exp}(1)\), so the median is 0. Simulate \(n=20\) pairs 4,000 times and report the rejection rates at 5% of the signed-rank test and the exact sign test.
+>
+> **Hint:** Positive differences are larger in magnitude, so they take the high ranks: expect the signed-rank test to reject about 14% of the time, and the sign test to stay at or below 5% (about 4%).
 
 ## 11. Mann–Whitney estimates \(P(X>Y)\), not a difference of medians
 
@@ -375,11 +442,17 @@ That last point has a direct consequence for AI evaluation. A **win rate** betwe
 
 **Worked example — the tie in win rate that hides everything.** Model A scores uniformly on \([0,1]\). Model B scores \(0.4\) always. Then \(P(A>B)=0.6\), so B looks worse. Model C scores \(0.55\) always, so \(P(C>A)=0.55\) and \(P(C>B)=1\). Now replace A with a bimodal model and the cycle appears. The win rate is a real quantity; it is just not an ordering.
 
-> **Practice — Foundation:** Compute \(U\) and \(\hat\theta\) for two small samples with a tie.
+> **Practice — Foundation:** For \(X=(3,5,7)\) and \(Y=(2,5,6,8)\), compute \(U\) counting ties as one half, and \(\hat\theta=U/(mn)\).
 >
-> **Practice — Core:** Construct two distributions with equal medians for which Mann–Whitney has power approaching one.
+> **Hint:** Count the wins of each \(x\) over the four \(y\) values: \(1+1.5+3=5.5\), so \(\hat\theta=5.5/12\approx0.458\).
 >
-> **Practice — Stretch:** Build three score distributions exhibiting a win-rate cycle, and explain what a Bradley–Terry fit would report about them.
+> **Practice — Core:** Let \(X\sim\text{Unif}(-1,1)\) and let \(Y\) be \(\text{Unif}(-0.2,0)\) with probability 1/2 and \(\text{Unif}(0,1)\) with probability 1/2, so both have median 0. Compute \(\theta=P(X>Y)\), and explain why Mann–Whitney's power tends to one as \(m,n\to\infty\).
+>
+> **Hint:** \(P(X>y)=(1-y)/2\); average over each half of \(Y\) to get \(0.5(0.55)+0.5(0.25)=0.40\ne1/2\), and the test is consistent for \(\theta\ne1/2\).
+>
+> **Practice — Stretch:** The dice \(A=(2,2,4,4,9,9)\), \(B=(1,1,6,6,8,8)\), \(C=(3,3,5,5,7,7)\) are fair. Compute \(P(A>B)\), \(P(B>C)\), \(P(C>A)\), and explain what a Bradley–Terry fit to many rolls of each pair would report.
+>
+> **Hint:** Each probability is \(5/9\), a perfect cycle; Bradley–Terry forces a total order, so by symmetry it gives equal strengths and predicts 1/2 for every pair.
 
 ## 12. Hodges–Lehmann estimates and distribution-free intervals
 
@@ -399,15 +472,21 @@ The efficiency is excellent. Under normality the Hodges–Lehmann estimator has 
 
 **Worked example — the interval that survives one bad row.** Two samples of 40 model scores give a mean difference of \(0.031\) with interval \([0.004,0.058]\). One logged score is corrupted to \(-50\). The mean difference becomes \(-1.22\) with an interval spanning zero; the Hodges–Lehmann estimate moves from \(0.029\) to \(0.028\) and its interval barely changes. Robustness is not an abstraction when data comes from a pipeline.
 
-> **Practice — Foundation:** Compute the Hodges–Lehmann estimate for two samples of size three.
+> **Practice — Foundation:** Compute the two-sample Hodges–Lehmann estimate for \(X=(4,7,9)\), \(Y=(1,3,8)\).
 >
-> **Practice — Core:** Explain how inverting a rank test produces a confidence interval with endpoints at pairwise-difference order statistics.
+> **Hint:** Form all nine differences \(x_i-y_j\) and take their median: the sorted list is \(-4,-1,1,1,3,4,6,6,8\), so the estimate is 3.
 >
-> **Practice — Stretch:** Compare the breakdown point and efficiency of the mean difference and the Hodges–Lehmann estimator, and state when each is preferable.
+> **Practice — Core:** For \(X=(4,7,9,12)\), \(Y=(1,3,8,10)\), invert the rank-sum test to get an interval for the shift: using the exact null of \(U\) (\(P(U\le1)=2/70\)), show the interval is \([D_{(2)},D_{(15)}]\) of the 16 pairwise differences with coverage \(1-4/70\approx0.943\), and compute it.
+>
+> **Hint:** A shift \(\Delta\) is not rejected iff \(U\) computed from \(X-\Delta\) lies in \([2,14]\), which happens iff \(\Delta\) lies between the 2nd and 15th ordered differences, here \([-4,9]\).
+>
+> **Practice — Stretch:** With \(m=n=40\) and a fraction \(\varepsilon\) of each sample corrupted, show the Hodges–Lehmann estimator breaks down once \((1-\varepsilon)^2<1/2\) (about 12 points per sample), against one point for the mean difference. Combine this with the efficiencies 0.955 (normal) and 1.5 (Laplace) to say when each estimator is preferable.
+>
+> **Hint:** A pairwise difference is clean only if both of its points are clean, so the median of the differences survives while more than half of them, \((1-\varepsilon)^2\), are clean; \(\varepsilon^\ast=1-1/\sqrt2\approx0.293\).
 
 ## 13. Efficiency: the price of assuming less
 
-Asymptotic relative efficiency compares the sample sizes two tests need for the same power against the same local alternative. The classical numbers are worth memorizing because they are so favourable to rank methods.
+Pitman asymptotic relative efficiency compares the sample sizes two tests need for the same limiting power against specified local alternatives. The numbers below concern independent-sample location-shift models with the regularity conditions needed for the comparison; they do not compare arbitrary distribution changes, clustered data, or different estimands.
 
 | Comparison | Gaussian | Uniform | Logistic | Laplace | Heavy tails |
 |---|---|---|---|---|---|
@@ -420,17 +499,23 @@ Three facts follow.
 
 **The gain under non-ideal conditions is unbounded.** For heavy-tailed populations the \(t\)-test's efficiency collapses, because the sample mean's variance is driven by rare extremes while ranks are unaffected. For a Cauchy population the \(t\)-test is not even consistent for a location comparison, while Wilcoxon is perfectly well behaved.
 
-**There is a floor.** The Hodges–Lehmann bound states that the ARE of Wilcoxon against \(t\) is at least \(0.864\) for **every** continuous distribution. The worst case is bounded; the best case is not. That asymmetry is the argument for rank methods as a default in settings where you cannot inspect the distribution, which describes most automated evaluation.
+**A qualified lower bound.** In the independent two-sample location-shift setting, the classical Wilcoxon-versus-t Pitman efficiency has a lower bound of \(0.864\). For an absolutely continuous density \(f\) with finite variance and the required regularity, the comparison is \(12\sigma^2(\int f^2)^2\). This is an asymptotic local-power statement, not a guarantee for every finite dataset or every continuous alternative. Infinite-variance cases require separate treatment of the t statistic rather than substituting an undefined variance into this formula. See [Hodges and Lehmann, The Efficiency of Some Nonparametric Competitors of the t-Test](https://doi.org/10.1214/aoms/1177728261).
 
 The counterargument deserves a fair statement: rank methods answer an ordinal question. If the decision depends on the size of an effect on the original scale — cost per request, tokens saved, seconds of latency — then a shift in \(P(X>Y)\) does not answer it, and converting back requires the location-shift assumption you were avoiding.
 
-**Worked example — 5% versus everything.** A team standardizes on Wilcoxon for all model comparisons. On normally distributed score differences they lose 5% effective sample size. On the 15% of their benchmarks with occasional catastrophic failures, they avoid conclusions driven entirely by two rows. That is a good trade, and it is a defensible default to write down.
+**Worked example — matched estimand and design.** Under a Gaussian location shift, Wilcoxon rank-sum has efficiency \(3/\pi\approx0.955\), corresponding to about \(\pi/3\approx1.047\) times as many independent observations for matched local power. Before using that comparison for model evaluation, decide whether the data are paired and whether the target is a location shift, a superiority probability, or an original-scale mean. The independent-sample rank-sum calculation does not justify ignoring pairing; a signed-rank analysis introduces its own symmetry assumptions. Rare catastrophic costs may be central to the estimand and should not be dismissed merely because ranks are less sensitive to their magnitudes.
 
-> **Practice — Foundation:** State the ARE of the Wilcoxon test relative to the \(t\)-test under normality.
+> **Practice — Foundation:** State the ARE of the Wilcoxon test relative to the \(t\)-test under normality, and convert it into the Wilcoxon sample size matching a \(t\)-test with \(n=100\) per group.
 >
-> **Practice — Core:** Explain why the \(t\)-test's efficiency collapses for heavy-tailed populations, in terms of the sample mean's variance.
+> **Hint:** The ARE is \(3/\pi\approx0.955\), so Wilcoxon needs about \(100/0.955\approx105\) per group for the same local power.
 >
-> **Practice — Stretch:** Simulate the power of both tests under Gaussian, Laplace, and contaminated-normal alternatives and reproduce the ordering in the table.
+> **Practice — Core:** For a \(t_3\) population (variance 3), compute the ARE \(12\sigma^2(\int f^2)^2\) of Wilcoxon against \(t\) numerically, and explain in terms of the sample mean's variance why the \(t\)-test loses.
+>
+> **Hint:** Integrate \(f^2\) numerically, getting about 0.2297, so the ARE is about \(36(0.2297)^2\approx1.90\); the mean's variance \(3/n\) is driven by rare extremes that ranks ignore.
+>
+> **Practice — Stretch:** Simulate power for a shift of 0.5 with \(n=30\) per group, 2,000 replications, and \(\alpha=0.05\), under Gaussian, unit-variance Laplace, and contaminated \(0.9N(0,1)+0.1N(0,9)\) errors, for the rank-sum and \(t\) tests. Check the ordering against the table.
+>
+> **Hint:** Expect roughly Gaussian 0.45 (rank) against 0.47 (\(t\)), Laplace 0.62 against 0.48, and contaminated 0.38 against 0.32: the rank test's robustness wins once the tails thicken.
 
 ## 14. U-statistics are the common framework
 
@@ -460,11 +545,17 @@ so a U-statistic is asymptotically a sample mean of its own projection — which
 
 **Worked example — the variance of a win rate.** A two-sample kernel has *two* projections, and both matter: \(h_{10}(x)=P(x>Y)-\theta\) and \(h_{01}(y)=P(X>y)-\theta\), with variances \(\zeta_{10}\) and \(\zeta_{01}\), giving \(\operatorname{Var}(\hat\theta)\approx\zeta_{10}/m+\zeta_{01}/n\) for \(\hat\theta=U/(mn)\). Neither term goes away when the models are close. If \(F=G\) is continuous then \(P(x>Y)=F(x)\) is uniform over \(x\sim F\), so \(\zeta_{10}=\zeta_{01}=1/12\) — not small — and \((mn)^2(1/12)(1/m+1/n)=mn(m+n)/12\) recovers the exact null variance of section 11 to leading order. A model that wins on some prompts and loses badly on others pushes the projections toward their maximum of \(1/4\). The standard error of a win rate is therefore *not* \(\sqrt{\theta(1-\theta)/N}\): at \(\theta=1/2\) with \(m=n=N/2\), that binomial formula gives \(0.25/N\) against the correct \(1/(3N)\), understating it.
 
-> **Practice — Foundation:** Write the sample variance as a U-statistic and identify its kernel.
+> **Practice — Foundation:** Write the sample variance as a U-statistic, identify its kernel, and verify on \(x=(1,2,4)\) that the U-statistic equals \(s^2\).
 >
-> **Practice — Core:** Compute the projection \(h_1\) for the Mann–Whitney kernel and interpret it.
+> **Hint:** The kernel is \(h(a,b)=(a-b)^2/2\); the pair values are \(0.5,4.5,2\), whose average \(7/3\) matches \(s^2=\frac{1}{2}\sum(x_i-\bar x)^2\).
 >
-> **Practice — Stretch:** Explain what changes when \(\zeta_1=0\), and why kernel two-sample tests calibrate by permutation.
+> **Practice — Core:** For the Mann–Whitney kernel with \(X,Y\) iid Uniform(0,1), compute the projection \(h_{10}(x)=P(x>Y)-\theta\), its variance \(\zeta_{10}\), and the approximate SE of \(\hat\theta\) for \(m=n=50\). Interpret the projection.
+>
+> **Hint:** \(h_{10}(x)=x-1/2\), so \(\zeta_{10}=1/12\); \(\operatorname{Var}(\hat\theta)\approx\zeta_{10}/m+\zeta_{01}/n=1/300\), an SE of about 0.058.
+>
+> **Practice — Stretch:** For the kernel \(h(x_1,x_2)=x_1x_2\) with \(X\sim N(0,1)\), show \(\zeta_1=0\) and that \(nU_n\to\chi^2_1-1\) rather than a normal. Compute \(P(nU_n>0)\) in the limit, and explain why kernel two-sample tests calibrate by permutation.
+>
+> **Hint:** \(h_1(x)=xE[X]=0\); write \(nU_n=\frac{n}{n-1}\bigl[(\sum X_i)^2/n-\sum X_i^2/n\bigr]\), where \((\sum X_i)^2/n\sim\chi^2_1\), so \(P(nU_n>0)\to P(\chi^2_1>1)\approx0.317\), not 1/2.
 
 ## 15. Permutation or rank: exchangeability against ordinal structure
 
@@ -482,11 +573,17 @@ The relationship is that a rank test *is* a permutation test applied to rank-tra
 
 **Worked example — permuting the wrong thing.** An evaluation has 50 prompts, each answered 10 times by each model. Permuting all 500 rows treats responses as exchangeable and produces a null far too narrow, so every comparison is significant. Permuting the model label within prompts, or at the prompt level, respects the dependence and gives a null with the right width.
 
-> **Practice — Foundation:** State the assumption both permutation and rank tests require.
+> **Practice — Foundation:** Six prompts are each scored under models A and B. State the exchangeability assumption a paired permutation or signed-rank test uses, and count the equally likely relabelings under the null.
 >
-> **Practice — Core:** Explain in what sense a rank test is a permutation test, and what is gained by the rank transform.
+> **Hint:** Under the null, the two labels within each prompt can be swapped, independently across prompts, giving \(2^6=64\) relabelings.
 >
-> **Practice — Stretch:** Design a permutation scheme for an evaluation with repeated prompts and multiple raters, and say which null hypothesis it tests.
+> **Practice — Core:** For \(X=(1.2,3.4,0.8)\) and \(Y=(5.1,4.0,2.2)\), compute the rank sum of \(X\) and its exact permutation p-value \(P(R_X\le\text{observed})\) over the \(\binom63=20\) relabelings, and explain in what sense this is a permutation test on ranks.
+>
+> **Hint:** The ranks of \(X\) are \(\{2,4,1\}\), so \(R_X=7\); only \(\{1,2,3\}\) and \(\{1,2,4\}\) give a sum of 7 or less, so \(p=2/20=0.1\).
+>
+> **Practice — Stretch:** Design a permutation scheme for 50 prompts, each scored by 3 raters for both models, state the null hypothesis it tests, count its relabelings, and say why permuting all 300 rows is wrong.
+>
+> **Hint:** Swap the model labels for all of a prompt's ratings together, independently across prompts: that gives \(2^{50}\) relabelings and tests exchangeability of (A, B) within each prompt.
 
 ## 16. Kolmogorov–Smirnov and its blind spots
 
@@ -508,11 +605,17 @@ The constructive alternative for most applied purposes is the DKW band of sectio
 
 **Worked example — two rejections, one useful.** KS rejects lognormality of latency at \(p<10^{-6}\). The DKW band shows the fit is within \(0.004\) everywhere below the p95 and diverges by \(0.06\) above the p99. The test says "not lognormal"; the band says "usable for central quantiles, useless for tail capacity planning," which is the sentence the capacity plan needs.
 
-> **Practice — Foundation:** Define the KS statistic and state where its sensitivity is lowest.
+> **Practice — Foundation:** Compute the KS statistic of \((0.2,0.5,0.6,0.9)\) against Uniform(0,1), and say where along the distribution the KS test is least sensitive.
 >
-> **Practice — Core:** Explain why estimating parameters from the same data invalidates the standard KS null distribution.
+> **Hint:** Check \(|i/n-x_{(i)}|\) and \(|(i-1)/n-x_{(i)}|\) at each point; the maximum is 0.25, and sensitivity is lowest in the tails, where the bridge variance \(F(1-F)\) vanishes.
 >
-> **Practice — Stretch:** Compare KS, Anderson–Darling, and a DKW band on data whose deviation is confined to the upper tail, and state which you would report.
+> **Practice — Core:** For \(n=50\), compare the 5% KS critical value \(\approx1.36/\sqrt n\) with the Lilliefors value \(\approx0.886/\sqrt n\) for normality with estimated \(\mu,\sigma\), and explain why estimating the parameters invalidates the standard null.
+>
+> **Hint:** The critical values are about 0.192 and 0.125: fitting pulls \(F_0\) toward the data, making \(D_n\) stochastically smaller, so the naive test is badly conservative; simulate the fitting step in the null.
+>
+> **Practice — Stretch:** The truth is \(0.98\,\text{Exp}(1)+0.02\,\text{Exp}(\text{mean }5)\) and the null is Exp(1). Compute the population \(\sup_x|F-F_0|\) and compare it with the \(n=500\) KS critical value and DKW radius. Say what Anderson–Darling does differently and which you would report.
+>
+> **Hint:** \(F-F_0=0.02(e^{-x}-e^{-x/5})\) peaks at \(x=\tfrac54\ln5\approx2.01\) with size about 0.011, far below \(1.36/\sqrt{500}\approx0.061\); the weight \(1/(F_0(1-F_0))\) is what lets Anderson–Darling see the upper tail.
 
 ## 17. Kernel density estimation
 
@@ -530,11 +633,17 @@ The two choices are not equally important. **Kernel shape barely matters**: the 
 
 **Worked example — the same data, three stories.** Latency data with a genuine bimodality from cache hits and misses: at \(h\) one-tenth the optimal value the plot shows 40 spurious modes, one per cluster of observations; at the optimal \(h\) it shows two; at ten times optimal it shows one. Nothing but a single scalar changed, and the engineering conclusion inverted.
 
-> **Practice — Foundation:** Write the kernel density estimator and verify it integrates to one.
+> **Practice — Foundation:** For data \((0,1,3)\), a Gaussian kernel, and \(h=1\), evaluate \(\hat f_h(1)\), and verify that \(\hat f_h\) integrates to one.
 >
-> **Practice — Core:** Explain why the empirical distribution has no density and what convolution with a kernel achieves.
+> **Hint:** \(\hat f_h(1)=\frac13[\varphi(1)+\varphi(0)+\varphi(2)]\approx0.232\); each term \(\frac1{nh}K((x-X_i)/h)\) integrates to \(1/n\).
 >
-> **Practice — Stretch:** Compare Gaussian and Epanechnikov kernels at the same bandwidth on the same sample, and quantify how little the choice matters against a 2× bandwidth change.
+> **Practice — Core:** Explain why the empirical distribution of \((0,1,3)\) has no density, then show that convolving it with \(N(0,1)\) gives the Gaussian KDE with \(h=1\), and compute the smoothed CDF at 0.
+>
+> **Hint:** The empirical law is three point masses; convolution adds independent \(N(0,1)\) noise to a draw from it, so the CDF is \(\frac13[\Phi(0)+\Phi(-1)+\Phi(-3)]\approx0.220\).
+>
+> **Practice — Stretch:** For data \((0,1,3)\), evaluate \(\hat f(1)\) with a Gaussian kernel at \(h=1\), an Epanechnikov kernel at \(h=\sqrt5\) (the same kernel SD), and a Gaussian kernel at \(h=2\), and compare the kernel effect with the bandwidth effect.
+>
+> **Hint:** Epanechnikov \(\frac34(1-u^2)\) has variance \(1/5\), so \(h=\sqrt5\) matches SD 1: expect about 0.232 (Gaussian) and 0.224 (Epanechnikov), a 3% difference, against 0.165 at \(h=2\).
 
 ## 18. Bias, variance, and the bandwidth
 
@@ -576,11 +685,17 @@ The optimal \(h^\ast\) depends on \(R(f'')=\int f''(x)^2dx\), a functional of th
 
 **Worked example — why doubling the data barely changes the plot.** Going from 1,000 to 2,000 observations reduces \(h^\ast\) by \(2^{-1/5}\approx0.87\). The visible resolution of a density plot improves slowly with sample size, which is why small structures in a KDE should be treated with suspicion unless the sample is very large or the structure is very pronounced.
 
-> **Practice — Foundation:** State the leading bias and variance terms and say which grows and which shrinks with \(h\).
+> **Practice — Foundation:** For \(f=N(0,1)\), a Gaussian kernel, \(n=100\), and \(h=0.5\), evaluate the leading bias and variance of \(\hat f_h(0)\), and say which grows and which shrinks with \(h\).
 >
-> **Practice — Core:** Derive \(h^\ast\propto n^{-1/5}\) by minimizing AMISE.
+> **Hint:** The bias is \(\frac{h^2}2\mu_2f''(0)=0.125(-0.399)\approx-0.050\) and the variance \(R(K)f(0)/(nh)=0.282(0.399)/50\approx0.0023\); bias grows with \(h\), variance shrinks.
 >
-> **Practice — Stretch:** Explain why the attainable rate is \(n^{-4/5}\) rather than \(n^{-1}\), and connect it to the number of quantities being estimated.
+> **Practice — Core:** Derive \(h^\ast\) by minimizing AMISE, and evaluate it for a Gaussian kernel and \(f=N(0,1)\) (\(R(f'')=3/(8\sqrt\pi)\)) at \(n=100\).
+>
+> **Hint:** Setting \(h^3\mu_2^2R(f'')=R(K)/(nh^2)\) gives \(h^\ast=(R(K)/(\mu_2^2R(f'')n))^{1/5}=1.06\,n^{-1/5}\approx0.42\) at \(n=100\).
+>
+> **Practice — Stretch:** Going from \(n=100\) to \(n=10{,}000\), by what factor does the optimal KDE's AMISE fall, and by what factor does a parametric MSE fall? Connect the gap to the number of quantities being estimated.
+>
+> **Hint:** Compare \(100^{4/5}\approx40\) with \(100\); the density's value at every point is a separate local estimate that borrows only an \(h\)-wide window, and \(h\) must shrink.
 
 ## 19. Choosing a bandwidth, and the boundary problem
 
@@ -604,11 +719,17 @@ The \(\min\) with a scaled interquartile range guards against a variance inflate
 
 **Worked example — the density that dipped at zero.** A KDE of response times shows density falling toward zero as \(t\to0^+\), and a team infers a minimum processing time. Half the kernel mass at small \(t\) is being placed on negative times, which is impossible. Log-transforming, estimating, and transforming back removes the artifact entirely and shows a density rising to a mode near the true minimum.
 
-> **Practice — Foundation:** Compute Silverman's bandwidth for a sample with given standard deviation and interquartile range.
+> **Practice — Foundation:** Compute Silverman's bandwidth for \(n=200\) observations with standard deviation 12 and interquartile range 13.4.
 >
-> **Practice — Core:** Explain why the kernel density estimate is inconsistent at the edge of its support, and describe two fixes.
+> **Hint:** \(\min(12,13.4/1.34)=10\), so \(h=0.9(10)(200)^{-1/5}\approx3.12\).
 >
-> **Practice — Stretch:** Compare Silverman, least-squares cross-validation, and a plug-in bandwidth on bimodal data, and report which recovers the modes.
+> **Practice — Core:** For Exponential(1) data (\(f(0)=1\)) and a Gaussian kernel with \(h=0.2\), compute \(E[\hat f_h(0)]=e^{h^2/2}(1-\Phi(h))\), explain why the estimate is inconsistent at the edge, and describe reflection and the log transform as fixes.
+>
+> **Hint:** Half the kernel mass falls on negative values, so the expectation is about \(0.429\approx f(0)/2\) however large \(n\) is; reflection adds \(\hat f(-x)\) back, and the log transform moves the boundary to \(-\infty\).
+>
+> **Practice — Stretch:** For \(n=400\) from \(0.5N(-2,1)+0.5N(2,1)\), compute Silverman's \(h\) (using the true SD \(\sqrt5\) and IQR) and the AMISE-optimal \(h^\ast\) from the true \(R(f'')\), and say which one a plug-in selector targets. Use \(E\hat f=f\ast N(0,h^2)\) to compare the dip at 0 relative to the mode at each \(h\).
+>
+> **Hint:** The true IQR is about 4.0, so \(h_S=0.9\sqrt5(400)^{-1/5}\approx0.61\), against \(h^\ast\approx0.36\) (with \(R(f'')\approx0.118\)); the dip-to-peak ratio of \(E\hat f\) is about 0.46 against 0.34 (truth 0.27), so Silverman oversmooths the valley.
 
 ## 20. Density estimation stops working in several dimensions
 
@@ -628,11 +749,17 @@ A useful corollary: **do not use a kernel density estimate on embeddings.** A 76
 
 **Worked example — the anomaly detector that detected nothing.** A team estimates a KDE over 50-dimensional embeddings to flag outliers by low density. At any bandwidth giving nonzero density on held-out points, the density ranking is nearly the ranking of distance-to-centroid, and the detector reduces to a crude norm threshold. The method did not fail loudly; it quietly degenerated.
 
-> **Practice — Foundation:** State the optimal nonparametric density rate in \(d\) dimensions.
+> **Practice — Foundation:** State the optimal nonparametric density rate in \(d\) dimensions and evaluate its exponent for \(d=1,2,5,10\).
+>
+> **Hint:** The AMISE is \(\propto n^{-4/(4+d)}\): the exponents are 0.8, 0.667, 0.444, and 0.286.
 >
 > **Practice — Core:** Compute how many observations are needed in five dimensions to match the error of 1,000 in one.
 >
-> **Practice — Stretch:** Explain the geometric mechanism behind the rate degradation using concentration of measure, and name three structural alternatives.
+> **Hint:** Set \(n_5^{-4/9}=1000^{-4/5}\), which gives \(n_5=1000^{9/5}\approx2.5\times10^5\).
+>
+> **Practice — Stretch:** For \(n=10^6\) uniform points in \([0,1]^d\), compute the edge length of a cube expected to contain 10 points, for \(d=1,10,50\), and use it to explain the rate degradation. Name three structural alternatives.
+>
+> **Hint:** The cube needs volume \(10^{-5}\), so its edge is \(10^{-5/d}\): \(10^{-5}\), about 0.32, and about 0.79. At \(d=50\) a 'local' window spans most of the range, so assume structure instead (mixtures, latent-variable models, flows or score models).
 
 ## 21. Nonparametric regression: local averages done properly
 
@@ -650,11 +777,17 @@ Two connections close the loop. The regression discontinuity estimator of lesson
 
 **Worked example — the slope at the edge.** Fitting Nadaraya–Watson to a rising trend truncates the rise near the right boundary, because the window there contains only points to the left, all with lower \(Y\). A local linear fit extrapolates the local slope correctly. If the quantity you care about is the value at the boundary — which is exactly the case in regression discontinuity — the difference between the two estimators is the entire result.
 
-> **Practice — Foundation:** Write the Nadaraya–Watson estimator and describe its weights.
+> **Practice — Foundation:** For \(x=(0,1,2,3)\), \(y=(1,3,2,5)\), a Gaussian kernel, and \(h=1\), compute the Nadaraya–Watson estimate at \(x_0=1.5\), and describe its weights.
 >
-> **Practice — Core:** Explain why local linear regression removes boundary bias that local constant fitting suffers.
+> **Hint:** The weights \(\varphi(x_0-x_i)\) are \((0.130,0.352,0.352,0.130)\) (normalize them to sum to 1), giving about 2.63.
 >
-> **Practice — Stretch:** Relate bandwidth choice in local linear regression to the bandwidth issue in a regression discontinuity design, and state what a sensitivity analysis over \(h\) should show.
+> **Practice — Core:** For noise-free data \(y=x\) at \(x=(0,1,2,3,4)\), a Gaussian kernel, and \(h=1\), compute the Nadaraya–Watson estimate at the boundary point \(x_0=4\), show local linear regression returns exactly 4, and explain the difference.
+>
+> **Hint:** Nadaraya–Watson averages only points at or left of 4, giving about 3.48; a weighted least-squares line reproduces any linear trend exactly.
+>
+> **Practice — Stretch:** A regression discontinuity reports local linear jump estimates 2.1 (SE 0.9), 1.8 (SE 0.6), and 0.9 (SE 0.4) at \(h=0.5,1,2\). Interpret the pattern in bias–variance terms, and say what a sensitivity analysis over \(h\) should show before the effect is reported.
+>
+> **Hint:** The SEs shrink with \(h\), while the drop at \(h=2\) suggests curvature bias; a credible effect should be stable over a range of small-to-moderate \(h\), reported with its bias-aware interval.
 
 ## 22. Rao–Blackwellization reduces Monte Carlo variance
 
@@ -679,11 +812,17 @@ The cost is always the same: you must be able to compute the conditional expecta
 
 **Worked example — a smooth posterior marginal from a jagged chain.** A Gibbs sampler for a hierarchical model gives 2,000 draws of a group effect. The histogram is visibly rough. Averaging the 2,000 conditional Gaussian densities, each available in closed form from the model, produces a smooth curve whose Monte Carlo error is several times smaller — from the same draws, at negligible extra cost.
 
-> **Practice — Foundation:** State the variance identity and explain why conditioning cannot increase variance.
+> **Practice — Foundation:** Let \(Z\sim\text{Bern}(0.5)\) and \(X\mid Z\sim N(3Z,1)\). Compare \(\operatorname{Var}(X)\) with \(\operatorname{Var}(E[X\mid Z])\) as estimators of \(E[X]\), and state the identity that explains the difference.
 >
-> **Practice — Core:** Rao–Blackwellize a Monte Carlo estimate for a two-component mixture and compute the variance reduction exactly.
+> **Hint:** \(\operatorname{Var}(X)=E[\operatorname{Var}(X\mid Z)]+\operatorname{Var}(E[X\mid Z])=1+2.25\); conditioning removes the first term.
 >
-> **Practice — Stretch:** Apply Rao–Blackwellization to a gradient estimator with a categorical latent and compare the variance against the score-function estimator from lesson 14.
+> **Practice — Core:** To estimate \(P(X>2)\) for \(X\sim0.5N(0,1)+0.5N(3,1)\), compare the per-draw variance of the indicator \(\mathbf1\{X>2\}\), of its Rao–Blackwellized version \(P(X>2\mid Z)\), and of full enumeration over \(Z\).
+>
+> **Hint:** The target is about 0.432, so the indicator's variance is \(p(1-p)\approx0.245\); \(P(X>2\mid Z)\) takes the values 0.0228 and 0.841, with variance about 0.168; summing over \(Z\) has variance 0.
+>
+> **Practice — Stretch:** For \(z\in\{0,1,2\}\) with \(q_\phi=\operatorname{softmax}(\phi)\) at \(\phi=0\) and \(f(z)=z^2\), compute the mean and variance of the score-function estimator \(f(z)(\mathbf1\{z=0\}-q_0)\) of \(\partial E_q[f]/\partial\phi_0\), and compare it with exact enumeration.
+>
+> **Hint:** The estimator takes the values \(0,-1/3,-4/3\) with probability 1/3 each: mean \(-5/9\), variance \(26/81\approx0.32\); enumeration gives \(-5/9\) with variance 0.
 
 ## 23. When nonparametric methods fail
 
@@ -703,11 +842,17 @@ Each failure below has a specific cause, and none is fixed by more data alone.
 
 **Worked example — cross-validation defeated by autocorrelation.** A KDE of per-minute request rates uses least-squares cross-validation, which selects a bandwidth near zero. The cause is temporal autocorrelation: each point has near-duplicates a minute away, so leaving one out leaves its neighbours in, and the criterion rewards spikes. Thinning the series or blocking the cross-validation fixes it; more data makes it worse.
 
-> **Practice — Foundation:** List three nonparametric failure modes and the assumption each violates.
+> **Practice — Foundation:** Name the violated assumption in each case: (a) a DKW band on 1,440 per-minute latencies with lag-1 autocorrelation 0.9; (b) a Gaussian-kernel KDE of response times near 0; (c) a KDE on 768-dimensional embeddings. For (a), compute the AR(1) effective sample size \(n(1-\rho)/(1+\rho)\).
 >
-> **Practice — Core:** Explain why cross-validated bandwidths collapse under positive autocorrelation.
+> **Hint:** (a) independence, with effective size \(1440(0.1)/1.9\approx76\); (b) unbounded support; (c) low dimension (smoothness at a usable rate).
 >
-> **Practice — Stretch:** Design a blocked cross-validation scheme for dependent data and state what it assumes about the dependence range.
+> **Practice — Core:** For an AR(1) series with \(\rho=0.99\) and marginal SD \(\sigma\), compute the SD of successive differences, and use it to explain why leave-one-out cross-validation drives the KDE bandwidth toward zero.
+>
+> **Hint:** \(\operatorname{SD}(X_t-X_{t-1})=\sigma\sqrt{2(1-\rho)}\approx0.14\sigma\): each left-out point keeps a near-duplicate neighbour, so tiny \(h\) scores well.
+>
+> **Practice — Stretch:** Design blocked cross-validation for an AR(1) series with \(\rho=0.9\): choose the gap so the autocorrelation across it falls below 0.05, and state what the scheme assumes about the dependence range.
+>
+> **Hint:** Solve \(0.9^k<0.05\), which gives \(k\ge29\); this assumes the dependence decays geometrically and is stationary, and blocking gives an approximate, not finite-sample, guarantee.
 
 ## 24. A distribution-free workflow for AI evaluation
 
@@ -726,11 +871,17 @@ The pieces assemble into a default procedure for comparing two systems on a benc
 
 **Worked example — a complete comparison.** 800 prompts, both models, three samples each. Exchangeable unit: prompt. Estimand: the paired \(P(B>A)\) on per-prompt mean scores, because the product question is ordinal and the design is matched. Method: paired sign test plus Hodges–Lehmann on the differences, with a prompt-level permutation null as a cross-check. Report: \(\hat\theta=0.57\), the fraction of the 800 prompts on which B wins — not a Mann–Whitney \(U/(mn)\), which answers the unpaired question — with a distribution-free interval \([0.53,0.61]\), a note that three pairwise comparisons in the suite exhibit a cycle, p95 latency with a binomial interval, and a DKW band showing the score distribution is not usable above the p99. Every number in that report has a stated assumption, and the strongest one is prompt-level exchangeability.
 
-> **Practice — Foundation:** List the workflow steps and name the assumption each protects.
+> **Practice — Foundation:** An evaluation has 800 prompts, each answered 3 times by both models. Name the exchangeable unit and the number of units, and for steps 1, 3, 4, and 7 of the workflow name the assumption each protects.
 >
-> **Practice — Core:** Apply steps 1 through 5 to a benchmark comparison you have seen, and state where the reported analysis diverged.
+> **Hint:** The unit is the prompt, so there are 800 units, not 4,800 rows; unit choice protects independence, pairing removes prompt difficulty, rank tests protect against shape assumptions, and quantile intervals protect against a bare-number tail claim.
 >
-> **Practice — Stretch:** Audit a published leaderboard for the transitivity assumption, and propose a report that is honest about cycles.
+> **Practice — Core:** Paired per-prompt differences (B − A) are \((0.3,0.1,-0.2,0.4,0.0,0.5,0.2,-0.1,0.6,0.3)\). Apply steps 1–5: drop the zero, run the exact two-sided sign test, compute the Hodges–Lehmann estimate (the median of the Walsh averages), and report the paired win proportion.
+>
+> **Hint:** Nine nonzero differences with 7 positive give \(p=2P(B\ge7)=46/256\approx0.18\); the 45 Walsh averages have median 0.25, and B wins on 7/9 of the decisive prompts.
+>
+> **Practice — Stretch:** A leaderboard reports \(P(A>B)=0.6\), \(P(B>C)=0.6\), \(P(C>A)=0.55\). Show that no Bradley–Terry model reproduces these, using \(\operatorname{logit}p_{AB}+\operatorname{logit}p_{BC}+\operatorname{logit}p_{CA}=0\), and propose a report that is honest about the cycle.
+>
+> **Hint:** Bradley–Terry makes each logit a difference of strengths, so the three must sum to zero; here they sum to about 1.01. Report the pairwise matrix with intervals and the cycle, not only a ranked list.
 
 ## 25. Runnable labs
 
@@ -811,69 +962,89 @@ The checks cover a single observation reproducing a Gaussian density, the averag
 20. Derive the \(d\)-dimensional rate \(n^{-4/(4+d)}\) and interpret it.
 21. Derive the Rao–Blackwellized Monte Carlo estimator and its exact variance reduction.
 
+## Prediction experiment
+
+Predict both the baseline and failure-preset results before revealing the calculation. Record the assumptions, change one control at a time, and explain the boundary case. This small deterministic model isolates a mechanism; it is not an empirical validation of a trained system.
+
+```lab
+lab: ps-empirical
+```
+
 ## 27. End-of-unit practice (graded)
 
-**Foundation — problems 1–7.** Compute order-statistic, rank, and smoothing quantities directly.
+Work each problem before opening its authored solution. Written proofs and design answers require self-review against the rubric; numeric fields check only the stated quantities.
 
-1. **Order statistics.** For five iid \(U(0,1)\) draws, compute the normalized density and expectation of \(U_{(3)}\).
-2. **Extremes.** Write the CDF of the maximum of \(n\) iid draws for Exponential\((1)\), Pareto\((x_m=1,\alpha=2)\), and Uniform\((0,1)\). Identify the Gumbel, Fréchet, or Weibull limiting family and give a suitable centering/scaling when straightforward.
-3. **Empirical CDF.** For \((1,1,2,4,4,4,7,9,10,12)\), tabulate \(\hat F_n\) and evaluate it at \(x=(0,1,3,4,13)\), respecting right continuity.
-4. **DKW.** At \(\alpha=0.05\), compute \(\varepsilon_n=\sqrt{\log(2/\alpha)/(2n)}\) for \(n=100,1000,10000\). State exactly what probability is at least 0.95 and over which randomness.
-5. **Sign test.** Compute inclusive exact two-sided sign-test p-values for paired differences \((1,2,3,4,5)\), \((1,-2,3,-4,5)\), and \((0,1,-1,2,-2,3)\), removing zeros before setting \(n\).
-6. **Mann–Whitney.** For independent samples \(X=(1,2,2)\) and \(Y=(2,3,4)\), compute midranks, \(U_X\), \(\hat\theta=P(X>Y)+\tfrac12P(X=Y)\), the tie-corrected null variance, and \(z\) without continuity correction. State why the nine pair indicators are not independent.
-7. **Bandwidth.** For \(x=(-1,0,1)\), use sample SD, the median-of-halves IQR excluding the overall median, and \(h=0.9\min(s,\mathrm{IQR}/1.34)n^{-1/5}\). Evaluate the Gaussian KDE at \(-1,0,1\), showing the normalization factor.
 
-**Core — problems 8–16.** Connect the theory to procedures and diagnostics.
+### Foundation — problems 1–7. Compute order-statistic, rank, and smoothing quantities directly.
 
-8. **Quantile uncertainty.** Compare simulated quantile variance against the asymptotic formula at \(p=0.5,0.9,0.99\), and explain the divergence pattern.
-9. **Distribution-free intervals.** Build binomial order-statistic intervals for several quantiles and verify coverage by simulation.
-10. **Uniform versus pointwise.** Demonstrate empirically that pointwise intervals undercover as a band, and quantify by how much.
-11. **Distribution-freeness.** Show by simulation that the KS null distribution is unchanged across three populations, then break it by estimating parameters from the same data.
-12. **Efficiency.** Reproduce the ARE table by simulation for at least three distributions.
-13. **Symmetry assumption.** Demonstrate signed-rank inflation under skewed differences with median zero, and show the sign test remains valid.
-14. **Win rates.** Estimate \(\hat\theta\) with a U-statistic standard error, and compare against the naive binomial standard error on the same data.
-15. **Bandwidth selection.** Compare Silverman, cross-validation, and a plug-in rule on unimodal and bimodal data.
-16. **Boundary bias.** Estimate a density for positive data directly, by reflection, and by log transform, and compare against the truth near zero.
+**A1 · Foundation · paper — Order statistics.** For five iid \(U(0,1)\) draws, compute the normalized density and expectation of \(U_{(3)}\).
 
-**Stretch — problems 17–24.** Analyze failures, rates, and evaluation design.
+**A2 · Foundation · paper — Extremes.** Write the CDF of the maximum of \(n\) iid draws for Exponential\((1)\), Pareto\((x_m=1,\alpha=2)\), and Uniform\((0,1)\). Identify the Gumbel, Fréchet, or Weibull limiting family and give a suitable centering/scaling when straightforward.
 
-17. **Tail estimation.** Fit a generalized Pareto at several thresholds, assess stability of \(\hat\xi\), and state what you would report about a p9999.
-18. **Bootstrap failure.** Demonstrate bootstrap failure for the sample maximum and explain it in terms of the empirical distribution's support.
-19. **Non-transitivity.** Construct three model score distributions with a strict win-rate cycle, fit Bradley–Terry, and quantify the misfit.
-20. **Degenerate U-statistics.** Exhibit a kernel with \(\zeta_1=0\), show the limit is not Gaussian, and explain why permutation calibration is used.
-21. **Dependence.** Show that DKW coverage and cross-validated bandwidths both fail under autocorrelation, and repair each.
-22. **Rate barrier.** Measure the empirical convergence rate of a KDE in one, two, and four dimensions and compare against \(n^{-4/(4+d)}\).
-23. **Rao–Blackwell.** Apply Rao–Blackwellization to a discrete-latent gradient estimator and measure the variance reduction against the score-function estimator.
-24. **Complete distribution-free evaluation.** Take one real benchmark comparison through the full workflow, including the exchangeable unit, estimand choice, rank test, distribution-free interval, quantile uncertainty, and a statement of which assumption is the weakest.
+**A3 · Foundation · paper — Empirical CDF.** For \((1,1,2,4,4,4,7,9,10,12)\), tabulate \(\hat F_n\) and evaluate it at \(x=(0,1,3,4,13)\), respecting right continuity.
 
-<details><summary>Worked solution sketches</summary>
+**A4 · Foundation · paper — DKW.** At \(\alpha=0.05\), compute \(\varepsilon_n=\sqrt{\log(2/\alpha)/(2n)}\) for \(n=100,1000,10000\). State exactly what probability is at least 0.95 and over which randomness.
 
-1. \(U_{(3)}\sim\operatorname{Beta}(3,3)\), so \(f(u)=30u^2(1-u)^2\) on \((0,1)\) and \(E[U_{(3)}]=3/6=1/2\).
-2. The maximum CDFs are \((1-e^{-x})^n\) for \(x\ge0\), \((1-x^{-2})^n\) for \(x\ge1\), and \(x^n\) on \([0,1]\). Respectively, \(M_n-\log n\) tends to Gumbel, \(M_n/\sqrt n\) tends to Fréchet with shape 2, and \(n(1-M_n)\) tends to Exponential\((1)\), the reversed-Weibull endpoint limit.
-3. Right continuity gives \(\hat F_n(0)=0\), \(\hat F_n(1)=0.2\), \(\hat F_n(3)=0.3\), \(\hat F_n(4)=0.6\), and \(\hat F_n(13)=1\).
-4. Since \(\log40\approx3.6889\), the radii are approximately 0.1358, 0.04295, and 0.01358. For each fixed underlying CDF, an iid sample produces a whole random empirical CDF satisfying \(P(\sup_x|\hat F_n(x)-F(x)|\le\varepsilon_n)\ge0.95\).
-5. The all-positive data have \(2/2^5=0.0625\). The second data have three positives out of five and doubled smaller tail 1. Removing the zero in the third also leaves three positives out of five, again giving 1.
-6. The pooled values \((1,2,2,2,3,4)\) have midranks \((1,3,3,3,5,6)\). Thus \(R_X=7\), \(U_X=7-3(4)/2=1\), and \(\hat\theta=1/9\) from two half-ties among nine pairs. The tie-corrected null variance is \(4.65\), so \(z=(1-4.5)/\sqrt{4.65}\approx-1.62\). Pair indicators sharing an \(X_i\) or \(Y_j\) share a random variable and are dependent.
-7. Here \(s=1\), IQR \(=2\), and \(h=0.9(3^{-1/5})\approx0.722\). With normalization \(1/(3h\sqrt{2\pi})\approx0.184\), the KDE is approximately 0.259 at \(-1\), 0.325 at 0, and 0.259 at 1.
-8. Variance grows sharply with \(p\) because \(f(q_p)\) shrinks; the asymptotic formula degrades in the far tail where few observations sit nearby.
-9. Choose ranks \(r,s\) whose binomial tail probabilities bracket the level; coverage is exact and does not depend on the distribution.
-10. The supremum of many pointwise deviations exceeds any single one; the uniform band is roughly 1.4 times wider at the centre for typical levels.
-11. The probability integral transform makes every continuous case the uniform case; estimating parameters pulls the reference toward the data and shrinks the statistic.
-12. Simulate power curves at matched local alternatives and read off sample-size ratios; the Gaussian ratio should land near 0.955.
-13. With skew, large-magnitude differences on one side dominate the rank sum even when the median is zero; the sign test uses only signs and is unaffected.
-14. The U-statistic standard error uses the variance of \(P(x>Y)\) across \(x\); the binomial formula ignores that the \(mn\) pairs are dependent.
-15. Silverman oversmooths bimodal data; cross-validation is unstable; the plug-in rule is usually the best compromise.
-16. Direct estimation loses mass across the boundary; reflection or a log transform restores it, the latter requiring the Jacobian.
-17. Report \(\hat\xi\) with its stability across thresholds and a wide interval; a p9999 from a few thousand observations is an extrapolation, not an estimate.
-18. The resampled maximum never exceeds the observed maximum, so the bootstrap distribution is degenerate on one side and coverage fails.
-19. Construct overlapping score distributions with different shapes; Bradley–Terry forces a total order and its residual pattern reveals the cycle.
-20. Under the null of equal distributions some kernels have zero first projection; the limit is a weighted sum of chi-squares, so permutation gives the correct calibration.
-21. Autocorrelation inflates effective dependence: DKW's independence assumption fails and cross-validation rewards spikes. Block or thin.
-22. Fit error against \(n\) on a log-log scale; the slopes should approach \(-4/(4+d)\).
-23. Enumerate the categorical latent exactly and weight by its probabilities; the variance reduction equals the variance previously spent simulating the label.
-24. A complete answer names the exchangeable unit, chooses among mean, median, and ordinal estimands, pairs where possible, tests by rank or permutation, reports a distribution-free interval, gives quantile uncertainty, and names its weakest assumption.
+**A5 · Foundation · paper — Sign test.** Compute inclusive exact two-sided sign-test p-values for paired differences \((1,2,3,4,5)\), \((1,-2,3,-4,5)\), and \((0,1,-1,2,-2,3)\), removing zeros before setting \(n\).
 
-</details>
+**A6 · Foundation · paper — Mann–Whitney.** For independent samples \(X=(1,2,2)\) and \(Y=(2,3,4)\), compute midranks, \(U_X\), \(\hat\theta=P(X>Y)+\tfrac12P(X=Y)\), the tie-corrected null variance, and \(z\) without continuity correction. State why the nine pair indicators are not independent.
+
+**A7 · Foundation · paper — Bandwidth.** For \(x=(-1,0,1)\), use sample SD, the median-of-halves IQR excluding the overall median, and \(h=0.9\min(s,\mathrm{IQR}/1.34)n^{-1/5}\). Evaluate the Gaussian KDE at \(-1,0,1\), showing the normalization factor.
+
+### Core — problems 8–16. Connect the theory to procedures and diagnostics.
+
+**A8 · Core · paper — Quantile uncertainty.** For \(n=100\) iid Exponential(1) observations, the sample \(p\)-quantile is \(X_{(k)}\) with \(k=50,90,99\) for \(p=0.5,0.9,0.99\). Compute each exact variance from the Rényi representation, \(\operatorname{Var}(X_{(k)})=\sum_{j=n-k+1}^{n}j^{-2}\), compare it with the asymptotic \(p(1-p)/(nf(q_p)^2)=p/(n(1-p))\), and explain the divergence pattern.
+
+**A9 · Core · paper — Distribution-free intervals.** For \(n=100\), find the shortest order-statistic interval \([X_{(r)},X_{(s)}]\) with coverage at least 95% for the quantiles \(p=0.5\), \(0.9\), and \(0.99\), using \(P(r\le B\le s-1)\) with \(B\sim\text{Bin}(100,p)\). Report each interval's exact coverage and explain why it does not depend on \(F\). If no two-sided interval exists, give the best one-sided bound instead, and say what a simulation over two continuous populations would show.
+
+**A10 · Core · paper — Uniform versus pointwise.** Draw \(n=100\) Uniform(0,1) observations 5,000 times (Python random.seed(0) or any seed). On the 19 grid points \(F=0.05,0.10,\dots,0.95\), check whether every 95% Wald interval \(\hat F_n\pm1.96\sqrt{F(1-F)/n}\) contains the truth, and whether the DKW band \(\pm0.136\) contains the whole CDF. Report the single-point coverage at \(F=0.5\), the simultaneous coverage of the 19 pointwise intervals, and the DKW coverage.
+
+**A11 · Core · paper — Distribution-freeness.** With \(n=20\) and 5,000 replications, simulate the KS statistic against the true CDF for Exponential(1), \(N(0,1)\), and standard Cauchy data, and report the 95th percentile of each. Then draw from \(N(5,2^2)\), test against \(N(\bar x,s^2)\) fitted to the same sample, and report that null's 95th percentile and the rejection rate at the naive cutoff.
+
+**A12 · Core · paper — Efficiency.** Compute the Pitman AREs of Wilcoxon versus \(t\), \(12\sigma^2(\int f^2)^2\), and of the sign test versus \(t\), \(4\sigma^2f(0)^2\), exactly for Gaussian, Uniform\((-1,1)\), standard logistic, and standard Laplace populations, and check them against the table. Then describe how a power simulation at matched local alternatives would confirm the Gaussian and Laplace entries.
+
+**A13 · Core · paper — Symmetry assumption.** Let the paired differences be \(D=-E\) with probability 1/2 and \(D=3E\) with probability 1/2, where \(E\sim\text{Exp}(1)\), so the median is exactly 0 but the distribution is skewed. For \(n=20,50,100\) and 4,000 replications, report the rejection rate at nominal 5% of the signed-rank test (normal approximation with continuity correction) and of the exact two-sided sign test, and compute the sign test's exact size at each \(n\).
+
+**A14 · Core · paper — Win rates.** For independent scores \(X=(0.62,0.71,0.55,0.80,0.68,0.59,0.74,0.66)\) of model A and \(Y=(0.58,0.66,0.49,0.73,0.61,0.52)\) of model B, compute \(\hat\theta=U/(mn)\) with ties counted as one half, the placement values \(V_{10}(x_i)=\hat P(x_i>Y)\) and \(V_{01}(y_j)=\hat P(X>y_j)\), and the U-statistic standard error \(\sqrt{s^2_{10}/m+s^2_{01}/n}\). Compare it with the naive binomial standard error \(\sqrt{\hat\theta(1-\hat\theta)/(mn)}\).
+
+**A15 · Core · paper — Bandwidth selection.** Draw \(n=200\) from \(N(0,1)\) and \(n=200\) from \(0.5N(-2,1)+0.5N(2,1)\) (Python random.seed(0) for each). For each sample, compute the Gaussian-kernel bandwidth by Silverman's rule, by least-squares cross-validation over \(h\in\{0.10,0.15,\dots,1.50\}\), and by the AMISE formula with the true \(R(f'')\) (the target a plug-in rule estimates: \(0.2116\) and \(0.1181\)). Report each \(h\), the number of modes of the KDE on \([-7,7]\), and the integrated squared error against the truth.
+
+**A16 · Core · paper — Boundary bias.** Draw \(n=500\) from Exponential(1) (Python random.seed(0)). Estimate the density with a Gaussian KDE at Silverman's bandwidth in three ways: directly; by reflection, \(\hat f(x)+\hat f(-x)\); and on the log scale, with the back-transform \(\hat g(\log x)/x\). Evaluate each at \(x=0,0.05,0.2,0.5,1,2\), compare with \(e^{-x}\), and say which fix suits this density and why.
+
+### Stretch — problems 17–24. Analyze failures, rates, and evaluation design.
+
+**A17 · Stretch · paper — Tail estimation.** Draw \(n=5000\) from Pareto(\(x_m=1,\alpha=2\)) (so \(\xi=0.5\) and the true p9999 is 100) with Python random.seed(0). Fit a generalized Pareto by maximum likelihood to the exceedances over the empirical 90%, 95%, and 99% quantiles. Report \(\hat\xi\), \(\hat\sigma\), the exceedance count \(k\), the rough SE \((1+\hat\xi)/\sqrt k\), and the implied p9999 \(u+\frac{\hat\sigma}{\hat\xi}[((k/n)/10^{-4})^{\hat\xi}-1]\) at each threshold, and state what you would report about the p9999.
+
+**A18 · Stretch · paper — Bootstrap failure.** For \(n=50\) iid Uniform(0,1), compare the true law of \(T=n(1-X_{(n)})\) with the bootstrap law of \(T^\ast=n(X_{(n)}-X^\ast_{(n)})\). Compute the limit of \(P(T\le t)\) and the exact bootstrap probability \(P^\ast(T^\ast=0)=1-(1-1/n)^n\), and explain the failure in terms of the empirical distribution's support.
+
+**A19 · Stretch · paper — Non-transitivity.** The fair dice \(A=(2,2,4,4,9,9)\), \(B=(1,1,6,6,8,8)\), and \(C=(3,3,5,5,7,7)\) stand for three models' score distributions. Compute \(P(A>B)\), \(P(B>C)\), and \(P(C>A)\) exactly. Suppose each pair is compared 900 times and the observed win proportions equal these probabilities. Fit Bradley–Terry, and quantify the misfit by the deviance \(G^2\) and its degrees of freedom.
+
+**A20 · Stretch · paper — Degenerate U-statistics.** For the kernel \(h(x_1,x_2)=x_1x_2\) with \(X\sim N(0,1)\), so \(\theta=0\), show \(\zeta_1=0\), derive \(nU_n=\frac{n}{n-1}[(\sum X_i)^2/n-\sum X_i^2/n]\to\chi^2_1-1\), and compute the limit's mean, variance, and \(P(nU_n>0)\). Explain why the \(\sqrt n\) normal approximation fails, and why kernel two-sample tests (MMD, energy distance) are calibrated by permutation.
+
+**A21 · Stretch · paper — Dependence.** Simulate a stationary Gaussian AR(1), \(X_t=\rho X_{t-1}+e_t\) with \(e_t\sim N(0,1)\), at \(\rho=0.8\) and \(\rho=-0.5\), with \(n=500\) and 1,000 replications. Report how often the iid DKW 95% band (\(\varepsilon=0.0607\)) contains the true stationary CDF \(N(0,1/(1-\rho^2))\). Then widen the band by \(\sqrt{(1+\rho)/(1-\rho)}\) (an effective-sample-size correction, used only when it exceeds 1), report its coverage, and state the assumptions behind this correction and behind a moving-block alternative.
+
+**A22 · Stretch · paper — Rate barrier.** For a \(N(0,I_d)\) truth and a product Gaussian kernel with bandwidth \(h\), the exact MISE is \((4\pi)^{-d/2}\bigl[n^{-1}h^{-d}+(1-n^{-1})(1+h^2)^{-d/2}-2^{1+d/2}(2+h^2)^{-d/2}+1\bigr]\). Minimize it over \(h\) for \(d=1,2,4\) and \(n=10^2,10^3,10^4,10^5\), report the optimal \(h\) and MISE, and compare the empirical log-log slopes with \(-4/(4+d)\).
+
+**A23 · Stretch · paper — Rao–Blackwell.** Let \(z\in\{0,1,2,3\}\) with \(q_\phi=\operatorname{softmax}(\phi)\) at \(\phi=(0,0.5,1,1.5)\), and \(f(z)=(z-1)^2\). Compute the exact gradient \(\nabla_\phi E_q[f]\), the total variance (trace of the covariance) of the single-sample score-function estimator \(f(z)\nabla_\phi\log q_\phi(z)\), the same with the baseline \(b=E_q[f]\), and the variance of the Rao–Blackwellized (enumerated) estimator.
+
+**A24 · Stretch · paper — Complete distribution-free evaluation.** Twelve prompts give per-prompt mean score differences (B − A) of \((0.12,0.05,-0.03,0.20,0.08,0.00,0.15,-0.06,0.10,0.07,0.18,0.04)\). Take them through the workflow. Name the exchangeable unit and the estimand. Run the exact sign test and the exact signed-rank test after dropping the zero. Compute the Hodges–Lehmann estimate with its exact signed-rank interval, and the win proportion with a Clopper–Pearson interval. Say whether a 95% distribution-free interval for the p90 difference exists at this \(n\). Name the weakest assumption.
+
+
+## Six-part checkpoint
+
+Complete these without notes, then use the solutions to audit assumptions and reasoning. Passing a numeric check alone does not establish mastery. For implementation and transfer, retain the code/results or written protocol as evidence.
+
+**K1 · Foundation · gate — Concept.** What assumptions support the iid DKW confidence band?
+
+**K2 · Core · gate — Derivation.** Invert the DKW tail inequality into a confidence radius.
+
+**K3 · Core · gate — Calculation.** For observations [−1,0,0,1,2], find the empirical CDF at zero.
+
+**K4 · Core · gate — Implementation audit.** Reproduce two settings of the ps-empirical experiment independently, including its failure preset. State a numerical invariant or analytic oracle and explain what the plot does not establish.
+
+**K5 · Stretch · gate — Claim audit.** Does thinning an arbitrary dependent series restore the iid DKW guarantee?
+
+**K6 · Stretch · gate — RE/RS transfer.** Audit a nonparametric tail-quantile estimate for model latency.
 
 ## Mastery check
 

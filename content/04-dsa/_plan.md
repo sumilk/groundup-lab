@@ -8,6 +8,8 @@ Build the ability to derive, implement, test, and analyze algorithms under unfam
 
 The [invariants, search, graphs, and DP overview](01-invariants-search-graphs-dp.md) remains an orientation page with its path preserved. New detailed units reserve 02–15; the overview is not evidence that all these algorithms have been taught.
 
+**Legacy-page review:** Keep the overview: its lower-bound invariant, BFS proof and coin-DP example are not supplied by the current math lessons, and it owns the `search` browser task. Move the material into DS02/DS04/DS06/DS08 and migrate the task before retiring this bridge. See the [cross-track audit](../_legacy-audit.md) for the removal criteria and current coverage.
+
 **Scope:** 14 units; 364 estimated study hours including derivations, practice, and the capstone. These are planning estimates, not elapsed-time requirements or hiring guarantees. Diagnose existing knowledge and use the gates to skip material already mastered. Module numbers below are file-number reservations within this track; retained overview pages are outside the new sequence unless explicitly listed.
 
 ## 2. Teaching and authoring contract

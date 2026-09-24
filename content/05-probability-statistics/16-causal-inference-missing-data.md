@@ -2,6 +2,7 @@
 id: math.statistics.causal-inference-missing-data
 title: Observational causal inference, quasi-experiments, and missing data
 prerequisites: [math.statistics.exponential-families-regression-glms, math.statistics.sampling-design-ml-evaluation]
+answers: ps-16-causal-inference-missing-data
 estimated_hours: 48
 ---
 
@@ -46,11 +47,17 @@ a contrast between two states of the same population under two interventions. Co
 
 **Worked example — the retrieval-augmented system that appears to hurt.** You log 200,000 production requests. Some were served by a retrieval-augmented pipeline, some by the base model, with routing decided by a heuristic that sends hard queries to retrieval. Regressing answer quality on a retrieval indicator gives a negative coefficient. The coefficient is a correct description of the log: retrieval-served answers *were* worse. It is a useless answer to "should we route everything to retrieval," because query difficulty caused both the routing and the quality. No standard error, robustness check, or larger sample repairs this. The defect is in identification, and a tighter confidence interval only makes the wrong number look more credible.
 
-> **Practice — Foundation:** State in one sentence the difference between conditioning on \(X=x\) and intervening to set \(X=x\).
+> **Practice — Foundation:** In the routing log, mean quality is 0.67 for retrieval-served queries and 0.82 for base-model queries. Say whether the difference \(-0.15\) estimates \(E[Y\mid T=1]-E[Y\mid T=0]\) or \(E[Y\mid\operatorname{do}(T=1)]-E[Y\mid\operatorname{do}(T=0)]\), and state in one sentence the difference between conditioning on \(T=t\) and intervening to set \(T=t\).
 >
-> **Practice — Core:** Give a concrete pair of production variables for which a regression coefficient is a good description and a bad intervention forecast, and say which quantity each sentence refers to.
+> **Hint:** A log difference is always the conditional contrast between groups that were routed differently (and so differ in difficulty); an intervention sets \(T\) for the same population.
 >
-> **Practice — Stretch:** Construct a joint distribution over \((X,Y)\) in which the regression slope is positive but every unit's outcome would fall under an intervention that raises \(X\). Identify the structural feature that makes this possible.
+> **Practice — Core:** Queries are easy or hard with probability \(\tfrac12\) each; retrieval is used with probability 0.2 on easy and 0.8 on hard queries. Mean quality is 0.95 (retrieval) and 0.90 (base) on easy queries, and 0.60 and 0.50 on hard ones. Compute the coefficient from regressing quality on the retrieval indicator alone, and the effect of routing everything to retrieval, and say which sentence each number supports.
+>
+> **Hint:** Treated queries are 20% easy, so \(E[Y\mid T=1]=0.2(0.95)+0.8(0.60)=0.67\) and \(E[Y\mid T=0]=0.82\), giving \(-0.15\); the intervention averages the stratum effects \(0.05\) and \(0.10\) over the 50/50 mix, giving \(+0.075\).
+>
+> **Practice — Stretch:** Let \(U\sim\mathrm{Bernoulli}(1/2)\), \(X=U\), and the structural equation \(Y=3U-X\). Compute the population regression slope of \(Y\) on \(X\), then the change in each unit's \(Y\) under \(\operatorname{do}(X=x+1)\), and identify the structural feature that makes the signs disagree.
+>
+> **Hint:** Observed \(Y=2U=2X\), so the slope is \(+2\), while the structural coefficient on \(X\) is \(-1\) for every unit; \(U\) is a common cause of \(X\) and \(Y\), and no sample size changes that.
 
 ## 1. Potential outcomes and the estimand you actually want
 
@@ -80,11 +87,17 @@ These are different numbers and different questions. The ATE answers "what if we
 
 **Worked example — three deployment questions, three estimands.** A safety filter is currently applied to 4% of traffic flagged by a classifier. "Should we keep the filter on the flagged traffic?" is an ATT question. "Should we apply it to all traffic?" is an ATE question, and it requires extrapolating to units the filter has never touched. "Which segments should get it?" is a CATE question. A single analysis that reports one number and answers all three is answering at most one of them.
 
-> **Practice — Foundation:** Write the consistency assumption and explain what it rules out.
+> **Practice — Foundation:** A unit has \(Y(1)=0.8\), \(Y(0)=0.5\) and is treated. Use consistency to write its observed \(Y\). Then suppose \"treated\" sometimes means the new model at temperature 0.2 (outcome 0.8) and sometimes at temperature 1.0 (outcome 0.6): explain what consistency rules out.
+>
+> **Hint:** \(Y=TY(1)+(1-T)Y(0)=0.8\); consistency requires one well-defined version of treatment, so two temperatures with different outcomes make \(Y(1)\) ill-defined.
 >
 > **Practice — Core:** For a 60/40 population split where treatment helps group A by 3 and hurts group B by 1, compute the ATE and the ATT when treatment is given only to group A.
 >
-> **Practice — Stretch:** Describe an ML deployment in which no-interference fails, and state what estimand remains meaningful once units influence each other.
+> **Hint:** The ATE weights the group effects by population shares, \(0.6(3)+0.4(-1)=1.4\); the ATT weights by the treated units' shares, which here are 100% group A, so it is 3.
+>
+> **Practice — Stretch:** A marketplace has 100 sellers and 1,000 daily sales that a ranking change only redistributes. In an A/B test, the 50 boosted sellers average 18 sales and the 50 others average 2. Compute the naive treated-minus-control difference and the effect of boosting all sellers (everyone back to 10), explain which assumption fails, and state an estimand that remains meaningful.
+>
+> **Hint:** The naive difference is 16 but the global effect is 0, because control sellers' outcomes depend on others' treatment; a total (global) effect estimated by randomizing whole markets or clusters stays meaningful.
 
 ## 2. What randomization buys, and exactly what it does not
 
@@ -116,11 +129,17 @@ Treatment is as-if randomized within cells of \(X\). This is the assumption ever
 
 **Worked example — intention to treat versus the analysis you want.** In a rollout where 30% of assigned users never actually received the new model, comparing *receivers* to *non-receivers* destroys randomization, because receipt is a choice. Comparing by *assignment* preserves it and identifies the intention-to-treat effect, which is a different, smaller, and honestly identified quantity. Section 15 shows how the assignment can then be used as an instrument to recover an effect for compliers.
 
-> **Practice — Foundation:** State ignorability and say why it cannot be tested from observed data alone.
+> **Practice — Foundation:** Four units have \((Y(1),Y(0),T)=(1,0,1),(1,1,1),(0,0,0),(1,0,0)\). List the entries an analyst actually observes, state ignorability, and explain why the observed entries cannot test it.
 >
-> **Practice — Core:** Show the two-line derivation that a randomized difference in means equals the ATE, naming the assumption used at each step.
+> **Hint:** You see \(Y(1)\) only for units 1 and 2 and \(Y(0)\) only for units 3 and 4; ignorability \((Y(1),Y(0))\perp T\mid X\) constrains quantities that are never observed together for any unit.
 >
-> **Practice — Stretch:** Design an A/B test that is correctly randomized but whose headline metric is still confounded, and locate the failure precisely.
+> **Practice — Core:** Show the two-line derivation that a randomized difference in means equals the ATE, naming the assumption used at each step, and apply it to an A/B test with success rates 0.42 (treatment) and 0.37 (control).
+>
+> **Hint:** Consistency turns \(E[Y\mid T=t]\) into \(E[Y(t)\mid T=t]\); independence of \(T\) from \(Y(t)\) removes the conditioning, so the ATE estimate is \(0.05\).
+>
+> **Practice — Stretch:** In a correctly randomized test, 60% of users are \"strong\" and complete the session in both arms with satisfaction 0.9; 40% are \"weak\", never complete under control, and complete with probability 0.5 under treatment with satisfaction 0.5. Treatment changes nobody's satisfaction. Compute the headline metric \"mean satisfaction among completed sessions\" in each arm and locate the failure precisely.
+>
+> **Hint:** Control completers are all strong (0.9); treatment completers are \(0.6\) strong and \(0.2\) weak of the population, giving \((0.54+0.10)/0.8=0.80\); conditioning on completion, a post-treatment variable, breaks the randomization.
 
 ## 3. Identification precedes estimation
 
@@ -138,11 +157,17 @@ Most applied failures happen at step 2 and are then debated at steps 3 and 4. Sw
 
 **Worked example — the flexible-model temptation.** A team fits a large gradient-boosted model of quality on 400 logged features including a retrieval indicator, then reads the partial dependence of the retrieval feature as its effect. The model is a superb estimator of \(E[Y\mid X]\). It is not an estimator of anything causal unless the 400 features happen to satisfy a backdoor condition, and if a post-treatment feature is among them, flexibility makes the bias *worse* by fitting the mediated path more accurately.
 
-> **Practice — Foundation:** Define identification without referring to sample size.
+> **Practice — Foundation:** Define identification without referring to sample size, then write the ATE of the section 0 Core scenario as a functional of \(P(D)\) and \(E[Y\mid T,D]\) under ignorability given \(D\) and evaluate it.
 >
-> **Practice — Core:** Give an estimand that is identified under one assumption set and not identified under a weaker one, and name the assumption that does the work.
+> **Hint:** The functional is \(\sum_dP(D=d)\bigl(E[Y\mid T=1,d]-E[Y\mid T=0,d]\bigr)=0.5(0.05)+0.5(0.10)=0.075\); it is fixed by the observed distribution, whatever \(n\) is.
 >
-> **Practice — Stretch:** Explain why increasing model capacity can increase causal bias while decreasing predictive error, using a concrete feature set.
+> **Practice — Core:** Suppose difficulty \(D\) is not logged, so only \(E[Y\mid T=1]=0.67\) and \(E[Y\mid T=0]=0.82\) are available. Construct a second model with no confounding that reproduces these numbers but has ATE \(-0.15\), and name the assumption that identified the ATE of \(0.075\) in the original setting.
+>
+> **Hint:** Let \(T\) be assigned at random with \(Y(1)\) mean 0.67 and \(Y(0)\) mean 0.82 for everyone; both models give the same observed law, so the ATE needs exchangeability given an observed \(D\) (plus consistency and positivity).
+>
+> **Practice — Stretch:** Let \(D\sim\mathcal N(0,1)\), \(T=\mathbf 1\{D+\eta>0\}\), latency \(L=2T+\nu\), and quality \(Y=0.5L-D+\epsilon\) with independent standard-normal noises. Give the coefficient on \(T\) when regressing \(Y\) on \((T,D)\) and on \((T,D,L)\), say which model predicts \(Y\) better, and explain why the better predictor gives the worse causal answer.
+>
+> **Hint:** \(E[Y\mid T,D]=T-D\) gives coefficient 1 (the total effect), while \(E[Y\mid T,D,L]=0.5L-D\) gives 0; adding the mediator \(L\) raises \(R^2\) but removes the path through which retrieval acts.
 
 ## 4. Causal DAGs make the assumptions writable
 
@@ -170,11 +195,17 @@ Everything downstream keeps its mechanism; only the assignment mechanism is repl
 
 **Worked example — writing the routing graph.** For the retrieval example: query difficulty \(D\to\) routing \(T\), \(D\to\) quality \(Y\), and \(T\to Y\). Drawing it takes ten seconds and makes the problem obvious: there is a path \(T\leftarrow D\to Y\) that carries association without causation. It also makes the *fix* precise — anything that blocks that path suffices — and exposes the uncomfortable question of whether the logged difficulty score is the real \(D\) or a noisy proxy for it.
 
-> **Practice — Foundation:** Write the Markov factorization for a four-node chain.
+> **Practice — Foundation:** Write the Markov factorization for the binary chain \(A\to B\to C\to D\) with \(P(A=1)=0.5\) and, for each arrow, \(P(\text{child}=1\mid\text{parent}=1)=0.8\), \(P(\text{child}=1\mid\text{parent}=0)=0.2\), and compute \(P(A=B=C=D=1)\).
 >
-> **Practice — Core:** Draw the DAG for a logged evaluation where model version affects both latency and quality, and latency affects user retries.
+> **Hint:** Each node contributes one factor given its parent: \(p(a)p(b\mid a)p(c\mid b)p(d\mid c)=0.5\times0.8^3=0.256\).
 >
-> **Practice — Stretch:** Explain why a DAG with every possible arrow present is useless, and relate this to identification.
+> **Practice — Core:** Draw the DAG for a logged evaluation where model version \(V\) affects both latency \(L\) and quality \(Q\), and latency affects user retries \(R\). Write its Markov factorization and decide from the graph whether \(Q\perp R\mid V\).
+>
+> **Hint:** The factorization is \(p(v)p(l\mid v)p(q\mid v)p(r\mid l)\); the only path \(Q\leftarrow V\to L\to R\) is blocked by conditioning on \(V\), so yes.
+>
+> **Practice — Stretch:** On \((T,X,Y)\) compare the complete DAGs \(G_1\): \(X\to T,X\to Y,T\to Y\) and \(G_2\): \(T\to X,X\to Y,T\to Y\). Show neither implies any conditional independence, then, given \(E[Y\mid T,X]=T+2X\) and \(E[X\mid T]=0.5T\) (linear), compute the effect of a unit increase in \(T\) under each graph and relate the result to identification.
+>
+> **Hint:** Both graphs fit every distribution, so data cannot choose between them; \(G_1\) makes \(X\) a confounder (effect 1) while \(G_2\) makes it a mediator (effect \(1+2(0.5)=2\)): only omitted arrows carry identifying content.
 
 ## 5. Chains, forks, and colliders behave differently
 
@@ -194,9 +225,15 @@ The collider case deserves a concrete mechanism. Suppose \(A\) and \(C\) are ind
 
 > **Practice — Foundation:** For each of the three structures, state whether \(A\) and \(C\) are marginally dependent and whether they are dependent given \(B\).
 >
+> **Hint:** On a path, inspect whether arrows meet head-to-head at the middle node.
+>
 > **Practice — Core:** With \(A,C\) independent Bernoulli(1/2) and \(B=A\lor C\), compute \(P(A=1\mid C=1,B=1)\) and \(P(A=1\mid B=1)\) and interpret the difference.
 >
-> **Practice — Stretch:** Construct an evaluation pipeline whose filtering step is a collider conditioning, and quantify the sign of the induced bias.
+> **Hint:** \(P(B=1)=3/4\) and \(P(A=1,B=1)=1/2\), giving \(2/3\); given \(C=1\), \(B=1\) is automatic, so \(A\) falls back to \(1/2\): learning \(C\) explains away \(A\).
+>
+> **Practice — Stretch:** Model strength \(A\) and prompt formatting \(C\) are independent Bernoulli(1/2), and an output parses with probability \(0.2+0.4A+0.4C\). The evaluation keeps only parsed outputs. Compute \(P(A=1\mid\text{parsed})\), \(P(A=1\mid C=1,\text{parsed})\), \(P(A=1\mid C=0,\text{parsed})\), and the correlation of \(A\) and \(C\) among parsed outputs.
+>
+> **Hint:** Joint parsed masses are \(0.05,0.15,0.15,0.25\) for \((A,C)=(0,0),(1,0),(0,1),(1,1)\) out of 0.6, giving \(2/3\), \(0.625\), \(0.75\), and correlation \(-0.125\): the filter manufactures a negative association.
 
 ## 6. d-separation reads independences off the graph
 
@@ -217,11 +254,17 @@ Notice the asymmetry in rule 2: colliders are blocked *by default* and opened by
 
 **Worked example — a descendant is enough.** In \(A\to B\leftarrow C\) with \(B\to S\), conditioning on \(S\) partially determines \(B\) and therefore opens the collider. If \(S\) is "the row survived deduplication" and \(B\) is a quality score, deduplicating on quality opens a path between everything that causes quality.
 
-> **Practice — Foundation:** List the two blocking rules and note which one is reversed relative to the other.
+> **Practice — Foundation:** For the collider path \(A\to B\leftarrow C\) with \(B\to S\), and for the fork path \(A\leftarrow B\to C\), say whether the path is blocked given \(\varnothing\) and given \(\{B\}\), and for the collider also given \(\{S\}\). Name the rule used each time and which rule is reversed.
+>
+> **Hint:** Collider: blocked, open, open (a descendant counts); fork: open, blocked. Rule 1 blocks by conditioning on a noncollider; rule 2 blocks by not conditioning on a collider or its descendants.
 >
 > **Practice — Core:** In \(T\to M\to Y\), \(T\leftarrow U\to Y\), determine whether \(\{M\}\), \(\{U\}\), and \(\{M,U\}\) d-separate \(T\) from \(Y\).
 >
-> **Practice — Stretch:** Build a faithfulness violation with two paths of opposite sign, and explain what a conditional independence test would wrongly conclude.
+> **Hint:** The paths are the chain \(T\to M\to Y\) and the fork \(T\leftarrow U\to Y\); \(\{M\}\) leaves the fork open and \(\{U\}\) leaves the chain open, so only \(\{M,U\}\) d-separates.
+>
+> **Practice — Stretch:** Let \(T\sim\mathcal N(0,1)\), \(M=2T+e_1\), \(Y=M-2T+e_2\) with independent standard-normal noises. Compute \(\operatorname{Cov}(T,Y)\) and the coefficient on \(T\) when regressing \(Y\) on \((T,M)\), and explain what a marginal independence test of \(T\) and \(Y\) would wrongly conclude.
+>
+> **Hint:** \(Y=e_1+e_2\), so \(\operatorname{Cov}(T,Y)=0\) although both paths are live; given \(M\) the coefficient is \(-2\). The test would infer no causal connection between \(T\) and \(Y\).
 
 ## 7. Confounding and the backdoor criterion
 
@@ -250,11 +293,17 @@ The graphical criterion and the potential-outcome condition are the same assumpt
 
 **Worked example — which variables to adjust for, and which to refuse.** In the routing graph, \(\{D\}\) satisfies the backdoor criterion. Adding response latency — caused by \(T\) — violates clause 2, because latency is a mediator of retrieval's effect; adjusting for it estimates a direct effect that no deployment decision corresponds to. Adding "user complained" — caused by both \(T\) and \(Y\) — is collider conditioning and induces bias where none existed.
 
-> **Practice — Foundation:** Define a backdoor path and state both clauses of the criterion.
+> **Practice — Foundation:** Define a backdoor path and state both clauses of the criterion. In the DAG \(D\to T,D\to Y,T\to Y,T\to L\to Y,T\to C\leftarrow Y\), list every backdoor path from \(T\) to \(Y\) and check \(\{D\}\), \(\{D,L\}\) and \(\{D,C\}\).
 >
-> **Practice — Core:** Derive the mean-form adjustment formula from the truncated factorization for a single confounder.
+> **Hint:** Only \(T\leftarrow D\to Y\) enters \(T\) through an incoming arrow; \(\{D\}\) is valid, while \(L\) and \(C\) are descendants of \(T\), so the other two sets fail clause 2.
 >
-> **Practice — Stretch:** Give a graph where no observed set satisfies the backdoor criterion, yet the effect is still identified by another route.
+> **Practice — Core:** Derive the mean-form adjustment formula from the truncated factorization for a single confounder \(S\). Then, with \(P(S=1)=0.3\), \(P(S=1\mid T=1)=0.8\), \(E[Y\mid T=1,S=0]=0.9\) and \(E[Y\mid T=1,S=1]=0.6\), compute \(E[Y(1)]\) and compare it with \(E[Y\mid T=1]\).
+>
+> **Hint:** \(p(s,y\mid\operatorname{do}(t))=p(s)p(y\mid t,s)\), so average \(E[Y\mid t,S]\) over \(P(S)\): \(0.7(0.9)+0.3(0.6)=0.81\), whereas \(P(S\mid T=1)\) gives \(0.66\).
+>
+> **Practice — Stretch:** In \(T\leftarrow U\to Y\), \(T\to M\to Y\) with \(U\) unobserved, explain why no observed set satisfies the backdoor criterion. Then use the front-door formula with \(P(T=1)=0.5\), \(P(M=1\mid T=1)=0.8\), \(P(M=1\mid T=0)=0.2\), and \(E[Y\mid M,T]\) equal to 0.7, 0.5, 0.3, 0.1 for \((M,T)=(1,1),(1,0),(0,1),(0,0)\) to compute the effect, and compare with the crude difference.
+>
+> **Hint:** \(M\) is a descendant of \(T\) and \(U\) is unobserved; the front-door formula \(\sum_mP(m\mid t)\sum_{t'}E[Y\mid m,t']P(t')\) gives \(0.52-0.28=0.24\), against a crude \(0.62-0.18=0.44\).
 
 ## 8. Standardization computes the intervention you asked about
 
@@ -270,11 +319,17 @@ Two contrasts are worth holding. First, standardization is *not* the same as rea
 
 **Worked example — a two-stratum computation.** Suppose difficulty \(S\in\{\text{easy},\text{hard}\}\) with population shares \(0.7\) and \(0.3\). Within easy queries, mean quality is \(0.90\) with retrieval and \(0.86\) without; within hard queries, \(0.62\) and \(0.55\). The crude difference can be negative if retrieval is concentrated on hard queries, but standardization gives \(0.7(0.90-0.86)+0.3(0.62-0.55)=0.028+0.021=0.049\). The effect is positive in every stratum and positive on average; the crude comparison reported the opposite sign.
 
-> **Practice — Foundation:** Compute a standardized mean from two strata with given shares and cell means.
+> **Practice — Foundation:** Strata have population shares 0.6 and 0.4. Treated cell means are 0.80 and 0.50 and control cell means are 0.70 and 0.45. Compute the standardized \(E[Y(1)]\), \(E[Y(0)]\) and ATE.
 >
-> **Practice — Core:** Show that standardizing over the treated units' covariate distribution returns the ATT, and say when ATE and ATT coincide.
+> **Hint:** Use the same population shares for both arms: \(0.68-0.60=0.08\).
 >
-> **Practice — Stretch:** Construct a case where a correctly specified outcome model gives a badly biased standardized estimate because of extrapolation, and connect it to section 13.
+> **Practice — Core:** Show that standardizing over the treated units' covariate distribution returns the ATT. For the section 8 worked example (stratum effects 0.04 easy, 0.07 hard; population shares 0.7/0.3), suppose the treated units are 20% easy and 80% hard: compute the ATT, compare with the ATE 0.049, and say when the two coincide.
+>
+> **Hint:** Use the treated units' shares for both arms: \(0.2(0.04)+0.8(0.07)=0.064\); ATE and ATT coincide when the effect is constant across strata or treated and population covariate distributions match.
+>
+> **Practice — Stretch:** Treated units have \(X\sim U[0,1]\), controls \(X\sim U[2,3]\), and the true control mean is \(m_0(x)=x^2\). A linear control model fitted on the controls has \(R^2\approx0.997\). Find its least-squares line, use it to estimate \(E[Y(0)\mid\text{treated}]\), compare with the truth, and connect the failure to positivity in section 13.
+>
+> **Hint:** On \(U[2,3]\) the best line is \(5x-6.167\), which averages \(-3.67\) over \(U[0,1]\) against the true \(1/3\): a bias near \(-4\) from extrapolating where no controls exist.
 
 ## 9. Adjustment can create bias: colliders, selection, and M-bias
 
@@ -292,11 +347,17 @@ A useful discipline: never choose adjustment sets by significance, model fit, or
 
 **Worked example — the safety-filter evaluation that reverses.** Analysts restrict to conversations the user continued after the first response. Continuation is caused by both the filter and answer quality: a collider. Within continuers, filtered conversations look worse because a user who continued despite a filtered response must have had a good response for other reasons. The measured harm is manufactured by the restriction.
 
-> **Practice — Foundation:** Name three distinct ways that adding a covariate can increase bias.
+> **Practice — Foundation:** In the DAG \(D\to T\to Y\), \(D\to Y\), \(T\to L\to Y\), \(T\to C\leftarrow Y\), \(T\leftarrow U_1\to Z\leftarrow U_2\to Y\) (with \(U_1,U_2\) unobserved), say what bias each of \(L\), \(C\) and \(Z\) introduces when added to the adjustment set \(\{D\}\).
 >
-> **Practice — Core:** Draw the M-bias graph and verify with d-separation that the unadjusted comparison is unconfounded and the \(Z\)-adjusted one is not.
+> **Hint:** \(L\) is a mediator (overadjustment), \(C\) is a collider of \(T\) and \(Y\) (collider bias), and \(Z\) is a pretreatment collider on \(T\leftarrow U_1\to Z\leftarrow U_2\to Y\) (M-bias).
 >
-> **Practice — Stretch:** Explain why automated covariate selection by predictive performance is unsafe for causal adjustment, with a graph where it selects a collider.
+> **Practice — Core:** Draw the M-bias graph and verify with d-separation that the unadjusted comparison is unconfounded and the \(Z\)-adjusted one is not. Then check it numerically for \(T=U_1+e_T\), \(Z=U_1+U_2+e_Z\), \(Y=U_2+e_Y\) (all standard normal, true effect 0) by computing the coefficient on \(T\) in the regression of \(Y\) on \((T,Z)\).
+>
+> **Hint:** The covariance matrix of \((T,Z)\) is \(\begin{pmatrix}2&1\\1&3\end{pmatrix}\) and \(\operatorname{Cov}((T,Z),Y)=(0,1)\), so the coefficients are \((-0.2,0.4)\): conditioning on \(Z\) opens the path through the collider.
+>
+> **Practice — Stretch:** Let \(T\sim\mathcal N(0,1)\), \(Y=T+e\), and \(C=T+Y+e'\) (standard-normal noises, true effect 1). Compute \(R^2\) and the coefficient on \(T\) for the regressions of \(Y\) on \(T\) and on \((T,C)\), and explain why selecting covariates by predictive performance is unsafe for causal adjustment.
+>
+> **Hint:** With \(\operatorname{Var}C=6\), \(\operatorname{Cov}(T,C)=2\), \(\operatorname{Cov}(Y,C)=3\), the second regression gives coefficients \((0,0.5)\) and \(R^2=0.75\) versus \(0.5\): the collider improves fit and erases the effect.
 
 ## 10. Simpson's paradox is a question about the graph
 
@@ -312,11 +373,17 @@ The same table of numbers supports three different answers depending on the grap
 
 **Worked example — the same cells, three verdicts.** Take treated-group rates \(0.90\) and \(0.62\) in strata with treated shares \(0.2/0.8\), and control rates \(0.86\) and \(0.55\) with control shares \(0.8/0.2\). The pooled treated rate is \(0.676\) and the pooled control rate is \(0.798\): treatment looks harmful. Stratum by stratum it helps. If the stratifier is pre-treatment difficulty, report the stratified effect. If it is a post-treatment property that the treatment itself changes, the pooled number is the total effect and the stratified one answers a narrower question.
 
-> **Practice — Foundation:** Build a 2×2×2 table exhibiting a sign reversal and verify both computations.
+> **Practice — Foundation:** Easy stratum: treated 18/20 successes, control 68/80; hard stratum: treated 48/80, control 11/20. Compute the within-stratum and pooled treated-minus-control differences and confirm the sign reversal.
 >
-> **Practice — Core:** For your table, state which causal graph makes the pooled number correct and which makes the stratified number correct.
+> **Hint:** Within strata \(0.90-0.85\) and \(0.60-0.55\) are both \(+0.05\); pooled \(66/100-79/100=-0.13\).
 >
-> **Practice — Stretch:** Find a real evaluation report whose subgroup breakdown reverses a headline claim, and determine which analysis its decision actually requires.
+> **Practice — Core:** For the Foundation table, the stratifier is either (a) difficulty measured before routing or (b) whether the answer triggered a follow-up question, which treatment itself affects. Give the graph for each case and the number (\(+0.05\) or \(-0.13\)) you would report for the total effect.
+>
+> **Hint:** (a) is a confounder \(T\leftarrow S\to Y\): report the stratified \(+0.05\); (b) is a mediator \(T\to S\to Y\): the pooled \(-0.13\) is the total effect.
+>
+> **Practice — Stretch:** A report says model B beats A overall (win rate 0.72 versus 0.68), but A wins on short prompts (0.80 versus 0.75) and on long prompts (0.60 versus 0.55). Solve for the share of short prompts in each model's evaluation set, then compute both models' win rates on deployment traffic that is 60% short, and say which analysis the deployment decision requires.
+>
+> **Hint:** B was evaluated on 85% short prompts and A on 40%; standardized to 60% short, A scores 0.72 and B 0.67, because prompt length is a pre-treatment attribute of the traffic.
 
 ## 11. Propensity scores compress the adjustment set
 
@@ -350,11 +417,17 @@ The right diagnostic for a propensity model is not its AUC. A model that predict
 
 **Worked example — the too-good propensity model.** A team reports an AUC of 0.97 for their treatment model and treats it as a success. It means that for nearly every unit, one arm is essentially empty. The subsequent weighted estimate is dominated by a handful of units with weights in the hundreds, and its effective sample size is a small fraction of the nominal one.
 
-> **Practice — Foundation:** Prove that \(e(X)\) is a balancing score.
+> **Practice — Foundation:** Prove that \(e(X)\) is a balancing score, then check it for \(X\in\{1,2,3\}\) with \(P(X)=(0.3,0.3,0.4)\) and \(e=(0.2,0.2,0.7)\): compute \(P(X=1\mid T=1,e=0.2)\) and \(P(X=1\mid T=0,e=0.2)\).
+>
+> **Hint:** Show \(P(T=1\mid X,e(X))=e(X)=P(T=1\mid e(X))\); in the example both conditional probabilities are \(0.5\), because within \(e=0.2\) treatment odds are the same for \(X=1\) and \(X=2\).
 >
 > **Practice — Core:** Show that ignorability given \(X\) implies ignorability given \(e(X)\), stating where each step uses the balancing property.
 >
-> **Practice — Stretch:** Explain why propensity-model discrimination is the wrong success criterion, and propose a balance-based alternative with a decision rule.
+> **Hint:** Write \(P(T=1\mid Y(\cdot),e(X))=E[P(T=1\mid Y(\cdot),X)\mid Y(\cdot),e(X)]\) (tower), replace the inner term by \(e(X)\) (ignorability given \(X\)), and note \(E[e(X)\mid Y(\cdot),e(X)]=e(X)\).
+>
+> **Practice — Stretch:** Two propensity models are fitted on 10,000 units. M1 has AUC 0.97, maximum post-weighting \(|\text{SMD}|=0.08\), and ESS 180; M2 has AUC 0.74, maximum \(|\text{SMD}|=0.04\), and ESS 4,100. Explain why AUC is the wrong success criterion, choose a model, and write a decision rule based on balance and ESS.
+>
+> **Hint:** High AUC means little overlap (M1 keeps 1.8% of the sample effectively); a rule such as \"every \(|\text{SMD}|<0.1\) and ESS large enough for the target precision\" selects M2, and neither model rules out unmeasured confounding.
 
 ## 12. Inverse probability weighting reconstructs the intervened population
 
@@ -387,11 +460,17 @@ There is an important structural point hiding here. Weighting by the inverse pro
 
 **Worked example — the constant-shift test.** Add \(100\) to every outcome. The Hájek estimate is unchanged, because both normalized means shift by \(100\). The Horvitz–Thompson estimate shifts by \(100(\frac1n\sum_i T_i/\hat e_i-\frac1n\sum_i(1-T_i)/(1-\hat e_i))\), which is zero only in expectation. Running this test on your own pipeline takes one line and detects a whole class of weighting bugs.
 
-> **Practice — Foundation:** Compute Horvitz–Thompson and Hájek ATEs for a five-unit dataset with given propensities.
+> **Practice — Foundation:** Five units have \(T=(1,1,0,0,0)\), \(Y=(4,2,3,1,0)\), and \(e=(0.5,0.25,0.5,0.25,0.75)\). Compute the Horvitz–Thompson and Hájek ATE estimates.
+>
+> **Hint:** Treated weights are \((2,4)\) with weighted sum 16; control weights are \((2,4/3,4)\) with weighted sum \(22/3\); HT \(=(16-22/3)/5\approx1.733\) and Hájek \(=16/6-1\approx1.667\).
 >
 > **Practice — Core:** Derive \(E[TY/e(X)]=E[Y(1)]\), naming consistency and ignorability at the steps that use them.
 >
-> **Practice — Stretch:** Prove the shift invariance of the Hájek estimator and the shift sensitivity of Horvitz–Thompson, then say what this implies about variance.
+> **Hint:** \(E[TY/e(X)\mid X]=E[TY(1)\mid X]/e(X)\) by consistency, \(=E[T\mid X]E[Y(1)\mid X]/e(X)\) by ignorability, \(=E[Y(1)\mid X]\); then average over \(X\).
+>
+> **Practice — Stretch:** Prove the shift invariance of the Hájek estimator and the shift sensitivity of Horvitz–Thompson, then verify both by adding 10 to every outcome in the Foundation dataset, and say what this implies about variance.
+>
+> **Hint:** HT moves by \(10(6-22/3)/5\approx-2.667\), to about \(-0.933\), while Hájek stays at \(1.667\); HT variance therefore grows with the outcome's mean, not only its spread.
 
 ## 13. Positivity, overlap, and the weights that tell you to stop
 
@@ -419,11 +498,17 @@ The remedies all involve changing the question. **Trimming** discards units with
 
 **Worked example — 20,000 rows, 300 effective.** A logged comparison has 20,000 requests, but the new model was routed to a narrow slice of traffic. Propensities are below \(0.01\) for most of the population, ESS is about 300, and the nominal cluster-robust interval is \(\pm 0.004\). The honest report is an effect on the overlap population with an interval from 300 effective units, and a statement that the untreated region is not identified by this data.
 
-> **Practice — Foundation:** Compute the effective sample size for a small weight vector and interpret it.
+> **Practice — Foundation:** Compute the effective sample size for weights \(w=(1,1,1,1,6)\) and interpret it.
 >
-> **Practice — Core:** Distinguish structural from practical positivity violations and give the correct response to each.
+> **Hint:** \((\sum w)^2/\sum w^2=100/40=2.5\): five rows carry the information of two and a half, because one unit holds 60% of the weight.
 >
-> **Practice — Stretch:** Show that trimming changes the estimand, write the new estimand precisely, and explain when it still answers the deployment question.
+> **Practice — Core:** Classify each as a structural or practical positivity violation and give the correct response: (a) a feature is unavailable to free-tier users (40% of traffic), so \(e(x)=0\) there; (b) enterprise users receive the new model with \(e\approx0.004\), about 20 treated among 5,000.
+>
+> **Hint:** (a) is structural: no method identifies the effect for free-tier users, so redefine the population; (b) is practical: weights near 250 dominate, so report ESS and trim, use overlap weights, or collect more treated data.
+>
+> **Practice — Stretch:** Covariate cells \(a,b,c\) have shares \((0.5,0.3,0.2)\), propensities \((0.02,0.4,0.6)\), and conditional effects \((0.1,0.3,0.5)\). Trimming at \(\alpha=0.05\) drops cells with \(\hat e\notin[0.05,0.95]\). Compute the ATE and the estimand after trimming, write the new estimand precisely, and say when it still answers the deployment question.
+>
+> **Hint:** ATE \(=0.05+0.09+0.10=0.24\); trimming drops \(a\) and targets \(E[Y(1)-Y(0)\mid X\in\{b,c\}]=0.19/0.5=0.38\), which answers the question only if deployment is limited to that population.
 
 ## 14. Doubly robust estimation gives you two chances
 
@@ -441,17 +526,29 @@ $$
 E\left[\left(\frac{e(X)}{e^\ast(X)}-1\right)\big(m_1(X)-m_1^\ast(X)\big)\right].
 $$
 
-The bias is a *product* of the two model errors. If either factor vanishes, the product vanishes, whatever the other factor does. That product structure is the whole result, and it also explains the estimator's second benefit: even when both models are somewhat wrong, the bias is second-order rather than first-order, so moderate errors in each are far less damaging than a large error in one.
+The bias is a *product* of the two model errors. If either factor vanishes, the product vanishes, provided the remaining factors are suitably bounded/integrable and the fitted propensity maintains the required overlap. That product structure is the whole result, and it also explains the estimator's second benefit: even when both models are somewhat wrong, the bias is second-order rather than first-order, so moderate errors in each are far less damaging than a large error in one.
 
-Two practical consequences follow. First, AIPW pairs naturally with flexible machine-learning nuisance models, since it tolerates the slow convergence rates those models have — provided you use **cross-fitting**: split the sample, fit the nuisance models on one part, evaluate the estimating equation on the other, and swap. Without cross-fitting, overfitting the nuisance models induces a bias that the double-robustness argument does not cover. Second, AIPW inherits IPW's positivity problem: a near-zero \(\hat e\) blows up the correction term regardless of how good the outcome model is.
+Double-robust **consistency** is not the same as root-n asymptotic normality or valid confidence intervals. Cross-fitting trains nuisance models on other folds before evaluating each observation's estimating equation, reducing own-observation overfitting. For a standard orthogonal-score root-n argument, require suitable moment and overlap conditions, consistent variance estimation, and, for example,
+
+$$
+\|\hat e-e\|_{L^2}\,\|\hat m_t-m_t\|_{L^2}=o_p(n^{-1/2}).
+$$
+
+Both nuisance errors being \(o_p(n^{-1/4})\) is one sufficient rate combination, not the only one. Cross-fitting alone supplies neither these rates nor identification. Without cross-fitting, inference can still be justified for suitable estimators under other empirical-process restrictions; it is not universally impossible. Near-zero propensities can make variance explode even with a correct outcome model. See [Chernozhukov et al.](https://arxiv.org/abs/1608.00060) for the additional conditions.
 
 **Worked example — where the correction earns its keep.** Suppose the outcome model is linear but the truth is quadratic in \(X\), and the propensity model is correct. Standardization is biased by the functional-form error. AIPW's correction term averages residuals with weights that reconstruct the treated population, cancelling the misspecification to first order. If instead the propensity model is wrong but the outcome model is right, the residuals \(Y-\hat m_1\) have conditional mean zero and the correction term contributes nothing asymptotically, so the estimator reduces to standardization.
 
-> **Practice — Foundation:** Write the AIPW estimator and identify which term is imputation and which is correction.
+> **Practice — Foundation:** Write the AIPW estimator of \(E[Y(1)]\) and compute the contributions of two units: a treated unit with \(Y=0.9\), \(\hat m_1=0.7\), \(\hat e=0.5\), and an untreated unit with \(\hat m_1=0.6\). Identify which part of each contribution is imputation and which is correction.
 >
-> **Practice — Core:** Verify algebraically that the correction term has mean zero when the outcome model is correct, and that the estimator reduces to IPW when the outcome model is a constant.
+> **Hint:** Contributions are \(0.7+(0.9-0.7)/0.5=1.1\) and \(0.6\): \(\hat m_1\) is the imputation, and the weighted residual appears only for treated units.
 >
-> **Practice — Stretch:** Derive the product-of-errors bias expression and explain why cross-fitting is required when nuisance models are flexible.
+> **Practice — Core:** Verify algebraically that the correction term has mean zero when the outcome model is correct, and that for constant \(\hat m_1=c\), AIPW equals ordinary IPW plus \(c(1-n^{-1}\sum_i T_i/\hat e_i)\). State when the extra term vanishes.
+>
+> **Hint:** For constant c, retain c times one minus the average treated weight.
+>
+> **Practice — Stretch:** Derive the product-of-errors bias expression. Evaluate it when \(e(X)=0.5\) everywhere, while in half the population \(e^\ast=0.4\) and \(m_1-m_1^\ast=0.2\) (with no errors elsewhere); then explain how cross-fitting helps with flexible nuisance models and which rate and overlap conditions it does not replace.
+>
+> **Hint:** The bias is \(0.5\,(0.5/0.4-1)(0.2)=0.025\), and it vanishes if either factor is zero; cross-fitting removes own-observation overfitting but still needs the product of rates to be \(o_p(n^{-1/2})\), moment bounds, and overlap.
 
 ## 15. Instrumental variables trade confounding for a different assumption
 
@@ -483,11 +580,17 @@ the effect among units whose treatment status the instrument changes. Compliers 
 
 **Worked example — the rollout as an instrument.** A new model is assigned to 50% of users, but only 60% of assigned users update their client. Comparing updaters to non-updaters is confounded by whatever drives updating. Using assignment as the instrument, the ITT is the assignment-to-outcome difference, and the LATE divides it by the \(0.6-0.05=0.55\) compliance contrast. Exclusion here asserts that being assigned changes outcomes only through actually running the new model — plausible if assignment is invisible to users, and false if assignment also triggered a notification.
 
-> **Practice — Foundation:** State the three core IV assumptions and say which is testable.
+> **Practice — Foundation:** Assignment \(Z\) is randomized, \(T\) is \"updated the client\", \(Y\) is retention, and an in-app banner is shown only to assigned users. For relevance, exclusion and independence, say whether each holds here and whether it is testable from \((Z,T,Y)\).
 >
-> **Practice — Core:** Compute a Wald estimate from a 2×2×2 table of assignment, uptake, and outcome, and identify the ITT within it.
+> **Hint:** Relevance holds and is testable from the first stage; independence holds by randomization but is not testable; exclusion fails because the banner is a direct path \(Z\to Y\), and it is not testable either.
 >
-> **Practice — Stretch:** Give a rollout in which exclusion fails, describe the resulting bias direction, and propose a design change that restores it.
+> **Practice — Core:** Among assigned users uptake is 0.60 and mean outcome 0.50; among unassigned users uptake is 0.05 and mean outcome 0.39. Compute the ITT, the first stage, and the Wald estimate.
+>
+> **Hint:** ITT \(=0.50-0.39=0.11\) is the numerator, the first stage \(0.60-0.05=0.55\) the denominator, so the Wald estimate is \(0.20\).
+>
+> **Practice — Stretch:** In the Core rollout the true complier effect is 0.20, but the banner shown to assigned users adds 0.02 to everyone's retention. Compute the resulting Wald estimate and its bias, explain the direction, and propose a design change that restores exclusion.
+>
+> **Hint:** The numerator becomes \(0.11+0.02=0.13\), so Wald \(=0.13/0.55\approx0.236\), biased by \(+0.036\) (the direct effect divided by the first stage); show the banner in both arms or not at all.
 
 ## 16. Weak instruments fail in a way that hides itself
 
@@ -501,11 +604,17 @@ Three facts to carry:
 
 **Worked example — the 3% compliance instrument.** An instrument moves uptake from 2% to 5%. The denominator is \(0.03\), so any error in the numerator is multiplied by roughly 33. A numerator standard error of \(0.002\) becomes an effect standard error of \(0.067\) — but only if the denominator were known. It is estimated, so the true sampling distribution has a much heavier tail than the delta-method interval suggests.
 
-> **Practice — Foundation:** Explain why dividing by a small estimated denominator inflates uncertainty non-linearly.
+> **Practice — Foundation:** A reduced-form numerator is 0.006 and the first-stage denominator is estimated as \(0.03\pm0.01\). Compute the ratio at denominators 0.02, 0.03 and 0.04, and explain why uncertainty in a small denominator inflates the ratio's uncertainty non-linearly.
 >
-> **Practice — Core:** Simulate a weak instrument and compare the empirical coverage of the delta-method interval with its nominal level.
+> **Hint:** The ratios are 0.30, 0.20 and 0.15: symmetric denominator error gives asymmetric ratio error, and the ratio explodes as the denominator approaches 0.
 >
-> **Practice — Stretch:** Explain why selecting analyses on a large first-stage \(F\) is itself a collider conditioning, and propose a pre-registration protocol that avoids it.
+> **Practice — Core:** Simulate \(n=1000\), \(Z\sim\mathrm{Bernoulli}(0.5)\), \(U\sim\mathcal N(0,1)\), \(T=\pi Z+U+0.3V\), \(Y=U+0.3W\) (true effect 0; \(V,W\) standard normal) for \(\pi\in\{0.5,0.05\}\) with 1,000 replications (seed 0). For each \(\pi\), report the mean first-stage \(F\), the median Wald estimate, and the coverage of the nominal 95% interval \(\hat\tau\pm1.96\,\widehat{\mathrm{se}}\) with robust IV standard errors.
+>
+> **Hint:** Expect roughly \(F\approx58\), median near 0 and coverage near 95% at \(\pi=0.5\), but \(F\approx1.5\), median near 0.5 (pulled toward the OLS value 0.92) and coverage near 80% at \(\pi=0.05\).
+>
+> **Practice — Stretch:** In the Core design with \(\pi=0.1\) (mean \(F\approx3\)), keep only replications with first-stage \(F>10\) and compare the median Wald estimate among those kept with the median over all replications. Explain why selecting on a large \(F\) is a collider conditioning, and propose a pre-registration protocol that avoids it.
+>
+> **Hint:** Only about 5% survive, and their median is near 0.5 against about 0.1 overall: a large sample first stage is caused by both \(\pi\) and the confounder noise \(U\), so selecting on it selects the confounded draws; fix the instrument and use Anderson–Rubin intervals before seeing \(F\).
 
 ## 17. Difference-in-differences removes what is constant over time
 
@@ -538,11 +647,17 @@ Standard errors need the clustering discussion from lesson 11: serial correlatio
 
 **Worked example — the regional rollout.** A latency optimization ships to region A in March and region B in June. A two-way fixed effects regression over January–September uses B as a control for A in the spring, which is fine, and A as a control for B in the summer, which is not: A is already treated, so its post-period level embeds the treatment effect, and if that effect grows over time the comparison is contaminated with a negative weight.
 
-> **Practice — Foundation:** Compute a 2×2 difference-in-differences from four cell means and state the identifying assumption.
+> **Practice — Foundation:** The treated group averages 10 before and 15 after; the control group averages 8 before and 11 after. Compute the 2×2 difference-in-differences and state the identifying assumption.
 >
-> **Practice — Core:** Show that the two-way fixed effects coefficient equals the 2×2 estimator in the two-group, two-period case.
+> **Hint:** \((15-10)-(11-8)=2\), valid if the treated group's untreated outcome would also have risen by 3 (parallel trends).
 >
-> **Practice — Stretch:** Construct a staggered rollout with growing treatment effects where two-way fixed effects returns a negative estimate although every unit's effect is positive.
+> **Practice — Core:** Show that the two-way fixed effects coefficient equals the 2×2 estimator in the two-group, two-period case, and confirm it on the Foundation cell means.
+>
+> **Hint:** With a unit effect, a period effect and one treated cell, the model fits the four cell means exactly, so \(\hat\tau\) is the treated post cell's deviation from additivity: \((15-10)-(11-8)=2\).
+>
+> **Practice — Stretch:** Unit E adopts in period 2 and unit L in period 3, with untreated outcomes 0 throughout. E's effects are 1 in period 2 and 4 in period 3; L's effect is 1 in period 3. Write the outcome table, fit \(Y_{it}=\alpha_i+\gamma_t+\tau D_{it}\) by least squares, and show \(\hat\tau<0\) although every effect is positive.
+>
+> **Hint:** Outcomes are E \((0,1,4)\) and L \((0,0,1)\), giving \(\hat\tau=-0.5\); the comparison of L's period 2 to 3 change (+1) with E's (+3) uses the already-treated E as a control.
 
 ## 18. Discontinuities and other quasi-experiments
 
@@ -558,11 +673,17 @@ Two related designs are worth knowing by name. **Fuzzy RD** applies when crossin
 
 **Worked example — the throttling threshold.** Requests above 1,000 per minute get throttled. Comparing throttled to unthrottled customers is hopeless, since volume causes everything. Comparing customers just above to just below 1,000 is a clean local comparison — unless customers can see the limit and shape traffic to stay below it, in which case the units just below are a self-selected group and the density of \(R\) jumps at the cutoff. Plot that density before anything else.
 
-> **Practice — Foundation:** State the RD continuity assumption and the estimand it identifies.
+> **Practice — Foundation:** Requests above 1,000 per minute are throttled. Local linear fits give churn limits 0.62 just above the cutoff and 0.70 just below. Compute \(\tau_{\text{RD}}\), state the continuity assumption, and say which population the estimate describes.
 >
-> **Practice — Core:** Explain why a high-order global polynomial is a poor choice at the boundary and what replaces it.
+> **Hint:** \(\tau_{\text{RD}}=0.62-0.70=-0.08\), valid if \(E[Y(0)\mid R]\) and \(E[Y(1)\mid R]\) are continuous at 1,000; it is the effect for customers at the cutoff only.
 >
-> **Practice — Stretch:** Design a manipulation test for a threshold rule in a production system, and say what you would conclude from each outcome.
+> **Practice — Core:** With \(n\) points spread uniformly on one side of the cutoff and noise variance \(\sigma^2\), the least-squares degree-\(p\) polynomial has variance \((p+1)^2\sigma^2/n\) at the boundary point. Evaluate this for \(p=1\) and \(p=5\), explain why a high-order global polynomial is a poor choice at the boundary, and say what replaces it.
+>
+> **Hint:** The variances are \(4\sigma^2/n\) versus \(36\sigma^2/n\), nine times larger, and high-order fits also let distant points drive the endpoint; use local linear regression within a data-driven bandwidth.
+>
+> **Practice — Stretch:** Customer counts in 50-request bins are 410 (900–950), 530 (950–1,000), 240 (1,000–1,050) and 230 (1,050–1,100). Design a manipulation test, compute a simple binomial \(z\)-statistic comparing the two bins adjacent to the cutoff, and say what you would conclude from a large and from a small statistic.
+>
+> **Hint:** Under a smooth density, the 770 customers in the adjacent bins split about evenly: \(z=(530-385)/\sqrt{770/4}\approx10.5\), strong evidence of bunching below the limit, which invalidates the RD; a small \(z\) passes this check but does not prove validity.
 
 ## 19. Sensitivity analysis prices the assumption you cannot test
 
@@ -584,9 +705,15 @@ For matched designs, **Rosenbaum bounds** parameterize how much two matched unit
 
 > **Practice — Foundation:** Compute the E-value for a risk ratio of 2.0 and interpret it in a sentence.
 >
-> **Practice — Core:** Explain why an E-value must be benchmarked against measured covariates rather than read on an absolute scale.
+> **Hint:** \(2+\sqrt{2(2-1)}=2+\sqrt2\approx3.41\): a confounder would need risk-ratio associations of at least 3.41 with both treatment and outcome to explain the effect away.
 >
-> **Practice — Stretch:** Design a sensitivity analysis for a weighted estimate where the suspected confounder is a variable you deliberately excluded, and state what evidence would change your conclusion.
+> **Practice — Core:** An analysis reports E-value 1.8. The measured covariates' strongest risk-ratio associations with the outcome are device 1.3, region 1.2 and tenure 2.4. Explain why the E-value must be benchmarked against these rather than read on an absolute scale, and state your conclusion.
+>
+> **Hint:** An unmeasured confounder as strong as tenure (2.4 > 1.8) could overturn the finding, so the result is fragile even though 1.8 might sound large on its own.
+>
+> **Practice — Stretch:** A weighted estimate has RR 1.6 with 95% lower limit 1.25. You deliberately excluded account age, which a pilot associates with treatment by RR 1.5 and with outcome by RR 1.7. Compute the E-values for the point estimate and the lower limit, the bias factor \(B=\text{RR}_{TU}\text{RR}_{UY}/(\text{RR}_{TU}+\text{RR}_{UY}-1)\), and the lower limit divided by \(B\), and state what evidence would change your conclusion.
+>
+> **Hint:** The E-values are about 2.58 and 1.81; \(B=2.55/2.2\approx1.159\), so the adjusted lower limit is about 1.08, still above 1; stronger associations than the pilot's (both near 1.81) would move it across the null.
 
 ## 20. Missing data has a mechanism, and the mechanism is the whole problem
 
@@ -616,11 +743,17 @@ For likelihood and Bayesian inference, the useful theorem is that the mechanism 
 
 **Worked example — three reasons a rating is missing.** Raters skip items when a scheduler drops them at random (MCAR); when the item is in a language the rater pool underserves, and language is logged (MAR); when the item is so ambiguous that raters abandon it, and ambiguity is exactly what you were trying to measure (MNAR). Identical missingness rates, three different correct analyses, and only the third has no unbiased solution from this data.
 
-> **Practice — Foundation:** State the three mechanisms in conditional-probability notation.
+> **Practice — Foundation:** Data are occupation \(X\) (always recorded) and income, with \(M=1\) when income is missing. Write each mechanism in conditional-probability notation and classify: (i) \(P(M=1)=0.2\) for everyone; (ii) \(P(M=1\mid X=\text{manager})=0.4\), otherwise 0.1; (iii) \(P(M=1\mid\text{income}>100\text{k})=0.5\), otherwise 0.1.
 >
-> **Practice — Core:** For a survey where high earners decline to report income, classify the mechanism with and without an occupation variable in the dataset.
+> **Hint:** (i) \(P(M\mid Y)=P(M)\) is MCAR; (ii) depends only on the recorded \(X\), so MAR; (iii) depends on the possibly missing income itself, so MNAR.
 >
-> **Practice — Stretch:** Explain why MAR is a property of the dataset rather than of the world, and give a logging change that converts a specific MNAR problem to MAR.
+> **Practice — Core:** 30% of respondents are high earners; they skip the income question with probability 0.5, others with probability 0.1. Compute the share of high earners among complete cases. Then suppose occupation is recorded, income depends on occupation, and within each occupation skipping does not depend on income: classify the mechanism with and without occupation in the dataset.
+>
+> **Hint:** Complete cases contain \(0.15/(0.15+0.63)\approx0.19\) high earners instead of 0.30; without occupation the mechanism is MNAR, and with occupation in the conditioning set it is MAR.
+>
+> **Practice — Stretch:** A quarter of responses are slow (mean rating 3.0) and the rest fast (mean 4.0). Ratings are missing with probability 0.8 for slow and 0.1 for fast responses, and latency is not logged. Compute the complete-case mean and the true mean, then explain which logging change makes the mechanism MAR, why that makes MAR a property of the dataset, and how the mean is then recovered.
+>
+> **Hint:** Observed masses are \(0.675\) fast and \(0.05\) slow, so the complete-case mean is \(2.85/0.725\approx3.93\) against the true 3.75; logging latency makes missingness depend only on a recorded variable, and weighting or stratifying by latency recovers 3.75.
 
 ## 21. Complete cases and single imputation: what each one breaks
 
@@ -641,11 +774,17 @@ The **missing-indicator method** — impute a constant and add a binary flag —
 
 **Worked example — the attenuated correlation.** Two columns with population correlation \(0.6\) are 30% missing on the second, MCAR. Mean-imputing the second column leaves the covariance roughly proportional to the 70% observed pairs while the imputed variance is only 70% of the truth; the computed correlation drops to roughly \(0.6\sqrt{0.7}\approx0.50\). Nothing in the output flags this, and a downstream feature-selection step will rank the column lower than it deserves.
 
-> **Practice — Foundation:** State the condition under which complete-case regression is consistent even when missingness depends on the covariates.
+> **Practice — Foundation:** Let \(Y=1+2X+e\) with \(X\) always observed. Say whether complete-case least squares estimates the slope 2 consistently when (a) \(Y\) is missing with probability 0.9 if \(X>0\) and 0.1 otherwise, and (b) \(Y\) is missing whenever \(Y>3\), and state the general condition.
 >
-> **Practice — Core:** Show that mean imputation attenuates a correlation and derive the approximate attenuation factor under MCAR.
+> **Hint:** (a) is consistent because missingness is independent of \(Y\) given \(X\); (b) selects on the outcome and truncates the errors, biasing the slope.
 >
-> **Practice — Stretch:** Explain when the missing-indicator method is acceptable for prediction but not for causal adjustment, using a graph to locate the failure.
+> **Practice — Core:** Two columns have correlation 0.6 and the second is 30% missing, MCAR. Show that after mean imputation the covariance is about 70% of the truth and the second column's variance is about 70% of the truth, derive the attenuation factor, and compute the resulting correlation.
+>
+> **Hint:** Imputed rows contribute zero to both the cross-product and the squared deviations, so the correlation becomes \(0.7\rho/\sqrt{0.7}=\sqrt{0.7}\rho\approx0.50\).
+>
+> **Practice — Stretch:** A binary confounder \(X\) (\(P=0.5\)) drives treatment, with \(P(T=1\mid X=1)=0.8\) and \(P(T=1\mid X=0)=0.2\), and \(Y=T+2X\). \(X\) is missing (MCAR) for half the units, and the missing-indicator method sets it to a constant and adds a flag. Compute the treated-minus-control contrast within the missing stratum, compare with the true effect 1, and explain why the same method can still be fine for prediction.
+>
+> **Hint:** Within the flagged stratum \(P(X=1\mid T=1)=0.8\) and \(P(X=1\mid T=0)=0.2\), so the contrast is \(1+2(0.6)=2.2\): the path \(T\leftarrow X\to Y\) is left open there, whereas a predictor only needs \(E[Y\mid T,\text{flag}]\) under the same missingness pattern.
 
 ## 22. Multiple imputation and Rubin's rules
 
@@ -675,11 +814,17 @@ Two conditions are easy to violate. The imputation model must be at least as ric
 
 **Worked example — how many imputations.** With a fraction of missing information around 0.3, \(m=5\) was the classical recommendation and gives a noticeably unstable standard error. Because the penalty term scales as \(1+1/m\), and because reproducibility across reruns matters more than the efficiency argument alone suggests, \(m=20\) to \(50\) is the defensible modern default. Report \(m\), the imputation model, and the fraction of missing information, or the analysis is not reproducible.
 
-> **Practice — Foundation:** Compute \(\bar Q\) and \(T\) from five estimates and variances.
+> **Practice — Foundation:** Five imputations give estimates \(\hat Q=(1.2,1.0,1.4,1.1,1.3)\) and variances \(U=(0.04,0.05,0.04,0.06,0.06)\). Compute \(\bar Q\), \(\bar U\), \(B\) and \(T\).
 >
-> **Practice — Core:** Explain each term in \(T=\bar U+(1+1/m)B\) and say which one single imputation omits.
+> **Hint:** \(\bar Q=1.2\), \(\bar U=0.05\), \(B=0.1/4=0.025\), and \(T=0.05+1.2(0.025)=0.08\).
 >
-> **Practice — Stretch:** Construct an uncongenial imputation model that biases an interaction toward zero, and verify the direction by simulation.
+> **Practice — Core:** Explain each term in \(T=\bar U+(1+1/m)B\) using the Foundation numbers, say which one single imputation omits, and compute the standard error single imputation would report, the Rubin standard error, and the fraction of missing information.
+>
+> **Hint:** Single imputation reports only a within-variance like \(\bar U\), giving SE \(\approx0.224\) instead of \(\sqrt{0.08}\approx0.283\); the fraction of missing information is \(0.03/0.08=0.375\).
+>
+> **Practice — Stretch:** Simulate \(n=2000\) (seed 0) with \(X\sim\mathcal N(0,1)\), \(G\sim\mathrm{Bernoulli}(0.5)\), \(Y=X+GX+\varepsilon\), and \(Y\) missing completely at random for 40% of rows. Impute \(Y\) \(m=20\) times by stochastic regression on \(X\) and \(G\) without the interaction, fit \(Y\sim X+G+X{:}G\) on each completed dataset, and compare the pooled interaction estimate with the truth 1 and with an imputation model that includes \(X{:}G\).
+>
+> **Hint:** Imputed rows carry no interaction, so the pooled estimate is near the observed fraction, about 0.6, while the congenial model gives about 1.0; increasing \(m\) does not fix this.
 
 ## 23. The two problems are one problem
 
@@ -704,11 +849,17 @@ Two cautions travel with the dictionary. First, positivity has a missing-data an
 
 **Worked example — the evaluation with missing labels.** You compare two models on logged traffic where routing was confounded and only 40% of responses received a human rating, with raters more likely to rate long responses. Two mechanisms are at work: assignment and rating. Handle them together — weight by the product of the inverse propensity and the inverse rating probability, or impute the missing ratings under a MAR model that includes routing and length — and diagnose positivity for both. Treating either mechanism alone leaves a bias the other one causes.
 
-> **Practice — Foundation:** Fill in the missing-data analogue for each causal concept in the table from memory.
+> **Practice — Foundation:** Give the missing-data analogue of each assignment rule: (i) \(e(x)=0.3\) for all \(x\); (ii) \(e(x)\) depends only on logged \(x\); (iii) the probability of treatment depends on \(Y(1)\); (iv) \(e(x)=0\) for free-tier users.
 >
-> **Practice — Core:** Express the fundamental problem of causal inference as a missingness pattern and identify which mechanism randomization produces.
+> **Hint:** Treat \(T\) as the indicator that \(Y(1)\) is observed: MCAR, MAR given \(X\), MNAR, and a positivity violation (a pattern that is always missing).
 >
-> **Practice — Stretch:** Write the combined estimator for confounded assignment with missing outcomes and state the positivity conditions it requires.
+> **Practice — Core:** Four randomized units have \(T=(1,0,1,0)\) and \(Y=(5,3,4,2)\). Write the \(4\times2\) table of \((Y(0),Y(1))\) with missing cells marked, name the mechanism randomization produces, and compute the ATE by imputing each missing cell with its observed arm mean.
+>
+> **Hint:** Each row has exactly one observed cell; randomization makes the missingness MCAR, and imputing arm means 4.5 and 2.5 gives ATE 2.
+>
+> **Practice — Stretch:** Write the combined Hájek estimator of \(E[Y(1)]\) for confounded assignment with MAR-missing outcomes (\(R=1\) when the outcome is observed), state its positivity conditions, and evaluate it for three treated units with \((R,Y,e,r)=(1,4,0.4,0.5)\), \((0,\text{--},0.5,0.5)\), \((1,2,0.5,0.8)\).
+>
+> **Hint:** Weight observed treated outcomes by \(1/(e\,r)\), here 5 and 2.5, giving \((20+5)/7.5\approx3.33\); it needs \(e(x)>0\) and \(r(x,t)>0\) wherever the target has mass, under two separate ignorability assumptions.
 
 ## 24. A disciplined causal workflow for AI research
 
@@ -729,11 +880,17 @@ Three AI-specific traps close the list. **Post-treatment filtering** — droppin
 
 **Worked example — a complete observational study.** Question: should the retrieval pipeline serve all traffic? Estimand: ATE on next month's traffic distribution. Graph: difficulty confounds routing and quality; latency is a mediator and is excluded from the adjustment set. Strategy: backdoor on logged difficulty features and time-of-day. Positivity: 4% of traffic has \(\hat e<0.02\); trim and report the effect on the overlap population. Estimation: cross-fit AIPW, with standardization and Hájek IPW alongside. Uncertainty: cluster-bootstrap by user. Missingness: 12% of quality ratings absent, MAR given length and difficulty, multiple imputation with \(m=30\) and a reported fraction of missing information of 0.18. Sensitivity: E-value 2.1 against a strongest measured confounder association of 1.4. Falsification: a placebo outcome unaffected by retrieval shows no effect.
 
-> **Practice — Foundation:** List the workflow steps in order and name the failure each one catches.
+> **Practice — Foundation:** Name the workflow step that should have caught each failure: (a) a trimmed analysis still labelled the population ATE; (b) latency included in the adjustment set; (c) a 400-feature model's partial dependence read as an effect; (d) ESS 300 from 20,000 rows reported with a nominal interval; (e) 12% of ratings silently dropped.
 >
-> **Practice — Core:** Apply steps 1 through 4 to a logged comparison of two prompting strategies and state where identification fails or holds.
+> **Hint:** (a) step 5 (redefine the estimand if trimming), (b) step 3 (the graph shows a mediator), (c) step 4 (no identification strategy), (d) step 5 (positivity and ESS), (e) step 8 (missingness).
 >
-> **Practice — Stretch:** Audit a published evaluation for post-treatment filtering, determine the sign of the induced bias, and propose a design that avoids it.
+> **Practice — Core:** Strategy B was used for tickets whose logged difficulty score \(s\) exceeded a threshold, strategy A otherwise, with 5% uniformly random exploration. The outcome is resolution, and failed generations (8% under B, 2% under A) were dropped from the log. Apply steps 1 through 4 and state where identification holds or fails.
+>
+> **Hint:** Target the ATE of switching all tickets to B; the graph has \(s\to T\), \(s\to Y\) and \(T\to\text{fail}\); backdoor adjustment on \(s\) with exploration for positivity identifies it only if failures are kept and counted as unresolved, because dropping them conditions on a post-treatment variable.
+>
+> **Practice — Stretch:** A paper reports accuracy 82% for model B versus 78% for model A on successfully parsed outputs, with parse rates 70% for B and 95% for A. Compute each model's accuracy over all prompts if unparsed outputs count as wrong, determine the sign of the bias induced by the filter, and propose a design that avoids it.
+>
+> **Hint:** Over all prompts A scores \(0.78\times0.95\approx0.741\) and B \(0.82\times0.70=0.574\), so the filter reverses the ranking; pre-register scoring every prompt, with failures counted, as an intention-to-treat comparison.
 
 ## 25. Runnable labs
 
@@ -810,69 +967,89 @@ The checks cover perfect compliance where the ratio reduces to the intention-to-
 15. Derive the attenuation of a correlation under mean imputation.
 16. Derive Rubin's total-variance rule and interpret each of its three factors.
 
+## Prediction experiment
+
+Predict both the baseline and failure-preset results before revealing the calculation. Record the assumptions, change one control at a time, and explain the boundary case. This small deterministic model isolates a mechanism; it is not an empirical validation of a trained system.
+
+```lab
+lab: ps-causal
+```
+
 ## 27. End-of-unit practice (graded)
 
-**Foundation — problems 1–7.** Read graphs and compute direct causal quantities.
+Work each problem before opening its authored solution. Written proofs and design answers require self-review against the rubric; numeric fields check only the stated quantities.
 
-1. **Estimands.** A new router can be deployed to all users, and \(Y(1),Y(0)\) are next-week resolution indicators. Write ATE, ATT, and \(\operatorname{CATE}(x)\), then match them to: “effect for all eligible users,” “effect for users already routed,” and “effect for enterprise users with covariates \(X=x\).”
-2. **Structures.** For the path \(A-B-C\), classify \(A\to B\to C\), \(A\leftarrow B\leftarrow C\), \(A\leftarrow B\to C\), and \(A\to B\leftarrow C\). State whether \(A\perp C\) marginally and conditional on \(B\) in each.
-3. **d-separation.** In the DAG \(C\to T,C\to Y,T\to M,M\to Y,T\to S,Y\to S\), decide whether each path from \(T\) to \(Y\) is open given \(\varnothing\), \(\{C\}\), and \(\{C,M\}\). Then explain what conditioning on selection node \(S\) opens.
-4. **Backdoor sets.** Add \(Z\to T,Z\to Y\) to the DAG in problem 3. Evaluate candidate sets \(\varnothing,\{C\},\{Z\},\{C,Z\},\{C,Z,M\},\{C,Z,S\}\) for the total effect of \(T\) on \(Y\), rejecting each invalid set by a named open path or descendant.
-5. **Standardization.** In low-risk users, treated outcomes are 16/20 and controls 56/80; in high-risk users, treated outcomes are 32/80 and controls 6/20. Each stratum contains 100 users. Compute stratum effects, the standardized ATE, and the crude treated-minus-control difference; explain the sign reversal.
-6. **Weights.** For \(A=(1,1,1,1,1,0,0,0,0,0)\), observed \(Y=(8,7,6,5,4,3,2,2,1,0)\), and propensities \(e=(.8,.7,.6,.4,.2,.8,.6,.5,.3,.2)\), compute the Horvitz–Thompson and Hájek ATE estimates and \((\sum w_i)^2/\sum w_i^2\), where \(w_i=A_i/e_i+(1-A_i)/(1-e_i)\).
-7. **Mechanisms.** Classify as MCAR, MAR given recorded variables, or MNAR: a random logging outage; response depending on recorded country; low ratings being less likely to be submitted; lab values ordered from recorded age and diagnosis; timeouts missing because latency exceeded an unrecorded threshold; and a random 10% audit sample. State the conditioning set or missing value driving each call.
 
-**Core — problems 8–16.** Connect identification, estimation, and diagnostics.
+### Foundation — problems 1–7. Read graphs and compute direct causal quantities.
 
-8. **Simpson.** Construct a table with a full sign reversal and give the three graphs under which the pooled, stratified, and neither answer is correct.
-9. **Collider damage.** Simulate an evaluation filter that conditions on a common effect and measure the sign and size of the induced bias.
-10. **M-bias.** Verify numerically that adjusting for a pre-treatment covariate can introduce bias, and locate the open path.
-11. **Balance.** Fit a propensity model, weight, and report standardized mean differences before and after; decide whether to proceed.
-12. **Positivity.** Increase assignment determinism and track effective sample size, extreme weights, and interval width together.
-13. **Doubly robust.** Misspecify each nuisance model in turn and confirm that AIPW remains consistent in both single-failure cases.
-14. **Cross-fitting.** Show empirically that flexible nuisance models without sample splitting bias the AIPW estimate, and that cross-fitting removes it.
-15. **Instruments.** Estimate ITT, first stage, and LATE for a partial-compliance rollout, and state the population the LATE describes.
-16. **Multiple imputation.** Implement chained-equation imputation for one missing column and verify Rubin's rules against a simulation of the complete-data sampling distribution.
+**A1 · Foundation · paper — Estimands.** A new router can be deployed to all users, and \(Y(1),Y(0)\) are next-week resolution indicators. Write ATE, ATT, and \(\operatorname{CATE}(x)\), then match them to: “effect for all eligible users,” “effect for users already routed,” and “effect for enterprise users with covariates \(X=x\).”
 
-**Stretch — problems 17–24.** Analyze research-scale designs and assumption failures.
+**A2 · Foundation · paper — Structures.** For the path \(A-B-C\), classify \(A\to B\to C\), \(A\leftarrow B\leftarrow C\), \(A\leftarrow B\to C\), and \(A\to B\leftarrow C\). State whether \(A\perp C\) marginally and conditional on \(B\) in each.
 
-17. **Unidentified estimand.** Build a graph where no observed set satisfies the backdoor criterion, prove non-identification, and find a second route that identifies it.
-18. **Weak instrument.** Simulate declining instrument strength and plot bias against \(1/F\); then show that screening on a large observed \(F\) is itself a collider conditioning.
-19. **Staggered adoption.** Construct a rollout with heterogeneous, growing effects where two-way fixed effects returns a negative estimate although every unit effect is positive, and fix it with a group-time estimator.
-20. **Parallel trends on a scale.** Find a dataset where parallel trends holds in logs and fails in levels, and decide which scale the decision requires.
-21. **Sensitivity.** Compute an E-value for an observational claim, benchmark it against measured covariates, and state the confounder that would overturn it.
-22. **Two mechanisms.** Combine confounded assignment with MAR-missing outcomes, derive the product-weighted estimator, and verify positivity for both factors.
-23. **MNAR sensitivity.** Build a pattern-mixture model for outcome-dependent missingness, sweep its untestable parameter, and report the range of conclusions.
-24. **Complete observational study.** Take one real logged comparison through all ten workflow steps, including a falsification test, and write the paragraph a reviewer would need in order to disagree with you on the merits.
+**A3 · Foundation · paper — d-separation.** In the DAG \(C\to T,C\to Y,T\to M,M\to Y,T\to S,Y\to S\), decide whether each path from \(T\) to \(Y\) is open given \(\varnothing\), \(\{C\}\), and \(\{C,M\}\). Then explain what conditioning on selection node \(S\) opens.
 
-<details><summary>Worked solution sketches</summary>
+**A4 · Foundation · paper — Backdoor sets.** Add \(Z\to T,Z\to Y\) to the DAG in problem 3. Evaluate candidate sets \(\varnothing,\{C\},\{Z\},\{C,Z\},\{C,Z,M\},\{C,Z,S\}\) for the total effect of \(T\) on \(Y\), rejecting each invalid set by a named open path or descendant.
 
-1. \(\operatorname{ATE}=E[Y(1)-Y(0)]\) targets all eligible users, \(\operatorname{ATT}=E[Y(1)-Y(0)\mid A=1]\) targets already-routed users, and \(\operatorname{CATE}(x)=E[Y(1)-Y(0)\mid X=x]\) targets the named enterprise covariate cell. The estimand is fixed by the population in the question, not by the available estimator.
-2. Chains and forks are marginally dependent and conditionally independent; colliders are the reverse. The reversal is what makes covariate selection unsafe.
-3. Apply the two blocking rules path by path, and remember that a descendant of a collider counts as conditioning on it.
-4. A valid set blocks every backdoor path and contains no descendant of the treatment. Reject sets by naming the specific open path or the specific descendant.
-5. Both stratum effects equal \(0.1\), so equal population weights give standardized ATE \(0.1\). Pooled treated risk is \(48/100=0.48\), while pooled control risk is \(62/100=0.62\), giving crude difference \(-0.14\). Treatment is concentrated in the high-risk stratum, creating the reversal.
-6. Treated weighted outcome sum is 62.5 and control sum is about 25.429, so the Horvitz–Thompson ATE is \((62.5-25.429)/10\approx3.707\). Weight sums are 11.845 and 12.179, giving Hájek difference \(62.5/11.845-25.429/12.179\approx3.188\). The combined weight ESS is about 7.546, below 10 because propensities are uneven.
-7. Random outage and random audit are MCAR. Country-dependent response and ordering by recorded age/diagnosis are MAR conditional on those recorded variables. Rating-dependent submission and threshold-caused missing timeout values are MNAR unless the rating or threshold-driving quantity is observed. Adding the relevant driver can change an MNAR description to MAR.
-8. The arithmetic is a weighted-average reversal. The graph decides: confounder favors stratified, mediator favors pooled, collider favors pooled.
-9. Filtering on a common effect of treatment and outcome induces negative association among its causes within the selected set; measure it against the unfiltered truth.
-10. In \(T\leftarrow U_1\to Z\leftarrow U_2\to Y\), conditioning on \(Z\) opens the path through the two unobserved causes. Temporal priority does not protect you.
-11. Report standardized mean differences per covariate; a threshold near 0.1 is conventional. Discrimination of the propensity model is the wrong criterion.
-12. As assignment becomes deterministic, propensities approach the boundary, a few weights dominate, and effective sample size collapses while the nominal interval narrows.
-13. With the outcome model correct, the correction term has conditional mean zero; with the propensity correct, the weighted residuals recover the treated mean. Each case kills one factor of the product bias.
-14. Fitting nuisance models on the same rows used for the estimating equation correlates the residuals with the weights. Splitting and swapping restores the orthogonality the theory assumes.
-15. LATE is the ITT divided by the compliance contrast, and it describes compliers only — a subpopulation defined by the instrument, not chosen by you.
-16. Impute \(m\) times, analyze each, then pool with \(\bar Q\) and \(T=\bar U+(1+1/m)B\). Compare \(T\) with the empirical variance across simulated complete datasets.
-17. Prove non-identification by exhibiting two structural models that agree on the observed distribution and disagree on the effect. Then look for an instrument, a front-door path, or a discontinuity.
-18. Bias scales roughly as \(\text{bias}_{\text{OLS}}/F\), and the sampling distribution is skewed with heavy tails. Selecting on a realized large \(F\) conditions on a common effect of the true strength and the sampling noise.
-19. Already-treated units serve as controls for later-treated ones, and growing effects give those comparisons negative weights. Aggregating group-time effects with clean controls repairs it.
-20. Parallel trends is not transformation-invariant. Choose the scale on which the decision's cost function is linear, and state the choice.
-21. \(\text{E-value}=\text{RR}+\sqrt{\text{RR}(\text{RR}-1)}\), applied to both the estimate and the confidence limit, then compared against the strongest measured covariate association.
-22. Weight by \(1/(e(X)r(X))\), where \(r\) is the probability of observing the outcome, and check overlap for each factor separately, since the product hides which one failed.
-23. Factor as \(P(Y\mid M)P(M)\), parameterize the shift between respondents and non-respondents, and report the conclusion as a function of that parameter rather than a single number.
-24. A complete answer fixes the decision, estimand, graph, identification strategy, positivity check, estimator, uncertainty, missingness handling, sensitivity bound, and falsification test, and says which of them is the weakest link.
+**A5 · Foundation · paper — Standardization.** In low-risk users, treated outcomes are 16/20 and controls 56/80; in high-risk users, treated outcomes are 32/80 and controls 6/20. Each stratum contains 100 users. Compute stratum effects, the standardized ATE, and the crude treated-minus-control difference; explain the sign reversal.
 
-</details>
+**A6 · Foundation · paper — Weights.** For \(A=(1,1,1,1,1,0,0,0,0,0)\), observed \(Y=(8,7,6,5,4,3,2,2,1,0)\), and propensities \(e=(.8,.7,.6,.4,.2,.8,.6,.5,.3,.2)\), compute the Horvitz–Thompson and Hájek ATE estimates and \((\sum w_i)^2/\sum w_i^2\), where \(w_i=A_i/e_i+(1-A_i)/(1-e_i)\).
+
+**A7 · Foundation · paper — Mechanisms.** Classify as MCAR, MAR given recorded variables, or MNAR: a random logging outage; response depending on recorded country; low ratings being less likely to be submitted; lab values ordered from recorded age and diagnosis; timeouts missing because latency exceeded an unrecorded threshold; and a random 10% audit sample. State the conditioning set or missing value driving each call.
+
+### Core — problems 8–16. Connect identification, estimation, and diagnostics.
+
+**A8 · Core · paper — Simpson.** Stratum \(S=0\): treated 90/100 successes, control 400/500. Stratum \(S=1\): treated 250/500, control 40/100. Compute both stratum effects, the effect standardized to the pooled distribution of \(S\), and the pooled crude difference. Then give the three graphs under which the pooled, the stratified, and neither answer is the total effect of \(T\).
+
+**A9 · Core · paper — Collider damage.** A randomized model switch \(T\sim\mathrm{Bernoulli}(0.5)\) has no effect on correctness \(Y\sim\mathrm{Bernoulli}(0.5)\), but an output parses with probability \(0.3+0.4T+0.3Y\), and the evaluation keeps parsed outputs only. Compute exactly \(E[Y\mid T=1,\text{parsed}]-E[Y\mid T=0,\text{parsed}]\), then confirm it by simulating \(n=100{,}000\) units (seed 0), and state the sign and size of the induced bias.
+
+**A10 · Core · paper — M-bias.** Let \(U_1,U_2\) be unobserved standard normals, \(T=U_1+e_T\), \(Z=U_1+2U_2+e_Z\), \(Y=2T+U_2+e_Y\) with independent standard-normal errors (true effect 2). Compute the population coefficient on \(T\) in the regressions of \(Y\) on \(T\) and of \(Y\) on \((T,Z)\), confirm with a simulation of \(n=100{,}000\) (seed 0), and locate the open path.
+
+**A11 · Core · paper — Balance.** Simulate \(n=5000\) (seed 0) with \(X_1\sim\mathcal N(0,1)\), \(X_2\sim\mathrm{Bernoulli}(0.4)\), and \(T\sim\mathrm{Bernoulli}(\operatorname{expit}(-0.5+0.8X_1+X_2))\). Fit a logistic propensity model on \((X_1,X_2)\), form ATE weights, and report standardized mean differences before and after weighting, the per-arm ESS, and the largest weight; decide whether to proceed using the rule \(|\text{SMD}|<0.1\). Repeat with a propensity model that omits \(X_2\).
+
+**A12 · Core · paper — Positivity.** Let \(X\sim\mathcal N(0,1)\), \(e(X)=\operatorname{expit}(\gamma X)\), and \(Y=1+X+T+\varepsilon\) (true ATE 1), with \(n=10{,}000\). For \(\gamma\in\{0.5,1,2,4\}\), using the true propensities and Hájek weighting, report the ESS, the largest weight, the largest single share of the treated weight, and the width of a plug-in 95% interval. Compare that width with \(3.92\) times the Monte Carlo standard deviation of the estimate over 100 replications.
+
+**A13 · Core · paper — Doubly robust.** Simulate \(X\sim U(-2,2)\), \(T\sim\mathrm{Bernoulli}(\operatorname{expit}(0.8X))\), \(Y=e^X+T(1+X^2)+\varepsilon\) (true ATE \(7/3\)), \(n=2000\), 100 replications, seed 0. The correct outcome model regresses \(Y\) on \((1,X,e^X,X^2)\) within each arm and the wrong one on \((1,X)\); the correct propensity model is logistic in \(X\) and the wrong one is a constant. Report the mean standardization, Hájek IPW, and AIPW estimates in all four combinations and confirm AIPW is consistent when exactly one model is wrong.
+
+**A14 · Core · paper — Cross-fitting.** Use the DGP of problem 13 with \(n=1000\) and 200 replications (seed 0). Estimate both outcome regressions and the propensity by \(k\)-nearest-neighbour averaging in \(X\) (propensities clipped to \([0.02,0.98]\)), and compute AIPW with influence-function 95% intervals either on the same sample or with 2-fold cross-fitting. Compare a well-behaved regime \(k=40\) with a deliberately overfit regime \(k=1\), reporting bias and coverage, and explain why cross-fitting need not remove all bias.
+
+**A15 · Core · paper — Instruments.** A rollout randomizes 10,000 users to assignment and 10,000 to control. Uptake of the new model is 62% among assigned and 4% among control users, and mean weekly retention is 0.431 versus 0.402. Estimate the ITT, the first stage, and the LATE, and state the population the LATE describes and the assumptions it needs.
+
+**A16 · Core · paper — Multiple imputation.** Simulate \(n=500\), \(X\sim\mathcal N(0,1)\), \(Y=1+2X+\varepsilon\), with \(X\) missing with probability \(\operatorname{expit}(-1+Y)\) (MAR given the observed \(Y\)). Impute \(X\) \(m=20\) times from a Bayesian linear regression of \(X\) on \(Y\) with parameter draws (one-column chained equations), fit the slope of \(Y\) on \(X\) in each completed dataset, and pool with Rubin's rules. Over 200 replications (seed 0), compare the mean of \(T\) with the empirical variance of \(\bar Q\), report interval coverage and the fraction of missing information, and compare with complete-case analysis.
+
+### Stretch — problems 17–24. Analyze research-scale designs and assumption failures.
+
+**A17 · Stretch · paper — Unidentified estimand.** In the graph \(T\leftarrow U\to Y\), \(T\to M\to Y\) with \(U\) unobserved, (a) show no observed set satisfies the backdoor criterion; (b) prove the effect is not identified from \(P(T,Y)\) alone using the two models \(T=U,Y=U\) and \(T=U,Y=T\) with \(U\sim\mathrm{Bernoulli}(1/2)\); (c) with \(P(T=1)=0.4\), \(P(M=1\mid T=1)=0.9\), \(P(M=1\mid T=0)=0.1\) and \(E[Y\mid T,M]\) equal to 0.8, 0.6, 0.4, 0.2 for \((T,M)=(1,1),(0,1),(1,0),(0,0)\), compute the effect by the front-door formula.
+
+**A18 · Stretch · paper — Weak instrument.** Simulate \(n=1000\), \(Z\sim\mathrm{Bernoulli}(0.5)\), \(U\sim\mathcal N(0,1)\), \(T=\pi Z+U+0.3V\), \(Y=U+0.3W\) (true effect 0) for \(\pi\in\{0.5,0.2,0.1,0.05\}\), 1,000 replications each (seed 0). Report the mean first-stage \(F\), the median Wald estimate, and 95% coverage, and plot median bias against \(1/F\) together with the OLS bias \(1/(0.25\pi^2+1.09)\). Then, at \(\pi=0.1\), keep only replications with \(F>10\) and show that screening on a large observed \(F\) acts as a collider conditioning.
+
+**A19 · Stretch · paper — Staggered adoption.** Unit E adopts in period 2 and unit L in period 4, over periods 1–4, with untreated outcomes 0 throughout. E's effects are 1, 3, 6 in periods 2, 3, 4, and L's effect is 1 in period 4. Fit \(Y_{it}=\alpha_i+\gamma_t+\tau D_{it}\) by least squares and show \(\hat\tau<0\). Then compute the group-time effects that are identified with not-yet-treated controls, and say which cells are not identified.
+
+**A20 · Stretch · paper — Parallel trends on a scale.** Treated units average 100 before and 126 after a change; control units average 50 before and 60 after. Compute the difference-in-differences in levels and in logs. Assuming parallel trends holds in logs (the treated group would have grown 20%, like the control group), find the implied untreated counterfactual and level effect, explain why the levels DiD is then biased, and decide which scale a decision about absolute revenue requires.
+
+**A21 · Stretch · paper — Sensitivity.** An observational analysis reports RR 1.8 (95% CI lower limit 1.3). The strongest measured covariate, plan tier, has RR 1.6 with treatment and 2.1 with the outcome. Compute the E-values for the point estimate and the lower limit, the bias factor \(B=\text{RR}_{TU}\text{RR}_{UY}/(\text{RR}_{TU}+\text{RR}_{UY}-1)\) of a confounder as strong as plan tier, and the lower limit divided by \(B\). Then state an unmeasured confounder strength that would overturn the claim.
+
+**A22 · Stretch · paper — Two mechanisms.** Six units have \((T,R,Y,e,r)\) = \((1,1,4,0.4,0.5)\), \((1,0,\text{--},0.5,0.5)\), \((1,1,2,0.5,0.8)\), \((0,1,3,0.4,0.5)\), \((0,1,1,0.5,0.8)\), \((0,0,\text{--},0.8,0.5)\), where \(e=P(T=1\mid X)\) and \(r=P(R=1\mid X,T)\) is the probability that the outcome is observed. Derive the product-weighted estimator of \(E[Y(t)]\) under ignorability of \(T\) and MAR outcomes, compute the Hájek versions of \(E[Y(1)]\), \(E[Y(0)]\) and the ATE, and verify positivity for both factors.
+
+**A23 · Stretch · paper — MNAR sensitivity.** Ratings are observed for 70% of items with mean 4.1. A pattern-mixture model sets the mean of the missing 30% to \(4.1+\delta\), where \(\delta\) is untestable. Write the overall mean as a function of \(\delta\), report it for \(\delta\in\{-1.5,-1,-0.5,0\}\), and find the \(\delta\) at which the conclusion \"mean rating at least 3.9\" flips.
+
+**A24 · Stretch · paper — Complete observational study.** A logged comparison of a new ranking model covers 40,000 sessions (9,000 treated), routed by a rule using logged user tenure and device; engagement is the outcome, and 15% of engagement values are missing when the app crashed, which the new model makes more likely. After cross-fit AIPW on tenure and device: estimate \(+0.04\) (95% CI 0.01 to 0.07), all \(|\text{SMD}|<0.1\), ESS 5,100, 3% of sessions with \(\hat e<0.02\), RR-scale estimate 1.3 (lower limit 1.07), strongest measured confounder RR 1.2, and a placebo outcome (last week's engagement) estimated at \(+0.03\) (CI 0.00 to 0.06). Take this through all ten workflow steps, decide whether the claim stands, and write the paragraph a reviewer would need in order to disagree with you on the merits.
+
+
+## Six-part checkpoint
+
+Complete these without notes, then use the solutions to audit assumptions and reasoning. Passing a numeric check alone does not establish mastery. For implementation and transfer, retain the code/results or written protocol as evidence.
+
+**K1 · Foundation · gate — Concept.** Which assumptions connect adjusted associations to an average treatment effect?
+
+**K2 · Core · gate — Derivation.** Explain the double-robust cancellation for an AIPW mean under overlap.
+
+**K3 · Core · gate — Calculation.** Treatment success is 0.9/0.3 in easy/hard groups; control is 0.8/0.2. Under a common target mixture, find the standardized treatment effect.
+
+**K4 · Core · gate — Implementation audit.** Reproduce two settings of the ps-causal experiment independently, including its failure preset. State a numerical invariant or analytic oracle and explain what the plot does not establish.
+
+**K5 · Stretch · gate — Claim audit.** Does cross-fitting alone guarantee root-n inference for AIPW?
+
+**K6 · Stretch · gate — RE/RS transfer.** Design a causal analysis of an AI intervention.
 
 ## Mastery check
 

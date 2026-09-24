@@ -1,7 +1,8 @@
 ---
 id: math.probability.latent-variables-elbo-gradient-estimators
 title: Latent variables, the ELBO, and gradient estimators
-prerequisites: [math.statistics.bayesian-modeling-computation, math.probability.transformations-convolution-jacobians]
+prerequisites: [math.statistics.bayesian-modeling-computation, math.probability.transformations-convolution-jacobians, math.calculus.gradients-optimization]
+answers: ps-14-latent-variables-elbo-gradient-estimators
 estimated_hours: 36
 ---
 
@@ -30,6 +31,8 @@ Do not memorize “ELBO = reconstruction minus KL” as an isolated formula. Fol
 
 At each step, label whether error comes from model misspecification, variational-family restriction, amortization, finite Monte Carlo, or optimization. “The ELBO is low” does not identify which one failed.
 
+For multivariable differentiation, review the [local calculus bridge](03-transformations-convolution-jacobians.md#local-calculus-bridge-gradients-and-jacobians): gradient/Jacobian shapes, the chain rule, Hessians, and the separate conditions for differentiating an expectation.
+
 ## 1. The intractable marginal
 
 A latent-variable model says: draw \(z\sim p(z)\) from a simple prior, then draw \(x\sim p_\theta(x\mid z)\). The observed likelihood requires marginalizing:
@@ -51,11 +54,17 @@ This is unbiased, and it is useless. For a typical \(x\), almost all prior sampl
 
 The fix is to propose from something close to the posterior. That is what the next section builds.
 
-> **Practice — Foundation:** Write the marginal likelihood for a two-component mixture and confirm it is a sum rather than an integral.
+> **Practice — Foundation:** Let \(z\in\{1,2\}\) with \(P(z=1)=0.3\), \(x\mid z=1\sim\mathcal N(0,1)\) and \(x\mid z=2\sim\mathcal N(3,1)\). Write \(p(x)\) as a sum over \(z\) and evaluate \(p(x=0)\) to three decimals.
+>
+> **Hint:** \(p(0)=0.3\,\varphi(0)+0.7\,\varphi(-3)\) with \(\varphi(0)\approx0.3989\) and \(\varphi(3)\approx0.00443\); the answer is about 0.123.
 >
 > **Practice — Core:** For \(z\sim\mathcal N(0,1)\) and \(x\mid z\sim\mathcal N(z,0.01)\), compute the fraction of prior samples landing within two decoder standard deviations of \(x=3\), and say what that implies for \(K\).
 >
-> **Practice — Stretch:** Express \(\hat p_\theta(x)\) as self-normalized importance sampling with proposal \(p(z)\), and relate its effective sample size to \(\operatorname{KL}(p(z\mid x)\Vert p(z))\).
+> **Hint:** The relevant prior interval is [2.8,3.2]; compare its probability with 1/K.
+>
+> **Practice — Stretch:** In the Core model with \(x=3\), write \(\hat p(x)=\frac1K\sum_k w_k\) with \(w_k=p(x\mid z_k)\), \(z_k\sim p(z)\), and show that \(\sum_k w_kz_k/\sum_k w_k\) instead estimates \(E[z\mid x=3]=300/101\). Then, with \(K=1000\), compute the expected number of draws in \([2.8,3.2]\) and the probability that none land there, and use this to explain why the fixed \(\operatorname{KL}(p(z\mid x)\Vert p(z))\approx6.22\) nats does not determine the realized effective sample size.
+>
+> **Hint:** Self-normalizing divides by \(\sum_k w_k\), whose expectation is \(K\,p(x)\), so the ratio targets a posterior mean; for the counts use \(1000\times0.00187\approx1.87\) and \((1-0.00187)^{1000}\approx0.15\).
 
 ## 2. The ELBO, derived twice
 
@@ -107,11 +116,17 @@ Every VAE loss you have read is this line with a sign flip.
 
 ![The log evidence splits exactly into the ELBO plus the KL gap to the true posterior, so maximizing the bound tightens the posterior approximation.](../assets/elbo-decomposition.svg)
 
-> **Practice — Foundation:** Show \(\mathcal L\le\log p_\theta(x)\) follows from the decomposition without invoking Jensen.
+> **Practice — Foundation:** A binary latent has prior \((0.5,0.5)\) and likelihoods \(p(x\mid z)=(0.16,0.04)\), so \(p(x)=0.1\) and the posterior is \((0.8,0.2)\). For \(q=(0.5,0.5)\), use \(\log p(x)=\mathcal L+\operatorname{KL}\) to compute \(\mathcal L\), and explain why \(\mathcal L\le\log p(x)\) for every \(q\) without invoking Jensen.
 >
-> **Practice — Core:** Derive the reconstruction-minus-KL form from \(E_q[\log p_\theta(x,z)-\log q(z)]\).
+> **Hint:** \(\operatorname{KL}=0.5\log(0.5/0.8)+0.5\log(0.5/0.2)\approx0.223\), so \(\mathcal L\approx\log0.1-0.223\approx-2.526\); the gap is a KL, which is never negative.
 >
-> **Practice — Stretch:** Construct a case where model A has a higher ELBO than model B but lower true log-likelihood. State what must be true of their posterior gaps.
+> **Practice — Core:** Derive the reconstruction-minus-KL form from \(E_q[\log p_\theta(x,z)-\log q(z)]\). Check it on the Foundation model with \(q=(0.6,0.4)\): compute \(E_q[\log p(x\mid z)]\) and \(\operatorname{KL}(q\Vert p(z))\), and confirm their difference equals \(\log0.1-\operatorname{KL}(q\Vert(0.8,0.2))\).
+>
+> **Hint:** Split \(\log p(x,z)=\log p(x\mid z)+\log p(z)\); numerically the reconstruction is about \(-2.387\), the prior KL about \(0.020\), and both routes give \(\mathcal L\approx-2.407\).
+>
+> **Practice — Stretch:** Model A is the Foundation model (\(p_A(x)=0.1\)) with \(q\) equal to its exact posterior. Model B has prior \((0.5,0.5)\) and likelihoods \((0.22,0.02)\), so \(p_B(x)=0.12\), but its variational family forces \(q=(0.2,0.8)\). Compute both ELBOs, show A's ELBO is higher although B has higher evidence, and state the inequality their posterior gaps must satisfy for this to happen.
+>
+> **Hint:** B's posterior is \((11/12,1/12)\), giving gap \(\approx1.505\) and \(\mathcal L_B\approx-3.625\) versus \(\mathcal L_A=\log0.1\approx-2.303\); the reversal needs \(\text{gap}_B-\text{gap}_A>\log p_B-\log p_A\approx0.182\).
 
 ## 3. Amortization
 
@@ -150,9 +165,15 @@ For a diagonal Gaussian this sums over coordinates. The closed form matters: it 
 
 > **Practice — Foundation:** Evaluate the Gaussian KL at \(\mu=0,\sigma=1\) and confirm it is zero.
 >
-> **Practice — Core:** Derive the closed form above, stating where \(E_q[z^2]=\sigma^2+\mu^2\) is used.
+> **Hint:** Every term cancels for the standard-normal variational law.
 >
-> **Practice — Stretch:** Give a posterior whose true correlation structure a diagonal Gaussian cannot capture, and quantify the resulting approximation gap for a two-dimensional example.
+> **Practice — Core:** Derive the closed form above, stating where \(E_q[z^2]=\sigma^2+\mu^2\) is used, then evaluate it at \(\mu=1,\sigma^2=0.5\).
+>
+> **Hint:** Expand both Gaussian log densities and take expectations under q; the check value is \(\tfrac12(0.5+1-1-\log0.5)\approx0.597\).
+>
+> **Practice — Stretch:** The true posterior is \(\mathcal N\!\left(0,\begin{pmatrix}1&0.8\\0.8&1\end{pmatrix}\right)\). Find the diagonal Gaussian \(q\) minimizing \(\operatorname{KL}(q\Vert p)\), compute the approximation gap, and compare \(q\)'s marginal variances with the true marginal variance 1.
+>
+> **Hint:** For reverse KL the optimal diagonal variances are \(1/(\Sigma^{-1})_{ii}=1-\rho^2=0.36\); the trace term then equals 2, leaving gap \(-\tfrac12\log(1-\rho^2)\approx0.511\) nats.
 
 ## 4. The gradient problem
 
@@ -224,11 +245,17 @@ so the variance is \(\mu^2+3-1=\mu^2+2\).
 
 The contrast is stark and it is not an artifact of the toy problem: the score-function variance even *grows* with \(\mu\), meaning it degrades as the distribution moves away from the origin, while the pathwise estimator is exact. This is why continuous latent variables are reparameterized whenever possible, and why discrete latents are the hard case.
 
-> **Practice — Foundation:** Write the reparameterization for \(\mathcal N(\mu,\sigma^2)\) and for \(\mathrm{Uniform}(a,b)\).
+> **Practice — Foundation:** Write the reparameterization for \(\mathcal N(\mu,\sigma^2)\) and for \(\mathrm{Uniform}(a,b)\), then produce the samples for \(\mu=1,\sigma=2,\varepsilon=-0.5\) and for \(a=2,b=5,u=0.4\).
 >
-> **Practice — Core:** Redo the variance comparison for \(f(z)=z^2\) and confirm the pathwise estimator is no longer zero-variance but remains smaller.
+> **Hint:** Use \(z=\mu+\sigma\varepsilon\) and \(z=a+(b-a)u\); the samples are 0 and 3.2.
 >
-> **Practice — Stretch:** Show that the optimal constant baseline for the score-function estimator is \(b^\star=E[f\lVert\nabla\log q\rVert^2]/E[\lVert\nabla\log q\rVert^2]\), and evaluate it for the example above.
+> **Practice — Core:** For \(q_\mu=\mathcal N(\mu,1)\) and \(f(z)=z^2\) (true gradient \(2\mu\)), compute the variance of the single-sample score-function estimator \(z^2(z-\mu)\) and of the pathwise estimator \(2z\) as functions of \(\mu\), and evaluate both at \(\mu=1\).
+>
+> **Hint:** Write \(z=\mu+\varepsilon\) and use \(E\varepsilon^2=1,E\varepsilon^4=3,E\varepsilon^6=15\); you should get \(\mu^4+14\mu^2+15\) (30 at \(\mu=1\)) versus the constant 4.
+>
+> **Practice — Stretch:** Show that the optimal constant baseline for the score-function estimator is \(b^\star=E[f\lVert\nabla\log q\rVert^2]/E[\lVert\nabla\log q\rVert^2]\), evaluate it for \(q_\mu=\mathcal N(\mu,1)\) and \(f(z)=z\), and give the variance of the baselined estimator.
+>
+> **Hint:** Minimize expected squared estimator norm as a quadratic in \(b\); here \(b^\star=E[(\mu+\varepsilon)\varepsilon^2]=\mu\), leaving the estimator \(\varepsilon^2\) with variance 2 instead of \(\mu^2+2\).
 
 ## 5. Discrete latents: Gumbel-max and its relaxation
 
@@ -254,11 +281,17 @@ Now \(\tilde z\) is differentiable in \(\log\pi\), and as \(\tau\to0\) it conver
 
 **Straight-through** takes the hard sample forward and the relaxed gradient backward. It is more biased still and has no guarantee behind it; treat it as a heuristic that often works, in the same spirit as the straight-through estimator for quantization in [constrained and composite optimization](../03-optimization/07-constrained-composite-distributed-optimization.md).
 
-> **Practice — Foundation:** Draw a categorical sample from \(\pi=(0.2,0.5,0.3)\) using Gumbel-max with supplied uniforms.
+> **Practice — Foundation:** Draw a categorical sample from \(\pi=(0.2,0.5,0.3)\) using Gumbel-max with uniforms \(u=(0.8,0.5,0.3)\).
 >
-> **Practice — Core:** Verify the shift invariance claim algebraically, and explain why it means logits need no normalization.
+> **Hint:** \(G=-\log(-\log u)\approx(1.500,0.367,-0.186)\); adding \(\log\pi\approx(-1.609,-0.693,-1.204)\) gives \((-0.109,-0.327,-1.390)\), so index 1 wins.
 >
-> **Practice — Stretch:** Design an experiment measuring the bias of the Gumbel-softmax gradient as a function of \(\tau\) against a REINFORCE reference, and state which estimator you would ship for a routing layer with 64 experts.
+> **Practice — Core:** Add \(c=5\) to every logit in the Foundation problem and recompute the perturbed scores with the same uniforms; then prove for general \(c\) that the argmax is unchanged, and explain why this means logits need no normalization.
+>
+> **Hint:** Every score rises by exactly 5, to about \((4.891,4.673,3.610)\); a common additive shift cannot change an argmax, and normalization is just such a shift by \(-\log\sum_i e^{\ell_i}\).
+>
+> **Practice — Stretch:** Take three categories with logits \(\theta=(0,0,0)\) and reward \(r=(1,0,-1)\). Compute the exact gradient of \(E_{z\sim\operatorname{softmax}(\theta)}[r_z]\), then specify an experiment (seed 0, \(10^5\) samples per \(\tau\in\{0.1,0.5,1,2\}\)) that estimates the Gumbel-softmax gradient of \(r\cdot\tilde z\) and reports its bias and per-coordinate variance against that exact value. State which estimator you would ship for a routing layer with 64 experts.
+>
+> **Hint:** The exact gradient is \(\pi_k(r_k-\pi\cdot r)=(1/3,0,-1/3)\); a gap between the Gumbel-softmax mean and this vector that persists beyond Monte Carlo standard error is bias.
 
 ## 6. Tightening and reporting the bound
 
@@ -269,7 +302,21 @@ $$
 \qquad z_k\stackrel{\text{iid}}\sim q_\phi ,
 $$
 
-satisfies \(\mathcal L_1\le\mathcal L_K\le\mathcal L_{K+1}\le\log p_\theta(x)\), with \(\mathcal L_K\to\log p_\theta(x)\) as \(K\to\infty\). It is the same self-normalized importance-sampling estimator from the Bayesian-computation lesson, inside a logarithm — and it inherits the same effective-sample-size diagnostics. Reporting \(\mathcal L_{1}\) and \(\mathcal L_{64}\) together is a cheap, honest way to show how loose your bound is.
+satisfies \(\mathcal L_1\le\mathcal L_K\le\mathcal L_{K+1}\le\log p_\theta(x)\), when the importance weights and log expectations are well defined. Convergence \(\mathcal L_K\to\log p_\theta(x)\) needs conditions permitting convergence of the expected log estimate, such as positive weights bounded above and away from zero; a sample-mean law of large numbers alone is insufficient for that expectation claim. Inside the logarithm is an ordinary importance-sampling estimate of evidence, not a self-normalized estimate of a posterior expectation. Weight concentration still makes effective sample size a useful diagnostic, without certifying an accurate log-evidence estimate. The [IWAE paper](https://arxiv.org/abs/1509.00519) develops the multi-sample bound. Reporting \(\mathcal L_{1}\) and \(\mathcal L_{64}\) together is a cheap, honest way to show how loose your bound is.
+
+> **Practice — Foundation:** For \(z\sim\mathcal N(0,1)\), \(x\mid z\sim\mathcal N(z,1)\), \(x=2\) and proposal \(q=\mathcal N(0,1)\), two draws \(z_1=0,z_2=1\) enter a \(K=2\) importance-weighted bound. Which distribution supplied them? Compute \(w_k=p(x,z_k)/q(z_k)\) and the realized \(\log\frac12(w_1+w_2)\).
+>
+> **Hint:** The draws come from the proposal \(q\) in the denominator; because \(q\) is the prior here, \(w_k=\varphi(2-z_k)\approx(0.0540,0.2420)\), giving about \(-1.911\).
+>
+
+> **Practice — Core:** An unbiased evidence estimator \(\hat Y\) equals 0.05 or 0.15 with probability \(\tfrac12\) each, so \(E\hat Y=p(x)=0.1\). Compute \(E[\log\hat Y]\), compare it with \(\log0.1\), and explain the sign of the difference.
+>
+> **Hint:** \(\tfrac12(\log0.05+\log0.15)\approx-2.446<\log0.1\approx-2.303\); Jensen's inequality for the concave logarithm forces this direction.
+>
+
+> **Practice — Stretch:** Let \(U\sim\mathrm{Uniform}(0,1)\) and \(\hat Y_n=1\) if \(U\ge1/n\), \(\hat Y_n=e^{-n^2}\) if \(U<1/n\). Show \(\hat Y_n\to1\) almost surely, compute \(E[\log\hat Y_n]\), and conclude whether almost-sure convergence of positive estimates implies convergence of their expected logarithms.
+>
+> **Hint:** For any fixed \(U>0\), eventually \(1/n<U\); but \(E[\log\hat Y_n]=(1/n)(-n^2)=-n\to-\infty\), because the logarithm is unbounded near zero.
 
 ## 7. Failure modes
 
@@ -308,6 +355,20 @@ The generative model is unchanged; only inference is poor. This is why an ELBO g
 
 For \(z\sim N(\mu,\sigma^2)\) and \(J=E[z^2]=\mu^2+\sigma^2\), reparameterize \(z=\mu+\sigma\varepsilon\). A one-sample pathwise gradient for \(\mu\) is \(2(\mu+\sigma\varepsilon)\), with expectation \(2\mu\). The score-function estimator \(z^2(z-\mu)/\sigma^2\) has the same expectation but usually much larger variance. This is the concrete reason to prefer reparameterization when available.
 
+> **Practice — Foundation:** Two 4-dimensional VAEs report test-averaged per-dimension KL: run A \((0.002,0.001,0.003,0.002)\), run B \((3.1,0.002,2.4,0.001)\) nats. Compute each total KL, count active dimensions (KL above 0.01 nats), and say what run A's numbers suggest about \(q(z\mid x)\).
+>
+> **Hint:** Totals are 0.008 and 5.503 nats with 0 and 2 active dimensions; near-zero KL everywhere means \(q(z\mid x)\approx p(z)\) for every \(x\), so the encoder ignores the observation.
+>
+
+> **Practice — Core:** For 100 test inputs you compute reconstruction log-likelihood with the input's own code \(z=\mu(x)\) and with a code \(\mu(x')\) from a randomly chosen other input. Model A gives \(-88.1\) versus \(-88.2\) nats; model B gives \(-80.4\) versus \(-131.7\). Which decoder uses its latent, and why does this swap test distinguish that from a low total KL alone?
+>
+> **Hint:** Compute each drop (0.1 versus 51.3 nats); holding everything else fixed and intervening on \(z\) measures the decoder's sensitivity directly.
+>
+
+> **Practice — Stretch:** A run with free bits \(\lambda=0.5\) nats on each of 8 dimensions optimizes \(E_q[\log p(x\mid z)]-\sum_j\max(\lambda,\operatorname{KL}_j)\). With reconstruction \(-90.0\) and every \(\operatorname{KL}_j=0.1\), compute the reported objective and the true ELBO, and explain why the modified objective must be reported and not compared with another model's ELBO.
+>
+> **Hint:** The objective is \(-90-8(0.5)=-94.0\) while the ELBO is \(-90-0.8=-90.8\); the training criterion is a different number that is not a bound on this model's \(\log p(x)\).
+
 ## 8. Runnable labs
 
 **Lab A — the Gaussian ELBO terms.** Implement `gaussian_elbo_terms` in the [learner exercises file](../../labs/exercises.py). Given a reconstruction log-likelihood and the diagonal Gaussian parameters \(\mu\) and \(\log\sigma^2\) produced by an encoder, return the KL to the standard normal prior and the resulting ELBO, using the closed form of section 3. Reject mismatched parameter lengths, empty parameters, and non-finite values.
@@ -328,41 +389,61 @@ Then investigate: draw many samples across seeds and compare the empirical frequ
 6. The exact variance comparison \(\mu^2+2\) versus \(0\) for \(f(z)=z\).
 7. The Gumbel-max claim, at least to the level of the CDF-product argument.
 
+## Prediction experiment
+
+Predict both the baseline and failure-preset results before revealing the calculation. Record the assumptions, change one control at a time, and explain the boundary case. This small deterministic model isolates a mechanism; it is not an empirical validation of a trained system.
+
+```lab
+lab: ps-gradient
+```
+
 ## 10. End-of-unit practice (graded)
+
+Work each problem before opening its authored solution. Written proofs and design answers require self-review against the rubric; numeric fields check only the stated quantities.
+
 
 **Foundation**
 
-1. Compute \(\operatorname{KL}(\mathcal N(2,0.25)\Vert\mathcal N(0,1))\).
-2. State the reparameterization for \(\mathcal N(\mu,\sigma^2)\) and say why \(\varepsilon\) must not depend on \(\phi\).
-3. Given \(\log w=(0,1,2)\), compute \(\operatorname{softmax}(\log w)\).
+**A1 · Foundation · paper — Cumulative problem 1.** Compute \(\operatorname{KL}(\mathcal N(2,0.25)\Vert\mathcal N(0,1))\).
+
+**A2 · Foundation · paper — Cumulative problem 2.** State the reparameterization for \(\mathcal N(\mu,\sigma^2)\) and say why \(\varepsilon\) must not depend on \(\phi\).
+
+**A3 · Foundation · paper — Cumulative problem 3.** Given \(\log w=(0,1,2)\), compute \(\operatorname{softmax}(\log w)\).
 
 **Core**
 
-4. Prove \(E_{q_\phi}[\nabla_\phi\log q_\phi(z)]=0\) and explain precisely why this makes baselines unbiased.
-5. Derive the ELBO gap as a KL divergence, and use it to explain why maximizing the ELBO over \(q\) performs posterior inference.
-6. Show the score-function estimator remains valid when \(f\) is an indicator function, and explain why the pathwise estimator does not.
-7. A team reports ELBO improving while held-out reconstruction worsens. Explain how, using the two terms of the bound.
+**A4 · Core · paper — Cumulative problem 4.** Prove \(E_{q_\phi}[\nabla_\phi\log q_\phi(z)]=0\) and explain precisely why this makes baselines unbiased.
+
+**A5 · Core · paper — Cumulative problem 5.** Derive the ELBO gap as a KL divergence, and use it to explain why maximizing the ELBO over \(q\) performs posterior inference.
+
+**A6 · Core · paper — Cumulative problem 6.** Let \(q_\mu=\mathcal N(\mu,1)\) and \(f(z)=\mathbf 1\{z>0\}\), so the target is \(\tfrac{d}{d\mu}P(z>0)=\tfrac{d}{d\mu}\Phi(\mu)=\varphi(\mu)\). Show that the score-function estimator \(f(z)(z-\mu)\) has expectation \(\varphi(\mu)\) and evaluate it at \(\mu=0\). Then show the pathwise estimator \(\partial_\mu f(\mu+\varepsilon)\) is 0 almost surely, and explain why it is wrong here.
+
+**A7 · Core · paper — Cumulative problem 7.** A VAE team reports held-out numbers (nats per example): at epoch 10, reconstruction \(E_q[\log p(x\mid z)]=-92.0\) and \(\operatorname{KL}(q\Vert p(z))=12.0\); at epoch 20, reconstruction \(-95.5\) and KL \(6.0\). Compute the ELBO at both epochs and explain, using the two terms, how the ELBO improved while reconstruction worsened.
 
 **Stretch**
 
-8. A VAE on text shows total KL near zero after 2,000 steps and produces plausible samples. State what has happened, give two diagnostics that distinguish collapse from a genuinely uninformative latent, and propose one fix with its cost.
-9. A routing layer must choose one of 64 experts per token. Compare REINFORCE-with-baseline against Gumbel-softmax on bias, variance, and the effect of load-balancing penalties, and recommend one with the evidence you would collect.
-10. Prove \(\mathcal L_K\le\mathcal L_{K+1}\) for the importance-weighted bound, and explain why larger \(K\) reduces the bound gap but not necessarily the gradient variance.
+**A8 · Stretch · paper — Cumulative problem 8.** A text VAE with an autoregressive decoder and 32 latent dimensions reaches, after 2,000 steps, total KL 0.04 nats (every dimension below 0.003 nats) and reconstruction \(-61.2\) nats per sentence, and its samples look fluent. (a) Name the failure. (b) Decoding each sentence with the latent code of a different sentence changes reconstruction by only 0.1 nats, whereas a healthy reference VAE changes by 38 nats; what does this establish that the total KL alone does not? (c) You add free bits with \(\lambda=0.25\) nats per dimension: below what total KL does the modified objective stop penalizing, and what cost must be reported?
 
-<details><summary>Solution sketches</summary>
+**A9 · Stretch · paper — Cumulative problem 9.** A routing layer chooses one of 64 experts per token. On a probe batch whose exact router gradient can be enumerated, you measure per-token relative variance \(\operatorname{tr}\operatorname{Cov}(\hat g)/\lVert g\rVert^2\): REINFORCE with a mean baseline gives 24 and is unbiased; Gumbel-softmax at \(\tau=0.5\) gives 0.6, and its mean gradient has cosine similarity 0.95 with the exact gradient. (a) How many tokens per batch does REINFORCE need to match the Gumbel-softmax variance at a batch of 512 tokens? (b) Which estimator's error shrinks to zero as batch size grows, and which does not? (c) Explain how a differentiable load-balancing penalty on the router probabilities interacts with each estimator, and recommend one with the evidence you would still collect.
 
-1. \(\tfrac12(0.25+4-1-\log0.25)=\tfrac12(3.25+1.386)\approx2.32\).
-2. \(z=\mu+\sigma\varepsilon\), \(\varepsilon\sim\mathcal N(0,1)\). If \(\varepsilon\) depended on \(\phi\) the expectation would again be over a parameter-dependent measure and the gradient could not pass inside.
-3. Denominators \(e^0+e^1+e^2=1+2.718+7.389=11.107\), giving \((0.090,0.245,0.665)\).
-4. \(E[\nabla\log q]=\int q\nabla\log q=\int\nabla q=\nabla\int q=\nabla1=0\). Hence \(E[b\nabla\log q]=0\) for constant \(b\), so subtracting it changes no expectation while it can change variance.
-5. Substitute \(p(x,z)=p(z\mid x)p(x)\) into \(E_q[\log p(x,z)-\log q]\); the \(\log p(x)\) term is constant in \(z\) and factors out, leaving \(-\operatorname{KL}(q\Vert p(z\mid x))\). Since \(\log p(x)\) does not depend on \(q\), maximizing \(\mathcal L\) over \(q\) minimizes that KL.
-6. The score-function form requires only that \(f\) be integrable — its value is multiplied by a score, never differentiated. The pathwise form needs \(\nabla_zf\), which for an indicator is zero almost everywhere and therefore carries no signal.
-7. The bound is reconstruction minus KL. A model can improve the total by collapsing the KL term toward zero faster than reconstruction degrades. Report both terms separately.
-8. Posterior collapse: the decoder is autoregressive and can model text without \(z\). Distinguish by per-dimension KL (collapse shows *all* dimensions near zero) and by a latent-intervention test (resample \(z\), see if samples change). Fixes include KL annealing, a free-bits floor per dimension, or weakening the decoder — each changes the objective and must be reported.
-9. REINFORCE is unbiased but high variance, and its variance worsens with 64 categories; a learned baseline is essential. Gumbel-softmax is biased at any \(\tau\), but its variance is far lower and it interacts cleanly with differentiable load-balancing penalties. Collect: gradient-variance traces at matched batch size, bias measured against a large-sample REINFORCE reference, and downstream loss at matched compute.
-10. Apply Jensen to the average of \(K+1\) weights viewed as a mixture over which index is dropped; the concavity of \(\log\) gives monotonicity. The bound gap shrinks because the estimator concentrates, but the *gradient* variance can rise because each term is a ratio and the log of an average does not decompose across samples.
+**A10 · Stretch · paper — Cumulative problem 10.** Prove \(\mathcal L_K\le\mathcal L_{K+1}\) for the importance-weighted bound, and explain why larger \(K\) reduces the bound gap but not necessarily the gradient variance.
 
-</details>
+
+## Six-part checkpoint
+
+Complete these without notes, then use the solutions to audit assumptions and reasoning. Passing a numeric check alone does not establish mastery. For implementation and transfer, retain the code/results or written protocol as evidence.
+
+**K1 · Foundation · gate — Concept.** What is the gap between log evidence and the ELBO?
+
+**K2 · Core · gate — Derivation.** Derive the score-function identity with its conditions.
+
+**K3 · Core · gate — Calculation.** The exact binary posterior and variational distribution both assign probability 0.3 to state one. What is their ELBO gap?
+
+**K4 · Core · gate — Implementation audit.** Reproduce two settings of the ps-gradient experiment independently, including its failure preset. State a numerical invariant or analytic oracle and explain what the plot does not establish.
+
+**K5 · Stretch · gate — Claim audit.** Is an importance-weighted evidence estimate a self-normalized posterior expectation?
+
+**K6 · Stretch · gate — RE/RS transfer.** Compare a pathwise and score-function gradient implementation.
 
 ## Mastery check
 

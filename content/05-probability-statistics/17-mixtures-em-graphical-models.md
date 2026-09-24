@@ -1,7 +1,8 @@
 ---
 id: math.probability.mixtures-em-graphical-models
 title: Mixtures, the EM algorithm, and graphical models
-prerequisites: [math.probability.latent-variables-elbo-gradient-estimators, math.statistics.causal-inference-missing-data]
+prerequisites: [math.probability.latent-variables-elbo-gradient-estimators, math.statistics.causal-inference-missing-data, math.probability.multivariate-gaussian-geometry]
+answers: ps-17-mixtures-em-graphical-models
 estimated_hours: 44
 ---
 
@@ -49,11 +50,17 @@ The compensation is expressiveness. A latent variable lets a model represent het
 
 **Worked example — two lines of code, two very different fits.** Fitting a single Gaussian to request latencies gives a mean and a variance and a bad fit to a bimodal histogram. Adding one binary latent — cache hit or miss — turns the model into a two-component mixture with five parameters and a marginal that reproduces both modes. The likelihood you now have to maximize has no closed-form maximizer, several local optima, and an infinite supremum at the boundary. That is the trade, in full.
 
-> **Practice — Foundation:** Write the complete-data and incomplete-data log likelihoods for a two-component mixture and say which one contains a log of a sum.
+> **Practice — Foundation:** For the mixture \(0.5N(0,1)+0.5N(3,1)\) and one observation \(x=1\) whose label is known to be \(z=1\), evaluate the complete-data log likelihood \(\log p(x,z)\) and the incomplete-data log likelihood \(\log p(x)\) numerically, and say which one contains a log of a sum.
 >
-> **Practice — Core:** Explain why the complete-data maximum likelihood estimator is usually closed-form while the marginal one is not.
+> **Hint:** \(\log p(x,z)=\log0.5+\log\mathcal N(1\mid0,1)\approx-2.112\); \(\log p(x)=\log\bigl(0.5\mathcal N(1\mid0,1)+0.5\mathcal N(1\mid3,1)\bigr)\approx-1.911\) sums both weighted densities before the log.
 >
-> **Practice — Stretch:** Give a latent-variable model whose marginal is a familiar closed-form distribution, and one whose marginal has no name.
+> **Practice — Core:** For labeled data \(x=(0,1,5,6)\), \(z=(1,1,2,2)\), unit variances, compute the complete-data MLEs of \(\pi,\mu_1,\mu_2\) in closed form, then explain why the same four points without \(z\) give no closed-form MLE.
+>
+> **Hint:** With labels, \(\log p(x,z)\) splits into one sum per component, so \(\hat\pi=(0.5,0.5)\) and each \(\hat\mu_k\) is the mean of its own points; without labels every term is \(\log\sum_k\), which couples \(\mu_1\) and \(\mu_2\).
+>
+> **Practice — Stretch:** Show that \(X\mid\lambda\sim\text{Poisson}(\lambda)\) with \(\lambda\sim\text{Gamma}(2,\text{rate }1)\) has the negative binomial marginal \(P(X=x)=(x+1)/2^{x+2}\), check \(P(X=0)=P(X=1)=1/4\), and contrast with \(0.5N(0,1)+0.5N(3,1)\), whose marginal belongs to no named family.
+>
+> **Hint:** Integrate \(e^{-\lambda}\lambda^x/x!\cdot\lambda e^{-\lambda}\) using \(\int_0^\infty\lambda^{m}e^{-2\lambda}\,d\lambda=m!/2^{m+1}\) with \(m=x+1\).
 
 ## 1. Finite mixtures
 
@@ -82,11 +89,17 @@ which is the law of total variance from lesson 02 with \(Z\) as the conditioning
 
 **Worked example — overdispersion from an unmodelled mixture.** A Poisson mixture with rates 2 and 20 in equal proportion has mean 11 and variance \(11+81=92\), against the variance of 11 a single Poisson would demand. Lesson 11 diagnosed this as overdispersion in a GLM; the mixture is a model of the mechanism causing it, rather than a dispersion parameter absorbing it.
 
-> **Practice — Foundation:** Compute the mean and variance of a two-component Gaussian mixture with given weights, means, and variances.
+> **Practice — Foundation:** Compute the mean and variance of \(0.3N(0,1)+0.7N(10,4)\).
 >
-> **Practice — Core:** Find two Gaussian components with distinct means whose equal-weight mixture is unimodal, and state the separation threshold you used.
+> **Hint:** \(E[X]=0.3\cdot0+0.7\cdot10=7\); add the within term \(0.3\cdot1+0.7\cdot4\) to the between term \(0.3(0-7)^2+0.7(10-7)^2\) (total 24.1).
 >
-> **Practice — Stretch:** Show that a mixture of exponentials has a decreasing hazard rate even though each component has a constant one, and interpret the result.
+> **Practice — Core:** For \(f(x)=0.5\varphi(x+d)+0.5\varphi(x-d)\) with \(\varphi\) the standard normal density, show \(f''(0)=(d^2-1)\varphi(d)\), conclude that \(x=0\) is a local maximum iff \(d\le1\) (means at most \(2\sigma\) apart), and classify \(d=0.8\) and \(d=1.5\).
+>
+> **Hint:** Use \(\varphi''(u)=(u^2-1)\varphi(u)\) for each component at \(u=\pm d\); for \(d=0.8\) the curvature at 0 is negative (one mode), for \(d=1.5\) it is positive (0 is a dip between two modes).
+>
+> **Practice — Stretch:** For \(0.5\,\text{Exp}(1)+0.5\,\text{Exp}(3)\), compute the hazard \(h(t)=f(t)/S(t)\) at \(t=0,1,3\) and its limit as \(t\to\infty\), show it is decreasing although each component's hazard is constant, and interpret.
+>
+> **Hint:** \(h(t)\) is a weighted average of the rates 1 and 3 with the weight on rate 3 proportional to \(0.5e^{-3t}\), which shrinks as high-rate units fail first: \(h(0)=2\), \(h(1)\approx1.238\), \(h\to1\).
 
 ## 2. A component is not a cluster
 
@@ -100,11 +113,17 @@ The same fitted object supports both readings and the data rarely distinguishes 
 
 **Worked example — the "three user segments" that were one.** A mixture fitted to session-length data returns three components, and a deck is written around three user segments. Refitting on a bootstrap resample returns components with different means; fitting a single skewed distribution achieves nearly the same held-out likelihood with four fewer parameters. The components were approximating skew, not finding groups. The test that would have caught it is stability, not fit.
 
-> **Practice — Foundation:** State the two purposes a mixture can serve and the diagnostic appropriate to each.
+> **Practice — Foundation:** On 1,000 held-out points a 3-component 1-D Gaussian mixture scores log-likelihood \(-1402.1\) and a 3-parameter skew-normal scores \(-1403.0\). Compute the per-point difference and the parameter counts, and say which diagnostic answers the density question and which the groups question.
 >
-> **Practice — Core:** Fit a two-component Gaussian mixture to samples from a single skewed distribution and report what the components represent.
+> **Hint:** A \(K\)-component 1-D Gaussian mixture has \(3K-1=8\) parameters; \(0.9/1000\) nats per point is negligible, so held-out likelihood says both are equally good densities, and only stability or external validation can support groups.
 >
-> **Practice — Stretch:** Design a stability check that distinguishes a genuine latent grouping from a density-approximation artifact, and state its failure modes.
+> **Practice — Core:** Draw \(n=2000\) points from Gamma(shape 2, scale 1) (one mode at 1, right-skewed), fit a 2-component Gaussian mixture by EM with 10 random restarts, and report weights, means, and SDs. Do the components describe two groups or the mode and the tail?
+>
+> **Hint:** Expect roughly weight 0.65 at mean 1.4 (SD 0.7) and weight 0.35 at mean 3.4 (SD 1.6): a narrow component on the mode and a wide one covering the right tail of a single group.
+>
+> **Practice — Stretch:** Data A: \(n=500\) from \(0.5N(-3,1)+0.5N(3,1)\); data B: \(n=500\) from Gamma(2,1). For each, refit \(K=2\) on 50 bootstrap resamples and record the sorted component means. Predict what the spread looks like in each case, and give one way this stability check can fail.
+>
+> **Hint:** Genuine groups give tight bootstrap means near \(\pm3\); a skew artifact can also be stable when \(n\) is large, so stability is necessary for a group claim but not sufficient.
 
 ## 3. The likelihood is not concave
 
@@ -127,11 +146,17 @@ This is the shape of the problem EM solves. Notice that the fixed-point conditio
 
 **Worked example — why a good initialization matters more than a good optimizer.** Two runs of EM on the same 5,000 latency observations from different random starts reach log-likelihoods of \(-7{,}412\) and \(-7{,}389\), with visibly different component means. Neither run failed; the surface has several basins. Standard practice is multiple restarts with a sensible seeding scheme, keeping the best final objective — and reporting that this was done.
 
-> **Practice — Foundation:** Write the mixture log likelihood and identify the term that prevents separation.
+> **Practice — Foundation:** Evaluate the mixture log likelihood for \(x=(0,4)\) under \(\pi=(0.5,0.5)\), \(\mu=(0,4)\), unit variances, and identify the term that prevents it from separating into a \(\mu_1\) part and a \(\mu_2\) part.
 >
-> **Practice — Core:** Derive the stationarity condition for \(\mu_k\) and show the weights depend on all parameters.
+> **Hint:** Each term is \(\log\bigl(0.5\varphi(x_i)+0.5\varphi(x_i-4)\bigr)\); the total is about \(-3.224\), and the log of that sum is what couples the means.
 >
-> **Practice — Stretch:** Construct a two-component mixture dataset with two distinct local maxima and describe the basin boundary.
+> **Practice — Core:** For \(x=(0,1,4)\), \(\pi=(0.5,0.5)\), unit variances and current \(\mu=(0,4)\), compute \(\gamma_{i1}\) for each point and the fixed-point value \(\sum_i\gamma_{i1}x_i/\sum_i\gamma_{i1}\) for \(\mu_1\); then recompute it with \(\mu_2=3\) to show the weights depend on all parameters.
+>
+> **Hint:** \(\log(\gamma_{i1}/\gamma_{i2})=\bigl((x_i-\mu_2)^2-(x_i-\mu_1)^2\bigr)/2\); the weighted mean is about 0.496 with \(\mu_2=4\) and 0.454 with \(\mu_2=3\).
+>
+> **Practice — Stretch:** For \(x=(-3,0,3)\) with \(\pi=(0.5,0.5)\) and unit variances fixed, run means-only EM from the grid \(\mu_1,\mu_2\in\{-3,-1.5,0,1.5,3\}\). Show there are two distinct local maxima that are not label swaps of each other, find their log-likelihoods, and describe the basin boundary.
+>
+> **Hint:** The maxima are \((-2.846,1.542)\) and its mirror \((-1.542,2.846)\), both \(\ell\approx-7.044\); starts with \(\mu_1+\mu_2=0\) stay on the symmetric line and stop at the saddle \((-2,2)\) or \((0,0)\), so that line is the boundary.
 
 ## 4. Responsibilities are a posterior
 
@@ -149,11 +174,17 @@ Computing responsibilities requires care with underflow. The numerator and denom
 
 **Worked example — responsibilities under separation.** With components at \(-10\) and \(10\), both with unit variance, the observation \(x=-9\) has log numerators \(\log 0.5-0.5\) and \(\log 0.5-180.5\). The difference is 180 nats, so the responsibility is \(1\) to within \(10^{-79}\) and the soft assignment is effectively hard. Exponentiating the raw densities first would have produced \(0/0\).
 
-> **Practice — Foundation:** Compute responsibilities for one observation under a two-component mixture with given parameters.
+> **Practice — Foundation:** Compute \(\gamma_1\) for \(x=1\) under \(\pi=(0.4,0.6)\), \(\mu=(0,3)\), unit variances.
 >
-> **Practice — Core:** Show \(\sum_k\gamma_{ik}=1\) and interpret \(N_k=\sum_i\gamma_{ik}\) as an effective count.
+> **Hint:** The log-odds of component 1 is \(\log(0.4/0.6)+\bigl((1-3)^2-(1-0)^2\bigr)/2=-0.405+1.5\), so \(\gamma_1=1/(1+e^{-1.095})\approx0.749\).
 >
-> **Practice — Stretch:** Write the log-space computation of responsibilities and state the largest component-separation your implementation tolerates before returning exact zeros.
+> **Practice — Core:** For \(x=(0,0,2)\), \(\pi=(0.5,0.5)\), \(\mu=(0,2)\), unit variances, compute the \(3\times2\) responsibility matrix, check each row sums to 1, and compute \(N_1,N_2\).
+>
+> **Hint:** At \(x=0\) the log-odds is \((4-0)/2=2\), so \(\gamma_1=1/(1+e^{-2})\approx0.881\); at \(x=2\) it is \(0.119\); \(N_1\) is the column sum \(\approx1.881\) and \(N_1+N_2=3\).
+>
+> **Practice — Stretch:** Two equal-weight unit-variance components sit at \(-d\) and \(d\), and \(x=-d\). Write the log-space responsibility computation, and find the \(d\) at which float64 (a) rounds \(\gamma_{\text{near}}\) to exactly 1 and (b) returns \(\gamma_{\text{far}}\) as exactly 0.
+>
+> **Hint:** The log-odds is \(2d^2\), so \(\gamma_{\text{far}}=e^{-2d^2}/(1+e^{-2d^2})\): compare with \(2^{-53}\) for (a), giving \(d\approx4.29\), and with the smallest subnormal \(\approx4.9\times10^{-324}\) for (b), giving \(d\approx19.3\).
 
 ## 5. EM is coordinate ascent on the ELBO
 
@@ -189,11 +220,17 @@ The two steps alternate, each maximizing the same function \(\mathcal L(\theta,q
 
 **Worked example — reading the two steps off the picture.** At \(\theta^{(t)}\) the E-step raises the bound curve until it is tangent to \(\log p_\theta(x)\). The M-step moves to the bound's maximizer \(\theta^{(t+1)}\). Because the bound lies below the log-likelihood everywhere and touches at \(\theta^{(t)}\), the log-likelihood at \(\theta^{(t+1)}\) is at least the bound's value there, which is at least its value at \(\theta^{(t)}\), which equals the old log-likelihood. The proof in section 7 is this sentence in symbols.
 
-> **Practice — Foundation:** State what the E-step and the M-step each optimize, and over which argument.
+> **Practice — Foundation:** For one observation \(x=0.5\) under \(0.5N(0,1)+0.5N(2,1)\), the E-step maximizes \(\mathcal L(\theta,q)\) over \(q\) with \(\theta\) fixed. Compute the maximizing \(q(z=1)\), then state what the M-step maximizes and over which argument.
 >
-> **Practice — Core:** Show that the E-step choice \(q=p_\theta(z\mid x)\) makes the bound tight, using the KL decomposition.
+> **Hint:** The maximizer is the posterior; its log-odds is \(\bigl((0.5-2)^2-0.5^2\bigr)/2=1\), so \(q(z=1)=1/(1+e^{-1})\approx0.731\).
 >
-> **Practice — Stretch:** Explain precisely where the EM guarantee weakens when \(q\) is restricted to a variational family, and what survives.
+> **Practice — Core:** For the same \(x=0.5\) and model, compute \(\log p(x)\) and \(\mathcal L(\theta,q)\) for \(q(z=1)=0.5\) and for \(q\) equal to the posterior, and check that each gap equals \(\operatorname{KL}(q\Vert p_\theta(z\mid x))\).
+>
+> **Hint:** \(\mathcal L=\sum_zq(z)[\log p(x,z)-\log q(z)]\); \(\log p(x)\approx-1.4238\), and \(q=0.5\) gives a gap of about 0.120, while the posterior gives 0.
+>
+> **Practice — Stretch:** Suppose the variational family only allows \(q(z=1)\in[0,0.6]\) for the observation above (posterior 0.731). Find the best bound and its KL gap, and state what the EM monotonicity guarantee becomes under this restriction.
+>
+> **Hint:** KL is convex in \(q\), so the best feasible point is the boundary \(q=0.6\), leaving a gap \(\operatorname{KL}(0.6\Vert0.731)\approx0.040\); only the bound \(\mathcal L\) is then guaranteed to rise.
 
 ## 6. EM for a Gaussian mixture, in full
 
@@ -225,11 +262,17 @@ In \(d\) dimensions the same derivation gives \(\Sigma_k^{(t+1)}=\frac1{N_k}\sum
 
 **Worked example — one step by hand.** Three observations \(0,2,4\) with two identical initial components at \(\mu=2,\sigma^2=1,\pi=0.5\). Every responsibility is \(0.5\) by symmetry, so \(N_1=N_2=1.5\), both weights stay at \(0.5\), both means become \(2\), and both variances become \(\frac{4+0+4}{3}=\frac83\). Identical components stay identical forever: symmetric initialization is a fixed point, and this is the first thing to check when EM appears not to move.
 
-> **Practice — Foundation:** Write the three M-step updates and identify the effective count in each.
+> **Practice — Foundation:** For \(x=(0,1,5)\) with first-component responsibilities \(\gamma_{\cdot1}=(0.9,0.8,0.1)\), compute \(N_1\), \(\pi_1\), \(\mu_1\), and \(\sigma_1^2\).
 >
-> **Practice — Core:** Derive the \(\pi_k\) update with a Lagrange multiplier and show the multiplier equals \(n\).
+> **Hint:** \(N_1=1.8\), \(\pi_1=N_1/3\); each update divides a \(\gamma\)-weighted sum by \(N_1\), and the variance uses the new \(\mu_1\approx0.722\).
 >
-> **Practice — Stretch:** Derive the full-covariance M-step in \(d\) dimensions and count the free parameters for full, diagonal, spherical, and tied structures.
+> **Practice — Core:** Maximize \(\sum_kN_k\log\pi_k\) subject to \(\sum_k\pi_k=1\) for effective counts \(N=(1.8,1.2)\) (\(n=3\)) with a Lagrange multiplier, and show \(\lambda=3\) and \(\pi=(0.6,0.4)\).
+>
+> **Hint:** Stationarity gives \(N_k/\pi_k=\lambda\); summing \(N_k=\lambda\pi_k\) over \(k\) gives \(\lambda=\sum_kN_k=n\).
+>
+> **Practice — Stretch:** Derive the \(\Sigma_k\) update by differentiating \(Q\) with respect to \(\Sigma_k^{-1}\), and count free parameters (weights included) for \(K=4\), \(d=3\) under full, diagonal, spherical, and tied covariance.
+>
+> **Hint:** Use \(\partial\log|\Sigma^{-1}|/\partial\Sigma^{-1}=\Sigma\) and \(\partial\operatorname{tr}(\Sigma^{-1}S)/\partial\Sigma^{-1}=S\); a full \(3\times3\) covariance has 6 free entries, giving totals 39, 27, 19, and 21.
 
 ## 7. Monotonicity, and what EM does not promise
 
@@ -260,11 +303,17 @@ Now the disclaimers, all of which matter.
 
 **Worked example — the assertion that saves a day.** Add `assert loglik[t+1] >= loglik[t] - 1e-9` to an EM loop. A decrease means one of: the variance update used the old mean, the responsibilities were not normalized, the log-likelihood was computed at the wrong parameters, or a component collapsed. All four are common, and none is visible from the fitted plot.
 
-> **Practice — Foundation:** State the monotonicity theorem and name the two steps its proof uses.
+> **Practice — Foundation:** An EM run logs \(\ell=(-52.31,-48.02,-47.90,-47.95,-47.95)\). State the monotonicity theorem, name the two steps its proof uses, and identify the iteration that proves a bug.
 >
-> **Practice — Core:** Prove the theorem from the ELBO decomposition in three lines.
+> **Hint:** The theorem forbids any decrease beyond rounding error; compare consecutive entries and find the step that goes from \(-47.90\) to \(-47.95\).
 >
-> **Practice — Stretch:** Derive the \(Q\)-plus-KL difference identity and use it to explain why EM slows near convergence.
+> **Practice — Core:** Prove the theorem in three lines, then check each quantity for \(x=(-1,1,3)\), \(\pi=(0.5,0.5)\) and unit variances fixed, starting from \(\mu=(0,1)\) with one means-only EM step: report \(\ell(\theta^{(t)})\), \(\mathcal L(\theta^{(t+1)},q^{(t)})\), and \(\ell(\theta^{(t+1)})\).
+>
+> **Hint:** The responsibilities are \(\gamma_{\cdot1}\approx(0.818,0.378,0.076)\) and the new means are about \((-0.167,1.858)\); the three values should increase in order, roughly \(-6.582\le-5.928\le-5.618\).
+>
+> **Practice — Stretch:** Derive \(\ell(\theta')-\ell(\theta)=[Q(\theta'\mid\theta)-Q(\theta\mid\theta)]+\operatorname{KL}(p_\theta(z\mid x)\Vert p_{\theta'}(z\mid x))\), verify it on the step above, and use it to explain why EM slows near convergence.
+>
+> **Hint:** Write \(\ell(\theta')=Q(\theta'\mid\theta)-E_{p_\theta(z\mid x)}[\log p_{\theta'}(z\mid x)]\) and subtract the same identity at \(\theta'=\theta\); on the step above the two terms are about 0.654 and 0.310 and sum to \(\Delta\ell\approx0.964\).
 
 ## 8. Convergence speed is the fraction of missing information
 
@@ -284,11 +333,17 @@ Two consequences for practice. Slow convergence is diagnostic, not merely annoyi
 
 **Worked example — two datasets, same code.** Components separated by five standard deviations converge in 6 iterations. The same code on components separated by half a standard deviation takes 1,400 iterations to move the log-likelihood less than \(10^{-6}\), and the resulting means have overlapping confidence regions. Nothing is wrong; the second dataset contains little information about the partition.
 
-> **Practice — Foundation:** State the missing information principle and name the quantity that controls EM's convergence rate.
+> **Practice — Foundation:** Near convergence, EM's parameter error \(|\mu_t-\mu^\ast|\) is \(0.1,0.08,0.064\) on three successive iterations. Estimate the fraction of missing information, and predict how many more iterations bring the error below \(10^{-6}\).
 >
-> **Practice — Core:** Explain why well-separated mixtures converge quickly, in terms of the posterior over labels.
+> **Hint:** The ratio of successive errors estimates the largest eigenvalue of \(I_{\text{miss}}I_{\text{comp}}^{-1}\), here 0.8; solve \(0.064\cdot0.8^m<10^{-6}\) for \(m\) (about 50).
 >
-> **Practice — Stretch:** Relate the convergence rate to the width of confidence intervals for the component means, and design an experiment that demonstrates the link.
+> **Practice — Core:** For \(0.5N(-d,1)+0.5N(d,1)\), compute the responsibility of the right component at \(x=0.5\) for \(d=0.5\) and for \(d=3\), and use the label posterior to explain which setting has more missing information and slower EM.
+>
+> **Hint:** The log-odds for the right component at \(x\) is \(2dx\): 0.5 gives \(\gamma\approx0.62\) (the label is nearly unknown) and 3 gives \(\gamma\approx0.95\) (the label is nearly determined).
+>
+> **Practice — Stretch:** In one dimension with missing-information fraction \(\lambda=0.9\) and complete-data SE 0.05 for \(\mu_1\), compute the observed-data SE and the iterations needed to shrink the error by \(10^{6}\). Then design a simulation (separations, \(n\), seed, outputs) that shows the rate and the interval width move together.
+>
+> **Hint:** \(I_{\text{obs}}=I_{\text{comp}}(1-\lambda)\) gives SE \(=0.05/\sqrt{0.1}\approx0.158\); iterations \(\approx\log10^{-6}/\log0.9\approx131\). Sweep separation over \(\{1,2,5\}\) SDs and record both quantities.
 
 ## 9. The likelihood is unbounded, and EM will find out
 
@@ -307,11 +362,17 @@ The general lesson outlives mixtures: an unbounded likelihood means maximum like
 
 **Worked example — the component that ate one point.** After 40 iterations a component has \(N_k=1.0000\), \(\sigma_k^2=3\times10^{-12}\), and the log-likelihood is \(+\infty\) for practical purposes. The fit is a perfect explanation of one observation and a useless model. A variance floor at \(10^{-4}\) times the sample variance, plus a restart policy, converts this failure into a run that finishes.
 
-> **Practice — Foundation:** Show that letting one component's variance go to zero at an observation drives the likelihood to infinity.
+> **Practice — Foundation:** For \(x=(0,1,2)\) and the mixture \(0.5N(0,\sigma^2)+0.5N(1,1)\), compute \(\ell\) at \(\sigma=1,0.1,0.01\) and show it grows like \(-\log\sigma\).
 >
-> **Practice — Core:** Derive the MAP-EM variance update under an inverse-gamma prior and show how it prevents collapse.
+> **Hint:** As \(\sigma\to0\), the first term's density at \(x=0\) is about \(0.5/(\sigma\sqrt{2\pi})\) while \(x=1,2\) are still covered by the second component; \(\ell\) goes \(-4.19,-2.97,-0.73\), gaining about \(\log10\) per decade.
 >
-> **Practice — Stretch:** Compare a variance floor, a prior, and tied covariances on the same collapsing dataset, and state what each one changes about the estimand.
+> **Practice — Core:** Derive the MAP-EM update for \(\sigma_k^2\) under an inverse-gamma\((a,b)\) prior, then evaluate it for a collapsed component with \(N_k=1\), \(\sum_i\gamma_{ik}(x_i-\mu_k)^2=0\), \(a=2\), \(b=0.5\).
+>
+> **Hint:** Add \(-(a+1)\log\sigma^2-b/\sigma^2\) to the component's \(Q\) terms and set the \(\sigma^2\)-derivative to zero, giving \(\sigma^2=(S+2b)/(N_k+2a+2)=1/7\).
+>
+> **Practice — Stretch:** For \(x=(-1,0,1,5)\), a \(K=2\) fit with \(\mu=(0,5)\) collapses component 2 onto \(x=5\) (\(N_2\approx1\)). Compute \(\sigma_2^2\) under (a) a floor \(\varepsilon=0.01\), (b) an IG\((2,0.5)\) prior, (c) a tied variance with hard assignments, and say what each remedy changes about the estimand.
+>
+> **Hint:** (a) gives 0.01; (b) gives \((0+1)/(1+6)=1/7\); (c) pools all squared deviations, \((1+0+1+0)/4=0.5\). A floor changes the feasible set, a prior changes the objective, tying changes the model.
 
 ## 10. Label switching is symmetry, not instability
 
@@ -327,11 +388,17 @@ The deeper point is that **label switching is not the same as non-identifiabilit
 
 **Worked example — the posterior mean that means nothing.** An MCMC run over a two-component mixture with true means \(-3\) and \(3\) mixes across the label symmetry and reports posterior means of \(0.02\) and \(-0.01\) for \(\mu_1\) and \(\mu_2\), with wide bimodal marginals. Nothing failed: the sampler is correct and the summary is meaningless. Reporting the posterior of \(\min(\mu_1,\mu_2)\) and \(\max(\mu_1,\mu_2)\), or of the predictive density, restores usable output.
 
-> **Practice — Foundation:** Count the number of equivalent parameter settings for a \(K\)-component mixture and explain why the density is unchanged.
+> **Practice — Foundation:** How many parameter vectors give the same density as a 4-component mixture with distinct components? Check one swap by evaluating \(0.3N(0,1)+0.7N(3,1)\) and its relabelled version at \(x=1\).
 >
-> **Practice — Core:** Explain why label switching is benign for maximum likelihood and damaging for posterior summaries.
+> **Hint:** \(K\) distinct components can be labelled in \(K!\) ways; swapping \((\pi_1,\mu_1)\leftrightarrow(\pi_2,\mu_2)\) only reorders the two terms, and both evaluate to about 0.1104.
 >
-> **Practice — Stretch:** Propose three label-invariant posterior summaries and say which scientific questions each one can and cannot answer.
+> **Practice — Core:** A sampler for \(0.5N(\mu_1,1)+0.5N(\mu_2,1)\) spends half its draws near \((\mu_1,\mu_2)=(-3,3)\) and half near \((3,-3)\). Compute the posterior means of \(\mu_1\) and of \(\min(\mu_1,\mu_2)\), and explain why the switching is harmless for a sorted ML report but damaging for the raw posterior mean.
+>
+> **Hint:** Averaging \(\mu_1\) over the two label states gives about 0; \(\min(\mu_1,\mu_2)\) is the same in both states, so it averages to \(-3\).
+>
+> **Practice — Stretch:** For the idealized draws above, compute three label-invariant summaries: the predictive density at \(x=0\), the probability that \(x_a=-3.1\) and \(x_b=2.8\) share a component, and the sorted means. Say which scientific question each one answers.
+>
+> **Hint:** Each summary must be the same at \((-3,3)\) and \((3,-3)\): the predictive density is \(\varphi(3)\approx0.0044\), and co-clustering \(\sum_k\gamma_{ak}\gamma_{bk}\approx6\times10^{-8}\).
 
 ## 11. Identifiability failures that are not about labels
 
@@ -347,11 +414,17 @@ Beyond permutation, mixtures have genuine identifiability problems, and they dif
 
 **Worked example — one item is not a scale.** A latent-class model of "user intent" fitted to a single binary click indicator returns whatever class proportions the prior implies, and the fit is perfect regardless. Adding two more conditionally independent behavioral indicators makes the classes estimable. The diagnostic that reveals the problem is parameter instability across restarts with identical likelihood — the signature of a flat ridge rather than a peak.
 
-> **Practice — Foundation:** Show that a two-component mixture of Bernoulli distributions on one binary variable is not identifiable.
+> **Practice — Foundation:** Show that \((\pi,p_1,p_2)=(0.5,0.2,0.6)\) and \((0.25,1.0,0.2)\) give the same law for a single binary \(X\), so the two-component Bernoulli mixture is not identifiable.
 >
-> **Practice — Core:** Explain what goes wrong asymptotically when the fitted number of components exceeds the true number.
+> **Hint:** Each setting induces Bernoulli\((\pi p_1+(1-\pi)p_2)\); compute that number for both, and both give 0.4.
 >
-> **Practice — Stretch:** State the conditional-independence condition under which a latent class model with binary indicators becomes identifiable, and explain why three indicators is the threshold.
+> **Practice — Core:** Fit \(p(x)=(1-\pi)\varphi(x)+\pi\varphi(x-\mu)\) to data from \(N(0,1)\). Show the set of true parameter values is \(\{\pi=0\}\cup\{\mu=0\}\), and that \(\partial\log p/\partial\mu\equiv0\) at \(\pi=0\), so the Fisher information is singular there.
+>
+> **Hint:** The \(\mu\)-derivative of \(\log p\) carries a factor \(\pi\,\varphi(x-\mu)(x-\mu)/p(x)\), which vanishes identically when \(\pi=0\).
+>
+> **Practice — Stretch:** For \(K=2\) latent classes and \(D\) binary indicators independent given the class, count the model parameters \(2D+1\) and the free cells \(2^D-1\) of the observed table for \(D=2\) and \(D=3\), and explain why \(D=3\) is the first case where identifiability can hold.
+>
+> **Hint:** \(D=2\) gives 5 parameters against 3 cells, so a continuum fits; \(D=3\) gives 7 and 7, and uniqueness of three-way (Kruskal) decompositions supplies generic identifiability.
 
 ## 12. Choosing the number of components
 
@@ -369,11 +442,17 @@ For a clustering purpose, add the substantive test: do the components correspond
 
 **Worked example — three criteria, three answers.** On the same 4,000 latency observations, AIC selects 7 components, BIC selects 4, and held-out likelihood is flat between 3 and 5. The honest report is that the data supports 3–5 components for density estimation and does not determine a cluster count, with the fitted density shown for \(K=4\).
 
-> **Practice — Foundation:** State the two regularity violations that invalidate the likelihood-ratio test for component count.
+> **Practice — Foundation:** On \(n=400\), a \(K=2\) fit (5 parameters) has \(\ell=-812.0\) and a \(K=3\) fit (8 parameters) has \(\ell=-808.5\). Compute the likelihood-ratio statistic, its naive \(\chi^2_3\) p-value, and BIC for both, and name the two regularity violations.
 >
-> **Practice — Core:** Compare BIC and held-out likelihood on a simulated mixture and report where they disagree.
+> **Hint:** LR \(=2(\ell_3-\ell_2)=7.0\) (naive \(p\approx0.072\)); BIC \(=-2\ell+p\log n\) with \(\log400\approx5.99\). Under the null, \(\pi_3=0\) is on the boundary and \((\mu_3,\sigma_3)\) are unidentified.
 >
-> **Practice — Stretch:** Implement the parametric bootstrap null for the likelihood-ratio statistic and compare it against the naive chi-square reference.
+> **Practice — Core:** Data from 3 components (1,000 train, 1,000 test) give train \(\ell_K=(-2210,-2105,-2060,-2055,-2051)\) and held-out \((-2215,-2112,-2071,-2070,-2072)\) for \(K=1,\dots,5\), with \(p=3K-1\). Compute AIC and BIC for each \(K\) and report where BIC, AIC, and held-out likelihood disagree.
+>
+> **Hint:** With \(\log1000\approx6.908\), BIC is minimized at \(K=3\), AIC at \(K=5\), and held-out likelihood peaks at \(K=4\) by only 1 nat over \(K=3\), which is effectively flat.
+>
+> **Practice — Stretch:** For \(H_0\): one Gaussian vs \(H_1\): two components with a tied variance, draw \(n=200\) from \(N(0,1)\), fit both models (5 EM starts), and repeat \(B=200\) times to build the null distribution of the LR statistic. Compare its 95th percentile with the naive \(\chi^2_2\) value 5.99.
+>
+> **Hint:** Because the LR is invariant to location and scale, simulating from \(N(0,1)\) equals a parametric bootstrap from the fitted Gaussian; one run (Python random.seed(0)) gave a 95th percentile of about 5.7 and a mean of about 2.1, so the calibration had to be measured, not assumed.
 
 ## 13. K-means is EM in a degenerate limit
 
@@ -396,11 +475,17 @@ Read in the other direction, this makes a Gaussian mixture the principled genera
 
 **Worked example — the elongated cluster.** Two clusters, one spherical and one stretched along a diagonal, are split incorrectly by K-means, which cuts the elongated cluster in half to satisfy its round-cluster prior. A full-covariance Gaussian mixture from the same initialization recovers both. The failure is in the geometry the objective assumes, not in the optimizer.
 
-> **Practice — Foundation:** Show that the responsibility becomes a nearest-centroid indicator as \(\sigma^2\to0\).
+> **Practice — Foundation:** With centroids \(\mu_1=0\), \(\mu_2=4\), equal weights, and shared variance \(\sigma^2\), compute \(\gamma_1\) for \(x=1\) at \(\sigma^2=4,1,0.25\), and give its limit as \(\sigma^2\to0\).
 >
-> **Practice — Core:** Derive the within-cluster sum of squares as the limit of the EM objective under the stated constraints.
+> **Hint:** \(\log(\gamma_1/\gamma_2)=\bigl((1-4)^2-(1-0)^2\bigr)/(2\sigma^2)=4/\sigma^2\), which gives about 0.731, 0.982, and \(1-10^{-7}\), tending to 1.
 >
-> **Practice — Stretch:** Construct a dataset where K-means and a full-covariance mixture disagree, and explain the disagreement geometrically.
+> **Practice — Core:** Show that \(2\sigma^2\) times the expected complete-data log likelihood tends to \(-\sum_i\Vert x_i-\mu_{c(i)}\Vert^2\) plus a vanishing term as \(\sigma^2\to0\), and evaluate that within-cluster sum of squares for \(x=(0,1,5,6)\), \(\mu=(0.5,5.5)\).
+>
+> **Hint:** With hard responsibilities, \(Q=-\frac1{2\sigma^2}\sum_i\Vert x_i-\mu_{c(i)}\Vert^2-\frac{nd}2\log(2\pi\sigma^2)-n\log K\); the log term times \(\sigma^2\) vanishes. Here the WCSS is \(4\times0.25=1\).
+>
+> **Practice — Stretch:** Points \((-6,0),(-3,0),(0,0),(3,0),(6,0)\) form an elongated cluster and \((-0.2,2),(0,2),(0.2,2)\) a compact one. Compute the WCSS of the true partition and of the best 2-means partition (enumerate splits), and explain geometrically why a full-covariance mixture prefers the true one.
+>
+> **Hint:** The true partition has WCSS 90.08; the best split cuts the long cluster, at about 42.08. A full covariance can give the long cluster variance 18 along \(x\) and almost none along \(y\), which K-means cannot express.
 
 ## 14. EM is for missing data generally, not just mixtures
 
@@ -418,11 +503,17 @@ One caution that ties the two lessons together: EM under MAR gives valid point e
 
 **Worked example — censored latencies.** Requests timing out at 30 seconds are recorded as 30. Fitting a lognormal to the raw values underestimates the mean and badly underestimates the tail. EM replaces each censored value's contribution by \(E[\log X\mid \log X>\log 30]\) under the current parameters, and the fitted tail moves to where the data actually implies it is.
 
-> **Practice — Foundation:** Identify the latent variable in a censored-data problem and state what the E-step computes.
+> **Practice — Foundation:** Five latencies with timeout \(c=30\) are recorded as \((12,18,25,30^+,30^+)\). Identify the latent variables, and compute what the E-step substitutes for each censored value under the current \(N(\mu=20,\sigma=10)\).
 >
-> **Practice — Core:** Write the EM updates for a Gaussian sample with right-censored observations.
+> **Hint:** The latents are the two true values above 30; \(E[X\mid X>c]=\mu+\sigma\varphi(\alpha)/(1-\Phi(\alpha))\) with \(\alpha=(30-20)/10=1\), which is about 35.25.
 >
-> **Practice — Stretch:** Explain why completed-data standard errors are too small, and describe two corrections.
+> **Practice — Core:** Write the EM updates for a Gaussian sample with right-censored observations, and perform one iteration on the data above starting from \(\mu=20\), \(\sigma^2=100\).
+>
+> **Hint:** Replace each censored \(x\) by \(E[X\mid X>c]\) and each \(x^2\) by \(\mu^2+\sigma^2+\sigma(c+\mu)\lambda(\alpha)\), then average and use the new \(\mu\): expect \(\mu\approx25.10\) and \(\sigma^2\approx93.6\).
+>
+> **Practice — Stretch:** In the censored-latency example (2 of 5 values censored), suppose the fraction of missing information for \(\mu\) is 0.3. Compute the factor by which the completed-data SE \(\hat\sigma/\sqrt5\) must be inflated, explain why the completed-data SE is too small, and describe Louis's identity and a bootstrap as two corrections.
+>
+> **Hint:** \(I_{\text{obs}}=I_{\text{comp}}(1-\lambda)\) gives \(\text{SE}_{\text{obs}}=\text{SE}_{\text{comp}}/\sqrt{0.7}\approx1.195\,\text{SE}_{\text{comp}}\); the bootstrap must refit EM on each resample, censoring included.
 
 ## 15. Discrete mixtures and latent class models
 
@@ -440,11 +531,17 @@ Multinomial mixtures of the same shape underlie topic models; adding a per-docum
 
 **Worked example — the correlated pair that invented a class.** A latent class model of four error indicators returns five classes on data generated from two, because two of the indicators are mechanically linked and violate conditional independence within class. Adding a direct dependence between that pair returns the count to two. The diagnostic is the within-class residual correlation matrix, which should be near zero and was not.
 
-> **Practice — Foundation:** Write the latent class likelihood and state the conditional independence assumption explicitly.
+> **Practice — Foundation:** A latent class model has \(K=2\), \(D=3\), \(\pi=(0.6,0.4)\), \(\theta_1=(0.9,0.8,0.7)\), \(\theta_2=(0.2,0.1,0.3)\). Compute \(p(x)\) for \(x=(1,1,0)\), and state the conditional independence assumption you used.
 >
-> **Practice — Core:** Derive the M-step for \(\theta_{kd}\) and show it is a responsibility-weighted frequency.
+> **Hint:** Given the class, multiply \(\theta_{kd}\) for \(x_d=1\) and \(1-\theta_{kd}\) for \(x_d=0\), then mix: \(0.6(0.9)(0.8)(0.3)+0.4(0.2)(0.1)(0.7)=0.1352\).
 >
-> **Practice — Stretch:** Show how a violated conditional independence inflates the estimated number of classes, and propose a diagnostic.
+> **Practice — Core:** Derive the M-step for \(\theta_{1d}\), and compute it for four rows with \(x_{\cdot d}=(1,1,0,1)\) and \(\gamma_{\cdot1}=(0.9,0.6,0.2,0.5)\).
+>
+> **Hint:** Maximizing \(\sum_i\gamma_{i1}[x_{id}\log\theta+(1-x_{id})\log(1-\theta)]\) gives \(\sum_i\gamma_{i1}x_{id}/\sum_i\gamma_{i1}=2.0/2.2\approx0.909\).
+>
+> **Practice — Stretch:** Two binary features in one true class have \(P(1,1)=P(0,0)=0.4\) and \(P(1,0)=P(0,1)=0.1\). Show a 1-class model cannot fit, find a 2-class fit \(\pi=0.5\), \(\theta_1=(a,a)\), \(\theta_2=(1-a,1-a)\) that reproduces the table exactly, and propose the diagnostic that would expose the invented class.
+>
+> **Hint:** The one-class fit predicts 0.25 in every cell, and the within-class phi correlation is \((0.16-0.01)/0.25=0.6\); solve \(0.5a^2+0.5(1-a)^2=0.4\) to get \(a\approx0.887\).
 
 ## 16. Variants: MAP, generalized, stochastic, and variational EM
 
@@ -464,11 +561,17 @@ The two-step template survives many weakenings, and knowing which guarantee each
 
 **Worked example — choosing a variant.** A GLM mixture has no closed-form M-step for the regression coefficients. Rather than abandoning EM, take one IRLS step per iteration — generalized EM — and the monotone log-likelihood sequence is retained at a fraction of the cost per iteration.
 
-> **Practice — Foundation:** State which EM variant keeps monotonicity when the M-step cannot be solved exactly.
+> **Practice — Foundation:** An M-step for GLM coefficients has no closed form. One IRLS step raises \(Q\) from \(-310.4\) to \(-305.2\) without reaching its maximum \(-304.9\). Name the variant, and say by at least how much \(\ell\) rises.
 >
-> **Practice — Core:** Verify that the monotonicity proof only requires \(Q\) to increase, not to be maximized.
+> **Hint:** This is generalized EM. The identity \(\ell(\theta')-\ell(\theta)=\Delta Q+\text{KL}\) with \(\text{KL}\ge0\) gives a rise of at least \(\Delta Q=5.2\).
 >
-> **Practice — Stretch:** Explain what replaces the monotonicity guarantee in stochastic EM, and state the step-size conditions it needs.
+> **Practice — Core:** Using \(\ell(\theta')-\ell(\theta)=\Delta Q+\text{KL}\), show that any \(\theta'\) with \(Q(\theta'\mid\theta)\ge Q(\theta\mid\theta)\) raises \(\ell\). Check it for \(x=(-1,1,3)\), \(\pi=(0.5,0.5)\), unit variances, \(\mu=(0,1)\), taking \(\mu'\) halfway to the EM update.
+>
+> **Hint:** \(Q\) is a concave quadratic in \(\mu\) for fixed \(\gamma\), so the halfway point gains \(3/4\) of the full \(\Delta Q\) (about 0.491 of 0.654); \(\ell\) rises by about 0.581.
+>
+> **Practice — Stretch:** Online EM updates statistics by \(s_{t+1}=(1-\rho_t)s_t+\rho_t\hat s(x_t)\). For \(\rho_t=1/t\), \(t^{-0.6}\), \(t^{-0.4}\), and a constant 0.01, say which meet the Robbins–Monro conditions, and explain what replaces monotonicity.
+>
+> **Hint:** The conditions are \(\sum\rho_t=\infty\) and \(\sum\rho_t^2<\infty\), and \(\sum t^{-p}\) converges iff \(p>1\): \(1/t\) and \(t^{-0.6}\) pass, \(t^{-0.4}\) and the constant fail.
 
 ## 17. Directed graphical models: structure, plates, and learning
 
@@ -493,11 +596,17 @@ The saving is parametric. A joint distribution over 20 binary variables has \(2^
 
 **Worked example — the mixture as a two-node network.** The Gaussian mixture is the Bayesian network \(Z\to X\) inside a plate over \(i\), with parameters \(\pi\) and \(\{\mu_k,\sigma_k^2\}\) outside. Written this way, the E-step is "inference in this network" and the M-step is "fully observed learning given the inferred distribution." Every algorithm in the rest of the unit is that sentence applied to a bigger graph.
 
-> **Practice — Foundation:** Write the factorization for a five-node DAG and count its free parameters under binary variables.
+> **Practice — Foundation:** Write the factorization for the binary DAG \(A\to B\), \(A\to C\), \(B\to D\), \(C\to D\), \(D\to E\), and count its free parameters against an unrestricted joint.
 >
-> **Practice — Core:** Draw the plate diagram for a Gaussian mixture and identify which parameters are shared across observations.
+> **Hint:** A binary node with \(m\) binary parents needs \(2^m\) free probabilities, so the count is \(1+2+2+4+2=11\), against \(2^5-1=31\).
 >
-> **Practice — Stretch:** Explain what a Markov equivalence class is and why observational structure learning cannot resolve it.
+> **Practice — Core:** Draw the plate diagram for a 1-D Gaussian mixture with \(K=3\) and \(n=100\), and count the shared parameters and the per-observation variables.
+>
+> **Hint:** Anything indexed by \(i\) goes inside the plate (\(z_i\to x_i\): 100 latents, 100 observations); \(\pi\) (2 free) and \(\mu_k,\sigma_k^2\) (6) sit outside, 8 shared in all.
+>
+> **Practice — Stretch:** List the four DAGs with skeleton \(A-B-C\), group them into Markov equivalence classes, and explain which one observational data can distinguish and why the others stay unresolved.
+>
+> **Hint:** Two DAGs are equivalent iff they have the same skeleton and the same v-structures, and only \(A\to B\leftarrow C\) has a v-structure: the chain, the reversed chain, and the fork form one class.
 
 ## 18. Undirected models and the price of a partition function
 
@@ -523,11 +632,17 @@ Practical responses include contrastive divergence and other MCMC-in-the-loop sc
 
 **Worked example — an Ising model on a small grid.** On a \(4\times4\) binary grid with nearest-neighbour potentials, \(Z\) sums \(2^{16}=65{,}536\) terms and is computable. On a \(100\times100\) grid it sums \(2^{10{,}000}\) terms and is not. Nothing about the model changed; only the feasibility of the normalizer did, and every fitting method for the large grid is an answer to that one problem.
 
-> **Practice — Foundation:** Write the clique factorization for a four-node cycle and identify its maximal cliques.
+> **Practice — Foundation:** For the binary 4-cycle \(A-B-C-D-A\) with every edge potential \(\psi(u,v)=2\) if \(u=v\) and 1 otherwise, write the clique factorization, name the maximal cliques, and compute \(Z\).
 >
-> **Practice — Core:** State Hammersley–Clifford including its positivity condition, and give a distribution that violates the condition.
+> **Hint:** The maximal cliques are the four edges (there are no triangles); enumerate the 16 states by their number of agreeing edges (4, 2, or 0) to get \(2\cdot16+12\cdot4+2\cdot1=82\).
 >
-> **Practice — Stretch:** Derive the MRF log-likelihood gradient and explain why each step requires inference under the model.
+> **Practice — Core:** State Hammersley–Clifford with its positivity condition. Let \(X=Y=Z\) be one fair coin copied three times: show that \(X\perp Y\mid Z\), \(X\perp Z\mid Y\), and \(Y\perp Z\mid X\) all hold, so the law is pairwise Markov for the empty graph, yet it does not factorize as \(\psi(x)\psi(y)\psi(z)\).
+>
+> **Hint:** Given any one variable, the other two are constants and hence independent; but \(P(0,0,0)=1/2\) while the product of the marginals is \(1/8\), and the zeros break positivity.
+>
+> **Practice — Stretch:** For one Ising edge \(p(a,b)\propto\exp(\theta ab)\) with \(a,b\in\{-1,1\}\), derive \(\partial\ell/\partial\theta=\overline{ab}-E_\theta[AB]\), show \(E_\theta[AB]=\tanh\theta\), and find the MLE when the data average of \(ab\) is 0.6. Explain why a large MRF needs inference at every gradient step.
+>
+> **Hint:** \(\log Z(\theta)=\log(2e^\theta+2e^{-\theta})\), whose derivative is the model expectation \(\tanh\theta\); solving \(\tanh\theta=0.6\) gives \(\theta=\tfrac12\log4=\log2\).
 
 ## 19. Directed, undirected, and what conversion loses
 
@@ -548,11 +663,17 @@ So neither family subsumes the other, and some distributions have no perfect map
 
 **Worked example — why inference code uses factor graphs.** The triangle \(A-B-C\) as an undirected graph is ambiguous between one three-way potential and three pairwise ones. The two have different parameter counts and different inference costs. A factor graph distinguishes them by construction, which is why libraries convert every model to one before running inference.
 
-> **Practice — Foundation:** Apply moralization to a three-node v-structure and state the independence that is lost.
+> **Practice — Foundation:** Moralize \(A\to B\leftarrow C\), where \(A,C\) are independent fair coins and \(B=A\lor C\). List the moral graph's edges, and verify numerically that \(A\perp C\) holds but fails given \(B=1\).
 >
-> **Practice — Core:** Give a distribution with a directed perfect map and no undirected one, and one with the reverse.
+> **Hint:** Marrying the parents adds \(A-C\), which makes a triangle; compare \(P(A=1,C=1\mid B=1)=1/3\) with \(P(A=1\mid B=1)^2=(2/3)^2\).
 >
-> **Practice — Stretch:** Explain what a factor graph records that an undirected graph cannot, and give a case where the distinction changes inference cost.
+> **Practice — Core:** Show that no undirected graph on \(\{A,B,C\}\) is a perfect map for the \(B=A\lor C\) example, and that every acyclic orientation of the 4-cycle \(A-B-C-D-A\) creates a v-structure, so the 4-cycle MRF has no directed perfect map.
+>
+> **Hint:** Encoding \(A\perp C\) forces the graph to omit \(A-C\) and to separate \(A\) from \(C\), which would also assert \(A\perp C\mid B\); an acyclic orientation of a 4-cycle has a sink whose two parents are not adjacent.
+>
+> **Practice — Stretch:** For three 10-state variables, compare one factor \(\psi(a,b,c)\) with three pairwise factors \(\psi_{AB}\psi_{BC}\psi_{AC}\): give both table sizes, draw both factor graphs, and say which one sum-product handles exactly.
+>
+> **Hint:** The table sizes are 1,000 and 300. The single factor gives a star-shaped (tree) factor graph, while the pairwise factors make the cycle \(A-f_{AB}-B-f_{BC}-C-f_{AC}-A\), although both undirected graphs are the same triangle.
 
 ## 20. Sum-product: inference as message passing
 
@@ -576,11 +697,17 @@ Two variations worth knowing. Replacing the sum with a maximum gives **max-produ
 
 **Worked example — the marginals-versus-mode trap.** In a chain where each variable is individually most likely to be 0 but the joint most-probable configuration is all 1s, sum-product and max-product disagree completely. Reporting the marginal-wise argmax as "the model's prediction" is a common and silent error in structured prediction.
 
-> **Practice — Foundation:** Write both message updates and state which one contains the sum.
+> **Practice — Foundation:** For the chain \(A-f_1-B-f_2-C\) with \(f_1(a,b)\) and \(f_2(b,c)\), write \(m_{f_2\to B}(b)\) and \(m_{B\to f_1}(b)\), and say which one contains the sum.
 >
-> **Practice — Core:** Run sum-product by hand on a three-node chain with binary variables and verify against brute-force enumeration.
+> **Hint:** The factor-to-variable message sums \(f_2(b,c)\,m_{C\to f_2}(c)\) over \(c\); the variable-to-factor message only multiplies the other incoming messages.
 >
-> **Practice — Stretch:** Construct a distribution whose marginal-wise argmax differs from its joint mode, and say which algorithm answers which question.
+> **Practice — Core:** On the binary chain with \(\psi_{AB}=\begin{pmatrix}2&1\\1&2\end{pmatrix}\) and \(\psi_{BC}=\begin{pmatrix}3&1\\1&1\end{pmatrix}\) (rows index the first variable), compute \(p(B)\) and \(p(A)\) by sum-product and verify against brute-force enumeration.
+>
+> **Hint:** \(m_{A\to B}=(3,3)\) and \(m_{C\to B}=(4,2)\), so \(p(B)\propto(12,6)\); brute force over all 8 states gives \(Z=18\).
+>
+> **Practice — Stretch:** For three binary variables with \(P(111)=0.25\), \(P(100)=P(010)=P(001)=0.24\), \(P(000)=0.03\), and all other states 0, compute each \(P(X_j=1)\), the marginal-wise argmax and its joint probability, and the joint mode. Say which algorithm answers which question.
+>
+> **Hint:** \(P(X_1=1)=P(111)+P(100)=0.49\), so every marginal favours 0; compare \(P(000)=0.03\) with \(P(111)=0.25\).
 
 ## 21. Variable elimination and the cost of a graph
 
@@ -594,11 +721,17 @@ Finding the optimal elimination order is NP-hard, and the standard heuristics ar
 
 **Worked example — the order that changes everything.** In a star graph with one centre and \(m\) leaves, eliminating the leaves first produces only single-variable factors and costs \(O(m)\). Eliminating the centre first creates one factor over all \(m\) leaves, costing \(O(2^m)\). Same graph, same answer, and the difference between a millisecond and a millennium.
 
-> **Practice — Foundation:** Eliminate one variable from a three-factor model by hand and write the resulting factor's scope.
+> **Practice — Foundation:** With binary factors \(\phi_1(A,B)=\begin{pmatrix}1&2\\3&4\end{pmatrix}\), \(\phi_2(B,C)=\begin{pmatrix}1&1\\2&0\end{pmatrix}\), and \(\phi_3(C,D)\), eliminate \(B\): compute \(\tau(A,C)\) and give its scope and table size.
 >
-> **Practice — Core:** Compute the induced width of two different elimination orders on the same graph and compare the costs.
+> **Hint:** \(\tau(a,c)=\phi_1(a,0)\phi_2(0,c)+\phi_1(a,1)\phi_2(1,c)\), which is the matrix product \(\phi_1\phi_2\); \(\phi_3\) does not contain \(B\) and is left alone.
 >
-> **Practice — Stretch:** Explain why treewidth, not node count, determines feasibility, and estimate the treewidth of a grid.
+> **Practice — Core:** For the binary graph with edges \(A-B\), \(A-C\), \(A-D\), \(B-E\), \(C-E\), \(D-E\), compute the induced widths of the orders \((B,C,D,A,E)\) and \((A,B,C,D,E)\) and the largest intermediate table \(2^{w+1}\) for each.
+>
+> **Hint:** When you eliminate a node, connect all its current neighbours; the width is the largest neighbour count at elimination time (2 for the first order, 3 for the second).
+>
+> **Practice — Stretch:** Give a row-by-row elimination order for a \(k\times k\) grid with induced width \(k\), use it to state the treewidth of a \(3\times3\) grid, and compare the largest binary table for \(k=3\), \(k=100\), and a 10,000-node chain.
+>
+> **Hint:** Eliminating in row-major order keeps a frontier of about one row (\(k\) nodes) in every new factor; the largest tables are \(2^{4}\), \(2^{101}\), and \(2^2\).
 
 ## 22. Junction trees, and where exact inference dies
 
@@ -612,11 +745,17 @@ When treewidth is too large, the options are the approximate methods the rest of
 
 **Worked example — why a chain is the exception.** A hidden Markov model is a graphical model whose treewidth is 1, which is the entire reason forward–backward is linear in sequence length. Add a single long-range dependency between the first and last state and the treewidth jumps, the junction tree acquires a large clique, and exact inference becomes exponential in the added coupling.
 
-> **Practice — Foundation:** List the four steps of junction tree construction.
+> **Practice — Foundation:** Carry out the four junction-tree steps on the 4-cycle \(A-B-C-D-A\) (moralize, triangulate, collect maximal cliques, connect them), and name the cliques and the separator.
 >
-> **Practice — Core:** Build a junction tree for a small loopy graph and verify the running intersection property.
+> **Hint:** The graph is already undirected; one chord \(A-C\) triangulates it, giving cliques \(\{A,B,C\}\) and \(\{A,C,D\}\) with separator \(\{A,C\}\).
 >
-> **Practice — Stretch:** Explain why exact inference is #P-hard in general and what structural assumptions restore tractability.
+> **Practice — Core:** Build a junction tree for the 5-cycle \(A-B-C-D-E-A\) by adding chords \(A-C\) and \(A-D\), list the cliques, connect them, and verify the running intersection property.
+>
+> **Hint:** The fan triangulation gives the chain \(\{A,B,C\}-\{A,C,D\}-\{A,D,E\}\); check that the cliques containing \(A\), \(C\), and \(D\) each form a connected subtree.
+>
+> **Practice — Stretch:** Take the potential \(\psi(u,v)=0\) if \(u=v=1\) and 1 otherwise on every edge of a binary MRF. Show that \(Z\) counts independent sets, compute \(Z\) for the 4-cycle, and use this to explain why exact inference is #P-hard in general. Name two structural assumptions that restore tractability.
+>
+> **Hint:** Each nonzero term of \(Z\) is an independent set; the 4-cycle has \(1+4+2=7\) of them. Counting independent sets is #P-complete, and bounded treewidth or Gaussian structure restores tractability.
 
 ## 23. Hidden Markov models: forward–backward is sum-product, Baum–Welch is EM
 
@@ -646,11 +785,17 @@ Finally, **Viterbi** replaces the sum with a max in the forward recursion and re
 
 **Worked example — filtering versus smoothing.** For a monitoring system, \(p(z_t\mid x_{1:t})\) is what you can compute online and act on. \(p(z_t\mid x_{1:T})\) uses future observations and is strictly better informed, and is the right quantity for a retrospective incident analysis. Reporting the smoothed state as if it had been available in real time overstates what the detector could have done.
 
-> **Practice — Foundation:** Write the forward recursion and identify the emission and transition factors.
+> **Practice — Foundation:** For an HMM with \(p(z_1)=(0.5,0.5)\), \(A=\begin{pmatrix}0.9&0.1\\0.2&0.8\end{pmatrix}\), \(P(x=1\mid z)=(0.8,0.1)\), and observations \((1,1)\), compute \(\alpha_1\), \(\alpha_2\), and \(p(x_{1:2})\), identifying the emission and transition factors.
 >
-> **Practice — Core:** Show that the normalized forward variable is the filtered posterior and that \(\log p(x_{1:T})=\sum_t\log c_t\).
+> **Hint:** \(\alpha_1=(0.4,0.05)\); \(\alpha_2(k)=P(x_2=1\mid k)\sum_j\alpha_1(j)A_{jk}\), so first form the predicted mass \((0.37,0.08)\).
 >
-> **Practice — Stretch:** Derive the Baum–Welch transition update from the pairwise posteriors, and state which EM guarantee it inherits.
+> **Practice — Core:** For the same HMM, run the scaled recursion, and show the normalized \(\alpha_t\) is the filtered posterior \(p(z_t\mid x_{1:t})\) and that \(c_1c_2=p(x_{1:2})\).
+>
+> **Hint:** By induction, if \(\hat\alpha_{t-1}=p(z_{t-1}\mid x_{1:t-1})\), the unnormalized update is \(p(x_t,z_t\mid x_{1:t-1})\) and sums to \(c_t\); here \(c_1=0.45\) and \(c_2\approx0.6756\).
+>
+> **Practice — Stretch:** The summed pairwise posteriors are \(\sum_t\xi_t(j,k)=\begin{pmatrix}12.4&1.6\\2.0&8.0\end{pmatrix}\). Derive the Baum–Welch transition update from \(Q\) with row constraints, compute the new matrix, and state which EM guarantee it inherits.
+>
+> **Hint:** The transition part of \(Q\) is \(\sum_{j,k}(\sum_t\xi_t(j,k))\log A_{jk}\), and one Lagrange multiplier per row normalizes each row of expected counts: row 1 becomes \((12.4,1.6)/14\).
 
 ## 24. Diagnosing latent-structure models
 
@@ -669,11 +814,17 @@ Latent-variable fits fail quietly, because they always return something. A short
 
 **Worked example — a fit that passed every plot and failed every check.** A five-component mixture reproduced the marginal histogram beautifully. Restarts spanned 90 nats of log-likelihood, two components held fewer than three effective observations, and bootstrap refits produced unrecognizable partitions. The density estimate was fine; every sentence written about "the five user types" was unsupported.
 
-> **Practice — Foundation:** List three checks that detect a collapsed component.
+> **Practice — Foundation:** A \(K=4\) fit reports \(N_k=(412.3,389.0,197.7,1.0)\), \(\sigma_k^2=(1.1,0.9,2.3,4\times10^{-11})\), and restart log-likelihoods \(\{-2101.4,-2101.5,+1.8\times10^4\}\). Name three checks that detect the collapsed component and what each one flags here.
 >
-> **Practice — Core:** Design a restart protocol and state what you would report from it.
+> **Hint:** Check the smallest \(N_k\) (below 2), the smallest variance relative to the data scale, and whether the best 'log-likelihood' comes from a spike rather than a cluster of agreeing restarts.
 >
-> **Practice — Stretch:** Build a latent-structure fit that passes marginal goodness-of-fit and fails stability, and explain which claims each diagnostic licenses.
+> **Practice — Core:** Twenty restarts end at: 12 at \(\ell=-3050.2\pm0.1\), 5 at \(-3061.8\), and 3 collapsed (\(N_{\min}<2\)). Design the restart protocol that produced this, and write the report you would give.
+>
+> **Hint:** Report the seeding scheme, the share reaching the best basin (12/20), the gap to the next basin (11.6 nats), the discarded collapses, and whether the top fits agree on sorted parameters.
+>
+> **Practice — Stretch:** Fit \(K=3\) Gaussians to \(n=1000\) draws from Gamma(2,1). Explain how you would show that a KS test against the fitted density passes while bootstrap refits (\(B=20\)) give unstable sorted means, and say which claims each diagnostic licenses.
+>
+> **Hint:** Goodness of fit licenses only density claims; a stable partition across resamples is a necessary condition for any 'three groups' claim, and here it should fail because the data has one skewed group.
 
 ## 25. Runnable labs
 
@@ -758,69 +909,89 @@ The checks cover chains, forks, and colliders with and without conditioning, a c
 19. Derive the forward recursion, the scaling identity \(\log p(x_{1:T})=\sum_t\log c_t\), and the filtered-posterior interpretation.
 20. Derive the Baum–Welch transition update from the pairwise posteriors.
 
+## Prediction experiment
+
+Predict both the baseline and failure-preset results before revealing the calculation. Record the assumptions, change one control at a time, and explain the boundary case. This small deterministic model isolates a mechanism; it is not an empirical validation of a trained system.
+
+```lab
+lab: ps-latent
+```
+
 ## 27. End-of-unit practice (graded)
 
-**Foundation — problems 1–7.** Compute mixture and graph quantities directly.
+Work each problem before opening its authored solution. Written proofs and design answers require self-review against the rubric; numeric fields check only the stated quantities.
 
-1. **Mixture moments.** Compute mean, variance, and modality for \(0.5N(-2,1)+0.5N(2,1)\), \(0.9N(0,1)+0.1N(6,1)\), and \(0.5N(0,1)+0.5N(0,4)\). Confirm modality numerically from the density rather than equating components with modes.
-2. **Responsibilities.** For \(x=(-3,-1,0,1,3)\), \(\pi=(0.4,0.6)\), \(\mu=(-1,2)\), and unit component variances, compute every responsibility using log-sum-exp and verify each row sums to one.
-3. **One EM step.** For \(x=(-2,-1.5,-1,1,1.5,2)\), initialize \(\pi=(0.5,0.5)\), \(\mu=(-0.5,0.5)\), and variances \((1,1)\). Perform one E-step and M-step, using the new means in the variance updates, and report observed log likelihood before and after.
-4. **Factorization.** For binary DAG edges \(A\to C,B\to C,C\to D,C\to E,D\to F,E\to F\), write the joint factorization and count free conditional-probability parameters node by node.
-5. **Separation.** In the undirected graph with edges \(A-B,B-C,C-D,B-E,E-D\), decide \(A\perp D\mid S\) for \(S=\varnothing,\{B\},\{C\},\{B,C\},\{C,E\}\).
-6. **Forward recursion.** Use initial state probabilities \((0.6,0.4)\), transition matrix \(\begin{psmallmatrix}.7&.3\\.2&.8\end{psmallmatrix}\), emission probabilities \(P(1\mid z)=(.9,.3)\), and observations \((1,0)\). Run two scaled forward steps and recover the log likelihood from the scale factors.
-7. **Elimination.** With binary factors \(\phi_1(A,B),\phi_2(B,C),\phi_3(B,D),\phi_4(C,D)\), eliminate \(B\) and then \(C\). Write the product and sum at each step and record every intermediate scope and table size.
 
-**Core — problems 8–16.** Connect algorithms, guarantees, and diagnostics.
+### Foundation — problems 1–7. Compute mixture and graph quantities directly.
 
-8. **Monotonicity in code.** Implement EM, assert monotonicity, then introduce three classic bugs and identify which assertion catches each.
-9. **Local optima.** Map the basins of a two-component problem by running EM from a grid of initializations.
-10. **Missing information.** Measure iterations-to-convergence against component separation and relate it to interval widths for the means.
-11. **Degeneracy.** Trigger a variance collapse, then compare a floor, a prior, and tied variances on the resulting estimand.
-12. **Label switching.** Sample the posterior of a two-component mixture, demonstrate the symmetry, and report three invariant summaries.
-13. **Model selection.** Compare AIC, BIC, held-out likelihood, and a parametric bootstrap likelihood-ratio test for component count.
-14. **K-means limit.** Show empirically that EM approaches Lloyd's algorithm as the shared variance shrinks, and where the two diverge.
-15. **Censoring.** Fit censored data by naive substitution and by EM, and compare bias in the mean and in a tail quantile.
-16. **Sum-product.** Implement message passing on a tree and verify every marginal against brute-force enumeration.
+**A1 · Foundation · paper — Mixture moments.** Compute mean, variance, and modality for \(0.5N(-2,1)+0.5N(2,1)\), \(0.9N(0,1)+0.1N(6,1)\), and \(0.5N(0,1)+0.5N(0,4)\). Confirm modality numerically from the density rather than equating components with modes.
 
-**Stretch — problems 17–24.** Analyze structure, identifiability, and cost.
+**A2 · Foundation · paper — Responsibilities.** For \(x=(-3,-1,0,1,3)\), \(\pi=(0.4,0.6)\), \(\mu=(-1,2)\), and unit component variances, compute every responsibility using log-sum-exp and verify each row sums to one.
 
-17. **Unbounded likelihood.** Characterize the set of degenerate maxima for a \(K\)-component Gaussian mixture and explain why restarts alone do not solve it.
-18. **Identifiability.** Show a latent class model with two binary indicators is unidentified and that three restores identifiability; verify numerically with a flat-ridge diagnostic.
-19. **Overfitted order.** Fit \(K+1\) components to \(K\)-component data, exhibit the continuum of maximizers, and show the information matrix is singular.
-20. **Conditional independence violation.** Generate latent class data with one correlated feature pair and measure how many spurious classes appear as a function of the correlation.
-21. **Perfect maps.** Construct a distribution with a directed perfect map and no undirected one, and one with the reverse; prove both claims.
-22. **Treewidth.** Compute induced widths under min-degree and min-fill orders for a grid and a chain, and predict runtime before measuring it.
-23. **Marginals versus mode.** Build a structured prediction problem where the marginal-wise argmax has lower joint probability than the Viterbi path, and quantify the gap.
-24. **Complete latent-structure study.** Take one real dataset from mixture specification through restarts, degeneracy control, component selection, stability assessment, observed-information uncertainty, and a written statement of which claims the fit supports.
+**A3 · Foundation · paper — One EM step.** For \(x=(-2,-1.5,-1,1,1.5,2)\), initialize \(\pi=(0.5,0.5)\), \(\mu=(-0.5,0.5)\), and variances \((1,1)\). Perform one E-step and M-step, using the new means in the variance updates, and report observed log likelihood before and after.
 
-<details><summary>Worked solution sketches</summary>
+**A4 · Foundation · paper — Factorization.** For binary DAG edges \(A\to C,B\to C,C\to D,C\to E,D\to F,E\to F\), write the joint factorization and count free conditional-probability parameters node by node.
 
-1. The three mean/variance pairs are \((0,5)\), \((0.6,4.24)\), and \((0,2.5)\). Numerical stationary-point or grid checks show the first two are bimodal at these separations and weights, while the equal-mean scale mixture is unimodal. Component count alone never establishes mode count.
-2. Work with \(\log\pi_k+\log p(x_i\mid\theta_k)\), subtract the row maximum, exponentiate, and normalize.
-3. Compute responsibilities, then effective counts, then the three weighted updates, using the new mean inside the variance. The log-likelihood must not decrease.
-4. The factorization is \(p(A)p(B)p(C\mid A,B)p(D\mid C)p(E\mid C)p(F\mid D,E)\). Binary free-parameter counts are \(1+1+4+2+2+4=14\), versus \(2^6-1=63\) for an unrestricted joint law.
-5. From \(A\) to \(D\), both paths begin through \(B\). Thus \(S=\{B\}\) and \(\{B,C\}\) separate; \(S=\varnothing\) does not. Conditioning only on \(C\) leaves \(A-B-E-D\); conditioning on \(\{C,E\}\) blocks both routes and separates.
-6. The first unnormalized forward vector is \((0.54,0.12)\), so \(c_1=0.66\) and the filtered vector is about \((0.8182,0.1818)\). Predicting then multiplying by emission probabilities for zero gives \((0.06091,0.27364)\), with \(c_2\approx0.33455\). Hence \(p(1,0)=c_1c_2=0.2208\) and \(\log p(1,0)\approx-1.510\).
-7. The eliminated variable's factor has scope equal to its current neighbours; record how the scope grows as the order proceeds.
-8. Classic bugs are the stale mean in the variance update, unnormalized responsibilities, and the log-likelihood evaluated after the update. The monotonicity assertion catches the first two; comparing against a brute-force likelihood catches the third.
-9. The basins partition the initialization grid. Boundaries are typically near symmetric configurations, which are saddle points EM cannot leave.
-10. Convergence rate is the largest eigenvalue of \(I_{\text{miss}}I_{\text{comp}}^{-1}\); overlap raises it and simultaneously widens the intervals, so slow fitting and imprecise estimates are one phenomenon.
-11. A floor changes the feasible set, a prior changes the objective, and tying changes the model. All three remove the spike; only the third changes what the components mean.
-12. The posterior is \(K!\)-symmetric. Invariant summaries include the predictive density, the induced partition, and order statistics of the component parameters.
-13. AIC overselects, BIC is more conservative, held-out likelihood is often flat over a range, and the bootstrap gives the only valid null for the likelihood-ratio statistic.
-14. As the shared variance shrinks, responsibilities approach indicators and the updates approach Lloyd's. They diverge whenever cluster shapes or sizes differ, which the limit cannot represent.
-15. Substituting the censoring point biases the mean downward and the tail severely; EM substitutes the conditional expectation given exceedance and removes most of the bias.
-16. Leaves-to-root-to-leaves gives every marginal in one sweep pair; verify against enumeration on a small tree before trusting the implementation.
-17. Every observation supports a degenerate spike, so the set of degenerate maxima has one element per data point per component. Restarts change which basin you find, not that the supremum is infinite; a constraint or a prior is required.
-18. Two indicators give fewer free marginal quantities than model parameters, so a continuum of parameters fits identically. Three indicators supply enough three-way structure to pin the classes down; the diagnostic is identical likelihood at different parameters.
-19. The extra component can take zero weight or duplicate another with split weight, so the maximizer is a set, and the information matrix is singular along those directions. Standard asymptotics do not apply.
-20. The model absorbs within-class correlation by adding classes; the count of spurious classes grows with the correlation strength and with sample size.
-21. The v-structure is directed-only; the four-cycle with two conditional independences is undirected-only. Prove each by exhibiting the independence no graph in the other family can encode.
-22. Chains have induced width 1 under any sensible order; grids grow with the side length. Predict runtime as \(r^{w+1}\) before running anything.
-23. Take a chain with strong positive coupling and weak individual biases; the marginals favour one value and the joint mode favours the other.
-24. A complete answer states the purpose, controls degeneracy, reports restart spread, selects a component count with a stated criterion, assesses stability, computes uncertainty from the observed information, and separates density claims from group claims.
+**A5 · Foundation · paper — Separation.** In the undirected graph with edges \(A-B,B-C,C-D,B-E,E-D\), decide \(A\perp D\mid S\) for \(S=\varnothing,\{B\},\{C\},\{B,C\},\{C,E\}\).
 
-</details>
+**A6 · Foundation · paper — Forward recursion.** Use initial state probabilities \((0.6,0.4)\), transition matrix \(\begin{pmatrix}.7&.3\\.2&.8\end{pmatrix}\), emission probabilities \(P(1\mid z)=(.9,.3)\), and observations \((1,0)\). Run two scaled forward steps and recover the log likelihood from the scale factors.
+
+**A7 · Foundation · paper — Elimination.** With binary factors \(\phi_1(A,B),\phi_2(B,C),\phi_3(B,D),\phi_4(C,D)\), eliminate \(B\) and then \(C\). Write the product and sum at each step and record every intermediate scope and table size.
+
+### Core — problems 8–16. Connect algorithms, guarantees, and diagnostics.
+
+**A8 · Core · paper — Monotonicity in code.** For \(x=(-2,-1.5,-1,1,1.5,2)\), start from \(\pi=(0.5,0.5)\), \(\mu=(-3,3)\), \(\sigma^2=(1,1)\) and run six EM iterations, logging the observed log likelihood at each iteration's input parameters and asserting it never decreases. Then rerun with each bug in turn: (a) the variance update uses the old means; (b) the E-step skips the division by the row sum (with \(\pi_k=N_k/\sum_jN_j\)); (c) the log likelihood is logged after the update instead of before. For each bug, say whether the assertion fires, and name a check that catches the bugs it misses.
+
+**A9 · Core · paper — Local optima.** For \(x=(0,1,2,6,7,8,12,13,14)\) with \(\pi=(0.5,0.5)\) and unit variances held fixed, run means-only EM from every start \((\mu_1,\mu_2)\in\{0,3,6,9,12,15\}^2\) until the means move less than \(10^{-12}\). Group the 36 starts by the fixed point reached (sorted means), report each fixed point's log likelihood, classify it as a local maximum or a saddle using the Hessian, and say which basin a single grid start most often lands in.
+
+**A10 · Core · paper — Missing information.** For \(d\in\{0.5,1,1.5,2.5\}\), build the deterministic sample \(x=\{-d+z_j\}\cup\{d+z_j\}\) with \(z_j=\Phi^{-1}((j-0.5)/50)\), \(j=1,\dots,50\) (\(n=100\)). With \(\pi=(0.5,0.5)\) and unit variances fixed, run means-only EM from \(\mu=(-2,1)\) until both means move less than \(10^{-8}\). Report the iterations, the EM rate (largest eigenvalue of the EM map's Jacobian at the fixed point), and the observed-information SE of \(\hat\mu_1\) against the complete-data SE \(1/\sqrt{50}\approx0.141\).
+
+**A11 · Core · paper — Degeneracy.** For \(x=(-1.2,-0.4,0.3,1.1,5.0)\), start EM at \(\pi=(0.8,0.2)\), \(\mu=(0,5)\), \(\sigma^2=(1,1)\). Run it (a) with free variances, (b) with a floor \(\sigma_k^2\ge0.01\), (c) with an inverse-gamma\((2,0.5)\) prior, whose MAP update is \(\sigma_k^2=(S_k+1)/(N_k+6)\), and (d) with one tied variance. Report the final \(\pi\), \(\mu\), \(\sigma^2\), and log likelihood for each, and state what each remedy changes about the estimand.
+
+**A12 · Core · paper — Label switching.** For \(x=(-3.5,-3,-2.5,2.5,3,3.5)\) and the model \(0.5N(\mu_1,1)+0.5N(\mu_2,1)\) with independent \(N(0,10^2)\) priors, compute the posterior of \((\mu_1,\mu_2)\) on the grid \([-7,7]^2\) with step 0.02. Report \(E[\mu_1]\), \(E[\mu_2]\), \(\operatorname{sd}(\mu_1)\), and \(P(\mu_1<\mu_2)\), then three invariant summaries: \(E[\min(\mu_1,\mu_2)]\) and \(E[\max(\mu_1,\mu_2)]\), the posterior predictive density at \(x=0\) and \(x=3\), and the probability that \(x=-3.5\) shares a component with \(x=-2.5\) and with \(x=2.5\).
+
+**A13 · Core · paper — Model selection.** On \(n=400\) training points, Gaussian mixtures with \(K=1,\dots,5\) (\(p=3K-1\)) reach \(\ell_K=(-1012.4,-951.7,-940.2,-937.9,-936.1)\), and they score \((-1015.0,-957.3,-947.9,-948.4,-950.6)\) on 400 held-out points. Parametric-bootstrap 95th percentiles of the LR statistic are 10.2 for \(K=2\) vs 3 (simulated under the fitted \(K=2\)) and 9.6 for \(K=3\) vs 4. Compute AIC, BIC, and the two LR statistics, choose \(K\) under each criterion, and compare the bootstrap cutoffs with the naive \(\chi^2_3\) cutoff 7.81.
+
+**A14 · Core · paper — K-means limit.** For \(x=(0,1,2,6,7,12)\), run Lloyd's algorithm from centroids \((1,7)\). Then run means-only EM (equal weights, a fixed shared variance \(\sigma^2\)) from the same start for \(\sigma^2\in\{25,16,9,4,1,0.25\}\). Report the converged means, the component-1 responsibility of \(x=6\), and the iteration count, and say where EM matches Lloyd's and where it diverges.
+
+**A15 · Core · paper — Censoring.** Take the ten values \(x_i=20+10\,\Phi^{-1}((i-0.5)/10)\), which to two decimals are \((3.55,9.64,13.26,16.15,18.74,21.26,23.85,26.74,30.36,36.45)\), and right-censor them at \(c=25\), so the last three are recorded as \(25^+\). Estimate \(\mu\), \(\sigma\), and the 90th percentile \(\mu+1.2816\sigma\): (a) from the uncensored values, (b) by substituting 25 for the censored ones, and (c) by EM for the censored normal likelihood started at \(\mu=20\), \(\sigma^2=100\). Report the bias of (b) and (c) relative to (a).
+
+**A16 · Core · paper — Sum-product.** A binary tree has edges \(A-B\), \(B-C\), \(B-D\) with potentials \(\psi_{AB}=\begin{pmatrix}3&1\\1&2\end{pmatrix}\), \(\psi_{BC}=\begin{pmatrix}2&1\\1&1\end{pmatrix}\), \(\psi_{BD}=\begin{pmatrix}1&2\\2&1\end{pmatrix}\) (rows index the first-named variable). Compute every single-node marginal by one inward and one outward sum-product pass with root \(B\), and verify each against brute-force enumeration of the 16 states.
+
+### Stretch — problems 17–24. Analyze structure, identifiability, and cost.
+
+**A17 · Stretch · paper — Unbounded likelihood.** For \(x=(0,1,2,3,4)\) and a 2-component model with \(\pi=(0.2,0.8)\), \(\mu_2=2\), \(\sigma_2^2=2\) fixed, set \(\mu_1=0\) and evaluate \(\ell\) at \(\sigma_1=1,0.1,0.01,0.001\). Then characterize every direction in which a \(K\)-component Gaussian mixture's likelihood diverges on these five points, and explain why random restarts alone cannot fix the problem.
+
+**A18 · Stretch · paper — Identifiability.** Take two equal-weight classes with \(\theta_1=(0.8,0.7)\) and \(\theta_2=(0.2,0.3)\) on two binary indicators. Compute the exact cell probabilities, run population EM (the cell probabilities as weights) from five random starts, and show the fits reach the same log likelihood at different parameters. Then add a third indicator with \(\theta_{13}=0.9\), \(\theta_{23}=0.1\), repeat, and show all fits agree up to a label swap. Explain both results by counting parameters against free cells.
+
+**A19 · Stretch · paper — Overfitted order.** Data come from \(N(0,1)\) and you fit \(p(x)=(1-\pi)\varphi(x)+\pi\varphi(x-\mu)\) with unit variances. Show that every point of \(\{\pi=0\}\cup\{\mu=0\}\) reproduces the true law exactly, and compute the Fisher information matrix in \((\pi,\mu)\) at \((\pi,\mu)=(0,1)\) and at \((0.5,0)\). Show both matrices are singular, and explain what this does to the usual \(\sqrt n\) asymptotics and to the LR test.
+
+**A20 · Stretch · paper — Conditional independence violation.** Two equal-weight classes have four binary indicators with \(P(x_d=1)\) equal to 0.8 in class 1 and 0.2 in class 2, except that within each class \(x_2\) copies \(x_1\) with probability \(\rho\) and is otherwise drawn from the class rate. For \(\rho\in\{0,0.3,0.6,0.9\}\), use the exact cell probabilities as data with \(n=2000\) (expected counts), fit latent class models with \(K=1,2,3\) by EM (4 random starts each), and report the BIC for each \(K\) and the selected \(K\). Describe what the spurious class represents at \(\rho=0.9\).
+
+**A21 · Stretch · paper — Perfect maps.** (i) Let \(A,C\) be independent fair coins and \(B=A\lor C\). (ii) Let \((A,B,C,D)\in\{-1,1\}^4\) have \(p\propto\exp(AB+BC+CD+DA)\). For (i), verify \(A\perp C\) and \(A\not\perp C\mid B\) numerically, and prove that no undirected graph is a perfect map. For (ii), verify \(A\perp C\mid\{B,D\}\) at \(B=D=1\), compute \(E[AC]\) to show \(A\not\perp C\), and prove that no DAG is a perfect map.
+
+**A22 · Stretch · paper — Treewidth.** Number the \(3\times3\) grid 1–9 in row-major order, and take the 9-node chain 1–2–…–9. For each graph, run min-degree and min-fill elimination (breaking ties by smallest label) and record the order, the induced width, and the largest intermediate factor. Confirm the grid's treewidth by brute force over all \(9!\) orders, and predict the binary table size \(2^{w+1}\) for \(k\times k\) grids with \(k=10\) and \(k=100\).
+
+**A23 · Stretch · paper — Marginals versus mode.** On the binary chain \(x_1-x_2-x_3\), let \(p(x)\propto\prod_ju(x_j)\prod_j\psi(x_j,x_{j+1})\) with \(u(0)=2\), \(u(1)=1\), \(\psi(0,0)=3\), \(\psi(1,1)=8\), and \(\psi(0,1)=\psi(1,0)=1\). Compute \(Z\), every marginal \(P(x_j=1)\), the marginal-wise argmax and its joint probability, and the max-product (Viterbi) path and its probability, and quantify the gap.
+
+**A24 · Stretch · paper — Complete latent-structure study.** Use the twelve eruption-style durations \(x=(1.8,2.0,2.1,2.3,2.4,3.9,4.1,4.3,4.4,4.5,4.7,4.8)\). Fit Gaussian mixtures with \(K=1,2,3\) and free variances floored at 0.01, from five starts per \(K\) with means placed at data values. Report the spread of final log likelihoods, the smallest effective count, and BIC. For the chosen \(K\), compute observed-information SEs of the means by a numerical Hessian and compare them with completed-data SEs \(\sigma_k/\sqrt{N_k}\), then refit leaving out each point in turn to measure stability. Finish with two sentences separating the claims the fit supports from those it does not.
+
+
+## Six-part checkpoint
+
+Complete these without notes, then use the solutions to audit assumptions and reasoning. Passing a numeric check alone does not establish mastery. For implementation and transfer, retain the code/results or written protocol as evidence.
+
+**K1 · Foundation · gate — Concept.** Are mixture component labels identifiable without a convention?
+
+**K2 · Core · gate — Derivation.** Derive the responsibility in a finite mixture.
+
+**K3 · Core · gate — Calculation.** Two equally weighted N(−1,1) and N(1,1) components are evaluated at x=0. Find the responsibility of the first.
+
+**K4 · Core · gate — Implementation audit.** Reproduce two settings of the ps-latent experiment independently, including its failure preset. State a numerical invariant or analytic oracle and explain what the plot does not establish.
+
+**K5 · Stretch · gate — Claim audit.** Does monotone EM likelihood guarantee a finite global maximum?
+
+**K6 · Stretch · gate — RE/RS transfer.** Audit a latent-state sequence model.
 
 ## Mastery check
 

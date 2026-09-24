@@ -8,6 +8,8 @@ Develop calculus into a language for reasoning about training algorithms, then s
 
 Six lessons already exist: [calculus](01-calculus-gradients-optimization.md), [convexity](03-convexity-smoothness-duality.md), [SGD](04-stochastic-approximation-sgd.md), [nonconvex dynamics](05-nonconvex-landscapes-training-dynamics.md), [adaptive methods](06-preconditioning-adaptive-methods-schedules.md), and [constraints](07-constrained-composite-distributed-optimization.md). These are expansion targets, not empty slots. Preserve all six paths and their existing front-matter IDs; OPT01 specifically remains `math.calculus.gradients-optimization`. OPT02 fills the missing calculus bridge. The detailed briefs below use those exact preserved IDs.
 
+**Legacy-page review:** Keep all six existing lessons and expand them in place. OPT01 is a live calculus prerequisite; OPT03–OPT07 already have substantial derivations and failure analyses. Planned extensions are not replacements that justify deletion. See the [cross-track audit](../_legacy-audit.md) for the removal criteria and current coverage.
+
 **Scope:** 12 units; 414 estimated study hours including derivations, practice, and the capstone. These are planning estimates, not elapsed-time requirements or hiring guarantees. Diagnose existing knowledge and use the gates to skip material already mastered. Module numbers below are file-number reservations within this track; retained overview pages are outside the new sequence unless explicitly listed.
 
 ## 2. Teaching and authoring contract

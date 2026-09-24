@@ -13,7 +13,7 @@ Progressive AI study for Sumil: Python, DSA, linear algebra, optimization, proba
 | 04 DSA | [Invariants, search, graphs, and DP](content/04-dsa/01-invariants-search-graphs-dp.md) |
 | 05 Probability and statistics | [Probability foundations](content/05-probability-statistics/00-probability-foundations.md) |
 | 06 Information, learning, and decisions | [Entropy, generalization, and decisions](content/06-information-learning-decision/01-entropy-generalization-decisions.md) |
-| 07 Classical ML | [Regression, classification, evaluation](content/07-classical-ml/01-regression-classification-evaluation.md) |
+| 07 Classical ML | [Current reading route and build plan](content/07-classical-ml/_plan.md#current-reading-route-and-preserved-implementation-work) |
 | 08 PyTorch | [Tensors, autograd, training](content/08-pytorch/01-tensors-autograd-training.md) |
 | 09 Deep learning | [Backprop, initialization, regularization](content/09-deep-learning/01-backprop-initialization-regularization.md) |
 | 10 NLP | [Text representations and language models](content/10-nlp/01-text-representations-language-models.md) |
@@ -23,7 +23,9 @@ Progressive AI study for Sumil: Python, DSA, linear algebra, optimization, proba
 
 ## What exists
 
-46 authored lessons, sixty-seven CPU exercises with in-browser Python editors, separate reference implementations and behavioral checks, mathematical SVGs/Mermaid diagrams, and a browser theory reader. Exercise code and the latest output are saved locally per lab and can be reset to the current starter.
+45 authored lesson pages (including 10 retained introductory overviews), sixty-seven CPU exercises with in-browser Python editors, separate reference implementations and behavioral checks, mathematical SVGs/Mermaid diagrams, and a browser theory reader. Exercise code and the latest output are saved locally per lab and can be reset to the current starter.
+
+The [legacy-page audit](content/_legacy-audit.md) explains which introductory pages still supply unique material and why the redundant classical ML overview was removed. Planned modules are not counted as authored coverage.
 
 ## Website
 

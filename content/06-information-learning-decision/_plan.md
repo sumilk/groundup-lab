@@ -8,6 +8,8 @@ Connect coding and prediction to statistical generalization and action under unc
 
 The [entropy, generalization, and decisions overview](01-entropy-generalization-decisions.md) remains an orientation page. Detailed units reserve 02–15. Existing probability/statistics lessons supply the random-variable, inference, and calibration machinery.
 
+**Legacy-page review:** Keep the overview: the finite-class ERM argument and prediction-to-cost decision rule are useful bridges linked from authored probability and optimization lessons. Fold its material into IL02/IL03/IL06/IL11, and migrate those inbound links when the successors exist. See the [cross-track audit](../_legacy-audit.md) for the removal criteria and current coverage.
+
 **Scope:** 14 units; 418 estimated study hours including derivations, practice, and the capstone. These are planning estimates, not elapsed-time requirements or hiring guarantees. Diagnose existing knowledge and use the gates to skip material already mastered. Module numbers below are file-number reservations within this track; retained overview pages are outside the new sequence unless explicitly listed.
 
 ## 2. Teaching and authoring contract

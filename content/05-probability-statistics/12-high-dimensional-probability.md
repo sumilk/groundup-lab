@@ -2,6 +2,7 @@
 id: math.probability.high-dimensional
 title: High-dimensional probability, random vectors, and projections
 prerequisites: [math.probability.limit-theorems-monte-carlo, math.linear-algebra.svd-pca]
+answers: ps-12-high-dimensional
 estimated_hours: 30
 ---
 
@@ -39,6 +40,20 @@ Three consequences follow, and the next three sections prove each one.
 2. Almost every pair of samples is nearly orthogonal.
 3. Almost all the mass sits in a thin shell, not in the interior and not in any corner.
 
+> **Practice — Foundation:** For \(x\sim\mathcal N(0,I_{50})\), compute \(E[\lVert x\rVert^2]\) and the approximate typical norm \(\lVert x\rVert\).
+>
+> **Hint:** Sum the 50 coordinate second moments \(E[x_i^2]=1\); the typical norm is about the square root of that sum.
+>
+
+> **Practice — Core:** Compare the relative standard deviations of squared norms in d=2 and d=200.
+>
+> **Hint:** Compute \(\operatorname{sd}/\text{mean}=\sqrt{2d}/d\) for each \(d\), rather than comparing absolute standard deviations, which grow with \(d\).
+>
+
+> **Practice — Stretch:** Draw \(x,y\) independently from \(\mathcal N(0,I_{100})\). Compute the mean and standard deviation of \(\lVert x-y\rVert^2\) and the approximate relative standard deviation of \(\lVert x-y\rVert\). Repeat for the distance between their first two coordinates only, and explain why a two-dimensional scatterplot hides the concentration.
+>
+> **Hint:** \(x-y\sim\mathcal N(0,2I_d)\), so \(\lVert x-y\rVert^2=2\chi^2_d\) has mean \(2d\) and variance \(8d\); set \(d=100\) and then \(d=2\), and use the delta method to halve the relative SD for the unsquared distance.
+
 ## 2. The norm concentrates: \(\lVert x\rVert\approx\sqrt d\)
 
 Let \(x\sim\mathcal N(0,I_d)\). Then \(\lVert x\rVert^2=\sum_{i=1}^dx_i^2\) is a sum of \(d\) independent terms, each with
@@ -73,7 +88,7 @@ P\left(\left|\frac{\lVert x\rVert^2}d-1\right|\ge t\right)
 \le\frac{2}{dt^2}.
 $$
 
-**Worked example — \(d=4096\).** The relative standard deviation of \(\lVert x\rVert^2\) is \(\sqrt{2/4096}\approx0.022\). Taking square roots, \(\lVert x\rVert\) sits within about \(1\%\) of \(\sqrt{4096}=64\) for the overwhelming majority of draws. A "random hidden state" is not a vector of unpredictable length. Its length is essentially deterministic; only its *direction* is random.
+**Worked example — \(d=4096\).** The relative standard deviation of \(\lVert x\rVert^2\) is \(\sqrt{2/4096}\approx0.022\). The delta-method approximation gives relative norm standard deviation \(1/\sqrt{2d}\approx1.1\%\). A ±1% band is therefore only about 0.91 standard deviations, containing roughly 63% under this large-d normal approximation—not an overwhelming majority. A ±3% band contains roughly 99.3% under the same approximation. Both length and direction remain random; relative length variation becomes small as dimension grows.
 
 The Chebyshev bound is weak — it decays like \(1/d\). Because \(x_i^2\) is sub-exponential rather than bounded, Bernstein's inequality (developed in [the concentration section of the limit-theorems lesson](05-limit-theorems-monte-carlo.md)) sharpens it to an exponential ceiling,
 
@@ -86,9 +101,15 @@ for an absolute constant \(c\). Deviations of fixed relative size become exponen
 
 > **Practice — Foundation:** Compute \(E[\lVert x\rVert^2]\) and \(\operatorname{Var}(\lVert x\rVert^2)\) for \(x\sim\mathcal N(0,I_{100})\).
 >
+> **Hint:** The squared norm is a sum of independent squared standard normals.
+>
 > **Practice — Core:** Use Chebyshev to bound \(P(\lVert x\rVert^2\ge1.2d)\) at \(d=1000\), then compare with the exponential form above at \(c=1/8\).
 >
+> **Hint:** Insert t=0.2 into each stated bound and cap a probability ceiling at one.
+>
 > **Practice — Stretch:** Repeat the mean/variance computation for \(x\) with iid coordinates of mean zero, variance \(\sigma^2\), and finite fourth moment \(\kappa\sigma^4\). Show the relative fluctuation is \(\sqrt{(\kappa-1)/d}\) and identify which distributions make concentration slower.
+>
+> **Hint:** Compute Var(X²) from the fourth moment before summing coordinates.
 
 ## 3. Random directions are nearly orthogonal
 
@@ -122,9 +143,15 @@ This single fact underwrites a great deal of embedding practice. A cosine simila
 
 > **Practice — Foundation:** Compute the typical \(|\cos\theta|\) between random directions at \(d=64\), \(d=768\), and \(d=4096\).
 >
+> **Hint:** The standard-deviation scale is 1/sqrt(d), not 1/d.
+>
 > **Practice — Core:** A retrieval system reports a cosine similarity of \(0.12\) at \(d=1536\). Express this as a number of standard deviations from the random baseline, and say what further evidence you would want before calling it a match.
 >
-> **Practice — Stretch:** Embeddings are not isotropic in practice: trained representations often have a dominant common direction. Explain how that inflates raw cosine similarities and design a centering correction, stating what the correction assumes.
+> **Hint:** Multiply the cosine by sqrt(d), then question isotropy and multiple comparisons.
+>
+> **Practice — Stretch:** Model embeddings as \(x=\mu+z\) with \(z\sim\mathcal N(0,I_{768})\) and a shared mean \(\mu\) with \(\lVert\mu\rVert^2=384\). Compute the approximate cosine between two independent, unrelated embeddings, then the cosine after subtracting \(\mu\), and state what the correction assumes when \(\mu\) is estimated from data.
+>
+> **Hint:** \(x^Ty\approx\lVert\mu\rVert^2\) and \(\lVert x\rVert^2\approx\lVert\mu\rVert^2+d\), so the raw cosine is about \(384/1152\); after subtracting \(\mu\) you recover the isotropic scale \(1/\sqrt{768}\). Fit any estimated centering on separate data.
 
 ## 4. The thin shell, and why "corners" are empty
 
@@ -142,9 +169,15 @@ The practical reading: **uniform sampling in a high-dimensional box does not exp
 
 > **Practice — Foundation:** Compute \(E[\lVert u\rVert]\) approximately for \(u\) uniform on \([-1,1]^{300}\).
 >
+> **Hint:** Each uniform coordinate has second moment 1/3.
+>
 > **Practice — Core:** Estimate the fraction of the volume of \([-1,1]^d\) lying inside the inscribed unit ball at \(d=20\), and explain why rejection sampling with a cube proposal fails in high dimensions.
 >
-> **Practice — Stretch:** A perturbation study samples uniformly from a norm ball to test robustness. Explain what part of the ball is actually being tested and propose a sampling scheme that probes the interior as well as the shell.
+> **Hint:** Divide the unit-ball volume pi^(d/2)/Gamma(d/2+1) by 2^d.
+>
+> **Practice — Stretch:** A robustness study samples perturbations uniformly from the \(\ell_2\) ball of radius 1 in \(d=100\). Compute \(P(\lVert\delta\rVert<0.9)\) and the median radius, say which part of the ball is being tested, and propose a radius distribution that probes the interior as well.
+>
+> **Hint:** A uniform-volume radius has CDF \(r^d\), so \(P(r<0.9)=0.9^{100}\) and the median solves \(r^{100}=1/2\); choosing the radius uniformly on \([0,1]\) targets a different stress test.
 
 ## 5. Johnson–Lindenstrauss: distances survive random projection
 
@@ -158,30 +191,42 @@ $$
 
 because each row \(a_j\) satisfies \(E[(a_j^Tv)^2]=\lVert v\rVert^2/m\). So a random projection preserves squared length *in expectation*, for any \(v\), with no assumptions at all.
 
-Concentration turns "in expectation" into "almost surely". Writing \(\lVert Av\rVert^2/\lVert v\rVert^2\) as an average of \(m\) independent squared standard normals — exactly the object of section 2, with \(m\) in place of \(d\) — gives
+Concentration strengthens expectation preservation to a quantified high-probability statement; it does not make a finite-sample failure probability zero. Writing \(\lVert Av\rVert^2/\lVert v\rVert^2\) as an average of \(m\) independent squared standard normals — exactly the object of section 2, with \(m\) in place of \(d\) — gives
 
 $$
 P\left(\left|\frac{\lVert Av\rVert^2}{\lVert v\rVert^2}-1\right|>\varepsilon\right)
 \le2\exp\left(-\frac{m(\varepsilon^2-\varepsilon^3)}4\right).
 $$
 
-Now apply this to the \(\binom n2\) difference vectors \(x_i-x_j\) of an \(n\)-point set and take a union bound. The failure probability is at most \(n^2\exp(-m(\varepsilon^2-\varepsilon^3)/4)\), which is below \(1\) as soon as
+For a fixed set of \(n\ge2\) points and \(0<\varepsilon<1\), apply the bound to its nonzero pairwise differences and union bound:
 
 $$
-m\;\gtrsim\;\frac{8\log n}{\varepsilon^2}.
+P(\text{any squared-distance failure})\le n(n-1)\exp[-m(\varepsilon^2-\varepsilon^3)/4].
 $$
 
-**The Johnson–Lindenstrauss lemma.** Any \(n\) points in \(\mathbb R^d\) can be mapped into \(\mathbb R^m\) with \(m=O(\varepsilon^{-2}\log n)\) so that all pairwise distances are preserved within a factor \(1\pm\varepsilon\).
+Thus success probability at least \(1-\delta\) is sufficient when
 
-Read the bound carefully. \(m\) depends on the **number of points** and the accuracy, and **not on \(d\)**. One million points at \(\varepsilon=0.1\) need roughly \(8\log(10^6)/0.01\approx11{,}000\) dimensions regardless of whether they started in \(10^3\) or \(10^6\).
+$$
+m\ge\left\lceil\frac{4\log(n(n-1)/\delta)}{\varepsilon^2-\varepsilon^3}\right\rceil.
+$$
 
-Two honest caveats. The \(\log n\) is unavoidable, so \(\varepsilon=0.01\) costs a hundred times more dimensions than \(\varepsilon=0.1\) — high accuracy is expensive. And JL preserves *distances*, not every downstream quantity: inner products survive via polarization, but rankings near ties, small-margin decisions, and anything depending on low-variance directions can still flip.
+This preserves **squared** distances by factors \(1\pm\varepsilon\); distances themselves lie between \(\sqrt{1-\varepsilon}\) and \(\sqrt{1+\varepsilon}\) times their originals, hence also within the looser factors \(1\pm\varepsilon\). Positive success probability establishes existence. No guarantee here covers a dataset chosen after inspecting the random projection.
 
-> **Practice — Foundation:** Compute the JL target dimension for \(n=10^4\) points at \(\varepsilon=0.2\) and at \(\varepsilon=0.05\).
+**The Johnson–Lindenstrauss lemma.** A fixed finite set of n points has an embedding into \(O(\varepsilon^{-2}\log n)\) dimensions preserving pairwise distances up to the stated distortion. The explicit conservative bound above includes the failure probability; it is not a claim that so many dimensions are necessary. If it exceeds the ambient dimension, keeping the original coordinates is already an exact embedding.
+
+For example, n=1,000,000, epsilon=0.1, delta=0.01 gives a sufficient m of 14,328 under this bound. The scaling does not depend on ambient dimension. Bounds can be pessimistic. Preserving distances still allows nearest-neighbor identities to change when distance gaps are small; preserve a sufficient margin before inferring ranking stability.
+
+> **Practice — Foundation:** Using the explicit sufficient bound with \(\delta=0.05\), compute target dimensions for \(n=10^4\), \(\varepsilon=0.2\) and \(\varepsilon=0.05\). Explain when keeping the original coordinates is preferable.
+>
+> **Hint:** Use the epsilon³ term and an explicit failure probability; the bound is sufficient, not necessary.
 >
 > **Practice — Core:** Show \(E[\lVert Av\rVert^2]=\lVert v\rVert^2\) directly from the entry distribution of \(A\), and identify where independence is used.
 >
-> **Practice — Stretch:** Distances are preserved, but a nearest-neighbour ranking is a comparison of distances. Construct a configuration where a \(1\pm\varepsilon\) distance guarantee still permits the top-1 neighbour to change, and state the margin condition that prevents it.
+> **Hint:** Expand a row's squared dot product and use zero cross-moments.
+>
+> **Practice — Stretch:** A projection preserves every pairwise distance within factors \(1\pm\varepsilon\) with \(\varepsilon=0.1\). A query's true nearest neighbour is at distance 1.00 and the runner-up at 1.15. Show that the top-1 neighbour can change, and derive the margin condition on the distance ratio that prevents it.
+>
+> **Hint:** In the worst case the near distance grows to \(1.1\times1.00\) while the far one shrinks to \(0.9\times1.15=1.035\); no flip is possible when \(d_2/d_1>(1+\varepsilon)/(1-\varepsilon)\approx1.222\).
 
 ## 6. Estimated covariance is not the covariance
 
@@ -199,29 +244,37 @@ $$
 \lVert\Sigma\rVert\left(\sqrt{\frac dn}+\frac dn\right),
 $$
 
-for sub-Gaussian data. The governing quantity is the **aspect ratio** \(d/n\), not \(n\) alone. Accurate covariance estimation requires \(n\gg d\), not merely \(n\) large.
+as a typical-rate statement for independent, centered sub-Gaussian observations with a controlled sub-Gaussian scale; a specified high-probability theorem also includes its confidence parameter and constants. This is not an arbitrary-data deterministic bound. The governing quantity is the **aspect ratio** \(d/n\), not \(n\) alone. Accurate covariance estimation requires \(n\gg d\), not merely \(n\) large.
 
-**Marchenko–Pastur.** Make the truth as simple as possible: let \(\Sigma=I_d\) and let \(\gamma=d/n\) be fixed as both grow. The eigenvalues of \(\hat\Sigma\) do **not** converge to \(1\). They spread across
+**Marchenko–Pastur.** Make the truth as simple as possible: let observations have independent, centered, unit-variance entries (Gaussian entries are a concrete example), so \(\Sigma=I_d\), and let \(\gamma=d/n\) be fixed as both grow. The eigenvalues of \(\hat\Sigma\) do **not** converge to \(1\). They spread across
 
 $$
 \bigl[(1-\sqrt\gamma)^2,\;(1+\sqrt\gamma)^2\bigr].
 $$
+
+The displayed interval is the limiting continuous spectral support, not a deterministic finite-sample enclosure. If \(\gamma>1\), there is also an atom at zero of mass \(1-1/\gamma\): a d-by-d sample covariance has rank at most n. Identity covariance alone, without the distributional assumptions, does not justify this null.
 
 **Worked example — \(d=100\), \(n=400\).** Here \(\gamma=1/4\), so the sample eigenvalues fill \([(1-0.5)^2,(1+0.5)^2]=[0.25,\,2.25]\). The true spectrum is a single point at \(1\). With four times as many samples as dimensions, the estimated spectrum spans a factor of nine. The largest sample eigenvalue is biased **up**, the smallest biased **down**, and the "top principal component" of pure isotropic noise looks convincingly dominant.
 
 Three consequences that matter in practice:
 
 - **PCA on modest sample sizes overstates structure.** A scree plot with a visible leading eigenvalue is not evidence of signal until you compare against the Marchenko–Pastur edge for your \(\gamma\).
-- **Whitening amplifies noise.** Whitening divides by \(\sqrt{\hat\lambda_i}\); the smallest eigenvalues are precisely the most underestimated, so whitening inflates the noisiest directions. This is the ill-conditioning argument of [SVD and PCA](../02-linear-algebra/08-svd-low-rank.md) with a statistical cause.
+- **Whitening amplifies noise.** Whitening divides by \(\sqrt{\hat\lambda_i}\); small sample eigenvalues can be severely underestimated, so unregularized whitening may greatly amplify estimation error. This is the ill-conditioning argument of [SVD and PCA](../02-linear-algebra/08-svd-low-rank.md) with a statistical cause.
 - **Shrinkage is not optional decoration.** Ledoit–Wolf-style estimators pull \(\hat\Sigma\) toward a scaled identity precisely to undo the spreading above.
 
-This section is also the probabilistic half of a claim made in [nonconvex landscapes](../03-optimization/05-nonconvex-landscapes-training-dynamics.md): random symmetric matrices have spread-out, repelling spectra, which is why a randomly encountered critical point in a large model is overwhelmingly a saddle.
+This section is also the probabilistic half of a claim made in [nonconvex landscapes](../03-optimization/05-nonconvex-landscapes-training-dynamics.md): some random-matrix models yield many negative-curvature directions. That analogy alone does not determine the distribution of Hessians at critical points selected by training; claims about saddle prevalence require a specified landscape model.
 
 > **Practice — Foundation:** Compute the Marchenko–Pastur support for \(\gamma=0.01\), \(\gamma=0.25\), and \(\gamma=1\).
 >
-> **Practice — Core:** You have \(n=2000\) samples in \(d=512\) dimensions. Give the MP edges and state the smallest eigenvalue you could observe from pure noise. What does this imply about the rank you would select?
+> **Hint:** Square one plus/minus sqrt(gamma); also check the zero atom when gamma exceeds one.
 >
-> **Practice — Stretch:** Design a permutation-based null for a scree plot: shuffle each feature independently across samples, recompute the spectrum, and compare. Explain precisely which null hypothesis this tests and how it differs from the MP prediction.
+> **Practice — Core:** You have \(n=2000\) samples in \(d=512\) dimensions. Give the MP edges and interpret the lower continuous edge as an asymptotic reference, not the smallest eigenvalue possible in a finite sample. What does this imply about the rank you would select?
+>
+> **Hint:** \(\gamma=512/2000=0.256\), so \(\sqrt\gamma\approx0.506\) and the edges are about \([0.244,2.268]\); only eigenvalues clearly above the upper edge are candidate signal.
+>
+> **Practice — Stretch:** With NumPy seed 0, generate \(n=200\) rows in \(d=50\): 47 independent \(\mathcal N(0,1)\) features plus 3 features with pairwise correlation 0.9. Build a permutation null by shuffling each column independently 100 times; compare the top eigenvalue of the sample correlation matrix with the permutation 95th percentile and the MP upper edge at \(\gamma=0.25\). State which null each reference tests.
+>
+> **Hint:** Shuffling each column independently keeps every feature's marginal distribution but destroys all cross-feature dependence, so the null is mutual independence; MP additionally assumes iid unit-variance entries in a proportional limit, with edge \((1+0.5)^2=2.25\).
 
 ## 7. Where this already appears in your models
 
@@ -231,6 +284,20 @@ This section is also the probabilistic half of a claim made in [nonconvex landsc
 - **Random projections and hashing.** JL is the guarantee behind random-projection LSH, sketching, and dimensionality reduction before nearest-neighbour search.
 - **Covariance-based methods.** Whitening, PCA, Mahalanobis distances, natural-gradient preconditioners and linear probes all estimate a covariance and all inherit section 6's aspect-ratio problem.
 - **Noise injection.** A Gaussian perturbation of standard deviation \(\sigma\) per coordinate has total norm \(\approx\sigma\sqrt d\). Reporting "we added noise of size 0.01" is meaningless without the dimension.
+
+> **Practice — Foundation:** For \(q,k\in\mathbb R^{64}\) with iid \(\mathcal N(0,1)\) coordinates, compute \(\operatorname{Var}(q^Tk)\) and the standard deviation of the logit before and after dividing by \(\sqrt{64}\).
+>
+> **Hint:** Each product \(q_jk_j\) has mean 0 and variance \(E[q_j^2]E[k_j^2]=1\), and the 64 products are independent.
+>
+
+> **Practice — Core:** Let the pairs \((q_j,k_j)\) be iid jointly Gaussian with unit variances and \(\operatorname{Corr}(q_j,k_j)=0.5\), for \(d_k=64\). Compute \(E[q^Tk]\) and \(\operatorname{Var}(q^Tk)\), compare with the independent case, and state which assumption of the \(\sqrt{d_k}\) argument is violated.
+>
+> **Hint:** For jointly Gaussian unit-variance \(q_j,k_j\) with correlation \(\rho\), \(E[q_jk_j]=\rho\) and \(E[q_j^2k_j^2]=1+2\rho^2\); the logits are shifted by \(\rho d_k\), not just rescaled.
+>
+
+> **Practice — Stretch:** A paper claims that weight variance \(2/\text{fan-in}\) keeps ReLU activations stable. Test it: 20 ReLU layers of width 512 with weights \(\mathcal N(0,\sigma^2/512)\) for \(\sigma^2\in\{1,2,4\}\), seeds 0–4, and 1,000 held-out \(\mathcal N(0,I_{512})\) inputs. Report the mean squared activation at layers 0, 10, and 20, and say what this diagnostic does not establish.
+>
+> **Hint:** Each ReLU layer multiplies the mean square by about \(\sigma^2/2\), so predict roughly \(2^{-20}\), 1, and \(2^{20}\) at depth 20 before running; also compare gradients, which this forward check does not measure.
 
 ## 8. Failure modes
 
@@ -260,6 +327,20 @@ Unscaled logits have standard deviation 8. Dividing by \(\sqrt{64}=8\) restores 
 
 **Probe geometry.** Here \(d/n=4096/2000\approx2.05\). The sample covariance is singular, with at least \(4096-2000\) zero eigenvalues before centering costs another degree of freedom. Stable held-out predictions can coexist with unstable weights: prediction stability concerns the fitted function, whereas coefficient stability asks whether feature directions are identified. Bootstrap both held-out performance and coefficient direction; do not use one as evidence for the other.
 
+> **Practice — Foundation:** With NumPy seed 0, simulate 20 replicates of \(X\in\mathbb R^{200\times100}\) with iid \(\mathcal N(0,1)\) entries, and record the largest eigenvalue of \(X^TX/200\) each time. Compare the results with the MP upper edge \((1+\sqrt{0.5})^2\approx2.914\), and explain why the edge is not a finite-sample guarantee.
+>
+> **Hint:** Near the edge, the largest eigenvalue fluctuates on the Tracy–Widom scale of order \(n^{-2/3}\) and has finite-\(n\) bias, so expect values around 2.7–2.95, only a minority above 2.914.
+>
+
+> **Practice — Core:** You try 20 random projections to 64 dimensions (seeds 0–19) and keep the one with the best validation accuracy, 0.842; across seeds, accuracy has mean 0.815 and SD 0.01. Estimate the expected best-of-20 score under pure seed noise, and explain why the chosen projection needs a new validation set.
+>
+> **Hint:** The maximum of 20 roughly normal scores sits about 1.87 SD above their mean, near 0.834, so part of 0.842 is selection; re-evaluate the chosen seed on untouched data.
+>
+
+> **Practice — Stretch:** Compare \(A_1=\operatorname{diag}(2.01,1.99)\) with \(A_2=\begin{pmatrix}2&0.01\\0.01&2\end{pmatrix}\). Show that they have identical singular values but top singular vectors \(45^\circ\) apart, and relate this to the eigengap and a repeated singular value of \(2I\).
+>
+> **Hint:** Both matrices have eigenvalues 2.01 and 1.99, but their top eigenvectors are \(e_1\) and \((e_1+e_2)/\sqrt2\); Davis–Kahan bounds the rotation by perturbation size over eigengap, and the gap here is only 0.02.
+
 ## 9. Runnable lab: random projection distortion
 
 Implement `projection_distortion` in the [learner exercises file](../../labs/exercises.py). Given a list of points, a target dimension \(m\), and a seed, build \(A\in\mathbb R^{m\times d}\) with iid \(\mathcal N(0,1/m)\) entries and return the **largest** relative squared-distance distortion over all distinct pairs:
@@ -286,41 +367,61 @@ Then, outside the graded function, study the behaviour:
 5. Why \(\operatorname{Var}(q^Tk)=d_k\) and therefore why attention divides by \(\sqrt{d_k}\).
 6. The variance-propagation argument giving \(\sigma^2\propto1/\text{fan\_in}\).
 
+## Prediction experiment
+
+Predict both the baseline and failure-preset results before revealing the calculation. Record the assumptions, change one control at a time, and explain the boundary case. This small deterministic model isolates a mechanism; it is not an empirical validation of a trained system.
+
+```lab
+lab: ps-highdim
+```
+
 ## 11. End-of-unit practice (graded)
+
+Work each problem before opening its authored solution. Written proofs and design answers require self-review against the rubric; numeric fields check only the stated quantities.
+
 
 **Foundation**
 
-1. For \(x\sim\mathcal N(0,I_{1024})\), give the mean and standard deviation of \(\lVert x\rVert^2\), and the approximate value of \(\lVert x\rVert\).
-2. Give the typical cosine similarity between independent random directions at \(d=1536\).
-3. State the Marchenko–Pastur support at \(\gamma=0.09\).
+**A1 · Foundation · paper — Cumulative problem 1.** For \(x\sim\mathcal N(0,I_{1024})\), give the mean and standard deviation of \(\lVert x\rVert^2\), and the approximate value of \(\lVert x\rVert\).
+
+**A2 · Foundation · paper — Cumulative problem 2.** Give the typical cosine similarity between independent random directions at \(d=1536\).
+
+**A3 · Foundation · paper — Cumulative problem 3.** State the Marchenko–Pastur support at \(\gamma=0.09\).
 
 **Core**
 
-4. A team adds Gaussian noise with per-coordinate \(\sigma=0.02\) to a \(4096\)-dimensional activation and reports a "2% perturbation". Compute the actual relative norm change and correct the claim.
-5. Derive the JL target dimension for \(n=5\times10^5\), \(\varepsilon=0.1\), and explain why the answer is unchanged if the points live in \(d=10^4\) or \(d=10^7\).
-6. Using the aspect-ratio bound, state how many samples are needed to estimate a \(d=768\) covariance to \(10\%\) operator-norm accuracy, and comment on whether typical probing datasets meet it.
-7. Show that the \(\pm1\) sign projection has the same first two moments as the Gaussian projection, and explain the practical advantage.
+**A4 · Core · paper — Cumulative problem 4.** A team adds Gaussian noise with per-coordinate \(\sigma=0.02\) to a \(4096\)-dimensional activation \(h\) with \(\lVert h\rVert=6.4\) (per-coordinate RMS 0.1) and reports a "2% perturbation". Compute the approximate noise norm \(\lVert\varepsilon\rVert\approx\sigma\sqrt d\), the relative size \(\lVert\varepsilon\rVert/\lVert h\rVert\), the typical ratio \(\lVert h+\varepsilon\rVert/\lVert h\rVert\), and the typical cosine between \(h\) and \(h+\varepsilon\). Then correct the claim.
+
+**A5 · Core · paper — Cumulative problem 5.** Using the explicit sufficient bound of section 5 with failure probability \(\delta=0.01\), compute the JL target dimension for \(n=5\times10^5\) points and \(\varepsilon=0.1\), and explain why the answer is unchanged if the points live in \(d=10^4\) or \(d=10^7\).
+
+**A6 · Core · paper — Cumulative problem 6.** Take the typical-rate expression \(\lVert\hat\Sigma-\Sigma\rVert_{\text{op}}/\lVert\Sigma\rVert\approx\sqrt{d/n}+d/n\) with constant one. For \(d=768\), find the smallest integer \(n\) for which it is at most \(0.1\), evaluate it for a probing dataset of \(n=5{,}000\), and comment on whether typical probing datasets meet the target.
+
+**A7 · Core · paper — Cumulative problem 7.** Show that the \(\pm1\) sign projection has the same first two moments as the Gaussian projection, and explain the practical advantage.
 
 **Stretch**
 
-8. A linear probe on \(d=4096\) features trained with \(n=2000\) examples reports 91% accuracy. Using section 6, explain why the probe's *weights* may be meaningless even if its *accuracy* is real, and design a check that separates the two claims.
-9. Retrieval quality drops when embeddings are projected from 1536 to 256 dimensions, even though measured distance distortion is under 5%. Give three mechanisms consistent with both observations and one experiment that discriminates among them.
-10. Construct a distribution on \(\mathbb R^d\) with iid coordinates for which the norm does **not** concentrate at the usual rate, state which moment assumption fails, and say what this implies for JL applied to such data.
+**A8 · Stretch · paper — Cumulative problem 8.** A linear probe on \(d=4096\) features trained with \(n=2000\) examples has stable held-out accuracy. (a) Show that the training design has a null space of dimension at least 2096, and that adding any null-space vector to the weights leaves every training prediction unchanged. (b) Separate the two claims empirically. With NumPy seed 0, draw \(x_i\sim\mathcal N(0,I_{4096})\), a true direction \(w^\star\) equal to \(1/\sqrt{20}\) on the first 20 coordinates and 0 elsewhere, labels \(y_i=\operatorname{sign}(x_i^Tw^\star)\) flipped with probability 0.05, and 5,000 clean test points. Fit ridge regression on the \(\pm1\) labels with \(\lambda=1\) on 10 bootstrap resamples. Report the mean and SD of test accuracy, the mean pairwise cosine between the bootstrap weight vectors, their mean cosine with \(w^\star\), and the overlap of each fit's 20 largest-magnitude weights with the true support.
 
-<details><summary>Solution sketches</summary>
+**A9 · Stretch · paper — Cumulative problem 9.** Retrieval quality drops when embeddings are projected from 1536 to 256 dimensions, even though every measured squared-distance distortion is under 5%. (a) For a query whose true nearest neighbour is at distance 1.00 and runner-up at 1.03, show that a 5% squared-distance guarantee permits the order to flip, and find the smallest runner-up-to-neighbour distance ratio that rules out a flip. (b) Give two further mechanisms consistent with both observations, and one experiment that discriminates among all three.
 
-1. Mean \(1024\), standard deviation \(\sqrt{2048}\approx45.3\), so \(\lVert x\rVert\approx32\) within roughly \(0.7\%\).
-2. \(1/\sqrt{1536}\approx0.0255\).
-3. \(\sqrt\gamma=0.3\), so \([0.49,1.69]\).
-4. The norm change is \(\sigma\sqrt d=0.02\times64=1.28\), while a typical activation norm is itself \(\approx\sqrt d\) times its per-coordinate scale; the relative change is \(\sigma\) divided by the per-coordinate activation scale, so the "2%" claim is only correct if the activations have unit per-coordinate scale. State the per-coordinate scale explicitly or report the ratio of norms.
-5. \(m\approx8\log(5\times10^5)/0.01\approx10{,}500\). The bound involves only \(n\) and \(\varepsilon\); \(d\) never enters because the concentration statement is about the \(m\)-dimensional image, not the domain.
-6. Requiring \(\sqrt{d/n}\approx0.1\) gives \(n\approx100d\approx76{,}800\). Probing sets of a few thousand examples are far short, so probe covariance structure is unreliable even when probe accuracy is not.
-7. Each entry has mean zero and variance \(1/m\), and the concentration proof needs only sub-Gaussianity, which bounded entries satisfy. The advantage is cheaper generation, cheaper multiplication, and less memory.
-8. Accuracy depends on the fitted function, which can be stable even when the parameterization is not. With \(d/n>1\) the feature covariance is singular, so the weight vector is not identified: many weight vectors give identical predictions. Check by refitting on bootstrap resamples and reporting the variability of weights versus the variability of accuracy.
-9. Possibilities: low-variance but task-relevant directions were destroyed; the distance guarantee holds on average but fails on the small-margin pairs that determine top-\(k\) ranking; anisotropy means the projection interacts with a dominant common direction. Discriminate with a margin analysis of the affected queries, a per-pair distortion histogram restricted to true neighbours, and a centered-embedding rerun.
-10. Coordinates with infinite fourth moment, for instance a Student-\(t\) with 3 degrees of freedom: the variance of \(\lVert x\rVert^2\) is infinite, the relative fluctuation does not shrink like \(\sqrt{2/d}\), and JL's exponential bound no longer applies, though weaker statements can survive.
+**A10 · Stretch · paper — Cumulative problem 10.** (a) For iid Student-\(t_5\) coordinates, compute the kurtosis \(\kappa=E[x^4]/E[x^2]^2\) and the relative standard deviation of \(\lVert x\rVert^2\) at \(d=1000\), and compare with the Gaussian value. (b) Show that \(t_3\) coordinates have \(E[x^4]=\infty\). (c) With NumPy seed 0, draw 2,000 vectors with iid \(t_3\) coordinates at \(d=1000\) and \(d=10{,}000\), and report the 1st, 50th, and 99th percentiles of \(\lVert x\rVert^2/(3d)\) alongside the Gaussian analogue \(\lVert x\rVert^2/d\). (d) Say what this implies for JL: which randomness does the JL guarantee use, and what fails if the projection entries themselves are \(t_3\)?
 
-</details>
+
+## Six-part checkpoint
+
+Complete these without notes, then use the solutions to audit assumptions and reasoning. Passing a numeric check alone does not establish mastery. For implementation and transfer, retain the code/results or written protocol as evidence.
+
+**K1 · Foundation · gate — Concept.** What do Marchenko–Pastur edges describe?
+
+**K2 · Core · gate — Derivation.** Derive a finite-set JL dimension bound from a one-vector tail bound.
+
+**K3 · Core · gate — Calculation.** For aspect ratio d/n=4, what is the limiting zero-eigenvalue mass of the d-by-d sample covariance?
+
+**K4 · Core · gate — Implementation audit.** Reproduce two settings of the ps-highdim experiment independently, including its failure preset. State a numerical invariant or analytic oracle and explain what the plot does not establish.
+
+**K5 · Stretch · gate — Claim audit.** Does a JL guarantee for a fixed finite dataset automatically cover points chosen after seeing the projection?
+
+**K6 · Stretch · gate — RE/RS transfer.** Audit whitening high-dimensional embeddings.
 
 ## Mastery check
 
