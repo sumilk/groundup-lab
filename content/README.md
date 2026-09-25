@@ -1,12 +1,12 @@
 # GroundUp Lab — theory and practice
 
-The repository now has **45 authored lesson pages across 13 tracks**, including 10 retained introductory overviews, with linear algebra, optimization, and probability/statistics as separate tracks. This is an initial cross-curriculum release, **not complete coverage**. Each track has substantial expansion work remaining. Depth labels are targets and have not been independently verified.
+The repository now has **46 authored lesson pages across 13 tracks**, including 10 retained introductory overviews, with linear algebra, optimization, and probability/statistics as separate tracks. This is an initial cross-curriculum release, **not complete coverage**. Each track has substantial expansion work remaining. Depth labels are targets and have not been independently verified.
 
 ## Detailed build plans
 
 See the [curriculum build-plan index](_plans.md) for all 15 subject plans in a shared detailed format, including the updated [linear algebra plan](02-linear-algebra/_plan.md) and the [probability/statistics coverage and expansion plan](05-probability-statistics/_plan.md). They specify prerequisites, derivations, interactive experiments, implementation ladders, RE/RS gates, and capstones, including a new Research Practice sequence. These are authoring plans; they do not increase authored lesson counts.
 
-The existing LA and probability lessons have also received a correctness and practice update. All 19 probability lessons now include static hints, a prediction/reveal experiment, an offline answer bank, and six-part checkpoints. LA01–LA08 include targeted numerical/research audits. These additions preserve the existing lesson IDs and Python tasks; broader experiments, additional implementation ladders and new advanced lessons in the plans remain future work.
+The existing LA and probability lessons have also received a correctness and practice update. All 19 probability lessons now include static hints, a prediction/reveal experiment, an offline answer bank, and six-part checkpoints. LA01–LA08 include targeted numerical/research audits. LA09 now develops norms, perturbation bounds, backward error, and stability with two interactive figures and three additional Python tasks. These additions preserve the existing lesson IDs and Python tasks; broader experiments, additional implementation ladders and new advanced lessons in the plans remain future work.
 
 See the [legacy-page audit](_legacy-audit.md) for retention and retirement decisions. Classical ML currently has a [reading route through authored material and a detailed build plan](07-classical-ml/_plan.md#current-reading-route-and-preserved-implementation-work), rather than a duplicate overview lesson. Research Practice also remains plan-only. The 10 retained overviews are useful entry bridges, not completion of their proposed detailed modules.
 
@@ -37,6 +37,7 @@ Attempt these prompts before continuing. The end-of-unit practice set then mixes
 | 02 Linear algebra | [Eigenvalues, invariant subspaces and diagonalization](02-linear-algebra/06-eigenvalues-diagonalization.md) |
 | 02 Linear algebra | [Symmetric matrices, the spectral theorem and quadratic forms](02-linear-algebra/07-spectral-theorem-quadratic-forms.md) |
 | 02 Linear algebra | [The SVD — geometry, rank, low-rank approximation and PCA](02-linear-algebra/08-svd-low-rank.md) |
+| 02 Linear algebra | [Norms, conditioning, and numerical stability](02-linear-algebra/09-norms-conditioning-stability.md) |
 | 03 Optimization | [Calculus, gradients, and optimization](03-optimization/01-calculus-gradients-optimization.md) |
 | 03 Optimization | [Convexity, smoothness and duality](03-optimization/03-convexity-smoothness-duality.md) |
 | 03 Optimization | [Stochastic approximation, SGD and batch size](03-optimization/04-stochastic-approximation-sgd.md) |
@@ -104,7 +105,7 @@ The 19 numbered lessons below are authored. See the [probability/statistics plan
 
 ## Hands-on resources
 
-- [Sixty-seven runnable exercises and behavioral checks](../labs/README.md)
+- [Seventy runnable exercises and behavioral checks](../labs/README.md)
 - [Learner implementation file](../labs/exercises.py)
 - [Reference solutions — attempt first](../labs/reference.py)
 - [Web reader source](../public/theory/index.html)

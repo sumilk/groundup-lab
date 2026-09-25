@@ -768,3 +768,40 @@ def explained_variance(singular_values):
     computed final cumulative fraction merely to force it to one.
     """
     raise NotImplementedError("Account for squared variation, not raw gain")
+
+
+def matrix_norm_1_inf(matrix):
+    """Return (induced 1-norm, induced infinity-norm), preserving input.
+
+    Accept a nonempty finite real rectangular matrix; reject bools, malformed
+    shapes, non-finite entries, and non-finite output arithmetic with ValueError.
+    _validated_matrix is supplied. Use absolute column and row sums with
+    math.fsum; catch its overflow as ValueError. Zero matrices return (0, 0).
+    """
+    raise NotImplementedError("Find the largest absolute column and row sums")
+
+
+def condition_estimate(matrix):
+    """Estimate kappa-infinity of a finite nonempty square matrix by solves.
+
+    Preserve input; reject bools, invalid data, and overflowing arithmetic with
+    ValueError. Supplied _conditioning_factor validates and scales A by its
+    largest absolute entry and returns (lu, permutation, norm_inf_B), or None
+    for a zero matrix/zero computed pivot. Return math.inf for that branch.
+    Otherwise solve B z_j = e_j with supplied _conditioning_solve, accumulate
+    absolute inverse-column entries by row, and multiply the largest row sum
+    by norm_inf_B. Reject non-finite solves/sums/product with ValueError.
+    There is no absolute rank cutoff. This O(n^3) teaching oracle is a floating-
+    point estimate, not an exact-rank certificate or a scalable estimator.
+    """
+    raise NotImplementedError("Measure inverse amplification as well as forward gain")
+
+
+def cancellation_demo(t):
+    """Return (sqrt(1+t)-1, t/(sqrt(1+t)+1)) using math.sqrt.
+
+    Accept finite real t >= 0, excluding bools; invalid data raise ValueError.
+    Return (0, 0) for zero. Retain both evaluation paths to expose cancellation.
+    Rationalization avoids the subtraction but cannot prevent every underflow.
+    """
+    raise NotImplementedError("Compare algebraically equal evaluation paths")

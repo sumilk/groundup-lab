@@ -2506,7 +2506,73 @@ def explained_variance(m):
         _projection_rejects(m.explained_variance,s)
 
 
-CHECKS = {"svd-2x2": svd_2x2, "truncate-rank": truncate_rank, "explained-variance": explained_variance,
+def matrix_norms(m):
+    fixtures = [([[1,-2,0],[3,0,4]], (4,7)), ([[0,0],[0,0]], (0,0)),
+                ([[-5]], (5,5)), ([[1,-2,3]], (3,6)), ([[1],[-2],[3]], (6,3))]
+    for a, expected in fixtures:
+        for scale in (1.0, 1e-200, -1e200):
+            matrix = [[value * scale for value in row] for row in a]
+            before = [row[:] for row in matrix]
+            result = m.matrix_norm_1_inf(matrix)
+            assert len(result) == 2
+            for got, want in zip(result, expected):
+                assert math.isclose(got, want * abs(scale), rel_tol=1e-13, abs_tol=0)
+            assert matrix == before, "norm task must preserve input"
+    assert m.matrix_norm_1_inf(((1, -2), (3, 0))) == (4, 3)
+    for a in (None, [], [[]], [[1],[2,3]], [[True]], [[float('nan')]],
+              [[float('inf')]], [['1']], [[1e308,1e308]], [[1e308],[1e308]]):
+        _projection_rejects(m.matrix_norm_1_inf, a)
+
+
+def condition_estimate(m):
+    # Analytic infinity-norm oracles, including matrices that require pivoting.
+    fixtures = [([[1]], 1), ([[0,2],[1,3]], 10), ([[1,2],[3,4]], 21),
+                ([[1,0],[0,1e-12]], 1e12),
+                ([[0,0,2],[3,0,0],[0,4,0]], 2),
+                ([[1,0,0],[0,2,0],[0,0,8]], 8)]
+    for a, expected in fixtures:
+        for scale in (1.0, 1e-200, -1e200):
+            matrix = [[value * scale for value in row] for row in a]
+            before = [row[:] for row in matrix]
+            got = m.condition_estimate(matrix)
+            assert math.isclose(got, expected, rel_tol=2e-12, abs_tol=0), (got, expected)
+            assert matrix == before, "condition task must preserve input"
+    # An exact 2x2 inverse formula supplies independent randomized expectations.
+    generator = random.Random(907)
+    for _ in range(25):
+        a,b,c,d = [generator.randint(-9,9) for _ in range(4)]
+        determinant = a*d-b*c
+        if determinant:
+            expected = max(abs(a)+abs(b), abs(c)+abs(d)) * max(
+                abs(d)+abs(b), abs(c)+abs(a)) / abs(determinant)
+            assert math.isclose(m.condition_estimate([[a,b],[c,d]]), expected, rel_tol=1e-12)
+    for a in ([[0]], [[0,0],[0,0]], [[1,2],[2,4]]):
+        before = [row[:] for row in a]
+        assert m.condition_estimate(a) == math.inf
+        assert a == before
+    for a in (None, [], [[]], [[1,2]], [[1],[2]], [[True]], [['1']],
+              [[float('inf')]], [[float('nan')]], [[1,0],[0,1e-309]]):
+        _projection_rejects(m.condition_estimate, a)
+
+
+def cancellation_demo(m):
+    from decimal import Decimal, localcontext
+    for t in (0.0, 2.0**-54, 1e-12, 0.25, 3.0, 1e200):
+        direct, stable = m.cancellation_demo(t)
+        assert direct == math.sqrt(1.0+t)-1.0, "retain the direct path for comparison"
+        with localcontext() as context:
+            context.prec = 100
+            td = Decimal.from_float(t)
+            oracle = float(td / ((1+td).sqrt()+1))
+        assert math.isclose(stable, oracle, rel_tol=3e-15, abs_tol=0), (t, stable, oracle)
+    direct, stable = m.cancellation_demo(2.0**-54)
+    assert direct == 0 and stable > 0
+    for t in (-1, -1e-20, True, None, '1', float('nan'), float('inf')):
+        _projection_rejects(m.cancellation_demo, t)
+
+
+CHECKS = {"matrix-norms": matrix_norms, "condition-estimate": condition_estimate,
+          "cancellation-demo": cancellation_demo, "svd-2x2": svd_2x2, "truncate-rank": truncate_rank, "explained-variance": explained_variance,
           "rayleigh-quotient": rayleigh_quotient, "cholesky": cholesky, "is-pd": is_pd,
           "power-iteration": power_iteration, "char-poly-2x2": char_poly_2x2,
           "diagonalizable-2x2": is_diagonalizable_2x2, "moments": moments, "conditional": conditional,

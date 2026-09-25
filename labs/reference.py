@@ -2285,3 +2285,87 @@ def explained_variance(singular_values):
     ratios = [v/total for v in weights]
     cumulative = [math.fsum(ratios[:i+1]) for i in range(len(ratios))]
     return ratios, cumulative
+
+
+def matrix_norm_1_inf(matrix):
+    """Induced absolute column/row sums; preserve input and reject overflow."""
+    rows = _validated_matrix(matrix, 1e-12)
+    try:
+        one = max(math.fsum(abs(row[j]) for row in rows)
+                  for j in range(len(rows[0])))
+        infinity = max(math.fsum(abs(value) for value in row) for row in rows)
+    except OverflowError as error:
+        raise ValueError("norm outside finite range") from error
+    if not math.isfinite(one) or not math.isfinite(infinity):
+        raise ValueError("norm outside finite range")
+    return one, infinity
+
+
+def _conditioning_factor(matrix):
+    """Supplied small scaled partial-pivot LU; no numerical rank threshold."""
+    lu = _validated_matrix(matrix, 1e-12, square=True)
+    n = len(lu)
+    scale = max(abs(value) for row in lu for value in row)
+    if scale == 0:
+        return None
+    lu = [[value / scale for value in row] for row in lu]
+    norm_inf = max(math.fsum(abs(value) for value in row) for row in lu)
+    permutation = list(range(n))
+    for k in range(n):
+        pivot = max(range(k, n), key=lambda i: abs(lu[i][k]))
+        if lu[pivot][k] == 0:
+            return None
+        lu[k], lu[pivot] = lu[pivot], lu[k]
+        permutation[k], permutation[pivot] = permutation[pivot], permutation[k]
+        for i in range(k + 1, n):
+            lu[i][k] /= lu[k][k]
+            for j in range(k + 1, n):
+                lu[i][j] -= lu[i][k] * lu[k][j]
+                if not math.isfinite(lu[i][j]):
+                    raise ValueError("factor arithmetic outside finite range")
+    return lu, permutation, norm_inf
+
+
+def _conditioning_solve(lu, permutation, rhs):
+    """Supplied solve for the scaled matrix; factors and rhs are preserved."""
+    n = len(lu)
+    result = [rhs[permutation[i]] for i in range(n)]
+    try:
+        for i in range(n):
+            result[i] -= math.fsum(lu[i][j] * result[j] for j in range(i))
+        for i in range(n - 1, -1, -1):
+            result[i] = (result[i] - math.fsum(
+                lu[i][j] * result[j] for j in range(i + 1, n))) / lu[i][i]
+            if not math.isfinite(result[i]):
+                raise ValueError("solve arithmetic outside finite range")
+    except OverflowError as error:
+        raise ValueError("solve arithmetic outside finite range") from error
+    return result
+
+
+def condition_estimate(matrix):
+    """Estimate kappa-infinity with n scaled solves; inf for a zero pivot."""
+    factors = _conditioning_factor(matrix)
+    if factors is None:
+        return math.inf
+    lu, permutation, norm_inf = factors
+    n = len(lu)
+    row_sums = [0.0] * n
+    for j in range(n):
+        rhs = [float(i == j) for i in range(n)]
+        column = _conditioning_solve(lu, permutation, rhs)
+        for i in range(n):
+            row_sums[i] += abs(column[i])
+    estimate = norm_inf * max(row_sums)
+    if not math.isfinite(estimate):
+        raise ValueError("condition estimate outside finite range")
+    return estimate
+
+
+def cancellation_demo(t):
+    """Return direct and rationalized sqrt(1+t)-1 for finite t >= 0."""
+    if (isinstance(t, bool) or not isinstance(t, (int, float))
+            or not math.isfinite(t) or t < 0):
+        raise ValueError("t must be a finite nonnegative real number")
+    root = math.sqrt(1.0 + t)
+    return root - 1.0, t / (root + 1.0)

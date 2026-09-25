@@ -4,29 +4,29 @@
 
 ## 1. Target and current state
 
-Develop exact vector-space arguments into numerically trustworthy algorithms, then use them to audit model geometry. The RE route emphasizes stable computation, matrix-free implementation, and measured cost; the RS route emphasizes proof assumptions, invariance, and falsifiable claims about representations. Retain the original 26-module scope and all eight authored lessons. Modules 01–02 now receive full briefs, and every research module receives explicit prerequisites and role-specific gates.
+Develop exact vector-space arguments into numerically trustworthy algorithms, then use them to audit model geometry. The RE route emphasizes stable computation, matrix-free implementation, and measured cost; the RS route emphasizes proof assumptions, invariance, and falsifiable claims about representations. Retain the original 26-module scope and all nine authored lessons. Modules 01–02 now receive full briefs, and every research module receives explicit prerequisites and role-specific gates.
 
-**Coverage audit:** 8 authored lessons, 24 registered browser Python tasks, and 224 hours in current lesson metadata. **Planned scope:** 26 modules and 728 estimated study hours, including the existing 224 hours; 18 modules are new. Existing-module hours are retained as baseline estimates, not an assertion that their expansion work costs nothing. Re-estimate when writing. These are comprehensive curriculum estimates, not a required preparation schedule; count reused capstones only once.
+**Coverage audit:** 9 authored lessons, 27 registered browser Python tasks, and 250 hours in current lesson metadata. **Planned scope:** 26 modules and 728 estimated study hours, including the existing 250 hours; 17 modules are new. Existing-module hours are retained as baseline estimates, not an assertion that their expansion work costs nothing. Re-estimate when writing. These are comprehensive curriculum estimates, not a required preparation schedule; count reused capstones only once.
 
 **Status vocabulary.** “Authored / expand” means the linked lesson and listed Python tasks exist, with targeted additions or verification still planned. It does not certify complete coverage or external review. “New” means no lesson, bank, figure, or Python task is being claimed as implemented. The module map and detailed briefs distinguish these states.
 
 ### Existing-lesson update completed
 
-LA01–LA08 retain their derivations, interactive figures and 24 registered Python tasks. Each now has a bounded local audit and an additional checked cumulative exercise: scale-aware rank; pivot growth/backward error; normal-equation versus QR/SVD diagnostics; QR reconstruction versus orthogonality; sign/log-volume; nonnormal spectral sensitivity; the complex-Hermitian convention; and stable subspace/held-out PCA comparisons. Full new modules below remain planned.
+LA01–LA08 retain their derivations, interactive figures and 24 registered Python tasks. Each now has a bounded local audit and an additional checked cumulative exercise: scale-aware rank; pivot growth/backward error; normal-equation versus QR/SVD diagnostics; QR reconstruction versus orthogonality; sign/log-volume; nonnormal spectral sensitivity; the complex-Hermitian convention; and stable subspace/held-out PCA comparisons. LA09 now adds the dedicated conditioning and backward-error treatment; LA10–LA26 remain planned.
 
 ### Coverage and remaining work
 
 | Handle | Current coverage and evidence | Still to add or verify |
 |---|---|---|
 | LA01 | [01-vectors-spaces-bases.md](01-vectors-spaces-bases.md). Vector-space axioms, dimension bound, subspaces, bases/coordinates, affine sets, Gram/metric previews, numerical dependence, and three interactive workbenches. | Scale-sensitive local rank audit added; broader representation datasets remain an extension. |
-| LA02 | [02-systems-elimination-subspaces.md](02-systems-elimination-subspaces.md). Elimination, rank-nullity, complete solution sets, all four fundamental subspaces, partial-pivot LU, and near-singular experiments. | Pivot-growth and local backward-error audit added; a full perturbation treatment remains LA09. |
+| LA02 | [02-systems-elimination-subspaces.md](02-systems-elimination-subspaces.md). Elimination, rank-nullity, complete solution sets, all four fundamental subspaces, partial-pivot LU, and near-singular experiments. | Pivot-growth and local backward-error audit added; the full perturbation treatment is now authored in LA09. |
 | LA03 | [03-projections-least-squares.md](03-projections-least-squares.md). General metrics, Cauchy–Schwarz, orthogonal complements, projection theorem, rank-deficient least squares, weighted residuals, and linked geometric experiments. | Added a local algorithm-comparison protocol linked to the existing QR/SVD lessons; a broader numerical implementation remains LA11. |
 | LA04 | [04-orthonormal-bases-qr.md](04-orthonormal-bases-qr.md). Classical/modified Gram–Schmidt, reorthogonalization, reduced/complete/metric QR, triangular least-squares solves, and orthogonal initialization. | Reconstruction/orthogonality comparison across scales added; full Householder/blocked QR remains LA11. |
 | LA05 | [05-determinants-volume.md](05-determinants-volume.md). Multilinear/alternating definition, elimination sign bookkeeping, multiplicativity, QR volume proof, cofactors, and density-volume examples. | Small sign/log-absolute-determinant extension added; production factorization algorithms remain LA11. |
 | LA06 | [06-eigenvalues-diagonalization.md](06-eigenvalues-diagonalization.md). Invariant subspaces, characteristic polynomial, real/complex distinctions, defects, matrix powers, transient growth, and qualified power-iteration convergence. | Local nonnormal sensitivity counterexample added; Schur decomposition and the full pseudospectral extension remain LA13. |
 | LA07 | [07-spectral-theorem-quadratic-forms.md](07-spectral-theorem-quadratic-forms.md). Calculus-free symmetric spectral theorem, variational eigenvalue results, Rayleigh/residual identities, PSD/PD geometry, and Cholesky pivot audits. | Short complex-Hermitian analogue added; Fourier applications remain LA13/LA14 and covariance assumptions stay in PS04. |
 | LA08 | [08-svd-low-rank.md](08-svd-low-rank.md). Full/reduced/compact SVD, four subspaces, spectral/Frobenius Eckart–Young proofs, centered affine PCA, whitening, and minimum-norm preview. | Held-out reconstruction and repeated-singular-value projector comparisons added; larger empirical audits remain extensions. |
-| LA09 | No authored lesson. Previewed in LA01–LA08; no dedicated lesson. | Full perturbation/backward-error development; norm controls and scale-aware condition experiments. |
+| LA09 | [09-norms-conditioning-stability.md](09-norms-conditioning-stability.md). Induced norms, perturbation bounds, distance to singularity, backward-error certificates, cancellation, an unpivoted-elimination instability case, product/orthogonal conditioning, digit-loss budgets by format, remedy selection, and scale-aware diagnostics; two figures and three Python tasks. | Structured/componentwise estimators, sharp least-squares sensitivity, and mixed-precision refinement remain extensions. |
 | LA10 | No authored lesson. Minimum-norm channels previewed in LA08; no full treatment. | Moore–Penrose identities, rank-deficient solves, ridge spectral filters, and explicit implicit-bias conditions. |
 | LA11 | No authored lesson. Small LU, QR, and Cholesky exist; blocked/Householder methods do not. | Householder QR, blocked LU/Cholesky, triangular solves, BLAS cost models, and stable log-determinants. |
 | LA12 | No authored lesson. No dedicated iterative-solver lesson. | Stationary splittings, steepest descent, conjugate gradients, residual stopping, and preconditioners; LA11 is no longer a required predecessor. |
@@ -47,7 +47,7 @@ LA01–LA08 retain their derivations, interactive figures and 24 registered Pyth
 
 ## 2. Teaching and authoring contract
 
-LA01–LA08 already have numbered practice with static hints, three registered Python tasks each, registered interactive figures, and answer banks `01-span` through `08-svd`. Preserve those bank keys and the original reserved keys for LA09–LA26; do not rename them to the newer track-prefix convention. Preserve the existing exercise grammar, including historical checkpoint difficulty labels accepted by the reader. The remaining 18 modules have briefs only. Existing figures and functions are identified explicitly below; future figures, even when their names appeared in the old plan, remain unimplemented.
+LA01–LA09 have numbered practice with static hints, three registered Python tasks each, registered interactive figures, and answer banks `01-span` through `09-conditioning`. Preserve those bank keys and the original reserved keys for LA10–LA26; do not rename them to the newer track-prefix convention. Preserve the existing exercise grammar, including historical checkpoint difficulty labels accepted by the reader. The remaining 17 modules have briefs only. Existing figures and functions are identified explicitly below; future figures, even when their names appeared in the old plan, remain unimplemented.
 
 Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_plans.md#4-shared-lesson-authoring-contract). Numbered teaching sections end with Foundation / Core / Stretch practice and static hints. Each lesson develops a finite or geometric example before abstraction, states theorem assumptions, includes a prediction/reveal experiment with a failure preset, and closes with derivations, cumulative practice, and the six-part checkpoint. Each module also has separate RE and RS evidence gates below. Authoring freedom remains: add linked views, examples, and misconception checks whenever they improve understanding.
 
@@ -67,7 +67,7 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 | LA06 | Eigenvalues, invariant subspaces, and diagonalization | Authored / expand | 30 | LA05 |
 | LA07 | Spectral theorem and quadratic forms | Authored / expand | 28 | LA06 |
 | LA08 | SVD, low-rank approximation, and PCA | Authored / expand | 34 | LA07 |
-| LA09 | Norms, conditioning, and numerical stability | New | 26 | LA08, F01 |
+| LA09 | Norms, conditioning, and numerical stability | Authored / expand | 26 | LA08, F01 |
 | LA10 | Pseudoinverse and regularization | New | 26 | LA09 |
 | LA11 | Direct solvers and memory-aware factorization | New | 26 | LA10, PY06 |
 | LA12 | Iterative solvers and preconditioning | New | 30 | LA10, OPT02 |
@@ -119,7 +119,7 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Already covered:** Elimination, rank-nullity, complete solution sets, all four fundamental subspaces, partial-pivot LU, and near-singular experiments.
 
-**Add or verify:** Pivot-growth and local backward-error audit added; a full perturbation treatment remains LA09.
+**Add or verify:** Pivot-growth and local backward-error audit added; the full perturbation treatment is now authored in LA09.
 
 **Existing artifacts:** [02-systems-elimination-subspaces.md](02-systems-elimination-subspaces.md); registered Python tasks: `echelon` → `row_echelon`, `solve-complete` → `solve_complete`, `lu` → `lu_factor`. Registered lesson figures: `la-elim`, `la-picture`, `la-map`.
 
@@ -282,17 +282,17 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Module 09 — Norms, conditioning, and numerical stability**
 
-`handle: LA09` · `id: math.linear-algebra.norms-conditioning-stability` · 26h · prerequisites: LA08, F01 · proposed bank: `09-conditioning`
+`handle: LA09` · `id: math.linear-algebra.norms-conditioning-stability` · 26h · prerequisites: LA08, F01 · existing bank: `09-conditioning`
 
-**Already covered:** Previewed in LA01–LA08; no dedicated lesson.
+**Already covered:** [Norms, conditioning, and numerical stability](09-norms-conditioning-stability.md): induced norms, fixed-right-hand-side sensitivity, finite matrix/data perturbation bounds, distance to singularity, normwise backward-error attainment, cancellation traced to an ill-conditioned intermediate step, unpivoted-elimination instability on a well-conditioned system, κ(AB) and orthogonal invariance, κu digit budgets, and numerical audits with remedies.
 
-**Add or verify:** Full perturbation/backward-error development; norm controls and scale-aware condition experiments.
+**Add or verify:** Structured/componentwise condition estimators, sharp least-squares perturbation theory, production reciprocal-condition estimation, and mixed-precision refinement.
 
 **Spine and derivations:** Derive induced norms, spectral norm, relative perturbation bounds with denominator conditions, and backward error; distinguish sensitivity from solver stability.
 
-**Interactive experiment:** Proposed la-norms/la-condition: vary norm ball, singular spectrum, and perturbation direction; include a small-residual/large-forward-error case.
+**Interactive experiment:** Registered `la-norms` and `la-condition`: vary norm ball, weak singular scale, common scale, and perturbation direction; include prediction/reveal, zero-map, singular-system, and small-residual/large-forward-error cases.
 
-**Implementation ladder:** Implement matrix_norm_1_inf, condition_estimate, and cancellation_demo; estimate both extreme singular scales or use solves, not only a largest-eigenvalue iteration.
+**Implementation ladder:** Registered tasks `matrix-norms` → `matrix_norm_1_inf`, `condition-estimate` → `condition_estimate`, and `cancellation-demo` → `cancellation_demo`. The small κ∞ oracle uses scaled pivoted solves to measure inverse amplification; it is not a scalable production estimator.
 
 **RE gate:** Diagnose error using scale, residual, and conditioning together.
 
@@ -635,9 +635,9 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 ## 5. Write order and milestones
 
-The first eight modules are authored; begin with their diagnostics rather than rewriting them. Their formal dependency chain remains LA01 → LA02 → LA03 → LA04 → LA05 → LA06 → LA07 → LA08.
+The first nine modules are authored; begin with their diagnostics rather than rewriting them. Their formal dependency chain remains LA01 → LA02 → LA03 → LA04 → LA05 → LA06 → LA07 → LA08 → LA09, with F01 also required for LA09.
 
-**Next numerical branch:** LA09 → LA10, then LA12 and LA11 as separate branches. LA12 now explicitly depends on LA10 and OPT02, so it may precede LA11 without the old prerequisite/write-order contradiction. LA13 follows LA12 and PS12; LA14 joins LA11, LA13, and graph fundamentals.
+**Next numerical branch:** continue from authored LA09 to LA10, then LA12 and LA11 as separate branches. LA12 now explicitly depends on LA10 and OPT02, so it may precede LA11 without the old prerequisite/write-order contradiction. LA13 follows LA12 and PS12; LA14 joins LA11, LA13, and graph fundamentals.
 
 **Derivative branch:** LA15 → LA16 → LA17 after LA10 and scalar calculus. LA21 → LA23 supplies tensor/block algebra before LA18; PS11 supplies the probability model needed for Fisher statements. This makes the old hidden K-FAC prerequisites explicit. OPT02 remains an independent early multivariable bridge, so no optimization/autodiff cycle is introduced.
 
@@ -653,7 +653,7 @@ Every unit uses six checkpoint tasks: explain the central concept; derive a resu
 
 ## 7. Infrastructure and validation
 
-Already present: `chartkit.js`, `heatkit.js`, `plot3.js`, and the intentionally small `svdkit.js` in `public/theory/labs/`. Reuse them. `matrixbench.js` and `graphkit.js` remain proposed, first needed for LA11 and LA14 respectively. Keep built figure registrations, theme behavior, keyboard matrix entry, and exact/near-degenerate presets intact. The existing eight answer banks and 24 Python tasks are contracts, not placeholders to replace.
+Already present: `chartkit.js`, `heatkit.js`, `plot3.js`, and the intentionally small `svdkit.js` in `public/theory/labs/`. Reuse them. `matrixbench.js` and `graphkit.js` remain proposed, first needed for LA11 and LA14 respectively. Keep built figure registrations, theme behavior, keyboard matrix entry, and exact/near-degenerate presets intact. The existing nine answer banks and 27 Python tasks are contracts, not placeholders to replace.
 
 Python in the browser is standard-library-only; local NumPy/PyTorch experiments and any accelerator measurements must be labeled separately. Register a lesson's stubs, reference functions, checks, browser entries, figures, and answer bank together. Verify numeric answers by execution and proofs by an explicit argument. Tests include invalid inputs, degeneracies, input preservation, and stated tolerance behavior.
 
@@ -663,4 +663,4 @@ For authored changes, run `node scripts/build-theory.mjs`, `node scripts/check-t
 
 Past renames are already applied: `02-linear-maps-rank.md` became `02-systems-elimination-subspaces.md`; the old eigenvalue stub became `06-eigenvalues-diagonalization.md`; the SVD stub became `08-svd-low-rank.md`. Preserve the current paths and their IDs. PCA remains under `math.linear-algebra.svd-pca`; expanding PCA later must not make that ID misleading.
 
-Particularly sensitive inbound IDs are `math.linear-algebra.vectors-spaces-bases`, `math.linear-algebra.linear-maps-rank`, `math.linear-algebra.projections-least-squares`, `math.linear-algebra.eigen-invariant-subspaces`, and `math.linear-algebra.svd-pca`. Preserve all eight authored IDs, not only these five. Determinants may use diagnostic skips on a shorter route; the authored lesson and its place before eigenvalues remain intact. New complex/Schur material is a bounded extension, not a claim that the current real-matrix lessons already teach it.
+Particularly sensitive inbound IDs are `math.linear-algebra.vectors-spaces-bases`, `math.linear-algebra.linear-maps-rank`, `math.linear-algebra.projections-least-squares`, `math.linear-algebra.eigen-invariant-subspaces`, and `math.linear-algebra.svd-pca`. Preserve all nine authored IDs, not only these five. Determinants may use diagnostic skips on a shorter route; the authored lesson and its place before eigenvalues remain intact. New complex/Schur material is a bounded extension, not a claim that the current real-matrix lessons already teach it.

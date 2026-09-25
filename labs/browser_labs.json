@@ -480,5 +480,32 @@
     "supportFunctions": [
       "_validated_singular_values"
     ]
+  },
+  {
+    "lesson": "02-linear-algebra/09-norms-conditioning-stability.md",
+    "task": "matrix-norms",
+    "function": "matrix_norm_1_inf",
+    "title": "Measure induced matrix norms",
+    "supportFunctions": [
+      "_validated_matrix"
+    ]
+  },
+  {
+    "lesson": "02-linear-algebra/09-norms-conditioning-stability.md",
+    "task": "condition-estimate",
+    "function": "condition_estimate",
+    "title": "Estimate forward and inverse amplification",
+    "supportFunctions": [
+      "_validated_matrix",
+      "_conditioning_factor",
+      "_conditioning_solve"
+    ]
+  },
+  {
+    "lesson": "02-linear-algebra/09-norms-conditioning-stability.md",
+    "task": "cancellation-demo",
+    "function": "cancellation_demo",
+    "title": "Separate cancellation from conditioning",
+    "supportFunctions": []
   }
 ]

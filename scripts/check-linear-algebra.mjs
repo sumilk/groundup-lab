@@ -307,6 +307,59 @@ assert.match(pca.readout(),/optimal error² = 2/);
 pca.elements["[data-angle]"].value='45';pca.elements["[data-angle]"].events.input();
 assert(Math.abs(Number(pca.readout().match(/candidate error² = ([^<]+)/)[1])-5)<1e-12);
 
+// LA09: check prediction/reveal, scale invariance, and singular failure paths.
+const norms = mount("la-norms");
+assert.match(norms.readout(), /Predict the maximum/);
+norms.elements["[data-reveal]"].checked = true;
+norms.elements["[data-reveal]"].events.change();
+assert.match(norms.readout(), /Induced norm ‖A‖p = 4/);
+norms.elements["[data-norm]"].value = 'inf';
+norms.elements["[data-norm]"].events.change();
+assert.equal(norms.elements["[data-reveal]"].checked, false);
+norms.elements["[data-reveal]"].checked = true;
+norms.elements["[data-reveal]"].events.change();
+assert.match(norms.readout(), /Induced norm ‖A‖p = 3/);
+norms.click("zero");
+assert.match(norms.verdict(), /Zero map/);
+norms.elements["[data-reveal]"].checked = true;
+norms.elements["[data-reveal]"].events.change();
+assert.match(norms.readout(), /Induced norm ‖A‖p = 0/);
+norms.click("rankone");
+norms.elements["[data-norm]"].value = '2';
+norms.elements["[data-norm]"].events.change();
+norms.elements["[data-reveal]"].checked = true;
+norms.elements["[data-reveal]"].events.change();
+assert(Math.abs(Number(norms.readout().match(/Induced norm ‖A‖p = ([^<]+)/)[1])-Math.sqrt(5))<1e-12);
+
+const condition = mount("la-condition");
+function revealCondition() {
+  condition.elements["[data-reveal]"].checked = true;
+  condition.elements["[data-reveal]"].events.change();
+}
+function conditionNumber(label) {
+  return Number(condition.readout().split(label+' = ')[1].split('<')[0]);
+}
+assert.match(condition.readout(), /Predict the residual/);
+revealCondition();
+assert.equal(conditionNumber('Relative forward error'), 1);
+assert.equal(conditionNumber('Relative residual'), 1e-6);
+const eta = conditionNumber('Normwise backward error η₂');
+assert(Math.abs(eta-1e-6/(Math.SQRT2+1))<1e-11);
+condition.click('scaled');
+assert.equal(condition.elements["[data-reveal]"].checked, false);
+revealCondition();
+assert.equal(conditionNumber('Absolute residual ‖r‖₂'), 1);
+assert.equal(conditionNumber('Relative forward error'), 1);
+assert.equal(conditionNumber('Normwise backward error η₂'), eta);
+condition.click('benign');revealCondition();
+assert.equal(conditionNumber('Relative forward error'), 1e-6);
+condition.click('singular');revealCondition();
+assert.match(condition.verdict(), /inconsistent/);
+assert.doesNotMatch(condition.readout(), /NaN/);
+condition.elements["[data-angle]"].value = '0';
+condition.elements["[data-angle]"].events.input();revealCondition();
+assert.match(condition.verdict(), /infinitely many solutions/);
+
 // Numerical geometry helper: audit paired equations and reconstruction independently.
 const svdMath={};vm.runInNewContext(source("public/theory/labs/svdkit.js"),{GU:{labkit:svdMath}});
 for(const A of [[[1,2],[0,1]],[[-3,0],[0,1]],[[1,2],[0,0]],[[0,0],[0,0]],[[2,0],[0,2]],[[1,0],[0,1e-10]]]){
@@ -327,7 +380,8 @@ for (const [bank, file] of [["01-span", "01-vectors-spaces-bases.md"],
   ["05-determinant", "05-determinants-volume.md"],
   ["06-eigen", "06-eigenvalues-diagonalization.md"],
   ["07-spectral", "07-spectral-theorem-quadratic-forms.md"],
-  ["08-svd", "08-svd-low-rank.md"]]) {
+  ["08-svd", "08-svd-low-rank.md"],
+  ["09-conditioning", "09-norms-conditioning-stability.md"]]) {
   const entries = {};
   vm.runInNewContext(source(`public/theory/answers/${bank}.js`), {
     GU: {answers: (key, data) => Object.assign(entries, data)}
