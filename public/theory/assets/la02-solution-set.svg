@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="440" viewBox="0 0 900 440" role="img" aria-labelledby="la02-sol-title la02-sol-desc">
+  <title id="la02-sol-title">The solution set is a particular point plus the null space</title>
+  <desc id="la02-sol-desc">An oblique view with x, y and z axes. Strips of the planes x + y + z = 3 and x + 2y + 3z = 4 meet along a solid line through xp = (2, 1, 0). A dashed line through the origin, spanned by s = (1, −2, 1), is the null space; the solution line is parallel to it.</desc>
+  <rect width="900" height="440" rx="24" fill="#08111f"/>
+  <defs><clipPath id="clip-40-70"><rect x="132.86" y="70" width="374.28" height="330"/></clipPath></defs>
+  <path d="M444.46 334.41L182.46 150.01L145.51 203.02L407.51 387.42Z" fill="#50d2c2" fill-opacity="0.22" stroke="#50d2c2" stroke-width="1.2"/>
+  <path d="M444.46 334.41L182.46 150.01L219.48 98.16L481.47 282.56Z" fill="#ffb86b" fill-opacity="0.22" stroke="#ffb86b" stroke-width="1.2"/>
+  <path d="M373.63 181.87L236.98 250.78" stroke="#31445e" stroke-width="2" fill="none"/>
+  <text x="223.41" y="260.6" fill="#a8b7ca" font-family="system-ui" font-size="16">x</text>
+  <path d="M373.63 181.87L476.61 273.31" stroke="#31445e" stroke-width="2" fill="none"/>
+  <text x="479.82" y="284.72" fill="#a8b7ca" font-family="system-ui" font-size="16">y</text>
+  <path d="M373.63 181.87L373.63 84.63" stroke="#31445e" stroke-width="2" fill="none"/>
+  <text x="369.63" y="82.83" fill="#a8b7ca" font-family="system-ui" font-size="16">z</text>
+  <path d="M494.56 266.98L232.56 82.58" stroke="#d586ff" stroke-width="3" stroke-dasharray="8 6" fill="none"/>
+  <path d="M444.46 334.41L182.46 150.01" stroke="#e8eef7" stroke-width="4" fill="none"/>
+  <path d="M373.63 181.87L283.5 118.43" stroke="#d586ff" stroke-width="3" stroke-linecap="round"/>
+  <path d="M272.87 110.95L286.86 113.65L280.13 123.22Z" fill="#d586ff"/>
+  <rect x="257.9" y="84.0" width="127.6" height="23.0" rx="5" fill="#08111f" fill-opacity="0.85"/>
+  <text x="262.87" y="98.95" fill="#d586ff" font-family="system-ui" font-size="15">s = (1, −2, 1)</text>
+  <path d="M373.63 181.87L331.29 238.87" stroke="#ff7a90" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="5 4"/>
+  <path d="M323.54 249.3L326.59 235.38L335.98 242.36Z" fill="#ff7a90"/>
+  <circle cx="323.54" cy="249.3" r="6" fill="#e8eef7"/>
+  <rect x="330.5" y="256.3" width="127.6" height="23.0" rx="5" fill="#08111f" fill-opacity="0.85"/>
+  <text x="335.54" y="271.3" fill="#e8eef7" font-family="system-ui" font-size="15">xₚ = (2, 1, 0)</text>
+  <circle cx="373.63" cy="181.87" r="4" fill="#91a4bb"/>
+  <rect x="459.6" y="276.0" width="211.6" height="23.0" rx="5" fill="#08111f" fill-opacity="0.85"/>
+  <text x="464.56" y="290.98" fill="#d586ff" font-family="system-ui" font-size="15">N(A): the line through 0</text>
+  <rect x="187.5" y="139.0" width="178.0" height="23.0" rx="5" fill="#08111f" fill-opacity="0.85"/>
+  <text x="192.46" y="154.01" fill="#e8eef7" font-family="system-ui" font-size="15">solutions: xₚ + N(A)</text>
+  <text x="630" y="150" fill="#50d2c2" font-family="system-ui" font-size="15">■ x + y + z = 3</text>
+  <text x="630" y="176" fill="#ffb86b" font-family="system-ui" font-size="15">■ x + 2y + 3z = 4</text>
+  <text x="630" y="216" fill="#a8b7ca" font-family="system-ui" font-size="14">The planes meet in the solid line.</text>
+  <text x="630" y="240" fill="#a8b7ca" font-family="system-ui" font-size="14">It is parallel to the dashed null</text>
+  <text x="630" y="262" fill="#a8b7ca" font-family="system-ui" font-size="14">line and passes through xₚ.</text>
+  <text x="630" y="300" fill="#91a4bb" font-family="system-ui" font-size="14">Axes are drawn over the planes;</text>
+  <text x="630" y="322" fill="#91a4bb" font-family="system-ui" font-size="14">xₚ lies on the floor z = 0.</text>
+  <text x="450" y="420" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">Same direction, different position: the solution line is the null-space line shifted to pass through xₚ.</text>
+</svg>

@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="440" viewBox="0 0 920 440" role="img" aria-labelledby="la01-triple-title la01-triple-desc">
+  <title id="la01-triple-title">Dependence means some vector adds no new direction</title>
+  <desc id="la01-triple-desc">Left: an oblique view of the plane spanned by v1=(1,1,0) and v2=(0,1,1); v3=(1,3,2) equals v1 plus 2 v2 and lies in the plane, while (2,2,3) points out of it, three units above the plane point (2,2,0). Right: in the plane, (1,0), (0,1) and (1,1) are pairwise non-parallel, yet (1,1) is the sum of the other two.</desc>
+  <rect width="920" height="440" rx="24" fill="#08111f"/>
+  <defs><clipPath id="clip-30-70"><rect x="139.83" y="70" width="300.33" height="320"/></clipPath></defs>
+  <text x="290" y="56" fill="#a8b7ca" font-family="system-ui" font-size="17" text-anchor="middle">v₃ = v₁ + 2v₂ lies in the plane of v₁, v₂</text>
+  <path d="M206.28 258.75L164.76 300.55" stroke="#31445e" stroke-width="1.5" stroke-dasharray="5 5" fill="none"/>
+  <text x="157.44" y="308.9" fill="#91a4bb" font-family="system-ui" font-size="15">x</text>
+  <path d="M206.28 258.75L309.05 275.64" stroke="#31445e" stroke-width="1.5" stroke-dasharray="5 5" fill="none"/>
+  <text x="313.27" y="281.99" fill="#91a4bb" font-family="system-ui" font-size="15">y</text>
+  <path d="M206.28 258.75L206.28 157.5" stroke="#31445e" stroke-width="1.5" stroke-dasharray="5 5" fill="none"/>
+  <text x="202.28" y="154.4" fill="#91a4bb" font-family="system-ui" font-size="15">z</text>
+  <path d="M158.07 276.54L259.12 373.37L423.54 238.39L322.49 141.56Z" fill="#d586ff" fill-opacity="0.2" stroke="#d586ff" stroke-width="1.5"/>
+  <path d="M206.28 258.75L227.52 279.1" stroke="#50d2c2" stroke-width="4" stroke-linecap="round"/>
+  <path d="M236.9 288.1L223.47 283.33L231.57 274.88Z" fill="#50d2c2"/>
+  <text x="240.9" y="308.1" fill="#50d2c2" font-family="system-ui" font-size="17">v₁</text>
+  <path d="M206.28 258.75L247.62 224.82" stroke="#50d2c2" stroke-width="4" stroke-linecap="round"/>
+  <path d="M257.66 216.57L251.33 229.34L243.9 220.3Z" fill="#50d2c2"/>
+  <text x="247.11" y="251.44" fill="#50d2c2" font-family="system-ui" font-size="17">v₂</text>
+  <path d="M236.9 288.1L329.62 211.98" stroke="#50d2c2" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="6 5"/>
+  <path d="M339.67 203.73L333.33 216.5L325.91 207.46Z" fill="#50d2c2"/>
+  <text x="301.42" y="257.7" fill="#50d2c2" font-family="system-ui" font-size="16">2v₂</text>
+  <path d="M206.28 258.75L327.65 208.69" stroke="#e8eef7" stroke-width="3" stroke-linecap="round"/>
+  <path d="M339.67 203.73L329.88 214.1L325.42 203.28Z" fill="#e8eef7"/>
+  <text x="347.67" y="219.73" fill="#e8eef7" font-family="system-ui" font-size="16">v₃ = (1, 3, 2)</text>
+  <path d="M267.53 165.56L267.53 317.44" stroke="#ff7a90" stroke-width="2" stroke-dasharray="4 4" fill="none"/>
+  <circle cx="267.53" cy="317.44" r="4" fill="#ff7a90"/>
+  <text x="277.53" y="333.44" fill="#ff7a90" font-family="system-ui" font-size="14">(2, 2, 0) = 2v₁</text>
+  <path d="M206.28 258.75L260.39 176.42" stroke="#ffb86b" stroke-width="3" stroke-linecap="round"/>
+  <path d="M267.53 165.56L265.28 179.64L255.5 173.21Z" fill="#ffb86b"/>
+  <text x="227.53" y="153.56" fill="#ffb86b" font-family="system-ui" font-size="16">(2, 2, 3): off the plane</text>
+  <defs><clipPath id="clip-590-70"><rect x="591.52" y="70" width="286.96" height="300"/></clipPath></defs>
+  <text x="735" y="56" fill="#a8b7ca" font-family="system-ui" font-size="17" text-anchor="middle">pairwise independent, jointly dependent</text>
+  <g clip-path="url(#clip-590-70)"><path d="M395.87 565.65L395.87 -477.83M395.87 565.65L1439.35 565.65M461.09 565.65L461.09 -477.83M395.87 500.43L1439.35 500.43M526.3 565.65L526.3 -477.83M395.87 435.22L1439.35 435.22M591.52 565.65L591.52 -477.83M395.87 370L1439.35 370M656.74 565.65L656.74 -477.83M395.87 304.78L1439.35 304.78M721.96 565.65L721.96 -477.83M395.87 239.57L1439.35 239.57M787.17 565.65L787.17 -477.83M395.87 174.35L1439.35 174.35M852.39 565.65L852.39 -477.83M395.87 109.13L1439.35 109.13M917.61 565.65L917.61 -477.83M395.87 43.91L1439.35 43.91M982.83 565.65L982.83 -477.83M395.87 -21.3L1439.35 -21.3M1048.04 565.65L1048.04 -477.83M395.87 -86.52L1439.35 -86.52M1113.26 565.65L1113.26 -477.83M395.87 -151.74L1439.35 -151.74M1178.48 565.65L1178.48 -477.83M395.87 -216.96L1439.35 -216.96M1243.7 565.65L1243.7 -477.83M395.87 -282.17L1439.35 -282.17M1308.91 565.65L1308.91 -477.83M395.87 -347.39L1439.35 -347.39M1374.13 565.65L1374.13 -477.83M395.87 -412.61L1439.35 -412.61M1439.35 565.65L1439.35 -477.83M395.87 -477.83L1439.35 -477.83" stroke="#173641" stroke-width="1" fill="none"/></g>
+  <path d="M591.52 304.78L878.48 304.78M656.74 370L656.74 70" stroke="#31445e" stroke-width="2"/>
+  <path d="M656.74 304.78L774.17 304.78" stroke="#50d2c2" stroke-width="4" stroke-linecap="round"/>
+  <path d="M787.17 304.78L774.17 310.63L774.17 298.93Z" fill="#50d2c2"/>
+  <text x="767.17" y="328.78" fill="#50d2c2" font-family="system-ui" font-size="16">(1, 0)</text>
+  <path d="M656.74 304.78L656.74 187.35" stroke="#50d2c2" stroke-width="4" stroke-linecap="round"/>
+  <path d="M656.74 174.35L662.59 187.35L650.89 187.35Z" fill="#50d2c2"/>
+  <text x="598.74" y="178.35" fill="#50d2c2" font-family="system-ui" font-size="16">(0, 1)</text>
+  <path d="M656.74 304.78L777.98 183.54" stroke="#ffb86b" stroke-width="4" stroke-linecap="round"/>
+  <path d="M787.17 174.35L782.12 187.68L773.84 179.4Z" fill="#ffb86b"/>
+  <text x="793.17" y="168.35" fill="#ffb86b" font-family="system-ui" font-size="16">(1, 1)</text>
+  <path d="M787.17 304.78L787.17 174.35" stroke="#91a4bb" stroke-width="2" stroke-dasharray="5 5" fill="none"/>
+  <path d="M656.74 174.35L787.17 174.35" stroke="#91a4bb" stroke-width="2" stroke-dasharray="5 5" fill="none"/>
+  <text x="604.57" y="96.09" fill="#a8b7ca" font-family="system-ui" font-size="15">(1, 0) + (0, 1) − (1, 1) = 0</text>
+  <text x="460" y="420" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">Three vectors in ℝ³ are dependent when one of them lies in the plane (or line) spanned by the others.</text>
+</svg>

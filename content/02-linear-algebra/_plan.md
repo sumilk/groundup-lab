@@ -14,6 +14,32 @@ Develop exact vector-space arguments into numerically trustworthy algorithms, th
 
 LA01–LA08 retain their derivations, interactive figures and 24 registered Python tasks. Each now has a bounded local audit and an additional checked cumulative exercise: scale-aware rank; pivot growth/backward error; normal-equation versus QR/SVD diagnostics; QR reconstruction versus orthogonality; sign/log-volume; nonnormal spectral sensitivity; the complex-Hermitian convention; and stable subspace/held-out PCA comparisons. LA09 now adds the dedicated conditioning and backward-error treatment; LA10–LA26 remain planned.
 
+### Textbook-standard upgrade status
+
+A benchmark audit on 2026-09-26 measured LA01–LA09 against the [textbook-quality standard](../_plans.md#textbook-quality-standard). Each lesson was read in full against the benchmarks named in its brief, every worked example was recomputed, and about 100 answer-bank entries were checked. No arithmetic errors were found. The recurring gaps were:
+- central procedures not worked in full in the prose;
+- caveats interrupting first exposure;
+- missing canonical results;
+- answer banks that repeat section practice and have thin reference proofs.
+
+Upgrades proceed one lesson at a time, in order. Each brief's **Standard upgrade** line lists the work. A lesson moves to *upgraded* only after the checker's quality gate passes and a fresh audit scores every dimension at least 4.
+
+Audit scores run 1–5 in this order: correctness / rigor / coverage / clarity / exercises.
+
+| Lesson | Audit scores | Status |
+|---|---|---|
+| LA01 | 4 / 3 / 4 / 3 / 3.5 | **upgraded 2026-09-26**. Three independent audits; final scores: correctness 5, rigor 4.5, coverage 4.5, clarity 4, visuals 4.5, exercises 4. Fourteen generated figures; all central theorems proved in the text (dependence and exchange lemmas, dimension bound, basis theorems, dim(U+Y), Cauchy–Schwarz, triangle inequality); gated 55-item bank. |
+| LA02 | 4 / 2.5 / 3 / 2.5 / 3 | **upgraded 2026-09-26**. Two independent audits; final scores: correctness 5, rigor 4.5, coverage 4.5, clarity 4, visuals 4, exercises 4. Now covers linear maps and superposition, matrix products in four views (including outer products and blocks), transpose and inverses, worked 3×4 RREF, complete solution, four subspaces, elementary matrices, Gauss–Jordan, the invertible matrix theorem, LU/PA=LU/LDU with worked solves and the ⅔n³ count, and growth factors. Twelve generated figures; gated 45-item bank. |
+| LA03 | 4 / 4 / 3 / 3 / 3.5 | pending |
+| LA04 | 5 / 4 / 2 / 3.5 / 3.5 | pending |
+| LA05 | 5 / 4 / 3.5 / 3 / 3 | pending |
+| LA06 | 5 / 3 / 3 / 3 / 3 | pending |
+| LA07 | 5 / 4 / 3 / 3 / 3 | pending |
+| LA08 | 5 / 4 / 3 / 3 / 3 | pending |
+| LA09 | 5 / 4 / 4 / 3 / 3.5 | **upgraded 2026-09-26** (pilot). Two independent re-audits; final scores 4 in every dimension (correctness, rigor, coverage, clarity, visuals, exercises). Nine generated figures and a gated bank. Remaining polish: fewer diag(1,ε) examples, a worked iterative-refinement step. |
+
+New modules LA10–LA26 are written to the standard from the start. Each brief names its benchmarks and a visual spine; those lists are the minimum figure and coverage plan, not a ceiling.
+
 ### Coverage and remaining work
 
 | Handle | Current coverage and evidence | Still to add or verify |
@@ -49,7 +75,7 @@ LA01–LA08 retain their derivations, interactive figures and 24 registered Pyth
 
 LA01–LA09 have numbered practice with static hints, three registered Python tasks each, registered interactive figures, and answer banks `01-span` through `09-conditioning`. Preserve those bank keys and the original reserved keys for LA10–LA26; do not rename them to the newer track-prefix convention. Preserve the existing exercise grammar, including historical checkpoint difficulty labels accepted by the reader. The remaining 17 modules have briefs only. Existing figures and functions are identified explicitly below; future figures, even when their names appeared in the old plan, remain unimplemented.
 
-Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_plans.md#4-shared-lesson-authoring-contract). Numbered teaching sections end with Foundation / Core / Stretch practice and static hints. Each lesson develops a finite or geometric example before abstraction, states theorem assumptions, includes a prediction/reveal experiment with a failure preset, and closes with derivations, cumulative practice, and the six-part checkpoint. Each module also has separate RE and RS evidence gates below. Authoring freedom remains: add linked views, examples, and misconception checks whenever they improve understanding.
+Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_plans.md#4-shared-lesson-authoring-contract) and the [textbook-quality standard](../_plans.md#textbook-quality-standard): novice-first explanation, full worked examples, a figure in each teaching section, results stated before caveats, and exercise banks that do not repeat practice. Numbered teaching sections end with Foundation / Core / Stretch practice and static hints. Each lesson develops a finite or geometric example before abstraction, states theorem assumptions, includes a prediction/reveal experiment with a failure preset, and closes with derivations, cumulative practice, and the six-part checkpoint. Each module also has separate RE and RS evidence gates below. Authoring freedom remains: add linked views, examples, and misconception checks whenever they improve understanding.
 
 **Identifiers and dependencies.** Handles `LANN` are planning references. Preserve every existing filename, content ID, lab/task ID, and bank key. New content IDs use `math.linear-algebra.<slug>` unless explicitly specified; filenames use the reserved two-digit number and slug. Future IDs and bank names below are reservations, not registrations. Module-map prerequisites govern the proposed teaching route; additional or revised prerequisites on authored lessons are planning changes only until their front matter and inbound references are deliberately migrated.
 
@@ -104,6 +130,12 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Spine and derivations:** Prove the dimension bound and basis-coordinate uniqueness; distinguish vectors from coordinates and exact dependence from a numerical rank decision.
 
+**Benchmarks:** Strang, *Introduction to Linear Algebra* ch.1–3; Axler, *Linear Algebra Done Right* ch.1–2; Boyd & Vandenberghe, *VMLS* ch.1–5. Canonical: linear dependence lemma, independent-list ≤ spanning-list length, sums and direct sums, dim(U+W), norm/Cauchy–Schwarz preview.
+
+**Visual spine:** arrows and the parallelogram rule; a span sheet collapsing to a line; the exchange lemma as swapping one vector at a time; a skewed basis grid read as coordinates; subspace versus affine translate.
+
+**Standard upgrade (audit 2026-09-26):** Prove the dependence and exchange lemmas in the prose before the dimension bound; fix definition order (independence, determinant, finite-dimensional, Cauchy–Schwarz before cosine); add sums and direct sums; cut caveats into Numerical notes; replace bank items that repeat practice (A2–A5, A10, A11, K2, K4); full model answers with rubrics for the proof items; fold the audit section and M13 into numbered sections.
+
 **Interactive experiment:** Existing la-vectors, la-span, and la-basis: drag generators, change basis/metric, and compare exact collapse with near dependence.
 
 **Implementation ladder:** Keep span_coordinates, dependency_relation, and basis_coordinates. Extend local checks to rescaled inputs and dimension-limited embedding examples.
@@ -124,6 +156,12 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 **Existing artifacts:** [02-systems-elimination-subspaces.md](02-systems-elimination-subspaces.md); registered Python tasks: `echelon` → `row_echelon`, `solve-complete` → `solve_complete`, `lu` → `lu_factor`. Registered lesson figures: `la-elim`, `la-picture`, `la-map`.
 
 **Spine and derivations:** Derive solution existence/uniqueness and null-space parameterization; prove rank-nullity and the standard-dot-product row/null orthogonality.
+
+**Benchmarks:** Strang ch.2–3; Trefethen & Bau Lectures 20–22; Meyer, *Matrix Analysis* ch.2–4. Canonical: elementary matrices, Gauss–Jordan inverse, PA=LU derivation and ⅔n³ count, consistency rank A = rank[A|b], invertible matrix theorem, RREF uniqueness, growth factor.
+
+**Visual spine:** row picture versus column picture; elimination as a sequence of shears; the solution set as a particular point plus a null-space translate; Strang's four-subspace diagram with dimensions; the unpivoted-pivot failure in the row picture.
+
+**Standard upgrade (audit 2026-09-26):** Work a full 3×4 elimination, the complete solution and all four subspaces in the prose; add elementary matrices, Gauss–Jordan, the LU derivation with operation count, and the invertible matrix theorem; prove that row operations preserve column relations before Theorem 5; define or drop direct-sum and dual-space language; add routine drills and remove duplicates (K2=M2, M6, C4); expand one-sentence proof answers (A7–A11, K3) into model solutions with rubrics.
 
 **Interactive experiment:** Existing la-elim, la-picture, and la-map: step through elimination and vary a matrix between full rank, near singular, and exact collapse.
 
@@ -150,6 +188,12 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Spine and derivations:** Prove projection existence/uniqueness in finite dimensions, normal equations, the excess-error identity, and uniqueness of fitted values despite nonunique coefficients.
 
+**Benchmarks:** Strang ch.4; Axler ch.6; *VMLS* ch.12–13 and 15; Trefethen & Bau Lectures 6 and 11. Canonical: Euclidean projection first, oblique versus orthogonal projectors, left inverse (AᵀA)⁻¹Aᵀ, polynomial fitting and overfitting, ridge preview.
+
+**Visual spine:** shadow of a vector on a line with the right angle; residual perpendicular to a column-space plane; unit balls of a metric G; oblique versus orthogonal projection; fitted line in data space versus fitted vector in ℝᵐ.
+
+**Standard upgrade (audit 2026-09-26):** Teach Euclidean projection and least squares fully before the general metric G; add a polynomial-fitting/overfitting example, the named left inverse, and a ridge preview; fix the broken inline math near the end; replace boilerplate hints; replace bank items that repeat practice (A1, A5, A6, A8–A12; K2, K4).
+
 **Interactive experiment:** Existing la-project/la-lsq and reused la-map: vary candidate projection and metric, inspect residual orthogonality and degenerate design matrices.
 
 **Implementation ladder:** Keep project_onto, normal_equations, and gram_metric; use small exact cases and invalid/non-PD metric inputs.
@@ -172,6 +216,12 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 **Existing artifacts:** [04-orthonormal-bases-qr.md](04-orthonormal-bases-qr.md); registered Python tasks: `gram-schmidt` → `gram_schmidt`, `qr-solve` → `qr_solve`, `orthogonality-defect` → `orthogonality_defect`. Registered lesson figures: `la-gramschmidt`.
 
 **Spine and derivations:** Derive Gram–Schmidt and QR, state full-rank and sign conventions for uniqueness, and derive least squares through a triangular system.
+
+**Benchmarks:** Trefethen & Bau Lectures 7–10; Golub & Van Loan, *Matrix Computations* ch.5; Strang §4.4. Canonical: Householder reflectors with the sign choice, Givens rotations, operation counts, loss-of-orthogonality bounds for CGS/MGS/CGS2/Householder, triangular versus orthogonal triangularization.
+
+**Visual spine:** Gram–Schmidt as subtracting shadows; a Householder mirror sending x to ‖x‖e₁; a Givens rotation zeroing one entry; orthogonality loss plotted against κ for each method; R as the record of lengths and overlaps.
+
+**Standard upgrade (audit 2026-09-26):** Add a full Householder section (geometry, sign choice, algorithm, cost, implicit Q, hand exercise) and a Givens subsection; state the orthogonality-loss bounds with the float32 experiment as illustration; define MGS before the figure uses it; add A⁺=R⁻¹Qᵀ; replace boilerplate hints and repeated fixtures.
 
 **Interactive experiment:** Existing la-gramschmidt: vary near dependence and float precision; inspect normalization, overlap, and reconstruction independently.
 
@@ -196,6 +246,12 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Spine and derivations:** Derive uniqueness from the determinant axioms, det(AB), orientation/volume scaling, and the limited change-of-variables preview.
 
+**Benchmarks:** Axler (4th ed.) determinants via alternating multilinear forms; Strang ch.5; Hubbard & Hubbard, determinants and volume. Canonical: well-defined permutation sign, block-triangular determinant, adjugate and Cramer's rule, det = product of eigenvalues, matrix determinant lemma, Jacobi's formula.
+
+**Visual spine:** unit square to parallelogram with signed area; shear preserves area; a reflection flips orientation; elimination as area-preserving shears plus scaling; cofactor expansion as slicing; density thinning as volume grows.
+
+**Standard upgrade (audit 2026-09-26):** Prove the permutation sign is well defined and the block-triangular determinant; add adjugate/Cramer, the matrix determinant lemma and Jacobi's formula with ML links; replace repeated bank items (A4–A7, A9, A10, K2, K4, M3) with fresh matrices and structured determinants (Vandermonde, tridiagonal).
+
 **Interactive experiment:** Existing la-det: drag 2D/3D cells, compare thin versus collapsed shapes, and inspect inverse-density readouts.
 
 **Implementation ladder:** Keep det_by_elimination, volume_ratio, and cofactor_2x2; test nonstandard source cells and swap signs.
@@ -219,6 +275,12 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Spine and derivations:** Prove diagonalization criteria in stated cases; derive power iteration under a spectral gap and nonzero dominant component; contrast spectral radius with transient amplification.
 
+**Benchmarks:** Axler ch.5 and 8; Strang ch.6; Trefethen & Bau Lectures 24–27; Horn & Johnson, *Matrix Analysis* ch.1–2. Canonical: existence of an eigenvalue over ℂ, Schur triangularization, diagonalizable ⇔ gm=am, Cayley–Hamilton, spectral mapping, AB versus BA, left eigenvectors, Gershgorin.
+
+**Visual spine:** invariant lines that the map only stretches; an arrow field of x ↦ Ax; power-iteration trajectory converging to the dominant line; a rotation with no real invariant line; Jordan shear growth before decay; Gershgorin discs.
+
+**Standard upgrade (audit 2026-09-26):** Prove existence over ℂ and Schur triangularization and use Schur to prove decay ⇔ ρ<1; prove the gm=am criterion; add Cayley–Hamilton, spectral mapping, AB/BA, left eigenvectors and Gershgorin; work a 3×3 eigen-decomposition and a Markov/Fibonacci example; replace repeated bank items (A3, A5, A6, A8–A10, A12, M4).
+
 **Interactive experiment:** Existing la-eigen/la-power: edit eigenlines, sign flips, rotations, annihilation, missed dominant components, and nearly tied eigenvalues.
 
 **Implementation ladder:** Keep power_iteration, char_poly_2x2, and is_diagonalizable_2x2 with its exact-integer small-case contract.
@@ -241,6 +303,12 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 **Existing artifacts:** [07-spectral-theorem-quadratic-forms.md](07-spectral-theorem-quadratic-forms.md); registered Python tasks: `rayleigh-quotient` → `rayleigh_quotient`, `cholesky` → `cholesky`, `is-pd` → `is_pd`. Registered lesson figures: `la-quadform`.
 
 **Spine and derivations:** Prove the real symmetric spectral theorem, characterize quadratic signs and Rayleigh extrema, and derive Cholesky for positive-definite matrices.
+
+**Benchmarks:** Axler ch.7; Horn & Johnson ch.4 and 7; Strang §6.4–6.5. Canonical: Courant–Fischer in both forms, Weyl inequalities, Cauchy interlacing, Sylvester's law of inertia, PSD square root uniqueness, principal-minor tests, generalized eigenproblem.
+
+**Visual spine:** ellipse contours with principal axes; the Rayleigh quotient traced around the unit circle; bowl, saddle and trough surfaces; completing the square as Cholesky; interlacing eigenvalues on a number line.
+
+**Standard upgrade (audit 2026-09-26):** Add Weyl, interlacing and the max–min form as corollaries of min–max; name Sylvester's law; complete the leading-minor proof; prove PSD square-root uniqueness; work a 3×3 non-diagonal spectral decomposition; unify the covariance convention with LA08; replace repeated fixtures and bank items.
 
 **Interactive experiment:** Existing la-quadform: drag eigenvalues and a unit probe; compare bounded bowls, flat compatible valleys, tilted unbounded valleys, and saddles.
 
@@ -269,6 +337,12 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Spine and derivations:** Construct SVD from the spectral theorem, prove both low-rank error bounds, and derive centered PCA as an affine reconstruction problem.
 
+**Benchmarks:** Trefethen & Bau Lectures 4–5; Strang ch.7 and *Linear Algebra and Learning from Data* Part I; Horn & Johnson ch.7; Blum, Hopcroft & Kannan, *Foundations of Data Science* ch.3. Canonical: SVD existence by maximization, polar decomposition, Weyl for singular values, Eckart–Young–Mirsky, Wedin/Davis–Kahan with principal angles, explicit pseudoinverse.
+
+**Visual spine:** rotate–stretch–rotate of the unit circle; a matrix as a sum of rank-one layers; the best line with perpendicular residuals; a tilted PCA cloud with its axes; principal angles between two subspaces.
+
+**Standard upgrade (audit 2026-09-26):** Work a full non-diagonal SVD (U, Σ, V) and a tilted-axis PCA example; add Weyl for singular values, polar decomposition and the explicit pseudoinverse; state Wedin/Davis–Kahan and define principal angles; name Ky Fan in Theorem 31; cut reuse of the four-point dataset; fix M7's title and fields.
+
 **Interactive experiment:** Existing la-svd/la-approx/la-pca: compare paired directions, rank-one removal, fixed-scale error maps, and isotropic/identical data.
 
 **Implementation ladder:** Keep svd_2x2, truncate_rank, and explained_variance; preserve the undefined zero-total-variance case.
@@ -290,6 +364,12 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Spine and derivations:** Derive induced norms, spectral norm, relative perturbation bounds with denominator conditions, and backward error; distinguish sensitivity from solver stability.
 
+**Benchmarks:** Trefethen & Bau Lectures 12–15 and 20–22; Higham, *Accuracy and Stability of Numerical Algorithms* ch.1–2 and 7; Demmel, *Applied Numerical Linear Algebra* ch.2. Canonical: induced norms, κ and its attainment, finite perturbation bound, Rigal–Gaches backward error, distance to singularity, stable versus unstable algorithms, κu digit budget.
+
+**Visual spine:** unit balls of three norms; the image ellipse and its longest axis; a perturbation disk mapped to a long error ellipse; distance to singularity as squashing the ellipse; residual in data space versus error in solution space; the unpivoted solve in the row picture.
+
+**Standard upgrade (audit 2026-09-26):** Pilot lesson for the standard: add generated figures for each teaching section, fully worked 2×2 and 3×3 condition computations, a Numerical-notes restructuring of caveats, rubrics for every written item, and a variant for A3.
+
 **Interactive experiment:** Registered `la-norms` and `la-condition`: vary norm ball, weak singular scale, common scale, and perturbation direction; include prediction/reveal, zero-map, singular-system, and small-residual/large-forward-error cases.
 
 **Implementation ladder:** Registered tasks `matrix-norms` → `matrix_norm_1_inf`, `condition-estimate` → `condition_estimate`, and `cancellation-demo` → `cancellation_demo`. The small κ∞ oracle uses scaled pivoted solves to measure inverse amplification; it is not a scalable production estimator.
@@ -308,6 +388,10 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 **Add or verify:** Moore–Penrose identities, rank-deficient solves, ridge spectral filters, and explicit implicit-bias conditions.
 
 **Spine and derivations:** Derive all four pseudoinverse identities and the minimum-norm least-squares solution; show ridge filtering and zero-initialized least-squares GD's restricted minimum-norm result.
+
+**Benchmarks:** Golub & Van Loan §5.5; Hansen, *Rank-Deficient and Discrete Ill-Posed Problems*; Strang, *Linear Algebra and Learning from Data*; Hastie, Tibshirani & Friedman, *ESL* §3.4. Canonical: Moore–Penrose conditions, minimum-norm solution, truncated SVD, Tikhonov/ridge filter factors, discrepancy principle or L-curve.
+
+**Visual spine:** the minimum-norm point on an affine solution set; ridge filter factors σ²/(σ²+λ) against σ; ridge paths of coefficients; an L-curve.
 
 **Interactive experiment:** Proposed la-ridge: move the penalty and singular values; display stable predictions with unstable coefficients near collinearity.
 
@@ -332,6 +416,10 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Spine and derivations:** Derive block updates and operation counts; contrast pivoting/orthogonality guarantees with memory-traffic models.
 
+**Benchmarks:** Trefethen & Bau Lectures 10 and 20–23; Golub & Van Loan ch.1, 3–5; Higham ch.9–10 and 19. Canonical: Householder QR, blocked LU/Cholesky, triangular solves, BLAS levels and arithmetic intensity, stable log-determinants.
+
+**Visual spine:** tiles of a blocked factorization; memory traffic per block size; a sequence of Householder mirrors; roofline intuition.
+
 **Interactive experiment:** Proposed la-blocking: choose block size and watch touched submatrices, estimated operations, and traffic; flag that animation is not a hardware benchmark.
 
 **Implementation ladder:** Implement cholesky_blocked, flop_count, and triangular_solve; add local Householder and sign/logdet checks.
@@ -350,6 +438,10 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 **Add or verify:** Stationary splittings, steepest descent, conjugate gradients, residual stopping, and preconditioners; LA11 is no longer a required predecessor.
 
 **Spine and derivations:** Derive splitting convergence in its stated norm/spectral setting, CG conjugacy and exact-arithmetic finite termination, and conditioning-dependent bounds.
+
+**Benchmarks:** Saad, *Iterative Methods for Sparse Linear Systems*; Shewchuk, *An Introduction to the Conjugate Gradient Method Without the Agonizing Pain*; Trefethen & Bau Lectures 32–38. Canonical: Jacobi/Gauss–Seidel splittings, steepest descent, CG optimality and κ-dependent convergence, residual stopping, preconditioning.
+
+**Visual spine:** steepest-descent zigzag across ellipse contours; CG reaching the centre of a 2-D bowl in two steps; preconditioning rounding the ellipse; residual curves on a log scale.
 
 **Interactive experiment:** Proposed la-descent/la-precondition: change SPD spectrum and stopping tolerance; contrast exact 2D termination with finite-precision behavior.
 
@@ -370,6 +462,10 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Spine and derivations:** Derive Krylov projection and Ritz residual tests; state randomized approximation bounds with oversampling, failure probability, and spectrum assumptions.
 
+**Benchmarks:** Trefethen & Bau Lectures 24–33; Golub & Van Loan ch.7–8 and 10; Halko, Martinsson & Tropp (2011). Canonical: Arnoldi/Lanczos, Ritz values and residuals, loss of orthogonality, Schur form, randomized range finder with oversampling and power steps.
+
+**Visual spine:** Ritz values converging to extreme eigenvalues; a Krylov subspace growing; a randomized sketch capturing a dominant subspace.
+
 **Interactive experiment:** Proposed la-krylov/la-randsvd: change gap, sketch size, and precision; reveal ghost Ritz values and missed subspaces.
 
 **Implementation ladder:** Implement lanczos_tridiag, randomized_range_finder, and ritz_values; use supplied small eigensolvers in-browser and stable libraries locally.
@@ -388,6 +484,10 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 **Add or verify:** Sparse storage, fill-in/orderings, matrix-free actions, graph Laplacians, Toeplitz/circulant families, and a complex-DFT bridge.
 
 **Spine and derivations:** Derive graph quadratic energy, zero-eigenvalue multiplicity for components, and circulant diagonalization with conjugate-transpose conventions.
+
+**Benchmarks:** Davis, *Direct Methods for Sparse Linear Systems*; Golub & Van Loan ch.4 and 11; Strang, *Computational Science and Engineering*. Canonical: sparse formats, fill-in and orderings, graph Laplacians, Toeplitz and circulant structure, the DFT diagonalizing circulants.
+
+**Visual spine:** sparsity patterns before and after fill-in; the graph behind a sparse matrix; circulant eigenvectors as Fourier modes.
 
 **Interactive experiment:** Proposed la-graph: edit edges and ordering; display Laplacian spectrum, disconnected components, fill-in, and a nonunique Fiedler direction.
 
@@ -412,6 +512,10 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Spine and derivations:** Derive differential rules for Ax, matrix products, quadratic forms, and softmax; quantify local linearization error on smooth maps.
 
+**Benchmarks:** Magnus & Neudecker, *Matrix Differential Calculus*; Parr & Howard, *The Matrix Calculus You Need for Deep Learning*; Petersen & Pedersen, *The Matrix Cookbook* (reference). Canonical: Fréchet derivative, layout conventions, product and chain rules, derivatives of quadratic forms, log-det and softmax.
+
+**Visual spine:** the derivative as the best linear map on a small neighbourhood; a Jacobian sending a small square to a parallelogram; tangent planes.
+
 **Interactive experiment:** Proposed la-jacobian: move input and neighborhood radius; compare exact mapped points and the Jacobian ellipse at a singular derivative.
 
 **Implementation ladder:** Implement numeric_jacobian, jacobian_check, and local_linearization_error with step-size sweeps.
@@ -430,6 +534,10 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 **Add or verify:** Adjoint definitions in Euclidean/general metrics, JVP/VJP composition, and mode cost/memory accounting.
 
 **Spine and derivations:** Derive the chain rule as composition and the adjoint identity; show why transposes appear under Euclidean coordinates and how metrics change them.
+
+**Benchmarks:** Griewank & Walther, *Evaluating Derivatives*; Baydin et al. (2018), automatic differentiation survey. Canonical: adjoint in Euclidean and general metrics, JVP/VJP, forward versus reverse cost and memory.
+
+**Visual spine:** a JVP pushing a tangent forward; a VJP pulling a covector back; level sets of a covector.
 
 **Interactive experiment:** Proposed la-vjp: vary layer shapes and metric; compare forward/reverse arithmetic and a transpose mistaken for a general-metric adjoint.
 
@@ -450,6 +558,10 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Spine and derivations:** Derive reverse accumulation and per-layer VJPs; show why every outgoing use contributes to a shared variable's adjoint.
 
+**Benchmarks:** Griewank & Walther; Goodfellow, Bengio & Courville, *Deep Learning* §6.5. Canonical: reverse accumulation on DAGs, fan-out sums, broadcast/reduction adjoints, stable softmax-cross-entropy gradient, checkpointing trade-offs.
+
+**Visual spine:** a computation graph with adjoints flowing backward; fan-out accumulation; checkpoint recomputation timelines.
+
 **Interactive experiment:** Proposed la-graphflow: step through a branched graph and remove an accumulation edge; compare analytic and finite-difference derivatives.
 
 **Implementation ladder:** Implement backward_linear, backward_softmax_ce, and finite_difference_check; extend to a shared-parameter graph locally.
@@ -468,6 +580,10 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 **Add or verify:** HVPs, generalized Gauss–Newton, model versus empirical Fisher, natural gradient, and K-FAC approximation assumptions.
 
 **Spine and derivations:** Derive HVP identities and GGN PSD structure; state precisely when an exponential-family output model yields the GGN/model-Fisher identity.
+
+**Benchmarks:** Martens (2020), *New Insights and Perspectives on the Natural Gradient Method*; Nocedal & Wright, *Numerical Optimization* ch.10; Amari, *Information Geometry and Its Applications*. Canonical: HVPs, Gauss–Newton, Fisher versus empirical Fisher, natural gradient, K-FAC assumptions.
+
+**Visual spine:** curvature ellipses of a loss; Euclidean versus natural-gradient steps; Kronecker-factored curvature blocks.
 
 **Interactive experiment:** Proposed la-curvature/la-hvp: vary residual curvature and damping; compare Hessian, GGN, and empirical Fisher on an exact small model.
 
@@ -492,6 +608,10 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Spine and derivations:** Derive rank bounds for products and sums; distinguish a fixed low-rank parameterization from unconstrained training after low-rank initialization.
 
+**Benchmarks:** Hu et al. (2021), LoRA; Aghajanyan et al. (2020), intrinsic dimensionality; Eckart–Young. Canonical: rank of updates, reachable sets, merging and composition of low-rank adapters, rank budgets.
+
+**Visual spine:** a weight update as a sum of outer products; the reachable set of a rank-r update; spectrum of a trained update.
+
 **Interactive experiment:** Proposed la-lora: change factors/rank and compose adapters; expose a sum whose rank exceeds each component's rank.
 
 **Implementation ladder:** Implement rank_of_product, best_rank_k, and merge_adapter; compare merged outputs against the factored computation.
@@ -510,6 +630,10 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 **Add or verify:** Subspace embeddings, sketched least squares, leverage/coherence effects, and held-out distortion diagnostics.
 
 **Spine and derivations:** Reuse the finite-set JL bound; derive what uniform subspace preservation buys for least squares and why pairwise distances alone are insufficient.
+
+**Benchmarks:** Woodruff (2014), *Sketching as a Tool for Numerical Linear Algebra*; Martinsson & Tropp (2020), randomized numerical linear algebra survey; Drineas & Mahoney. Canonical: subspace embeddings, sketch-and-solve least squares, leverage scores and coherence.
+
+**Visual spine:** a random projection preserving pairwise distances; leverage scores highlighting influential rows; distortion histograms.
 
 **Interactive experiment:** Proposed la-jl: vary sketch dimension and data coherence; show acceptable pairwise error with a missed low-energy regression direction.
 
@@ -530,6 +654,10 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Spine and derivations:** Derive indexed contraction identities and operation/intermediate-memory counts; distinguish tensor order from matrix rank of an unfolding.
 
+**Benchmarks:** Kolda & Bader (2009), *Tensor Decompositions and Applications*; NumPy/PyTorch einsum documentation. Canonical: tensor products, contractions, einsum semantics, contraction-order cost, strides and memory layout.
+
+**Visual spine:** tensor network diagrams; contraction orders with their costs; strided memory layouts for a reshape.
+
 **Interactive experiment:** Proposed la-einsum: change index expression, shapes, and contraction order; reveal large intermediates and accidental repeated-index reductions.
 
 **Implementation ladder:** Implement einsum_cost, contract_pair, and reshape_view as a storage simulation; use NumPy locally for parity.
@@ -548,6 +676,10 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 **Add or verify:** QK/OV composition, bilinear forms, pre-softmax score-rank bounds, softmax rank changes, positional structure, and multi-head gauge freedoms.
 
 **Spine and derivations:** Derive qᵀBk, rank bounds on QKᵀ, and invariances of factored maps; give an explicit example where row softmax increases rank.
+
+**Benchmarks:** Vaswani et al. (2017); Elhage et al. (2021), *A Mathematical Framework for Transformer Circuits*. Canonical: QK and OV circuits, bilinear forms, score rank bounds, softmax effects, head gauge symmetries.
+
+**Visual spine:** the QK bilinear form as a skewed inner product; the rank of the score matrix; OV composition as a low-rank map.
 
 **Interactive experiment:** Proposed la-attention: drag queries/keys and apply a basis change; compare scores, normalized weights, outputs, and ranks.
 
@@ -568,6 +700,10 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Spine and derivations:** Prove vec identities and mixed-product rules; derive block inverse/Schur formulas with invertibility assumptions and PSD special cases.
 
+**Benchmarks:** Van Loan (2000), *The ubiquitous Kronecker product*; Horn & Johnson, *Topics in Matrix Analysis* ch.4; Zhang (ed.), *The Schur Complement and Its Applications*. Canonical: vec–Kronecker identity, Kronecker spectra, block elimination, Schur complements and inertia.
+
+**Visual spine:** block structure of a Kronecker product; block elimination; a Schur complement as a conditioned covariance ellipse.
+
 **Interactive experiment:** Proposed la-kron: edit factors and block pivots; display spectrum products and failure of an inverse formula at a singular pivot.
 
 **Implementation ladder:** Implement kron, vec_identity, and schur_complement with consistent row/column vectorization.
@@ -586,6 +722,10 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 **Add or verify:** Random-matrix null assumptions, spectral normalization/centering, singular versus covariance spectra, Lipschitz bounds, and qualified edge-of-stability studies.
 
 **Spine and derivations:** Map singular values to sample-covariance eigenvalues with aspect ratio/scaling explicit; derive layerwise norm bounds and test a predeclared null.
+
+**Benchmarks:** Martin & Mahoney (2021); Pennington & Worah (2017); Bai & Silverstein, *Spectral Analysis of Large Dimensional Random Matrices*. Canonical: Marchenko–Pastur null model, spectral normalization, singular versus covariance spectra, Lipschitz bounds.
+
+**Visual spine:** empirical spectral densities against the Marchenko–Pastur law; outlier singular values; heavy-tail fits.
 
 **Interactive experiment:** Proposed la-mp: change aspect ratio, entry distribution, and correlations; compare iid nulls with structured weights and finite-sample deviations.
 
@@ -606,6 +746,10 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 
 **Spine and derivations:** Derive coherence bounds and one qualified sparse-recovery guarantee; distinguish exact recovery, reconstruction, sparsity, and semantic interpretability.
 
+**Benchmarks:** Elhage et al. (2022), *Toy Models of Superposition*; Foucart & Rauhut, *A Mathematical Introduction to Compressive Sensing*; Candès & Tao (2005); Bricken et al. (2023). Canonical: coherence, sparse recovery conditions, RIP as sufficient, ℓ1 recovery, dictionary symmetries.
+
+**Visual spine:** many features packed into few dimensions; the ℓ1 ball first touching an affine solution set; coherence as the largest overlap.
+
 **Interactive experiment:** Proposed la-superpose: pack vectors and vary sparsity; show low reconstruction error with nonunique or uninterpretable dictionary atoms.
 
 **Implementation ladder:** Implement max_coherence, sparse_recovery, and dictionary_step; use controlled synthetic ground truth before real activations.
@@ -624,6 +768,10 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 **Add or verify:** A reproducible audit combining rank, spectra, subspace comparisons, and an ablation predicted by the algebra.
 
 **Spine and derivations:** No new theory: define numerical rank, null model, subspace metric, intervention, and a falsifiable prediction before measuring.
+
+**Benchmarks:** Integrates LA19, LA22, LA24 and LA25 with Research Practice RP04. Canonical: a reproducible audit with a stated ablation prediction.
+
+**Visual spine:** report figure templates: spectra, subspace angles, rank budgets and ablation deltas.
 
 **Interactive experiment:** Proposed la-audit: link layer selection, singular cutoffs, subspace overlap, and ablation outcomes; expose conclusions that reverse under a tolerance change.
 

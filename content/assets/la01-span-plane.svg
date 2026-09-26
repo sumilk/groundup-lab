@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="440" viewBox="0 0 900 440" role="img" aria-labelledby="la01-plane-title la01-plane-desc">
+  <title id="la01-plane-title">The span of two vectors in three-space is a plane through the origin</title>
+  <desc id="la01-plane-desc">An oblique view of the plane spanned by a=(1,0,1) and b=(0,1,1). The point (2,3,5) is reached by walking 2a and then 3b. The point (1,1,1) sits directly below the plane point (1,1,2), which has the same x and y, so (1,1,1) is not in the span.</desc>
+  <rect width="900" height="440" rx="24" fill="#08111f"/>
+  <text x="450" y="36" fill="#a8b7ca" font-family="system-ui" font-size="18" text-anchor="middle">span{(1, 0, 1), (0, 1, 1)} in ℝ³</text>
+  <defs><clipPath id="clip-30-50"><rect x="137.35" y="50" width="285.31" height="340"/></clipPath></defs>
+  <path d="M225.35 323.77L174.29 370.42" stroke="#31445e" stroke-width="1.5" stroke-dasharray="5 5" fill="none"/>
+  <text x="166.2" y="379.15" fill="#91a4bb" font-family="system-ui" font-size="15">x</text>
+  <path d="M225.35 323.77L340.05 344.54" stroke="#31445e" stroke-width="1.5" stroke-dasharray="5 5" fill="none"/>
+  <text x="345.23" y="351.2" fill="#91a4bb" font-family="system-ui" font-size="15">y</text>
+  <path d="M225.35 323.77L225.35 209.07" stroke="#31445e" stroke-width="1.5" stroke-dasharray="5 5" fill="none"/>
+  <text x="221.35" y="204.89" fill="#91a4bb" font-family="system-ui" font-size="15">z</text>
+  <path d="M214.75 350.76L153.04 268.54L339.43 115.91L401.13 198.13Z" fill="#d586ff" fill-opacity="0.2" stroke="#d586ff" stroke-width="1.5"/>
+  <path d="M225.35 323.77L211.88 305.81" stroke="#50d2c2" stroke-width="4" stroke-linecap="round"/>
+  <path d="M204.07 295.41L216.56 302.3L207.2 309.32Z" fill="#50d2c2"/>
+  <text x="186.07" y="295.41" fill="#50d2c2" font-family="system-ui" font-size="17">a</text>
+  <path d="M225.35 323.77L263.09 292.87" stroke="#50d2c2" stroke-width="4" stroke-linecap="round"/>
+  <path d="M273.14 284.63L266.79 297.39L259.38 288.34Z" fill="#50d2c2"/>
+  <text x="279.14" y="302.63" fill="#50d2c2" font-family="system-ui" font-size="17">b</text>
+  <path d="M225.35 323.77L190.6 277.46" stroke="#ffb86b" stroke-width="3" stroke-linecap="round" stroke-dasharray="7 5"/>
+  <path d="M182.8 267.06L195.28 273.95L185.92 280.97Z" fill="#ffb86b"/>
+  <text x="165.56" y="284.07" fill="#ffb86b" font-family="system-ui" font-size="16">2a</text>
+  <path d="M182.8 267.06L316.11 157.89" stroke="#ffb86b" stroke-width="3" stroke-linecap="round" stroke-dasharray="7 5"/>
+  <path d="M326.17 149.65L319.82 162.41L312.41 153.36Z" fill="#ffb86b"/>
+  <text x="246.48" y="196.36" fill="#ffb86b" font-family="system-ui" font-size="16">3b</text>
+  <circle cx="326.17" cy="149.65" r="6" fill="#e8eef7"/>
+  <text x="336.17" y="153.65" fill="#e8eef7" font-family="system-ui" font-size="16">(2, 3, 5)</text>
+  <path d="M251.87 304.07L251.87 256.28" stroke="#ff7a90" stroke-width="2.5" stroke-dasharray="4 4" fill="none"/>
+  <circle cx="251.87" cy="256.28" r="5" fill="#d586ff"/>
+  <text x="261.87" y="252.28" fill="#d586ff" font-family="system-ui" font-size="16">(1, 1, 2)</text>
+  <circle cx="251.87" cy="304.07" r="6" fill="#ff7a90"/>
+  <text x="265.87" y="330.07" fill="#ff7a90" font-family="system-ui" font-size="16">(1, 1, 1)</text>
+  <text x="560" y="110" fill="#50d2c2" font-family="system-ui" font-size="16">a = (1, 0, 1),  b = (0, 1, 1)</text>
+  <text x="560" y="144" fill="#e8eef7" font-family="system-ui" font-size="16">s·a + t·b = (s, t, s + t)</text>
+  <text x="560" y="188.2" fill="#e8eef7" font-family="system-ui" font-size="16">target (2, 3, 5):</text>
+  <text x="560" y="222.2" fill="#ffb86b" font-family="system-ui" font-size="16">  s = 2, t = 3, and z = 2 + 3 = 5  ✓</text>
+  <text x="560" y="266.4" fill="#e8eef7" font-family="system-ui" font-size="16">target (1, 1, 1):</text>
+  <text x="560" y="300.4" fill="#ff7a90" font-family="system-ui" font-size="16">  s = 1, t = 1 force z = 2, not 1  ✗</text>
+  <text x="560" y="344.6" fill="#91a4bb" font-family="system-ui" font-size="16">dashed pink: from (1, 1, 1) up to the</text>
+  <text x="560" y="368.4" fill="#91a4bb" font-family="system-ui" font-size="16">plane point (1, 1, 2) above it</text>
+  <text x="450" y="420" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">span{a, b} = {(s, t, s + t)}: the plane z = x + y. A point is in it exactly when its z equals x + y.</text>
+</svg>

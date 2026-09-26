@@ -22,8 +22,8 @@ A1: {
 },
 A2: {
   "statement": "**A2 · Core · paper — two induced norms of a rectangular map.** For A=[[2,−1,0],[−1,3,1]], compute ‖A‖₁ and ‖A‖∞ and give a unit vector attaining each bound in its respective norm. Which induced norms of Aᵀ do these values give?",
-  "plain": "The absolute column sums are 3, 4, and 1, so ‖A‖₁=4, attained at x=e₂ with Ax=(−1,3) and ‖Ax‖₁=4. The absolute row sums are 3 and 5, so ‖A‖∞=5. Matching the signs of the second row gives x=(−1,1,1), which has ‖x‖∞=1 and Ax=(−3,5), so ‖Ax‖∞=5. Transposition swaps rows and columns, so ‖Aᵀ‖∞=‖A‖₁=4 and ‖Aᵀ‖₁=‖A‖∞=5.",
-  "solution": "<p>The absolute column sums are 3, 4, and 1, so ‖A‖₁=4, attained at x=e₂ with Ax=(−1,3) and ‖Ax‖₁=4. The absolute row sums are 3 and 5, so ‖A‖∞=5. Matching the signs of the second row gives x=(−1,1,1), which has ‖x‖∞=1 and Ax=(−3,5), so ‖Ax‖∞=5. Transposition swaps rows and columns, so ‖Aᵀ‖∞=‖A‖₁=4 and ‖Aᵀ‖₁=‖A‖∞=5.</p>",
+  "plain": "The absolute column sums are 3, 4, and 1, so ‖A‖₁=4, attained at x=e₂ with Ax=(−1,3) and ‖Ax‖₁=4. The absolute row sums are 3 and 5, so ‖A‖∞=5. Matching the signs of the second row gives x=(−1,1,1), which has ‖x‖∞=1 and Ax=(−3,5), so ‖Ax‖∞=5. Transposition swaps rows and columns, so ‖Aᵀ‖∞=‖A‖₁=4 and ‖Aᵀ‖₁=‖A‖∞=5. Rubric: both norms from absolute sums; attaining vectors of unit norm in the right norm, each verified by multiplying; the transpose relation.",
+  "solution": "<p>The absolute column sums are 3, 4, and 1, so ‖A‖₁=4, attained at x=e₂ with Ax=(−1,3) and ‖Ax‖₁=4. The absolute row sums are 3 and 5, so ‖A‖∞=5. Matching the signs of the second row gives x=(−1,1,1), which has ‖x‖∞=1 and Ax=(−3,5), so ‖Ax‖∞=5. Transposition swaps rows and columns, so ‖Aᵀ‖∞=‖A‖₁=4 and ‖Aᵀ‖₁=‖A‖∞=5. Rubric: both norms from absolute sums; attaining vectors of unit norm in the right norm, each verified by multiplying; the transpose relation.</p>",
   "fields": [
     {
       "id": "norms",
@@ -40,22 +40,22 @@ A2: {
   }
 },
 A3: {
-  "statement": "**A3 · Core · paper — composition can lose the maximizing direction.** For A=diag(10,1) and B=diag(1,10), compute ‖AB‖₂ and ‖A‖₂‖B‖₂. Prove the general submultiplicative inequality.",
-  "plain": "AB=10I, giving ‖AB‖₂=10, whereas ‖A‖₂‖B‖₂=100. For each x, ‖ABx‖≤‖A‖‖Bx‖≤‖A‖‖B‖‖x‖. Maximizing over ‖x‖=1 proves submultiplicativity for compatible induced norms. Here B emphasizes the direction A emphasizes less, so the two maxima cannot occur along one composition path.",
-  "solution": "<p>AB=10I, giving ‖AB‖₂=10, whereas ‖A‖₂‖B‖₂=100. For each x, ‖ABx‖≤‖A‖‖Bx‖≤‖A‖‖B‖‖x‖. Maximizing over ‖x‖=1 proves submultiplicativity for compatible induced norms. Here B emphasizes the direction A emphasizes less, so the two maxima cannot occur along one composition path.</p>",
+  "statement": "**A3 · Core · paper — composition can lose the maximizing direction.** For the shear A=[[1,1],[0,1]] and its inverse B=[[1,−1],[0,1]], compute ‖AB‖₂ and ‖A‖₂‖B‖₂. Prove the general submultiplicative inequality, and explain in the picture why this pair is far from equality.",
+  "plain": "AB=I, so ‖AB‖₂=1. For A, AᵀA=[[1,1],[1,2]] has eigenvalues (3±√5)/2, so ‖A‖₂=√((3+√5)/2)=(1+√5)/2≈1.618; B has the same singular values, so ‖A‖₂‖B‖₂=(3+√5)/2≈2.618. Proof of submultiplicativity: for every x, ‖ABx‖≤‖A‖‖Bx‖≤‖A‖‖B‖‖x‖, using the defining inequality of each induced norm; maximizing over ‖x‖=1 gives ‖AB‖≤‖A‖‖B‖. In the picture, B stretches most along one direction and A stretches most along a different one; B undoes exactly what A does, so the directions B lengthens are the ones A shortens and the composition stretches nothing. Rubric: the value 1 for the product, the golden-ratio norm with the AᵀA computation, both inequalities of the proof with the maximization step, and a geometric explanation that the maximizing directions differ.",
+  "solution": "<p>AB=I, so ‖AB‖₂=1. For A, AᵀA=[[1,1],[1,2]] has eigenvalues (3±√5)/2, so ‖A‖₂=√((3+√5)/2)=(1+√5)/2≈1.618; B has the same singular values, so ‖A‖₂‖B‖₂=(3+√5)/2≈2.618. Proof of submultiplicativity: for every x, ‖ABx‖≤‖A‖‖Bx‖≤‖A‖‖B‖‖x‖, using the defining inequality of each induced norm; maximizing over ‖x‖=1 gives ‖AB‖≤‖A‖‖B‖. In the picture, B stretches most along one direction and A stretches most along a different one; B undoes exactly what A does, so the directions B lengthens are the ones A shortens and the composition stretches nothing. Rubric: the value 1 for the product, the golden-ratio norm with the AᵀA computation, both inequalities of the proof with the maximization step, and a geometric explanation that the maximizing directions differ.</p>",
   "fields": [
     {
       "id": "values",
-      "label": "norm of product, product of norms",
+      "label": "‖AB‖₂ and ‖A‖₂‖B‖₂",
       "type": "vec",
       "ans": [
-        10,
-        100
+        1,
+        2.618033988749895
       ]
     }
   ],
   "hints": {
-    "values": "Multiply the diagonal matrices before taking the norm of their product."
+    "values": "AB is the identity. For ‖A‖₂, take the square root of the larger eigenvalue of AᵀA=[[1,1],[1,2]]; an answer such as (3+sqrt(5))/2 is accepted."
   }
 },
 A4: {
@@ -93,8 +93,8 @@ A4: {
 },
 A5: {
   "statement": "**A5 · Core · paper — retain the denominator.** Evaluate the perturbation bound when κ=50, εA=0.004, and εb=0.001. State the hypothesis that permits it. Then give diagonal A and E, different from the lesson's A=I and E=2I, for which that hypothesis fails although A+E is nonsingular.",
-  "plain": "κ εA=50·0.004=0.2<1, so the bound applies and gives 50(0.004+0.001)/(1−0.2)=0.3125. The theorem also assumes square nonsingular A, nonzero b, and compatible induced norms. One diagonal example: A=diag(1,0.1) and E=diag(0,0.2) in the 2-norm. Then κ₂=10, εA=0.2, and κ εA=2≥1, yet A+E=diag(1,0.3) is nonsingular. The condition is sufficient, not necessary. By contrast E=diag(0,−0.1) gives κ εA=1 and a singular A+E. Any correct example must check both κ εA≥1 and nonsingularity.",
-  "solution": "<p>κ εA=50·0.004=0.2&lt;1, so the bound applies and gives 50(0.004+0.001)/(1−0.2)=0.3125. The theorem also assumes square nonsingular A, nonzero b, and compatible induced norms. One diagonal example: A=diag(1,0.1) and E=diag(0,0.2) in the 2-norm. Then κ₂=10, εA=0.2, and κ εA=2≥1, yet A+E=diag(1,0.3) is nonsingular. The condition is sufficient, not necessary. By contrast E=diag(0,−0.1) gives κ εA=1 and a singular A+E. Any correct example must check both κ εA≥1 and nonsingularity.</p>",
+  "plain": "κ εA=50·0.004=0.2<1, so the bound applies and gives 50(0.004+0.001)/(1−0.2)=0.3125. The theorem also assumes square nonsingular A, nonzero b, and compatible induced norms. One diagonal example: A=diag(1,0.1) and E=diag(0,0.2) in the 2-norm. Then κ₂=10, εA=0.2, and κ εA=2≥1, yet A+E=diag(1,0.3) is nonsingular. The condition is sufficient, not necessary. By contrast E=diag(0,−0.1) gives κ εA=1 and a singular A+E. Any correct example must check both κ εA≥1 and nonsingularity. Rubric: the hypothesis checked before evaluating; the bound computed with its denominator; a diagonal example verified to have κεA≥1 and a nonsingular A+E.",
+  "solution": "<p>κ εA=50·0.004=0.2&lt;1, so the bound applies and gives 50(0.004+0.001)/(1−0.2)=0.3125. The theorem also assumes square nonsingular A, nonzero b, and compatible induced norms. One diagonal example: A=diag(1,0.1) and E=diag(0,0.2) in the 2-norm. Then κ₂=10, εA=0.2, and κ εA=2≥1, yet A+E=diag(1,0.3) is nonsingular. The condition is sufficient, not necessary. By contrast E=diag(0,−0.1) gives κ εA=1 and a singular A+E. Any correct example must check both κ εA≥1 and nonsingularity. Rubric: the hypothesis checked before evaluating; the bound computed with its denominator; a diagonal example verified to have κεA≥1 and a nonsingular A+E.</p>",
   "fields": [
     {
       "id": "bound",
@@ -108,15 +108,32 @@ A5: {
   }
 },
 A6: {
-  "statement": "**A6 · Stretch · paper — distance to failure.** Prove that the relative 2-norm distance from a nonsingular A to a singular matrix is 1/κ₂(A), with arbitrary real matrix perturbations permitted.",
-  "plain": "Let A=UΣVᵀ with smallest gain σₙ>0. E=−σₙuₙvₙᵀ has spectral norm σₙ and (A+E)vₙ=0, so the distance is at most σₙ. For any singularizing E, choose a unit z with (A+E)z=0. Then ‖E‖₂≥‖Ez‖₂=‖Az‖₂≥σₙ, proving the lower bound. Dividing by ‖A‖₂=σ₁ yields 1/κ₂. Rubric: both inequalities, unit normalization, nonsingularity, and permission to use unstructured E are required.",
-  "solution": "<p>Let A=UΣVᵀ with smallest gain σₙ&gt;0. E=−σₙuₙvₙᵀ has spectral norm σₙ and (A+E)vₙ=0, so the distance is at most σₙ. For any singularizing E, choose a unit z with (A+E)z=0. Then ‖E‖₂≥‖Ez‖₂=‖Az‖₂≥σₙ, proving the lower bound. Dividing by ‖A‖₂=σ₁ yields 1/κ₂. Rubric: both inequalities, unit normalization, nonsingularity, and permission to use unstructured E are required.</p>",
-  "proof": true
+  "statement": "**A6 · Stretch · paper — distance to failure in another norm.** For any induced norm, prove that ‖E‖<1/‖A⁻¹‖ keeps A+E nonsingular. Then, for A=[[1,1,0],[0,1,1],[0,0,1]], construct E with ‖E‖∞=1/3 for which A+E is singular, and conclude that the relative infinity-norm distance from A to a singular matrix is exactly 1/κ∞(A).",
+  "plain": "Proof: suppose A+E were singular, so (A+E)z=0 for some z≠0. Then Az=−Ez and z=−A⁻¹Ez, so ‖z‖≤‖A⁻¹‖‖E‖‖z‖<‖z‖ when ‖E‖<1/‖A⁻¹‖, a contradiction. Construction: ‖A⁻¹‖∞=3 is attained by y=(1,−1,1), since z=A⁻¹y=(3,−2,1) has ‖z‖∞=3. Put E=−(1/3)y e₁ᵀ, whose only nonzero column is the first, equal to (−1/3, 1/3, −1/3). Then (A+E)z=Az−(1/3)y(e₁ᵀz)=y−(1/3)·3y=0, so A+E=[[2/3,1,0],[1/3,1,1],[−1/3,0,1]] is singular, and ‖E‖∞=1/3 because every row of E has one entry of size 1/3. Hence the distance to singularity in the ∞-norm is exactly 1/‖A⁻¹‖∞=1/3, and relative to ‖A‖∞=2 it is 1/6=1/κ∞(A). The same construction works in any induced norm (Gastinel–Kahan). Rubric: the contradiction argument with the strict inequality; a correct E with ‖E‖∞=1/3 and an explicit null vector of A+E; the division by ‖A‖∞ to reach 1/κ∞.",
+  "solution": "<p>Proof: suppose A+E were singular, so (A+E)z=0 for some z≠0. Then Az=−Ez and z=−A⁻¹Ez, so ‖z‖≤‖A⁻¹‖‖E‖‖z‖&lt;‖z‖ when ‖E‖&lt;1/‖A⁻¹‖, a contradiction. Construction: ‖A⁻¹‖∞=3 is attained by y=(1,−1,1), since z=A⁻¹y=(3,−2,1) has ‖z‖∞=3. Put E=−(1/3)y e₁ᵀ, whose only nonzero column is the first, equal to (−1/3, 1/3, −1/3). Then (A+E)z=Az−(1/3)y(e₁ᵀz)=y−(1/3)·3y=0, so A+E=[[2/3,1,0],[1/3,1,1],[−1/3,0,1]] is singular, and ‖E‖∞=1/3 because every row of E has one entry of size 1/3. Hence the distance to singularity in the ∞-norm is exactly 1/‖A⁻¹‖∞=1/3, and relative to ‖A‖∞=2 it is 1/6=1/κ∞(A). The same construction works in any induced norm (Gastinel–Kahan). Rubric: the contradiction argument with the strict inequality; a correct E with ‖E‖∞=1/3 and an explicit null vector of A+E; the division by ‖A‖∞ to reach 1/κ∞.</p>",
+  "fields": [
+    {
+      "id": "normE",
+      "label": "‖E‖∞ of your singularizing perturbation",
+      "type": "num",
+      "ans": 0.3333333333333333
+    },
+    {
+      "id": "rel",
+      "label": "relative distance ‖E‖∞/‖A‖∞",
+      "type": "num",
+      "ans": 0.16666666666666666
+    }
+  ],
+  "hints": {
+    "normE": "Aim for 1/‖A⁻¹‖∞; the row sums of A⁻¹ are 3, 2, 1. An answer such as 1/3 is accepted.",
+    "rel": "Divide by ‖A‖∞=2."
+  }
 },
 A7: {
-  "statement": "**A7 · Core · paper — a backward certificate.** For A=diag(2,10⁻³), b=(2,0), and x̂=(1,1), compute relative residual, relative forward error, κ₂, and η₂. Construct E,f attaining η₂ and verify the perturbed equation. Does the residual-based forward-error ceiling hold with equality?",
-  "plain": "Ax̂=(2,10⁻³), so r=(0,−10⁻³), and relative residual=10⁻³/2=5×10⁻⁴. The exact solution is x=(1,0), so relative forward error=1. κ₂=2000. The ceiling κ₂·‖r‖/‖b‖=2000·5×10⁻⁴=1 holds with equality: b lies along the strong channel and r along the weak one. With ‖A‖₂=2, ‖x̂‖₂=√2, and ‖b‖₂=2, d=2√2+2 and η₂=10⁻³/(2√2+2)≈2.071×10⁻⁴. Set t=2√2/d, E=t r x̂ᵀ/2, and f=−(1−t)r. Then Ex̂=t r, so Ex̂−f=r and (A+E)x̂=b+f. The rank-one norm gives ‖E‖₂=t‖r‖₂/√2=2·10⁻³/d=η₂‖A‖₂, and ‖f‖₂=(1−t)10⁻³=2·10⁻³/d=η₂‖b‖₂. A complete written answer verifies these two norm constraints, not only the sign.",
-  "solution": "<p>Ax̂=(2,10⁻³), so r=(0,−10⁻³), and relative residual=10⁻³/2=5×10⁻⁴. The exact solution is x=(1,0), so relative forward error=1. κ₂=2000. The ceiling κ₂·‖r‖/‖b‖=2000·5×10⁻⁴=1 holds with equality: b lies along the strong channel and r along the weak one. With ‖A‖₂=2, ‖x̂‖₂=√2, and ‖b‖₂=2, d=2√2+2 and η₂=10⁻³/(2√2+2)≈2.071×10⁻⁴. Set t=2√2/d, E=t r x̂ᵀ/2, and f=−(1−t)r. Then Ex̂=t r, so Ex̂−f=r and (A+E)x̂=b+f. The rank-one norm gives ‖E‖₂=t‖r‖₂/√2=2·10⁻³/d=η₂‖A‖₂, and ‖f‖₂=(1−t)10⁻³=2·10⁻³/d=η₂‖b‖₂. A complete written answer verifies these two norm constraints, not only the sign.</p>",
+  "statement": "**A7 · Core · paper — a nearby problem for a wrong answer.** For A=diag(2,10⁻³), b=(2,0), and x̂=(1,1), compute relative residual, relative forward error, κ₂, and η₂. Construct E,f attaining η₂ and verify the perturbed equation. Does the residual-based forward-error ceiling hold with equality?",
+  "plain": "Ax̂=(2,10⁻³), so r=(0,−10⁻³), and relative residual=10⁻³/2=5×10⁻⁴. The exact solution is x=(1,0), so relative forward error=1. κ₂=2000. The ceiling κ₂·‖r‖/‖b‖=2000·5×10⁻⁴=1 holds with equality: b lies along the strong channel and r along the weak one. With ‖A‖₂=2, ‖x̂‖₂=√2, and ‖b‖₂=2, d=2√2+2 and η₂=10⁻³/(2√2+2)≈2.071×10⁻⁴. Set t=2√2/d, E=t r x̂ᵀ/2, and f=−(1−t)r. Then Ex̂=t r, so Ex̂−f=r and (A+E)x̂=b+f. The rank-one norm gives ‖E‖₂=t‖r‖₂/√2=2·10⁻³/d=η₂‖A‖₂, and ‖f‖₂=(1−t)10⁻³=2·10⁻³/d=η₂‖b‖₂. Rubric: r and the three relative quantities; the ceiling checked; η₂ with the correct denominator; E and f constructed, the perturbed equation verified, and both norm constraints checked.",
+  "solution": "<p>Ax̂=(2,10⁻³), so r=(0,−10⁻³), and relative residual=10⁻³/2=5×10⁻⁴. The exact solution is x=(1,0), so relative forward error=1. κ₂=2000. The ceiling κ₂·‖r‖/‖b‖=2000·5×10⁻⁴=1 holds with equality: b lies along the strong channel and r along the weak one. With ‖A‖₂=2, ‖x̂‖₂=√2, and ‖b‖₂=2, d=2√2+2 and η₂=10⁻³/(2√2+2)≈2.071×10⁻⁴. Set t=2√2/d, E=t r x̂ᵀ/2, and f=−(1−t)r. Then Ex̂=t r, so Ex̂−f=r and (A+E)x̂=b+f. The rank-one norm gives ‖E‖₂=t‖r‖₂/√2=2·10⁻³/d=η₂‖A‖₂, and ‖f‖₂=(1−t)10⁻³=2·10⁻³/d=η₂‖b‖₂. Rubric: r and the three relative quantities; the ceiling checked; η₂ with the correct denominator; E and f constructed, the perturbed equation verified, and both norm constraints checked.</p>",
   "fields": [
     {
       "id": "residual",
@@ -144,15 +161,32 @@ A7: {
   }
 },
 A8: {
-  "statement": "**A8 · Stretch · paper — a good problem and a poor formula.** For g(t)=√(1+t)−1 and t>0, derive its relative scalar condition number and its limit as t tends to zero. Explain the binary64 direct-formula failure at t=2⁻⁵⁴.",
-  "plain": "For s=√(1+t), g′(t)=1/(2s) and t=(s−1)(s+1), so |t g′(t)/g(t)|=(s+1)/(2s)→1 as t↓0. Relative conditioning is defined for t>0, not at the zero output itself. At t=2⁻⁵⁴, binary64 rounds 1+t to 1 and the direct formula returns 0. The rationalized formula retains t and gives approximately 2⁻⁵⁵. Rubric: the derivative and cancellation of s−1, the domain, and distinction between function sensitivity and an evaluation path must all be explicit.",
-  "solution": "<p>For s=√(1+t), g′(t)=1/(2s) and t=(s−1)(s+1), so |t g′(t)/g(t)|=(s+1)/(2s)→1 as t↓0. Relative conditioning is defined for t&gt;0, not at the zero output itself. At t=2⁻⁵⁴, binary64 rounds 1+t to 1 and the direct formula returns 0. The rationalized formula retains t and gives approximately 2⁻⁵⁵. Rubric: the derivative and cancellation of s−1, the domain, and distinction between function sensitivity and an evaluation path must all be explicit.</p>",
-  "proof": true
+  "statement": "**A8 · Stretch · paper — a second poor formula.** For f(x)=1−cos x with small x≠0, derive the relative condition number |xf′(x)/f(x)| and its limit as x→0. Explain why binary64 evaluation of 1−cos x returns 0 at x=10⁻⁸, derive an algebraically equal formula that avoids the cancellation, and evaluate it.",
+  "plain": "f′(x)=sin x, so the relative condition number is |x sin x/(1−cos x)|. With 1−cos x=2sin²(x/2) and sin x=2sin(x/2)cos(x/2), it equals |x cos(x/2)/sin(x/2)|, which tends to 2 as x→0: the function is well conditioned. At x=10⁻⁸, cos x=1−5×10⁻¹⁷+…, and 5×10⁻¹⁷ is below half the spacing of binary64 numbers just under 1 (2⁻⁵⁴≈5.6×10⁻¹⁷), so cos x rounds to 1 and the direct formula returns 1−1=0. The identity 1−cos x=2sin²(x/2) avoids the subtraction: 2sin²(5×10⁻⁹)≈5×10⁻¹⁷, correct to nearly full precision. As with √(1+t)−1, the loss is caused by the evaluation path, not by the function. Rubric: the condition number and its limit 2 with a correct derivation; the rounding argument for cos(10⁻⁸); a correct cancellation-free formula and its value.",
+  "solution": "<p>f′(x)=sin x, so the relative condition number is |x sin x/(1−cos x)|. With 1−cos x=2sin²(x/2) and sin x=2sin(x/2)cos(x/2), it equals |x cos(x/2)/sin(x/2)|, which tends to 2 as x→0: the function is well conditioned. At x=10⁻⁸, cos x=1−5×10⁻¹⁷+…, and 5×10⁻¹⁷ is below half the spacing of binary64 numbers just under 1 (2⁻⁵⁴≈5.6×10⁻¹⁷), so cos x rounds to 1 and the direct formula returns 1−1=0. The identity 1−cos x=2sin²(x/2) avoids the subtraction: 2sin²(5×10⁻⁹)≈5×10⁻¹⁷, correct to nearly full precision. As with √(1+t)−1, the loss is caused by the evaluation path, not by the function. Rubric: the condition number and its limit 2 with a correct derivation; the rounding argument for cos(10⁻⁸); a correct cancellation-free formula and its value.</p>",
+  "fields": [
+    {
+      "id": "limit",
+      "label": "limit of the condition number as x→0",
+      "type": "num",
+      "ans": 2
+    },
+    {
+      "id": "value",
+      "label": "stable value at x=10⁻⁸, in units of 10⁻¹⁷",
+      "type": "num",
+      "ans": 5
+    }
+  ],
+  "hints": {
+    "limit": "Rewrite 1−cos x as 2sin²(x/2) and let x→0 in x sin x/(1−cos x).",
+    "value": "2sin²(x/2)≈2(x/2)²=x²/2 for small x; express x²/2 in units of 10⁻¹⁷."
+  }
 },
 A9: {
-  "statement": "**A9 · Core · paper — an unstable path to a good problem.** For A=[[ε,1],[1,1]], b=(1,2), and ε=10⁻²⁰, eliminate without row exchanges in binary64, rounding each operation. Report x̂ and the product of the computed factors. Repeat with partial pivoting, and use κ∞(A) to explain why the failure belongs to the algorithm rather than the problem.",
-  "plain": "Without row exchanges the pivot is ε and the multiplier is l=10²⁰. The updated pivot 1−10²⁰ rounds to −10²⁰, and the updated right-hand side 2−10²⁰ rounds to −10²⁰. Back substitution gives x̂₂=1 and x̂₁=(1−1)/ε=0, so x̂=(0,1). The computed factors L=[[1,0],[10²⁰,1]] and U=[[ε,1],[0,−10²⁰]] multiply to [[ε,1],[1,0]]: the entry a₂₂=1 was lost. Relative forward error is 1/√2, the residual is (0,1), and η₂≈0.26. With partial pivoting the rows are swapped, the multiplier is ε, the pivot 1−ε rounds to 1, and x̂=(1,1), which is the exact solution rounded. κ∞(A)=‖A‖∞‖A⁻¹‖∞=2·2/(1−ε)≈4, so the problem is well conditioned. A large backward error on a well-conditioned problem locates the failure in the algorithm.",
-  "solution": "<p>Without row exchanges the pivot is ε and the multiplier is l=10²⁰. The updated pivot 1−10²⁰ rounds to −10²⁰, and the updated right-hand side 2−10²⁰ rounds to −10²⁰. Back substitution gives x̂₂=1 and x̂₁=(1−1)/ε=0, so x̂=(0,1). The computed factors L=[[1,0],[10²⁰,1]] and U=[[ε,1],[0,−10²⁰]] multiply to [[ε,1],[1,0]]: the entry a₂₂=1 was lost. Relative forward error is 1/√2, the residual is (0,1), and η₂≈0.26. With partial pivoting the rows are swapped, the multiplier is ε, the pivot 1−ε rounds to 1, and x̂=(1,1), which is the exact solution rounded. κ∞(A)=‖A‖∞‖A⁻¹‖∞=2·2/(1−ε)≈4, so the problem is well conditioned. A large backward error on a well-conditioned problem locates the failure in the algorithm.</p>",
+  "statement": "**A9 · Core · paper — an unstable path to a good problem.** For A=[[ε,2],[1,1]], b=(2,2), and ε=10⁻²⁰, eliminate without row exchanges in binary64, rounding each operation. Report x̂ and the product of the computed factors. Repeat with partial pivoting, and use κ∞(A) to explain why the failure belongs to the algorithm rather than the problem.",
+  "plain": "Without row exchanges the pivot is ε and the multiplier is 10²⁰. The updated pivot 1−2·10²⁰ rounds to −2·10²⁰, and the updated right-hand side 2−2·10²⁰ also rounds to −2·10²⁰. Back substitution gives x̂₂=1 and x̂₁=(2−2·1)/ε=0, so x̂=(0,1). The computed factors L=[[1,0],[10²⁰,1]] and U=[[ε,2],[0,−2·10²⁰]] multiply to [[ε,2],[1,0]]: the entry a₂₂=1 was lost, and the growth factor is 2·10²⁰/max|aᵢⱼ|=2·10²⁰/2=10²⁰. With partial pivoting the rows swap, the multiplier is ε, the pivot 2−ε rounds to 2, and x̂=(1,1), the exact solution rounded. A⁻¹=[[1,−2],[−1,ε]]/(ε−2), so ‖A⁻¹‖∞=3/(2−ε) and κ∞(A)=(2+ε)·3/(2−ε)≈3: the problem is well conditioned. A backward error of order 1 on a well-conditioned problem places the failure in the algorithm. Rubric: each rounded operation shown; the product of the computed factors and the lost entry; the pivoted solve; κ∞ computed from A⁻¹ and used to separate algorithm from problem.",
+  "solution": "<p>Without row exchanges the pivot is ε and the multiplier is 10²⁰. The updated pivot 1−2·10²⁰ rounds to −2·10²⁰, and the updated right-hand side 2−2·10²⁰ also rounds to −2·10²⁰. Back substitution gives x̂₂=1 and x̂₁=(2−2·1)/ε=0, so x̂=(0,1). The computed factors L=[[1,0],[10²⁰,1]] and U=[[ε,2],[0,−2·10²⁰]] multiply to [[ε,2],[1,0]]: the entry a₂₂=1 was lost, and the growth factor is 2·10²⁰/max|aᵢⱼ|=2·10²⁰/2=10²⁰. With partial pivoting the rows swap, the multiplier is ε, the pivot 2−ε rounds to 2, and x̂=(1,1), the exact solution rounded. A⁻¹=[[1,−2],[−1,ε]]/(ε−2), so ‖A⁻¹‖∞=3/(2−ε) and κ∞(A)=(2+ε)·3/(2−ε)≈3: the problem is well conditioned. A backward error of order 1 on a well-conditioned problem places the failure in the algorithm. Rubric: each rounded operation shown; the product of the computed factors and the lost entry; the pivoted solve; κ∞ computed from A⁻¹ and used to separate algorithm from problem.</p>",
   "fields": [
     {
       "id": "nopivot",
@@ -176,13 +210,13 @@ A9: {
       "id": "kinf",
       "label": "κ∞(A), to the displayed precision",
       "type": "num",
-      "ans": 4
+      "ans": 3
     }
   ],
   "hints": {
-    "nopivot": "In binary64, 1−10²⁰ and 2−10²⁰ both round to −10²⁰. Solve for x₂ first.",
-    "pivot": "After swapping, the multiplier is ε and 1−ε rounds to 1.",
-    "kinf": "A⁻¹=[[1,−1],[−1,ε]]/(ε−1). Multiply the largest absolute row sums of A and A⁻¹."
+    "nopivot": "In binary64, 1−2·10²⁰ and 2−2·10²⁰ both round to −2·10²⁰. Solve for x₂ first.",
+    "pivot": "After the swap the multiplier is ε and 2−ε rounds to 2.",
+    "kinf": "A⁻¹=[[1,−2],[−1,ε]]/(ε−2); multiply the largest absolute row sums of A and A⁻¹."
   }
 },
 A10: {
@@ -212,20 +246,20 @@ B1: {
 },
 B2: {
   "statement": "**B2 · Core · NumPy — sweep the weak direction.** For ε in {10⁻²,10⁻⁶,10⁻¹⁰}, use A=diag(1,ε), b=e₁, and δ=10⁻⁶. Solve with f=δe₁ and f=δe₂. Report relative residual, relative forward error, and κ₂δ; compare with the analytic predictions and explain the direction effect.",
-  "plain": "For all three ε, relative residual is δ=10⁻⁶. Strong-direction perturbations give relative forward error 10⁻⁶ in all cases; weak-direction errors and ceilings κ₂δ are 10⁻⁴, 1, and 10⁴. The weak direction attains the ceiling, while the strong direction can be far below it. The measured residual for the strong direction may differ slightly from 10⁻⁶ through floating-point subtraction. Report deviations with a sensible relative tolerance and do not interpret one direction as a full condition estimate.",
-  "solution": "<p>For all three ε, relative residual is δ=10⁻⁶. Strong-direction perturbations give relative forward error 10⁻⁶ in all cases; weak-direction errors and ceilings κ₂δ are 10⁻⁴, 1, and 10⁴. The weak direction attains the ceiling, while the strong direction can be far below it. The measured residual for the strong direction may differ slightly from 10⁻⁶ through floating-point subtraction. Report deviations with a sensible relative tolerance and do not interpret one direction as a full condition estimate.</p>",
+  "plain": "For all three ε, relative residual is δ=10⁻⁶. Strong-direction perturbations give relative forward error 10⁻⁶ in all cases; weak-direction errors and ceilings κ₂δ are 10⁻⁴, 1, and 10⁴. The weak direction attains the ceiling, while the strong direction can be far below it. The measured residual for the strong direction may differ slightly from 10⁻⁶ through floating-point subtraction. Report deviations with a sensible relative tolerance and do not interpret one direction as a full condition estimate. Rubric: a table over the three ε values and both directions; relative residual ≈δ for all six runs; forward errors matching δ (strong direction) and δ/ε (weak direction); the ceiling κ₂δ reported and compared; an explanation that only the weak direction attains the ceiling.",
+  "solution": "<p>For all three ε, relative residual is δ=10⁻⁶. Strong-direction perturbations give relative forward error 10⁻⁶ in all cases; weak-direction errors and ceilings κ₂δ are 10⁻⁴, 1, and 10⁴. The weak direction attains the ceiling, while the strong direction can be far below it. The measured residual for the strong direction may differ slightly from 10⁻⁶ through floating-point subtraction. Report deviations with a sensible relative tolerance and do not interpret one direction as a full condition estimate. Rubric: a table over the three ε values and both directions; relative residual ≈δ for all six runs; forward errors matching δ (strong direction) and δ/ε (weak direction); the ceiling κ₂δ reported and compared; an explanation that only the weak direction attains the ceiling.</p>",
   "proof": true
 },
 B3: {
   "statement": "**B3 · Core · NumPy — the Gram matrix forgets.** For A=[[1,1],[0,ε]], sweep ε in {10⁻⁴,10⁻⁸,10⁻¹⁰}. Compare direct singular values with `eigvalsh(A.T @ A)`. Report raw computed Gram eigenvalues, including zeros or negatives, before any clipping. Explain why clipping cannot recover lost data.",
-  "plain": "In exact arithmetic the Gram eigenvalues are the squared singular values; for small ε the gains are approximately √2 and ε/√2. Forming AᵀA produces [[1,1],[1,1+ε²]]. In binary64, the last entry can round to 1 at ε=10⁻⁸ or 10⁻¹⁰; the small Gram eigenvalue is then computed as zero. A direct SVD can retain a small positive gain from A’s explicit ε entry. Record any negative eigenvalue returned before clipping. A clipped zero is a reporting policy, not recovered information. Rubric: dtype, raw eigenvalues, direct comparison, and an explanation of the information loss are required.",
-  "solution": "<p>In exact arithmetic the Gram eigenvalues are the squared singular values; for small ε the gains are approximately √2 and ε/√2. Forming AᵀA produces [[1,1],[1,1+ε²]]. In binary64, the last entry can round to 1 at ε=10⁻⁸ or 10⁻¹⁰; the small Gram eigenvalue is then computed as zero. A direct SVD can retain a small positive gain from A’s explicit ε entry. Record any negative eigenvalue returned before clipping. A clipped zero is a reporting policy, not recovered information. Rubric: dtype, raw eigenvalues, direct comparison, and an explanation of the information loss are required.</p>",
+  "plain": "In exact arithmetic the Gram eigenvalues are the squared singular values; for small ε the gains are approximately √2 and ε/√2. Forming AᵀA produces [[1,1],[1,1+ε²]]. In binary64, the last entry can round to 1 at ε=10⁻⁸ or 10⁻¹⁰; the small Gram eigenvalue is then computed as zero or as a rounding-level value near 10⁻¹⁶, possibly negative. A direct SVD can retain a small positive gain from A’s explicit ε entry. Record any negative eigenvalue returned before clipping. A clipped zero is a reporting policy, not recovered information. Rubric: dtype, raw eigenvalues, direct comparison, and an explanation of the information loss are required.",
+  "solution": "<p>In exact arithmetic the Gram eigenvalues are the squared singular values; for small ε the gains are approximately √2 and ε/√2. Forming AᵀA produces [[1,1],[1,1+ε²]]. In binary64, the last entry can round to 1 at ε=10⁻⁸ or 10⁻¹⁰; the small Gram eigenvalue is then computed as zero or as a rounding-level value near 10⁻¹⁶, possibly negative. A direct SVD can retain a small positive gain from A’s explicit ε entry. Record any negative eigenvalue returned before clipping. A clipped zero is a reporting policy, not recovered information. Rubric: dtype, raw eigenvalues, direct comparison, and an explanation of the information loss are required.</p>",
   "proof": true
 },
 B4: {
   "statement": "**B4 · Stretch · NumPy — audit the estimator.** Compare the stdlib κ∞ estimate with `np.linalg.cond(A, np.inf)` on a pivoting matrix [[0,2],[1,3]], diag(1,10⁻¹²), and nonzero scalar multiples. Then test a nearly dependent matrix and distinguish disagreement between estimates from proof of exact singularity. Record solve residuals for the inverse-column probes.",
-  "plain": "For [[0,2],[1,3]], the infinity norm is 4. Its inverse is [[−3/2,1],[1/2,0]], with infinity norm 5/2, giving κ∞=10. The diagonal fixture has κ∞=10¹². A nonzero common scalar leaves both condition numbers unchanged. The basis solves estimate inverse columns, and their residuals must be checked against the scaled matrix actually factored. Nearly dependent inputs can amplify rounding in either estimate; zero computed pivots or disagreements do not certify exact rank of the intended data. Provide actual residuals, scales, dtype, and observed estimator differences.",
-  "solution": "<p>For [[0,2],[1,3]], the infinity norm is 4. Its inverse is [[−3/2,1],[1/2,0]], with infinity norm 5/2, giving κ∞=10. The diagonal fixture has κ∞=10¹². A nonzero common scalar leaves both condition numbers unchanged. The basis solves estimate inverse columns, and their residuals must be checked against the scaled matrix actually factored. Nearly dependent inputs can amplify rounding in either estimate; zero computed pivots or disagreements do not certify exact rank of the intended data. Provide actual residuals, scales, dtype, and observed estimator differences.</p>",
+  "plain": "For [[0,2],[1,3]], the infinity norm is 4. Its inverse is [[−3/2,1],[1/2,0]], with infinity norm 5/2, giving κ∞=10. The diagonal fixture has κ∞=10¹². A nonzero common scalar leaves both condition numbers unchanged. The basis solves estimate inverse columns, and their residuals must be checked against the scaled matrix actually factored. Nearly dependent inputs can amplify rounding in either estimate; zero computed pivots or disagreements do not certify exact rank of the intended data. Provide actual residuals, scales, dtype, and observed estimator differences. Rubric: κ∞ for both fixtures from explicit inverses; scalar invariance demonstrated; solve residuals reported against the scaled matrix; an estimator disagreement on a nearly dependent matrix explained without claiming exact singularity.",
+  "solution": "<p>For [[0,2],[1,3]], the infinity norm is 4. Its inverse is [[−3/2,1],[1/2,0]], with infinity norm 5/2, giving κ∞=10. The diagonal fixture has κ∞=10¹². A nonzero common scalar leaves both condition numbers unchanged. The basis solves estimate inverse columns, and their residuals must be checked against the scaled matrix actually factored. Nearly dependent inputs can amplify rounding in either estimate; zero computed pivots or disagreements do not certify exact rank of the intended data. Provide actual residuals, scales, dtype, and observed estimator differences. Rubric: κ∞ for both fixtures from explicit inverses; scalar invariance demonstrated; solve residuals reported against the scaled matrix; an estimator disagreement on a nearly dependent matrix explained without claiming exact singularity.</p>",
   "fields": [
     {
       "id": "conditions",
@@ -243,79 +277,106 @@ B4: {
 },
 C1: {
   "statement": "**C1 · Core · PyTorch — precision changes the evaluation path.** Evaluate both cancellation formulas with tensor t=2⁻³⁰ in float32 and float64. Predict the direct float32 result and compare relative error against a float64 rationalized reference. Explain the limits of treating that reference as exact.",
-  "plain": "At t=2⁻³⁰, float32 rounds 1+t to 1, so the direct formula returns 0 and its relative error is approximately 1. The rationalized value is about 2⁻³¹ and remains representable. Float64 resolves 1+t and produces a much more accurate direct result here. The float64 rationalized reference is still rounded, not an exact real number; use higher precision if claiming errors beyond its accuracy. Record both dtypes and versions, and compare errors relative to the small answer, not with a large absolute tolerance.",
-  "solution": "<p>At t=2⁻³⁰, float32 rounds 1+t to 1, so the direct formula returns 0 and its relative error is approximately 1. The rationalized value is about 2⁻³¹ and remains representable. Float64 resolves 1+t and produces a much more accurate direct result here. The float64 rationalized reference is still rounded, not an exact real number; use higher precision if claiming errors beyond its accuracy. Record both dtypes and versions, and compare errors relative to the small answer, not with a large absolute tolerance.</p>",
+  "plain": "At t=2⁻³⁰, float32 rounds 1+t to 1, so the direct formula returns 0 and its relative error is approximately 1. The rationalized value is about 2⁻³¹ and remains representable. Float64 resolves 1+t and produces a much more accurate direct result here. The float64 rationalized reference is still rounded, not an exact real number; use higher precision if claiming errors beyond its accuracy. Record both dtypes and versions, and compare errors relative to the small answer, not with a large absolute tolerance. Rubric: the float32 direct result 0 with the reason (1+t rounds to 1); a relative-error comparison against the float64 rationalized value; the float64 direct result shown to be accurate at this t; versions and dtypes recorded; the limits of treating a float64 value as exact.",
+  "solution": "<p>At t=2⁻³⁰, float32 rounds 1+t to 1, so the direct formula returns 0 and its relative error is approximately 1. The rationalized value is about 2⁻³¹ and remains representable. Float64 resolves 1+t and produces a much more accurate direct result here. The float64 rationalized reference is still rounded, not an exact real number; use higher precision if claiming errors beyond its accuracy. Record both dtypes and versions, and compare errors relative to the small answer, not with a large absolute tolerance. Rubric: the float32 direct result 0 with the reason (1+t rounds to 1); a relative-error comparison against the float64 rationalized value; the float64 direct result shown to be accurate at this t; versions and dtypes recorded; the limits of treating a float64 value as exact.</p>",
   "proof": true
 },
 C2: {
-  "statement": "**C2 · Stretch · PyTorch — a stable solve can face uncertain data.** In float64 solve A=diag(1,10⁻⁶) with b=e₁ and then b+10⁻⁶e₂ using `torch.linalg.solve`. Compute each solve's residual against its own supplied right-hand side, and compute the change between solutions. Explain why small solve residuals and a large change are compatible.",
-  "plain": "The original solution is (1,0), and the perturbed solution is (1,1), so the Euclidean change is 1. Each candidate can have a very small residual against its own supplied b. Against the original b, the second candidate has residual (0,−10⁻⁶). These observations separate sensitivity to input changes from solver backward error; the second coordinate has inverse gain 10⁶. Report which right-hand side every residual uses.",
-  "solution": "<p>The original solution is (1,0), and the perturbed solution is (1,1), so the Euclidean change is 1. Each candidate can have a very small residual against its own supplied b. Against the original b, the second candidate has residual (0,−10⁻⁶). These observations separate sensitivity to input changes from solver backward error; the second coordinate has inverse gain 10⁶. Report which right-hand side every residual uses.</p>",
+  "statement": "**C2 · Stretch · PyTorch — a stable solve can face uncertain data.** In float64, build the 6×6 matrix A with ones on the diagonal and just above it, set b=A·(1,…,1), and use `torch.linalg.solve` for b and for b+δ(1,−1,1,−1,1,−1) with δ=10⁻⁸. Report each solve's residual against its own right-hand side, the relative change in the solution and in the data (infinity norm), and their ratio. Explain why small residuals and this amplification are compatible.",
+  "plain": "A⁻¹ has entries (−1)^(j−i) on and above the diagonal, so ‖A⁻¹‖∞=6, ‖A‖∞=2, and κ∞=12. With x=(1,…,1), b=(2,2,2,2,2,1) and ‖b‖∞=2. For f=δ(1,−1,1,−1,1,−1), δx=A⁻¹f=δ(6,−5,4,−3,2,−1), so the relative solution change is 6δ against a relative data change of δ/2: a ratio of 12=κ∞. Both solves have residuals of rounding size (about 10⁻¹⁶) against their own right-hand sides, because each solve is backward stable. The residual measures how well each system was solved; the amplification measures how much the exact answer moves when the data move. The two are independent. Record the PyTorch version and dtype, and compare the observed ratio with 12 up to rounding. Rubric: residuals reported per right-hand side; the relative changes and their ratio; identification of the ratio with κ∞=2n; the distinction between solver accuracy and problem sensitivity.",
+  "solution": "<p>A⁻¹ has entries (−1)^(j−i) on and above the diagonal, so ‖A⁻¹‖∞=6, ‖A‖∞=2, and κ∞=12. With x=(1,…,1), b=(2,2,2,2,2,1) and ‖b‖∞=2. For f=δ(1,−1,1,−1,1,−1), δx=A⁻¹f=δ(6,−5,4,−3,2,−1), so the relative solution change is 6δ against a relative data change of δ/2: a ratio of 12=κ∞. Both solves have residuals of rounding size (about 10⁻¹⁶) against their own right-hand sides, because each solve is backward stable. The residual measures how well each system was solved; the amplification measures how much the exact answer moves when the data move. The two are independent. Record the PyTorch version and dtype, and compare the observed ratio with 12 up to rounding. Rubric: residuals reported per right-hand side; the relative changes and their ratio; identification of the ratio with κ∞=2n; the distinction between solver accuracy and problem sensitivity.</p>",
   "fields": [
     {
-      "id": "change",
-      "label": "Euclidean change between solutions",
+      "id": "ratio",
+      "label": "relative solution change ÷ relative data change",
       "type": "num",
-      "ans": 1
+      "ans": 12
     }
   ],
   "hints": {
-    "change": "Solve the second diagonal coordinate for each right-hand side."
+    "ratio": "A⁻¹f has infinity norm 6δ; the data change is δ/‖b‖∞=δ/2 in relative terms."
   }
 },
 M1: {
-  "statement": "**M1 · Core · mixed — volume is not robustness.** Compare det(A), κ₂(A), and κ₂(10⁻¹²I₂) for A=diag(10⁶,10⁻⁶). Explain why determinant magnitude cannot rank these problems by relative solve sensitivity.",
-  "plain": "det(A)=1 and κ₂(A)=10¹², whereas κ₂(10⁻¹²I₂)=1 and that matrix’s determinant is 10⁻²⁴. A determinant multiplies gains; conditioning compares the largest and smallest. Thus a much smaller determinant can accompany much better relative conditioning. Neither determinant here is zero.",
-  "solution": "<p>det(A)=1 and κ₂(A)=10¹², whereas κ₂(10⁻¹²I₂)=1 and that matrix’s determinant is 10⁻²⁴. A determinant multiplies gains; conditioning compares the largest and smallest. Thus a much smaller determinant can accompany much better relative conditioning. Neither determinant here is zero.</p>",
+  "statement": "**M1 · Core · mixed — volume is not robustness.** For the shear A=[[1,10⁴],[0,1]] and B=10⁻⁵I₂, compute det and κ∞ of each. Explain why determinant magnitude cannot rank these problems by relative solve sensitivity, and describe the shear's ill-conditioning in the ellipse picture.",
+  "plain": "det A=1 and det B=10⁻¹⁰. For the shear, A⁻¹=[[1,−10⁴],[0,1]], so ‖A‖∞=‖A⁻¹‖∞=10⁴+1 and κ∞(A)=(10⁴+1)²=100020001. For B, κ∞(B)=1 because every multiple of the identity has condition number 1. The matrix with the far smaller determinant is perfectly conditioned, and the matrix with determinant 1 is ill conditioned. A determinant multiplies all the gains together, while conditioning compares the largest with the smallest, so the two can move in opposite directions. In the ellipse picture, the shear maps the unit circle to a long thin ellipse of area π (its determinant is 1): σ₁≈10⁴ and σ₂≈10⁻⁴, so κ₂≈10⁸, and the area stays π only because the huge stretch is exactly offset by the tiny one. Rubric: both determinants and both κ∞ values; the gains-product versus gains-ratio explanation; the ellipse description with equal area but extreme elongation.",
+  "solution": "<p>det A=1 and det B=10⁻¹⁰. For the shear, A⁻¹=[[1,−10⁴],[0,1]], so ‖A‖∞=‖A⁻¹‖∞=10⁴+1 and κ∞(A)=(10⁴+1)²=100020001. For B, κ∞(B)=1 because every multiple of the identity has condition number 1. The matrix with the far smaller determinant is perfectly conditioned, and the matrix with determinant 1 is ill conditioned. A determinant multiplies all the gains together, while conditioning compares the largest with the smallest, so the two can move in opposite directions. In the ellipse picture, the shear maps the unit circle to a long thin ellipse of area π (its determinant is 1): σ₁≈10⁴ and σ₂≈10⁻⁴, so κ₂≈10⁸, and the area stays π only because the huge stretch is exactly offset by the tiny one. Rubric: both determinants and both κ∞ values; the gains-product versus gains-ratio explanation; the ellipse description with equal area but extreme elongation.</p>",
   "fields": [
     {
-      "id": "values",
-      "label": "det(A), κ₂(A), κ₂(10⁻¹²I₂)",
-      "type": "vec",
-      "ans": [
-        1,
-        1000000000000,
-        1
-      ]
+      "id": "kA",
+      "label": "κ∞ of the shear",
+      "type": "num",
+      "ans": 100020001
+    },
+    {
+      "id": "kB",
+      "label": "κ∞(B)",
+      "type": "num",
+      "ans": 1
     }
   ],
   "hints": {
-    "values": "Products of gains and ratios of gains answer different questions."
+    "kA": "Invert the shear by negating its off-diagonal entry, then multiply the two largest absolute row sums.",
+    "kB": "Scaling the identity scales A and A⁻¹ in opposite ways."
   }
 },
 M2: {
-  "statement": "**M2 · Core · mixed — normalize the residual.** For A=diag(1,10⁻⁶), b=e₁, and x̂=(1,1), multiply both A and b by 10⁶. Give the new absolute residual norm, relative residual, and η₂. Which diagnostics remain unchanged?",
-  "plain": "The scaled residual is (0,−1), with norm 1. The scaled right-hand side has norm 10⁶, so relative residual remains 10⁻⁶. The new η₂ denominator is 10⁶(√2+1), giving the same η₂=10⁻⁶/(√2+1). The candidate, exact solution, condition number, relative residual, forward error, and η₂ remain unchanged. Only the absolute residual and data scales change.",
-  "solution": "<p>The scaled residual is (0,−1), with norm 1. The scaled right-hand side has norm 10⁶, so relative residual remains 10⁻⁶. The new η₂ denominator is 10⁶(√2+1), giving the same η₂=10⁻⁶/(√2+1). The candidate, exact solution, condition number, relative residual, forward error, and η₂ remain unchanged. Only the absolute residual and data scales change.</p>",
+  "statement": "**M2 · Core · mixed — normalize the residual.** For A=[[2,1],[1,1]], b=(3,2), and x̂=(1.1,0.8), compute r, the relative residual ‖r‖∞/‖b‖∞, the relative forward error in the infinity norm, and κ∞(A), and check the residual-based ceiling. Then multiply A and b by 10³: which of these numbers change?",
+  "plain": "Ax̂=(2.2+0.8, 1.1+0.8)=(3.0,1.9), so r=b−Ax̂=(0,0.1) and the relative residual is 0.1/3=1/30. The exact solution is x=(1,1), so x̂−x=(0.1,−0.2) and the relative forward error is 0.2. A⁻¹=[[1,−1],[−1,2]], so ‖A‖∞=3, ‖A⁻¹‖∞=3, and κ∞=9. The ceiling is κ∞·(relative residual)=9/30=0.3, which is above the actual 0.2, as the theorem requires. After multiplying A and b by 10³, the residual becomes (0,100), but ‖b‖∞ also grows by 10³, so the relative residual stays 1/30. The solution, x̂, the forward error, and κ∞ are all unchanged. Only the absolute residual changes. Rubric: r and all three relative quantities computed; κ∞ from A⁻¹; the ceiling checked; a correct list of what the scaling changes.",
+  "solution": "<p>Ax̂=(2.2+0.8, 1.1+0.8)=(3.0,1.9), so r=b−Ax̂=(0,0.1) and the relative residual is 0.1/3=1/30. The exact solution is x=(1,1), so x̂−x=(0.1,−0.2) and the relative forward error is 0.2. A⁻¹=[[1,−1],[−1,2]], so ‖A‖∞=3, ‖A⁻¹‖∞=3, and κ∞=9. The ceiling is κ∞·(relative residual)=9/30=0.3, which is above the actual 0.2, as the theorem requires. After multiplying A and b by 10³, the residual becomes (0,100), but ‖b‖∞ also grows by 10³, so the relative residual stays 1/30. The solution, x̂, the forward error, and κ∞ are all unchanged. Only the absolute residual changes. Rubric: r and all three relative quantities computed; κ∞ from A⁻¹; the ceiling checked; a correct list of what the scaling changes.</p>",
   "fields": [
     {
-      "id": "residual",
-      "label": "new absolute residual norm",
+      "id": "relres",
+      "label": "relative residual",
       "type": "num",
-      "ans": 1
+      "ans": 0.03333333333333333
     },
     {
-      "id": "relative",
-      "label": "relative residual in units of 10⁻⁶",
+      "id": "forward",
+      "label": "relative forward error",
+      "type": "num",
+      "ans": 0.2
+    },
+    {
+      "id": "kinf",
+      "label": "κ∞(A)",
+      "type": "num",
+      "ans": 9
+    }
+  ],
+  "hints": {
+    "relres": "Divide the largest residual entry by ‖b‖∞=3. An answer such as 1/30 is accepted.",
+    "forward": "The exact solution is (1,1); take the largest entry of x̂−x.",
+    "kinf": "A⁻¹=[[1,−1],[−1,2]]; multiply the largest absolute row sums of A and A⁻¹."
+  }
+},
+M3: {
+  "statement": "**M3 · Stretch · mixed — units in the parameters.** A model has two parameters measured in different units, with A=[[1,100],[1,−100]]. Compute κ₂(A). Change units with the column scaling D=diag(1,1/100), so x=Dz and the system becomes ADz=b; compute κ₂(AD). Explain what κ₂(AD)=1 says, and does not say, about the accuracy of each original parameter.",
+  "plain": "The columns (1,1) and (100,−100) are orthogonal, so the singular values are their lengths √2 and 100√2, and κ₂(A)=100. With D=diag(1,1/100), AD=[[1,1],[1,−1]] has orthogonal columns of equal length √2, so κ₂(AD)=1. What it says: in the scaled parameters z=D⁻¹x, a relative data error of size ρ produces a relative error of at most ρ in z, measured in the Euclidean norm of z. Because z₂=100x₂, that norm treats one unit of x₁ and one hundredth of a unit of x₂ as equally important, so it is the right measurement when those are the scientifically comparable sizes. What it does not say: it gives no guarantee in the original unweighted norm of x, where κ₂(A)=100 applies, and it does not remove any uncertainty in the data. Choosing D is a statement about which errors matter, not a numerical trick. Rubric: both condition numbers with justification; the translation x=Dz and what the scaled norm weighs; a clear statement that scaling changes the question being asked rather than the data.",
+  "solution": "<p>The columns (1,1) and (100,−100) are orthogonal, so the singular values are their lengths √2 and 100√2, and κ₂(A)=100. With D=diag(1,1/100), AD=[[1,1],[1,−1]] has orthogonal columns of equal length √2, so κ₂(AD)=1. What it says: in the scaled parameters z=D⁻¹x, a relative data error of size ρ produces a relative error of at most ρ in z, measured in the Euclidean norm of z. Because z₂=100x₂, that norm treats one unit of x₁ and one hundredth of a unit of x₂ as equally important, so it is the right measurement when those are the scientifically comparable sizes. What it does not say: it gives no guarantee in the original unweighted norm of x, where κ₂(A)=100 applies, and it does not remove any uncertainty in the data. Choosing D is a statement about which errors matter, not a numerical trick. Rubric: both condition numbers with justification; the translation x=Dz and what the scaled norm weighs; a clear statement that scaling changes the question being asked rather than the data.</p>",
+  "fields": [
+    {
+      "id": "kA",
+      "label": "κ₂(A)",
+      "type": "num",
+      "ans": 100
+    },
+    {
+      "id": "kAD",
+      "label": "κ₂(AD)",
       "type": "num",
       "ans": 1
     }
   ],
   "hints": {
-    "residual": "Multiply the old absolute residual by 10⁶.",
-    "relative": "The denominator ‖b‖ scales too; report the coefficient of 10⁻⁶."
+    "kA": "The columns are orthogonal, so the singular values are the column lengths.",
+    "kAD": "After scaling, both columns have length √2."
   }
-},
-M3: {
-  "statement": "**M3 · Stretch · mixed — rescaling the uncertainty.** For A=diag(1,ε), 0<ε≤1, row scale with D=diag(1,1/ε). Show DA=I. If the original measurement perturbation is f=(0,δ), find Df and the resulting solution change. Explain why κ₂(DA)=1 does not erase the original uncertainty.",
-  "plain": "DA=I and Df=(0,δ/ε). The original inverse also gives δx=(0,δ/ε). The scaled matrix is perfectly conditioned in unweighted Euclidean coordinates, but the transformed data uncertainty is larger. Any claim about the original physical measurement must transform its perturbation set as well as its equation. Rubric: both matrix and perturbation transformation, the solution change, and an explicit statement of which metric is being used are required.",
-  "solution": "<p>DA=I and Df=(0,δ/ε). The original inverse also gives δx=(0,δ/ε). The scaled matrix is perfectly conditioned in unweighted Euclidean coordinates, but the transformed data uncertainty is larger. Any claim about the original physical measurement must transform its perturbation set as well as its equation. Rubric: both matrix and perturbation transformation, the solution change, and an explicit statement of which metric is being used are required.</p>",
-  "proof": true
 },
 M4: {
   "statement": "**M4 · Stretch · mixed — componentwise evidence differs.** Let A=diag(1,10⁻⁸), b=(1,10⁻⁸), and x̂=(1,0). Compute the relative infinity-norm residual. If only b may change and every component must satisfy |fᵢ|≤η|bᵢ|, find the smallest η. Explain the diagnostic disagreement.",
-  "plain": "r=(0,10⁻⁸), while ‖b‖∞=1, giving relative infinity residual 10⁻⁸. Right-hand-side-only backward correction is f=−r=(0,−10⁻⁸). Its second coordinate changes by 100% of |b₂|, so the smallest componentwise η is 1. A normwise measure normalizes by the largest coordinate and can hide a complete loss of a smaller coordinate.",
-  "solution": "<p>r=(0,10⁻⁸), while ‖b‖∞=1, giving relative infinity residual 10⁻⁸. Right-hand-side-only backward correction is f=−r=(0,−10⁻⁸). Its second coordinate changes by 100% of |b₂|, so the smallest componentwise η is 1. A normwise measure normalizes by the largest coordinate and can hide a complete loss of a smaller coordinate.</p>",
+  "plain": "r=(0,10⁻⁸), while ‖b‖∞=1, giving relative infinity residual 10⁻⁸. Right-hand-side-only backward correction is f=−r=(0,−10⁻⁸). Its second coordinate changes by 100% of |b₂|, so the smallest componentwise η is 1. A normwise measure normalizes by the largest coordinate and can hide a complete loss of a smaller coordinate. Rubric: the infinity-norm residual normalized by ‖b‖∞; the right-hand-side-only correction −r; the componentwise ratio for the second entry; an explanation of why normwise normalization hides the lost component.",
+  "solution": "<p>r=(0,10⁻⁸), while ‖b‖∞=1, giving relative infinity residual 10⁻⁸. Right-hand-side-only backward correction is f=−r=(0,−10⁻⁸). Its second coordinate changes by 100% of |b₂|, so the smallest componentwise η is 1. A normwise measure normalizes by the largest coordinate and can hide a complete loss of a smaller coordinate. Rubric: the infinity-norm residual normalized by ‖b‖∞; the right-hand-side-only correction −r; the componentwise ratio for the second entry; an explanation of why normwise normalization hides the lost component.</p>",
   "fields": [
     {
       "id": "component",
@@ -369,52 +430,45 @@ K2: {
   "proof": true
 },
 K3: {
-  "statement": "**K3 · Core · gate — diagnose a small residual.** For A=diag(1,10⁻⁸), b=e₁, and x̂=(1,1), give κ₂, relative residual, relative forward error, and η₂. Does the residual-bound ceiling match the actual forward error?",
-  "plain": "κ₂=10⁸, r=(0,−10⁻⁸), relative residual=10⁻⁸, relative forward error=1, and η₂=10⁻⁸/(√2+1). The residual ceiling is 10⁸·10⁻⁸=1, exactly matching the forward error: the residual points along the weak output channel, while b points along the strong one.",
-  "solution": "<p>κ₂=10⁸, r=(0,−10⁻⁸), relative residual=10⁻⁸, relative forward error=1, and η₂=10⁻⁸/(√2+1). The residual ceiling is 10⁸·10⁻⁸=1, exactly matching the forward error: the residual points along the weak output channel, while b points along the strong one.</p>",
+  "statement": "**K3 · Core · gate — diagnose a small residual.** For A=[[1,1],[1,1+10⁻⁸]], b=(2,2), and x̂=(0,2), find the exact solution, then give the relative residual, the relative forward error, κ₂ to one significant figure, and η₂ (all in the 2-norm). Does the residual-based ceiling hold, and is it attained?",
+  "plain": "The second equation minus the first gives 10⁻⁸x₂=0, so x₂=0 and x=(2,0). Then Ax̂=(2, 2+2·10⁻⁸), so r=(0,−2·10⁻⁸), and the relative residual is 2·10⁻⁸/‖(2,2)‖₂=2·10⁻⁸/(2√2)=(√2/2)·10⁻⁸≈0.71×10⁻⁸. The forward error is ‖(−2,2)‖₂/‖(2,0)‖₂=√2≈1.41: the answer is completely wrong. A is symmetric with eigenvalues (2+δ±√(4+δ²))/2 for δ=10⁻⁸, approximately 2 and δ/2, so κ₂≈4/δ=4×10⁸. The ceiling κ₂·(relative residual)≈4×10⁸·0.71×10⁻⁸≈2.8 holds, since 1.41≤2.8, but is not attained: r is not exactly along the weakest direction. With ‖A‖₂≈2, ‖x̂‖₂=2, and ‖b‖₂=2√2, η₂=2·10⁻⁸/(4+2√2)≈2.93×10⁻⁹. The two nearly parallel rows are the geometric source of the ill-conditioning. Rubric: the exact solution; r and all relative quantities; κ₂ from the eigenvalues with the right order of magnitude; the ceiling checked and correctly judged not attained; η₂ with the right denominator.",
+  "solution": "<p>The second equation minus the first gives 10⁻⁸x₂=0, so x₂=0 and x=(2,0). Then Ax̂=(2, 2+2·10⁻⁸), so r=(0,−2·10⁻⁸), and the relative residual is 2·10⁻⁸/‖(2,2)‖₂=2·10⁻⁸/(2√2)=(√2/2)·10⁻⁸≈0.71×10⁻⁸. The forward error is ‖(−2,2)‖₂/‖(2,0)‖₂=√2≈1.41: the answer is completely wrong. A is symmetric with eigenvalues (2+δ±√(4+δ²))/2 for δ=10⁻⁸, approximately 2 and δ/2, so κ₂≈4/δ=4×10⁸. The ceiling κ₂·(relative residual)≈4×10⁸·0.71×10⁻⁸≈2.8 holds, since 1.41≤2.8, but is not attained: r is not exactly along the weakest direction. With ‖A‖₂≈2, ‖x̂‖₂=2, and ‖b‖₂=2√2, η₂=2·10⁻⁸/(4+2√2)≈2.93×10⁻⁹. The two nearly parallel rows are the geometric source of the ill-conditioning. Rubric: the exact solution; r and all relative quantities; κ₂ from the eigenvalues with the right order of magnitude; the ceiling checked and correctly judged not attained; η₂ with the right denominator.</p>",
   "fields": [
-    {
-      "id": "kappa",
-      "label": "κ₂",
-      "type": "num",
-      "ans": 100000000
-    },
     {
       "id": "residual",
       "label": "relative residual in units of 10⁻⁸",
       "type": "num",
-      "ans": 1
+      "ans": 0.7071067811865476
     },
     {
       "id": "forward",
       "label": "relative forward error",
       "type": "num",
-      "ans": 1
+      "ans": 1.4142135623730951
     },
     {
       "id": "eta",
-      "label": "η₂ in units of 10⁻⁸",
+      "label": "η₂ in units of 10⁻⁹",
       "type": "num",
-      "ans": 0.4142135623730951
+      "ans": 2.928932188134525
     }
   ],
   "hints": {
-    "kappa": "The singular values are 1 and 10⁻⁸.",
-    "residual": "Normalize by ‖b‖=1, then express the result in the requested units.",
-    "forward": "The candidate differs by one unit in the second solution coordinate.",
-    "eta": "The normwise denominator is √2+1, not just ‖b‖."
+    "residual": "‖r‖₂=2·10⁻⁸ and ‖b‖₂=2√2; an answer such as sqrt(2)/2 is accepted.",
+    "forward": "The exact solution is (2,0); compare it with (0,2).",
+    "eta": "Use ‖A‖₂≈2, ‖x̂‖₂=2 and ‖b‖₂=2√2 in the denominator, then express in units of 10⁻⁹."
   }
 },
 K4: {
-  "statement": "**K4 · Core · gate — debug a condition report.** A program returns the largest singular value as its “condition number,” and declares matrices with determinant magnitude below 10⁻¹² singular. Give a counterexample to each rule and describe a scale-aware replacement with explicit numerical limitations.",
-  "plain": "I and diag(1,10⁻¹²) both have largest singular value 1 but κ₂ values 1 and 10¹², refuting the first rule. The nonsingular, perfectly conditioned 10⁻⁸I₂ has determinant 10⁻¹⁶, refuting the absolute determinant cutoff. Replace the first report by both extreme singular scales or a factor/solve-based reciprocal condition estimate with a named norm. For numerical rank, use a disclosed tolerance relative to the largest gain and the input uncertainty, not a scale-free claim based on an absolute determinant threshold. Tiny or zero computed singular values require a precision and uncertainty qualification; a cutoff is not an exact-rank proof.",
-  "solution": "<p>I and diag(1,10⁻¹²) both have largest singular value 1 but κ₂ values 1 and 10¹², refuting the first rule. The nonsingular, perfectly conditioned 10⁻⁸I₂ has determinant 10⁻¹⁶, refuting the absolute determinant cutoff. Replace the first report by both extreme singular scales or a factor/solve-based reciprocal condition estimate with a named norm. For numerical rank, use a disclosed tolerance relative to the largest gain and the input uncertainty, not a scale-free claim based on an absolute determinant threshold. Tiny or zero computed singular values require a precision and uncertainty qualification; a cutoff is not an exact-rank proof.</p>",
+  "statement": "**K4 · Core · gate — debug a condition report.** A program returns the largest singular value as its “condition number,” and declares matrices with determinant magnitude below 10⁻¹² singular. Using the rotation Q=[[0.6,−0.8],[0.8,0.6]] and its column-scaled version Q·diag(1,10⁻⁹) for the first rule, and a multiple of the identity for the second, give a counterexample to each rule and describe a scale-aware replacement with explicit numerical limitations.",
+  "plain": "The rotation Q and QD with D=diag(1,10⁻⁹) both have largest singular value 1 (multiplying by Q does not change singular values), but κ₂(Q)=1 while κ₂(QD)=10⁹, refuting the first rule. The perfectly conditioned 10⁻⁸I₂ has determinant 10⁻¹⁶ and would be declared singular by the second rule, refuting it too. Replace the first report by both extreme singular scales, or by a factor-and-solve estimate of the reciprocal condition number with the norm named. For numerical rank, use a tolerance relative to the largest singular value and to the input uncertainty, and disclose it. A tiny or zero computed singular value needs a precision and uncertainty qualification; a cutoff does not prove exact rank. Rubric: a counterexample to each rule (equal top singular values with different κ; a perfectly conditioned matrix with tiny determinant); a replacement that reports both extreme singular scales or a named-norm reciprocal condition estimate; a relative, disclosed rank tolerance; and an explicit statement that a cutoff is not an exact-rank proof.",
+  "solution": "<p>The rotation Q and QD with D=diag(1,10⁻⁹) both have largest singular value 1 (multiplying by Q does not change singular values), but κ₂(Q)=1 while κ₂(QD)=10⁹, refuting the first rule. The perfectly conditioned 10⁻⁸I₂ has determinant 10⁻¹⁶ and would be declared singular by the second rule, refuting it too. Replace the first report by both extreme singular scales, or by a factor-and-solve estimate of the reciprocal condition number with the norm named. For numerical rank, use a tolerance relative to the largest singular value and to the input uncertainty, and disclose it. A tiny or zero computed singular value needs a precision and uncertainty qualification; a cutoff does not prove exact rank. Rubric: a counterexample to each rule (equal top singular values with different κ; a perfectly conditioned matrix with tiny determinant); a replacement that reports both extreme singular scales or a named-norm reciprocal condition estimate; a relative, disclosed rank tolerance; and an explicit statement that a cutoff is not an exact-rank proof.</p>",
   "proof": true
 },
 K5: {
   "statement": "**K5 · Stretch · gate — critique an experiment.** An audit perturbs only the strongest output direction, observes a small solution change, and claims the solver is backward stable and the problem robust. Identify what was actually measured and design separate tests for sensitivity and algorithmic error.",
-  "plain": "The audit measured one directional response of the implemented pipeline. It neither maximized over perturbations nor isolated solver arithmetic. For sensitivity, fix stored A and controlled perturbation sizes, sweep directions including the weakest left singular direction, and compare exact or high-precision solves. For algorithmic error, fix each stored input, compare candidates with an oracle when available, and measure residual/backward error against that same input while changing algorithm or dtype. Include scales, norms, denominator validity, and repeated controlled fixtures. Empirical successes still do not prove an algorithmic backward-stability theorem.",
-  "solution": "<p>The audit measured one directional response of the implemented pipeline. It neither maximized over perturbations nor isolated solver arithmetic. For sensitivity, fix stored A and controlled perturbation sizes, sweep directions including the weakest left singular direction, and compare exact or high-precision solves. For algorithmic error, fix each stored input, compare candidates with an oracle when available, and measure residual/backward error against that same input while changing algorithm or dtype. Include scales, norms, denominator validity, and repeated controlled fixtures. Empirical successes still do not prove an algorithmic backward-stability theorem.</p>",
+  "plain": "The audit measured one directional response of the implemented pipeline. It neither maximized over perturbations nor isolated solver arithmetic. For sensitivity, fix stored A and controlled perturbation sizes, sweep directions including the weakest left singular direction, and compare exact or high-precision solves. For algorithmic error, fix each stored input, compare candidates with an oracle when available, and measure residual/backward error against that same input while changing algorithm or dtype. Include scales, norms, denominator validity, and repeated controlled fixtures. Empirical successes still do not prove an algorithmic backward-stability theorem. Rubric: identifies that one directional response was measured; a sensitivity test that sweeps directions including the weakest; an algorithm test that holds the input fixed and compares residual or backward error across algorithms or dtypes against an oracle; states that passing experiments do not prove a backward-stability theorem.",
+  "solution": "<p>The audit measured one directional response of the implemented pipeline. It neither maximized over perturbations nor isolated solver arithmetic. For sensitivity, fix stored A and controlled perturbation sizes, sweep directions including the weakest left singular direction, and compare exact or high-precision solves. For algorithmic error, fix each stored input, compare candidates with an oracle when available, and measure residual/backward error against that same input while changing algorithm or dtype. Include scales, norms, denominator validity, and repeated controlled fixtures. Empirical successes still do not prove an algorithmic backward-stability theorem. Rubric: identifies that one directional response was measured; a sensitivity test that sweeps directions including the weakest; an algorithm test that holds the input fixed and compares residual or backward error across algorithms or dtypes against an oracle; states that passing experiments do not prove a backward-stability theorem.</p>",
   "proof": true
 },
 K6: {

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="430" viewBox="0 0 900 430" role="img" aria-labelledby="la09-rows-title la09-rows-desc">
+  <title id="la09-rows-title">An unstable solve lands on one equation and ignores the other</title>
+  <desc id="la09-rows-desc">Two lines, the nearly horizontal first row and the diagonal second row, meet at (1,1). Elimination without row exchanges returns (0,1), which lies exactly on the first line but leaves a residual of 1 in the second equation.</desc>
+  <rect width="900" height="430" rx="24" fill="#08111f"/>
+  <text x="450" y="44" fill="#a8b7ca" font-family="system-ui" font-size="18" text-anchor="middle">Row picture of A = [[ε, 1], [1, 1]], b = (1, 2), ε = 10⁻²⁰</text>
+  <defs><clipPath id="clip-60-70"><rect x="214.29" y="70" width="471.43" height="300"/></clipPath></defs>
+  <g clip-path="url(#clip-60-70)"><path d="M-85.71 755.71L-85.71 -744.29M-85.71 755.71L1414.29 755.71M-32.14 755.71L-32.14 -744.29M-85.71 702.14L1414.29 702.14M21.43 755.71L21.43 -744.29M-85.71 648.57L1414.29 648.57M75 755.71L75 -744.29M-85.71 595L1414.29 595M128.57 755.71L128.57 -744.29M-85.71 541.43L1414.29 541.43M182.14 755.71L182.14 -744.29M-85.71 487.86L1414.29 487.86M235.71 755.71L235.71 -744.29M-85.71 434.29L1414.29 434.29M289.29 755.71L289.29 -744.29M-85.71 380.71L1414.29 380.71M342.86 755.71L342.86 -744.29M-85.71 327.14L1414.29 327.14M396.43 755.71L396.43 -744.29M-85.71 273.57L1414.29 273.57M450 755.71L450 -744.29M-85.71 220L1414.29 220M503.57 755.71L503.57 -744.29M-85.71 166.43L1414.29 166.43M557.14 755.71L557.14 -744.29M-85.71 112.86L1414.29 112.86M610.71 755.71L610.71 -744.29M-85.71 59.29L1414.29 59.29M664.29 755.71L664.29 -744.29M-85.71 5.71L1414.29 5.71M717.86 755.71L717.86 -744.29M-85.71 -47.86L1414.29 -47.86M771.43 755.71L771.43 -744.29M-85.71 -101.43L1414.29 -101.43M825 755.71L825 -744.29M-85.71 -155L1414.29 -155M878.57 755.71L878.57 -744.29M-85.71 -208.57L1414.29 -208.57M932.14 755.71L932.14 -744.29M-85.71 -262.14L1414.29 -262.14M985.71 755.71L985.71 -744.29M-85.71 -315.71L1414.29 -315.71M1039.29 755.71L1039.29 -744.29M-85.71 -369.29L1414.29 -369.29M1092.86 755.71L1092.86 -744.29M-85.71 -422.86L1414.29 -422.86M1146.43 755.71L1146.43 -744.29M-85.71 -476.43L1414.29 -476.43M1200 755.71L1200 -744.29M-85.71 -530L1414.29 -530M1253.57 755.71L1253.57 -744.29M-85.71 -583.57L1414.29 -583.57M1307.14 755.71L1307.14 -744.29M-85.71 -637.14L1414.29 -637.14M1360.71 755.71L1360.71 -744.29M-85.71 -690.71L1414.29 -690.71M1414.29 755.71L1414.29 -744.29M-85.71 -744.29L1414.29 -744.29" stroke="#173641" stroke-width="1.5" fill="none"/></g>
+  <path d="M214.29 327.14L685.71 327.14M342.86 370L342.86 70" stroke="#31445e" stroke-width="2"/>
+  <g clip-path="url(#clip-60-70)">
+  <path d="M-1542.86 220L2228.57 220" stroke="#50d2c2" stroke-width="3" fill="none"/>
+  </g>
+  <g clip-path="url(#clip-60-70)">
+  <path d="M-990.54 -1220.54L1676.26 1446.26" stroke="#ffb86b" stroke-width="3" fill="none"/>
+  </g>
+  <circle cx="450" cy="220" r="7" fill="#8bd17c"/>
+  <text x="462" y="208" fill="#8bd17c" font-family="system-ui" font-size="16">exact (1, 1)</text>
+  <circle cx="342.86" cy="220" r="7" fill="#ff7a90"/>
+  <text x="152.86" y="206" fill="#ff7a90" font-family="system-ui" font-size="16">unpivoted x̂ = (0, 1)</text>
+  <path d="M342.86 220L342.86 112.86" stroke="#ff7a90" stroke-width="2.5" stroke-dasharray="6 5" fill="none"/>
+  <circle cx="342.86" cy="112.86" r="4" fill="#ffb86b"/>
+  <text x="12.86" y="161.07" fill="#ff7a90" font-family="system-ui" font-size="15">vertical gap to row 2 = residual 2 − (0 + 1) = 1</text>
+  <text x="594.64" y="208" fill="#50d2c2" font-family="system-ui" font-size="16">row 1: εx + y = 1</text>
+  <text x="586.57" y="348.57" fill="#ffb86b" font-family="system-ui" font-size="16">row 2: x + y = 2</text>
+  <text x="450" y="410" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">The problem is well conditioned (κ₂ ≈ 2.6): the lines cross at a healthy angle. The algorithm lost row 2.</text>
+</svg>

@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="430" viewBox="0 0 900 430" role="img" aria-labelledby="la01-collapse-title la01-collapse-desc">
+  <title id="la01-collapse-title">An independent pair fills a plane; a collapsed pair fills only a line</title>
+  <desc id="la01-collapse-desc">Left: the parallelogram of combinations au+bv with a and b between −2 and 2 for u=(2,1), v=(1,2); the target (4,5) is reached as u plus 2v. Right: with v=(−4,−2)=−2u every combination lies on the line y=x/2, and (4,5) is off it.</desc>
+  <rect width="900" height="430" rx="24" fill="#08111f"/>
+  <defs><clipPath id="clip-40-70"><rect x="90" y="70" width="300" height="300"/></clipPath></defs>
+  <text x="240" y="56" fill="#a8b7ca" font-family="system-ui" font-size="17" text-anchor="middle">u = (2, 1), v = (1, 2): a plane</text>
+  <g clip-path="url(#clip-40-70)"><path d="M-210 670L-210 -230M-210 670L690 670M-188.57 670L-188.57 -230M-210 648.57L690 648.57M-167.14 670L-167.14 -230M-210 627.14L690 627.14M-145.71 670L-145.71 -230M-210 605.71L690 605.71M-124.29 670L-124.29 -230M-210 584.29L690 584.29M-102.86 670L-102.86 -230M-210 562.86L690 562.86M-81.43 670L-81.43 -230M-210 541.43L690 541.43M-60 670L-60 -230M-210 520L690 520M-38.57 670L-38.57 -230M-210 498.57L690 498.57M-17.14 670L-17.14 -230M-210 477.14L690 477.14M4.29 670L4.29 -230M-210 455.71L690 455.71M25.71 670L25.71 -230M-210 434.29L690 434.29M47.14 670L47.14 -230M-210 412.86L690 412.86M68.57 670L68.57 -230M-210 391.43L690 391.43M90 670L90 -230M-210 370L690 370M111.43 670L111.43 -230M-210 348.57L690 348.57M132.86 670L132.86 -230M-210 327.14L690 327.14M154.29 670L154.29 -230M-210 305.71L690 305.71M175.71 670L175.71 -230M-210 284.29L690 284.29M197.14 670L197.14 -230M-210 262.86L690 262.86M218.57 670L218.57 -230M-210 241.43L690 241.43M240 670L240 -230M-210 220L690 220M261.43 670L261.43 -230M-210 198.57L690 198.57M282.86 670L282.86 -230M-210 177.14L690 177.14M304.29 670L304.29 -230M-210 155.71L690 155.71M325.71 670L325.71 -230M-210 134.29L690 134.29M347.14 670L347.14 -230M-210 112.86L690 112.86M368.57 670L368.57 -230M-210 91.43L690 91.43M390 670L390 -230M-210 70L690 70M411.43 670L411.43 -230M-210 48.57L690 48.57M432.86 670L432.86 -230M-210 27.14L690 27.14M454.29 670L454.29 -230M-210 5.71L690 5.71M475.71 670L475.71 -230M-210 -15.71L690 -15.71M497.14 670L497.14 -230M-210 -37.14L690 -37.14M518.57 670L518.57 -230M-210 -58.57L690 -58.57M540 670L540 -230M-210 -80L690 -80M561.43 670L561.43 -230M-210 -101.43L690 -101.43M582.86 670L582.86 -230M-210 -122.86L690 -122.86M604.29 670L604.29 -230M-210 -144.29L690 -144.29M625.71 670L625.71 -230M-210 -165.71L690 -165.71M647.14 670L647.14 -230M-210 -187.14L690 -187.14M668.57 670L668.57 -230M-210 -208.57L690 -208.57M690 670L690 -230M-210 -230L690 -230" stroke="#173641" stroke-width="1" fill="none"/></g>
+  <path d="M90 220L390 220M240 370L240 70" stroke="#31445e" stroke-width="2"/>
+  <path d="M111.43 348.57L282.86 262.86L368.57 91.43L197.14 177.14Z" fill="#d586ff" fill-opacity="0.22" stroke="#d586ff" stroke-width="2"/>
+  <path d="M240 220L271.23 204.39" stroke="#50d2c2" stroke-width="4" stroke-linecap="round"/>
+  <path d="M282.86 198.57L273.85 209.62L268.61 199.15Z" fill="#50d2c2"/>
+  <text x="286.86" y="216.57" fill="#50d2c2" font-family="system-ui" font-size="16">u</text>
+  <path d="M282.86 198.57L319.9 124.48" stroke="#ffb86b" stroke-width="4" stroke-linecap="round"/>
+  <path d="M325.71 112.86L325.13 127.1L314.67 121.87Z" fill="#ffb86b"/>
+  <text x="312.29" y="159.71" fill="#ffb86b" font-family="system-ui" font-size="16">2v</text>
+  <circle cx="325.71" cy="112.86" r="6" fill="#e8eef7"/>
+  <text x="285.71" y="100.86" fill="#e8eef7" font-family="system-ui" font-size="16">(4, 5) = u + 2v</text>
+  <text x="98.57" y="352.86" fill="#a8b7ca" font-family="system-ui" font-size="14">shaded: a, b ∈ [−2, 2]</text>
+  <defs><clipPath id="clip-470-70"><rect x="520" y="70" width="300" height="300"/></clipPath></defs>
+  <text x="670" y="56" fill="#a8b7ca" font-family="system-ui" font-size="17" text-anchor="middle">u = (2, 1), v = (−4, −2): a line</text>
+  <g clip-path="url(#clip-470-70)"><path d="M220 670L220 -230M220 670L1120 670M241.43 670L241.43 -230M220 648.57L1120 648.57M262.86 670L262.86 -230M220 627.14L1120 627.14M284.29 670L284.29 -230M220 605.71L1120 605.71M305.71 670L305.71 -230M220 584.29L1120 584.29M327.14 670L327.14 -230M220 562.86L1120 562.86M348.57 670L348.57 -230M220 541.43L1120 541.43M370 670L370 -230M220 520L1120 520M391.43 670L391.43 -230M220 498.57L1120 498.57M412.86 670L412.86 -230M220 477.14L1120 477.14M434.29 670L434.29 -230M220 455.71L1120 455.71M455.71 670L455.71 -230M220 434.29L1120 434.29M477.14 670L477.14 -230M220 412.86L1120 412.86M498.57 670L498.57 -230M220 391.43L1120 391.43M520 670L520 -230M220 370L1120 370M541.43 670L541.43 -230M220 348.57L1120 348.57M562.86 670L562.86 -230M220 327.14L1120 327.14M584.29 670L584.29 -230M220 305.71L1120 305.71M605.71 670L605.71 -230M220 284.29L1120 284.29M627.14 670L627.14 -230M220 262.86L1120 262.86M648.57 670L648.57 -230M220 241.43L1120 241.43M670 670L670 -230M220 220L1120 220M691.43 670L691.43 -230M220 198.57L1120 198.57M712.86 670L712.86 -230M220 177.14L1120 177.14M734.29 670L734.29 -230M220 155.71L1120 155.71M755.71 670L755.71 -230M220 134.29L1120 134.29M777.14 670L777.14 -230M220 112.86L1120 112.86M798.57 670L798.57 -230M220 91.43L1120 91.43M820 670L820 -230M220 70L1120 70M841.43 670L841.43 -230M220 48.57L1120 48.57M862.86 670L862.86 -230M220 27.14L1120 27.14M884.29 670L884.29 -230M220 5.71L1120 5.71M905.71 670L905.71 -230M220 -15.71L1120 -15.71M927.14 670L927.14 -230M220 -37.14L1120 -37.14M948.57 670L948.57 -230M220 -58.57L1120 -58.57M970 670L970 -230M220 -80L1120 -80M991.43 670L991.43 -230M220 -101.43L1120 -101.43M1012.86 670L1012.86 -230M220 -122.86L1120 -122.86M1034.29 670L1034.29 -230M220 -144.29L1120 -144.29M1055.71 670L1055.71 -230M220 -165.71L1120 -165.71M1077.14 670L1077.14 -230M220 -187.14L1120 -187.14M1098.57 670L1098.57 -230M220 -208.57L1120 -208.57M1120 670L1120 -230M220 -230L1120 -230" stroke="#173641" stroke-width="1" fill="none"/></g>
+  <path d="M520 220L820 220M670 370L670 70" stroke="#31445e" stroke-width="2"/>
+  <g clip-path="url(#clip-470-70)">
+  <path d="M-403.31 756.66L1743.31 -316.66" stroke="#d586ff" stroke-width="7" fill="none"/>
+  </g>
+  <path d="M670 220L701.23 204.39" stroke="#50d2c2" stroke-width="4" stroke-linecap="round"/>
+  <path d="M712.86 198.57L703.85 209.62L698.61 199.15Z" fill="#50d2c2"/>
+  <text x="714.86" y="188.57" fill="#50d2c2" font-family="system-ui" font-size="16">u</text>
+  <path d="M670 220L595.91 257.04" stroke="#ffb86b" stroke-width="4" stroke-linecap="round"/>
+  <path d="M584.29 262.86L593.3 251.81L598.53 262.28Z" fill="#ffb86b"/>
+  <text x="554.29" y="286.86" fill="#ffb86b" font-family="system-ui" font-size="16">v = −2u</text>
+  <circle cx="755.71" cy="112.86" r="6" fill="#ff7a90"/>
+  <text x="685.71" y="98.86" fill="#ff7a90" font-family="system-ui" font-size="16">(4, 5) not reachable</text>
+  <text x="695.71" y="335.71" fill="#a8b7ca" font-family="system-ui" font-size="14">every combination is (a − 2b)u</text>
+  <text x="695.71" y="355" fill="#a8b7ca" font-family="system-ui" font-size="14">span = the line y = x/2</text>
+  <text x="450" y="410" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">Letting a, b range over all of ℝ, the left region grows to the whole plane; the right one never leaves its line.</text>
+</svg>

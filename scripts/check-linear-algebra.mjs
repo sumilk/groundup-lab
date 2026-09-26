@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
 import vm from "node:vm";
+import {checkLesson} from "./check-textbook-standard.mjs";
+import {buildFigures} from "./figures/build.mjs";
 
 const source = name => readFileSync(new URL("../" + name, import.meta.url), "utf8");
 const noop = () => {};
@@ -372,6 +374,9 @@ for(const A of [[[1,2],[0,1]],[[-3,0],[0,1]],[[1,2],[0,0]],[[0,0],[0,0]],[[2,0],
   }
 }
 
+// Lessons upgraded to the textbook-quality standard get its mechanical gate.
+const UPGRADED = new Set(["01-span", "02-elimination", "09-conditioning"]);
+
 // Marking must use the same complete exercise shown in the lesson, not an older fixture.
 for (const [bank, file] of [["01-span", "01-vectors-spaces-bases.md"],
   ["02-elimination", "02-systems-elimination-subspaces.md"],
@@ -399,5 +404,10 @@ for (const [bank, file] of [["01-span", "01-vectors-spaces-bases.md"],
     assert.equal(entry.statement, statement, `${bank}/${header[1]} marking prompt is stale`);
     assert(entry.plain && entry.solution, `${bank}/${header[1]} missing reference`);
   }
+  if (UPGRADED.has(bank)) checkLesson({file, markdown: md, entries});
 }
+
+// Generated figures must match their source scripts (node scripts/figures/build.mjs).
+for (const [name, svg] of Object.entries(await buildFigures()))
+  assert.equal(source(`content/assets/${name}.svg`), svg, `figure ${name} is stale; run node scripts/figures/build.mjs`);
 console.log("Validated LA near-singular and degenerate labs, elimination regression, and marking prompts.");

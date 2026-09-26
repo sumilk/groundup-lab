@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="400" viewBox="0 0 900 400" role="img" aria-labelledby="la09-round-title la09-round-desc">
+  <title id="la09-round-title">Why 1 + 2⁻⁵⁴ rounds to 1 in binary64</title>
+  <desc id="la09-round-desc">A number line near 1 marked in units of 2 to the minus 54. Binary64 numbers sit at 1 minus 2 to the minus 53, at 1, and at 1 plus 2 to the minus 52. The shaded band of numbers that round to 1 runs from 1 minus 2 to the minus 54 up to 1 plus 2 to the minus 53, and it contains 1 plus 2 to the minus 54.</desc>
+  <rect width="900" height="400" rx="24" fill="#08111f"/>
+  <text x="450" y="50" fill="#a8b7ca" font-family="system-ui" font-size="18" text-anchor="middle">Binary64 near 1 (horizontal unit = 2⁻⁵⁴)</text>
+  <defs><clipPath id="clip-60-90"><rect x="60" y="100.43" width="780" height="199.15"/></clipPath></defs>
+  <path d="M60 208.3L840 208.3" stroke="#31445e" stroke-width="3" fill="none"/>
+  <path d="M242.55 223.23L491.49 223.23L491.49 193.36L242.55 193.36Z" fill="#50d2c2" fill-opacity="0.22" stroke="#50d2c2" stroke-width="1.5"/>
+  <path d="M159.57 233.19L159.57 183.4" stroke="#e8eef7" stroke-width="3" fill="none"/>
+  <text x="159.57" y="259.74" fill="#e8eef7" font-family="system-ui" font-size="16" text-anchor="middle">1 − 2⁻⁵³</text>
+  <path d="M325.53 233.19L325.53 183.4" stroke="#e8eef7" stroke-width="3" fill="none"/>
+  <text x="325.53" y="259.74" fill="#e8eef7" font-family="system-ui" font-size="16" text-anchor="middle">1</text>
+  <path d="M657.45 233.19L657.45 183.4" stroke="#e8eef7" stroke-width="3" fill="none"/>
+  <text x="657.45" y="259.74" fill="#e8eef7" font-family="system-ui" font-size="16" text-anchor="middle">1 + 2⁻⁵²</text>
+  <text x="657.45" y="166.81" fill="#a8b7ca" font-family="system-ui" font-size="15" text-anchor="middle">ticks: binary64 numbers</text>
+  <circle cx="408.51" cy="208.3" r="7" fill="#ff7a90"/>
+  <text x="458.3" y="259.74" fill="#ff7a90" font-family="system-ui" font-size="16">1 + t,  t = 2⁻⁵⁴</text>
+  <path d="M401.87 185.06L344.49 185.06" stroke="#ff7a90" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M335.49 185.06L344.49 181.01L344.49 189.11Z" fill="#ff7a90"/>
+  <text x="367.02" y="129.47" fill="#ff7a90" font-family="system-ui" font-size="15" text-anchor="middle">rounds to 1</text>
+  <text x="367.02" y="291.28" fill="#50d2c2" font-family="system-ui" font-size="15" text-anchor="middle">everything in the shaded band rounds to 1</text>
+  <text x="450" y="380" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">Above 1 the spacing is 2⁻⁵²; the nearest neighbour of 1 + 2⁻⁵⁴ is 1 itself, so the information in t is gone.</text>
+</svg>

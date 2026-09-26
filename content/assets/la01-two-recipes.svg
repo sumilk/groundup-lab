@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="430" viewBox="0 0 900 430" role="img" aria-labelledby="la01-recipes-title la01-recipes-desc">
+  <title id="la01-recipes-title">Dependent columns give several recipes for one vector</title>
+  <desc id="la01-recipes-desc">With columns v1=(1,0), v2=(0,1), v3=(1,1), the target w=(5,4) is reached by the solid path 5 v1 then 4 v2, and by the dashed path 4 v1, 3 v2, then one v3. The two coefficient lists differ by (−1,−1,1), a relation among the columns.</desc>
+  <rect width="900" height="430" rx="24" fill="#08111f"/>
+  <text x="450" y="40" fill="#a8b7ca" font-family="system-ui" font-size="18" text-anchor="middle">V = [v₁ v₂ v₃] = [[1, 0, 1], [0, 1, 1]] (rows), w = (5, 4)</text>
+  <defs><clipPath id="clip-60-60"><rect x="130" y="60" width="640" height="320"/></clipPath></defs>
+  <g clip-path="url(#clip-60-60)"><path d="M-0.37 522.22L-0.37 -1433.33M-0.37 522.22L1955.19 522.22M58.89 522.22L58.89 -1433.33M-0.37 462.96L1955.19 462.96M118.15 522.22L118.15 -1433.33M-0.37 403.7L1955.19 403.7M177.41 522.22L177.41 -1433.33M-0.37 344.44L1955.19 344.44M236.67 522.22L236.67 -1433.33M-0.37 285.19L1955.19 285.19M295.93 522.22L295.93 -1433.33M-0.37 225.93L1955.19 225.93M355.19 522.22L355.19 -1433.33M-0.37 166.67L1955.19 166.67M414.44 522.22L414.44 -1433.33M-0.37 107.41L1955.19 107.41M473.7 522.22L473.7 -1433.33M-0.37 48.15L1955.19 48.15M532.96 522.22L532.96 -1433.33M-0.37 -11.11L1955.19 -11.11M592.22 522.22L592.22 -1433.33M-0.37 -70.37L1955.19 -70.37M651.48 522.22L651.48 -1433.33M-0.37 -129.63L1955.19 -129.63M710.74 522.22L710.74 -1433.33M-0.37 -188.89L1955.19 -188.89M770 522.22L770 -1433.33M-0.37 -248.15L1955.19 -248.15M829.26 522.22L829.26 -1433.33M-0.37 -307.41L1955.19 -307.41M888.52 522.22L888.52 -1433.33M-0.37 -366.67L1955.19 -366.67M947.78 522.22L947.78 -1433.33M-0.37 -425.93L1955.19 -425.93M1007.04 522.22L1007.04 -1433.33M-0.37 -485.19L1955.19 -485.19M1066.3 522.22L1066.3 -1433.33M-0.37 -544.44L1955.19 -544.44M1125.56 522.22L1125.56 -1433.33M-0.37 -603.7L1955.19 -603.7M1184.81 522.22L1184.81 -1433.33M-0.37 -662.96L1955.19 -662.96M1244.07 522.22L1244.07 -1433.33M-0.37 -722.22L1955.19 -722.22M1303.33 522.22L1303.33 -1433.33M-0.37 -781.48L1955.19 -781.48M1362.59 522.22L1362.59 -1433.33M-0.37 -840.74L1955.19 -840.74M1421.85 522.22L1421.85 -1433.33M-0.37 -900L1955.19 -900M1481.11 522.22L1481.11 -1433.33M-0.37 -959.26L1955.19 -959.26M1540.37 522.22L1540.37 -1433.33M-0.37 -1018.52L1955.19 -1018.52M1599.63 522.22L1599.63 -1433.33M-0.37 -1077.78L1955.19 -1077.78M1658.89 522.22L1658.89 -1433.33M-0.37 -1137.04L1955.19 -1137.04M1718.15 522.22L1718.15 -1433.33M-0.37 -1196.3L1955.19 -1196.3M1777.41 522.22L1777.41 -1433.33M-0.37 -1255.56L1955.19 -1255.56M1836.67 522.22L1836.67 -1433.33M-0.37 -1314.81L1955.19 -1314.81M1895.93 522.22L1895.93 -1433.33M-0.37 -1374.07L1955.19 -1374.07M1955.19 522.22L1955.19 -1433.33M-0.37 -1433.33L1955.19 -1433.33" stroke="#173641" stroke-width="1.5" fill="none"/></g>
+  <path d="M130 344.44L770 344.44M177.41 380L177.41 60" stroke="#31445e" stroke-width="2"/>
+  <path d="M177.41 344.44L460.7 344.44" stroke="#50d2c2" stroke-width="4" stroke-linecap="round"/>
+  <path d="M473.7 344.44L460.7 350.29L460.7 338.59Z" fill="#50d2c2"/>
+  <text x="315.56" y="368.44" fill="#50d2c2" font-family="system-ui" font-size="16">5v₁</text>
+  <path d="M473.7 344.44L473.7 120.41" stroke="#50d2c2" stroke-width="4" stroke-linecap="round"/>
+  <path d="M473.7 107.41L479.55 120.41L467.85 120.41Z" fill="#50d2c2"/>
+  <text x="483.7" y="229.93" fill="#50d2c2" font-family="system-ui" font-size="16">4v₂</text>
+  <path d="M177.41 344.44L401.44 344.44" stroke="#ffb86b" stroke-width="3" stroke-linecap="round" stroke-dasharray="7 5"/>
+  <path d="M414.44 344.44L401.44 350.29L401.44 338.59Z" fill="#ffb86b"/>
+  <path d="M414.44 344.44L414.44 179.67" stroke="#ffb86b" stroke-width="3" stroke-linecap="round" stroke-dasharray="7 5"/>
+  <path d="M414.44 166.67L420.29 179.67L408.59 179.67Z" fill="#ffb86b"/>
+  <text x="374.44" y="259.56" fill="#ffb86b" font-family="system-ui" font-size="16">3v₂</text>
+  <path d="M414.44 166.67L464.51 116.6" stroke="#ffb86b" stroke-width="3" stroke-linecap="round" stroke-dasharray="7 5"/>
+  <path d="M473.7 107.41L468.65 120.74L460.37 112.46Z" fill="#ffb86b"/>
+  <text x="386.15" y="138.96" fill="#ffb86b" font-family="system-ui" font-size="16">1·v₃</text>
+  <circle cx="473.7" cy="107.41" r="7" fill="#e8eef7"/>
+  <text x="485.7" y="99.41" fill="#e8eef7" font-family="system-ui" font-size="16">w = (5, 4)</text>
+  <text x="556.67" y="166.67" fill="#50d2c2" font-family="system-ui" font-size="16">t = 0: c = (5, 4, 0)</text>
+  <text x="556.67" y="202.22" fill="#ffb86b" font-family="system-ui" font-size="16">t = 1: c = (4, 3, 1)</text>
+  <text x="556.67" y="249.63" fill="#a8b7ca" font-family="system-ui" font-size="16">difference (−1, −1, 1)</text>
+  <text x="556.67" y="279.26" fill="#a8b7ca" font-family="system-ui" font-size="16">satisfies Vc = 0</text>
+  <text x="450" y="410" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">Vc = w has the solutions c = (5 − t, 4 − t, t); every pair of them differs by a multiple of (−1, −1, 1).</text>
+</svg>

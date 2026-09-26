@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="470" viewBox="0 0 900 470" role="img" aria-labelledby="la01-exchange-title la01-exchange-desc">
+  <title id="la01-exchange-title">The exchange lemma swaps in one independent vector at a time</title>
+  <desc id="la01-exchange-desc">Four rows of vector lists. Start with w1=(1,0,0), w2=(0,1,0), w3=(0,0,1). Inserting u1=(1,1,0) makes w2=u1−w1 redundant, so it is removed. Inserting u2=(0,1,1) makes w3=−u1+u2+w1 redundant, so it is removed. The result u1, u2, w1 still spans three-space.</desc>
+  <rect width="900" height="470" rx="24" fill="#08111f"/>
+  <text x="450" y="40" fill="#a8b7ca" font-family="system-ui" font-size="18" text-anchor="middle">Exchange: independent u₁ = (1, 1, 0), u₂ = (0, 1, 1) into spanning e₁, e₂, e₃</text>
+  <text x="40" y="103" fill="#a8b7ca" font-family="system-ui" font-size="16">start</text>
+  <rect x="150" y="70" width="150" height="54" rx="12" fill="#ffb86b" fill-opacity="0.16" stroke="#ffb86b" stroke-width="2"/>
+  <text x="225" y="93" fill="#e8eef7" font-family="system-ui" font-size="17" text-anchor="middle" font-weight="600">w₁</text>
+  <text x="225" y="114" fill="#a8b7ca" font-family="system-ui" font-size="14" text-anchor="middle">(1, 0, 0)</text>
+  <rect x="314" y="70" width="150" height="54" rx="12" fill="#ffb86b" fill-opacity="0.16" stroke="#ffb86b" stroke-width="2"/>
+  <text x="389" y="93" fill="#e8eef7" font-family="system-ui" font-size="17" text-anchor="middle" font-weight="600">w₂</text>
+  <text x="389" y="114" fill="#a8b7ca" font-family="system-ui" font-size="14" text-anchor="middle">(0, 1, 0)</text>
+  <rect x="478" y="70" width="150" height="54" rx="12" fill="#ffb86b" fill-opacity="0.16" stroke="#ffb86b" stroke-width="2"/>
+  <text x="553" y="93" fill="#e8eef7" font-family="system-ui" font-size="17" text-anchor="middle" font-weight="600">w₃</text>
+  <text x="553" y="114" fill="#a8b7ca" font-family="system-ui" font-size="14" text-anchor="middle">(0, 0, 1)</text>
+  <text x="150" y="144" fill="#91a4bb" font-family="system-ui" font-size="14.5">w₁, w₂, w₃ span ℝ³</text>
+  <text x="40" y="189" fill="#a8b7ca" font-family="system-ui" font-size="16">insert u₁</text>
+  <rect x="150" y="156" width="150" height="54" rx="12" fill="#50d2c2" fill-opacity="0.16" stroke="#50d2c2" stroke-width="2"/>
+  <text x="225" y="179" fill="#e8eef7" font-family="system-ui" font-size="17" text-anchor="middle" font-weight="600">u₁</text>
+  <text x="225" y="200" fill="#a8b7ca" font-family="system-ui" font-size="14" text-anchor="middle">(1, 1, 0)</text>
+  <rect x="314" y="156" width="150" height="54" rx="12" fill="#ffb86b" fill-opacity="0.16" stroke="#ffb86b" stroke-width="2"/>
+  <text x="389" y="179" fill="#e8eef7" font-family="system-ui" font-size="17" text-anchor="middle" font-weight="600">w₁</text>
+  <text x="389" y="200" fill="#a8b7ca" font-family="system-ui" font-size="14" text-anchor="middle">(1, 0, 0)</text>
+  <rect x="478" y="156" width="150" height="54" rx="12" fill="#ff7a90" fill-opacity="0.08" stroke="#ff7a90" stroke-width="2" stroke-dasharray="6 5"/>
+  <text x="553" y="179" fill="#91a4bb" font-family="system-ui" font-size="17" text-anchor="middle" font-weight="600">w₂</text>
+  <text x="553" y="200" fill="#a8b7ca" font-family="system-ui" font-size="14" text-anchor="middle">(0, 1, 0)</text>
+  <path d="M490 202L616 164" stroke="#ff7a90" stroke-width="3"/>
+  <rect x="642" y="156" width="150" height="54" rx="12" fill="#ffb86b" fill-opacity="0.16" stroke="#ffb86b" stroke-width="2"/>
+  <text x="717" y="179" fill="#e8eef7" font-family="system-ui" font-size="17" text-anchor="middle" font-weight="600">w₃</text>
+  <text x="717" y="200" fill="#a8b7ca" font-family="system-ui" font-size="14" text-anchor="middle">(0, 0, 1)</text>
+  <text x="150" y="230" fill="#91a4bb" font-family="system-ui" font-size="14.5">w₂ = u₁ − w₁ is in span(u₁, w₁): remove w₂</text>
+  <text x="40" y="275" fill="#a8b7ca" font-family="system-ui" font-size="16">insert u₂</text>
+  <rect x="150" y="242" width="150" height="54" rx="12" fill="#50d2c2" fill-opacity="0.16" stroke="#50d2c2" stroke-width="2"/>
+  <text x="225" y="265" fill="#e8eef7" font-family="system-ui" font-size="17" text-anchor="middle" font-weight="600">u₁</text>
+  <text x="225" y="286" fill="#a8b7ca" font-family="system-ui" font-size="14" text-anchor="middle">(1, 1, 0)</text>
+  <rect x="314" y="242" width="150" height="54" rx="12" fill="#50d2c2" fill-opacity="0.16" stroke="#50d2c2" stroke-width="2"/>
+  <text x="389" y="265" fill="#e8eef7" font-family="system-ui" font-size="17" text-anchor="middle" font-weight="600">u₂</text>
+  <text x="389" y="286" fill="#a8b7ca" font-family="system-ui" font-size="14" text-anchor="middle">(0, 1, 1)</text>
+  <rect x="478" y="242" width="150" height="54" rx="12" fill="#ffb86b" fill-opacity="0.16" stroke="#ffb86b" stroke-width="2"/>
+  <text x="553" y="265" fill="#e8eef7" font-family="system-ui" font-size="17" text-anchor="middle" font-weight="600">w₁</text>
+  <text x="553" y="286" fill="#a8b7ca" font-family="system-ui" font-size="14" text-anchor="middle">(1, 0, 0)</text>
+  <rect x="642" y="242" width="150" height="54" rx="12" fill="#ff7a90" fill-opacity="0.08" stroke="#ff7a90" stroke-width="2" stroke-dasharray="6 5"/>
+  <text x="717" y="265" fill="#91a4bb" font-family="system-ui" font-size="17" text-anchor="middle" font-weight="600">w₃</text>
+  <text x="717" y="286" fill="#a8b7ca" font-family="system-ui" font-size="14" text-anchor="middle">(0, 0, 1)</text>
+  <path d="M654 288L780 250" stroke="#ff7a90" stroke-width="3"/>
+  <text x="150" y="316" fill="#91a4bb" font-family="system-ui" font-size="14.5">w₃ = −u₁ + u₂ + w₁ is in span(u₁, u₂, w₁): remove w₃</text>
+  <text x="40" y="361" fill="#a8b7ca" font-family="system-ui" font-size="16">result</text>
+  <rect x="150" y="328" width="150" height="54" rx="12" fill="#50d2c2" fill-opacity="0.16" stroke="#50d2c2" stroke-width="2"/>
+  <text x="225" y="351" fill="#e8eef7" font-family="system-ui" font-size="17" text-anchor="middle" font-weight="600">u₁</text>
+  <text x="225" y="372" fill="#a8b7ca" font-family="system-ui" font-size="14" text-anchor="middle">(1, 1, 0)</text>
+  <rect x="314" y="328" width="150" height="54" rx="12" fill="#50d2c2" fill-opacity="0.16" stroke="#50d2c2" stroke-width="2"/>
+  <text x="389" y="351" fill="#e8eef7" font-family="system-ui" font-size="17" text-anchor="middle" font-weight="600">u₂</text>
+  <text x="389" y="372" fill="#a8b7ca" font-family="system-ui" font-size="14" text-anchor="middle">(0, 1, 1)</text>
+  <rect x="478" y="328" width="150" height="54" rx="12" fill="#ffb86b" fill-opacity="0.16" stroke="#ffb86b" stroke-width="2"/>
+  <text x="553" y="351" fill="#e8eef7" font-family="system-ui" font-size="17" text-anchor="middle" font-weight="600">w₁</text>
+  <text x="553" y="372" fill="#a8b7ca" font-family="system-ui" font-size="14" text-anchor="middle">(1, 0, 0)</text>
+  <text x="150" y="402" fill="#91a4bb" font-family="system-ui" font-size="14.5">still spans ℝ³; each u pushed out one w, so 2 ≤ 3</text>
+  <text x="450" y="450" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">The removed vector is always a w: a u cannot lie in the span of the u's before it, because the u's are independent.</text>
+</svg>

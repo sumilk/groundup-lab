@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="420" viewBox="0 0 900 420" role="img" aria-labelledby="la01-para-title la01-para-desc">
+  <title id="la01-para-title">The parallelogram rule and a tip-to-tail combination</title>
+  <desc id="la01-para-desc">Left: u=(3,1) and v=(1,2) with dashed copies placed tip to tail in both orders; both reach u+v=(4,3), the far corner of the parallelogram. Right: 2u=(6,2) followed by −v=(−1,−2) reaches 2u−v=(5,0).</desc>
+  <rect width="900" height="420" rx="24" fill="#08111f"/>
+  <defs><clipPath id="clip-40-70"><rect x="40" y="70.17" width="400" height="289.66"/></clipPath></defs>
+  <text x="240" y="56" fill="#a8b7ca" font-family="system-ui" font-size="17" text-anchor="middle">u + v: either order, same tip</text>
+  <g clip-path="url(#clip-40-70)"><path d="M-56.55 456.38L-56.55 -785M-56.55 456.38L1184.83 456.38M12.41 456.38L12.41 -785M-56.55 387.41L1184.83 387.41M81.38 456.38L81.38 -785M-56.55 318.45L1184.83 318.45M150.34 456.38L150.34 -785M-56.55 249.48L1184.83 249.48M219.31 456.38L219.31 -785M-56.55 180.52L1184.83 180.52M288.28 456.38L288.28 -785M-56.55 111.55L1184.83 111.55M357.24 456.38L357.24 -785M-56.55 42.59L1184.83 42.59M426.21 456.38L426.21 -785M-56.55 -26.38L1184.83 -26.38M495.17 456.38L495.17 -785M-56.55 -95.34L1184.83 -95.34M564.14 456.38L564.14 -785M-56.55 -164.31L1184.83 -164.31M633.1 456.38L633.1 -785M-56.55 -233.28L1184.83 -233.28M702.07 456.38L702.07 -785M-56.55 -302.24L1184.83 -302.24M771.03 456.38L771.03 -785M-56.55 -371.21L1184.83 -371.21M840 456.38L840 -785M-56.55 -440.17L1184.83 -440.17M908.97 456.38L908.97 -785M-56.55 -509.14L1184.83 -509.14M977.93 456.38L977.93 -785M-56.55 -578.1L1184.83 -578.1M1046.9 456.38L1046.9 -785M-56.55 -647.07L1184.83 -647.07M1115.86 456.38L1115.86 -785M-56.55 -716.03L1184.83 -716.03M1184.83 456.38L1184.83 -785M-56.55 -785L1184.83 -785" stroke="#173641" stroke-width="1.5" fill="none"/></g>
+  <path d="M40 318.45L440 318.45M81.38 359.83L81.38 70.17" stroke="#31445e" stroke-width="2"/>
+  <path d="M81.38 318.45L288.28 249.48L357.24 111.55L150.34 180.52Z" fill="#d586ff" fill-opacity="0.16" stroke="#d586ff" stroke-width="1.5"/>
+  <path d="M288.28 249.48L351.43 123.18" stroke="#ffb86b" stroke-width="3" stroke-linecap="round" stroke-dasharray="7 5"/>
+  <path d="M357.24 111.55L356.66 125.8L346.2 120.56Z" fill="#ffb86b"/>
+  <path d="M150.34 180.52L344.91 115.66" stroke="#50d2c2" stroke-width="3" stroke-linecap="round" stroke-dasharray="7 5"/>
+  <path d="M357.24 111.55L346.76 121.21L343.06 110.11Z" fill="#50d2c2"/>
+  <path d="M81.38 318.45L275.94 253.59" stroke="#50d2c2" stroke-width="4" stroke-linecap="round"/>
+  <path d="M288.28 249.48L277.79 259.14L274.09 248.04Z" fill="#50d2c2"/>
+  <text x="282.28" y="271.48" fill="#50d2c2" font-family="system-ui" font-size="16">u = (3, 1)</text>
+  <path d="M81.38 318.45L144.53 192.14" stroke="#ffb86b" stroke-width="4" stroke-linecap="round"/>
+  <path d="M150.34 180.52L149.76 194.76L139.3 189.53Z" fill="#ffb86b"/>
+  <text x="64.34" y="176.52" fill="#ffb86b" font-family="system-ui" font-size="16">v = (1, 2)</text>
+  <path d="M81.38 318.45L346.84 119.35" stroke="#e8eef7" stroke-width="3" stroke-linecap="round"/>
+  <path d="M357.24 111.55L350.35 124.03L343.33 114.67Z" fill="#e8eef7"/>
+  <text x="317.24" y="99.55" fill="#e8eef7" font-family="system-ui" font-size="16">u + v = (4, 3)</text>
+  <defs><clipPath id="clip-470-70"><rect x="470" y="106.89" width="400" height="216.22"/></clipPath></defs>
+  <text x="670" y="56" fill="#a8b7ca" font-family="system-ui" font-size="17" text-anchor="middle">2u − v, tip to tail</text>
+  <g clip-path="url(#clip-470-70)"><path d="M340.27 431.22L340.27 -866.08M340.27 431.22L1637.57 431.22M394.32 431.22L394.32 -866.08M340.27 377.16L1637.57 377.16M448.38 431.22L448.38 -866.08M340.27 323.11L1637.57 323.11M502.43 431.22L502.43 -866.08M340.27 269.05L1637.57 269.05M556.49 431.22L556.49 -866.08M340.27 215L1637.57 215M610.54 431.22L610.54 -866.08M340.27 160.95L1637.57 160.95M664.59 431.22L664.59 -866.08M340.27 106.89L1637.57 106.89M718.65 431.22L718.65 -866.08M340.27 52.84L1637.57 52.84M772.7 431.22L772.7 -866.08M340.27 -1.22L1637.57 -1.22M826.76 431.22L826.76 -866.08M340.27 -55.27L1637.57 -55.27M880.81 431.22L880.81 -866.08M340.27 -109.32L1637.57 -109.32M934.86 431.22L934.86 -866.08M340.27 -163.38L1637.57 -163.38M988.92 431.22L988.92 -866.08M340.27 -217.43L1637.57 -217.43M1042.97 431.22L1042.97 -866.08M340.27 -271.49L1637.57 -271.49M1097.03 431.22L1097.03 -866.08M340.27 -325.54L1637.57 -325.54M1151.08 431.22L1151.08 -866.08M340.27 -379.59L1637.57 -379.59M1205.14 431.22L1205.14 -866.08M340.27 -433.65L1637.57 -433.65M1259.19 431.22L1259.19 -866.08M340.27 -487.7L1637.57 -487.7M1313.24 431.22L1313.24 -866.08M340.27 -541.76L1637.57 -541.76M1367.3 431.22L1367.3 -866.08M340.27 -595.81L1637.57 -595.81M1421.35 431.22L1421.35 -866.08M340.27 -649.86L1637.57 -649.86M1475.41 431.22L1475.41 -866.08M340.27 -703.92L1637.57 -703.92M1529.46 431.22L1529.46 -866.08M340.27 -757.97L1637.57 -757.97M1583.51 431.22L1583.51 -866.08M340.27 -812.03L1637.57 -812.03M1637.57 431.22L1637.57 -866.08M340.27 -866.08L1637.57 -866.08" stroke="#173641" stroke-width="1.5" fill="none"/></g>
+  <path d="M470 269.05L870 269.05M502.43 323.11L502.43 106.89" stroke="#31445e" stroke-width="2"/>
+  <path d="M502.43 269.05L814.42 165.06" stroke="#50d2c2" stroke-width="4" stroke-linecap="round"/>
+  <path d="M826.76 160.95L816.27 170.61L812.57 159.51Z" fill="#50d2c2"/>
+  <text x="736.76" y="150.95" fill="#50d2c2" font-family="system-ui" font-size="16">2u = (6, 2)</text>
+  <path d="M826.76 160.95L778.52 257.43" stroke="#ffb86b" stroke-width="4" stroke-linecap="round"/>
+  <path d="M772.7 269.05L773.28 254.81L783.75 260.04Z" fill="#ffb86b"/>
+  <text x="807.73" y="215" fill="#ffb86b" font-family="system-ui" font-size="16">−v = (−1, −2)</text>
+  <path d="M502.43 269.05L759.7 269.05" stroke="#e8eef7" stroke-width="3" stroke-linecap="round"/>
+  <path d="M772.7 269.05L759.7 274.9L759.7 263.2Z" fill="#e8eef7"/>
+  <text x="712.7" y="293.05" fill="#e8eef7" font-family="system-ui" font-size="16">2u − v = (5, 0)</text>
+  <text x="450" y="400" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">Addition places arrows tip to tail; scaling stretches or reverses one arrow along its own line.</text>
+</svg>

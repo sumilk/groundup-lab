@@ -104,6 +104,54 @@ This is the minimum owed by every new lesson; adapt the presentation when a diff
 9. **Six-part checkpoint:** concept explanation, derivation, small calculation, implementation/debugging, experiment critique, and unfamiliar extension. A critical conceptual or correctness error requires repair even if the numerical quiz score is high.
 10. **Research connection and reading:** identify a primary paper, official implementation, or authoritative textbook chapter that the result unlocks. Document version-specific behavior for frameworks/algorithms and mark open questions explicitly. End with pending coverage rather than an unsupported claim of completeness.
 
+### Textbook-quality standard
+
+Adopted on 2026-09-26 after a benchmark audit of LA01–LA09. That audit found the lessons accurate and ahead of the standard books on numerics and ML transfer. It also found them behind those books in four ways: worked examples, first-exposure clarity, canonical coverage, and exercise design. The rules below apply to every new lesson and to every existing lesson when it is revised. A lesson is not "done" until it meets them and passes the benchmark audit at the end of this subsection.
+
+**A. Explain every concept to a complete novice.** Assume only the declared prerequisites. For each new concept, follow this order:
+
+1. **The question.** Give one or two sentences on the problem the concept solves.
+2. **The picture.** Show a figure or interactive, and say in words what to look at.
+3. **A fully worked example.** Show every arithmetic step, on data that are not trivially diagonal or 2×2 once the idea allows it.
+4. **The general definition or theorem.** State it with its hypotheses.
+5. **The proof or derivation.**
+6. **A quick check.** A short practice prompt.
+
+Define every term in plain words at first use, and never use a term before its definition. Where a formula condenses a picture, say what each symbol is in the picture. Read the finished section as someone meeting the idea for the first time: every sentence should be followable without a later section.
+
+**B. Worked examples carry the teaching.** Every central procedure is carried out in full in the prose, not only in hints, labs, or answer banks. Examples of central procedures are elimination to reduced form, a projection, a factorization, an eigen-decomposition, an SVD, and a perturbation bound. Include at least one example at a realistic size, usually 3×3 or 3×2, alongside the minimal 2×2 case. Vary the examples: do not reuse one matrix or dataset for more than the worked example plus two exercises.
+
+**C. Visual and geometric intuition is required.** Aim for at least one figure or interactive in every numbered teaching section. The automated floor is three quarters of the teaching sections. Every central theorem gets a geometric reading ("what this says in the picture") before or beside its algebra. Figures come in two kinds:
+- **Generated figures.** Build static figures with `scripts/figures/` (house palette, equal-aspect axes, alt text via title and description) so the drawing is computed from the actual matrix, not sketched. Render and inspect each one with `scripts/figures/preview.mjs` before committing; a figure is also checked for mathematical correctness of every label.
+- **Interactive figures.** Use one only when manipulation teaches something a static picture cannot, and follow the interactive contract in item 5.
+
+**D. State the result first, then qualify it once.** Lead with the positive statement. Put numerical and scope caveats together in one short **Numerical notes** aside per section, not at the end of every paragraph. Keep each caveat once, where it matters. Length is not a constraint: remove only genuine repetition and hedging, never teaching content, worked examples, proofs, or figures to shorten a lesson. Do not use checklist or contract language in teaching prose; words like "supplied", "certificate", "honest", and "evidence gate" belong in lab specifications and rubrics.
+
+**E. Prove what the lesson relies on.** Central theorems are proved in the text. Exercises may prove secondary results, but the prose must never depend on a result that is proved only later or only in an exercise. When a proof is deliberately deferred, name the result, its hypotheses, and the module or book chapter that proves it, and do not build a later theorem on it without saying so.
+
+**F. Benchmark coverage is explicit.** Each module brief names benchmark books or chapters and lists the canonical results they treat at that stage. The lesson covers each one, defers it to a named module, or records it as intentionally omitted. Coverage gaps are tracked in the plan, not discovered by readers.
+
+**G. Exercise and answer-bank quality.**
+- **Distinct from practice.** A bank item must not re-ask a section practice prompt or a worked example with the same data. A direct check uses new numbers; a variant changes the structure.
+- **Distinct from each other.** Checkpoint items are distinct from bank items.
+- **Range.** Each lesson has at least six fresh routine computations, at least three transfer proofs or counterexamples, and at least one failure-diagnosis task, in addition to the NumPy, PyTorch, cumulative, and checkpoint items.
+- **Written answers.** Every item without typed fields has a complete model solution, written at the length of the argument actually required, followed by `Rubric:` criteria that a marker can apply.
+- **Hints.** Each field hint is specific to its field. A generic hint repeated across a bank is not acceptable.
+- **Typed-answer formats.** Typed fields avoid values the reader parser cannot accept. It takes expressions such as `10^-3` and `sqrt(2)`, but not e-notation; say so in the hint when it matters.
+
+**H. Structure and conventions.**
+- No unnumbered sections that strand exercises. Audit material and its exercises belong inside numbered sections and series.
+- Notation and conventions are consistent across a track. For example, LA uses one sample-covariance divisor, N−1, and names the 1/N second moment separately. Do not reuse a symbol for two objects in one lesson.
+
+**Benchmark audit before completion.**
+1. Read the lesson in full against its named benchmarks.
+2. Recompute every worked example and a sample of at least a third of the typed answers.
+3. Score correctness, rigor, coverage, novice clarity, visual intuition, and exercise quality from 1 to 5, with line-level evidence.
+4. Repair every correctness error, and every score below 4.
+5. Record the audit date and the scores in the track plan.
+
+The track checker enforces the mechanical parts of rules C, G, and H for lessons listed as upgraded to this standard. These are figure density, practice duplication, hint repetition, rubric presence, and model-answer length. It cannot judge prose quality, so the audit remains necessary.
+
 ### Exercise, answer-bank, and identifier contracts
 
 Use LA's exact exercise-header grammar, for example:
@@ -135,10 +183,13 @@ First expand the foundational Python, calculus, and tensor units that many later
 For an implemented lesson, run:
 
 ```sh
+node scripts/figures/build.mjs
 node scripts/build-theory.mjs
 node scripts/check-theory.mjs
 python3 -m labs.checks --reference
 ```
+
+Render new or changed figures with `node scripts/figures/preview.mjs <scratch-dir> <prefix>` and inspect every PNG before committing.
 
 Then inspect the reader in both themes, complete one typed and one written exercise, run the failure preset, and check local extension instructions from a clean environment. Add relevant bank/lab checks where the generic checker does not yet cover a new track. Do not build shared infrastructure just to make a planning document look complete.
 

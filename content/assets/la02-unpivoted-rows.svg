@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="440" viewBox="0 0 900 440" role="img" aria-labelledby="la02-unpiv-title la02-unpiv-desc">
+  <title id="la02-unpiv-title">Unpivoted elimination on a three-digit machine</title>
+  <desc id="la02-unpiv-desc">Row picture of 10^−4 x + y = 1, a nearly horizontal line, and x + y = 2. They cross near (1, 1), the true solution to three digits. The dashed vertical line x = 0 is the second equation the unpivoted three-digit elimination effectively solved; it meets the first line at the computed answer (0, 1).</desc>
+  <rect width="900" height="440" rx="24" fill="#08111f"/>
+  <defs><clipPath id="clip-140-70"><rect x="211.79" y="70" width="376.43" height="310"/></clipPath></defs>
+  <g clip-path="url(#clip-140-70)"><path d="M-31.79 667.86L-31.79 -550M-31.79 667.86L1186.07 667.86M23.57 667.86L23.57 -550M-31.79 612.5L1186.07 612.5M78.93 667.86L78.93 -550M-31.79 557.14L1186.07 557.14M134.29 667.86L134.29 -550M-31.79 501.79L1186.07 501.79M189.64 667.86L189.64 -550M-31.79 446.43L1186.07 446.43M245 667.86L245 -550M-31.79 391.07L1186.07 391.07M300.36 667.86L300.36 -550M-31.79 335.71L1186.07 335.71M355.71 667.86L355.71 -550M-31.79 280.36L1186.07 280.36M411.07 667.86L411.07 -550M-31.79 225L1186.07 225M466.43 667.86L466.43 -550M-31.79 169.64L1186.07 169.64M521.79 667.86L521.79 -550M-31.79 114.29L1186.07 114.29M577.14 667.86L577.14 -550M-31.79 58.93L1186.07 58.93M632.5 667.86L632.5 -550M-31.79 3.57L1186.07 3.57M687.86 667.86L687.86 -550M-31.79 -51.79L1186.07 -51.79M743.21 667.86L743.21 -550M-31.79 -107.14L1186.07 -107.14M798.57 667.86L798.57 -550M-31.79 -162.5L1186.07 -162.5M853.93 667.86L853.93 -550M-31.79 -217.86L1186.07 -217.86M909.29 667.86L909.29 -550M-31.79 -273.21L1186.07 -273.21M964.64 667.86L964.64 -550M-31.79 -328.57L1186.07 -328.57M1020 667.86L1020 -550M-31.79 -383.93L1186.07 -383.93M1075.36 667.86L1075.36 -550M-31.79 -439.29L1186.07 -439.29M1130.71 667.86L1130.71 -550M-31.79 -494.64L1186.07 -494.64M1186.07 667.86L1186.07 -550M-31.79 -550L1186.07 -550" stroke="#173641" stroke-width="1.5" fill="none"/></g>
+  <path d="M211.79 335.71L588.21 335.71M300.36 380L300.36 70" stroke="#31445e" stroke-width="2"/>
+  <g clip-path="url(#clip-140-70)">
+  <path d="M-1205.36 224.85L1806.07 225.15" stroke="#50d2c2" stroke-width="3" fill="none"/>
+  </g>
+  <g clip-path="url(#clip-140-70)">
+  <path d="M-764.34 -950.42L1365.06 1178.99" stroke="#ffb86b" stroke-width="3" fill="none"/>
+  </g>
+  <g clip-path="url(#clip-140-70)">
+  <path d="M300.36 1841.43L300.36 -1170" stroke="#ff7a90" stroke-width="3" stroke-dasharray="8 6" fill="none"/>
+  </g>
+  <rect x="212.3" y="182.3" width="119.2" height="23.0" rx="5" fill="#08111f" fill-opacity="0.85"/>
+  <text x="217.32" y="197.32" fill="#50d2c2" font-family="system-ui" font-size="15">10⁻⁴x + y = 1</text>
+  <rect x="467.0" y="252.1" width="85.6" height="23.0" rx="5" fill="#08111f" fill-opacity="0.85"/>
+  <text x="471.96" y="267.07" fill="#ffb86b" font-family="system-ui" font-size="15">x + y = 2</text>
+  <rect x="300.9" y="71.6" width="186.4" height="23.0" rx="5" fill="#08111f" fill-opacity="0.85"/>
+  <text x="305.89" y="86.61" fill="#ff7a90" font-family="system-ui" font-size="15">x = 0: what unpivoted</text>
+  <rect x="300.9" y="93.8" width="161.2" height="23.0" rx="5" fill="#08111f" fill-opacity="0.85"/>
+  <text x="305.89" y="108.75" fill="#ff7a90" font-family="system-ui" font-size="15">elimination solved</text>
+  <circle cx="411.08" cy="225.01" r="6" fill="#e8eef7"/>
+  <rect x="418.1" y="196.0" width="169.6" height="23.0" rx="5" fill="#08111f" fill-opacity="0.85"/>
+  <text x="423.08" y="211.01" fill="#e8eef7" font-family="system-ui" font-size="15">true ≈ (1.00, 1.00)</text>
+  <circle cx="300.36" cy="225" r="6" fill="#ff7a90"/>
+  <rect x="155.4" y="232.0" width="136.0" height="23.0" rx="5" fill="#08111f" fill-opacity="0.85"/>
+  <text x="160.36" y="247" fill="#ff7a90" font-family="system-ui" font-size="15">computed (0, 1)</text>
+  <text x="680" y="150" fill="#a8b7ca" font-family="system-ui" font-size="15">without pivoting:</text>
+  <text x="680" y="174" fill="#ff7a90" font-family="system-ui" font-size="15">ℓ = 10⁴, ρ = 10⁴</text>
+  <text x="680" y="214" fill="#a8b7ca" font-family="system-ui" font-size="15">with pivoting:</text>
+  <text x="680" y="238" fill="#50d2c2" font-family="system-ui" font-size="15">ℓ = 10⁻⁴, answer (1.00, 1.00)</text>
+  <text x="450" y="420" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">Multiplier 10⁴ swamps the second row; rounding keeps the first equation and replaces the second by x = 0.</text>
+</svg>

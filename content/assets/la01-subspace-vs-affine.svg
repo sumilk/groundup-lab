@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="430" viewBox="0 0 900 430" role="img" aria-labelledby="la01-affine-title la01-affine-desc">
+  <title id="la01-affine-title">An affine line is a subspace translated away from the origin</title>
+  <desc id="la01-affine-desc">The dashed purple line x+y=0 is the subspace S spanned by (−1,1). The teal line x+y=1 is S shifted by the anchor p=(1,0). The displacement q−p between two points on the teal line lies in S. The midpoint (1/2,1/2) stays on the teal line; the sum (1,1) leaves it.</desc>
+  <rect width="900" height="430" rx="24" fill="#08111f"/>
+  <defs><clipPath id="clip-60-60"><rect x="231.05" y="60" width="437.89" height="320"/></clipPath></defs>
+  <g clip-path="url(#clip-60-60)"><path d="M-240.53 918.95L-240.53 -512.63M-240.53 918.95L1191.05 918.95M-198.42 918.95L-198.42 -512.63M-240.53 876.84L1191.05 876.84M-156.32 918.95L-156.32 -512.63M-240.53 834.74L1191.05 834.74M-114.21 918.95L-114.21 -512.63M-240.53 792.63L1191.05 792.63M-72.11 918.95L-72.11 -512.63M-240.53 750.53L1191.05 750.53M-30 918.95L-30 -512.63M-240.53 708.42L1191.05 708.42M12.11 918.95L12.11 -512.63M-240.53 666.32L1191.05 666.32M54.21 918.95L54.21 -512.63M-240.53 624.21L1191.05 624.21M96.32 918.95L96.32 -512.63M-240.53 582.11L1191.05 582.11M138.42 918.95L138.42 -512.63M-240.53 540L1191.05 540M180.53 918.95L180.53 -512.63M-240.53 497.89L1191.05 497.89M222.63 918.95L222.63 -512.63M-240.53 455.79L1191.05 455.79M264.74 918.95L264.74 -512.63M-240.53 413.68L1191.05 413.68M306.84 918.95L306.84 -512.63M-240.53 371.58L1191.05 371.58M348.95 918.95L348.95 -512.63M-240.53 329.47L1191.05 329.47M391.05 918.95L391.05 -512.63M-240.53 287.37L1191.05 287.37M433.16 918.95L433.16 -512.63M-240.53 245.26L1191.05 245.26M475.26 918.95L475.26 -512.63M-240.53 203.16L1191.05 203.16M517.37 918.95L517.37 -512.63M-240.53 161.05L1191.05 161.05M559.47 918.95L559.47 -512.63M-240.53 118.95L1191.05 118.95M601.58 918.95L601.58 -512.63M-240.53 76.84L1191.05 76.84M643.68 918.95L643.68 -512.63M-240.53 34.74L1191.05 34.74M685.79 918.95L685.79 -512.63M-240.53 -7.37L1191.05 -7.37M727.89 918.95L727.89 -512.63M-240.53 -49.47L1191.05 -49.47M770 918.95L770 -512.63M-240.53 -91.58L1191.05 -91.58M812.11 918.95L812.11 -512.63M-240.53 -133.68L1191.05 -133.68M854.21 918.95L854.21 -512.63M-240.53 -175.79L1191.05 -175.79M896.32 918.95L896.32 -512.63M-240.53 -217.89L1191.05 -217.89M938.42 918.95L938.42 -512.63M-240.53 -260L1191.05 -260M980.53 918.95L980.53 -512.63M-240.53 -302.11L1191.05 -302.11M1022.63 918.95L1022.63 -512.63M-240.53 -344.21L1191.05 -344.21M1064.74 918.95L1064.74 -512.63M-240.53 -386.32L1191.05 -386.32M1106.84 918.95L1106.84 -512.63M-240.53 -428.42L1191.05 -428.42M1148.95 918.95L1148.95 -512.63M-240.53 -470.53L1191.05 -470.53M1191.05 918.95L1191.05 -512.63M-240.53 -512.63L1191.05 -512.63" stroke="#173641" stroke-width="1" fill="none"/></g>
+  <path d="M231.05 245.26L668.95 245.26M433.16 380L433.16 60" stroke="#31445e" stroke-width="2"/>
+  <g clip-path="url(#clip-60-60)">
+  <path d="M1671.71 1483.82L-805.4 -993.29" stroke="#d586ff" stroke-width="3" stroke-dasharray="8 6" fill="none"/>
+  </g>
+  <g clip-path="url(#clip-60-60)">
+  <path d="M1755.92 1483.82L-721.18 -993.29" stroke="#50d2c2" stroke-width="4" fill="none"/>
+  </g>
+  <text x="521.58" y="76.84" fill="#d586ff" font-family="system-ui" font-size="15">dashed: S = span{(−1, 1)}, x + y = 0</text>
+  <text x="521.58" y="100.42" fill="#50d2c2" font-family="system-ui" font-size="15">solid: x₀ + S with x₀ = p, x + y = 1</text>
+  <path d="M433.16 245.26L358.14 170.25" stroke="#d586ff" stroke-width="3" stroke-linecap="round"/>
+  <path d="M348.95 161.05L362.28 166.11L354 174.38Z" fill="#d586ff"/>
+  <text x="198.95" y="153.05" fill="#d586ff" font-family="system-ui" font-size="16">q − p = (−1, 1) ∈ S</text>
+  <circle cx="517.37" cy="245.26" r="6" fill="#50d2c2"/>
+  <text x="525.37" y="267.26" fill="#50d2c2" font-family="system-ui" font-size="16">p = (1, 0)</text>
+  <circle cx="433.16" cy="161.05" r="6" fill="#50d2c2"/>
+  <text x="347.16" y="153.05" fill="#50d2c2" font-family="system-ui" font-size="16">q = (0, 1)</text>
+  <circle cx="475.26" cy="203.16" r="6" fill="#8bd17c"/>
+  <text x="487.26" y="209.16" fill="#8bd17c" font-family="system-ui" font-size="16">½p + ½q = (½, ½)</text>
+  <circle cx="517.37" cy="161.05" r="6" fill="#ff7a90"/>
+  <text x="527.37" y="153.05" fill="#ff7a90" font-family="system-ui" font-size="16">p + q = (1, 1): x + y = 2</text>
+  <circle cx="433.16" cy="245.26" r="4" fill="#e8eef7"/>
+  <text x="450" y="410" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">Coefficients summing to 1 keep a combination on x₀ + S; the plain sum p + q has coefficients summing to 2.</text>
+</svg>

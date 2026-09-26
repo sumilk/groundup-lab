@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="430" viewBox="0 0 900 430" role="img" aria-labelledby="la09-back-title la09-back-desc">
+  <title id="la09-back-title">Backward error tilts and shifts the equations to pass through x̂</title>
+  <desc id="la09-back-desc">Row picture for A = diag(1, 0.1) and b = (1, 0). The first row, the vertical line x = 1, is unchanged. The second row, originally the horizontal line y = 0, is tilted and shifted by a small change to its coefficients so that it passes through the candidate (1, 1).</desc>
+  <rect width="900" height="430" rx="24" fill="#08111f"/>
+  <text x="450" y="44" fill="#a8b7ca" font-family="system-ui" font-size="18" text-anchor="middle">Row picture of the nearby problem (A + E)x̂ = b + f</text>
+  <defs><clipPath id="clip-60-70"><rect x="197.37" y="70" width="505.26" height="300"/></clipPath></defs>
+  <g clip-path="url(#clip-60-70)"><path d="M-23.68 622.63L-23.68 -956.32M-23.68 622.63L1555.26 622.63M55.26 622.63L55.26 -956.32M-23.68 543.68L1555.26 543.68M134.21 622.63L134.21 -956.32M-23.68 464.74L1555.26 464.74M213.16 622.63L213.16 -956.32M-23.68 385.79L1555.26 385.79M292.11 622.63L292.11 -956.32M-23.68 306.84L1555.26 306.84M371.05 622.63L371.05 -956.32M-23.68 227.89L1555.26 227.89M450 622.63L450 -956.32M-23.68 148.95L1555.26 148.95M528.95 622.63L528.95 -956.32M-23.68 70L1555.26 70M607.89 622.63L607.89 -956.32M-23.68 -8.95L1555.26 -8.95M686.84 622.63L686.84 -956.32M-23.68 -87.89L1555.26 -87.89M765.79 622.63L765.79 -956.32M-23.68 -166.84L1555.26 -166.84M844.74 622.63L844.74 -956.32M-23.68 -245.79L1555.26 -245.79M923.68 622.63L923.68 -956.32M-23.68 -324.74L1555.26 -324.74M1002.63 622.63L1002.63 -956.32M-23.68 -403.68L1555.26 -403.68M1081.58 622.63L1081.58 -956.32M-23.68 -482.63L1555.26 -482.63M1160.53 622.63L1160.53 -956.32M-23.68 -561.58L1555.26 -561.58M1239.47 622.63L1239.47 -956.32M-23.68 -640.53L1555.26 -640.53M1318.42 622.63L1318.42 -956.32M-23.68 -719.47L1555.26 -719.47M1397.37 622.63L1397.37 -956.32M-23.68 -798.42L1555.26 -798.42M1476.32 622.63L1476.32 -956.32M-23.68 -877.37L1555.26 -877.37M1555.26 622.63L1555.26 -956.32M-23.68 -956.32L1555.26 -956.32" stroke="#173641" stroke-width="1.5" fill="none"/></g>
+  <path d="M197.37 306.84L702.63 306.84M292.11 370L292.11 70" stroke="#31445e" stroke-width="2"/>
+  <g clip-path="url(#clip-60-70)">
+  <path d="M450 2327.89L450 -1714.21" stroke="#50d2c2" stroke-width="3" fill="none"/>
+  </g>
+  <g clip-path="url(#clip-60-70)">
+  <path d="M-1728.95 306.84L2313.16 306.84" stroke="#ffb86b" stroke-width="3" stroke-dasharray="8 6" fill="none"/>
+  </g>
+  <g clip-path="url(#clip-60-70)">
+  <path d="M-1575.1 987.77L2159.31 -559.07" stroke="#ffb86b" stroke-width="3" fill="none"/>
+  </g>
+  <circle cx="450" cy="306.84" r="7" fill="#8bd17c"/>
+  <text x="462" y="328.84" fill="#8bd17c" font-family="system-ui" font-size="16">x = (1, 0)</text>
+  <circle cx="450" cy="148.95" r="7" fill="#ff7a90"/>
+  <text x="350" y="136.95" fill="#ff7a90" font-family="system-ui" font-size="16">x̂ = (1, 1)</text>
+  <text x="461.16" y="354.21" fill="#50d2c2" font-family="system-ui" font-size="15">row 1: x = 1 (unchanged)</text>
+  <text x="576.32" y="300" fill="#ffb86b" font-family="system-ui" font-size="15">row 2 before: 0.1y = 0</text>
+  <text x="497.37" y="167.79" fill="#ffb86b" font-family="system-ui" font-size="15">row 2 after: −0.029x + 0.071y = 0.041</text>
+  <text x="450" y="410" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">A change of 4% of ‖A‖, but about 40% of the weak row itself, moves the line a long way.</text>
+</svg>

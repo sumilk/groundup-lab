@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="420" viewBox="0 0 900 420" role="img" aria-labelledby="la01-near-title la01-near-desc">
+  <title id="la01-near-title">Nearly parallel basis vectors can force huge coordinates</title>
+  <desc id="la01-near-desc">Two panels with b1=(1,0) and b2=(1,ε). For ε=0.5 the point (0,1) needs coordinates (−2,2); for ε=0.25 it needs (−4,4). The dashed path walks far left along b1 and back along b2, and the purple coordinate cells become long and thin.</desc>
+  <rect width="900" height="420" rx="24" fill="#08111f"/>
+  <text x="450" y="40" fill="#a8b7ca" font-family="system-ui" font-size="18" text-anchor="middle">b₁ = (1, 0), b₂ = (1, ε), v = (0, 1)</text>
+  <defs><clipPath id="clip-30-90"><rect x="30" y="138.13" width="410" height="153.75"/></clipPath></defs>
+  <text x="235" y="76" fill="#a8b7ca" font-family="system-ui" font-size="17" text-anchor="middle">ε = 0.5: [v]_B = (−2, 2)</text>
+  <g clip-path="url(#clip-30-90)"><path d="M-1200 631.41L337.5 -137.34M-1200 631.41L337.5 631.41M-1135.94 631.41L401.56 -137.34M-1135.94 599.38L401.56 599.38M-1071.87 631.41L465.63 -137.34M-1071.87 567.34L465.63 567.34M-1007.81 631.41L529.69 -137.34M-1007.81 535.31L529.69 535.31M-943.75 631.41L593.75 -137.34M-943.75 503.28L593.75 503.28M-879.69 631.41L657.81 -137.34M-879.69 471.25L657.81 471.25M-815.62 631.41L721.88 -137.34M-815.62 439.22L721.88 439.22M-751.56 631.41L785.94 -137.34M-751.56 407.19L785.94 407.19M-687.5 631.41L850 -137.34M-687.5 375.16L850 375.16M-623.44 631.41L914.06 -137.34M-623.44 343.13L914.06 343.13M-559.37 631.41L978.13 -137.34M-559.37 311.09L978.13 311.09M-495.31 631.41L1042.19 -137.34M-495.31 279.06L1042.19 279.06M-431.25 631.41L1106.25 -137.34M-431.25 247.03L1106.25 247.03M-367.19 631.41L1170.31 -137.34M-367.19 215L1170.31 215M-303.12 631.41L1234.38 -137.34M-303.12 182.97L1234.38 182.97M-239.06 631.41L1298.44 -137.34M-239.06 150.94L1298.44 150.94M-175 631.41L1362.5 -137.34M-175 118.91L1362.5 118.91M-110.94 631.41L1426.56 -137.34M-110.94 86.88L1426.56 86.88M-46.88 631.41L1490.63 -137.34M-46.88 54.84L1490.63 54.84M17.19 631.41L1554.69 -137.34M17.19 22.81L1554.69 22.81M81.25 631.41L1618.75 -137.34M81.25 -9.22L1618.75 -9.22M145.31 631.41L1682.81 -137.34M145.31 -41.25L1682.81 -41.25M209.38 631.41L1746.88 -137.34M209.38 -73.28L1746.88 -73.28M273.44 631.41L1810.94 -137.34M273.44 -105.31L1810.94 -105.31M337.5 631.41L1875 -137.34M337.5 -137.34L1875 -137.34" stroke="#d586ff" stroke-width="1" fill="none"/></g>
+  <path d="M30 247.03L440 247.03M337.5 291.88L337.5 138.13" stroke="#31445e" stroke-width="2"/>
+  <path d="M337.5 247.03L388.56 247.03" stroke="#50d2c2" stroke-width="4" stroke-linecap="round"/>
+  <path d="M401.56 247.03L388.56 252.88L388.56 241.18Z" fill="#50d2c2"/>
+  <text x="395.56" y="269.03" fill="#50d2c2" font-family="system-ui" font-size="16">b₁</text>
+  <path d="M337.5 247.03L389.93 220.81" stroke="#50d2c2" stroke-width="4" stroke-linecap="round"/>
+  <path d="M401.56 215L392.55 226.05L387.32 215.58Z" fill="#50d2c2"/>
+  <text x="405.56" y="207" fill="#50d2c2" font-family="system-ui" font-size="16">b₂</text>
+  <path d="M337.5 247.03L222.38 247.03" stroke="#ffb86b" stroke-width="3" stroke-linecap="round" stroke-dasharray="7 5"/>
+  <path d="M209.38 247.03L222.38 241.18L222.38 252.88Z" fill="#ffb86b"/>
+  <text x="263.44" y="269.03" fill="#ffb86b" font-family="system-ui" font-size="16">−2·b₁</text>
+  <path d="M209.38 247.03L325.87 188.78" stroke="#ffb86b" stroke-width="3" stroke-linecap="round" stroke-dasharray="7 5"/>
+  <path d="M337.5 182.97L328.49 194.01L323.26 183.55Z" fill="#ffb86b"/>
+  <text x="197.03" y="208.2" fill="#ffb86b" font-family="system-ui" font-size="16">+ 2·b₂</text>
+  <circle cx="337.5" cy="182.97" r="6" fill="#e8eef7"/>
+  <text x="345.5" y="174.97" fill="#e8eef7" font-family="system-ui" font-size="16">v = (0, 1)</text>
+  <defs><clipPath id="clip-460-90"><rect x="460" y="138.13" width="410" height="153.75"/></clipPath></defs>
+  <text x="665" y="76" fill="#a8b7ca" font-family="system-ui" font-size="17" text-anchor="middle">ε = 0.25: [v]_B = (−4, 4)</text>
+  <g clip-path="url(#clip-460-90)"><path d="M-770 439.22L767.5 54.84M-770 439.22L767.5 439.22M-705.94 439.22L831.56 54.84M-705.94 423.2L831.56 423.2M-641.87 439.22L895.63 54.84M-641.87 407.19L895.63 407.19M-577.81 439.22L959.69 54.84M-577.81 391.17L959.69 391.17M-513.75 439.22L1023.75 54.84M-513.75 375.16L1023.75 375.16M-449.69 439.22L1087.81 54.84M-449.69 359.14L1087.81 359.14M-385.62 439.22L1151.88 54.84M-385.62 343.13L1151.88 343.13M-321.56 439.22L1215.94 54.84M-321.56 327.11L1215.94 327.11M-257.5 439.22L1280 54.84M-257.5 311.09L1280 311.09M-193.44 439.22L1344.06 54.84M-193.44 295.08L1344.06 295.08M-129.37 439.22L1408.13 54.84M-129.37 279.06L1408.13 279.06M-65.31 439.22L1472.19 54.84M-65.31 263.05L1472.19 263.05M-1.25 439.22L1536.25 54.84M-1.25 247.03L1536.25 247.03M62.81 439.22L1600.31 54.84M62.81 231.02L1600.31 231.02M126.88 439.22L1664.38 54.84M126.88 215L1664.38 215M190.94 439.22L1728.44 54.84M190.94 198.98L1728.44 198.98M255 439.22L1792.5 54.84M255 182.97L1792.5 182.97M319.06 439.22L1856.56 54.84M319.06 166.95L1856.56 166.95M383.13 439.22L1920.63 54.84M383.13 150.94L1920.63 150.94M447.19 439.22L1984.69 54.84M447.19 134.92L1984.69 134.92M511.25 439.22L2048.75 54.84M511.25 118.91L2048.75 118.91M575.31 439.22L2112.81 54.84M575.31 102.89L2112.81 102.89M639.38 439.22L2176.88 54.84M639.38 86.88L2176.88 86.88M703.44 439.22L2240.94 54.84M703.44 70.86L2240.94 70.86M767.5 439.22L2305 54.84M767.5 54.84L2305 54.84" stroke="#d586ff" stroke-width="1" fill="none"/></g>
+  <path d="M460 247.03L870 247.03M767.5 291.88L767.5 138.13" stroke="#31445e" stroke-width="2"/>
+  <path d="M767.5 247.03L818.56 247.03" stroke="#50d2c2" stroke-width="4" stroke-linecap="round"/>
+  <path d="M831.56 247.03L818.56 252.88L818.56 241.18Z" fill="#50d2c2"/>
+  <text x="825.56" y="269.03" fill="#50d2c2" font-family="system-ui" font-size="16">b₁</text>
+  <path d="M767.5 247.03L818.95 234.17" stroke="#50d2c2" stroke-width="4" stroke-linecap="round"/>
+  <path d="M831.56 231.02L820.37 239.84L817.53 228.49Z" fill="#50d2c2"/>
+  <text x="835.56" y="223.02" fill="#50d2c2" font-family="system-ui" font-size="16">b₂</text>
+  <path d="M767.5 247.03L524.25 247.03" stroke="#ffb86b" stroke-width="3" stroke-linecap="round" stroke-dasharray="7 5"/>
+  <path d="M511.25 247.03L524.25 241.18L524.25 252.88Z" fill="#ffb86b"/>
+  <text x="629.38" y="269.03" fill="#ffb86b" font-family="system-ui" font-size="16">−4·b₁</text>
+  <path d="M511.25 247.03L754.89 186.12" stroke="#ffb86b" stroke-width="3" stroke-linecap="round" stroke-dasharray="7 5"/>
+  <path d="M767.5 182.97L756.31 191.8L753.47 180.45Z" fill="#ffb86b"/>
+  <text x="556.56" y="208.2" fill="#ffb86b" font-family="system-ui" font-size="16">+ 4·b₂</text>
+  <circle cx="767.5" cy="182.97" r="6" fill="#e8eef7"/>
+  <text x="775.5" y="174.97" fill="#e8eef7" font-family="system-ui" font-size="16">v = (0, 1)</text>
+  <text x="450" y="400" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">[v]_B = (−1/ε, 1/ε): halving ε doubles both coordinates, and at ε = 0 no recipe exists.</text>
+</svg>

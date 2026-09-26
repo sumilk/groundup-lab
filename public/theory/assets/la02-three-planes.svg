@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="440" viewBox="0 0 900 440" role="img" aria-labelledby="la02-planes-title la02-planes-desc">
+  <title id="la02-planes-title">A 3×3 system: three planes meet in one point; three columns build b</title>
+  <desc id="la02-planes-desc">Left: an oblique view with x, y and z axes of patches of the planes 2x + y + z = 3, 4x + y = 6 and −2x + 2y + z = 1, all passing through (1, 2, −1); a dashed drop line connects that point to the floor z = 0. Right: the tip-to-tail path a1 = (2,4,−2), then plus 2a2 with a2 = (1,1,2), then minus a3 with a3 = (1,0,1), ending at b = (3,6,1).</desc>
+  <rect width="900" height="440" rx="24" fill="#08111f"/>
+  <defs><clipPath id="clip-30-70"><rect x="115.58" y="70" width="268.84" height="320"/></clipPath></defs>
+  <text x="250" y="56" fill="#a8b7ca" font-family="system-ui" font-size="17" text-anchor="middle">row picture: three planes, one point</text>
+  <path d="M375.63 151.75L126.39 199.59" stroke="#31445e" stroke-width="2" fill="none"/>
+  <text x="113.21" y="206.35" fill="#a8b7ca" font-family="system-ui" font-size="16">x</text>
+  <path d="M198.3 97.22L323.42 260.18" stroke="#31445e" stroke-width="2" fill="none"/>
+  <text x="324.03" y="271.19" fill="#a8b7ca" font-family="system-ui" font-size="16">y</text>
+  <path d="M257.57 258.66L257.57 80.81" stroke="#31445e" stroke-width="2" fill="none"/>
+  <text x="253.57" y="79.26" fill="#a8b7ca" font-family="system-ui" font-size="16">z</text>
+  <path d="M319.79 237.3L212.1 188.07L171.91 325.41L279.6 374.63Z" fill="#50d2c2" fill-opacity="0.22" stroke="#50d2c2" stroke-width="1.5"/>
+  <path d="M287.73 248.04L203.96 188.3L203.96 314.67L287.73 374.4Z" fill="#ffb86b" fill-opacity="0.22" stroke="#ffb86b" stroke-width="1.5"/>
+  <path d="M253.31 183.51L193.96 250.16L238.39 379.19L297.74 312.54Z" fill="#d586ff" fill-opacity="0.22" stroke="#d586ff" stroke-width="1.5"/>
+  <path d="M245.85 281.35L245.85 234.55" stroke="#91a4bb" stroke-width="1.5" stroke-dasharray="3 4" fill="none"/>
+  <circle cx="245.85" cy="234.55" r="3" fill="#91a4bb"/>
+  <circle cx="245.85" cy="281.35" r="6" fill="#e8eef7"/>
+  <rect x="252.8" y="284.4" width="94.0" height="23.0" rx="5" fill="#08111f" fill-opacity="0.85"/>
+  <text x="257.85" y="299.35" fill="#e8eef7" font-family="system-ui" font-size="15">(1, 2, −1)</text>
+  <text x="40" y="320" fill="#50d2c2" font-family="system-ui" font-size="14">■ 2x + y + z = 3</text>
+  <text x="40" y="340" fill="#ffb86b" font-family="system-ui" font-size="14">■ 4x + y = 6</text>
+  <text x="40" y="360" fill="#d586ff" font-family="system-ui" font-size="14">■ −2x + 2y + z = 1</text>
+  <defs><clipPath id="clip-490-70"><rect x="490" y="84.98" width="380" height="290.03"/></clipPath></defs>
+  <text x="680" y="56" fill="#a8b7ca" font-family="system-ui" font-size="17" text-anchor="middle">column picture: 1·a₁ + 2·a₂ − 1·a₃ = b</text>
+  <path d="M635.52 231.31L502.42 280.33" stroke="#31445e" stroke-width="2" fill="none"/>
+  <text x="489.11" y="288.76" fill="#a8b7ca" font-family="system-ui" font-size="16">x</text>
+  <path d="M635.52 231.31L857.58 288.89" stroke="#31445e" stroke-width="2" fill="none"/>
+  <text x="869.12" y="297.92" fill="#a8b7ca" font-family="system-ui" font-size="16">y</text>
+  <path d="M635.52 231.31L635.52 97.41" stroke="#31445e" stroke-width="2" fill="none"/>
+  <text x="631.52" y="93.03" fill="#a8b7ca" font-family="system-ui" font-size="16">z</text>
+  <path d="M635.52 231.31L702.81 351.25" stroke="#50d2c2" stroke-width="3" stroke-linecap="round"/>
+  <path d="M709.17 362.59L697.71 354.12L707.91 348.39Z" fill="#50d2c2"/>
+  <rect x="601.0" y="308.5" width="136.0" height="23.0" rx="5" fill="#08111f" fill-opacity="0.85"/>
+  <text x="606.03" y="323.52" fill="#50d2c2" font-family="system-ui" font-size="15">a₁ = (2, 4, −2)</text>
+  <path d="M709.17 362.59L718.29 254.07" stroke="#ffb86b" stroke-width="3" stroke-linecap="round"/>
+  <path d="M719.38 241.11L724.12 254.56L712.46 253.58Z" fill="#ffb86b"/>
+  <rect x="721.3" y="306.9" width="186.4" height="23.0" rx="5" fill="#08111f" fill-opacity="0.85"/>
+  <text x="726.27" y="321.85" fill="#ffb86b" font-family="system-ui" font-size="15">+ 2a₂, a₂ = (1, 1, 2)</text>
+  <path d="M719.38 241.11L737.3 261.03" stroke="#d586ff" stroke-width="3" stroke-linecap="round"/>
+  <path d="M746 270.69L732.95 264.94L741.65 257.12Z" fill="#d586ff"/>
+  <rect x="751.0" y="241.7" width="178.0" height="23.0" rx="5" fill="#08111f" fill-opacity="0.85"/>
+  <text x="756" y="256.69" fill="#d586ff" font-family="system-ui" font-size="15">− a₃, a₃ = (1, 0, 1)</text>
+  <path d="M635.52 231.31L733.75 266.33" stroke="#e8eef7" stroke-width="3" stroke-linecap="round" stroke-dasharray="7 5"/>
+  <path d="M746 270.69L731.79 271.84L735.72 260.82Z" fill="#e8eef7"/>
+  <path d="M746 270.69L746 310.08" stroke="#91a4bb" stroke-width="1.5" stroke-dasharray="3 4" fill="none"/>
+  <circle cx="746" cy="310.08" r="3" fill="#91a4bb"/>
+  <rect x="751.0" y="267.7" width="119.2" height="23.0" rx="5" fill="#08111f" fill-opacity="0.85"/>
+  <text x="756" y="282.69" fill="#e8eef7" font-family="system-ui" font-size="15">b = (3, 6, 1)</text>
+  <text x="450" y="420" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">Pivots 2, −1, −4 are all nonzero, so the planes share exactly one point.</text>
+</svg>
