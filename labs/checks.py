@@ -2620,6 +2620,159 @@ CHECKS = {"matrix-norms": matrix_norms, "condition-estimate": condition_estimate
           "bigram": bigram, "attention": attention, "bellman": bellman}
 
 
+def threshold_gate(m):
+    gates = {"AND": ([1, 1], -2), "OR": ([1, 1], -1), "NAND": ([-1, -1], 1.5)}
+    truth = {"AND": [0, 0, 0, 1], "OR": [0, 1, 1, 1], "NAND": [1, 1, 1, 0]}
+    for name, (w, b) in gates.items():
+        got = [m.threshold_gate(w, b, [a, c]) for a in (0, 1) for c in (0, 1)]
+        assert got == truth[name], (name, got)
+    assert m.threshold_gate([-1], 0, [0]) == 1 and m.threshold_gate([-1], 0, [1]) == 0, "NOT X"
+    assert m.threshold_gate([2.0, -1.0], -1.0, [1.0, 1.0]) == 1, "the boundary z = 0 fires"
+    w, x = [1e16, 1.0, -1e16], (1, 1, 1)
+    assert m.threshold_gate(w, -0.5, x) == 1, "use math.fsum: the exact sum is +0.5"
+    assert w == [1e16, 1.0, -1e16], "do not mutate the weights"
+    for args in (([1, True], 0, [1, 1]), ([1], 0, [1, 1]), ([], 0, []), ([1], float("nan"), [1]),
+                 ([float("inf")], 0, [1]), ("ab", 0, "ab"), ([1e308, 1e308], 0, [10, 10]), ([1], None, [1])):
+        _projection_rejects(m.threshold_gate, *args)
+
+
+def compose_halfspaces(m):
+    square = [([1, 0], 1), ([-1, 0], 1), ([0, 1], 1), ([0, -1], 1)]   # |x1| <= 1 and |x2| <= 1
+    assert m.compose_halfspaces(square, 4, [0.5, -0.25]) == (4, 1)
+    assert m.compose_halfspaces(square, 4, [2, 0]) == (3, 0)
+    assert m.compose_halfspaces(square, 3, [2, 0]) == (3, 1), "a vote, not only an AND"
+    assert m.compose_halfspaces(square, 1, [5, 5]) == (2, 1), "k = 1 is OR"
+    assert m.compose_halfspaces(square, 0, [9, 9])[1] == 1, "k = 0 always fires"
+    n = 64
+    poly = [([math.cos(2 * math.pi * i / n), math.sin(2 * math.pi * i / n)], -math.cos(math.pi / n)) for i in range(n)]
+    poly = [([-a, -b], -c) for (a, b), c in poly]                     # fires when a.x <= cos(pi/n)
+    far, _ = m.compose_halfspaces(poly, n, [1000.0, 0.0])
+    assert abs(far / n - 0.5) < 0.05, "far from a cylinder about half the units fire"
+    assert m.compose_halfspaces(poly, n, [0.0, 0.0]) == (n, 1)
+    units = [([1, 0], 1)]
+    m.compose_halfspaces(units, 1, [0, 0])
+    assert units == [([1, 0], 1)], "do not mutate the units"
+    for args in ((square, 5, [0, 0]), (square, True, [0, 0]), (square, -1, [0, 0]), ([], 0, [0, 0]),
+                 (square, 2, [0, 0, 0]), ([([1, 0], float("nan"))], 1, [0, 0]), (square, 2, [float("inf"), 0])):
+        _projection_rejects(m.compose_halfspaces, *args)
+
+
+def hebbian_update(m):
+    close(m.hebbian_update([[1, 1]], [1, 0], 0.1, "oja")[1], 0.1)
+    close(m.hebbian_update([[1, 1]], [1, 0], 0.1, "hebb")[1], 0.1)
+    rng = random.Random(7)
+    data = []
+    for _ in range(3000):
+        z1, z2 = rng.gauss(0, 1), rng.gauss(0, 1)
+        data.append([1.7320508 * z1, 0.8660254 * z1 + 0.5 * z2])      # covariance [[3, 1.5], [1.5, 1]]
+    w0 = [0.3, 0.1]
+    oja = m.hebbian_update(data, w0, 0.005, "oja")
+    assert w0 == [0.3, 0.1], "do not mutate w0"
+    norm = math.hypot(*oja)
+    assert abs(norm - 1) < 0.08, ("Oja's rule should settle near unit length", norm)
+    lam = (4 + math.sqrt(10)) / 2                                       # top eigenvalue of the covariance
+    top = [1.5, lam - 3]
+    cos = abs(oja[0] * top[0] + oja[1] * top[1]) / (norm * math.hypot(*top))
+    assert cos > 0.99, ("Oja's rule should align with the top eigenvector", cos)
+    hebb = m.hebbian_update(data[:200], w0, 0.005, "hebb")
+    assert math.hypot(*hebb) > 10, "plain Hebb grows without bound"
+    _projection_rejects(m.hebbian_update, data, w0, 0.5, "hebb")       # overflows: must be reported
+    for args in ((data, w0, 0, "oja"), (data, w0, True, "oja"), (data, w0, 0.1, "sanger"), ([], w0, 0.1, "oja"),
+                 ([[1, 2, 3]], w0, 0.1, "oja"), ([[1, float("nan")]], w0, 0.1, "oja")):
+        _projection_rejects(m.hebbian_update, *args)
+
+
+CHECKS.update({"threshold-gate": threshold_gate, "compose-halfspaces": compose_halfspaces, "hebbian-update": hebbian_update})
+
+
+def _fires(units, x):
+    return [1 if math.fsum([w * v for w, v in zip(weights, x)] + [bias]) >= 0 else 0 for weights, bias in units]
+
+
+def perceptron_train(m):
+    corners = [[0, 0], [0, 1], [1, 0], [1, 1]]
+    w, b, epochs, ok = m.perceptron_train(corners, [0, 1, 1, 1], 1, 50)
+    assert ok and epochs == 4 and w == [1, 1] and b == -1, ("the OR trace from the lesson", w, b, epochs, ok)
+    for labels in ([0, 0, 0, 1], [1, 1, 1, 0], [1, 0, 0, 0]):
+        w, b, _, ok = m.perceptron_train(corners, labels, 0.5, 100)
+        assert ok and _fires([(w, b)], [0, 0]) is not None
+        assert [_fires([(w, b)], x)[0] for x in corners] == labels, labels
+    w, b, epochs, ok = m.perceptron_train(corners, [0, 1, 1, 0], 1, 37)
+    assert not ok and epochs == 37, "XOR never converges; report it"
+    cube = [[(i >> 2) & 1, (i >> 1) & 1, i & 1] for i in range(8)]
+    major = [1 if sum(x) >= 2 else 0 for x in cube]
+    w, b, _, ok = m.perceptron_train(cube, major, 1, 200)
+    assert ok and [_fires([(w, b)], x)[0] for x in cube] == major
+    data, lab = [[0.0, 1.0]], [1]
+    m.perceptron_train(data, lab, 1, 5)
+    assert data == [[0.0, 1.0]] and lab == [1], "do not mutate the inputs"
+    for args in (([], [], 1, 5), (corners, [0, 1, 1], 1, 5), (corners, [0, 1, 1, 2], 1, 5), (corners, [0, 1, 1, True], 1, 5),
+                 (corners, [0, 1, 1, 1], 0, 5), (corners, [0, 1, 1, 1], 1, 0), (corners, [0, 1, 1, 1], 1, 2.5),
+                 ([[0, 0], [1]], [0, 1], 1, 5), ([[float("nan"), 0]], [1], 1, 5)):
+        _projection_rejects(m.perceptron_train, *args)
+
+
+def dnf_network(m):
+    rng = random.Random(3)
+    tables = [[(k >> i) & 1 for i in range(4)] for k in range(16)]
+    tables += [[rng.randint(0, 1) for _ in range(16)] for _ in range(20)] + [[0] * 8, [1] * 8]
+    for table in tables:
+        n = len(table).bit_length() - 1
+        hidden, (out_w, out_b) = m.dnf_network(table)
+        assert len(hidden) == sum(table), "one hidden unit per true row"
+        for index, expected in enumerate(table):
+            x = [(index >> (n - 1 - j)) & 1 for j in range(n)]
+            h = _fires(hidden, x)
+            assert sum(h) == expected, ("each hidden unit fires on exactly its own row", table, x)
+            got = 1 if math.fsum([w * v for w, v in zip(out_w, h)] + [out_b]) >= 0 else 0
+            assert got == expected, (table, x)
+    for bad in ([], [1], [0, 1, 1], [0, 2], [0, True], (0.0, 1.0), "01"):
+        _projection_rejects(m.dnf_network, bad)
+
+
+def staircase_weights(m):
+    heights, edges = [0.5, -1.0, 2.0], [0.0, 1.0, 1.5, 4.0]
+    units = m.staircase_weights(heights, edges)
+    assert len(units) == 4
+    def pulses(x):
+        return math.fsum(h for h, a, b in zip(heights, edges, edges[1:]) if a <= x < b)
+    for x in (-1, 0, 0.3, 1.0, 1.2, 1.5, 3.9, 4.0, 9):
+        got = math.fsum(c * (1 if x - t >= 0 else 0) for c, t in units)
+        close(got, pulses(x))
+    for (c, t), (ec, et) in zip(units, [(0.5, 0.0), (-1.5, 1.0), (3.0, 1.5), (-2.0, 4.0)]):
+        close(c, ec); close(t, et)
+    h = [1.0]
+    m.staircase_weights(h, [0, 1])
+    assert h == [1.0], "do not mutate the heights"
+    for args in (([], [0]), ([1], [0, 1, 2]), ([1, 2], [0, 2, 1]), ([1], [0, 0]), ([True], [0, 1]), ([float("inf")], [0, 1]), ([1e308, -1e308], [0, 1, 2])):
+        _projection_rejects(m.staircase_weights, *args)
+
+
+def heat_cold_sensations(m):
+    def spec(h, c):
+        g = lambda s, t: s[t] if t >= 0 else 0
+        T = range(len(c))
+        return ([1 if g(h, t - 1) or (g(c, t - 3) and not g(c, t - 2)) else 0 for t in T],
+                [1 if g(c, t - 2) and g(c, t - 1) else 0 for t in T])
+    zeros = [0] * 8
+    brief = [0, 1, 0, 0, 0, 0, 0, 0]
+    assert m.heat_cold_sensations(zeros, brief) == ([0, 0, 0, 0, 1, 0, 0, 0], zeros), "a brief cold touch feels hot"
+    held = [0, 1, 1, 1, 0, 0, 0, 0]
+    assert m.heat_cold_sensations(zeros, held) == spec(zeros, held)
+    assert m.heat_cold_sensations(zeros, held)[1] == [0, 0, 0, 1, 1, 0, 0, 0], "sustained cold feels cold"
+    rng = random.Random(11)
+    for _ in range(200):
+        h = [rng.randint(0, 1) for _ in range(10)]
+        c = [rng.randint(0, 1) for _ in range(10)]
+        assert m.heat_cold_sensations(h, c) == spec(h, c), (h, c)
+    for args in (([], []), ([0, 1], [0]), ([0, 2], [0, 0]), ([True], [0]), ("01", "01")):
+        _projection_rejects(m.heat_cold_sensations, *args)
+
+
+CHECKS.update({"perceptron-train": perceptron_train, "dnf-network": dnf_network,
+               "staircase-weights": staircase_weights, "heat-cold": heat_cold_sensations})
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("task", nargs="?", choices=CHECKS)

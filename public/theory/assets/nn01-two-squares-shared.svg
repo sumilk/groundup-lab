@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="500" viewBox="0 0 900 500" role="img" aria-labelledby="nn01-twosq-title nn01-twosq-desc">
+  <title id="nn01-twosq-title">Two squares, six fences: sharing edges</title>
+  <desc id="nn01-twosq-desc">Left: two shaded squares, from −3 to −1 and from 1 to 3 along x1, both between −1 and 1 along x2, with the shared top and bottom lines labelled t and u. Right: a 2–6–2–1 network. Units a1, a2 bound the left square, b1, b2 the right one, and t, u are read by both AND units A and B; the output ORs A and B.</desc>
+  <rect width="900" height="500" rx="24" fill="#08111f"/>
+  <defs><clipPath id="clip-40-70"><rect x="65" y="70" width="330" height="330"/></clipPath></defs>
+  <g clip-path="url(#clip-40-70)"><path d="M-265 730L-265 -260M-265 730L725 730M-223.75 730L-223.75 -260M-265 688.75L725 688.75M-182.5 730L-182.5 -260M-265 647.5L725 647.5M-141.25 730L-141.25 -260M-265 606.25L725 606.25M-100 730L-100 -260M-265 565L725 565M-58.75 730L-58.75 -260M-265 523.75L725 523.75M-17.5 730L-17.5 -260M-265 482.5L725 482.5M23.75 730L23.75 -260M-265 441.25L725 441.25M65 730L65 -260M-265 400L725 400M106.25 730L106.25 -260M-265 358.75L725 358.75M147.5 730L147.5 -260M-265 317.5L725 317.5M188.75 730L188.75 -260M-265 276.25L725 276.25M230 730L230 -260M-265 235L725 235M271.25 730L271.25 -260M-265 193.75L725 193.75M312.5 730L312.5 -260M-265 152.5L725 152.5M353.75 730L353.75 -260M-265 111.25L725 111.25M395 730L395 -260M-265 70L725 70M436.25 730L436.25 -260M-265 28.75L725 28.75M477.5 730L477.5 -260M-265 -12.5L725 -12.5M518.75 730L518.75 -260M-265 -53.75L725 -53.75M560 730L560 -260M-265 -95L725 -95M601.25 730L601.25 -260M-265 -136.25L725 -136.25M642.5 730L642.5 -260M-265 -177.5L725 -177.5M683.75 730L683.75 -260M-265 -218.75L725 -218.75M725 730L725 -260M-265 -260L725 -260" stroke="#173641" stroke-width="1.5" fill="none"/></g>
+  <path d="M65 235L395 235M230 400L230 70" stroke="#31445e" stroke-width="2"/>
+  <path d="M106.3 193.8H188.8V276.3H106.3ZM271.3 193.8H353.8V276.3H271.3Z" fill="#ff7a90" fill-opacity="0.32"/>
+  <g clip-path="url(#clip-40-70)">
+  <path d="M188.75 1555L188.75 -1085" stroke="#50d2c2" stroke-width="2" stroke-dasharray="6 5" fill="none"/>
+  </g>
+  <g clip-path="url(#clip-40-70)">
+  <path d="M106.25 1555L106.25 -1085" stroke="#50d2c2" stroke-width="2" stroke-dasharray="6 5" fill="none"/>
+  </g>
+  <g clip-path="url(#clip-40-70)">
+  <path d="M271.25 1555L271.25 -1085" stroke="#50d2c2" stroke-width="2" stroke-dasharray="6 5" fill="none"/>
+  </g>
+  <g clip-path="url(#clip-40-70)">
+  <path d="M353.75 1555L353.75 -1085" stroke="#50d2c2" stroke-width="2" stroke-dasharray="6 5" fill="none"/>
+  </g>
+  <g clip-path="url(#clip-40-70)">
+  <path d="M-1090 193.75L1550 193.75" stroke="#50d2c2" stroke-width="2" stroke-dasharray="6 5" fill="none"/>
+  </g>
+  <text x="69.13" y="183.44" fill="#50d2c2" font-family="system-ui" font-size="15">t: x₂ ≤ 1 (shared)</text>
+  <g clip-path="url(#clip-40-70)">
+  <path d="M-1090 276.25L1550 276.25" stroke="#50d2c2" stroke-width="2" stroke-dasharray="6 5" fill="none"/>
+  </g>
+  <text x="69.13" y="298.94" fill="#50d2c2" font-family="system-ui" font-size="15">u: x₂ ≥ −1 (shared)</text>
+  <text x="141.5" y="253" fill="#a8b7ca" font-family="system-ui" font-size="13">−2</text>
+  <text x="306.5" y="253" fill="#a8b7ca" font-family="system-ui" font-size="13">2</text>
+  <text x="236" y="322.5" fill="#a8b7ca" font-family="system-ui" font-size="13">−2</text>
+  <text x="236" y="157.5" fill="#a8b7ca" font-family="system-ui" font-size="13">2</text>
+  <text x="373" y="227" fill="#a8b7ca" font-family="system-ui" font-size="14">x₁</text>
+  <text x="238" y="86" fill="#a8b7ca" font-family="system-ui" font-size="14">x₂</text>
+  <path d="M480 155L593.3333333333334 98.33333333333333" stroke="#d586ff" stroke-width="1.8"/>
+  <rect x="515.6" y="121.19999999999999" width="24" height="17" rx="4" fill="#08111f"/>
+  <text x="527.6" y="134.2" fill="#d586ff" font-family="system-ui" font-size="12" text-anchor="middle">−1</text>
+  <path d="M480 155L593.3333333333334 155" stroke="#476073" stroke-width="1.8"/>
+  <rect x="515.6" y="145" width="24" height="17" rx="4" fill="#08111f"/>
+  <text x="527.6" y="158" fill="#a8b7ca" font-family="system-ui" font-size="12" text-anchor="middle">1</text>
+  <path d="M480 325L593.3333333333334 211.66666666666666" stroke="#d586ff" stroke-width="1.8"/>
+  <rect x="515.6" y="267.4" width="24" height="17" rx="4" fill="#08111f"/>
+  <text x="527.6" y="280.4" fill="#d586ff" font-family="system-ui" font-size="12" text-anchor="middle">−1</text>
+  <path d="M480 325L593.3333333333334 268.33333333333337" stroke="#476073" stroke-width="1.8"/>
+  <rect x="515.6" y="291.20000000000005" width="24" height="17" rx="4" fill="#08111f"/>
+  <text x="527.6" y="304.2" fill="#a8b7ca" font-family="system-ui" font-size="12" text-anchor="middle">1</text>
+  <path d="M480 155L593.3333333333334 325" stroke="#476073" stroke-width="1.8"/>
+  <rect x="515.6" y="216.39999999999998" width="24" height="17" rx="4" fill="#08111f"/>
+  <text x="527.6" y="229.4" fill="#a8b7ca" font-family="system-ui" font-size="12" text-anchor="middle">1</text>
+  <path d="M480 155L593.3333333333334 381.6666666666667" stroke="#d586ff" stroke-width="1.8"/>
+  <rect x="515.6" y="240.2" width="24" height="17" rx="4" fill="#08111f"/>
+  <text x="527.6" y="253.2" fill="#d586ff" font-family="system-ui" font-size="12" text-anchor="middle">−1</text>
+  <path d="M593.3333333333334 98.33333333333333L706.6666666666666 155" stroke="#476073" stroke-width="1.8"/>
+  <path d="M593.3333333333334 155L706.6666666666666 155" stroke="#476073" stroke-width="1.8"/>
+  <path d="M593.3333333333334 211.66666666666666L706.6666666666666 155" stroke="#476073" stroke-width="1.8"/>
+  <path d="M593.3333333333334 268.33333333333337L706.6666666666666 155" stroke="#476073" stroke-width="1.8"/>
+  <path d="M593.3333333333334 325L706.6666666666666 325" stroke="#476073" stroke-width="1.8"/>
+  <path d="M593.3333333333334 381.6666666666667L706.6666666666666 325" stroke="#476073" stroke-width="1.8"/>
+  <path d="M593.3333333333334 211.66666666666666L706.6666666666666 325" stroke="#476073" stroke-width="1.8"/>
+  <path d="M593.3333333333334 268.33333333333337L706.6666666666666 325" stroke="#476073" stroke-width="1.8"/>
+  <path d="M706.6666666666666 155L820 240" stroke="#476073" stroke-width="1.8"/>
+  <path d="M706.6666666666666 325L820 240" stroke="#476073" stroke-width="1.8"/>
+  <circle cx="480" cy="155" r="17" fill="#08111f" stroke="#a8b7ca" stroke-width="2"/>
+  <text x="480" y="160" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">x₁</text>
+  <circle cx="480" cy="325" r="17" fill="#08111f" stroke="#a8b7ca" stroke-width="2"/>
+  <text x="480" y="330" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">x₂</text>
+  <circle cx="593.3333333333334" cy="98.33333333333333" r="18" fill="#08111f" stroke="#50d2c2" stroke-width="2.4"/>
+  <text x="593.33" y="103.33" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle">−1</text>
+  <text x="617.33" y="103.33" fill="#a8b7ca" font-family="system-ui" font-size="14">a₁</text>
+  <circle cx="593.3333333333334" cy="155" r="18" fill="#08111f" stroke="#50d2c2" stroke-width="2.4"/>
+  <text x="593.33" y="160" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle">3</text>
+  <text x="617.33" y="160" fill="#a8b7ca" font-family="system-ui" font-size="14">a₂</text>
+  <circle cx="593.3333333333334" cy="211.66666666666666" r="18" fill="#08111f" stroke="#50d2c2" stroke-width="2.4"/>
+  <text x="593.33" y="216.67" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle">1</text>
+  <text x="617.33" y="216.67" fill="#a8b7ca" font-family="system-ui" font-size="14">t</text>
+  <circle cx="593.3333333333334" cy="268.33333333333337" r="18" fill="#08111f" stroke="#50d2c2" stroke-width="2.4"/>
+  <text x="593.33" y="273.33" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle">1</text>
+  <text x="617.33" y="273.33" fill="#a8b7ca" font-family="system-ui" font-size="14">u</text>
+  <circle cx="593.3333333333334" cy="325" r="18" fill="#08111f" stroke="#50d2c2" stroke-width="2.4"/>
+  <text x="593.33" y="330" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle">−1</text>
+  <text x="617.33" y="330" fill="#a8b7ca" font-family="system-ui" font-size="14">b₁</text>
+  <circle cx="593.3333333333334" cy="381.6666666666667" r="18" fill="#08111f" stroke="#50d2c2" stroke-width="2.4"/>
+  <text x="593.33" y="386.67" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle">3</text>
+  <text x="617.33" y="386.67" fill="#a8b7ca" font-family="system-ui" font-size="14">b₂</text>
+  <circle cx="706.6666666666666" cy="155" r="18" fill="#08111f" stroke="#50d2c2" stroke-width="2.4"/>
+  <text x="706.67" y="160" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle">−4</text>
+  <text x="730.67" y="160" fill="#a8b7ca" font-family="system-ui" font-size="14">A</text>
+  <circle cx="706.6666666666666" cy="325" r="18" fill="#08111f" stroke="#50d2c2" stroke-width="2.4"/>
+  <text x="706.67" y="330" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle">−4</text>
+  <text x="730.67" y="330" fill="#a8b7ca" font-family="system-ui" font-size="14">B</text>
+  <circle cx="820" cy="240" r="18" fill="#08111f" stroke="#ff7a90" stroke-width="2.4"/>
+  <text x="820" y="245" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle">−1</text>
+  <text x="844" y="245" fill="#a8b7ca" font-family="system-ui" font-size="14">y</text>
+  <text x="650" y="436" fill="#91a4bb" font-family="system-ui" font-size="13" text-anchor="middle">edges: weights (unlabelled = 1) · nodes: biases · fire when sum + bias ≥ 0</text>
+  <text x="450" y="480" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">2–6–2–1 instead of 2–8–2–1: the top and bottom fences are wired into both AND units.</text>
+</svg>

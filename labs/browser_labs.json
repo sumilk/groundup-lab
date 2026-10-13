@@ -63,7 +63,7 @@
     "lesson": "05-probability-statistics/07-hypothesis-testing-confidence-power.md",
     "task": "bh-fdr",
     "function": "benjamini_hochberg",
-    "title": "Benjamini\u2013Hochberg correction"
+    "title": "Benjamini–Hochberg correction"
   },
   {
     "lesson": "05-probability-statistics/08-resampling-sequential-experimental-design.md",
@@ -87,7 +87,7 @@
     "lesson": "05-probability-statistics/09-bayesian-modeling-computation.md",
     "task": "beta-update",
     "function": "beta_bernoulli_update",
-    "title": "Beta\u2013Bernoulli update"
+    "title": "Beta–Bernoulli update"
   },
   {
     "lesson": "05-probability-statistics/09-bayesian-modeling-computation.md",
@@ -111,7 +111,7 @@
     "lesson": "05-probability-statistics/10-sampling-design-ml-evaluation.md",
     "task": "horvitz-thompson",
     "function": "horvitz_thompson",
-    "title": "Horvitz\u2013Thompson weighting"
+    "title": "Horvitz–Thompson weighting"
   },
   {
     "lesson": "05-probability-statistics/10-sampling-design-ml-evaluation.md",
@@ -344,7 +344,7 @@
     "lesson": "02-linear-algebra/04-orthonormal-bases-qr.md",
     "task": "gram-schmidt",
     "function": "gram_schmidt",
-    "title": "Compare classical and modified Gram\u2013Schmidt",
+    "title": "Compare classical and modified Gram–Schmidt",
     "supportFunctions": [
       "_validated_matrix"
     ]
@@ -507,5 +507,69 @@
     "function": "cancellation_demo",
     "title": "Separate cancellation from conditioning",
     "supportFunctions": []
+  },
+  {
+    "lesson": "15-neural-networks/01-connectionism-threshold-unit.md",
+    "task": "threshold-gate",
+    "function": "threshold_gate",
+    "title": "Fire a threshold gate exactly",
+    "supportFunctions": [
+      "_finite_real_vector"
+    ]
+  },
+  {
+    "lesson": "15-neural-networks/01-connectionism-threshold-unit.md",
+    "task": "compose-halfspaces",
+    "function": "compose_halfspaces",
+    "title": "Compose fences into regions and votes",
+    "supportFunctions": [
+      "_finite_real_vector"
+    ]
+  },
+  {
+    "lesson": "15-neural-networks/01-connectionism-threshold-unit.md",
+    "task": "hebbian-update",
+    "function": "hebbian_update",
+    "title": "Watch Hebb diverge and Oja settle",
+    "supportFunctions": [
+      "_finite_real_vector"
+    ]
+  },
+  {
+    "lesson": "15-neural-networks/01-connectionism-threshold-unit.md",
+    "task": "perceptron-train",
+    "function": "perceptron_train",
+    "title": "Train a perceptron by error correction",
+    "supportFunctions": [
+      "_finite_real_vector",
+      "_binary_list"
+    ]
+  },
+  {
+    "lesson": "15-neural-networks/01-connectionism-threshold-unit.md",
+    "task": "dnf-network",
+    "function": "dnf_network",
+    "title": "Turn a truth table into a network",
+    "supportFunctions": [
+      "_binary_list"
+    ]
+  },
+  {
+    "lesson": "15-neural-networks/01-connectionism-threshold-unit.md",
+    "task": "staircase-weights",
+    "function": "staircase_weights",
+    "title": "Share pulse edges in a staircase",
+    "supportFunctions": [
+      "_finite_real_vector"
+    ]
+  },
+  {
+    "lesson": "15-neural-networks/01-connectionism-threshold-unit.md",
+    "task": "heat-cold",
+    "function": "heat_cold_sensations",
+    "title": "Simulate the heat/cold illusion",
+    "supportFunctions": [
+      "_binary_list"
+    ]
   }
 ]

@@ -2369,3 +2369,173 @@ def cancellation_demo(t):
         raise ValueError("t must be a finite nonnegative real number")
     root = math.sqrt(1.0 + t)
     return root - 1.0, t / (root + 1.0)
+
+
+def _finite_real_vector(values, name="vector"):
+    """Validate a nonempty list/tuple of finite reals (no bools); return a float list."""
+    if not isinstance(values, (list, tuple)) or not values:
+        raise ValueError(name + " must be a nonempty list or tuple")
+    out = []
+    for value in values:
+        if isinstance(value, bool) or not isinstance(value, (int, float)):
+            raise ValueError(name + " entries must be real numbers")
+        value = float(value)
+        if not math.isfinite(value):
+            raise ValueError(name + " entries must be finite")
+        out.append(value)
+    return out
+
+
+def threshold_gate(weights, bias, inputs):
+    """Fire (1) when fsum(w*x) + bias >= 0."""
+    w = _finite_real_vector(weights, "weights")
+    x = _finite_real_vector(inputs, "inputs")
+    if len(w) != len(x):
+        raise ValueError("weights and inputs must have the same length")
+    if isinstance(bias, bool) or not isinstance(bias, (int, float)) or not math.isfinite(bias):
+        raise ValueError("bias must be a finite real number")
+    terms = [wi * xi for wi, xi in zip(w, x)] + [float(bias)]
+    if not all(math.isfinite(t) for t in terms):
+        raise ValueError("a weighted input overflowed")
+    z = math.fsum(terms)
+    if not math.isfinite(z):
+        raise ValueError("the weighted sum overflowed")
+    return 1 if z >= 0 else 0
+
+
+def compose_halfspaces(halfspaces, k, point):
+    """Count firing half-space units and vote: fire when at least k fire."""
+    if not isinstance(halfspaces, (list, tuple)) or not halfspaces:
+        raise ValueError("halfspaces must be a nonempty list")
+    if isinstance(k, bool) or not isinstance(k, int) or not 0 <= k <= len(halfspaces):
+        raise ValueError("k must be an int between 0 and the number of units")
+    x = _finite_real_vector(point, "point")
+    count = 0
+    for unit in halfspaces:
+        if not isinstance(unit, (list, tuple)) or len(unit) != 2:
+            raise ValueError("each unit is a (weights, bias) pair")
+        weights, bias = unit
+        w = _finite_real_vector(weights, "weights")
+        if len(w) != len(x):
+            raise ValueError("unit weights must match the point's dimension")
+        if isinstance(bias, bool) or not isinstance(bias, (int, float)) or not math.isfinite(bias):
+            raise ValueError("bias must be a finite real number")
+        terms = [wi * xi for wi, xi in zip(w, x)] + [float(bias)]
+        z = math.fsum(terms)
+        if not all(math.isfinite(t) for t in terms) or not math.isfinite(z):
+            raise ValueError("a unit's weighted sum overflowed")
+        count += 1 if z >= 0 else 0
+    return count, 1 if count >= k else 0
+
+
+def hebbian_update(samples, w0, eta, rule):
+    """One sequential pass of Hebb or Oja updates, rejecting divergence."""
+    if rule not in ("hebb", "oja"):
+        raise ValueError('rule must be "hebb" or "oja"')
+    if isinstance(eta, bool) or not isinstance(eta, (int, float)) or not math.isfinite(eta) or eta <= 0:
+        raise ValueError("eta must be a finite positive real")
+    w = _finite_real_vector(w0, "w0")
+    if not isinstance(samples, (list, tuple)) or not samples:
+        raise ValueError("samples must be a nonempty list")
+    data = [_finite_real_vector(x, "sample") for x in samples]
+    if any(len(x) != len(w) for x in data):
+        raise ValueError("every sample must match the weight dimension")
+    for x in data:
+        terms = [wi * xi for wi, xi in zip(w, x)]
+        try:
+            y = math.fsum(terms)
+        except OverflowError:
+            raise ValueError("the weights diverged") from None
+        if not math.isfinite(y):
+            raise ValueError("the weights diverged")
+        if rule == "hebb":
+            w = [wi + eta * y * xi for wi, xi in zip(w, x)]
+        else:
+            w = [wi + eta * y * (xi - y * wi) for wi, xi in zip(w, x)]
+        if not all(math.isfinite(wi) for wi in w):
+            raise ValueError("the weights diverged")
+    return w
+
+
+def _binary_list(values, name="values"):
+    """Validate a nonempty list/tuple of ints 0 or 1 (no bools); return a list."""
+    if not isinstance(values, (list, tuple)) or not values:
+        raise ValueError(name + " must be a nonempty list or tuple")
+    for value in values:
+        if isinstance(value, bool) or not isinstance(value, int) or value not in (0, 1):
+            raise ValueError(name + " entries must be the ints 0 or 1")
+    return list(values)
+
+
+def perceptron_train(samples, labels, eta, max_epochs):
+    """Sequential perceptron error correction from zero weights."""
+    if not isinstance(samples, (list, tuple)) or not samples:
+        raise ValueError("samples must be a nonempty list")
+    data = [_finite_real_vector(x, "sample") for x in samples]
+    if any(len(x) != len(data[0]) for x in data):
+        raise ValueError("samples must share one dimension")
+    targets = _binary_list(labels, "labels")
+    if len(targets) != len(data):
+        raise ValueError("one label per sample")
+    if isinstance(eta, bool) or not isinstance(eta, (int, float)) or not math.isfinite(eta) or eta <= 0:
+        raise ValueError("eta must be a finite positive real")
+    if isinstance(max_epochs, bool) or not isinstance(max_epochs, int) or max_epochs < 1:
+        raise ValueError("max_epochs must be an int >= 1")
+    w, b = [0.0] * len(data[0]), 0.0
+    for epoch in range(1, max_epochs + 1):
+        mistakes = 0
+        for x, d in zip(data, targets):
+            z = math.fsum([wi * xi for wi, xi in zip(w, x)] + [b])
+            err = d - (1 if z >= 0 else 0)
+            if err:
+                mistakes += 1
+                w = [wi + eta * err * xi for wi, xi in zip(w, x)]
+                b += eta * err
+        if not all(math.isfinite(v) for v in w + [b]):
+            raise ValueError("the weights overflowed")
+        if mistakes == 0:
+            return w, b, epoch, True
+    return w, b, max_epochs, False
+
+
+def dnf_network(truth):
+    """One AND unit per true row of the table, then an OR."""
+    table = _binary_list(truth, "truth")
+    n = len(table).bit_length() - 1
+    if len(table) < 2 or len(table) != 1 << n:
+        raise ValueError("the table length must be a power of two, at least 2")
+    hidden = []
+    for index, value in enumerate(table):
+        if value:
+            bits = [(index >> (n - 1 - j)) & 1 for j in range(n)]
+            hidden.append(([1 if bit else -1 for bit in bits], -sum(bits)))
+    output = ([1] * len(hidden), -1)
+    return hidden, output
+
+
+def staircase_weights(heights, edges):
+    """Coefficients h_k - h_{k-1} on each shared edge."""
+    h = _finite_real_vector(heights, "heights")
+    t = _finite_real_vector(edges, "edges")
+    if len(t) != len(h) + 1:
+        raise ValueError("need one more edge than heights")
+    if any(b <= a for a, b in zip(t, t[1:])):
+        raise ValueError("edges must be strictly increasing")
+    padded = [0.0] + h + [0.0]
+    units = [(padded[k + 1] - padded[k], t[k]) for k in range(len(t))]
+    if not all(math.isfinite(c) for c, _ in units):
+        raise ValueError("a coefficient overflowed")
+    return units
+
+
+def heat_cold_sensations(heat, cold):
+    """McCulloch and Pitts's heat/cold illusion, one step of delay per unit."""
+    h, c = _binary_list(heat, "heat"), _binary_list(cold, "cold")
+    if len(h) != len(c):
+        raise ValueError("heat and cold must have the same length")
+    at = lambda seq, t: seq[t] if t >= 0 else 0
+    a = [at(c, t - 1) for t in range(len(c))]
+    b = [1 if at(a, t - 1) and not at(c, t - 1) else 0 for t in range(len(c))]
+    felt_heat = [1 if at(h, t - 1) or at(b, t - 1) else 0 for t in range(len(c))]
+    felt_cold = [1 if at(a, t - 1) and at(c, t - 1) else 0 for t in range(len(c))]
+    return felt_heat, felt_cold

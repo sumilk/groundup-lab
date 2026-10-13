@@ -14,7 +14,9 @@
     "db:generate": "drizzle-kit generate",
     "prebuild": "node scripts/build-theory.mjs",
     "theory:build": "node scripts/build-theory.mjs",
-    "theory:check": "node scripts/check-theory.mjs"
+    "theory:check": "node scripts/check-theory.mjs",
+    "nn:sync": "node scripts/neural-networks/sync-sources.mjs",
+    "nn:check": "node scripts/check-neural-networks.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",

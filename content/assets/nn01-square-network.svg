@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="500" viewBox="0 0 900 500" role="img" aria-labelledby="nn01-square-title nn01-square-desc">
+  <title id="nn01-square-title">A square as four fences and an AND</title>
+  <desc id="nn01-square-desc">Left: the square with corners at (±1, ±1) shaded, with its four edge lines labelled h1 to h4. Right: the 2–4–1 network. Each hidden unit has weight ±1 from one input and bias 1; the output has weight 1 from each hidden unit and bias −4, so it fires only when all four fire.</desc>
+  <rect width="900" height="500" rx="24" fill="#08111f"/>
+  <defs><clipPath id="clip-40-70"><rect x="65" y="70" width="330" height="330"/></clipPath></defs>
+  <g clip-path="url(#clip-40-70)"><path d="M-265 730L-265 -260M-265 730L725 730M-210 730L-210 -260M-265 675L725 675M-155 730L-155 -260M-265 620L725 620M-100 730L-100 -260M-265 565L725 565M-45 730L-45 -260M-265 510L725 510M10 730L10 -260M-265 455L725 455M65 730L65 -260M-265 400L725 400M120 730L120 -260M-265 345L725 345M175 730L175 -260M-265 290L725 290M230 730L230 -260M-265 235L725 235M285 730L285 -260M-265 180L725 180M340 730L340 -260M-265 125L725 125M395 730L395 -260M-265 70L725 70M450 730L450 -260M-265 15L725 15M505 730L505 -260M-265 -40L725 -40M560 730L560 -260M-265 -95L725 -95M615 730L615 -260M-265 -150L725 -150M670 730L670 -260M-265 -205L725 -205M725 730L725 -260M-265 -260L725 -260" stroke="#173641" stroke-width="1.5" fill="none"/></g>
+  <path d="M65 235L395 235M230 400L230 70" stroke="#31445e" stroke-width="2"/>
+  <path d="M175.0 180.0H285.0V290.0H175.0Z" fill="#ff7a90" fill-opacity="0.32"/>
+  <g clip-path="url(#clip-40-70)">
+  <path d="M285 1555L285 -1085" stroke="#50d2c2" stroke-width="2" stroke-dasharray="6 5" fill="none"/>
+  </g>
+  <text x="289.4" y="108.5" fill="#50d2c2" font-family="system-ui" font-size="15">h₁: x₁ ≤ 1</text>
+  <g clip-path="url(#clip-40-70)">
+  <path d="M-1090 180L1550 180" stroke="#50d2c2" stroke-width="2" stroke-dasharray="6 5" fill="none"/>
+  </g>
+  <text x="70.5" y="170.1" fill="#50d2c2" font-family="system-ui" font-size="15">h₂: x₂ ≤ 1</text>
+  <g clip-path="url(#clip-40-70)">
+  <path d="M175 1555L175 -1085" stroke="#50d2c2" stroke-width="2" stroke-dasharray="6 5" fill="none"/>
+  </g>
+  <text x="78.75" y="361.5" fill="#50d2c2" font-family="system-ui" font-size="15">h₃: x₁ ≥ −1</text>
+  <g clip-path="url(#clip-40-70)">
+  <path d="M-1090 290L1550 290" stroke="#50d2c2" stroke-width="2" stroke-dasharray="6 5" fill="none"/>
+  </g>
+  <text x="293.25" y="307.6" fill="#50d2c2" font-family="system-ui" font-size="15">h₄: x₂ ≥ −1</text>
+  <text x="114" y="253" fill="#a8b7ca" font-family="system-ui" font-size="13">−2</text>
+  <text x="334" y="253" fill="#a8b7ca" font-family="system-ui" font-size="13">2</text>
+  <text x="236" y="350" fill="#a8b7ca" font-family="system-ui" font-size="13">−2</text>
+  <text x="236" y="130" fill="#a8b7ca" font-family="system-ui" font-size="13">2</text>
+  <text x="373" y="227" fill="#a8b7ca" font-family="system-ui" font-size="14">x₁</text>
+  <text x="238" y="86" fill="#a8b7ca" font-family="system-ui" font-size="14">x₂</text>
+  <path d="M480 155L650 112.5" stroke="#d586ff" stroke-width="1.8"/>
+  <rect x="539.4" y="127.15" width="24" height="17" rx="4" fill="#08111f"/>
+  <text x="551.4" y="140.15" fill="#d586ff" font-family="system-ui" font-size="12" text-anchor="middle">−1</text>
+  <path d="M480 325L650 197.5" stroke="#d586ff" stroke-width="1.8"/>
+  <rect x="539.4" y="261.45" width="24" height="17" rx="4" fill="#08111f"/>
+  <text x="551.4" y="274.45" fill="#d586ff" font-family="system-ui" font-size="12" text-anchor="middle">−1</text>
+  <path d="M480 155L650 282.5" stroke="#476073" stroke-width="1.8"/>
+  <rect x="539.4" y="198.55" width="24" height="17" rx="4" fill="#08111f"/>
+  <text x="551.4" y="211.55" fill="#a8b7ca" font-family="system-ui" font-size="12" text-anchor="middle">1</text>
+  <path d="M480 325L650 367.5" stroke="#476073" stroke-width="1.8"/>
+  <rect x="539.4" y="332.85" width="24" height="17" rx="4" fill="#08111f"/>
+  <text x="551.4" y="345.85" fill="#a8b7ca" font-family="system-ui" font-size="12" text-anchor="middle">1</text>
+  <path d="M650 112.5L820 240" stroke="#476073" stroke-width="1.8"/>
+  <path d="M650 197.5L820 240" stroke="#476073" stroke-width="1.8"/>
+  <path d="M650 282.5L820 240" stroke="#476073" stroke-width="1.8"/>
+  <path d="M650 367.5L820 240" stroke="#476073" stroke-width="1.8"/>
+  <circle cx="480" cy="155" r="17" fill="#08111f" stroke="#a8b7ca" stroke-width="2"/>
+  <text x="480" y="160" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">x₁</text>
+  <circle cx="480" cy="325" r="17" fill="#08111f" stroke="#a8b7ca" stroke-width="2"/>
+  <text x="480" y="330" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">x₂</text>
+  <circle cx="650" cy="112.5" r="18" fill="#08111f" stroke="#50d2c2" stroke-width="2.4"/>
+  <text x="650" y="117.5" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle">1</text>
+  <text x="674" y="117.5" fill="#a8b7ca" font-family="system-ui" font-size="14">h₁</text>
+  <circle cx="650" cy="197.5" r="18" fill="#08111f" stroke="#50d2c2" stroke-width="2.4"/>
+  <text x="650" y="202.5" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle">1</text>
+  <text x="674" y="202.5" fill="#a8b7ca" font-family="system-ui" font-size="14">h₂</text>
+  <circle cx="650" cy="282.5" r="18" fill="#08111f" stroke="#50d2c2" stroke-width="2.4"/>
+  <text x="650" y="287.5" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle">1</text>
+  <text x="674" y="287.5" fill="#a8b7ca" font-family="system-ui" font-size="14">h₃</text>
+  <circle cx="650" cy="367.5" r="18" fill="#08111f" stroke="#50d2c2" stroke-width="2.4"/>
+  <text x="650" y="372.5" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle">1</text>
+  <text x="674" y="372.5" fill="#a8b7ca" font-family="system-ui" font-size="14">h₄</text>
+  <circle cx="820" cy="240" r="18" fill="#08111f" stroke="#ff7a90" stroke-width="2.4"/>
+  <text x="820" y="245" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle">−4</text>
+  <text x="844" y="245" fill="#a8b7ca" font-family="system-ui" font-size="14">y</text>
+  <text x="650" y="436" fill="#91a4bb" font-family="system-ui" font-size="13" text-anchor="middle">edges: weights (unlabelled = 1) · nodes: biases · fire when sum + bias ≥ 0</text>
+  <text x="450" y="480" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">2–4–1: the output fires only when h₁ + h₂ + h₃ + h₄ ≥ 4, that is, inside all four fences.</text>
+</svg>
