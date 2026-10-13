@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="420" viewBox="0 0 900 420" role="img" aria-labelledby="nn01-laws-title nn01-laws-desc">
+  <title id="nn01-laws-title">Aristotle's four laws of association</title>
+  <desc id="nn01-laws-desc">Four small pictures. Contiguity: lightning and thunder close together on a time line. Frequency: three links between two dots, getting thicker from once to always. Similarity: two similar triangles. Contrast: a black and a white disc.</desc>
+  <rect width="900" height="420" rx="24" fill="#08111f"/>
+  <text x="450" y="44" fill="#a8b7ca" font-family="system-ui" font-size="18" text-anchor="middle">Aristotle's four laws of association</text>
+  <path d="M50 270H210" stroke="#476073" stroke-width="2" fill="none"/>
+  <text x="130" y="292" fill="#a8b7ca" font-family="system-ui" font-size="12" text-anchor="middle">time →</text>
+  <circle cx="110" cy="210" r="22" fill="#ffb86b" stroke="#ffb86b" stroke-width="2.4"/>
+  <path d="M114 196L104 212H112L106 224L118 208H110Z" stroke="#08111f" stroke-width="1" fill="#08111f"/>
+  <circle cx="160" cy="210" r="22" fill="#08111f" stroke="#7aa2f7" stroke-width="2.4"/>
+  <path d="M152 202Q158 210 152 218M159 198Q168 210 159 222M166 195Q177 210 166 225" stroke="#7aa2f7" stroke-width="2" fill="none"/>
+  <path d="M110 240V270M160 240V270" stroke="#476073" stroke-width="2" fill="none" stroke-dasharray="3 3"/>
+  <path d="M280 160H400" stroke="#50d2c2" stroke-width="1" fill="none"/>
+  <circle cx="272" cy="160" r="8" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <circle cx="408" cy="160" r="8" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <text x="420" y="165" fill="#91a4bb" font-family="system-ui" font-size="12">once</text>
+  <path d="M280 210H400" stroke="#50d2c2" stroke-width="3" fill="none"/>
+  <circle cx="272" cy="210" r="8" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <circle cx="408" cy="210" r="8" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <text x="420" y="215" fill="#91a4bb" font-family="system-ui" font-size="12">often</text>
+  <path d="M280 260H400" stroke="#50d2c2" stroke-width="7" fill="none"/>
+  <circle cx="272" cy="260" r="8" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <circle cx="408" cy="260" r="8" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <text x="420" y="265" fill="#91a4bb" font-family="system-ui" font-size="12">always</text>
+  <path d="M515 180l25 -40l25 40Z" stroke="#d586ff" stroke-width="2" fill="#d586ff" fill-opacity="0.3"/>
+  <path d="M560 255l22 -36l22 36Z" stroke="#d586ff" stroke-width="2" fill="#d586ff" fill-opacity="0.3"/>
+  <path d="M545 190Q575 210 575 220" stroke="#91a4bb" stroke-width="2" fill="none" stroke-dasharray="4 4"/>
+  <circle cx="740" cy="210" r="30" fill="#e8eef7" stroke="#e8eef7" stroke-width="2.4"/>
+  <circle cx="810" cy="210" r="30" fill="#08111f" stroke="#e8eef7" stroke-width="2.4"/>
+  <path d="M772 210H778" stroke="#91a4bb" stroke-width="2" fill="none"/>
+  <text x="130" y="340" fill="#e8eef7" font-family="system-ui" font-size="18" text-anchor="middle" font-weight="600">contiguity</text>
+  <text x="340" y="340" fill="#e8eef7" font-family="system-ui" font-size="18" text-anchor="middle" font-weight="600">frequency</text>
+  <text x="560" y="340" fill="#e8eef7" font-family="system-ui" font-size="18" text-anchor="middle" font-weight="600">similarity</text>
+  <text x="770" y="340" fill="#e8eef7" font-family="system-ui" font-size="18" text-anchor="middle" font-weight="600">contrast</text>
+  <text x="130" y="364" fill="#91a4bb" font-family="system-ui" font-size="13" text-anchor="middle">close in space or time</text>
+  <text x="340" y="364" fill="#91a4bb" font-family="system-ui" font-size="13" text-anchor="middle">repetition strengthens</text>
+  <text x="560" y="364" fill="#91a4bb" font-family="system-ui" font-size="13" text-anchor="middle">alike recalls alike</text>
+  <text x="770" y="364" fill="#91a4bb" font-family="system-ui" font-size="13" text-anchor="middle">opposite recalls opposite</text>
+  <text x="450" y="400" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">Each law says when two ideas become linked. None of them says where the link is kept.</text>
+</svg>

@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="430" viewBox="0 0 900 430" role="img" aria-labelledby="nn01-neuron-title nn01-neuron-desc">
+  <title id="nn01-neuron-title">A neuron and a threshold unit</title>
+  <desc id="nn01-neuron-desc">Left: a schematic neuron with five dendrites converging on a soma and one long axon ending in three synaptic terminals. Right: the abstraction, three inputs x1 to x3 with weights w1 to w3 feeding a unit that fires y when the weighted sum reaches the threshold T.</desc>
+  <rect width="900" height="430" rx="24" fill="#08111f"/>
+  <text x="450" y="44" fill="#a8b7ca" font-family="system-ui" font-size="18" text-anchor="middle">A neuron, and the unit that stands for it</text>
+  <path d="M60 120Q125 185 190 210" stroke="#50d2c2" stroke-width="3" fill="none"/>
+  <path d="M70 200Q130 225 190 210" stroke="#50d2c2" stroke-width="3" fill="none"/>
+  <path d="M60 290Q125 230 190 210" stroke="#50d2c2" stroke-width="3" fill="none"/>
+  <path d="M110 90Q150 170 190 210" stroke="#50d2c2" stroke-width="3" fill="none"/>
+  <path d="M110 330Q150 250 190 210" stroke="#50d2c2" stroke-width="3" fill="none"/>
+  <circle cx="215" cy="210" r="38" fill="#2a1c0f" stroke="#ffb86b" stroke-width="2.4"/>
+  <text x="215" y="215" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle">soma</text>
+  <path d="M253 210C330 205 380 215 470 210" stroke="#e8eef7" stroke-width="4" fill="none"/>
+  <path d="M470 210l30 -22M470 210l32 0M470 210l30 22" stroke="#e8eef7" stroke-width="3" fill="none"/>
+  <circle cx="503" cy="188" r="5" fill="#ffb86b" stroke="#ffb86b" stroke-width="2.4"/>
+  <circle cx="505" cy="210" r="5" fill="#ffb86b" stroke="#ffb86b" stroke-width="2.4"/>
+  <circle cx="503" cy="232" r="5" fill="#ffb86b" stroke="#ffb86b" stroke-width="2.4"/>
+  <text x="90" y="360" fill="#a8b7ca" font-family="system-ui" font-size="14" text-anchor="middle">dendrites gather input</text>
+  <text x="215" y="270" fill="#91a4bb" font-family="system-ui" font-size="13" text-anchor="middle">sums it up</text>
+  <text x="360" y="192" fill="#a8b7ca" font-family="system-ui" font-size="14" text-anchor="middle">one axon carries the output</text>
+  <text x="505" y="268" fill="#91a4bb" font-family="system-ui" font-size="13" text-anchor="middle">synapses on</text>
+  <text x="505" y="284" fill="#91a4bb" font-family="system-ui" font-size="13" text-anchor="middle">other neurons</text>
+  <circle cx="600" cy="130" r="15" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <text x="600" y="135" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle">x₁</text>
+  <path d="M616 130L697.68 184.45" stroke="#50d2c2" stroke-width="2.2" fill="none"/><path d="M706 190L694.91 188.61L700.45 180.29Z" fill="#50d2c2"/>
+  <text x="660" y="164" fill="#50d2c2" font-family="system-ui" font-size="13" text-anchor="middle">w₁</text>
+  <circle cx="600" cy="210" r="15" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <text x="600" y="215" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle">x₂</text>
+  <path d="M616 210L696 210" stroke="#50d2c2" stroke-width="2.2" fill="none"/><path d="M706 210L696 215L696 205Z" fill="#50d2c2"/>
+  <text x="660" y="204" fill="#50d2c2" font-family="system-ui" font-size="13" text-anchor="middle">w₂</text>
+  <circle cx="600" cy="290" r="15" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <text x="600" y="295" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle">x₃</text>
+  <path d="M616 290L697.68 235.55" stroke="#50d2c2" stroke-width="2.2" fill="none"/><path d="M706 230L700.45 239.71L694.91 231.39Z" fill="#50d2c2"/>
+  <text x="660" y="244" fill="#50d2c2" font-family="system-ui" font-size="13" text-anchor="middle">w₃</text>
+  <circle cx="740" cy="210" r="32" fill="#08111f" stroke="#ffb86b" stroke-width="2.4"/>
+  <text x="740" y="208" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">Σ ≥ T</text>
+  <path d="M772 210L850 210" stroke="#e8eef7" stroke-width="2.2" fill="none"/><path d="M860 210L850 215L850 205Z" fill="#e8eef7"/>
+  <text x="850" y="198" fill="#e8eef7" font-family="system-ui" font-size="16" text-anchor="middle">y</text>
+  <text x="740" y="360" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle" font-weight="600">threshold unit</text>
+  <path d="M560 60V380" stroke="#476073" stroke-width="1.5" fill="none" stroke-dasharray="5 6"/>
+  <text x="450" y="410" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">Dendrites become weighted inputs, the soma becomes a sum and a threshold, and the axon becomes the output y.</text>
+</svg>

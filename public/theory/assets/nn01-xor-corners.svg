@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="430" viewBox="0 0 900 430" role="img" aria-labelledby="nn01-xor-title nn01-xor-desc">
+  <title id="nn01-xor-title">AND and OR are linearly separable; XOR is not</title>
+  <desc id="nn01-xor-desc">Three panels of the unit square's corners. Large pink dots fire, small grey dots do not. For AND and OR a single orange line separates firing from silent corners. For XOR the firing corners lie on one diagonal and two dashed lines are needed.</desc>
+  <rect width="900" height="430" rx="24" fill="#08111f"/>
+  <text x="450" y="44" fill="#a8b7ca" font-family="system-ui" font-size="18" text-anchor="middle">Four corners, one line</text>
+  <defs><clipPath id="clip-40-100"><rect x="45" y="100" width="240" height="240"/></clipPath></defs>
+  <text x="165" y="86" fill="#a8b7ca" font-family="system-ui" font-size="17" text-anchor="middle">AND</text>
+  <path d="M45 280L285 280M105 340L105 100" stroke="#31445e" stroke-width="2"/>
+  <path d="M81 76L309 304" stroke="#ffb86b" stroke-width="3" fill="none"/>
+  <circle cx="105" cy="280" r="7" fill="#a8b7ca"/>
+  <circle cx="105" cy="160" r="7" fill="#a8b7ca"/>
+  <circle cx="225" cy="280" r="7" fill="#a8b7ca"/>
+  <circle cx="225" cy="160" r="10" fill="#ff7a90"/>
+  <defs><clipPath id="clip-325-100"><rect x="330" y="100" width="240" height="240"/></clipPath></defs>
+  <text x="450" y="86" fill="#a8b7ca" font-family="system-ui" font-size="17" text-anchor="middle">OR</text>
+  <path d="M330 280L570 280M390 340L390 100" stroke="#31445e" stroke-width="2"/>
+  <path d="M366 196L474 304" stroke="#ffb86b" stroke-width="3" fill="none"/>
+  <circle cx="390" cy="280" r="7" fill="#a8b7ca"/>
+  <circle cx="390" cy="160" r="10" fill="#ff7a90"/>
+  <circle cx="510" cy="280" r="10" fill="#ff7a90"/>
+  <circle cx="510" cy="160" r="10" fill="#ff7a90"/>
+  <defs><clipPath id="clip-610-100"><rect x="615" y="100" width="240" height="240"/></clipPath></defs>
+  <text x="735" y="86" fill="#a8b7ca" font-family="system-ui" font-size="17" text-anchor="middle">XOR</text>
+  <path d="M615 280L855 280M675 340L675 100" stroke="#31445e" stroke-width="2"/>
+  <path d="M639 208L747 316" stroke="#ffb86b" stroke-width="2" stroke-dasharray="6 5" fill="none"/>
+  <path d="M723 124L831 232" stroke="#ffb86b" stroke-width="2" stroke-dasharray="6 5" fill="none"/>
+  <circle cx="675" cy="280" r="7" fill="#a8b7ca"/>
+  <circle cx="675" cy="160" r="10" fill="#ff7a90"/>
+  <circle cx="795" cy="280" r="10" fill="#ff7a90"/>
+  <circle cx="795" cy="160" r="7" fill="#a8b7ca"/>
+  <text x="185" y="380" fill="#91a4bb" font-family="system-ui" font-size="14" text-anchor="middle">one line separates</text>
+  <text x="470" y="380" fill="#91a4bb" font-family="system-ui" font-size="14" text-anchor="middle">one line separates</text>
+  <text x="755" y="380" fill="#ff7a90" font-family="system-ui" font-size="14" text-anchor="middle">needs two lines: a network</text>
+  <text x="450" y="410" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">XOR's firing corners sit on one diagonal and its silent corners on the other, so no single line can split them.</text>
+</svg>

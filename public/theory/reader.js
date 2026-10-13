@@ -8,6 +8,23 @@
   const memory = new Map();
   function get(key) { try { return localStorage.getItem(key) || ""; } catch { return memory.get(key) || ""; } }
   function put(key,value) { memory.set(key,value); try { localStorage.setItem(key,value); return true; } catch { return false; } }
+  /* Track folders were resequenced (deep learning split into core/advanced); carry path-keyed notes and read marks over once. */
+  (function migrateTrackPaths() {
+    const moves=[["15-neural-networks/","09-deep-learning-core/"],["09-deep-learning/","10-deep-learning-advanced/"],["10-nlp/","11-nlp/"],["11-llm-systems/","12-llm-systems/"],["12-reinforcement-learning/","13-reinforcement-learning/"],["13-agentic-systems/","14-agentic-systems/"],["14-research-practice/","15-research-practice/"]];
+    try {
+      if (localStorage.getItem("migrated:track-paths-2026-10")) return;
+      const keys=[];for(let i=0;i<localStorage.length;i++)keys.push(localStorage.key(i));
+      for(const key of keys) for(const prefix of ["tutor:notes:","notes:","read:"]) {
+        if(!key.startsWith(prefix))continue;
+        const move=moves.find(([from])=>key.slice(prefix.length).startsWith(from));
+        if(!move)break;
+        const target=prefix+move[1]+key.slice(prefix.length+move[0].length);
+        if(!localStorage.getItem(target))localStorage.setItem(target,localStorage.getItem(key));
+        localStorage.removeItem(key);break;
+      }
+      localStorage.setItem("migrated:track-paths-2026-10","yes");
+    } catch {}
+  })();
   function escapeHTML(text) { return text.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
   function labKey(part,task) { return "python-lab:"+part+":"+task; }
   function renderPythonOutput(output,state) {

@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="410" viewBox="0 0 900 410" role="img" aria-labelledby="nn01-tl-title nn01-tl-desc">
+  <title id="nn01-tl-title">A timeline from associationism to connectionist networks</title>
+  <desc id="nn01-tl-desc">A horizontal timeline with ten events: Aristotle's laws, Hartley 1749, Bain 1873, Kubie 1930, McCulloch and Pitts 1943, Turing 1948, Hebb 1949, Rosenblatt 1958, Minsky and Papert 1969, and the PDP group 1986.</desc>
+  <rect width="900" height="410" rx="24" fill="#08111f"/>
+  <text x="450" y="44" fill="#a8b7ca" font-family="system-ui" font-size="18" text-anchor="middle">The story so far</text>
+  <path d="M105 210H795" stroke="#476073" stroke-width="3" fill="none"/>
+  <path d="M105 210V190" stroke="#476073" stroke-width="2" fill="none"/>
+  <circle cx="105" cy="210" r="7" fill="#7aa2f7" stroke="#7aa2f7" stroke-width="2.4"/>
+  <text x="105" y="128" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">c. 350 BC</text>
+  <text x="105" y="146" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle" font-weight="600">Aristotle</text>
+  <text x="105" y="163" fill="#91a4bb" font-family="system-ui" font-size="12" text-anchor="middle">laws of association</text>
+  <path d="M181.66666666666669 210V230" stroke="#476073" stroke-width="2" fill="none"/>
+  <circle cx="181.67" cy="210" r="7" fill="#7aa2f7" stroke="#7aa2f7" stroke-width="2.4"/>
+  <text x="181.67" y="260" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">1749</text>
+  <text x="181.67" y="278" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle" font-weight="600">Hartley</text>
+  <text x="181.67" y="295" fill="#91a4bb" font-family="system-ui" font-size="12" text-anchor="middle">vibratiuncles</text>
+  <path d="M258.33333333333337 210V190" stroke="#476073" stroke-width="2" fill="none"/>
+  <circle cx="258.33" cy="210" r="7" fill="#7aa2f7" stroke="#7aa2f7" stroke-width="2.4"/>
+  <text x="258.33" y="128" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">1873</text>
+  <text x="258.33" y="146" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle" font-weight="600">Bain</text>
+  <text x="258.33" y="163" fill="#91a4bb" font-family="system-ui" font-size="12" text-anchor="middle">information in connections</text>
+  <path d="M335 210V230" stroke="#476073" stroke-width="2" fill="none"/>
+  <circle cx="335" cy="210" r="7" fill="#50d2c2" stroke="#50d2c2" stroke-width="2.4"/>
+  <text x="335" y="260" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">1930</text>
+  <text x="335" y="278" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle" font-weight="600">Kubie</text>
+  <text x="335" y="295" fill="#91a4bb" font-family="system-ui" font-size="12" text-anchor="middle">loops as memory</text>
+  <path d="M411.6666666666667 210V190" stroke="#476073" stroke-width="2" fill="none"/>
+  <circle cx="411.67" cy="210" r="7" fill="#50d2c2" stroke="#50d2c2" stroke-width="2.4"/>
+  <text x="411.67" y="128" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">1943</text>
+  <text x="411.67" y="146" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle" font-weight="600">McCulloch &amp; Pitts</text>
+  <text x="411.67" y="163" fill="#91a4bb" font-family="system-ui" font-size="12" text-anchor="middle">threshold logic units</text>
+  <path d="M488.3333333333333 210V230" stroke="#476073" stroke-width="2" fill="none"/>
+  <circle cx="488.33" cy="210" r="7" fill="#50d2c2" stroke="#50d2c2" stroke-width="2.4"/>
+  <text x="488.33" y="260" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">1948</text>
+  <text x="488.33" y="278" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle" font-weight="600">Turing</text>
+  <text x="488.33" y="295" fill="#91a4bb" font-family="system-ui" font-size="12" text-anchor="middle">unorganised machines</text>
+  <path d="M565 210V190" stroke="#476073" stroke-width="2" fill="none"/>
+  <circle cx="565" cy="210" r="7" fill="#50d2c2" stroke="#50d2c2" stroke-width="2.4"/>
+  <text x="565" y="128" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">1949</text>
+  <text x="565" y="146" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle" font-weight="600">Hebb</text>
+  <text x="565" y="163" fill="#91a4bb" font-family="system-ui" font-size="12" text-anchor="middle">learning postulate</text>
+  <path d="M641.6666666666666 210V230" stroke="#476073" stroke-width="2" fill="none"/>
+  <circle cx="641.67" cy="210" r="7" fill="#ffb86b" stroke="#ffb86b" stroke-width="2.4"/>
+  <text x="641.67" y="260" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">1958</text>
+  <text x="641.67" y="278" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle" font-weight="600">Rosenblatt</text>
+  <text x="641.67" y="295" fill="#91a4bb" font-family="system-ui" font-size="12" text-anchor="middle">the perceptron</text>
+  <path d="M718.3333333333334 210V190" stroke="#476073" stroke-width="2" fill="none"/>
+  <circle cx="718.33" cy="210" r="7" fill="#ffb86b" stroke="#ffb86b" stroke-width="2.4"/>
+  <text x="718.33" y="128" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">1969</text>
+  <text x="718.33" y="146" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle" font-weight="600">Minsky &amp; Papert</text>
+  <text x="718.33" y="163" fill="#91a4bb" font-family="system-ui" font-size="12" text-anchor="middle">limits of one layer</text>
+  <path d="M795 210V230" stroke="#476073" stroke-width="2" fill="none"/>
+  <circle cx="795" cy="210" r="7" fill="#ffb86b" stroke="#ffb86b" stroke-width="2.4"/>
+  <text x="795" y="260" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">1986</text>
+  <text x="795" y="278" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle" font-weight="600">PDP group</text>
+  <text x="795" y="295" fill="#91a4bb" font-family="system-ui" font-size="12" text-anchor="middle">connectionist manifesto</text>
+  <text x="150" y="360" fill="#7aa2f7" font-family="system-ui" font-size="13">● ideas about the mind</text>
+  <text x="380" y="360" fill="#50d2c2" font-family="system-ui" font-size="13">● models of the neuron and of learning</text>
+  <text x="680" y="360" fill="#ffb86b" font-family="system-ui" font-size="13">● limits, and networks</text>
+  <text x="450" y="390" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">Not to scale: two thousand years of ideas, then four decades in which the neuron became a machine.</text>
+</svg>

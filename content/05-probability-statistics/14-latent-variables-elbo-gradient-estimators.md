@@ -200,7 +200,7 @@ Now it *is* an expectation, so sample it. Properties:
 
 - **Requires almost nothing.** \(f\) need not be differentiable, or even continuous. \(z\) may be discrete.
 - **Unbiased**, given that differentiation and integration may be exchanged.
-- **Admits baselines.** Since \(E_{q_\phi}[\nabla_\phi\log q_\phi]=\nabla_\phi\!\int q_\phi=\nabla_\phi1=0\), subtracting any constant \(b\) keeps the estimator unbiased: \(E[(f(z)-b)\nabla\log q_\phi]\). This is the identical argument that licenses advantage baselines in [policy gradients](../12-reinforcement-learning/02-policy-gradients-actor-critic.md).
+- **Admits baselines.** Since \(E_{q_\phi}[\nabla_\phi\log q_\phi]=\nabla_\phi\!\int q_\phi=\nabla_\phi1=0\), subtracting any constant \(b\) keeps the estimator unbiased: \(E[(f(z)-b)\nabla\log q_\phi]\). This is the identical argument that licenses advantage baselines in [policy gradients](../13-reinforcement-learning/02-policy-gradients-actor-critic.md).
 - **High variance**, because \(f\) multiplies a score that can be large, and no information about \(f\)'s *shape* is used — only its value.
 
 ### Estimator two: the pathwise (reparameterization) gradient

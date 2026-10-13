@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="430" viewBox="0 0 900 430" role="img" aria-labelledby="nn01-knobs-title nn01-knobs-desc">
+  <title id="nn01-knobs-title">Synaptic knob growth</title>
+  <desc id="nn01-knobs-desc">Two scenes. Before: three axon branches of cell A end in small knobs on cell B. After A has repeatedly helped fire B, the middle knob has grown much larger. Below, the mathematical version of the rule.</desc>
+  <rect width="900" height="430" rx="24" fill="#08111f"/>
+  <text x="450" y="44" fill="#a8b7ca" font-family="system-ui" font-size="18" text-anchor="middle">Hebb's guess: active contacts grow</text>
+  <circle cx="270" cy="210" r="50" fill="#0e1d33" stroke="#7aa2f7" stroke-width="2.4"/>
+  <text x="270" y="215" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle">cell B</text>
+  <path d="M70 150C130 150 160 186 212 186" stroke="#50d2c2" stroke-width="3" fill="none"/>
+  <circle cx="218" cy="186" r="6" fill="#ffb86b" stroke="#ffb86b" stroke-width="2.4"/>
+  <path d="M70 210C130 210 160 210 212 210" stroke="#50d2c2" stroke-width="3" fill="none"/>
+  <circle cx="218" cy="210" r="6" fill="#ffb86b" stroke="#ffb86b" stroke-width="2.4"/>
+  <path d="M70 270C130 270 160 234 212 234" stroke="#50d2c2" stroke-width="3" fill="none"/>
+  <circle cx="218" cy="234" r="6" fill="#ffb86b" stroke="#ffb86b" stroke-width="2.4"/>
+  <text x="70" y="130" fill="#50d2c2" font-family="system-ui" font-size="13" text-anchor="middle">cell A</text>
+  <text x="190" y="330" fill="#e8eef7" font-family="system-ui" font-size="16" text-anchor="middle" font-weight="600">before</text>
+  <text x="190" y="354" fill="#91a4bb" font-family="system-ui" font-size="13" text-anchor="middle">small knob: A rarely fires B</text>
+  <path d="M400 210L470 210" stroke="#91a4bb" stroke-width="2.2" fill="none"/><path d="M480 210L470 215L470 205Z" fill="#91a4bb"/>
+  <text x="440" y="196" fill="#91a4bb" font-family="system-ui" font-size="12" text-anchor="middle">A keeps</text>
+  <text x="440" y="232" fill="#91a4bb" font-family="system-ui" font-size="12" text-anchor="middle">firing B</text>
+  <circle cx="730" cy="210" r="50" fill="#0e1d33" stroke="#7aa2f7" stroke-width="2.4"/>
+  <text x="730" y="215" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle">cell B</text>
+  <path d="M530 150C590 150 620 186 672 186" stroke="#50d2c2" stroke-width="3" fill="none"/>
+  <circle cx="678" cy="186" r="6" fill="#ffb86b" stroke="#ffb86b" stroke-width="2.4"/>
+  <path d="M530 210C590 210 620 210 672 210" stroke="#50d2c2" stroke-width="3" fill="none"/>
+  <circle cx="678" cy="210" r="14" fill="#ffb86b" stroke="#ffb86b" stroke-width="2.4"/>
+  <path d="M530 270C590 270 620 234 672 234" stroke="#50d2c2" stroke-width="3" fill="none"/>
+  <circle cx="678" cy="234" r="6" fill="#ffb86b" stroke="#ffb86b" stroke-width="2.4"/>
+  <text x="530" y="130" fill="#50d2c2" font-family="system-ui" font-size="13" text-anchor="middle">cell A</text>
+  <text x="650" y="330" fill="#e8eef7" font-family="system-ui" font-size="16" text-anchor="middle" font-weight="600">after</text>
+  <text x="650" y="354" fill="#91a4bb" font-family="system-ui" font-size="13" text-anchor="middle">bigger knob: A's 'efficiency' rises</text>
+  <text x="450" y="395" fill="#e8eef7" font-family="system-ui" font-size="16" text-anchor="middle">In the model: w ← w + η · x · y</text>
+  <text x="450" y="410" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">Hebb (1949, p. 63): knobs grow when one cell repeatedly helps fire another. He admitted there was no direct evidence.</text>
+</svg>

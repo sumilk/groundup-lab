@@ -36,7 +36,7 @@ Module handles such as `PT02` refer to this plan; `LA08` and `PS05` refer to the
 | PT11 | Checkpointing and faithful resumption | 26 | PT10, PY12 |
 | PT12 | Profiling and compilation correctness | 28 | PT10, PY05 |
 | PT13 | Gradient accumulation and replica equivalence | 26 | PT11, OPT07 |
-| PT14 | Implementing a model component from a paper | 30 | PT06, PT12, DL07 |
+| PT14 | Implementing a model component from a paper | 30 | PT06, PT12, NN15 |
 | PT15 | Capstone: a reliable research trainer | 44 | PT13, PT14 |
 
 ## 4. Detailed module briefs
@@ -223,7 +223,7 @@ Module handles such as `PT02` refer to this plan; `LA08` and `PS05` refer to the
 
 **Module 14 — Implementing a model component from a paper**
 
-`handle: PT14` · `id: pytorch.model-component-parity` · 30h · prerequisites: PT06, PT12, DL07 · proposed bank: `pt-14-model-component-parity`
+`handle: PT14` · `id: pytorch.model-component-parity` · 30h · prerequisites: PT06, PT12, NN15 · proposed bank: `pt-14-model-component-parity`
 
 **Spine and derivations:** Translate equations, shapes, initialization, masks, and train/eval behavior into code; compare activations and derivatives layer by layer.
 

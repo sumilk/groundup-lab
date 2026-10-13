@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="450" viewBox="0 0 900 450" role="img" aria-labelledby="nn01-tasks-title nn01-tasks-desc">
+  <title id="nn01-tasks-title">Tasks as functions</title>
+  <desc id="nn01-tasks-desc">Three rows. A speech waveform goes into a box labelled f(x) and comes out as a transcription. A small landscape picture goes in and comes out as a caption. A board position goes in and comes out as the next move.</desc>
+  <rect width="900" height="450" rx="24" fill="#08111f"/>
+  <text x="450" y="44" fill="#a8b7ca" font-family="system-ui" font-size="18" text-anchor="middle">Three tasks, one shape: something in, something out</text>
+  <path d="M70 110L70 110L71.5 109.83L73 109.64L74.5 109.43L76 109.24L77.5 109.1L79 109.03L80.5 109.06L82 109.23L83.5 109.53L85 109.97L86.5 110.53L88 111.15L89.5 111.78L91 112.34L92.5 112.74L94 112.9L95.5 112.75L97 112.24L98.5 111.36L100 110.15L101.5 108.68L103 107.08L104.5 105.54L106 104.22L107.5 103.34L109 103.07L110.5 103.53L112 104.79L113.5 106.83L115 109.52L116.5 112.65L118 115.92L119.5 118.97L121 121.44L122.5 122.96L124 123.27L125.5 122.18L127 119.68L128.5 115.89L130 111.11L131.5 105.76L133 100.39L134.5 95.57L136 91.88L137.5 89.81L139 89.68L140.5 91.63L142 95.59L143.5 101.24L145 108.07L146.5 115.41L148 122.49L149.5 128.57L151 132.97L152.5 135.18L154 134.92L155.5 132.16L157 127.16L158.5 120.4L160 112.58L161.5 104.51L163 97.02L164.5 90.87L166 86.68L167.5 84.86L169 85.54L170.5 88.6L172 93.65L173.5 100.12L175 107.3L176.5 114.43L178 120.79L179.5 125.78L181 128.95L182.5 130.09L184 129.22L185.5 126.55L187 122.47L188.5 117.5L190 112.21L191.5 107.15L193 102.82L194.5 99.59L196 97.68L197.5 97.15L199 97.91L200.5 99.76L202 102.39L203.5 105.45L205 108.58L206.5 111.45L208 113.82L209.5 115.5L211 116.42L212.5 116.58L214 116.09L215.5 115.07L217 113.72L218.5 112.21L220 110.73L221.5 109.41L223 108.38L224.5 107.68L226 107.33L227.5 107.3L229 107.55L230.5 107.99L232 108.55L233.5 109.14L235 109.71L236.5 110.19L238 110.55L239.5 110.79L241 110.89L242.5 110.89L244 110.79L245.5 110.64L247 110.45L248.5 110.27L250 110.09" stroke="#50d2c2" stroke-width="2.4" fill="none"/>
+  <rect x="78" y="172" width="160" height="78" rx="6" fill="#08111f" stroke="#a8b7ca" stroke-width="2.2"/>
+  <path d="M84 244L130 196L160 222L186 200L232 244Z" stroke="#8bd17c" stroke-width="2" fill="#8bd17c" fill-opacity="0.35"/>
+  <circle cx="210" cy="190" r="11" fill="#ffb86b" stroke="#ffb86b" stroke-width="2.4"/>
+  <rect x="110" y="272" width="20" height="20" fill="#08111f" stroke="#476073"/>
+  <rect x="110" y="292" width="20" height="20" fill="#476073" stroke="#476073"/>
+  <rect x="110" y="312" width="20" height="20" fill="#08111f" stroke="#476073"/>
+  <rect x="110" y="332" width="20" height="20" fill="#476073" stroke="#476073"/>
+  <rect x="130" y="272" width="20" height="20" fill="#476073" stroke="#476073"/>
+  <rect x="130" y="292" width="20" height="20" fill="#08111f" stroke="#476073"/>
+  <rect x="130" y="312" width="20" height="20" fill="#476073" stroke="#476073"/>
+  <rect x="130" y="332" width="20" height="20" fill="#08111f" stroke="#476073"/>
+  <rect x="150" y="272" width="20" height="20" fill="#08111f" stroke="#476073"/>
+  <rect x="150" y="292" width="20" height="20" fill="#476073" stroke="#476073"/>
+  <rect x="150" y="312" width="20" height="20" fill="#08111f" stroke="#476073"/>
+  <rect x="150" y="332" width="20" height="20" fill="#476073" stroke="#476073"/>
+  <rect x="170" y="272" width="20" height="20" fill="#476073" stroke="#476073"/>
+  <rect x="170" y="292" width="20" height="20" fill="#08111f" stroke="#476073"/>
+  <rect x="170" y="312" width="20" height="20" fill="#476073" stroke="#476073"/>
+  <rect x="170" y="332" width="20" height="20" fill="#08111f" stroke="#476073"/>
+  <circle cx="140" cy="302" r="6" fill="#e8eef7" stroke="#e8eef7" stroke-width="2.4"/>
+  <circle cx="160" cy="322" r="6" fill="#08111f" stroke="#ff7a90" stroke-width="2.4"/>
+  <path d="M268 110L350 110" stroke="#91a4bb" stroke-width="2.2" fill="none"/><path d="M360 110L350 115L350 105Z" fill="#91a4bb"/>
+  <rect x="365" y="80" width="170" height="60" rx="10" fill="#08111f" stroke="#ff7a90" stroke-width="2.2"/>
+  <text x="450" y="116" fill="#e8eef7" font-family="system-ui" font-size="20" text-anchor="middle" font-style="italic">f(x)</text>
+  <path d="M540 110L620 110" stroke="#91a4bb" stroke-width="2.2" fill="none"/><path d="M630 110L620 115L620 105Z" fill="#91a4bb"/>
+  <text x="645" y="112" fill="#e8eef7" font-family="system-ui" font-size="17">"turn the lights on"</text>
+  <text x="645" y="134" fill="#91a4bb" font-family="system-ui" font-size="14">transcription</text>
+  <path d="M268 210L350 210" stroke="#91a4bb" stroke-width="2.2" fill="none"/><path d="M360 210L350 215L350 205Z" fill="#91a4bb"/>
+  <rect x="365" y="180" width="170" height="60" rx="10" fill="#08111f" stroke="#ff7a90" stroke-width="2.2"/>
+  <text x="450" y="216" fill="#e8eef7" font-family="system-ui" font-size="20" text-anchor="middle" font-style="italic">f(x)</text>
+  <path d="M540 210L620 210" stroke="#91a4bb" stroke-width="2.2" fill="none"/><path d="M630 210L620 215L620 205Z" fill="#91a4bb"/>
+  <text x="645" y="212" fill="#e8eef7" font-family="system-ui" font-size="17">"a hill at sunset"</text>
+  <text x="645" y="234" fill="#91a4bb" font-family="system-ui" font-size="14">caption</text>
+  <path d="M268 310L350 310" stroke="#91a4bb" stroke-width="2.2" fill="none"/><path d="M360 310L350 315L350 305Z" fill="#91a4bb"/>
+  <rect x="365" y="280" width="170" height="60" rx="10" fill="#08111f" stroke="#ff7a90" stroke-width="2.2"/>
+  <text x="450" y="316" fill="#e8eef7" font-family="system-ui" font-size="20" text-anchor="middle" font-style="italic">f(x)</text>
+  <path d="M540 310L620 310" stroke="#91a4bb" stroke-width="2.2" fill="none"/><path d="M630 310L620 315L620 305Z" fill="#91a4bb"/>
+  <text x="645" y="312" fill="#e8eef7" font-family="system-ui" font-size="17">move: c3 → d4</text>
+  <text x="645" y="334" fill="#91a4bb" font-family="system-ui" font-size="14">next move</text>
+  <text x="150" y="380" fill="#a8b7ca" font-family="system-ui" font-size="15" text-anchor="middle">input x</text>
+  <text x="450" y="380" fill="#a8b7ca" font-family="system-ui" font-size="15" text-anchor="middle">a network computes f</text>
+  <text x="720" y="380" fill="#a8b7ca" font-family="system-ui" font-size="15" text-anchor="middle">output f(x)</text>
+  <text x="450" y="430" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">Transcription, captioning and game play are all functions: the job is to build a machine that can become any of them.</text>
+</svg>

@@ -24,23 +24,23 @@ Module handles such as `SYS02` refer to this plan; `LA08` and `PS05` refer to th
 
 | Handle | Module | Hours | Prerequisites |
 |---|---|---:|---|
-| SYS02 | Decoder-only language models from primitives | 36 | DL07, NLP07, PT09 |
+| SYS02 | Decoder-only language models from primitives | 36 | NN15, NLP07, PT09 |
 | SYS03 | Packed sequences and pretraining data flow | 28 | SYS02, NLP10, PT08 |
 | SYS04 | Pretraining baselines and training diagnostics | 32 | SYS03, PT11, OPT06 |
 | SYS05 | Scaling laws and compute allocation | 34 | SYS04, PS06, PS08, F06 |
 | SYS06 | GPU architecture, memory hierarchy, and rooflines | 30 | SYS02, PT12 |
 | SYS07 | Kernel primitives, reductions, and fusion | 36 | SYS06, PT06 |
-| SYS08 | Memory-efficient attention and online softmax | 38 | SYS07, DL07 |
+| SYS08 | Memory-efficient attention and online softmax | 38 | SYS07, NN15 |
 | SYS09 | Low precision, quantization, and numerical audits | 34 | SYS07, PT10, LA09 |
 | SYS10 | Collectives and data-parallel training | 34 | SYS04, PT13, SYS06 |
 | SYS11 | Sharding, tensor parallelism, and pipeline parallelism | 38 | SYS10, LA21 |
 | SYS12 | Distributed data, checkpoints, and fault recovery | 34 | SYS11, PT11, PY12 |
-| SYS13 | Expert parallelism and long-context training | 34 | SYS11, DL15, SYS08 |
+| SYS13 | Expert parallelism and long-context training | 34 | SYS11, DLA10, SYS08 |
 | SYS14 | Reliable training and observability | 32 | SYS12, SYS09 |
 | SYS15 | KV caches, decoding, and incremental equivalence | 30 | SYS02, NLP13, PT12 |
 | SYS16 | Continuous batching and serving schedulers | 34 | SYS15, DS05, PY09 |
 | SYS17 | Speculative decoding and compressed inference | 32 | SYS16, SYS09, PS02 |
-| SYS18 | Instruction tuning and parameter-efficient adaptation | 32 | SYS04, DL10, NLP12 |
+| SYS18 | Instruction tuning and parameter-efficient adaptation | 32 | SYS04, DLA08, NLP12 |
 | SYS19 | Post-training rollout and learner systems | 34 | SYS18, RL10, SYS16 |
 | SYS20 | Systems research and performance methodology | 30 | SYS14, SYS17, RP04 |
 | SYS21 | Capstone: a training or serving systems study | 50 | SYS20 |
@@ -53,7 +53,7 @@ Module handles such as `SYS02` refer to this plan; `LA08` and `PS05` refer to th
 
 **Module 02 — Decoder-only language models from primitives**
 
-`handle: SYS02` · `id: llm-systems.decoder-reference` · 36h · prerequisites: DL07, NLP07, PT09 · proposed bank: `sys-02-decoder-reference`
+`handle: SYS02` · `id: llm-systems.decoder-reference` · 36h · prerequisites: NN15, NLP07, PT09 · proposed bank: `sys-02-decoder-reference`
 
 **Spine and derivations:** Tokenizer-to-logit contract, embeddings, causal blocks, position handling, tied heads, initialization, shifted targets, and token-normalized loss.
 
@@ -141,7 +141,7 @@ Module handles such as `SYS02` refer to this plan; `LA08` and `PS05` refer to th
 
 **Module 08 — Memory-efficient attention and online softmax**
 
-`handle: SYS08` · `id: llm-systems.attention-kernels` · 38h · prerequisites: SYS07, DL07 · proposed bank: `sys-08-attention-kernels`
+`handle: SYS08` · `id: llm-systems.attention-kernels` · 38h · prerequisites: SYS07, NN15 · proposed bank: `sys-08-attention-kernels`
 
 **Spine and derivations:** Online softmax recurrence, tiled attention, recomputation, masking, backward accumulation, and IO cost; distinguish exact real-arithmetic equivalence from floating-point parity.
 
@@ -215,7 +215,7 @@ Module handles such as `SYS02` refer to this plan; `LA08` and `PS05` refer to th
 
 **Module 13 — Expert parallelism and long-context training**
 
-`handle: SYS13` · `id: llm-systems.expert-parallel-long-context` · 34h · prerequisites: SYS11, DL15, SYS08 · proposed bank: `sys-13-expert-parallel-long-context`
+`handle: SYS13` · `id: llm-systems.expert-parallel-long-context` · 34h · prerequisites: SYS11, DLA10, SYS08 · proposed bank: `sys-13-expert-parallel-long-context`
 
 **Spine and derivations:** All-to-all routing, load skew, capacity/drop semantics, sequence/context parallelism, activation memory, and positional extension assumptions.
 
@@ -289,7 +289,7 @@ Module handles such as `SYS02` refer to this plan; `LA08` and `PS05` refer to th
 
 **Module 18 — Instruction tuning and parameter-efficient adaptation**
 
-`handle: SYS18` · `id: llm-systems.sft-efficient-finetuning` · 32h · prerequisites: SYS04, DL10, NLP12 · proposed bank: `sys-18-sft-efficient-finetuning`
+`handle: SYS18` · `id: llm-systems.sft-efficient-finetuning` · 32h · prerequisites: SYS04, DLA08, NLP12 · proposed bank: `sys-18-sft-efficient-finetuning`
 
 **Spine and derivations:** Chat serialization, response-only masking, packed supervision, low-rank/quantized adaptation, reference objectives, and base-model regression tests.
 

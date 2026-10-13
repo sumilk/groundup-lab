@@ -28,7 +28,7 @@ Module handles such as `RL03` refer to this plan; `LA08` and `PS05` refer to the
 | RL04 | MDPs, Bellman equations, and planning | 30 | RL03, DS08, LA02 |
 | RL05 | Monte Carlo, TD, SARSA, and Q-learning | 32 | RL04, OPT04 |
 | RL06 | Importance sampling and off-policy evaluation | 30 | RL05, PS09, PS10 |
-| RL07 | Deep value learning and instability | 32 | RL05, PT09, DL05 |
+| RL07 | Deep value learning and instability | 32 | RL05, PT09, NN08 |
 | RL08 | Policy-gradient estimators and baselines | 32 | RL06, PT05, PS14 |
 | RL09 | Actor–critic, advantage estimation, and GAE | 32 | RL08, RL07 |
 | RL10 | Trust regions, PPO, and KL control | 36 | RL09, OPT07 |
@@ -111,7 +111,7 @@ Module handles such as `RL03` refer to this plan; `LA08` and `PS05` refer to the
 
 **Module 07 — Deep value learning and instability**
 
-`handle: RL07` · `id: rl.deep-value-learning` · 32h · prerequisites: RL05, PT09, DL05 · proposed bank: `rl-07-deep-value-learning`
+`handle: RL07` · `id: rl.deep-value-learning` · 32h · prerequisites: RL05, PT09, NN08 · proposed bank: `rl-07-deep-value-learning`
 
 **Spine and derivations:** Function approximation, replay, target networks, DQN/double DQN, maximization bias, and the deadly triad.
 

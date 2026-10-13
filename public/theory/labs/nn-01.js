@@ -908,7 +908,7 @@
             if (F[0] > 0 && args.length !== F[0]) throw err(li, t.v + "() takes " + F[0] + " argument");
             if (!args.length) throw err(li, t.v + "() needs an argument");
             var fn = F[1], d = Math.max.apply(null, args.map(function (a) { return a.d; })) + (F[2] ? 1 : 0); if (F[2]) units++;
-            if (args.length === 1) { var a = args[0]; return { f: function (e) { return fn(a.f(e)); }, d: d }; }
+            if (args.length === 1) { var a = args[0]; return { f: function (e) { return fn(a.f(e)); }, d: d, inner: F[2] ? a.f : null }; }
             return { f: function (e) { return fn.apply(null, args.map(function (x) { return x.f(e); })); }, d: d };
           }
           if (!vars.has(t.v)) throw err(li, '"' + t.v + '" is not defined yet');
@@ -919,7 +919,8 @@
       }
       var node = expr(); if (p < toks.length) throw err(li, 'Unexpected "' + toks[p].v + '"');
       vars.add(name); depth[name] = node.d; prog.push([name, node.f]);
-      graph.push({ name: name, deps: Array.from(used), step: /^step\s*\(/.test(m[2].trim()) && node.d > Math.max.apply(null, Array.from(used).map(function (k) { return depth[k]; }).concat([0])) });
+      // aff: the affine part of the line — the argument of a top-level step(), or the whole line for a plain sum.
+      graph.push({ name: name, deps: Array.from(used), step: !!node.inner, d: node.d, aff: node.inner || node.f });
     });
     if (!vars.has("out")) throw { line: null, msg: "Define the network output:   out = ..." };
     return { run: function (env) { for (var i = 0; i < prog.length; i++) env[prog[i][0]] = prog[i][1](env); return env.out; }, units: units, layers: depth.out, graph: graph, inputs: inputs };
@@ -967,8 +968,8 @@
       '<div><div class="plot"><canvas data-canvas></canvas></div>' +
       '<div class="row" style="font-size:12px;color:var(--n-muted);gap:14px"><span><i class="sw" style="background:var(--n-fire)"></i>both</span><span><i class="sw" style="background:var(--n-calm-soft);border:1px solid var(--n-calm)"></i>missed target</span><span><i class="sw" style="background:var(--n-warn)"></i>extra</span></div>' +
       '<div class="readout" data-read></div><p class="status" data-status></p></div></div>' +
-      '<h3>Your network, drawn</h3><p class="cap">Columns are layers. Solid circles are threshold units, dashed ones are plain sums that only feed the next unit\'s weights, and the output is outlined in magenta. The diagram follows your code as you type.</p>' +
-      '<svg class="netsvg" data-net role="img" aria-label="Diagram of the network you wrote"></svg><div class="quiz" data-quiz></div>');
+      '<h3>Your network, drawn</h3><p class="cap">Read from your code as you type. Numbers on edges are weights (teal when negative), numbers in nodes are biases, and plain sums such as <code>D = d1 + d2</code> are folded into the weights of the unit that reads them. Click anywhere on the plot to probe that point: inputs show their values and the units that fire turn magenta.</p>' +
+      '<svg class="netsvg" data-net role="img" aria-label="Diagram of the network you wrote, with weights and biases"></svg><p class="cap" data-netinfo></p><div class="quiz" data-quiz></div>');
     var regCh = REG[0], regSolved = store.get("reg-solved", {}), regCode = store.get("reg-code", {});
     var G = 150, LO = -3, HI = 3;
     function renderChips() {
@@ -1004,6 +1005,7 @@
         return n && t ? cF : n ? cW : t ? cC : cB;
       });
       var F = frame(w, h, LO, HI, LO, HI, 0); axes(ctx, F, w, h, T, LO, HI, LO, HI);
+      if (probe) { ctx.strokeStyle = T.ink; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(F.X(probe[0]), F.Y(probe[1]), 7, 0, 7); ctx.moveTo(F.X(probe[0]) - 11, F.Y(probe[1])); ctx.lineTo(F.X(probe[0]) + 11, F.Y(probe[1])); ctx.moveTo(F.X(probe[0]), F.Y(probe[1]) - 11); ctx.lineTo(F.X(probe[0]), F.Y(probe[1]) + 11); ctx.stroke(); }
       ctx.fillStyle = T.muted; ctx.font = "11px " + getComputedStyle(document.documentElement).getPropertyValue("--mono");
       ctx.fillText("x₁", w - 18, F.Y(0) - 6); ctx.fillText("x₂", F.X(0) + 6, 12);
       [-2, -1, 1, 2].forEach(function (v) { ctx.fillText(v, F.X(v) - 4, F.Y(0) + 14); ctx.fillText(v, F.X(0) + 4, F.Y(v) + 4); });
@@ -1020,23 +1022,81 @@
       } else { st.textContent = "Not yet: " + problems.join("; ") + "."; st.className = "status meh"; }
       if (Object.keys(regSolved).length >= 4) markDone("regions");
     }
-    function drawNet(net) {
-      var col = {}, cols = [];
-      net.inputs.forEach(function (k) { col[k] = 0; });
-      net.graph.forEach(function (g) { col[g.name] = 1 + Math.max.apply(null, g.deps.map(function (k) { return col[k]; }).concat([0])); });
-      Object.keys(col).forEach(function (k) { (cols[col[k]] = cols[col[k]] || []).push(k); });
-      var W = 640, rows = Math.max.apply(null, cols.map(function (c) { return c.length; })), Hh = Math.max(160, 44 * rows + 20), pos = {};
-      cols.forEach(function (c, ci) { c.forEach(function (k, ri) { pos[k] = [40 + ci * (W - 90) / Math.max(1, cols.length - 1), 10 + (ri + .5) * (Hh - 20) / c.length]; }); });
-      var info = {}; net.graph.forEach(function (g) { info[g.name] = g; });
-      var svg = "";
-      net.graph.forEach(function (g) { g.deps.forEach(function (k) { svg += '<line class="edge on" x1="' + pos[k][0] + '" y1="' + pos[k][1] + '" x2="' + pos[g.name][0] + '" y2="' + pos[g.name][1] + '"/>'; }); });
-      Object.keys(pos).forEach(function (k) {
-        var p = pos[k], g = info[k], isOut = k === "out";
-        svg += '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="15" fill="var(--n-surface2)" stroke="' + (isOut ? "var(--n-fire)" : g && g.step ? "var(--n-calm)" : "var(--n-muted)") + '" stroke-width="2"' + (g && !g.step ? ' stroke-dasharray="4 3"' : "") + "/>" +
-          '<text x="' + p[0] + '" y="' + (p[1] + 4) + '" text-anchor="middle" style="font-size:10.5px">' + esc(k.length > 4 ? k.slice(0, 4) : k) + "</text>";
+    var probe = null, lastNet = null;
+    var fw = function (v) { var r = Math.round(v * 1000) / 1000; return (r < 0 ? "−" : "") + String(Math.abs(r)); };
+    /* Measure each line's weights by evaluating its affine part on unit inputs, then fold plain
+       sums into the units that read them, so the drawing shows only real threshold units. */
+    function structure(net) {
+      var lin = {}, units = net.inputs.slice(), nonlinear = [];
+      net.inputs.forEach(function (k) { var c = {}; c[k] = 1; lin[k] = { c: c, b: 0 }; });
+      net.graph.forEach(function (g) {
+        // Constants (lines with no inputs, such as c = 0.70711) are held at their value; only the other dependencies vary.
+        var isConst = function (k) { return lin[k] && !Object.keys(lin[k].c).length; };
+        var vary = g.deps.filter(function (k) { return !isConst(k); });
+        var at = function (vals) { var env = {}; g.deps.forEach(function (k) { if (isConst(k)) env[k] = lin[k].b; }); vary.forEach(function (k, i) { env[k] = vals[i]; }); return g.aff(env); };
+        var zero = vary.map(function () { return 0; }), b0 = at(zero), w = vary.map(function (_, i) { var v = zero.slice(); v[i] = 1; return at(v) - b0; });
+        var affine = isFinite(b0) && w.every(isFinite) && Math.abs(at(vary.map(function () { return 1; })) - b0 - w.reduce(function (s, x) { return s + x; }, 0)) < 1e-9 &&
+          vary.every(function (_, i) { var v = zero.slice(); v[i] = 2; return Math.abs(at(v) - b0 - 2 * w[i]) < 1e-9; });
+        var c = {}, b = b0;
+        if (affine) vary.forEach(function (k, i) { var src = lin[k]; b += w[i] * src.b; Object.keys(src.c).forEach(function (u) { c[u] = (c[u] || 0) + w[i] * src.c[u]; }); });
+        else { nonlinear.push(g.name); vary.forEach(function (k) { c[k] = NaN; }); }
+        Object.keys(c).forEach(function (u) { if (Math.abs(c[u]) < 1e-12) delete c[u]; });
+        g.eff = { c: c, b: b, affine: affine };
+        if (g.step || !affine || g.name === "out") { units.push(g.name); var self = {}; self[g.name] = 1; lin[g.name] = { c: self, b: 0 }; }
+        else lin[g.name] = { c: c, b: b };
       });
-      var el2 = S.$("[data-net]"); el2.setAttribute("viewBox", "0 0 " + W + " " + Hh); el2.innerHTML = svg;
+      return { units: units, nonlinear: nonlinear };
     }
+    function drawNet(net) {
+      lastNet = net;
+      var st = structure(net), info = {}, col = {}, cols = [];
+      net.graph.forEach(function (g) { info[g.name] = g; });
+      st.units.forEach(function (k) {
+        var g = info[k];
+        col[k] = !g ? 0 : 1 + Math.max.apply(null, Object.keys(g.eff.c).map(function (u) { return col[u] != null ? col[u] : 0; }).concat([0]));
+      });
+      st.units.forEach(function (k) { (cols[col[k]] = cols[col[k]] || []).push(k); });
+      cols = cols.filter(Boolean);
+      var W = 680, rows = Math.max.apply(null, cols.map(function (c) { return c.length; })), Hh = Math.max(170, 54 * rows + 20), pos = {};
+      cols.forEach(function (c, ci) { c.forEach(function (k, ri) { pos[k] = [66 + ci * (W - 140) / Math.max(1, cols.length - 1), 12 + (ri + .5) * (Hh - 24) / c.length]; }); });
+      var env = null;
+      if (probe) { env = { x1: probe[0], x2: probe[1] }; try { net.run(env); } catch (e) { env = null; } }
+      var fires = function (k) { return env && (net.inputs.indexOf(k) >= 0 ? null : env[k] >= .5); };
+      var svg = "", labels = "", fanIn = {}, fanOut = {};
+      st.units.forEach(function (k) { var g = info[k]; if (g) Object.keys(g.eff.c).forEach(function (u) { fanIn[k] = (fanIn[k] || 0) + 1; fanOut[u] = (fanOut[u] || 0) + 1; }); });
+      var halo = "paint-order:stroke;stroke:var(--n-surface);stroke-width:3px;";
+      st.units.forEach(function (k) {
+        var g = info[k]; if (!g) return;
+        Object.keys(g.eff.c).forEach(function (u) {
+          if (!pos[u]) return;
+          var a = pos[u], b = pos[k], wv = g.eff.c[u], on = env && (net.inputs.indexOf(u) >= 0 || env[u] >= .5);
+          svg += '<line class="edge' + (on ? " on" : "") + '" x1="' + a[0] + '" y1="' + a[1] + '" x2="' + b[0] + '" y2="' + b[1] + '"' + (wv < 0 ? ' style="stroke:var(--n-calm)"' : "") + "/>";
+          // put the label where the edges fan apart: near the target when the source feeds many units, else near the source
+          var t = (fanOut[u] || 1) >= (fanIn[k] || 1) ? 0.74 : 0.26, lx = a[0] + (b[0] - a[0]) * t, ly = a[1] + (b[1] - a[1]) * t;
+          labels += '<text class="w" x="' + lx + '" y="' + (ly - 3) + '" text-anchor="middle" style="' + halo + (wv < 0 ? "fill:var(--n-calm)" : "") + '">' + (isNaN(wv) ? "?" : fw(wv)) + "</text>";
+        });
+      });
+      st.units.forEach(function (k) {
+        var p = pos[k], g = info[k], isIn = !g, on = fires(k), isOut = k === "out";
+        var stroke = isOut ? "var(--n-fire)" : isIn ? "var(--n-muted)" : g.step ? "var(--n-calm)" : "var(--n-warn)";
+        svg += '<circle class="node' + (on ? " on" : "") + '" cx="' + p[0] + '" cy="' + p[1] + '" r="17" style="stroke:' + stroke + '"' + (g && !g.step ? ' stroke-dasharray="4 3"' : "") + "/>";
+        var inside = isIn ? (env ? fw(isIn ? env[k] : 0) : k) : (g.eff.affine ? fw(g.eff.b) : "f");
+        labels += '<text x="' + p[0] + '" y="' + (p[1] + 4) + '" text-anchor="middle" style="font-size:11px' + (on ? ";fill:#fff" : "") + '">' + esc(String(inside)) + "</text>";
+        labels += isIn ? '<text class="w" x="' + (p[0] - 22) + '" y="' + (p[1] + 4) + '" text-anchor="end" style="' + halo + '">' + esc(k) + "</text>"
+          : '<text class="w" x="' + (p[0] + 21) + '" y="' + (p[1] - 13) + '" style="' + halo + '">' + esc(k) + "</text>";
+      });
+      var el2 = S.$("[data-net]"); el2.setAttribute("viewBox", "0 0 " + W + " " + Hh); el2.innerHTML = svg + labels;
+      var stepUnits = st.units.filter(function (k) { return info[k] && info[k].step; }).length;
+      S.$("[data-netinfo]").textContent = (cols.length - 1) + " layer" + (cols.length === 2 ? "" : "s") + " of units · " + stepUnits + " threshold unit" + (stepUnits === 1 ? "" : "s") +
+        (st.nonlinear.length ? " · not affine, drawn with ?: " + st.nonlinear.join(", ") : "") +
+        (probe ? " · probe (" + fw(probe[0]) + ", " + fw(probe[1]) + "): output " + (env && env.out >= .5 ? "fires" : "silent") : " · click the plot to probe a point");
+    }
+    S.$("[data-canvas]").style.cursor = "crosshair";
+    S.$("[data-canvas]").addEventListener("click", function (ev) {
+      var rect = ev.currentTarget.getBoundingClientRect(), F = frame(rect.width, rect.height, LO, HI, LO, HI, 0);
+      probe = [Math.round(F.ix(ev.clientX - rect.left) * 100) / 100, Math.round(F.iy(ev.clientY - rect.top) * 100) / 100];
+      run();
+    });
     var code = S.$("[data-code]");
     code.addEventListener("input", debounce(run, 350));
     code.addEventListener("keydown", function (e) { if (e.key === "Tab" && !e.shiftKey && !e.altKey) { e.preventDefault(); var s = code.selectionStart; code.setRangeText("  ", s, code.selectionEnd, "end"); } });

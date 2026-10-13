@@ -30,8 +30,8 @@ Module handles such as `NLP02` refer to this plan; `LA08` and `PS05` refer to th
 | NLP05 | HMMs, CRFs, and structured decoding | 30 | NLP04, DS08, PS17 |
 | NLP06 | Distributional semantics and embeddings | 28 | NLP03, LA08, IL04 |
 | NLP07 | Byte-level BPE and tokenizer design | 32 | NLP02, DS09 |
-| NLP08 | Neural sequence tasks and structured outputs | 28 | NLP05, DL07, PT09 |
-| NLP09 | Lexical retrieval, dense retrieval, and reranking | 30 | NLP06, DS13, DL09 |
+| NLP08 | Neural sequence tasks and structured outputs | 28 | NLP05, NN15, PT09 |
+| NLP09 | Lexical retrieval, dense retrieval, and reranking | 30 | NLP06, DS13, DLA07 |
 | NLP10 | Corpus curation, deduplication, and provenance | 32 | NLP07, PY12, PS10 |
 | NLP11 | Multilingual and domain transfer | 28 | NLP08, NLP10, ML13 |
 | NLP12 | Generation metrics and human/model judgments | 30 | NLP08, PS10, PS13 |
@@ -135,7 +135,7 @@ Module handles such as `NLP02` refer to this plan; `LA08` and `PS05` refer to th
 
 **Module 08 — Neural sequence tasks and structured outputs**
 
-`handle: NLP08` · `id: nlp.neural-sequence-tasks` · 28h · prerequisites: NLP05, DL07, PT09 · proposed bank: `nlp-08-neural-sequence-tasks`
+`handle: NLP08` · `id: nlp.neural-sequence-tasks` · 28h · prerequisites: NLP05, NN15, PT09 · proposed bank: `nlp-08-neural-sequence-tasks`
 
 **Spine and derivations:** Sequence labeling, encoder/decoder conditioning, teacher forcing, padding, alignment, constrained outputs, and exposure mismatch.
 
@@ -149,7 +149,7 @@ Module handles such as `NLP02` refer to this plan; `LA08` and `PS05` refer to th
 
 **Module 09 — Lexical retrieval, dense retrieval, and reranking**
 
-`handle: NLP09` · `id: nlp.retrieval-reranking` · 30h · prerequisites: NLP06, DS13, DL09 · proposed bank: `nlp-09-retrieval-reranking`
+`handle: NLP09` · `id: nlp.retrieval-reranking` · 30h · prerequisites: NLP06, DS13, DLA07 · proposed bank: `nlp-09-retrieval-reranking`
 
 **Spine and derivations:** BM25 components, dual encoders, hard negatives, cross-encoders, retrieval loss, relevance judgments, and recall/ranking tradeoffs.
 

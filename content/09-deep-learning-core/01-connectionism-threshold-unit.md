@@ -11,6 +11,8 @@ lab: nn-mp
 
 A speech recogniser turns a waveform into words. A captioner turns pixels into a sentence. A game engine turns a board position into a move. Each of these is a box with something going in and something coming out, so each is a **function**. The question this track answers is how to build a machine that can become almost any such function by learning from examples.
 
+![Three tasks drawn as boxes: a speech waveform becomes a transcription, a picture becomes a caption, and a board position becomes the next move](../assets/nn01-tasks-are-functions.svg)
+
 The answer started as a theory of the brain. Over two thousand years, people argued about where thoughts are linked, then decided the links live in the connections between neurons, then wrote those neurons down as equations simple enough to compute with. This chapter follows that path from the first idea to the first machine that could learn. It ends with networks that can draw any decision boundary and fit any curve. Every model you meet here still sits inside a modern network: the unit that weighs evidence and fires above a threshold is the ancestor of every neuron in a transformer.
 
 Ten hands-on labs run alongside the text, in the same order. The panel below tracks which ones you have finished.
@@ -48,6 +50,8 @@ Check these before starting. Each comes with a short repair.
 - **Similarity:** thinking of one thing recalls things like it.
 - **Contrast:** thinking of one thing can recall its opposite.
 
+![Aristotle's four laws drawn as pictures: two events close in time, a link that thickens with repetition, two similar shapes, and a black and a white disc](../assets/nn01-four-laws.svg)
+
 Later associationists (Locke, Hume, Hartley, the Mills, Bain, Pavlov) pushed this to its limit. They claimed there is only *one* mental process, the forming of associations. In the early twentieth century, behaviourism made the same claim about actions: behaviour is learned by repeatedly pairing actions with feedback.
 
 None of this said where the links are stored. In 1749 David Hartley guessed that sensations are vibrations in the nerves, and memories are fainter vibrations he called *vibratiuncles*, in the same places. That was a physical theory without the physical parts. Nobody yet knew about neurons.
@@ -60,6 +64,8 @@ Bain proposed two mechanisms that sound modern:
 - **Groupings.** One input fibre can produce different outputs depending on which other fibres are active with it and how strongly it is stimulated (pp. 110–115). A weak current reaches one set of cells and a strong one spreads further: "What begins as mere difference of intensity in one track ends in difference of grouping."
 - **Making memories.** When two impressions occur together, "the nerve-currents find some bridge or place of continuity" (p. 117), leaving "a strengthened connexion or diminished obstruction—a preference track for that line." That is Hebbian learning, three quarters of a century before Hebb.
 
+![Bain's groupings: three input fibres a, b and c, each pair meeting in its own cell X, Y or Z, which produces a different output](../assets/nn01-bain-groupings.svg)
+
 **A worked example: Bain's capacity check.** Bain worried whether a brain was big enough to hold a lifetime of associations, so he estimated both sides (pp. 101–108).
 1. **Demand.** The multiplication table is 144 facts. Bain guessed it is about one fiftieth of what an arithmetician knows, so arithmetic alone needs more than 7,000 links. Adding music, languages and faces, he estimated a lifetime of learning in the "thousands, and even tens of thousands" of acquisitions.
 2. **Supply.** The cortex covers over 300 square inches and is about a tenth of an inch thick. With 500 cells per linear inch and 16 layers of cells, that is about 1,200 million cells. With four fibres per cell, it is about 4,800 million fibres. He rounded these to 1,000 million cells and 5,000 million fibres.
@@ -70,6 +76,8 @@ Bain's figures were far too small: the cortex has about 16 billion neurons and t
 **Connectionist machines.** A **connectionist machine** is a network of simple processing units in which everything the machine knows is stored in the connections between units. Neural networks are connectionist machines.
 
 The contrast with an ordinary computer is sharp. A **von Neumann machine** has a processor, a separate memory holding the program and the data, and a loop that fetches one instruction after another. Think of a chef who reads a recipe card one step at a time. A connectionist machine is more like a jazz band with no sheet music. The "program" is how the players listen to each other, and changing what the band plays means changing those habits, not editing a card.
+
+![A von Neumann machine with a processor and a memory holding program and data, beside a network of units joined by connections of different strengths](../assets/nn01-von-neumann-vs-network.svg)
 
 Several groups wrote down what a connectionist system needs. Rumelhart, Hinton and McClelland's *Parallel Distributed Processing* (1986) listed eight requirements:
 1. a set of processing units;
@@ -105,6 +113,8 @@ nn-history
 
 **The picture.** A real neuron gathers signals through its **dendrites** into the cell body, the **soma**, and sends one output down its single **axon** to other neurons. It fires in an all-or-nothing way: a pulse either goes or it doesn't. In 1943 the neurophysiologist Warren McCulloch and the self-taught logician Walter Pitts turned this into mathematics. Their paper, "A logical calculus of the ideas immanent in nervous activity," treats each neuron as a device that decides whether a logical proposition about its inputs is true.
 
+![A schematic neuron with dendrites, soma, axon and synapses, beside the threshold unit that abstracts it, with weighted inputs and a threshold](../assets/nn01-neuron-anatomy.svg)
+
 Picture a committee that votes on a motion. Each ordinary member (an **excitatory** synapse) votes yes or abstains. The motion passes if enough members vote yes. Some members hold a **veto** (an **inhibitory** synapse): if any of them objects, the motion fails no matter how many voted yes.
 
 McCulloch and Pitts stated five assumptions (p. 101 of the 1990 reprint):
@@ -124,6 +134,8 @@ There is a subtlety in "reached". The 1943 paper says the count must *exceed* θ
 
 **What it can compute.** With threshold 2 and two excitatory inputs, the unit is AND. With threshold 1 it is OR. With A excitatory, B inhibitory and threshold 1 it is "A and not B". Feed outputs of such units into other units and you can build any formula of propositional logic.
 
+![The four McCulloch–Pitts building blocks: delay, OR with threshold 1, AND with threshold 2, and AND-NOT with an inhibitory veto](../assets/nn01-mp-gates.svg)
+
 One case is impossible, and McCulloch and Pitts proved it (their Theorem 3). With a strict threshold, a net whose inputs are all silent can never fire, because no unit gets any excitation. So **a McCulloch–Pitts net cannot compute a function that is true when every input is off**, such as NOT A or NOR. The usual fix is a unit that is always on and feeds the net a constant 1. A bias does the same job in modern networks. The lab's NOR challenge uses the "at least" convention with θ=0 to do this, which is exactly the loophole.
 
 ```lab
@@ -137,6 +149,8 @@ McCulloch and Pitts used their units to explain a strange fact about the skin. I
 - unit b fires when a fired but the cold receptor has just gone quiet (a excites b, the cold receptor inhibits it);
 - heat is felt one step after h *or* b fires;
 - cold is felt one step after both a and the cold receptor fire.
+
+![The heat/cold net: heat and cold receptors, a relay unit a, a unit b that fires when cold has just stopped, and the HOT and COLD sensation units](../assets/nn01-heatcold-wiring.svg)
 
 Unrolled, the sensations are
 
@@ -179,6 +193,8 @@ Think of an old telephone exchange where every cable has a little switch on it. 
 - A **B-type machine** is an A-type in which every connection passes through a small device with a **modifier**. In Turing's definition the device has two modes. In one, its output is the *negation* of its input. In the other, its output is stuck at 1, which cuts the connection, since a NAND unit ignores an input that is always 1. Training means setting each modifier to one of the two modes.
 - A **P-type machine** is not a network. It is a table-driven machine trained with "pleasure" and "pain" signals that keep or cancel random tentative choices.
 
+![Turing's A-type NAND unit, a B-type link with a modifier, and its two modes: on passes the negated signal, off fixes the output at 1](../assets/nn01-turing-btype.svg)
+
 Many retellings describe the "on" mode as letting the signal "sail through". In Turing's report it inverts the signal. Copeland and Proudfoot (1996) point out that with the definition as written, some functions are out of reach for a given B-type. Their fix is two modifiers in series on each connection, since inverting twice passes the signal unchanged. The figure below uses Turing's definition, so you can find a function the little machine cannot learn.
 
 ```lab
@@ -209,6 +225,8 @@ nn-btype
 
 Two details matter. First, A must *take part in firing* B, which is about cause and timing, not mere coincidence. Second, Hebb named no mechanism; the cellular story of long-term potentiation came decades later. The slogan "neurons that fire together wire together" is a later summary and does not appear in Hebb's book.
 
+![Before and after: axon branches of cell A end in small knobs on cell B, and after A repeatedly helps fire B the active knob has grown larger](../assets/nn01-hebb-knobs.svg)
+
 **A worked example.** The simplest mathematical version updates the weight w from input x to output y by
 
 $$w \leftarrow w + \eta\,x\,y,$$
@@ -224,6 +242,8 @@ For small η, w follows the differential equation dw/dt=Cw. Write w in the eigen
 $$w(t)=\sum_i e^{\lambda_i t}\,(u_i^\top w_0)\,u_i .$$
 
 The term with the largest eigenvalue wins, so w turns towards u₁, the direction of greatest variance in the data. But its length grows like e^{λ₁t}. Indeed d‖w‖²/dt=2wᵀCw≥0, so the length can never decrease.
+
+![Weight length against update step on a log axis: the Hebb curve rises in a straight line, the Oja curve levels off at length 1](../assets/nn01-hebb-vs-oja.svg)
 
 This is what "fundamentally unstable" means here. Strong connections strengthen themselves, nothing weakens them, and connections do not compete. The instability belongs to the formula Δw=ηxy, not to Hebb's theory. Hebb himself was willing to assume "that an unused connection decays" (p. 231).
 
@@ -261,6 +281,8 @@ His original **photoperceptron** had several stages:
 - an **association area A_II**, randomly connected to A_I;
 - **response units (R)**, each receiving from its own source set in A_II.
 
+![Rosenblatt's photoperceptron: a retina of sensory points feeding projection units, association units and two mutually inhibiting response units](../assets/nn01-photoperceptron.svg)
+
 Connections could be excitatory or inhibitory. Feedback from each response unit inhibited the source sets of the others, which made the responses mutually exclusive. The **simplified perceptron** kept only fixed association units and learnable weights into the response units.
 
 Learning in the 1958 paper is not the rule you will see below. It used "value" reinforcement schemes, in which active association units gained or lost value. The **error-correction rule** and its convergence proofs were developed over the next few years, by Rosenblatt (*Principles of Neurodynamics*, 1962) and by Block, Novikoff and Papert. Minsky and Papert note that Agmon's 1954 method for solving linear inequalities already contained the key argument.
@@ -297,6 +319,8 @@ If the answer was right, d−y=0 and nothing changes. If the unit fired when it 
 - The inputs (1,0) and (0,1) must fire, so w₁≥T and w₂≥T. Adding these gives w₁+w₂≥2T.
 - Since T>0, 2T>T, so w₁+w₂>T. But then the input (1,1) fires, and it must not.
 
+![Three panels of the four corners of the unit square: one line separates AND and OR, but XOR's firing corners lie on a diagonal and need two lines](../assets/nn01-xor-corners.svg)
+
 No single perceptron computes XOR. In *Perceptrons* (1969), Marvin Minsky and Seymour Papert proved much stronger results: some properties of images, such as parity and connectedness, need perceptrons whose units each look at more and more of the image as it grows. In the 1988 epilogue they insisted they had never claimed networks were useless: "for any particular size of retina we can make a perceptron that will recognize any predicate," but the general predicate "requires perceptrons of unbounded order." The lesson the field took was simpler: **individual units are weak, so networks of units are required.**
 
 ```lab
@@ -316,6 +340,10 @@ nn-perceptron
 > **Hint:** Write the four inequalities for XNOR with threshold T, and combine the two rows that must fire against the two that must not.
 
 ## 6. Networks of perceptrons compute any Boolean function
+
+Before building networks, here is where the story stands: two thousand years of ideas about association, then four decades in which the neuron became a computing element.
+
+![A timeline from Aristotle's laws of association through Hartley, Bain, Kubie, McCulloch and Pitts, Turing, Hebb, Rosenblatt, Minsky and Papert, to the PDP group in 1986](../assets/nn01-timeline.svg)
 
 **The question.** One unit cannot compute XOR. How many units, arranged how, can compute anything?
 
@@ -356,6 +384,8 @@ nn-boolean-mlp
 
 **The picture.** With real inputs, a perceptron fires on one side of a line. Think of each unit as a **fence** across a field: it reports which side of the fence you are standing on. To mark out a pen, put up several fences and ask whether you are on the inside of *all* of them, which is an AND. To mark out two separate pens, ask whether you are inside one pen *or* the other, which is an OR of two ANDs.
 
+![Three panels: first-layer units draw lines, second-layer AND units turn groups of lines into a triangle and a square, and a third-layer OR unit takes their union](../assets/nn01-layers-compute.svg)
+
 **A worked example: a pentagon.** Take a regular pentagon and give each of its five edges a unit that fires on the inside of that edge. A point inside the pentagon fires all five units. A point outside fires at most four, because it is outside at least one edge. So an output unit that fires when the sum of the five hidden outputs is at least 5 detects the pentagon. In general, a convex polygon with K edges needs K edge units plus one output: K+1 threshold units in two layers.
 
 **A worked progression: a square, its outside, and two squares.** Read each figure from left to right: the fences on the left are the hidden units on the right.
@@ -373,6 +403,8 @@ nn-boolean-mlp
 ![Left: two shaded squares at the same height, with their shared top and bottom edges labelled t and u. Right: a 2–6–2–1 network in which t and u feed both AND units](../assets/nn01-two-squares-shared.svg)
 
 A region that is not convex, or that falls into separate pieces, needs more. Build each convex piece with its own AND unit, then OR the pieces together. That adds a third layer of threshold units.
+
+![Regular polygons with 3, 6, 12 and 48 sides around the unit circle, with their unit counts and how much too large their areas are](../assets/nn01-polygons-to-circle.svg)
 
 **The result.** Any region of the plane can be approximated as closely as you like by a union of small polygons. So with enough units, **an MLP can represent any decision region to arbitrary precision**. MLPs are **universal classifiers**. The same construction works in any dimension, with hyperplanes instead of lines. A handwritten digit stored as a 28×28 image is a point in 784-dimensional space, and recognising the digit "2" means drawing a boundary around the region of that space where twos live.
 
@@ -429,6 +461,8 @@ nn-cylinder
 **The picture.** Draw a city skyline. Each building is a flat-topped block, and the skyline is the sum of blocks of different heights. A smooth curve can be approximated by a skyline of thin enough buildings. Three units build one building: one unit switches on at the left edge T₁, a second switches on at the right edge T₂, and a summing output computes step(x−T₁)−step(x−T₂), which is 1 between the edges and 0 outside. Scale each block by the height of the function there and add them up.
 
 **A worked example.** Approximate f(x)=sin x on [0, 2π] with K blocks of equal width Δ=2π/K, each at the height of f at its midpoint. Inside a block, |x−c|≤Δ/2, and sin has slope at most 1, so the error is at most Δ/2=π/K. To guarantee an error below 0.05 you need π/K<0.05, so K≥63. The lab lets you check whether fewer blocks happen to suffice.
+
+![Approximations of sin x by 4, 12 and 48 flat-topped pulses, with the threshold-unit count and maximum error under each](../assets/nn01-skylines.svg)
 
 **Counting units.** Each block needs two threshold units, so K blocks need 2K units and a summing output. Neighbouring blocks share an edge, and that saves units. Write the skyline as a sum over edges:
 

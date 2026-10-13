@@ -1,6 +1,6 @@
-# Neural networks — lecture-series build plan
+# Deep learning core — lecture-series build plan
 
-*An authoring brief in the [shared curriculum format](../_plans.md), built from a university lecture series on neural networks. It is a separate pipeline from the [deep learning track](../09-deep-learning/_plan.md) and changes nothing there. This file is excluded from the lesson reader.*
+*An authoring brief in the [shared curriculum format](../_plans.md), built from a university lecture series on neural networks. It is a separate pipeline from the [Deep Learning Advanced track](../10-deep-learning-advanced/_plan.md) and changes nothing there. This file is excluded from the lesson reader.*
 
 ## 1. Target and current state
 
@@ -10,7 +10,7 @@ Follow one coherent lecture sequence from the threshold unit to Boltzmann machin
 
 **Status vocabulary.** NN01 is *authored*; every other module below is *planned*. A proposed lesson ID, answer bank, lab ID or function name is a reservation, not a registered implementation. Do not advance reader or curriculum completion state until the lesson and its checks exist.
 
-**Relationship to the deep learning track.** This track is independent. It does not edit, renumber or satisfy the gates of `09-deep-learning`, and that track's counts and handles are unchanged. Where both cover a topic (§7), the two treatments stay separate. A learner may use either one, but passing one module's gate does not automatically pass the other's. This track also teaches material the DL plan does not: Boolean and threshold-circuit expressivity, perceptron/ADALINE/MADALINE history, Viterbi/CTC alignment, Hopfield networks, and Boltzmann machines.
+**Relationship to the Deep Learning Advanced track.** This track is independent. It does not edit, renumber or satisfy the gates of `10-deep-learning-advanced`, and that track's counts and handles are unchanged. Where both cover a topic (§7), the two treatments stay separate. A learner may use either one, but passing one module's gate does not automatically pass the other's. This track also teaches material the DL plan does not: Boolean and threshold-circuit expressivity, perceptron/ADALINE/MADALINE history, Viterbi/CTC alignment, Hopfield networks, and Boltzmann machines.
 
 ## 2. Source pipeline
 
@@ -20,7 +20,7 @@ The lecture series is the primary source. It is ingested by a script, never copi
 2. **Cache.** Slides, readings, and extracted text land in `work/neural-networks/<offering>/{slides,readings,text}`. `work/` is gitignored, so these stay local authoring references and are never published. Text extraction uses `pdftotext` (`brew install poppler`) or a Python with `pypdf` (`NN_PYTHON=/path/to/python`).
 3. **Map.** Every lecture in every synced offering appears in exactly one module's *Lectures* cell (§3) or in the excluded list. When a new offering is synced, extend the map before authoring.
 4. **Author.** Write the lesson from the brief, the cached slide text, and the lecture video. Then cross-check against the readings listed in the brief. Lessons are original teaching text in this curriculum's voice and format; slides are a reference, not a template, and no slide text or figure is copied.
-5. **Figures and labs.** Generated figures go in `scripts/figures/nnNN.mjs` with names prefixed `nnNN-`. Browser tasks register in `labs/browser_labs.json` with the lesson path `15-neural-networks/NN-<slug>.md`. Answer banks are `public/theory/answers/nn-NN-<slug>.js`.
+5. **Figures and labs.** Generated figures go in `scripts/figures/nnNN.mjs` with names prefixed `nnNN-`. Browser tasks register in `labs/browser_labs.json` with the lesson path `09-deep-learning-core/NN-<slug>.md`. Answer banks are `public/theory/answers/nn-NN-<slug>.js`.
 6. **Check.** `pnpm nn:check` validates the manifest, the lecture map, every brief, and every authored lesson (front matter, prerequisite resolution, answer-bank structure, and the textbook-standard checks). Then run `pnpm theory:build` and `pnpm theory:check` as for any track.
 
 **Lectures excluded from the map:** F26 0; S26 0. These are course-logistics lectures with no teachable content.
@@ -502,15 +502,15 @@ The table lists shared topics so that a learner does not study the same idea twi
 
 | This track | Related elsewhere |
 |---|---|
-| NN05 | DL02, LA17, PT05 |
+| NN05 | LA17, PT05 |
 | NN06–NN07 | OPT04–OPT06 |
-| NN08 | DL04, DL05 |
-| NN09–NN10 | DL06 |
-| NN11–NN12 | DL08 |
-| NN15 | DL07, LA22 |
+| NN08 | DLA02, DLA03 |
+| NN09–NN10 | DLA05 |
+| NN11–NN12 | DLA06 |
+| NN15 | LA22 |
 | NN16 | SYS02–SYS21, RL13–RL15 |
-| NN17–NN18 | DL11, PS14 |
-| NN19 | DL12, DL13, PS15 |
+| NN17–NN18 | PS14 |
+| NN19 | DLA11, DLA12, PS15 |
 | NN22 | RL04–RL07 |
 
 ## 8. Write order and validation

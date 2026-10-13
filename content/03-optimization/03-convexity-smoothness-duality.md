@@ -198,7 +198,7 @@ $$
 \pi^\star(x)\propto\pi_{\mathrm{ref}}(x)\exp\bigl(A(x)/\beta\bigr),
 $$
 
-with \(\beta\) the multiplier on the KL constraint. This one expression is the backbone of PPO's KL penalty, of best-of-\(n\) reweighting, and of the DPO reparameterization — see [policy gradients and actor-critic](../12-reinforcement-learning/02-policy-gradients-actor-critic.md). Derive it once and you never memorize any of the three.
+with \(\beta\) the multiplier on the KL constraint. This one expression is the backbone of PPO's KL penalty, of best-of-\(n\) reweighting, and of the DPO reparameterization — see [policy gradients and actor-critic](../13-reinforcement-learning/02-policy-gradients-actor-critic.md). Derive it once and you never memorize any of the three.
 
 ## 7. Where the theory stops
 

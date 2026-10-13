@@ -80,7 +80,7 @@ A trust region admits that your local model is only valid nearby: minimize the m
 
 But clipping is **not** an unbiased gradient estimator. \(\mathbb E[\operatorname{clip}(\hat g)]\ne\operatorname{clip}(\mathbb E[\hat g])\), and when clipping is active on a nontrivial fraction of steps you are optimizing a different objective than you wrote down. The bias grows with gradient noise, hence shrinks with batch size — so clipping thresholds do not transfer across batch sizes. Per-sample clipping (as in differentially private training) biases far more aggressively than per-batch clipping and must be analyzed separately.
 
-**PPO and TRPO.** The KL constraint on the policy update is a trust region in distribution space rather than parameter space, whose solution is the exponential tilt of the convexity lesson and whose practical surrogate is ratio clipping. Same idea, different norm — see [policy gradients and actor-critic](../12-reinforcement-learning/02-policy-gradients-actor-critic.md).
+**PPO and TRPO.** The KL constraint on the policy update is a trust region in distribution space rather than parameter space, whose solution is the exponential tilt of the convexity lesson and whose practical surrogate is ratio clipping. Same idea, different norm — see [policy gradients and actor-critic](../13-reinforcement-learning/02-policy-gradients-actor-critic.md).
 
 ## 5. Nonsmoothness you are already shipping
 

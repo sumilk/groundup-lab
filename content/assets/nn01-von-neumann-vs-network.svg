@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="450" viewBox="0 0 900 450" role="img" aria-labelledby="nn01-vn-title nn01-vn-desc">
+  <title id="nn01-vn-title">A von Neumann machine and a connectionist network</title>
+  <desc id="nn01-vn-desc">Left: a processor box above a memory box that holds both program and data, joined by fetch arrows. Right: eleven units joined by connections of different thickness, with no separate program store.</desc>
+  <rect width="900" height="450" rx="24" fill="#08111f"/>
+  <text x="450" y="44" fill="#a8b7ca" font-family="system-ui" font-size="18" text-anchor="middle">Where is the program?</text>
+  <rect x="70" y="110" width="140" height="70" rx="10" fill="#08111f" stroke="#ffb86b" stroke-width="2.2"/>
+  <text x="140" y="152" fill="#e8eef7" font-family="system-ui" font-size="16" text-anchor="middle">processor</text>
+  <rect x="70" y="250" width="140" height="110" rx="10" fill="#08111f" stroke="#7aa2f7" stroke-width="2.2"/>
+  <text x="140" y="285" fill="#e8eef7" font-family="system-ui" font-size="16" text-anchor="middle">memory</text>
+  <rect x="88" y="300" width="104" height="22" rx="4" fill="#08111f" stroke="#476073" stroke-width="2.2"/>
+  <text x="140" y="316" fill="#a8b7ca" font-family="system-ui" font-size="12" text-anchor="middle">program</text>
+  <rect x="88" y="328" width="104" height="22" rx="4" fill="#08111f" stroke="#476073" stroke-width="2.2"/>
+  <text x="140" y="344" fill="#a8b7ca" font-family="system-ui" font-size="12" text-anchor="middle">data</text>
+  <path d="M125 182L125 238" stroke="#91a4bb" stroke-width="2.2" fill="none"/><path d="M125 248L120 238L130 238Z" fill="#91a4bb"/>
+  <path d="M155 248L155 192" stroke="#91a4bb" stroke-width="2.2" fill="none"/><path d="M155 182L160 192L150 192Z" fill="#91a4bb"/>
+  <text x="260" y="225" fill="#91a4bb" font-family="system-ui" font-size="13" text-anchor="middle">fetch, execute,</text>
+  <text x="260" y="243" fill="#91a4bb" font-family="system-ui" font-size="13" text-anchor="middle">one step at a time</text>
+  <text x="140" y="395" fill="#e8eef7" font-family="system-ui" font-size="16" text-anchor="middle" font-weight="600">von Neumann machine</text>
+  <path d="M520 130L600 100" stroke="#50d2c2" stroke-width="1" fill="none"/>
+  <path d="M600 100L690 140" stroke="#50d2c2" stroke-width="2.6" fill="none"/>
+  <path d="M690 140L770 115" stroke="#50d2c2" stroke-width="4.2" fill="none"/>
+  <path d="M520 130L540 230" stroke="#50d2c2" stroke-width="1.8" fill="none"/>
+  <path d="M600 100L630 210" stroke="#50d2c2" stroke-width="3.4000000000000004" fill="none"/>
+  <path d="M690 140L720 240" stroke="#50d2c2" stroke-width="1" fill="none"/>
+  <path d="M770 115L800 220" stroke="#50d2c2" stroke-width="2.6" fill="none"/>
+  <path d="M540 230L630 210" stroke="#50d2c2" stroke-width="4.2" fill="none"/>
+  <path d="M630 210L720 240" stroke="#50d2c2" stroke-width="1.8" fill="none"/>
+  <path d="M720 240L800 220" stroke="#50d2c2" stroke-width="3.4000000000000004" fill="none"/>
+  <path d="M540 230L570 320" stroke="#50d2c2" stroke-width="1" fill="none"/>
+  <path d="M630 210L670 330" stroke="#50d2c2" stroke-width="2.6" fill="none"/>
+  <path d="M720 240L760 320" stroke="#50d2c2" stroke-width="4.2" fill="none"/>
+  <path d="M570 320L670 330" stroke="#50d2c2" stroke-width="1.8" fill="none"/>
+  <path d="M670 330L760 320" stroke="#50d2c2" stroke-width="3.4000000000000004" fill="none"/>
+  <path d="M600 100L720 240" stroke="#50d2c2" stroke-width="1" fill="none"/>
+  <path d="M630 210L690 140" stroke="#50d2c2" stroke-width="2.6" fill="none"/>
+  <path d="M800 220L760 320" stroke="#50d2c2" stroke-width="4.2" fill="none"/>
+  <path d="M520 130L630 210" stroke="#50d2c2" stroke-width="1.8" fill="none"/>
+  <circle cx="520" cy="130" r="12" fill="#08111f" stroke="#e8eef7" stroke-width="2.4"/>
+  <circle cx="600" cy="100" r="12" fill="#08111f" stroke="#e8eef7" stroke-width="2.4"/>
+  <circle cx="690" cy="140" r="12" fill="#08111f" stroke="#e8eef7" stroke-width="2.4"/>
+  <circle cx="770" cy="115" r="12" fill="#08111f" stroke="#e8eef7" stroke-width="2.4"/>
+  <circle cx="540" cy="230" r="12" fill="#08111f" stroke="#e8eef7" stroke-width="2.4"/>
+  <circle cx="630" cy="210" r="12" fill="#08111f" stroke="#e8eef7" stroke-width="2.4"/>
+  <circle cx="720" cy="240" r="12" fill="#08111f" stroke="#e8eef7" stroke-width="2.4"/>
+  <circle cx="800" cy="220" r="12" fill="#08111f" stroke="#e8eef7" stroke-width="2.4"/>
+  <circle cx="570" cy="320" r="12" fill="#08111f" stroke="#e8eef7" stroke-width="2.4"/>
+  <circle cx="670" cy="330" r="12" fill="#08111f" stroke="#e8eef7" stroke-width="2.4"/>
+  <circle cx="760" cy="320" r="12" fill="#08111f" stroke="#e8eef7" stroke-width="2.4"/>
+  <text x="660" y="395" fill="#e8eef7" font-family="system-ui" font-size="16" text-anchor="middle" font-weight="600">connectionist network</text>
+  <text x="660" y="375" fill="#91a4bb" font-family="system-ui" font-size="13" text-anchor="middle">line thickness = connection strength</text>
+  <text x="450" y="430" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">In the network, what the machine knows is the pattern of connection strengths.</text>
+</svg>

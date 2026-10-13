@@ -34,7 +34,7 @@ Module handles such as `OPT01` refer to this plan; `LA08` and `PS05` refer to th
 | OPT08 | Newton, quasi-Newton, and curvature approximations | 32 | OPT07, LA10 |
 | OPT09 | Variance reduction and online optimization | 30 | OPT04, OPT07, IL09 |
 | OPT10 | Implicit differentiation and bilevel optimization | 34 | OPT08, PT05 |
-| OPT11 | Parameterization, optimizer scaling, and transfer | 30 | OPT06, DL04 |
+| OPT11 | Parameterization, optimizer scaling, and transfer | 30 | OPT06, DLA02 |
 | OPT12 | Capstone: an optimizer claim audit | 44 | OPT08, OPT09, OPT11, RP04 |
 
 ## 4. Detailed module briefs
@@ -193,7 +193,7 @@ Module handles such as `OPT01` refer to this plan; `LA08` and `PS05` refer to th
 
 **Module 11 — Parameterization, optimizer scaling, and transfer**
 
-`handle: OPT11` · `id: math.optimization.parameterization-scaling` · 30h · prerequisites: OPT06, DL04 · proposed bank: `opt-11-parameterization-scaling`
+`handle: OPT11` · `id: math.optimization.parameterization-scaling` · 30h · prerequisites: OPT06, DLA02 · proposed bank: `opt-11-parameterization-scaling`
 
 **Spine and derivations:** Feature and parameter scales, width/depth changes, update-to-weight ratios, maximal-update parameterization as a specific recipe, and confounding by compute or data.
 

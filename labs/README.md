@@ -77,9 +77,9 @@ In the theory reader, select the linked exercise inside a lesson to open its run
 | cancellation-demo | [Norms, conditioning, and stability](../content/02-linear-algebra/09-norms-conditioning-stability.md) | Direct versus rationalized evaluation with a high-precision oracle |
 | search | [DSA](../content/04-dsa/01-invariants-search-graphs-dp.md) | Exhaustive boundary cases |
 | softmax | [PyTorch](../content/08-pytorch/01-tensors-autograd-training.md) | Stability and shift invariance |
-| bigram | [NLP](../content/10-nlp/01-text-representations-language-models.md) | Correct target offsets |
-| attention | [LLM systems](../content/11-llm-systems/01-causal-transformers-training-systems.md) | Prefix causality |
-| bellman | [RL](../content/12-reinforcement-learning/01-mdps-bellman-td.md) | Known solution and stochastic expectation |
+| bigram | [NLP](../content/11-nlp/01-text-representations-language-models.md) | Correct target offsets |
+| attention | [LLM systems](../content/12-llm-systems/01-causal-transformers-training-systems.md) | Prefix causality |
+| bellman | [RL](../content/13-reinforcement-learning/01-mdps-bellman-td.md) | Known solution and stochastic expectation |
 
 Student functions intentionally raise NotImplementedError initially. Their failing tests mean the exercise has not been implemented, not that installation failed. Passing checks supplies behavioral evidence; it does not automatically establish understanding.
 

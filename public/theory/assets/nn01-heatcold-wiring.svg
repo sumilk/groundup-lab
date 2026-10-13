@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="440" viewBox="0 0 1000 440" role="img" aria-labelledby="nn01-hc-title nn01-hc-desc">
+  <title id="nn01-hc-title">The McCulloch–Pitts heat/cold net</title>
+  <desc id="nn01-hc-desc">Two receptors on the left, heat and cold. The cold receptor excites relay unit a, which excites unit b, while the cold receptor also inhibits b. The heat receptor and b both excite the heat-sensation unit with threshold 1. Unit a and the cold receptor both excite the cold-sensation unit with threshold 2.</desc>
+  <rect width="1000" height="440" rx="24" fill="#08111f"/>
+  <text x="450" y="44" fill="#a8b7ca" font-family="system-ui" font-size="18" text-anchor="middle">The heat/cold illusion as a five-unit net</text>
+  <path d="M116 130L664.01 147.68" stroke="#50d2c2" stroke-width="2.2" fill="none"/><path d="M674 148L663.84 152.67L664.17 142.68Z" fill="#50d2c2"/>
+  <path d="M116 300L264.13 324.38" stroke="#50d2c2" stroke-width="2.2" fill="none"/><path d="M274 326L263.32 329.31L264.94 319.44Z" fill="#50d2c2"/>
+  <path d="M326 322L437.06 266.47" stroke="#50d2c2" stroke-width="2.2" fill="none"/><path d="M446 262L439.29 270.94L434.82 262Z" fill="#50d2c2"/>
+  <path d="M114 292L438 255" stroke="#ff7a90" stroke-width="2.2"/><path d="M439.02 263.94L436.98 246.06" stroke="#ff7a90" stroke-width="4"/>
+  <path d="M494 240L666.81 165.94" stroke="#50d2c2" stroke-width="2.2" fill="none"/><path d="M676 162L668.78 170.53L664.84 161.34Z" fill="#50d2c2"/>
+  <path d="M326 334L664 334" stroke="#50d2c2" stroke-width="2.2" fill="none"/><path d="M674 334L664 339L664 329Z" fill="#50d2c2"/>
+  <path d="M104 324Q400 455 680 352" stroke="#50d2c2" stroke-width="2.2" fill="none" stroke-dasharray="6 5"/>
+  <circle cx="90" cy="130" r="26" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <text x="90" y="135" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">h</text>
+  <text x="90" y="176" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">heat receptor</text>
+  <circle cx="90" cy="300" r="26" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <text x="90" y="305" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">c</text>
+  <text x="90" y="346" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">cold receptor</text>
+  <circle cx="300" cy="330" r="26" fill="#08111f" stroke="#ffb86b" stroke-width="2.4"/>
+  <text x="300" y="335" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">1</text>
+  <text x="300" y="376" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">a: relay</text>
+  <circle cx="470" cy="250" r="26" fill="#08111f" stroke="#ffb86b" stroke-width="2.4"/>
+  <text x="470" y="255" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">1</text>
+  <text x="470" y="296" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">b: cold just stopped</text>
+  <circle cx="700" cy="150" r="26" fill="#08111f" stroke="#ff7a90" stroke-width="2.4"/>
+  <text x="700" y="155" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">1</text>
+  <text x="700" y="196" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">feels HOT</text>
+  <circle cx="700" cy="330" r="26" fill="#08111f" stroke="#7aa2f7" stroke-width="2.4"/>
+  <text x="700" y="335" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">2</text>
+  <text x="700" y="376" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">feels COLD</text>
+  <text x="760" y="210" fill="#e8eef7" font-family="system-ui" font-size="14">H(t) = h(t−1) ∨ b(t−1)</text>
+  <text x="760" y="232" fill="#e8eef7" font-family="system-ui" font-size="14">b(t) = a(t−1) ∧ ¬c(t−1)</text>
+  <text x="760" y="254" fill="#e8eef7" font-family="system-ui" font-size="14">C(t) = a(t−1) ∧ c(t−1)</text>
+  <text x="500" y="420" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">A brief cold touch reaches the HOT unit through b; a sustained one reaches the COLD unit, which needs a and c together.</text>
+</svg>

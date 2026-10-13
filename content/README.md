@@ -1,10 +1,10 @@
 # GroundUp Lab — theory and practice
 
-The repository now has **46 authored lesson pages across 13 tracks**, including 10 retained introductory overviews, with linear algebra, optimization, and probability/statistics as separate tracks. This is an initial cross-curriculum release, **not complete coverage**. Each track has substantial expansion work remaining. Depth labels are targets and have not been independently verified.
+The repository now has **47 authored lesson pages across 14 tracks**, including 10 retained introductory overviews, with linear algebra, optimization, and probability/statistics as separate tracks. This is an initial cross-curriculum release, **not complete coverage**. Each track has substantial expansion work remaining. Depth labels are targets and have not been independently verified.
 
 ## Detailed build plans
 
-See the [curriculum build-plan index](_plans.md) for all 15 subject plans in a shared detailed format, including the updated [linear algebra plan](02-linear-algebra/_plan.md) and the [probability/statistics coverage and expansion plan](05-probability-statistics/_plan.md). They specify prerequisites, derivations, interactive experiments, implementation ladders, RE/RS gates, and capstones, including a new Research Practice sequence. These are authoring plans; they do not increase authored lesson counts.
+See the [curriculum build-plan index](_plans.md) for all 16 subject plans in a shared detailed format, including the updated [linear algebra plan](02-linear-algebra/_plan.md) and the [probability/statistics coverage and expansion plan](05-probability-statistics/_plan.md). They specify prerequisites, derivations, interactive experiments, implementation ladders, RE/RS gates, and capstones, including a new Research Practice sequence. These are authoring plans; they do not increase authored lesson counts.
 
 The existing LA and probability lessons have also received a correctness and practice update. All 19 probability lessons now include static hints, a prediction/reveal experiment, an offline answer bank, and six-part checkpoints. LA01–LA08 include targeted numerical/research audits. LA09 now develops norms, perturbation bounds, backward error, and stability with two interactive figures and three additional Python tasks. These additions preserve the existing lesson IDs and Python tasks; broader experiments, additional implementation ladders and new advanced lessons in the plans remain future work.
 
@@ -66,12 +66,13 @@ Attempt these prompts before continuing. The end-of-unit practice set then mixes
 | 05 Probability and statistics | [Order statistics, empirical processes, rank tests, and density estimation](05-probability-statistics/18-order-statistics-empirical-processes-nonparametrics.md) |
 | 06 Information, learning, and decisions | [Entropy, generalization, and decisions](06-information-learning-decision/01-entropy-generalization-decisions.md) |
 | 08 PyTorch | [Tensors, autograd, training](08-pytorch/01-tensors-autograd-training.md) |
-| 09 Deep learning | [Backprop, initialization, regularization](09-deep-learning/01-backprop-initialization-regularization.md) |
-| 10 NLP | [Text representations and language models](10-nlp/01-text-representations-language-models.md) |
-| 11 LLM systems | [Causal transformers and systems](11-llm-systems/01-causal-transformers-training-systems.md) |
-| 12 Reinforcement learning | [MDPs, Bellman equations, TD](12-reinforcement-learning/01-mdps-bellman-td.md) |
-| 12 Reinforcement learning | [Policy gradients and actor–critic](12-reinforcement-learning/02-policy-gradients-actor-critic.md) |
-| 13 Practical AI systems | [Retrieval, tools, evaluation, deployment](13-agentic-systems/01-retrieval-tools-evaluation.md) |
+| 09 Deep learning core | [Connectionism and the threshold unit](09-deep-learning-core/01-connectionism-threshold-unit.md) |
+| 10 Deep learning advanced | [Backprop, initialization, regularization](10-deep-learning-advanced/01-backprop-initialization-regularization.md) |
+| 11 NLP | [Text representations and language models](11-nlp/01-text-representations-language-models.md) |
+| 12 LLM systems | [Causal transformers and systems](12-llm-systems/01-causal-transformers-training-systems.md) |
+| 13 Reinforcement learning | [MDPs, Bellman equations, TD](13-reinforcement-learning/01-mdps-bellman-td.md) |
+| 13 Reinforcement learning | [Policy gradients and actor–critic](13-reinforcement-learning/02-policy-gradients-actor-critic.md) |
+| 14 Practical AI systems | [Retrieval, tools, evaluation, deployment](14-agentic-systems/01-retrieval-tools-evaluation.md) |
 
 ## Progression
 

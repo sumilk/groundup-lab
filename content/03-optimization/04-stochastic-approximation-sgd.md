@@ -144,7 +144,7 @@ $$
 \nabla J=\mathbb E\bigl[(R-b)\nabla\log\pi\bigr]
 $$
 
-is unbiased for **any** constant \(b\), and the variance-minimizing choice is the gradient-norm-weighted mean return. This is why an advantage estimate, not a raw return, is used in [policy gradients and actor-critic](../12-reinforcement-learning/02-policy-gradients-actor-critic.md).
+is unbiased for **any** constant \(b\), and the variance-minimizing choice is the gradient-norm-weighted mean return. This is why an advantage estimate, not a raw return, is used in [policy gradients and actor-critic](../13-reinforcement-learning/02-policy-gradients-actor-critic.md).
 
 Finite-sum variance reduction (SVRG, SAG, SAGA) achieves linear rates on strongly convex finite sums by correcting with a stale full gradient. These methods are theoretically excellent and are essentially unused in deep learning. Know why: they assume a fixed finite sum (violated by streaming corpora and augmentation), they need periodic full-gradient passes (prohibitive), the stale-gradient correction is wrong after the iterate moves in a nonconvex landscape, and gradient noise is not the binding constraint on progress at large scale — \(B_{\text{noise}}\) says the noise is already small.
 

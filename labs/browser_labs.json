@@ -144,13 +144,13 @@
     "title": "Numerically stable softmax"
   },
   {
-    "lesson": "10-nlp/01-text-representations-language-models.md",
+    "lesson": "11-nlp/01-text-representations-language-models.md",
     "task": "bigram",
     "function": "bigram_nll",
     "title": "Bigram negative log-likelihood"
   },
   {
-    "lesson": "11-llm-systems/01-causal-transformers-training-systems.md",
+    "lesson": "12-llm-systems/01-causal-transformers-training-systems.md",
     "task": "attention",
     "function": "causal_attention",
     "title": "Causal attention",
@@ -159,7 +159,7 @@
     ]
   },
   {
-    "lesson": "12-reinforcement-learning/01-mdps-bellman-td.md",
+    "lesson": "13-reinforcement-learning/01-mdps-bellman-td.md",
     "task": "bellman",
     "function": "bellman_backup",
     "title": "Bellman optimality backup"
@@ -509,7 +509,7 @@
     "supportFunctions": []
   },
   {
-    "lesson": "15-neural-networks/01-connectionism-threshold-unit.md",
+    "lesson": "09-deep-learning-core/01-connectionism-threshold-unit.md",
     "task": "threshold-gate",
     "function": "threshold_gate",
     "title": "Fire a threshold gate exactly",
@@ -518,7 +518,7 @@
     ]
   },
   {
-    "lesson": "15-neural-networks/01-connectionism-threshold-unit.md",
+    "lesson": "09-deep-learning-core/01-connectionism-threshold-unit.md",
     "task": "compose-halfspaces",
     "function": "compose_halfspaces",
     "title": "Compose fences into regions and votes",
@@ -527,7 +527,7 @@
     ]
   },
   {
-    "lesson": "15-neural-networks/01-connectionism-threshold-unit.md",
+    "lesson": "09-deep-learning-core/01-connectionism-threshold-unit.md",
     "task": "hebbian-update",
     "function": "hebbian_update",
     "title": "Watch Hebb diverge and Oja settle",
@@ -536,7 +536,7 @@
     ]
   },
   {
-    "lesson": "15-neural-networks/01-connectionism-threshold-unit.md",
+    "lesson": "09-deep-learning-core/01-connectionism-threshold-unit.md",
     "task": "perceptron-train",
     "function": "perceptron_train",
     "title": "Train a perceptron by error correction",
@@ -546,7 +546,7 @@
     ]
   },
   {
-    "lesson": "15-neural-networks/01-connectionism-threshold-unit.md",
+    "lesson": "09-deep-learning-core/01-connectionism-threshold-unit.md",
     "task": "dnf-network",
     "function": "dnf_network",
     "title": "Turn a truth table into a network",
@@ -555,7 +555,7 @@
     ]
   },
   {
-    "lesson": "15-neural-networks/01-connectionism-threshold-unit.md",
+    "lesson": "09-deep-learning-core/01-connectionism-threshold-unit.md",
     "task": "staircase-weights",
     "function": "staircase_weights",
     "title": "Share pulse edges in a staircase",
@@ -564,7 +564,7 @@
     ]
   },
   {
-    "lesson": "15-neural-networks/01-connectionism-threshold-unit.md",
+    "lesson": "09-deep-learning-core/01-connectionism-threshold-unit.md",
     "task": "heat-cold",
     "function": "heat_cold_sensations",
     "title": "Simulate the heat/cold illusion",

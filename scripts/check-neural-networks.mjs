@@ -1,4 +1,4 @@
-/* Checks for the neural-networks lecture track (content/15-neural-networks).
+/* Checks for the neural-networks lecture track (content/09-deep-learning-core).
 
    Validates the synced source manifest, that every lecture maps to exactly one module,
    that the module map and detailed briefs agree, that reserved IDs are unique across the
@@ -12,7 +12,7 @@ import {fileURLToPath} from "node:url";
 import {checkLesson} from "./check-textbook-standard.mjs";
 
 const root = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
-const track = path.join(root, "content", "15-neural-networks");
+const track = path.join(root, "content", "09-deep-learning-core");
 const read = p => readFileSync(p, "utf8");
 const plan = read(path.join(track, "_plan.md"));
 const manifest = JSON.parse(read(path.join(track, "_sources.json")));
@@ -49,7 +49,7 @@ const rows = [...plan.matchAll(/^\| (NN\d\d) \| ([^|]+) \| (\d+) \| ([^|]+) \| (
 assert(rows.length > 0, "Module map not found");
 rows.forEach((row, i) => assert.equal(row.handle, "NN" + String(i + 1).padStart(2, "0"), "Module handles must run NN01, NN02, … in order"));
 const handles = new Set(rows.map(r => r.handle));
-const crossTrack = /^(F|PY|LA|OPT|DS|PS|IL|ML|PT|DL|NLP|SYS|RL|APP|RP)\d\d$/;
+const crossTrack = /^(F|PY|LA|OPT|DS|PS|IL|ML|PT|DLA|NLP|SYS|RL|APP|RP)\d\d$/;
 for (const row of rows) for (const p of row.prereqs) {
   if (p.startsWith("NN")) assert(handles.has(p) && p < row.handle, `${row.handle}: prerequisite ${p} must be an earlier module`);
   else assert(crossTrack.test(p), `${row.handle}: unknown prerequisite handle ${p}`);
@@ -103,7 +103,7 @@ for (const key of ["id", "bank", "lab"]) {
 /* Reserved IDs must not collide with any lesson ID or plan reservation elsewhere. */
 const foreignIds = new Set();
 const contentRoot = path.join(root, "content");
-for (const dir of readdirSync(contentRoot, {withFileTypes: true}).filter(d => d.isDirectory() && d.name !== "15-neural-networks"))
+for (const dir of readdirSync(contentRoot, {withFileTypes: true}).filter(d => d.isDirectory() && d.name !== "09-deep-learning-core"))
   for (const file of readdirSync(path.join(contentRoot, dir.name)).filter(f => f.endsWith(".md")))
     for (const m of read(path.join(contentRoot, dir.name, file)).matchAll(/(?:^id: |`id: )([a-z0-9.-]+)/gm)) foreignIds.add(m[1]);
 for (const {id} of briefs.values()) assert(!foreignIds.has(id), `${id} is already used outside this track`);

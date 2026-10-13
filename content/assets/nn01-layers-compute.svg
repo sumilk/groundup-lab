@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="430" viewBox="0 0 900 430" role="img" aria-labelledby="nn01-layers-title nn01-layers-desc">
+  <title id="nn01-layers-title">Lines, then convex pieces, then unions</title>
+  <desc id="nn01-layers-desc">Three panels. The first shows several straight lines, one per first-layer unit. The second shows a triangle and a square, each the intersection of half-planes computed by an AND unit. The third shows both shaded in the same colour, their union computed by an OR unit.</desc>
+  <rect width="900" height="430" rx="24" fill="#08111f"/>
+  <text x="450" y="44" fill="#a8b7ca" font-family="system-ui" font-size="18" text-anchor="middle">What each layer of threshold units computes</text>
+  <defs><clipPath id="clip-40-90"><rect x="40" y="90" width="250" height="250"/></clipPath></defs>
+  <text x="165" y="76" fill="#a8b7ca" font-family="system-ui" font-size="17" text-anchor="middle">layer 1: fences (lines)</text>
+  <g clip-path="url(#clip-40-90)"><path d="M-210 590L-210 -160M-210 590L540 590M-168.33 590L-168.33 -160M-210 548.33L540 548.33M-126.67 590L-126.67 -160M-210 506.67L540 506.67M-85 590L-85 -160M-210 465L540 465M-43.33 590L-43.33 -160M-210 423.33L540 423.33M-1.67 590L-1.67 -160M-210 381.67L540 381.67M40 590L40 -160M-210 340L540 340M81.67 590L81.67 -160M-210 298.33L540 298.33M123.33 590L123.33 -160M-210 256.67L540 256.67M165 590L165 -160M-210 215L540 215M206.67 590L206.67 -160M-210 173.33L540 173.33M248.33 590L248.33 -160M-210 131.67L540 131.67M290 590L290 -160M-210 90L540 90M331.67 590L331.67 -160M-210 48.33L540 48.33M373.33 590L373.33 -160M-210 6.67L540 6.67M415 590L415 -160M-210 -35L540 -35M456.67 590L456.67 -160M-210 -76.67L540 -76.67M498.33 590L498.33 -160M-210 -118.33L540 -118.33M540 590L540 -160M-210 -160L540 -160" stroke="#173641" stroke-width="1.5" fill="none"/></g>
+  <g clip-path="url(#clip-40-90)">
+  <path d="M-939.17 277.5L1060.83 277.5" stroke="#50d2c2" stroke-width="2" fill="none"/>
+  </g>
+  <g clip-path="url(#clip-40-90)">
+  <path d="M491.48 1215.25L-203.15 -660.25" stroke="#50d2c2" stroke-width="2" fill="none"/>
+  </g>
+  <g clip-path="url(#clip-40-90)">
+  <path d="M449.81 -772.75L-244.81 1102.75" stroke="#50d2c2" stroke-width="2" fill="none"/>
+  </g>
+  <g clip-path="url(#clip-40-90)">
+  <path d="M-810 198.33L1190 198.33" stroke="#50d2c2" stroke-width="2" fill="none"/>
+  </g>
+  <g clip-path="url(#clip-40-90)">
+  <path d="M265 1198.33L265 -801.67" stroke="#50d2c2" stroke-width="2" fill="none"/>
+  </g>
+  <g clip-path="url(#clip-40-90)">
+  <path d="M1265 123.33L-735 123.33" stroke="#50d2c2" stroke-width="2" fill="none"/>
+  </g>
+  <g clip-path="url(#clip-40-90)">
+  <path d="M190 -876.67L190 1123.33" stroke="#50d2c2" stroke-width="2" fill="none"/>
+  </g>
+  <defs><clipPath id="clip-325-90"><rect x="325" y="90" width="250" height="250"/></clipPath></defs>
+  <text x="450" y="76" fill="#a8b7ca" font-family="system-ui" font-size="17" text-anchor="middle">layer 2: AND → enclosures</text>
+  <g clip-path="url(#clip-325-90)"><path d="M75 590L75 -160M75 590L825 590M116.67 590L116.67 -160M75 548.33L825 548.33M158.33 590L158.33 -160M75 506.67L825 506.67M200 590L200 -160M75 465L825 465M241.67 590L241.67 -160M75 423.33L825 423.33M283.33 590L283.33 -160M75 381.67L825 381.67M325 590L325 -160M75 340L825 340M366.67 590L366.67 -160M75 298.33L825 298.33M408.33 590L408.33 -160M75 256.67L825 256.67M450 590L450 -160M75 215L825 215M491.67 590L491.67 -160M75 173.33L825 173.33M533.33 590L533.33 -160M75 131.67L825 131.67M575 590L575 -160M75 90L825 90M616.67 590L616.67 -160M75 48.33L825 48.33M658.33 590L658.33 -160M75 6.67L825 6.67M700 590L700 -160M75 -35L825 -35M741.67 590L741.67 -160M75 -76.67L825 -76.67M783.33 590L783.33 -160M75 -118.33L825 -118.33M825 590L825 -160M75 -160L825 -160" stroke="#173641" stroke-width="1.5" fill="none"/></g>
+  <path d="M345.83 277.5L429.17 277.5L387.5 165Z" fill="#ff7a90" fill-opacity="0.25" stroke="#ff7a90" stroke-width="2.5"/>
+  <path d="M475 198.33L550 198.33L550 123.33L475 123.33Z" fill="#d586ff" fill-opacity="0.25" stroke="#d586ff" stroke-width="2.5"/>
+  <defs><clipPath id="clip-610-90"><rect x="610" y="90" width="250" height="250"/></clipPath></defs>
+  <text x="735" y="76" fill="#a8b7ca" font-family="system-ui" font-size="17" text-anchor="middle">layer 3: OR → unions</text>
+  <g clip-path="url(#clip-610-90)"><path d="M360 590L360 -160M360 590L1110 590M401.67 590L401.67 -160M360 548.33L1110 548.33M443.33 590L443.33 -160M360 506.67L1110 506.67M485 590L485 -160M360 465L1110 465M526.67 590L526.67 -160M360 423.33L1110 423.33M568.33 590L568.33 -160M360 381.67L1110 381.67M610 590L610 -160M360 340L1110 340M651.67 590L651.67 -160M360 298.33L1110 298.33M693.33 590L693.33 -160M360 256.67L1110 256.67M735 590L735 -160M360 215L1110 215M776.67 590L776.67 -160M360 173.33L1110 173.33M818.33 590L818.33 -160M360 131.67L1110 131.67M860 590L860 -160M360 90L1110 90M901.67 590L901.67 -160M360 48.33L1110 48.33M943.33 590L943.33 -160M360 6.67L1110 6.67M985 590L985 -160M360 -35L1110 -35M1026.67 590L1026.67 -160M360 -76.67L1110 -76.67M1068.33 590L1068.33 -160M360 -118.33L1110 -118.33M1110 590L1110 -160M360 -160L1110 -160" stroke="#173641" stroke-width="1.5" fill="none"/></g>
+  <path d="M630.83 277.5L714.17 277.5L672.5 165Z" fill="#ff7a90" fill-opacity="0.35" stroke="#ff7a90" stroke-width="2.5"/>
+  <path d="M760 198.33L835 198.33L835 123.33L760 123.33Z" fill="#ff7a90" fill-opacity="0.35" stroke="#ff7a90" stroke-width="2.5"/>
+  <text x="185" y="380" fill="#91a4bb" font-family="system-ui" font-size="14" text-anchor="middle">each unit: which side?</text>
+  <text x="470" y="380" fill="#91a4bb" font-family="system-ui" font-size="14" text-anchor="middle">inside all of a group's fences?</text>
+  <text x="755" y="380" fill="#91a4bb" font-family="system-ui" font-size="14" text-anchor="middle">inside any enclosure?</text>
+  <text x="450" y="410" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">Fences, then enclosures, then unions: three layers can describe any region made of convex pieces.</text>
+</svg>

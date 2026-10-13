@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="420" viewBox="0 0 900 420" role="img" aria-labelledby="nn01-photo-title nn01-photo-desc">
+  <title id="nn01-photo-title">Rosenblatt's photoperceptron</title>
+  <desc id="nn01-photo-desc">A six by six retina of sensory points on the left feeds a column of projection units through random connections, which feed a column of association units, which feed two response units. The two responses inhibit each other.</desc>
+  <rect width="900" height="420" rx="24" fill="#08111f"/>
+  <text x="450" y="44" fill="#a8b7ca" font-family="system-ui" font-size="18" text-anchor="middle">Rosenblatt's photoperceptron (1958)</text>
+  <rect x="60" y="130" width="20" height="20" rx="3" fill="#ffb86b" stroke="#476073"/>
+  <rect x="60" y="152" width="20" height="20" rx="3" fill="#14243a" stroke="#476073"/>
+  <rect x="60" y="174" width="20" height="20" rx="3" fill="#14243a" stroke="#476073"/>
+  <rect x="60" y="196" width="20" height="20" rx="3" fill="#14243a" stroke="#476073"/>
+  <rect x="60" y="218" width="20" height="20" rx="3" fill="#14243a" stroke="#476073"/>
+  <rect x="60" y="240" width="20" height="20" rx="3" fill="#ffb86b" stroke="#476073"/>
+  <rect x="82" y="130" width="20" height="20" rx="3" fill="#14243a" stroke="#476073"/>
+  <rect x="82" y="152" width="20" height="20" rx="3" fill="#ffb86b" stroke="#476073"/>
+  <rect x="82" y="174" width="20" height="20" rx="3" fill="#14243a" stroke="#476073"/>
+  <rect x="82" y="196" width="20" height="20" rx="3" fill="#14243a" stroke="#476073"/>
+  <rect x="82" y="218" width="20" height="20" rx="3" fill="#14243a" stroke="#476073"/>
+  <rect x="82" y="240" width="20" height="20" rx="3" fill="#14243a" stroke="#476073"/>
+  <rect x="104" y="130" width="20" height="20" rx="3" fill="#14243a" stroke="#476073"/>
+  <rect x="104" y="152" width="20" height="20" rx="3" fill="#14243a" stroke="#476073"/>
+  <rect x="104" y="174" width="20" height="20" rx="3" fill="#ffb86b" stroke="#476073"/>
+  <rect x="104" y="196" width="20" height="20" rx="3" fill="#14243a" stroke="#476073"/>
+  <rect x="104" y="218" width="20" height="20" rx="3" fill="#14243a" stroke="#476073"/>
+  <rect x="104" y="240" width="20" height="20" rx="3" fill="#14243a" stroke="#476073"/>
+  <rect x="126" y="130" width="20" height="20" rx="3" fill="#14243a" stroke="#476073"/>
+  <rect x="126" y="152" width="20" height="20" rx="3" fill="#14243a" stroke="#476073"/>
+  <rect x="126" y="174" width="20" height="20" rx="3" fill="#14243a" stroke="#476073"/>
+  <rect x="126" y="196" width="20" height="20" rx="3" fill="#ffb86b" stroke="#476073"/>
+  <rect x="126" y="218" width="20" height="20" rx="3" fill="#14243a" stroke="#476073"/>
+  <rect x="126" y="240" width="20" height="20" rx="3" fill="#14243a" stroke="#476073"/>
+  <rect x="148" y="130" width="20" height="20" rx="3" fill="#14243a" stroke="#476073"/>
+  <rect x="148" y="152" width="20" height="20" rx="3" fill="#14243a" stroke="#476073"/>
+  <rect x="148" y="174" width="20" height="20" rx="3" fill="#14243a" stroke="#476073"/>
+  <rect x="148" y="196" width="20" height="20" rx="3" fill="#14243a" stroke="#476073"/>
+  <rect x="148" y="218" width="20" height="20" rx="3" fill="#ffb86b" stroke="#476073"/>
+  <rect x="148" y="240" width="20" height="20" rx="3" fill="#14243a" stroke="#476073"/>
+  <rect x="170" y="130" width="20" height="20" rx="3" fill="#ffb86b" stroke="#476073"/>
+  <rect x="170" y="152" width="20" height="20" rx="3" fill="#14243a" stroke="#476073"/>
+  <rect x="170" y="174" width="20" height="20" rx="3" fill="#14243a" stroke="#476073"/>
+  <rect x="170" y="196" width="20" height="20" rx="3" fill="#14243a" stroke="#476073"/>
+  <rect x="170" y="218" width="20" height="20" rx="3" fill="#14243a" stroke="#476073"/>
+  <rect x="170" y="240" width="20" height="20" rx="3" fill="#ffb86b" stroke="#476073"/>
+  <path d="M192 150L316 120" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M192 260L316 120" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M192 172L316 120" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M192 172L316 165" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M192 238L316 165" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M192 216L316 165" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M192 172L316 210" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M192 238L316 210" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M192 238L316 210" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M192 216L316 255" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M192 238L316 255" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M192 216L316 255" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M192 238L316 300" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M192 172L316 300" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M192 194L316 300" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M344 255L486 120" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M344 255L486 120" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M344 120L486 156" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M344 255L486 156" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M344 210L486 192" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M344 300L486 192" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M344 300L486 228" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M344 120L486 228" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M344 210L486 264" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M344 300L486 264" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M344 255L486 300" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M344 255L486 300" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M514 120L650.29 157.86" stroke="#50d2c2" stroke-width="1.8" fill="none"/><path d="M658 160L649.22 161.71L651.36 154Z" fill="#50d2c2"/>
+  <path d="M514 156L650 159.78" stroke="#50d2c2" stroke-width="1.8" fill="none"/><path d="M658 160L649.89 163.78L650.11 155.78Z" fill="#50d2c2"/>
+  <path d="M514 192L650.19 161.74" stroke="#50d2c2" stroke-width="1.8" fill="none"/><path d="M658 160L651.06 165.64L649.32 157.83Z" fill="#50d2c2"/>
+  <path d="M514 228L650.19 258.26" stroke="#50d2c2" stroke-width="1.8" fill="none"/><path d="M658 260L649.32 262.17L651.06 254.36Z" fill="#50d2c2"/>
+  <path d="M514 264L650 260.22" stroke="#50d2c2" stroke-width="1.8" fill="none"/><path d="M658 260L650.11 264.22L649.89 256.22Z" fill="#50d2c2"/>
+  <path d="M514 300L650.29 262.14" stroke="#50d2c2" stroke-width="1.8" fill="none"/><path d="M658 260L651.36 266L649.22 258.29Z" fill="#50d2c2"/>
+  <path d="M680 182V238" stroke="#ff7a90" stroke-width="2.5" fill="none" stroke-dasharray="5 4"/>
+  <text x="735" y="214" fill="#ff7a90" font-family="system-ui" font-size="12" text-anchor="middle">mutual</text>
+  <text x="735" y="230" fill="#ff7a90" font-family="system-ui" font-size="12" text-anchor="middle">inhibition</text>
+  <circle cx="330" cy="120" r="13" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <circle cx="330" cy="165" r="13" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <circle cx="330" cy="210" r="13" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <circle cx="330" cy="255" r="13" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <circle cx="330" cy="300" r="13" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <circle cx="500" cy="120" r="13" fill="#08111f" stroke="#ffb86b" stroke-width="2.4"/>
+  <circle cx="500" cy="156" r="13" fill="#08111f" stroke="#ffb86b" stroke-width="2.4"/>
+  <circle cx="500" cy="192" r="13" fill="#08111f" stroke="#ffb86b" stroke-width="2.4"/>
+  <circle cx="500" cy="228" r="13" fill="#08111f" stroke="#ffb86b" stroke-width="2.4"/>
+  <circle cx="500" cy="264" r="13" fill="#08111f" stroke="#ffb86b" stroke-width="2.4"/>
+  <circle cx="500" cy="300" r="13" fill="#08111f" stroke="#ffb86b" stroke-width="2.4"/>
+  <circle cx="680" cy="160" r="22" fill="#08111f" stroke="#ff7a90" stroke-width="2.4"/>
+  <text x="680" y="165" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle">R1</text>
+  <circle cx="680" cy="260" r="22" fill="#08111f" stroke="#ff7a90" stroke-width="2.4"/>
+  <text x="680" y="265" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle">R2</text>
+  <text x="125" y="345" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle">retina (S points)</text>
+  <text x="330" y="345" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle">projection units A₁</text>
+  <text x="500" y="345" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle">association units A₂</text>
+  <text x="680" y="345" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle">responses R</text>
+  <text x="415" y="375" fill="#91a4bb" font-family="system-ui" font-size="13" text-anchor="middle">fixed, random connections</text>
+  <text x="590" y="375" fill="#50d2c2" font-family="system-ui" font-size="13" text-anchor="middle">learnable</text>
+  <text x="450" y="400" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">Only the connections into the response units learn; the simplified perceptron keeps one layer of fixed association units.</text>
+</svg>

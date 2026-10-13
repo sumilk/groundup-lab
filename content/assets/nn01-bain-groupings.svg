@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="430" viewBox="0 0 900 430" role="img" aria-labelledby="nn01-bain-title nn01-bain-desc">
+  <title id="nn01-bain-title">Bain's neural groupings</title>
+  <desc id="nn01-bain-desc">Three input fibres a, b and c on the left. Each pair sends a branch to its own meeting cell: a and b to X, a and c to Y, b and c to Z. Each cell produces a different output.</desc>
+  <rect width="900" height="430" rx="24" fill="#08111f"/>
+  <text x="450" y="44" fill="#a8b7ca" font-family="system-ui" font-size="18" text-anchor="middle">Bain's groupings: one cell for each pair of fibres</text>
+  <circle cx="110" cy="140" r="18" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <text x="110" y="145" fill="#e8eef7" font-family="system-ui" font-size="16" text-anchor="middle">a</text>
+  <circle cx="110" cy="240" r="18" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <text x="110" y="245" fill="#e8eef7" font-family="system-ui" font-size="16" text-anchor="middle">b</text>
+  <circle cx="110" cy="340" r="18" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <text x="110" y="345" fill="#e8eef7" font-family="system-ui" font-size="16" text-anchor="middle">c</text>
+  <path d="M128 140L442 134.19" stroke="#50d2c2" stroke-width="2.2" fill="none"/><path d="M452 134L442.09 139.18L441.91 129.19Z" fill="#50d2c2"/>
+  <path d="M128 240L442.4 148.79" stroke="#50d2c2" stroke-width="2.2" fill="none"/><path d="M452 146L443.79 153.59L441 143.98Z" fill="#50d2c2"/>
+  <circle cx="475" cy="140" r="22" fill="#08111f" stroke="#ffb86b" stroke-width="2.4"/>
+  <text x="475" y="145" fill="#e8eef7" font-family="system-ui" font-size="16" text-anchor="middle">X</text>
+  <path d="M497 140L600 140" stroke="#ffb86b" stroke-width="2.2" fill="none"/><path d="M610 140L600 145L600 135Z" fill="#ffb86b"/>
+  <text x="625" y="145" fill="#e8eef7" font-family="system-ui" font-size="16">a + b → x</text>
+  <path d="M128 140L442.4 231.21" stroke="#50d2c2" stroke-width="2.2" fill="none"/><path d="M452 234L441 236.02L443.79 226.41Z" fill="#50d2c2"/>
+  <path d="M128 340L442.4 248.79" stroke="#50d2c2" stroke-width="2.2" fill="none"/><path d="M452 246L443.79 253.59L441 243.98Z" fill="#50d2c2"/>
+  <circle cx="475" cy="240" r="22" fill="#08111f" stroke="#ffb86b" stroke-width="2.4"/>
+  <text x="475" y="245" fill="#e8eef7" font-family="system-ui" font-size="16" text-anchor="middle">Y</text>
+  <path d="M497 240L600 240" stroke="#ffb86b" stroke-width="2.2" fill="none"/><path d="M610 240L600 245L600 235Z" fill="#ffb86b"/>
+  <text x="625" y="245" fill="#e8eef7" font-family="system-ui" font-size="16">a + c → y</text>
+  <path d="M128 240L442.4 331.21" stroke="#50d2c2" stroke-width="2.2" fill="none"/><path d="M452 334L441 336.02L443.79 326.41Z" fill="#50d2c2"/>
+  <path d="M128 340L442 345.81" stroke="#50d2c2" stroke-width="2.2" fill="none"/><path d="M452 346L441.91 350.81L442.09 340.82Z" fill="#50d2c2"/>
+  <circle cx="475" cy="340" r="22" fill="#08111f" stroke="#ffb86b" stroke-width="2.4"/>
+  <text x="475" y="345" fill="#e8eef7" font-family="system-ui" font-size="16" text-anchor="middle">Z</text>
+  <path d="M497 340L600 340" stroke="#ffb86b" stroke-width="2.2" fill="none"/><path d="M610 340L600 345L600 335Z" fill="#ffb86b"/>
+  <text x="625" y="345" fill="#e8eef7" font-family="system-ui" font-size="16">b + c → z</text>
+  <text x="625" y="380" fill="#91a4bb" font-family="system-ui" font-size="14">three fibres, six branches, three cells</text>
+  <text x="450" y="410" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">Redrawn from the idea of Bain's Fig. 2 (1873): different combinations of the same inputs give different outputs.</text>
+</svg>

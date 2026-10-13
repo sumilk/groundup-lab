@@ -1,11 +1,11 @@
-/* Source sync for the neural-networks lecture track (content/15-neural-networks).
+/* Source sync for the neural-networks lecture track (content/09-deep-learning-core).
 
    node scripts/neural-networks/sync-sources.mjs              refresh the manifest, download new slides
    node scripts/neural-networks/sync-sources.mjs --readings   also download course-hosted reading PDFs
    node scripts/neural-networks/sync-sources.mjs --refresh    re-download files already in the cache
    node scripts/neural-networks/sync-sources.mjs --offline    rebuild text from the cache, no network
 
-   The manifest (content/15-neural-networks/_sources.json) is committed: lecture titles,
+   The manifest (content/09-deep-learning-core/_sources.json) is committed: lecture titles,
    dates, and links for every offering. Downloaded slides, readings, and extracted text are
    authoring references only and stay in work/neural-networks/, which is gitignored.
 
@@ -17,7 +17,7 @@ import path from "node:path";
 import {fileURLToPath} from "node:url";
 
 const root = path.resolve(fileURLToPath(new URL("../..", import.meta.url)));
-const manifestPath = path.join(root, "content", "15-neural-networks", "_sources.json");
+const manifestPath = path.join(root, "content", "09-deep-learning-core", "_sources.json");
 const cache = path.join(root, "work", "neural-networks");
 const SITE = "https://deeplearning.cs.cmu.edu/";
 // Most recent offering first: it is the primary schedule; older ones fill in released slides.

@@ -278,7 +278,7 @@ This section is also the probabilistic half of a claim made in [nonconvex landsc
 
 ## 7. Where this already appears in your models
 
-- **Attention scaling.** For \(q,k\) with iid zero-mean, unit-variance entries, \(q^Tk\) is a sum of \(d_k\) independent terms, so \(\operatorname{Var}(q^Tk)=d_k\) and the logits have standard deviation \(\sqrt{d_k}\). Without the \(1/\sqrt{d_k}\) divisor, softmax inputs grow with head dimension and saturate. This is section 2 applied to an inner product — see [causal transformers](../11-llm-systems/01-causal-transformers-training-systems.md).
+- **Attention scaling.** For \(q,k\) with iid zero-mean, unit-variance entries, \(q^Tk\) is a sum of \(d_k\) independent terms, so \(\operatorname{Var}(q^Tk)=d_k\) and the logits have standard deviation \(\sqrt{d_k}\). Without the \(1/\sqrt{d_k}\) divisor, softmax inputs grow with head dimension and saturate. This is section 2 applied to an inner product — see [causal transformers](../12-llm-systems/01-causal-transformers-training-systems.md).
 - **Initialization.** For \(y=Wx\) with \(W\) entries of variance \(\sigma^2\) and \(x\in\mathbb R^{d}\), \(\operatorname{Var}(y_j)=d\sigma^2\operatorname{Var}(x)\). Holding activation scale constant across layers forces \(\sigma^2\propto1/\text{fan\_in}\). Every initialization scheme is a variance-of-a-sum calculation.
 - **Embedding similarity.** Cosine baselines are \(1/\sqrt d\), not \(0\), and anisotropy shifts them further.
 - **Random projections and hashing.** JL is the guarantee behind random-projection LSH, sketching, and dimensionality reduction before nearest-neighbour search.

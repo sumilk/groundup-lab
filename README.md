@@ -15,15 +15,16 @@ Progressive AI study for Sumil: Python, DSA, linear algebra, optimization, proba
 | 06 Information, learning, and decisions | [Entropy, generalization, and decisions](content/06-information-learning-decision/01-entropy-generalization-decisions.md) |
 | 07 Classical ML | [Current reading route and build plan](content/07-classical-ml/_plan.md#current-reading-route-and-preserved-implementation-work) |
 | 08 PyTorch | [Tensors, autograd, training](content/08-pytorch/01-tensors-autograd-training.md) |
-| 09 Deep learning | [Backprop, initialization, regularization](content/09-deep-learning/01-backprop-initialization-regularization.md) |
-| 10 NLP | [Text representations and language models](content/10-nlp/01-text-representations-language-models.md) |
-| 11 LLM systems | [Causal transformers and systems](content/11-llm-systems/01-causal-transformers-training-systems.md) |
-| 12 Reinforcement learning | [MDPs, Bellman equations, TD](content/12-reinforcement-learning/01-mdps-bellman-td.md) |
-| 13 Practical AI systems | [Retrieval, tools, evaluation, deployment](content/13-agentic-systems/01-retrieval-tools-evaluation.md) |
+| 09 Deep learning core | [Connectionism and the threshold unit](content/09-deep-learning-core/01-connectionism-threshold-unit.md) |
+| 10 Deep learning advanced | [Backprop, initialization, regularization](content/10-deep-learning-advanced/01-backprop-initialization-regularization.md) |
+| 11 NLP | [Text representations and language models](content/11-nlp/01-text-representations-language-models.md) |
+| 12 LLM systems | [Causal transformers and systems](content/12-llm-systems/01-causal-transformers-training-systems.md) |
+| 13 Reinforcement learning | [MDPs, Bellman equations, TD](content/13-reinforcement-learning/01-mdps-bellman-td.md) |
+| 14 Practical AI systems | [Retrieval, tools, evaluation, deployment](content/14-agentic-systems/01-retrieval-tools-evaluation.md) |
 
 ## What exists
 
-46 authored lesson pages (including 10 retained introductory overviews), seventy CPU exercises with in-browser Python editors, separate reference implementations and behavioral checks, mathematical SVGs/Mermaid diagrams, and a browser theory reader. Exercise code and the latest output are saved locally per lab and can be reset to the current starter.
+47 authored lesson pages (including 10 retained introductory overviews), seventy CPU exercises with in-browser Python editors, separate reference implementations and behavioral checks, mathematical SVGs/Mermaid diagrams, and a browser theory reader. Exercise code and the latest output are saved locally per lab and can be reset to the current starter.
 
 The [legacy-page audit](content/_legacy-audit.md) explains which introductory pages still supply unique material and why the redundant classical ML overview was removed. Planned modules are not counted as authored coverage.
 
