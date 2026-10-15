@@ -7,7 +7,8 @@
     initials: "SK",
     role: "Author, illustrator & maintainer",
     github: "https://github.com/sumilk",
-    handle: "@sumilk"
+    handle: "@sumilk",
+    linkedin: "https://www.linkedin.com/in/sumil-khosla-376b679/"
   };
   const STATUS = {
     "available": {label: "Available", detail: "Published and still expanding"},
@@ -169,7 +170,7 @@
       <p class="role">${esc(AUTHOR.role)}</p>
       <p>GroundUp Lab is written, illustrated and engineered by ${esc(AUTHOR.name)}. It started as a personal route to research-engineer fluency in machine learning, the long way round: proving the linear algebra, deriving the estimators and implementing every algorithm before trusting a library with it. It is now published so others can take the same path.</p>
       <p>Every lesson, exercise, figure and lab on this site is original work unless credited otherwise. Some writing and code were produced with AI assistance and then reviewed and edited by the author.</p>
-      <div class="cta-row"><a class="btn btn-ghost" href="${AUTHOR.github}" target="_blank" rel="noopener">GitHub · ${esc(AUTHOR.handle)}</a><a class="btn btn-ghost" href="#legal">Copyright &amp; permissions</a></div>
+      <div class="cta-row"><a class="btn btn-primary" href="${AUTHOR.linkedin}" target="_blank" rel="noopener">LinkedIn</a><a class="btn btn-ghost" href="${AUTHOR.github}" target="_blank" rel="noopener">GitHub · ${esc(AUTHOR.handle)}</a><a class="btn btn-ghost" href="#legal">Copyright &amp; permissions</a></div>
     </div>
   </div>
 </section>`;
@@ -274,7 +275,7 @@
   <h1 id="landing-legal">Copyright &amp; permissions</h1>
   <p><strong>Copyright © 2026 ${esc(AUTHOR.name)}. All rights reserved.</strong></p>
   <p>GroundUp Lab is an educational project developed and curated by ${esc(AUTHOR.name)}, including its original lesson text, exercises, illustrations, interactive figures and project-specific software, subject to any applicable third-party rights.</p>
-  <p><strong>No general reuse licence is granted.</strong> You are welcome to read and study the material on this site for personal learning. Unless a separate licence applies, permission is required to reproduce, redistribute, modify, or incorporate the original GroundUp Lab materials or code into another project or course. To ask for permission, contact the author through <a href="${AUTHOR.github}" target="_blank" rel="noopener">GitHub (${esc(AUTHOR.handle)})</a>.</p>
+  <p><strong>No general reuse licence is granted.</strong> You are welcome to read and study the material on this site for personal learning. Unless a separate licence applies, permission is required to reproduce, redistribute, modify, or incorporate the original GroundUp Lab materials or code into another project or course. To ask for permission, contact the author on <a href="${AUTHOR.linkedin}" target="_blank" rel="noopener">LinkedIn</a> or <a href="${AUTHOR.github}" target="_blank" rel="noopener">GitHub (${esc(AUTHOR.handle)})</a>.</p>
   <h2>Third-party materials</h2>
   <p>University course names, lecture references, research papers, external libraries (including Marked, DOMPurify, KaTeX, Mermaid and Pyodide), fonts, datasets and other third-party material remain the property of their respective rights holders and are governed by their own licences and terms. No ownership is claimed over them.</p>
   <h2>AI assistance</h2>
