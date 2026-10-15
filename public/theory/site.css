@@ -257,3 +257,7 @@ button .pro-badge{margin-left:4px;font-size:8.5px;padding:2px 5px}
   .module{grid-template-columns:48px minmax(0,1fr);row-gap:6px}
   .module-meta{grid-column:2}
 }
+
+/* ------------------------------------------------------------ feedback -- */
+.toolbar-feedback{font-size:12.5px;margin-left:12px}
+.dev-note a{font-weight:600}

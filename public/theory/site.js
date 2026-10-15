@@ -10,6 +10,24 @@
     handle: "@sumilk",
     linkedin: "https://www.linkedin.com/in/sumil-khosla-376b679/"
   };
+  /* Feedback goes to a Google Form when FEEDBACK.form is set; until then, to the author's LinkedIn.
+     FEEDBACK.pageEntry is the form's "page" question id (entry.NNN from a pre-filled link), so the
+     form opens with the page the visitor was reading already filled in. */
+  const FEEDBACK = {form: "", pageEntry: ""};
+  function feedbackHref() {
+    if (!FEEDBACK.form) return AUTHOR.linkedin;
+    if (!FEEDBACK.pageEntry) return FEEDBACK.form;
+    const url = new URL(FEEDBACK.form);
+    url.searchParams.set("usp", "pp_url");
+    url.searchParams.set(FEEDBACK.pageEntry, document.title.replace(/ — GroundUp Lab$/, "") + " (" + location.href + ")");
+    return url.toString();
+  }
+  /* Resolved at click time so the link always names the page the visitor is on. */
+  document.addEventListener("click", event => {
+    const link = event.target.closest && event.target.closest("[data-feedback]");
+    if (link) link.href = feedbackHref();
+  }, true);
+
   const STATUS = {
     "available": {label: "Available", detail: "Published and still expanding"},
     "in-development": {label: "In development", detail: "Some pages published; more being written"},
@@ -132,7 +150,7 @@
     <button type="button" class="chip" data-filter="in-development" aria-pressed="false">${badge("in-development")} <span>${counts["in-development"]}</span></button>
     <button type="button" class="chip" data-filter="planned" aria-pressed="false">${badge("planned")} <span>${counts.planned}</span></button>
   </div>
-  <div class="dev-note" role="note"><strong>Built in the open, one track at a time.</strong> Most of this library is still under development. Tracks marked <em>In development</em> have early pages you can read today; they will grow into full lessons with figures, checked exercises and labs. Tracks marked <em>Coming soon</em> are planned. Open any track to see its full outline and the status of every module.</div>
+  <div class="dev-note" role="note"><strong>Built in the open, one track at a time.</strong> Most of this library is still under development. Tracks marked <em>In development</em> have early pages you can read today; they will grow into full lessons with figures, checked exercises and labs. Tracks marked <em>Coming soon</em> are planned. Open any track to see its full outline and the status of every module. Want something built sooner, or spotted a mistake? <a data-feedback href="${AUTHOR.linkedin}" target="_blank" rel="noopener">Share feedback</a>.</div>
   <div class="track-grid">${tracks.map(t => trackCard(data, t)).join("")}</div>
 </section>
 
@@ -170,7 +188,7 @@
       <p class="role">${esc(AUTHOR.role)}</p>
       <p>GroundUp Lab is written, illustrated and engineered by ${esc(AUTHOR.name)}. It started as a personal route to research-engineer fluency in machine learning, the long way round: proving the linear algebra, deriving the estimators and implementing every algorithm before trusting a library with it. It is now published so others can take the same path.</p>
       <p>Every lesson, exercise, figure and lab on this site is original work unless credited otherwise. Some writing and code were produced with AI assistance and then reviewed and edited by the author.</p>
-      <div class="cta-row"><a class="btn btn-primary" href="${AUTHOR.linkedin}" target="_blank" rel="noopener">LinkedIn</a><a class="btn btn-ghost" href="${AUTHOR.github}" target="_blank" rel="noopener">GitHub · ${esc(AUTHOR.handle)}</a><a class="btn btn-ghost" href="#legal">Copyright &amp; permissions</a></div>
+      <div class="cta-row"><a class="btn btn-primary" href="${AUTHOR.linkedin}" target="_blank" rel="noopener">LinkedIn</a><a class="btn btn-ghost" href="${AUTHOR.github}" target="_blank" rel="noopener">GitHub · ${esc(AUTHOR.handle)}</a><a class="btn btn-ghost" href="#legal">Copyright &amp; permissions</a><a class="btn btn-ghost" data-feedback href="${AUTHOR.linkedin}" target="_blank" rel="noopener">Share feedback</a></div>
     </div>
   </div>
 </section>`;
