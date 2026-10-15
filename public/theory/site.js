@@ -93,6 +93,7 @@
     derive: '<path d="M5 19 19 5M7 5h4M5 7v4M15 17h4"/>',
     implement: '<path d="m8 8-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14"/>',
     explain: '<path d="M4 6.5C4 5.1 5.1 4 6.5 4h11C18.9 4 20 5.1 20 6.5v7c0 1.4-1.1 2.5-2.5 2.5H10l-4 4v-4h0c-1.1 0-2-.9-2-2z"/>',
+    experiment: '<path d="M9.5 3h5M10.5 3v5.5L5.2 18.2A1.9 1.9 0 0 0 6.9 21h10.2a1.9 1.9 0 0 0 1.7-2.8L13.5 8.5V3M7.6 14h8.8"/>',
     spark: '<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/>'
   };
   const icon = name => '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true">' + ICONS[name] + "</svg>";
@@ -112,6 +113,12 @@
       '<span class="track-meta">' + badge(track.status) + '<span class="track-count">' + esc(count) + "</span></span></span></a>";
   }
 
+  /* A concrete example from a real lesson; linked when that lesson is published. */
+  function example(data, prefix, label) {
+    const lesson = data.lessons.find(l => l.path.startsWith(prefix));
+    return "<li>" + (lesson ? `<a href="${lessonHref(lesson)}">${esc(label)}</a>` : esc(label)) + "</li>";
+  }
+
   function landing(data) {
     const tracks = tracksOf(data);
     const start = data.lessons.find(l => (l.trackId || "").startsWith("02-")) || data.lessons[0];
@@ -120,33 +127,35 @@
     return `
 <section class="hero" id="landing-home">
   <div class="hero-copy">
-    <p class="eyebrow">An independent study library</p>
-    <h1>Learn AI from the <em>ground&nbsp;up</em>.</h1>
-    <p class="lede">A rigorous, self-paced route from mathematical language to LLM systems. Every idea is derived, drawn as a figure you can drag, and implemented in Python that runs right in your browser.</p>
+    <p class="eyebrow">An interactive machine learning lab</p>
+    <h1>Machine learning, <em>derived</em>.</h1>
+    <p class="lede">Derive each result from first principles, test it in experiments you control, and implement it in Python checked against behavioural tests. A rigorous, interactive ML lab that runs entirely in your browser.</p>
     <div class="cta-row">
-      ${start ? `<a class="btn btn-primary" href="${lessonHref(start)}">Start learning <span aria-hidden="true">→</span></a>` : ""}
-      <a class="btn btn-ghost" href="#curriculum">Explore the curriculum</a>
+      ${start ? `<a class="btn btn-primary" href="${lessonHref(start)}">Enter the lab <span aria-hidden="true">→</span></a>` : ""}
+      <a class="btn btn-ghost" href="#curriculum">See the curriculum</a>
     </div>
     <dl class="stats">${stats(data).map(([n, label]) => `<div><dt>${esc(n)}</dt><dd>${esc(label)}</dd></div>`).join("")}</dl>
-    <p class="fine">Free to read. No account needed. Your notes, code and progress stay in this browser.</p>
+    <p class="fine">Free. No account. Your derivations, code and progress stay in this browser.</p>
   </div>
-  <div class="hero-figure">${HERO_ART}<p class="hero-caption">Figures in the lessons are live: drag a vector and watch the span, projection or eigen-direction respond.</p></div>
+  <div class="hero-figure">${HERO_ART}<p class="hero-caption">Every figure is an experiment. Drag the vectors and the span, projection or eigen-direction responds.</p></div>
 </section>
 
 <section class="band" id="landing-method">
-  <div class="section-head"><p class="eyebrow">The method</p><h2>Read. Derive. Implement. Explain.</h2>
-  <p>Each lesson is built so that understanding is something you can demonstrate, not just something you feel.</p></div>
-  <div class="feature-grid">
-    <div class="feature">${icon("read")}<h3>Read the argument</h3><p>Long-form lessons written in textbook style: definitions first, nothing hand-waved, prerequisites linked rather than assumed.</p></div>
-    <div class="feature">${icon("derive")}<h3>Derive it yourself</h3><p>Graded exercises (foundation, core, stretch and checkpoint) with instant answer checks, hints and worked solutions.</p></div>
-    <div class="feature">${icon("implement")}<h3>Implement and test</h3><p>Write the function in an in-browser Python editor and run the same behavioural checks used by the local lab suite.</p></div>
-    <div class="feature">${icon("explain")}<h3>Explain it back</h3><p>Write predictions and derivations beside the lesson. With the Pro AI tutor, get a strict review of your reasoning.</p></div>
+  <div class="section-head"><p class="eyebrow">How the lab works</p><h2>Derive. Experiment. Implement.</h2>
+  <p>Understanding here is something you demonstrate, not something you feel. Every topic is worked through three ways.</p></div>
+  <div class="feature-grid pillars">
+    <div class="feature">${icon("derive")}<h3>Derive</h3><p>Results are proved, not quoted. Definitions come first and assumptions are stated. Graded exercises, from foundation to checkpoint, are checked as you go.</p>
+      <ul class="examples">${example(data, "02-linear-algebra/01-", "The exchange lemma, before dimension is used")}${example(data, "13-reinforcement-learning/01-", "Why the Bellman operator is a contraction")}${example(data, "10-deep-learning-advanced/01-", "Gradients of a batched MLP, by hand")}</ul></div>
+    <div class="feature">${icon("experiment")}<h3>Experiment</h3><p>Interactive figures and prediction-and-reveal experiments. Commit to a guess, change the inputs, and see where your intuition breaks.</p>
+      <ul class="examples">${example(data, "02-linear-algebra/09-", "Can a tiny residual hide a wrong answer?")}${example(data, "02-linear-algebra/08-", "Spend a rank budget")}${example(data, "09-deep-learning-core/01-", "Watch Hebb diverge and Oja settle")}</ul></div>
+    <div class="feature">${icon("implement")}<h3>Implement</h3><p>Write the algorithm yourself in an in-browser Python editor and run it against the same behavioural checks as the offline lab suite.</p>
+      <ul class="examples">${example(data, "02-linear-algebra/02-", "LU with partial pivoting")}${example(data, "05-probability-statistics/13-", "A split conformal threshold")}${example(data, "12-llm-systems/01-", "Causal attention")}</ul></div>
   </div>
 </section>
 
 <section class="section" id="landing-curriculum">
-  <div class="section-head"><p class="eyebrow">Curriculum</p><h2>${tracks.length} tracks, one continuous path</h2>
-  <p>From foundations through linear algebra, optimization and probability to deep learning, language models, reinforcement learning and production AI systems.</p></div>
+  <div class="section-head"><p class="eyebrow">Curriculum</p><h2>${tracks.length} tracks, from proofs to production</h2>
+  <p>Linear algebra, optimization and probability first, then deep learning, language models, reinforcement learning and the systems that run them. Each track builds on the ones before it.</p></div>
   <div class="roadmap" id="landing-roadmap" role="group" aria-label="Filter tracks by status">
     <button type="button" class="chip" data-filter="all" aria-pressed="true">All <span>${tracks.length}</span></button>
     <button type="button" class="chip" data-filter="available" aria-pressed="false">${badge("available")} <span>${counts.available}</span></button>
@@ -161,8 +170,8 @@
   <div class="pro-wrap">
     <div class="pro-copy">
       <p class="eyebrow">GroundUp Lab <span class="pro-badge">Pro</span></p>
-      <h2>An AI tutor that lives in the margin</h2>
-      <p>Ask about any paragraph, figure or exercise and get an exact answer anchored right there. Submit a proof and get told precisely where the argument leaks, not just whether it is right.</p>
+      <h2>A strict reviewer in the margin</h2>
+      <p>Submit a proof or a derivation and get told exactly where the argument leaks: the unjustified step, the missing case, the counterexample. Ask about any passage and the answer stays pinned beside it.</p>
       <ul class="checks">
         <li>Ask about any passage with the <b>?</b> chip; threads stay pinned to that spot</li>
         <li>Strict marking of written working and proofs</li>
@@ -176,7 +185,7 @@
         <li>Every published lesson</li><li>Interactive figures</li><li>In-browser Python labs and checks</li><li>Answer checking and solutions</li><li>Local notes and progress</li></ul>
         ${start ? `<a class="btn btn-ghost" href="${lessonHref(start)}">Start reading</a>` : ""}</div>
       <div class="plan plan-pro"><h3>Pro <span class="pro-badge">Early access</span></h3><p class="price">Pricing coming soon</p><ul>
-        <li>Everything in Free</li><li>AI tutor on every passage</li><li>Proof and working review</li><li>Hints that don't spoil</li><li>Bring your own model</li></ul>
+        <li>Everything in Free</li><li>Proof and derivation review</li><li>Questions on any passage</li><li>Hints that don't spoil</li><li>Bring your own model</li></ul>
         ${start ? `<a class="btn btn-primary" href="${lessonHref(start)}">Try it in a lesson</a>` : ""}</div>
     </div>
   </div>
@@ -190,7 +199,7 @@
       <h2>${esc(AUTHOR.name)}</h2>
       <p class="role">${esc(AUTHOR.role)}</p>
       <p>GroundUp Lab is written, illustrated and engineered by ${esc(AUTHOR.name)}. It started as a personal route to research-engineer fluency in machine learning, the long way round: proving the linear algebra, deriving the estimators and implementing every algorithm before trusting a library with it. It is now published so others can take the same path.</p>
-      <p>Every lesson, exercise, figure and lab on this site is original work unless credited otherwise. Some writing and code were produced with AI assistance and then reviewed and edited by the author.</p>
+      <p>The lessons, exercises, figures and labs are original work unless credited otherwise, and every one is built around the same loop: derive it, test it, implement it.</p>
       <div class="cta-row"><a class="btn btn-primary" href="${AUTHOR.linkedin}" target="_blank" rel="noopener">LinkedIn</a><a class="btn btn-ghost" href="${AUTHOR.github}" target="_blank" rel="noopener">GitHub · ${esc(AUTHOR.handle)}</a><a class="btn btn-ghost" href="#legal">Copyright &amp; permissions</a><a class="btn btn-ghost" data-feedback href="${AUTHOR.linkedin}" target="_blank" rel="noopener">Share feedback</a></div>
     </div>
   </div>
@@ -356,7 +365,7 @@
         wireLanding(landingNode);
       }
       landingNode.hidden = false; page.hidden = true;
-      document.title = "GroundUp Lab — Learn AI from the ground up";
+      document.title = "GroundUp Lab — Machine learning, derived";
     } else {
       page.innerHTML = mode === "legal" ? legalPage() : trackPage(data, decodeURIComponent(route.slice(6)));
       page.hidden = false; landingNode.hidden = true;
