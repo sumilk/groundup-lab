@@ -1,5 +1,7 @@
 # GroundUp Lab
 
+> **Copyright © 2026 Sumil Khosla. All rights reserved.** See [copyright and permissions](COPYRIGHT.md). The source is not yet offered under an open-source license.
+
 Progressive AI study for Sumil: Python, DSA, linear algebra, optimization, probability/statistics, information/learning/decision theory, ML, PyTorch, deep learning, NLP, LLM systems, RL, and practical AI systems.
 
 **[Open the theory index](content/README.md)** · **[Run the labs](labs/README.md)** · **[Deployment guide](docs/DEPLOYMENT.md)**
