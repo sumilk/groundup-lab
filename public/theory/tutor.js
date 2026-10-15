@@ -199,7 +199,7 @@
       '<button type="button" class="primary send">Ask Claude</button>' +
       '<button type="button" class="grade">Grade my attempt</button>' +
       '<button type="button" class="stop" hidden>Stop</button>' +
-      '<button type="button" class="settings">Key</button>' +
+      '<button type="button" class="settings" title="AI tutor settings (Pro)">Tutor <span class="pro-badge">Pro</span></button>' +
       '<span class="note-status"></span></div></div>';
     card.querySelector(".exc").textContent = slot.title;
     card.querySelector(".close").onclick = () => { card.hidden = true; };
@@ -281,8 +281,10 @@
     if (button) {
       const current = connection();
       button.textContent = live
-        ? (current.provider === "gateway" ? "Connected · gateway" : "Connected · " + (current.model || current.provider))
-        : "Connect a model";
+        ? (current.provider === "gateway" ? "AI tutor · gateway" : "AI tutor · " + (current.model || current.provider))
+        : "AI tutor";
+      button.insertAdjacentHTML("beforeend", ' <span class="pro-badge">Pro</span>');
+      button.title = live ? "AI tutor connected (Pro early access)" : "AI tutor is a Pro feature (early access: connect your own model)";
     }
   }
 
@@ -335,7 +337,10 @@
     dialog.className = "gu-modal";
     dialog.innerHTML =
       '<form method="dialog">' +
-      '<h2>Connect a model</h2>' +
+      '<h2>AI tutor <span class="pro-badge">Pro</span></h2>' +
+      '<div class="pro-callout"><strong>The AI tutor is a GroundUp Lab Pro feature.</strong> ' +
+      'Pro is in early access and not on sale yet. Until it launches, you can use the tutor by connecting your own model below. ' +
+      'Everything else on the site stays free. <a href="#pro">What\u2019s in Pro</a></div>' +
       '<p class="fine">Answers are requested straight from this page. A key typed here is stored in this browser only and never leaves it except as the request header to the endpoint below. Prefer the gateway option if you would rather no key sat in browser storage.</p>' +
       '<label for="tutor-provider">Provider</label>' +
       '<select id="tutor-provider"></select>' +
@@ -386,7 +391,7 @@
   /* ---------- the request ---------- */
   async function ask(brief, turns, signal) {
     const current = connection();
-    if (!current.model) throw new Error("No model name is set. Open Connect a model and name one.");
+    if (!current.model) throw new Error("No model name is set. Open the AI tutor settings and name one.");
     const headers = {"content-type": "application/json"};
     let url, body;
     if (current.wire === "openai") {
@@ -420,7 +425,7 @@
     const payload = await response.json().catch(() => ({}));
     if (!response.ok) {
       const detail = (payload.error && (payload.error.message || payload.error.type)) || ("HTTP " + response.status);
-      if (response.status === 401 || response.status === 403) throw new Error("The endpoint rejected these credentials. Open Connect a model.");
+      if (response.status === 401 || response.status === 403) throw new Error("The endpoint rejected these credentials. Open the AI tutor settings in the toolbar.");
       if (response.status === 429) throw new Error("Rate limited by the endpoint. Try again shortly.");
       throw new Error(detail);
     }
@@ -609,7 +614,7 @@
   window.GU_GRADE_BRIEF = GRADE_BRIEF;
   window.GU_MARK = function (system, messages, opts) {
     opts = opts || {};
-    if (!connected()) return Promise.reject(new Error("Connect a model first — the button is in the toolbar."));
+    if (!connected()) return Promise.reject(new Error("AI marking is a Pro feature. Connect a model with the AI tutor button in the toolbar (early access)."));
     const turns = messages.map(message => ({role: message.role, text: message.content}));
     return ask(system, turns, opts.signal).then(text => {
       if (opts.onText) opts.onText(text);

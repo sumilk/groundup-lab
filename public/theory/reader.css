@@ -43,9 +43,7 @@ a{color:var(--accent);text-underline-offset:4px}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
 /* ------------------------------------------------------------ chrome -- */
-header{display:flex;gap:20px;align-items:baseline;flex-wrap:wrap;padding:14px 28px;border-bottom:1px solid var(--rule);background:var(--surface);font-family:var(--sans);font-size:13px}
-header a:first-child{font-weight:650;text-decoration:none;font-size:14px;letter-spacing:-.01em}
-header span{color:var(--ink-3);flex:1;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase}
+/* site header, footer, landing and status pages: see site.css */
 .layout{display:grid;grid-template-columns:288px minmax(0,1fr)}
 aside{padding:26px 20px;border-right:1px solid var(--rule);background:var(--surface);position:sticky;top:0;max-height:100vh;overflow:auto;font-family:var(--sans)}
 aside h1{font-family:var(--serif);font-size:23px;line-height:1.2;letter-spacing:-.015em;margin:0 0 4px}
@@ -238,7 +236,7 @@ body.lab-open{overflow-x:hidden}
 @media(max-width:600px){.python-lab{padding:16px}.python-lab-heading{display:block}.python-lab-meta{justify-content:flex-start;margin-top:10px}.python-actions .danger-muted{margin-left:0}}
 @media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
 @media print{
-  header,aside,.toolbar,.practice,.python-lab,#status,#guRail,.askchip,.gu-modal,.panel{display:none}
+  header,footer,aside,.toolbar,.practice,.python-lab,#status,#guRail,.askchip,.gu-modal,.panel,#lesson-banner{display:none}
   .layout{display:block}main{max-width:none;padding:0}
   article pre{white-space:pre-wrap}
   .stage{aspect-ratio:auto;height:320px}

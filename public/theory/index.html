@@ -1,11 +1,19 @@
 <!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>GroundUp Lab — Study library</title>
+<title>GroundUp Lab — Learn AI from the ground up</title>
+<meta name="description" content="A rigorous, self-paced route from mathematical language to LLM systems: derivations, interactive figures and Python exercises that run in your browser. By Sumil Khosla.">
+<meta name="author" content="Sumil Khosla">
+<meta name="theme-color" content="#166b7b">
+<meta property="og:type" content="website">
+<meta property="og:title" content="GroundUp Lab — Learn AI from the ground up">
+<meta property="og:description" content="Derivations, interactive figures and in-browser Python labs, from linear algebra to LLM systems.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23166b7b'/%3E%3Cpath d='M8 23 L16 9 L24 23' fill='none' stroke='%23fdfdfb' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='16' cy='9' r='2.6' fill='%23d6a542'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="site.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.18.7/dist/katex.min.css" integrity="sha384-JctiRyLzXCrSoOOzFlSoWLdyzQl7OrrRnhyeBmzB6ZWtcjccUyc8lCQJqIbs3uQX" crossorigin="anonymous">
 <script defer src="https://cdn.jsdelivr.net/npm/marked@16/lib/marked.umd.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
@@ -40,9 +48,22 @@
 <script defer src="labs/nn-01.js"></script>
 <script defer src="labs/nn-02.js"></script>
 <script defer src="tutor.js"></script>
+<script defer src="site.js"></script>
 <script defer src="reader.js"></script></head>
 <body>
-<header><a href="/">GroundUp Lab</a><span>Study library</span><span>Free learning resources</span></header>
+<header class="site-header">
+<a class="brand" href="#home" aria-label="GroundUp Lab home"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="8"/><path d="M8 23 L16 9 L24 23"/><circle cx="16" cy="9" r="2.6"/></svg></span><span class="brand-name">GroundUp&nbsp;Lab</span></a>
+<nav class="site-nav" aria-label="Site">
+<a href="#home" data-route="home">Home</a>
+<a href="#curriculum" data-route="curriculum">Curriculum</a>
+<a href="#library" data-route="library">Library</a>
+<a href="#about" data-route="about">About</a>
+<a href="#pro" data-route="pro" class="nav-pro">AI Tutor <span class="pro-badge">Pro</span></a>
+</nav>
+<button id="site-theme" class="theme-toggle" type="button" aria-label="Colour theme">◐</button>
+</header>
+<div id="landing" hidden></div>
+<div id="page" hidden></div>
 <div class="layout"><aside aria-label="Lesson navigation">
 <h1>Theory & practice</h1><p class="muted">Read. Derive. Implement. Explain.</p>
 <label for="search">Find a lesson</label><input id="search" type="search" placeholder="Try PyTorch, RL, or probability">
@@ -50,6 +71,7 @@
 <main><p id="status" role="status">Loading lessons…</p>
 <div class="toolbar"><button id="previous">Previous</button><button id="next">Next</button><button id="theme" type="button" aria-label="Colour theme">Theme: system</button>
 <button id="print">Print / save PDF</button><a id="source">Markdown source</a></div>
+<div id="lesson-banner" class="lesson-banner" role="note" hidden></div>
 <article id="article" aria-live="polite"></article>
 <section class="python-lab" id="python-lab" hidden>
 <div class="python-lab-heading"><div><p class="eyebrow">Runnable exercise</p><h2 id="python-title">Python lab</h2></div><div class="python-lab-meta"><span id="python-task"></span><button id="python-close" type="button" aria-label="Close Python lab" title="Close Python lab">×</button></div></div>
@@ -73,6 +95,18 @@
 <label><input type="checkbox" id="read"> I have read this lesson (not a mastery score)</label>
 <button id="prompt">Copy tutor prompt for this lesson</button><p id="saved" role="status"></p>
 </section></main></div>
-<footer style="text-align:center;padding:1.25rem;font-size:.8rem;opacity:.72">© 2026 Sumil Khosla. All rights reserved. GroundUp Lab is an independent educational project.</footer>
+<footer class="site-footer">
+<div class="footer-grid">
+<div class="footer-brand"><a class="brand" href="#home"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="8"/><path d="M8 23 L16 9 L24 23"/><circle cx="16" cy="9" r="2.6"/></svg></span><span class="brand-name">GroundUp&nbsp;Lab</span></a>
+<p>Learn AI from the ground up: derive it, see it, implement it, explain it.</p></div>
+<div><h2>Learn</h2><a href="#curriculum">Curriculum</a><a href="#library">Lesson library</a><a href="#roadmap">Roadmap &amp; status</a></div>
+<div><h2>Project</h2><a href="#about">About the author</a><a href="#pro">AI Tutor (Pro)</a><a href="https://github.com/sumilk" rel="noopener" target="_blank">GitHub · @sumilk</a></div>
+<div><h2>Legal</h2><a href="#legal">Copyright &amp; permissions</a><a href="#legal-privacy">Privacy</a><a href="#legal-disclaimer">Disclaimer</a></div>
+</div>
+<div class="footer-base">
+<p>© 2026 <strong>Sumil Khosla</strong>. All rights reserved. GroundUp Lab is an independent educational project; original lessons, exercises, illustrations and code may not be reproduced or redistributed without permission.</p>
+<p>Third-party names, papers, libraries and fonts belong to their respective owners. Several sections are still under development. See the <a href="#roadmap">roadmap</a>.</p>
+</div>
+</footer>
 <noscript>JavaScript is needed to use this learning site.</noscript>
 </body></html>

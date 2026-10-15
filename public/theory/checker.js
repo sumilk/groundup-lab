@@ -150,7 +150,7 @@
       '<div class="chk-actions">' +
       (fieldsHtml ? '<button type="button" class="primary chk-go">Check answer</button>' : "") +
       (canMark ? '<button type="button" class="chk-mark' + (fieldsHtml ? "" : " primary") + '">' +
-        (ex.proof ? "Mark my proof" : "Mark my working") + "</button>" : "") +
+        (ex.proof ? "Mark my proof" : "Mark my working") + ' <span class="pro-badge">Pro</span></button>' : "") +
       '<button type="button" class="chk-sol" disabled>Show solution</button>' +
       '<span class="chk-msg"></span></div>' +
       '<div class="chk-work"' + (ex.proof || saved.working ? "" : " hidden") + '>' +

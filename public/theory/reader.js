@@ -1,7 +1,7 @@
 /* Sanitized Markdown; notes remain text. This reader needs no API key. */
 (() => {
   const $ = id => document.getElementById(id);
-  let lessons = [], current = null, revision = "", renderId = 0, mermaidPromise;
+  let lessons = [], tracks = [], current = null, revision = "", renderId = 0, mermaidPromise;
   let labRuntime = {labs: []}, currentLabs = [], currentLab = null, lastLabTrigger = null, pythonWorker = null, pythonReady = null;
   let pythonRequestId = 0, pythonExecutionId = 0, pythonBusy = false;
   const pythonRequests = new Map();
@@ -191,14 +191,49 @@
   }
   function nav() {
     const query = $("search").value.toLowerCase();
-    $("lessons").replaceChildren(); let lastTrack;
-    for(const lesson of lessons.filter(l=>(l.title+" "+l.track+" "+l.markdown).toLowerCase().includes(query))) {
-      if(lesson.track!==lastTrack) {const h=document.createElement("h2");h.textContent=lesson.track;$("lessons").append(h);lastTrack=lesson.track;}
-      const link=document.createElement("a");link.href="#"+encodeURIComponent(lesson.path);
-      link.textContent=(get("read:"+lesson.path)==="yes"?"✓ ":"")+lesson.title;
-      if(current?.path===lesson.path) link.setAttribute("aria-current","page");
-      $("lessons").append(link);
+    $("lessons").replaceChildren();
+    const matches=lessons.filter(l=>(l.title+" "+l.track+" "+l.markdown).toLowerCase().includes(query));
+    const site=window.GroundUpSite;
+    const groups=site?site.tracksOf({tracks,lessons}):[];
+    if(!groups.length){
+      let lastTrack;
+      for(const lesson of matches){
+        if(lesson.track!==lastTrack){const h=document.createElement("h2");h.textContent=lesson.track;$("lessons").append(h);lastTrack=lesson.track;}
+        $("lessons").append(lessonLink(lesson));
+      }
+      return;
     }
+    for(const track of groups){
+      const own=matches.filter(l=>(l.trackId||l.track)===track.id);
+      const titleHit=(track.title+" "+track.blurb).toLowerCase().includes(query);
+      if(!own.length&&!(track.status==="planned"&&(!query||titleHit)))continue;
+      const h=document.createElement("h2");
+      const head=document.createElement("a");
+      head.href="#track/"+encodeURIComponent(track.id);
+      head.textContent=track.number+" "+track.title;
+      h.append(head);
+      if(track.status!=="available")h.insertAdjacentHTML("beforeend",site.badge(track.status));
+      $("lessons").append(h);
+      if(!own.length){
+        const soon=document.createElement("a");
+        soon.className="nav-placeholder";
+        soon.href="#track/"+encodeURIComponent(track.id);
+        soon.textContent="Under development: see what's planned";
+        $("lessons").append(soon);
+      }
+      own.forEach(lesson=>$("lessons").append(lessonLink(lesson)));
+    }
+  }
+  function lessonLink(lesson) {
+    const link=document.createElement("a");link.href="#"+encodeURIComponent(lesson.path);
+    link.textContent=(get("read:"+lesson.path)==="yes"?"✓ ":"")+lesson.title;
+    if(lesson.status==="preview"){
+      const tag=document.createElement("span");
+      tag.className="nav-tag";tag.textContent="early";tag.title="Early version: being expanded into a full lesson";
+      link.append(" ",tag);
+    }
+    if(current?.path===lesson.path) link.setAttribute("aria-current","page");
+    return link;
   }
   function rewriteLinks(lesson) {
     const base=new URL("/content/"+lesson.path,location.origin);
@@ -403,6 +438,12 @@
       button.textContent="Theme: "+mode;
       button.setAttribute("aria-label","Colour theme: "+mode+". Activate to change.");
     }
+    const headerButton=$("site-theme");
+    if(headerButton){
+      headerButton.textContent=mode==="light"?"☀":mode==="dark"?"☾":"◐";
+      headerButton.title="Theme: "+mode;
+      headerButton.setAttribute("aria-label","Colour theme: "+mode+". Activate to change.");
+    }
     document.querySelectorAll(".lab canvas").forEach(canvas=>{
       canvas.dispatchEvent(new Event("gu-theme"));
     });
@@ -412,16 +453,23 @@
     let mode=get("theme");
     if(!THEMES.includes(mode))mode="system";
     applyTheme(mode);
-    const button=$("theme");
-    if(!button)return;
-    button.onclick=()=>{
+    const cycle=()=>{
       const next=THEMES[(THEMES.indexOf(get("theme")||"system")+1)%THEMES.length];
       put("theme",next);
       applyTheme(next);
     };
+    if($("theme"))$("theme").onclick=cycle;
+    if($("site-theme"))$("site-theme").onclick=cycle;
   }
   async function show() {
     const token=++renderId;let selected="";try{selected=decodeURIComponent(location.hash.slice(1));}catch{}
+    const site=window.GroundUpSite;
+    if(site&&!lessons.some(l=>l.path===selected)&&site.render(selected,{tracks,lessons,labs:labRuntime.labs})){
+      if(!$("python-lab").hidden)closeLabPanel();
+      $("status").textContent="";
+      return;
+    }
+    window.scrollTo(0,0);
     current=lessons.find(l=>l.path===selected)||lessons[0];
     if(!current){$("status").textContent="No authored lessons found.";return;}
     const lesson=current,idx=lessons.indexOf(lesson);
@@ -432,6 +480,8 @@
     $("previous").disabled=idx===0;$("next").disabled=idx===lessons.length-1;
     $("status").textContent=(idx+1)+" / "+lessons.length+" · "+lesson.track+" · "+revision;
     $("saved").textContent="";nav();
+    const banner=site?site.lessonBanner(lesson,{tracks,lessons}):"";
+    $("lesson-banner").innerHTML=banner;$("lesson-banner").hidden=!banner;
     const body=lesson.markdown.replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n/,"");
     if(!window.marked||!window.DOMPurify){$("article").innerHTML="<pre>"+escapeHTML(body)+"</pre>";$("status").textContent+=" · Renderer unavailable; showing Markdown.";return;}
     const p=protectMath(body);
@@ -511,7 +561,7 @@
       .catch(error=>({labs:[],loadError:error.message}))
   ])
     .then(([data,runtime])=>{
-      lessons=data.lessons;revision=data.revision||"authored lessons";labRuntime=runtime;
+      lessons=data.lessons;tracks=data.tracks||[];revision=data.revision||"authored lessons";labRuntime=runtime;
       return show().then(()=>{if(runtime.loadError)$("status").textContent+=" · Runnable labs unavailable: "+runtime.loadError;});
     })
     .catch(error=>{$("status").textContent="Could not load lessons: "+error.message+". Use the repository theory index.";});

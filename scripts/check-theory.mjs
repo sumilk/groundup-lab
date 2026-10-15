@@ -44,7 +44,8 @@ for(const name of labFiles)assert(html.includes('src="labs/'+name+'"'),"Reader d
 for(const source of labSources)new Function(source);
 new Function(await readFile(path.join(root,"public/theory/interactives.js"),"utf8"));
 new Function(await readFile(path.join(root,"public/theory/tutor.js"),"utf8"));
-for(const file of ["interactives.js","tutor.js","checker.js","labs/core.js"])assert(html.includes('src="'+file+'"'),"Reader does not load "+file);
+new Function(await readFile(path.join(root,"public/theory/site.js"),"utf8"));
+for(const file of ["interactives.js","tutor.js","checker.js","labs/core.js","site.js"])assert(html.includes('src="'+file+'"'),"Reader does not load "+file);
 new Function(await readFile(path.join(root,"public/theory/checker.js"),"utf8"));
 for(const lesson of catalog.lessons){
   const front=lesson.markdown.match(/^---\r?\n([\s\S]*?)\r?\n---/);
