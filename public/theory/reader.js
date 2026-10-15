@@ -469,6 +469,7 @@
       $("status").textContent="";
       return;
     }
+    if(site)site.leave();
     window.scrollTo(0,0);
     current=lessons.find(l=>l.path===selected)||lessons[0];
     if(!current){$("status").textContent="No authored lessons found.";return;}

@@ -304,6 +304,16 @@
     else window.scrollTo(0, 0);
   }
 
+  /* Back to the lesson reader: hide the landing and status pages. */
+  function leave() {
+    document.body.classList.remove("view-site");
+    document.getElementById("landing").hidden = true;
+    document.getElementById("page").hidden = true;
+    document.querySelectorAll(".site-nav a").forEach(a => {
+      if (a.dataset.route === "library") a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+    });
+  }
+
   /* Returns true when the route is a site page (not a lesson). */
   function render(route, data) {
     const landingNode = document.getElementById("landing"), page = document.getElementById("page");
@@ -315,11 +325,7 @@
     document.querySelectorAll(".site-nav a").forEach(a => {
       if (a.dataset.route === active) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
     });
-    if (!mode) {
-      document.body.classList.remove("view-site");
-      landingNode.hidden = true; page.hidden = true;
-      return false;
-    }
+    if (!mode) { leave(); return false; }
     document.body.classList.add("view-site");
     if (mode === "landing") {
       if (landingNode.dataset.rendered !== "yes") {
@@ -349,5 +355,5 @@
     return "";
   }
 
-  window.GroundUpSite = {render, lessonBanner, tracksOf, badge, STATUS};
+  window.GroundUpSite = {render, leave, lessonBanner, tracksOf, badge, STATUS};
 })();
