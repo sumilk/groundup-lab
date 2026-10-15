@@ -1,0 +1,11 @@
+{
+  "name": "groundup-lab-public",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-09-14",
+  "workers_dev": true,
+  "assets": {
+    "directory": "../public-release",
+    "binding": "ASSETS",
+    "run_worker_first": true
+  }
+}
