@@ -99,7 +99,7 @@
     return `
 <section class="hero" id="landing-home">
   <div class="hero-copy">
-    <p class="eyebrow">An independent study library by ${esc(AUTHOR.name)}</p>
+    <p class="eyebrow">An independent study library</p>
     <h1>Learn AI from the <em>ground&nbsp;up</em>.</h1>
     <p class="lede">A rigorous, self-paced route from mathematical language to LLM systems. Every idea is derived, drawn as a figure you can drag, and implemented in Python that runs right in your browser.</p>
     <div class="cta-row">
