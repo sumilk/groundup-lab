@@ -16,6 +16,7 @@ Progressive AI study for Sumil: Python, DSA, linear algebra, optimization, proba
 | 07 Classical ML | [Current reading route and build plan](content/07-classical-ml/_plan.md#current-reading-route-and-preserved-implementation-work) |
 | 08 PyTorch | [Tensors, autograd, training](content/08-pytorch/01-tensors-autograd-training.md) |
 | 09 Deep learning core | [Connectionism and the threshold unit](content/09-deep-learning-core/01-connectionism-threshold-unit.md) |
+| 09 Deep learning core | [What a network can represent](content/09-deep-learning-core/02-network-expressivity.md) |
 | 10 Deep learning advanced | [Backprop, initialization, regularization](content/10-deep-learning-advanced/01-backprop-initialization-regularization.md) |
 | 11 NLP | [Text representations and language models](content/11-nlp/01-text-representations-language-models.md) |
 | 12 LLM systems | [Causal transformers and systems](content/12-llm-systems/01-causal-transformers-training-systems.md) |

@@ -65,7 +65,7 @@ Handles are planning references, not reader front-matter IDs. `F00` means Founda
 | IL | [Information/learning/decisions](06-information-learning-decision/_plan.md) | 02–15 |
 | ML | [Classical ML](07-classical-ml/_plan.md) | 02–16; legacy 01 retired, no authored ML module yet |
 | PT | [PyTorch](08-pytorch/_plan.md) | 02–15 |
-| NN | [Deep Learning Core](09-deep-learning-core/_plan.md) | 01–25; NN01 is authored |
+| NN | [Deep Learning Core](09-deep-learning-core/_plan.md) | 01–25; NN01–NN02 are authored |
 | DLA | [Deep Learning Advanced](10-deep-learning-advanced/_plan.md) | 02–16; existing 01 is an overview; old DL handles map via its §8 |
 | NLP | [NLP](11-nlp/_plan.md) | 02–15 |
 | SYS | [LLM Systems](12-llm-systems/_plan.md) | 02–21 |

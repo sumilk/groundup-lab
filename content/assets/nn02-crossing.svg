@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="500" viewBox="0 0 900 500" role="img" aria-labelledby="nn02-cross-title nn02-cross-desc">
+  <title id="nn02-cross-title">The crossing obstruction</title>
+  <desc id="nn02-cross-desc">Left: two solid lines cross at a point p inside a small circle; the two opposite sectors where both units agree are shaded, as at a checkerboard crossing. A dashed third hidden line also passes through p. Two filled antipodal points p + εu and p − εu lie in the two shaded sectors, and a hollow antipodal pair lies in the unshaded sectors. Right: a table of θ(w·(x − p)) for the three lines through p at p + εu and p − εu; for every line one value is 1 and the other 0, so each sum is 1.</desc>
+  <rect width="900" height="500" rx="24" fill="#08111f"/>
+  <text x="450" y="44" fill="#a8b7ca" font-family="system-ui" font-size="18" text-anchor="middle">At a crossing, opposite points cancel every line through p</text>
+  <defs><clipPath id="clip-40-75"><rect x="40.36" y="75" width="399.28" height="380"/></clipPath></defs>
+  <path d="M240 265L108.13 225.44A137.68 137.68 0 0 0 183.5 390.55Z" fill="#ff7a90" fill-opacity="0.35"/>
+  <path d="M240 265L371.87 304.56A137.68 137.68 0 0 0 296.5 139.45Z" fill="#ff7a90" fill-opacity="0.35"/>
+  <path d="M377.68 265L377.63 261.4L377.49 257.79L377.26 254.2L376.93 250.61L376.5 247.03L375.99 243.46L375.38 239.91L374.67 236.37L373.88 232.86L372.99 229.37L372.01 225.9L370.94 222.45L369.78 219.04L368.54 215.66L367.2 212.31L365.78 209L364.27 205.73L362.67 202.49L361 199.3L359.24 196.16L357.39 193.06L355.47 190.01L353.47 187.02L351.39 184.07L349.23 181.19L347 178.35L344.69 175.58L342.32 172.87L339.87 170.23L337.36 167.64L334.77 165.13L332.13 162.68L329.42 160.31L326.65 158L323.81 155.77L320.93 153.61L317.98 151.53L314.99 149.53L311.94 147.61L308.84 145.76L305.7 144L302.51 142.33L299.27 140.73L296 139.22L292.69 137.8L289.34 136.46L285.96 135.22L282.55 134.06L279.1 132.99L275.63 132.01L272.14 131.12L268.63 130.33L265.09 129.62L261.54 129.01L257.97 128.5L254.39 128.07L250.8 127.74L247.21 127.51L243.6 127.37L240 127.32L236.4 127.37L232.79 127.51L229.2 127.74L225.61 128.07L222.03 128.5L218.46 129.01L214.91 129.62L211.37 130.33L207.86 131.12L204.37 132.01L200.9 132.99L197.45 134.06L194.04 135.22L190.66 136.46L187.31 137.8L184 139.22L180.73 140.73L177.49 142.33L174.3 144L171.16 145.76L168.06 147.61L165.01 149.53L162.02 151.53L159.07 153.61L156.19 155.77L153.35 158L150.58 160.31L147.87 162.68L145.23 165.13L142.64 167.64L140.13 170.23L137.68 172.87L135.31 175.58L133 178.35L130.77 181.19L128.61 184.07L126.53 187.02L124.53 190.01L122.61 193.06L120.76 196.16L119 199.3L117.33 202.49L115.73 205.73L114.22 209L112.8 212.31L111.46 215.66L110.22 219.04L109.06 222.45L107.99 225.9L107.01 229.37L106.12 232.86L105.33 236.37L104.62 239.91L104.01 243.46L103.5 247.03L103.07 250.61L102.74 254.2L102.51 257.79L102.37 261.4L102.32 265L102.37 268.6L102.51 272.21L102.74 275.8L103.07 279.39L103.5 282.97L104.01 286.54L104.62 290.09L105.33 293.63L106.12 297.14L107.01 300.63L107.99 304.1L109.06 307.55L110.22 310.96L111.46 314.34L112.8 317.69L114.22 321L115.73 324.27L117.33 327.51L119 330.7L120.76 333.84L122.61 336.94L124.53 339.99L126.53 342.98L128.61 345.93L130.77 348.81L133 351.65L135.31 354.42L137.68 357.13L140.13 359.77L142.64 362.36L145.23 364.87L147.87 367.32L150.58 369.69L153.35 372L156.19 374.23L159.07 376.39L162.02 378.47L165.01 380.47L168.06 382.39L171.16 384.24L174.3 386L177.49 387.67L180.73 389.27L184 390.78L187.31 392.2L190.66 393.54L194.04 394.78L197.45 395.94L200.9 397.01L204.37 397.99L207.86 398.88L211.37 399.67L214.91 400.38L218.46 400.99L222.03 401.5L225.61 401.93L229.2 402.26L232.79 402.49L236.4 402.63L240 402.68L243.6 402.63L247.21 402.49L250.8 402.26L254.39 401.93L257.97 401.5L261.54 400.99L265.09 400.38L268.63 399.67L272.14 398.88L275.63 397.99L279.1 397.01L282.55 395.94L285.96 394.78L289.34 393.54L292.69 392.2L296 390.78L299.27 389.27L302.51 387.67L305.7 386L308.84 384.24L311.94 382.39L314.99 380.47L317.98 378.47L320.93 376.39L323.81 374.23L326.65 372L329.42 369.69L332.13 367.32L334.77 364.87L337.36 362.36L339.87 359.77L342.32 357.13L344.69 354.42L347 351.65L349.23 348.81L351.39 345.93L353.47 342.98L355.47 339.99L357.39 336.94L359.24 333.84L361 330.7L362.67 327.51L364.27 324.27L365.78 321L367.2 317.69L368.54 314.34L369.78 310.96L370.94 307.55L372.01 304.1L372.99 300.63L373.88 297.14L374.67 293.63L375.38 290.09L375.99 286.54L376.5 282.97L376.93 279.39L377.26 275.8L377.49 272.21L377.63 268.6L377.68 265Z" stroke="#a8b7ca" stroke-width="2" fill="none"/>
+  <g clip-path="url(#clip-40-75)">
+  <path d="M1769.75 723.92L-1289.75 -193.92" stroke="#50d2c2" stroke-width="2.5" fill="none"/>
+  </g>
+  <g clip-path="url(#clip-40-75)">
+  <path d="M-415.39 1721.43L895.39 -1191.43" stroke="#50d2c2" stroke-width="2.5" fill="none"/>
+  </g>
+  <g clip-path="url(#clip-40-75)">
+  <path d="M1274.36 1481.89L-794.36 -951.89" stroke="#7aa2f7" stroke-width="2" stroke-dasharray="7 5" fill="none"/>
+  </g>
+  <circle cx="327.67" cy="224.98" r="7" fill="#ff7a90"/>
+  <circle cx="152.33" cy="305.02" r="7" fill="#ff7a90"/>
+  <text x="339.67" y="216.98" fill="#e8eef7" font-family="system-ui" font-size="15">p + εu</text>
+  <text x="140.33" y="325.02" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="end">p − εu</text>
+  <circle cx="199.98" cy="177.33" r="6" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <circle cx="280.02" cy="352.67" r="6" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <circle cx="240" cy="265" r="5" fill="#e8eef7"/>
+  <text x="249" y="283" fill="#e8eef7" font-family="system-ui" font-size="16">p</text>
+  <text x="64.26" y="226.48" fill="#50d2c2" font-family="system-ui" font-size="15">ℓ₁</text>
+  <text x="323.89" y="107.92" fill="#50d2c2" font-family="system-ui" font-size="15">ℓ₂</text>
+  <text x="393.12" y="432.08" fill="#7aa2f7" font-family="system-ui" font-size="15">ℓ₃ (hidden)</text>
+  <text x="480" y="120" fill="#a8b7ca" font-family="system-ui" font-size="14">unit through p</text>
+  <text x="630" y="120" fill="#a8b7ca" font-family="system-ui" font-size="14" text-anchor="middle">at p+εu</text>
+  <text x="720" y="120" fill="#a8b7ca" font-family="system-ui" font-size="14" text-anchor="middle">at p−εu</text>
+  <text x="800" y="120" fill="#a8b7ca" font-family="system-ui" font-size="14" text-anchor="middle">sum</text>
+  <path d="M480 130H830" stroke="#31445e" stroke-width="1.5" fill="none"/>
+  <text x="480" y="158" fill="#50d2c2" font-family="system-ui" font-size="14">θ(w·(x−p)) on ℓ₁</text>
+  <text x="630" y="158" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">1</text>
+  <text x="720" y="158" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">0</text>
+  <text x="800" y="158" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle" font-weight="600">1</text>
+  <text x="480" y="188" fill="#50d2c2" font-family="system-ui" font-size="14">θ(w·(x−p)) on ℓ₂</text>
+  <text x="630" y="188" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">1</text>
+  <text x="720" y="188" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">0</text>
+  <text x="800" y="188" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle" font-weight="600">1</text>
+  <text x="480" y="218" fill="#7aa2f7" font-family="system-ui" font-size="14">θ(w·(x−p)) on ℓ₃</text>
+  <text x="630" y="218" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">0</text>
+  <text x="720" y="218" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">1</text>
+  <text x="800" y="218" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle" font-weight="600">1</text>
+  <text x="480" y="250" fill="#a8b7ca" font-family="system-ui" font-size="14">Each line through p puts exactly one of the pair</text>
+  <text x="480" y="272" fill="#a8b7ca" font-family="system-ui" font-size="14">on its firing side, so the two output scores</text>
+  <text x="480" y="294" fill="#a8b7ca" font-family="system-ui" font-size="14">add up to the same constant C for every u.</text>
+  <text x="480" y="338" fill="#ff7a90" font-family="system-ui" font-size="14">● filled pair: both in the region ⇒ C ≥ 0</text>
+  <text x="480" y="360" fill="#a8b7ca" font-family="system-ui" font-size="14">○ hollow pair: both outside ⇒ C &lt; 0</text>
+  <text x="480" y="404" fill="#e8eef7" font-family="system-ui" font-size="14" font-weight="600">No single hidden layer can satisfy both.</text>
+  <text x="450" y="480" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">z(p+εu) + z(p−εu) does not depend on u, yet the filled pair needs it ≥ 0 and the hollow pair &lt; 0.</text>
+</svg>

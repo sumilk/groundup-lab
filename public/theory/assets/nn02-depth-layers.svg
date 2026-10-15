@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="530" viewBox="0 0 900 530" role="img" aria-labelledby="nn02-depth-title nn02-depth-desc">
+  <title id="nn02-depth-title">Depth and strict layering for a two-unit XOR</title>
+  <desc id="nn02-depth-desc">Left: inputs x1 and x2, hidden unit h = θ(x1 + x2 − 2) and output y = θ(x1 + x2 − 2h − 1). The output reads both inputs directly through skip connections and reads h with weight −2. Depths 0, 0, 1 and 2 are written beside x1, x2, h and y; 2 units and 5 connections. Right: the same function strictly layered, with copying units p1 = θ(x1 − ½) and p2 = θ(x2 − ½) beside h, and y = θ(p1 + p2 − 2h − 1); every arrow joins neighbouring columns; 4 units and 7 connections. Both networks are checked on all four inputs.</desc>
+  <rect width="900" height="530" rx="24" fill="#08111f"/>
+  <text x="450" y="44" fill="#a8b7ca" font-family="system-ui" font-size="18" text-anchor="middle">One XOR, drawn with and without skip connections</text>
+  <path d="M113.37 140.5L217.98 222.7" stroke="#476073" stroke-width="2" fill="none"/><path d="M225.06 228.26L215.2 226.24L220.76 219.16Z" fill="#476073"/>
+  <rect x="157" y="175" width="26" height="17" rx="4" fill="#08111f"/><text x="170" y="188.5" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">+1</text>
+  <path d="M113.37 339.5L217.98 257.3" stroke="#476073" stroke-width="2" fill="none"/><path d="M225.06 251.74L220.76 260.84L215.2 253.76Z" fill="#476073"/>
+  <rect x="157" y="285" width="26" height="17" rx="4" fill="#08111f"/><text x="170" y="298.5" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">+1</text>
+  <path d="M116 126Q272.5 90 368.2 217.6" stroke="#ffb86b" stroke-width="2" fill="none" stroke-dasharray="7 4"/>
+  <path d="M367.6 216.8L368.2 217.6" stroke="#ffb86b" stroke-width="2" fill="none"/><path d="M373.6 224.8L364.6 220.3L371.8 214.9Z" fill="#ffb86b"/>
+  <rect x="245.65" y="122.7" width="26" height="17" rx="4" fill="#08111f"/><text x="258.65" y="136.2" fill="#ffb86b" font-family="system-ui" font-size="13" text-anchor="middle">+1</text>
+  <path d="M116 354Q272.5 390 368.2 262.4" stroke="#ffb86b" stroke-width="2" fill="none" stroke-dasharray="7 4"/>
+  <path d="M367.6 263.2L368.2 262.4" stroke="#ffb86b" stroke-width="2" fill="none"/><path d="M373.6 255.2L371.8 265.1L364.6 259.7Z" fill="#ffb86b"/>
+  <rect x="245.65" y="337.3" width="26" height="17" rx="4" fill="#08111f"/><text x="258.65" y="350.8" fill="#ffb86b" font-family="system-ui" font-size="13" text-anchor="middle">+1</text>
+  <path d="M257 240L357 240" stroke="#d586ff" stroke-width="2" fill="none"/><path d="M366 240L357 244.5L357 235.5Z" fill="#d586ff"/>
+  <rect x="299.5" y="230" width="26" height="17" rx="4" fill="#08111f"/><text x="312.5" y="243.5" fill="#d586ff" font-family="system-ui" font-size="13" text-anchor="middle">−2</text>
+  <circle cx="100" cy="130" r="17" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <text x="100" y="135" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">x₁</text>
+  <circle cx="100" cy="350" r="17" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <text x="100" y="355" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">x₂</text>
+  <circle cx="240" cy="240" r="19" fill="#08111f" stroke="#50d2c2" stroke-width="2.4"/>
+  <text x="240" y="245" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle">−2</text>
+  <text x="240" y="213" fill="#a8b7ca" font-family="system-ui" font-size="15" text-anchor="middle">h</text>
+  <circle cx="385" cy="240" r="19" fill="#08111f" stroke="#ff7a90" stroke-width="2.4"/>
+  <text x="385" y="245" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle">−1</text>
+  <text x="385" y="213" fill="#a8b7ca" font-family="system-ui" font-size="15" text-anchor="middle">y</text>
+  <path d="M557 130L652 130" stroke="#476073" stroke-width="2" fill="none"/><path d="M661 130L652 134.5L652 125.5Z" fill="#476073"/>
+  <rect x="597" y="120" width="26" height="17" rx="4" fill="#08111f"/><text x="610" y="133.5" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">+1</text>
+  <path d="M553.37 140.5L657.98 222.7" stroke="#476073" stroke-width="2" fill="none"/><path d="M665.06 228.26L655.2 226.24L660.76 219.16Z" fill="#476073"/>
+  <rect x="597" y="175" width="26" height="17" rx="4" fill="#08111f"/><text x="610" y="188.5" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">+1</text>
+  <path d="M553.37 339.5L657.98 257.3" stroke="#476073" stroke-width="2" fill="none"/><path d="M665.06 251.74L660.76 260.84L655.2 253.76Z" fill="#476073"/>
+  <rect x="597" y="285" width="26" height="17" rx="4" fill="#08111f"/><text x="610" y="298.5" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">+1</text>
+  <path d="M557 350L652 350" stroke="#476073" stroke-width="2" fill="none"/><path d="M661 350L652 354.5L652 345.5Z" fill="#476073"/>
+  <rect x="597" y="340" width="26" height="17" rx="4" fill="#08111f"/><text x="610" y="353.5" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">+1</text>
+  <path d="M693.37 140.5L797.98 222.7" stroke="#476073" stroke-width="2" fill="none"/><path d="M805.06 228.26L795.2 226.24L800.76 219.16Z" fill="#476073"/>
+  <rect x="737" y="175" width="26" height="17" rx="4" fill="#08111f"/><text x="750" y="188.5" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">+1</text>
+  <path d="M693.37 339.5L797.98 257.3" stroke="#476073" stroke-width="2" fill="none"/><path d="M805.06 251.74L800.76 260.84L795.2 253.76Z" fill="#476073"/>
+  <rect x="737" y="285" width="26" height="17" rx="4" fill="#08111f"/><text x="750" y="298.5" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">+1</text>
+  <path d="M697 240L792 240" stroke="#d586ff" stroke-width="2" fill="none"/><path d="M801 240L792 244.5L792 235.5Z" fill="#d586ff"/>
+  <rect x="737" y="230" width="26" height="17" rx="4" fill="#08111f"/><text x="750" y="243.5" fill="#d586ff" font-family="system-ui" font-size="13" text-anchor="middle">−2</text>
+  <circle cx="540" cy="130" r="17" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <text x="540" y="135" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">x₁</text>
+  <circle cx="540" cy="350" r="17" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <text x="540" y="355" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">x₂</text>
+  <circle cx="680" cy="130" r="19" fill="#08111f" stroke="#50d2c2" stroke-width="2.4"/>
+  <text x="680" y="135" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle">−½</text>
+  <text x="680" y="103" fill="#a8b7ca" font-family="system-ui" font-size="15" text-anchor="middle">p₁</text>
+  <circle cx="680" cy="240" r="19" fill="#08111f" stroke="#50d2c2" stroke-width="2.4"/>
+  <text x="680" y="245" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle">−2</text>
+  <text x="680" y="213" fill="#a8b7ca" font-family="system-ui" font-size="15" text-anchor="middle">h</text>
+  <circle cx="680" cy="350" r="19" fill="#08111f" stroke="#50d2c2" stroke-width="2.4"/>
+  <text x="680" y="355" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle">−½</text>
+  <text x="680" y="323" fill="#a8b7ca" font-family="system-ui" font-size="15" text-anchor="middle">p₂</text>
+  <circle cx="820" cy="240" r="19" fill="#08111f" stroke="#ff7a90" stroke-width="2.4"/>
+  <text x="820" y="245" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle">−1</text>
+  <text x="820" y="213" fill="#a8b7ca" font-family="system-ui" font-size="15" text-anchor="middle">y</text>
+  <text x="74" y="135" fill="#50d2c2" font-family="system-ui" font-size="13" text-anchor="end">depth 0</text>
+  <text x="74" y="355" fill="#50d2c2" font-family="system-ui" font-size="13" text-anchor="end">depth 0</text>
+  <text x="240" y="282" fill="#50d2c2" font-family="system-ui" font-size="13" text-anchor="middle">depth 1</text>
+  <text x="385" y="282" fill="#50d2c2" font-family="system-ui" font-size="13" text-anchor="middle">depth 2</text>
+  <text x="540" y="400" fill="#50d2c2" font-family="system-ui" font-size="13" text-anchor="middle">depth 0</text>
+  <text x="680" y="400" fill="#50d2c2" font-family="system-ui" font-size="13" text-anchor="middle">depth 1</text>
+  <text x="820" y="400" fill="#50d2c2" font-family="system-ui" font-size="13" text-anchor="middle">depth 2</text>
+  <path d="M450 80V420" stroke="#31445e" stroke-width="1.5" fill="none"/>
+  <text x="245" y="448" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">2 units · 5 connections · depth 2</text>
+  <text x="245" y="470" fill="#ffb86b" font-family="system-ui" font-size="13" text-anchor="middle">dashed: skip connections (depth 0 → 2)</text>
+  <text x="680" y="448" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">4 units · 7 connections · depth 2</text>
+  <text x="680" y="470" fill="#91a4bb" font-family="system-ui" font-size="13" text-anchor="middle">p₁, p₂ = θ(x − ½) copy the inputs forward</text>
+  <text x="450" y="510" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">Weights on edges, biases in nodes. Depth counts arrows on the longest path from an input to the output.</text>
+</svg>

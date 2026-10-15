@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="540" viewBox="0 0 900 540" role="img" aria-labelledby="nn02-cb-title nn02-cb-desc">
+  <title id="nn02-cb-title">The 8+8 checkerboard and a 19-unit network</title>
+  <desc id="nn02-cb-desc">Left: the window from 0 to 8 in both coordinates, cut by eight vertical and eight horizontal lines at 0.5, 1.5, …, 7.5 into 81 cells; the 40 cells where k + m is odd are shaded, by evaluating the network below on a grid. Right: the network. Sixteen line units v1 to v8 = θ(x1 − a_i) and u1 to u8 = θ(x2 − a_j) feed two units A and B with alternating weights +1, −1, +1, …, so both read p1 + p2, the sum of the two alternating sums; A has bias −1 and B bias −2. The output has weight +1 from A, −1 from B and bias −1. 19 units and 50 connections, strictly layered.</desc>
+  <rect width="900" height="540" rx="24" fill="#08111f"/>
+  <text x="450" y="44" fill="#a8b7ca" font-family="system-ui" font-size="18" text-anchor="middle">An exact 8+8 checkerboard with 19 threshold units</text>
+  <defs><clipPath id="clip-40-80"><rect x="40" y="80" width="350" height="350"/></clipPath></defs>
+  <path d="M61.9 408.1H105.6V430.0H61.9ZM149.4 408.1H193.1V430.0H149.4ZM236.9 408.1H280.6V430.0H236.9ZM324.4 408.1H368.1V430.0H324.4ZM40.0 364.4H61.9V408.1H40.0ZM105.6 364.4H149.4V408.1H105.6ZM193.1 364.4H236.9V408.1H193.1ZM280.6 364.4H324.4V408.1H280.6ZM368.1 364.4H390.0V408.1H368.1ZM61.9 320.6H105.6V364.4H61.9ZM149.4 320.6H193.1V364.4H149.4ZM236.9 320.6H280.6V364.4H236.9ZM324.4 320.6H368.1V364.4H324.4ZM40.0 276.9H61.9V320.6H40.0ZM105.6 276.9H149.4V320.6H105.6ZM193.1 276.9H236.9V320.6H193.1ZM280.6 276.9H324.4V320.6H280.6ZM368.1 276.9H390.0V320.6H368.1ZM61.9 233.1H105.6V276.9H61.9ZM149.4 233.1H193.1V276.9H149.4ZM236.9 233.1H280.6V276.9H236.9ZM324.4 233.1H368.1V276.9H324.4ZM40.0 189.4H61.9V233.1H40.0ZM105.6 189.4H149.4V233.1H105.6ZM193.1 189.4H236.9V233.1H193.1ZM280.6 189.4H324.4V233.1H280.6ZM368.1 189.4H390.0V233.1H368.1ZM61.9 145.6H105.6V189.4H61.9ZM149.4 145.6H193.1V189.4H149.4ZM236.9 145.6H280.6V189.4H236.9ZM324.4 145.6H368.1V189.4H324.4ZM40.0 101.9H61.9V145.6H40.0ZM105.6 101.9H149.4V145.6H105.6ZM193.1 101.9H236.9V145.6H193.1ZM280.6 101.9H324.4V145.6H280.6ZM368.1 101.9H390.0V145.6H368.1ZM61.9 80.0H105.6V101.9H61.9ZM149.4 80.0H193.1V101.9H149.4ZM236.9 80.0H280.6V101.9H236.9ZM324.4 80.0H368.1V101.9H324.4Z" fill="#ff7a90" fill-opacity="0.42"/>
+  <path d="M61.88 430L61.88 80" stroke="#50d2c2" stroke-width="1.4" fill="none"/>
+  <path d="M40 408.13L390 408.13" stroke="#50d2c2" stroke-width="1.4" fill="none"/>
+  <path d="M105.63 430L105.63 80" stroke="#50d2c2" stroke-width="1.4" fill="none"/>
+  <path d="M40 364.38L390 364.38" stroke="#50d2c2" stroke-width="1.4" fill="none"/>
+  <path d="M149.38 430L149.38 80" stroke="#50d2c2" stroke-width="1.4" fill="none"/>
+  <path d="M40 320.63L390 320.63" stroke="#50d2c2" stroke-width="1.4" fill="none"/>
+  <path d="M193.13 430L193.13 80" stroke="#50d2c2" stroke-width="1.4" fill="none"/>
+  <path d="M40 276.88L390 276.88" stroke="#50d2c2" stroke-width="1.4" fill="none"/>
+  <path d="M236.88 430L236.88 80" stroke="#50d2c2" stroke-width="1.4" fill="none"/>
+  <path d="M40 233.13L390 233.13" stroke="#50d2c2" stroke-width="1.4" fill="none"/>
+  <path d="M280.63 430L280.63 80" stroke="#50d2c2" stroke-width="1.4" fill="none"/>
+  <path d="M40 189.38L390 189.38" stroke="#50d2c2" stroke-width="1.4" fill="none"/>
+  <path d="M324.38 430L324.38 80" stroke="#50d2c2" stroke-width="1.4" fill="none"/>
+  <path d="M40 145.63L390 145.63" stroke="#50d2c2" stroke-width="1.4" fill="none"/>
+  <path d="M368.13 430L368.13 80" stroke="#50d2c2" stroke-width="1.4" fill="none"/>
+  <path d="M40 101.88L390 101.88" stroke="#50d2c2" stroke-width="1.4" fill="none"/>
+  <rect x="40" y="80" width="350" height="350" fill="none" stroke="#31445e" stroke-width="2"/>
+  <text x="40" y="450" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">0</text>
+  <text x="32" y="435" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="end">0</text>
+  <text x="215" y="450" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">4</text>
+  <text x="32" y="260" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="end">4</text>
+  <text x="390" y="450" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">8</text>
+  <text x="32" y="85" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="end">8</text>
+  <text x="404" y="450" fill="#a8b7ca" font-family="system-ui" font-size="14">x₁</text>
+  <text x="40" y="70" fill="#a8b7ca" font-family="system-ui" font-size="14" text-anchor="middle">x₂</text>
+  <text x="215" y="486" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">9×9 = 81 cells, 40 shaded (k + m odd)</text>
+  <path d="M485.13 150.76L587.54 98.38" stroke="#476073" stroke-width="1.2" fill="none"/><path d="M592.88 95.64L588.9 101.05L586.17 95.7Z" fill="#476073"/>
+  <path d="M485.97 152.67L586.85 115.8" stroke="#476073" stroke-width="1.2" fill="none"/><path d="M592.49 113.75L587.88 118.62L585.82 112.99Z" fill="#476073"/>
+  <path d="M486.61 154.86L586.32 133" stroke="#476073" stroke-width="1.2" fill="none"/><path d="M592.19 131.71L586.97 135.93L585.68 130.07Z" fill="#476073"/>
+  <path d="M486.95 157.26L586.04 150.02" stroke="#476073" stroke-width="1.2" fill="none"/><path d="M592.02 149.58L586.26 153.01L585.82 147.03Z" fill="#476073"/>
+  <path d="M486.95 159.74L586.04 166.98" stroke="#476073" stroke-width="1.2" fill="none"/><path d="M592.02 167.42L585.82 169.97L586.26 163.99Z" fill="#476073"/>
+  <path d="M486.61 162.14L586.32 184" stroke="#476073" stroke-width="1.2" fill="none"/><path d="M592.19 185.29L585.68 186.93L586.97 181.07Z" fill="#476073"/>
+  <path d="M485.97 164.33L586.85 201.2" stroke="#476073" stroke-width="1.2" fill="none"/><path d="M592.49 203.25L585.82 204.01L587.88 198.38Z" fill="#476073"/>
+  <path d="M485.13 166.24L587.54 218.62" stroke="#476073" stroke-width="1.2" fill="none"/><path d="M592.88 221.36L586.17 221.3L588.9 215.95Z" fill="#476073"/>
+  <path d="M485.13 328.76L587.54 276.38" stroke="#476073" stroke-width="1.2" fill="none"/><path d="M592.88 273.64L588.9 279.05L586.17 273.7Z" fill="#476073"/>
+  <path d="M485.97 330.67L586.85 293.8" stroke="#476073" stroke-width="1.2" fill="none"/><path d="M592.49 291.75L587.88 296.62L585.82 290.99Z" fill="#476073"/>
+  <path d="M486.61 332.86L586.32 311" stroke="#476073" stroke-width="1.2" fill="none"/><path d="M592.19 309.71L586.97 313.93L585.68 308.07Z" fill="#476073"/>
+  <path d="M486.95 335.26L586.04 328.02" stroke="#476073" stroke-width="1.2" fill="none"/><path d="M592.02 327.58L586.26 331.01L585.82 325.03Z" fill="#476073"/>
+  <path d="M486.95 337.74L586.04 344.98" stroke="#476073" stroke-width="1.2" fill="none"/><path d="M592.02 345.42L585.82 347.97L586.26 341.99Z" fill="#476073"/>
+  <path d="M486.61 340.14L586.32 362" stroke="#476073" stroke-width="1.2" fill="none"/><path d="M592.19 363.29L585.68 364.93L586.97 359.07Z" fill="#476073"/>
+  <path d="M485.97 342.33L586.85 379.2" stroke="#476073" stroke-width="1.2" fill="none"/><path d="M592.49 381.25L585.82 382.01L587.88 376.38Z" fill="#476073"/>
+  <path d="M485.13 344.24L587.54 396.62" stroke="#476073" stroke-width="1.2" fill="none"/><path d="M592.88 399.36L586.17 399.3L588.9 393.95Z" fill="#476073"/>
+  <path d="M608 92L721 200" stroke="#50d2c2" stroke-width="1.1" fill="none"/>
+  <path d="M608 111L721 200" stroke="#d586ff" stroke-width="1.1" fill="none"/>
+  <path d="M608 130L721 200" stroke="#50d2c2" stroke-width="1.1" fill="none"/>
+  <path d="M608 149L721 200" stroke="#d586ff" stroke-width="1.1" fill="none"/>
+  <path d="M608 168L721 200" stroke="#50d2c2" stroke-width="1.1" fill="none"/>
+  <path d="M608 187L721 200" stroke="#d586ff" stroke-width="1.1" fill="none"/>
+  <path d="M608 206L721 200" stroke="#50d2c2" stroke-width="1.1" fill="none"/>
+  <path d="M608 225L721 200" stroke="#d586ff" stroke-width="1.1" fill="none"/>
+  <path d="M608 270L721 200" stroke="#50d2c2" stroke-width="1.1" fill="none"/>
+  <path d="M608 289L721 200" stroke="#d586ff" stroke-width="1.1" fill="none"/>
+  <path d="M608 308L721 200" stroke="#50d2c2" stroke-width="1.1" fill="none"/>
+  <path d="M608 327L721 200" stroke="#d586ff" stroke-width="1.1" fill="none"/>
+  <path d="M608 346L721 200" stroke="#50d2c2" stroke-width="1.1" fill="none"/>
+  <path d="M608 365L721 200" stroke="#d586ff" stroke-width="1.1" fill="none"/>
+  <path d="M608 384L721 200" stroke="#50d2c2" stroke-width="1.1" fill="none"/>
+  <path d="M608 403L721 200" stroke="#d586ff" stroke-width="1.1" fill="none"/>
+  <path d="M608 92L721 330" stroke="#50d2c2" stroke-width="1.1" fill="none"/>
+  <path d="M608 111L721 330" stroke="#d586ff" stroke-width="1.1" fill="none"/>
+  <path d="M608 130L721 330" stroke="#50d2c2" stroke-width="1.1" fill="none"/>
+  <path d="M608 149L721 330" stroke="#d586ff" stroke-width="1.1" fill="none"/>
+  <path d="M608 168L721 330" stroke="#50d2c2" stroke-width="1.1" fill="none"/>
+  <path d="M608 187L721 330" stroke="#d586ff" stroke-width="1.1" fill="none"/>
+  <path d="M608 206L721 330" stroke="#50d2c2" stroke-width="1.1" fill="none"/>
+  <path d="M608 225L721 330" stroke="#d586ff" stroke-width="1.1" fill="none"/>
+  <path d="M608 270L721 330" stroke="#50d2c2" stroke-width="1.1" fill="none"/>
+  <path d="M608 289L721 330" stroke="#d586ff" stroke-width="1.1" fill="none"/>
+  <path d="M608 308L721 330" stroke="#50d2c2" stroke-width="1.1" fill="none"/>
+  <path d="M608 327L721 330" stroke="#d586ff" stroke-width="1.1" fill="none"/>
+  <path d="M608 346L721 330" stroke="#50d2c2" stroke-width="1.1" fill="none"/>
+  <path d="M608 365L721 330" stroke="#d586ff" stroke-width="1.1" fill="none"/>
+  <path d="M608 384L721 330" stroke="#50d2c2" stroke-width="1.1" fill="none"/>
+  <path d="M608 403L721 330" stroke="#d586ff" stroke-width="1.1" fill="none"/>
+  <path d="M756.16 210L821.19 250.26" stroke="#476073" stroke-width="2" fill="none"/><path d="M828.84 255L818.82 254.09L823.56 246.44Z" fill="#476073"/>
+  <path d="M756.16 320L821.19 279.74" stroke="#d586ff" stroke-width="2" fill="none"/><path d="M828.84 275L823.56 283.56L818.82 275.91Z" fill="#d586ff"/>
+  <rect x="779.5" y="222.5" width="26" height="17" rx="4" fill="#08111f"/><text x="792.5" y="236" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">+1</text>
+  <rect x="779.5" y="287.5" width="26" height="17" rx="4" fill="#08111f"/><text x="792.5" y="301" fill="#d586ff" font-family="system-ui" font-size="13" text-anchor="middle">−1</text>
+  <circle cx="600" cy="92" r="8" fill="#08111f" stroke="#50d2c2" stroke-width="1.8"/>
+  <circle cx="600" cy="111" r="8" fill="#08111f" stroke="#50d2c2" stroke-width="1.8"/>
+  <circle cx="600" cy="130" r="8" fill="#08111f" stroke="#50d2c2" stroke-width="1.8"/>
+  <circle cx="600" cy="149" r="8" fill="#08111f" stroke="#50d2c2" stroke-width="1.8"/>
+  <circle cx="600" cy="168" r="8" fill="#08111f" stroke="#50d2c2" stroke-width="1.8"/>
+  <circle cx="600" cy="187" r="8" fill="#08111f" stroke="#50d2c2" stroke-width="1.8"/>
+  <circle cx="600" cy="206" r="8" fill="#08111f" stroke="#50d2c2" stroke-width="1.8"/>
+  <circle cx="600" cy="225" r="8" fill="#08111f" stroke="#50d2c2" stroke-width="1.8"/>
+  <circle cx="600" cy="270" r="8" fill="#08111f" stroke="#7aa2f7" stroke-width="1.8"/>
+  <circle cx="600" cy="289" r="8" fill="#08111f" stroke="#7aa2f7" stroke-width="1.8"/>
+  <circle cx="600" cy="308" r="8" fill="#08111f" stroke="#7aa2f7" stroke-width="1.8"/>
+  <circle cx="600" cy="327" r="8" fill="#08111f" stroke="#7aa2f7" stroke-width="1.8"/>
+  <circle cx="600" cy="346" r="8" fill="#08111f" stroke="#7aa2f7" stroke-width="1.8"/>
+  <circle cx="600" cy="365" r="8" fill="#08111f" stroke="#7aa2f7" stroke-width="1.8"/>
+  <circle cx="600" cy="384" r="8" fill="#08111f" stroke="#7aa2f7" stroke-width="1.8"/>
+  <circle cx="600" cy="403" r="8" fill="#08111f" stroke="#7aa2f7" stroke-width="1.8"/>
+  <text x="600" y="76" fill="#50d2c2" font-family="system-ui" font-size="13" text-anchor="middle">v₁ … v₈</text>
+  <text x="600" y="431" fill="#7aa2f7" font-family="system-ui" font-size="13" text-anchor="middle">u₁ … u₈</text>
+  <circle cx="470" cy="158.5" r="17" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <text x="470" y="163.5" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle">x₁</text>
+  <circle cx="470" cy="336.5" r="17" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <text x="470" y="341.5" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle">x₂</text>
+  <circle cx="740" cy="200" r="19" fill="#08111f" stroke="#ffb86b" stroke-width="2.4"/>
+  <text x="740" y="205" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle">−1</text>
+  <text x="740" y="173" fill="#a8b7ca" font-family="system-ui" font-size="14" text-anchor="middle">A</text>
+  <circle cx="740" cy="330" r="19" fill="#08111f" stroke="#ffb86b" stroke-width="2.4"/>
+  <text x="740" y="335" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle">−2</text>
+  <text x="740" y="303" fill="#a8b7ca" font-family="system-ui" font-size="14" text-anchor="middle">B</text>
+  <circle cx="845" cy="265" r="19" fill="#08111f" stroke="#ff7a90" stroke-width="2.4"/>
+  <text x="845" y="270" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle">−1</text>
+  <text x="845" y="238" fill="#a8b7ca" font-family="system-ui" font-size="14" text-anchor="middle">output</text>
+  <text x="660" y="462" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">vᵢ = θ(x₁ − aᵢ) and uᵢ = θ(x₂ − aᵢ), with aᵢ = i − ½</text>
+  <text x="660" y="486" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">19 units · 50 connections · depth 3</text>
+  <text x="792" y="404" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">edges into A, B:</text>
+  <text x="792" y="422" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">+1 teal, −1 purple</text>
+  <text x="740" y="146" fill="#91a4bb" font-family="system-ui" font-size="13" text-anchor="middle">p₁ + p₂ ≥ 1</text>
+  <text x="740" y="384" fill="#91a4bb" font-family="system-ui" font-size="13" text-anchor="middle">p₁ + p₂ ≥ 2</text>
+  <text x="450" y="520" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">p₁ and p₂ are k mod 2 and m mod 2; A − B = 1 exactly when one of them is 1.</text>
+</svg>

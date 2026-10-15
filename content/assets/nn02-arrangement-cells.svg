@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="470" viewBox="0 0 960 470" role="img" aria-labelledby="nn02-arr-title nn02-arr-desc">
+  <title id="nn02-arr-title">Cells of an arrangement of lines</title>
+  <desc id="nn02-arr-desc">Five panels showing the same window as four lines in general position are added one at a time. The newest line is drawn in orange with dots where it crosses the earlier lines. The cells, found by intersecting the window with every combination of half-planes, are numbered in each panel: 1, 2, 4, 7, 11 cells for 0 to 4 lines. The last panel is drawn larger.</desc>
+  <rect width="960" height="470" rx="24" fill="#08111f"/>
+  <text x="480" y="44" fill="#a8b7ca" font-family="system-ui" font-size="18" text-anchor="middle">Each new line crosses every earlier one</text>
+  <defs><clipPath id="clip-25-155"><rect x="25" y="155" width="140" height="140"/></clipPath></defs>
+  <rect x="25" y="155" width="140" height="140" fill="#0d1a2b" stroke="#31445e" stroke-width="1.5"/>
+  <text x="95" y="230" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">1</text>
+  <text x="95" y="323" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle" font-weight="600">0 lines: 1 cell</text>
+  <defs><clipPath id="clip-180-155"><rect x="180" y="155" width="140" height="140"/></clipPath></defs>
+  <rect x="180" y="155" width="140" height="140" fill="#0d1a2b" stroke="#31445e" stroke-width="1.5"/>
+  <g clip-path="url(#clip-180-155)">
+  <path d="M604.6 -208.43L-102 660.55" stroke="#ffb86b" stroke-width="3" fill="none"/>
+  </g>
+  <text x="221.95" y="202" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">1</text>
+  <text x="279.45" y="258" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">2</text>
+  <text x="250" y="323" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle" font-weight="600">1 line: 2 cells</text>
+  <defs><clipPath id="clip-335-155"><rect x="335" y="155" width="140" height="140"/></clipPath></defs>
+  <rect x="335" y="155" width="140" height="140" fill="#0d1a2b" stroke="#31445e" stroke-width="1.5"/>
+  <g clip-path="url(#clip-335-155)">
+  <path d="M759.6 -208.43L53 660.55" stroke="#50d2c2" stroke-width="2" fill="none"/>
+  </g>
+  <g clip-path="url(#clip-335-155)">
+  <path d="M961.16 153.26L-155.6 238.39" stroke="#ffb86b" stroke-width="3" fill="none"/>
+  </g>
+  <circle cx="432.75" cy="193.54" r="4" fill="#ffb86b"/>
+  <text x="357.59" y="181.84" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">1</text>
+  <text x="462.32" y="183.12" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">2</text>
+  <text x="364.32" y="234.05" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">3</text>
+  <text x="434.45" y="260.74" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">4</text>
+  <text x="405" y="323" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle" font-weight="600">2 lines: 4 cells</text>
+  <defs><clipPath id="clip-490-155"><rect x="490" y="155" width="140" height="140"/></clipPath></defs>
+  <rect x="490" y="155" width="140" height="140" fill="#0d1a2b" stroke="#31445e" stroke-width="1.5"/>
+  <g clip-path="url(#clip-490-155)">
+  <path d="M914.6 -208.43L208 660.55" stroke="#50d2c2" stroke-width="2" fill="none"/>
+  </g>
+  <g clip-path="url(#clip-490-155)">
+  <path d="M1116.16 153.26L-0.6 238.39" stroke="#50d2c2" stroke-width="2" fill="none"/>
+  </g>
+  <g clip-path="url(#clip-490-155)">
+  <path d="M707.8 765.89L358.33 -298.19" stroke="#ffb86b" stroke-width="3" fill="none"/>
+  </g>
+  <circle cx="539.37" cy="253.04" r="4" fill="#ffb86b"/>
+  <circle cx="521.48" cy="198.59" r="4" fill="#ffb86b"/>
+  <text x="537.95" y="180.7" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">1</text>
+  <text x="617.32" y="183.12" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">2</text>
+  <text x="503.38" y="191.04" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">3</text>
+  <text x="546.33" y="220.85" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">4</text>
+  <text x="513.45" y="251.79" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">5</text>
+  <text x="589.21" y="260.74" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">6</text>
+  <text x="533.99" y="286.36" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">7</text>
+  <text x="560" y="323" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle" font-weight="600">3 lines: 7 cells</text>
+  <defs><clipPath id="clip-650-82"><rect x="650" y="82" width="285" height="285"/></clipPath></defs>
+  <rect x="650" y="82" width="285" height="285" fill="#0d1a2b" stroke="#31445e" stroke-width="1.5"/>
+  <g clip-path="url(#clip-650-82)">
+  <path d="M1514.37 -657.83L75.93 1111.15" stroke="#50d2c2" stroke-width="2" fill="none"/>
+  </g>
+  <g clip-path="url(#clip-650-82)">
+  <path d="M1924.67 78.45L-348.73 251.75" stroke="#50d2c2" stroke-width="2" fill="none"/>
+  </g>
+  <g clip-path="url(#clip-650-82)">
+  <path d="M1093.37 1325.59L381.96 -840.58" stroke="#50d2c2" stroke-width="2" fill="none"/>
+  </g>
+  <g clip-path="url(#clip-650-82)">
+  <path d="M1798.6 761.96L-174.94 -379.78" stroke="#ffb86b" stroke-width="3" fill="none"/>
+  </g>
+  <circle cx="820.16" cy="195.91" r="4" fill="#ffb86b"/>
+  <circle cx="769.36" cy="166.52" r="4" fill="#ffb86b"/>
+  <circle cx="699.42" cy="126.06" r="4" fill="#ffb86b"/>
+  <text x="674.71" y="101.32" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">1</text>
+  <text x="781.78" y="129.26" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">2</text>
+  <text x="909.2" y="134.07" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">3</text>
+  <text x="677.24" y="151.31" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">4</text>
+  <text x="723.9" y="161.21" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">5</text>
+  <text x="817.14" y="182.29" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">6</text>
+  <text x="894.81" y="199.56" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">7</text>
+  <text x="764.47" y="211.79" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">8</text>
+  <text x="697.74" y="273.87" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">9</text>
+  <text x="838.14" y="299.29" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">10</text>
+  <text x="739.54" y="344.24" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">11</text>
+  <text x="792.5" y="395" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle" font-weight="600">4 lines: 11 cells</text>
+  <text x="327" y="380" fill="#a8b7ca" font-family="system-ui" font-size="15" text-anchor="middle">cells for N = 0, 1, 2, 3, 4: 1, 2, 4, 7, 11 = 1 + N + N(N−1)/2</text>
+  <text x="480" y="450" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">A new line meets the k−1 earlier lines in k−1 points, passes through k cells, and splits each one in two.</text>
+</svg>

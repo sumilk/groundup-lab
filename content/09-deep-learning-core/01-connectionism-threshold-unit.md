@@ -32,7 +32,7 @@ The chapter builds five ideas, each defined where it first appears.
 4. One threshold unit can only draw a straight boundary, so it cannot compute XOR. A **network** of units can compute any Boolean function.
 5. With real-valued inputs, networks can represent finite unions of polygons exactly. We will define how to approximate curved regions within a bounded window. With a summing output, they can approximate continuous functions of one variable on a bounded closed interval.
 
-**Notation.** Inputs are x=(x₁,…,x_N), weights are w=(w₁,…,w_N), and the bias is b. Thus x and w are lists of N real numbers (written x,w∈ℝᴺ); b and the score z are single real numbers. A unit computes the **pre-activation** z=w·x+b=Σᵢwᵢxᵢ+b, then the **threshold activation** θ(z)=1 if z≥0 and 0 otherwise. Writing b=−T turns "z≥0" into "Σᵢwᵢxᵢ≥T", where T is the **threshold**. Boolean values are 0 and 1. AND is 1 when all inputs are 1, OR when at least one is 1, and NOT reverses 0 and 1; NAND means NOT AND and NOR means NOT OR. A **truth table** lists a function's output for every input pattern. Symbols ∧, ∨ and ¬ mean AND, OR and NOT.
+**Notation.** Inputs are x=(x₁,…,\(x_N\)), weights are w=(w₁,…,\(w_N\)), and the bias is b. Thus x and w are lists of N real numbers (written x,w∈ℝᴺ); b and the score z are single real numbers. A unit computes the **pre-activation** z=w·x+b=Σᵢwᵢxᵢ+b, then the **threshold activation** θ(z)=1 if z≥0 and 0 otherwise. Writing b=−T turns "z≥0" into "Σᵢwᵢxᵢ≥T", where T is the **threshold**. Boolean values are 0 and 1. AND is 1 when all inputs are 1, OR when at least one is 1, and NOT reverses 0 and 1; NAND means NOT AND and NOR means NOT OR. A **truth table** lists a function's output for every input pattern. Symbols ∧, ∨ and ¬ mean AND, OR and NOT.
 
 Check these before starting. Each comes with a short repair.
 - Can you evaluate Σᵢwᵢxᵢ for w=(2,−1,3) and x=(1,1,0)? The answer is 1. If sums with signs are unfamiliar, review the summation notation in [mathematical language](../00-foundations/00-mathematical-language.md).
@@ -161,7 +161,7 @@ The fifth assumption rules out learning on purpose. The authors showed that some
 
 **A worked example.** Take three excitatory inputs A, B, C and threshold 2, with no inhibitory input. Count the active inputs in each of the eight patterns. The unit fires on (1,1,0), (1,0,1), (0,1,1) and (1,1,1), and stays silent otherwise. That is "at least two of three", the majority function. Now add an inhibitory input D. Whenever D is active, the unit is silent, so it computes "majority of A, B, C, and not D".
 
-**The definition.** A **McCulloch–Pitts unit** has excitatory inputs e₁,…,e_m, inhibitory inputs i₁,…,i_k (all 0 or 1) and a threshold θ. It outputs 1 at time t exactly when no inhibitory input was active at time t−1 and the number of active excitatory inputs at t−1 reached the threshold. One time step is one synaptic delay.
+**The definition.** A **McCulloch–Pitts unit** has excitatory inputs e₁,…,\(e_m\), inhibitory inputs i₁,…,\(i_k\) (all 0 or 1) and a threshold θ. It outputs 1 at time t exactly when no inhibitory input was active at time t−1 and the number of active excitatory inputs at t−1 reached the threshold. One time step is one synaptic delay.
 
 There is a subtlety in "reached". The 1943 paper says the count must *exceed* θ. The labs here and most modern texts fire when the count is *at least* θ. The difference is a shift of the threshold by one, except at the edge case of θ=0, which you will meet below.
 
@@ -313,7 +313,7 @@ $$\mathbb{E}[\Delta w\mid w] = \eta\,C\,w.$$
 
 For small steps, rescale time by η and study the **mean-field ODE** dw/dt=Cw. This describes an averaged drift, not an equality for every sampled trajectory. First try C=diag(3,1), w₀=(1,2): the coordinates satisfy dw₁/dt=3w₁ and dw₂/dt=w₂, giving w(t)=(e³ᵗ,2eᵗ). Their ratio w₂/w₁=2e⁻²ᵗ shrinks; the first coordinate grows faster.
 
-More generally C is symmetric and positive semidefinite, so it has orthonormal eigenvectors uᵢ with eigenvalues λ₁≥λ₂≥…≥0. Each coordinate grows like e^{λᵢt}:
+More generally C is symmetric and positive semidefinite, so it has orthonormal eigenvectors uᵢ with eigenvalues λ₁≥λ₂≥…≥0. Each coordinate grows like \(e^{\lambda_i t}\):
 
 $$w(t)=\sum_i e^{\lambda_i t}\,(u_i^\top w_0)\,u_i .$$
 
@@ -362,9 +362,9 @@ Stretch (spectral extension): at a unit eigenvector uⱼ, Cuⱼ=λⱼuⱼ and u�
 
 His original **photoperceptron** had several stages:
 - **sensory points (S)** on a retina, which respond all-or-nothing;
-- a **projection area A_I** of association units, each collecting from a cluster of nearby sensory points;
-- an **association area A_II**, randomly connected to A_I;
-- **response units (R)**, each receiving from its own source set in A_II.
+- a **projection area \(A_{\mathrm{I}}\)** of association units, each collecting from a cluster of nearby sensory points;
+- an **association area \(A_{\mathrm{II}}\)**, randomly connected to \(A_{\mathrm{I}}\);
+- **response units (R)**, each receiving from its own source set in \(A_{\mathrm{II}}\).
 
 ![Rosenblatt's photoperceptron: a retina of sensory points feeding projection units, association units and two mutually inhibiting response units](../assets/nn01-photoperceptron.svg)
 
@@ -618,7 +618,7 @@ Stretch: each finite count changes only across one of finitely many edge lines, 
 
 $$\sum_{k=1}^{K} h_k\big[\theta(x-T_k)-\theta(x-T_{k+1})\big]=\sum_{k=1}^{K+1}(h_k-h_{k-1})\,\theta(x-T_k),$$
 
-with h₀=h_{K+1}=0. This is a **staircase** with K+1 threshold units. If the target is nonzero at the last edge, add that value to the coefficient of the final unit as described above. On a fixed interval, the midpoint error bound for an L-Lipschitz function is proportional to 1/K. On a fixed d-dimensional box, a uniform grid for such a target uses O((1/ε)ᵈ) cells, with constants depending on L, dimension, and the box. That is a cost of this construction, not a lower bound for all networks.
+with \(h_0=h_{K+1}=0\). This is a **staircase** with K+1 threshold units. If the target is nonzero at the last edge, add that value to the coefficient of the final unit as described above. On a fixed interval, the midpoint error bound for an L-Lipschitz function is proportional to 1/K. On a fixed d-dimensional box, a uniform grid for such a target uses O((1/ε)ᵈ) cells, with constants depending on L, dimension, and the box. That is a cost of this construction, not a lower bound for all networks.
 
 **Other activations change the count completely.** A network of units with activation sin z can compute cos(2x) exactly with *one* unit: cos(2x)=sin(2x+π/2), so the weight is 2 and the bias is π/2. Matching the activation to the function can replace thousands of threshold units.
 
@@ -641,7 +641,7 @@ nn-pulses
 
 > **Practice — Stretch:** Show that a staircase with K+1 threshold units and a summing output computes exactly the same function as K separate pulses with 2K threshold units. Then say what goes wrong at the right end if you forget the final unit.
 >
-> **Hint:** Expand the telescoping sum and collect the coefficient of each θ(x−T_k).
+> **Hint:** Expand the telescoping sum and collect the coefficient of each \(\theta(x-T_k)\).
 
 <details>
 <summary>Section 9 practice — solution sketches</summary>
@@ -650,7 +650,7 @@ Foundation: output 1.5[θ(x−2)−θ(x−5)]. At x=1,2,3,5,6 the values are 0,1
 
 Core: x² is 2-Lipschitz on [0,1]. With Δ=1/K the bound is 1/K on [0,1); the endpoint correction makes the value at 1 exact. To certify error strictly below 0.01 using this bound, take K≥101. The bound need not be the sharp error for a specific K.
 
-Stretch: collecting coefficients of each θ(x−Tₖ) gives hₖ−hₖ₋₁, with h₀=h_{K+1}=0. The final coefficient −h_K cancels the last block after its right edge. Omitting it leaves that height on forever. For a closed-interval target add f(b) to that final coefficient.
+Stretch: collecting coefficients of each θ(x−Tₖ) gives hₖ−hₖ₋₁, with \(h_0=h_{K+1}=0\). The final coefficient \(-h_K\) cancels the last block after its right edge. Omitting it leaves that height on forever. For a closed-interval target add f(b) to that final coefficient.
 
 </details>
 
@@ -688,7 +688,7 @@ Open [DNF network](../../labs/exercises.py). Implement `dnf_network(truth)`, whi
 
 ### Lab F — a skyline with shared walls
 
-Open [staircase weights](../../labs/exercises.py). Implement `staircase_weights(heights, edges)`, rewriting K pulses as K+1 threshold units whose coefficients are the jumps h_k−h_{k−1}. The checks compare the staircase with the pulse sum at interior points and exactly on the edges, where the convention step(0)=1 decides which pulse a boundary point belongs to.
+Open [staircase weights](../../labs/exercises.py). Implement `staircase_weights(heights, edges)`, rewriting K pulses as K+1 threshold units whose coefficients are the jumps \(h_k-h_{k-1}\). The checks compare the staircase with the pulse sum at interior points and exactly on the edges, where the convention step(0)=1 decides which pulse a boundary point belongs to.
 
 ### Lab G — an illusion from five units
 

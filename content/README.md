@@ -67,6 +67,7 @@ Attempt these prompts before continuing. The end-of-unit practice set then mixes
 | 06 Information, learning, and decisions | [Entropy, generalization, and decisions](06-information-learning-decision/01-entropy-generalization-decisions.md) |
 | 08 PyTorch | [Tensors, autograd, training](08-pytorch/01-tensors-autograd-training.md) |
 | 09 Deep learning core | [Connectionism and the threshold unit](09-deep-learning-core/01-connectionism-threshold-unit.md) |
+| 09 Deep learning core | [What a network can represent](09-deep-learning-core/02-network-expressivity.md) |
 | 10 Deep learning advanced | [Backprop, initialization, regularization](10-deep-learning-advanced/01-backprop-initialization-regularization.md) |
 | 11 NLP | [Text representations and language models](11-nlp/01-text-representations-language-models.md) |
 | 12 LLM systems | [Causal transformers and systems](12-llm-systems/01-causal-transformers-training-systems.md) |

@@ -1,4 +1,5 @@
 """Reference implementations. Attempt exercises.py before reading."""
+import itertools
 import math
 import random
 
@@ -2539,3 +2540,184 @@ def heat_cold_sensations(heat, cold):
     felt_heat = [1 if at(h, t - 1) or at(b, t - 1) else 0 for t in range(len(c))]
     felt_cold = [1 if at(a, t - 1) and at(c, t - 1) else 0 for t in range(len(c))]
     return felt_heat, felt_cold
+
+
+def _truth_table(truth):
+    """Validate a Boolean truth table in binary order; return (table, n)."""
+    table = _binary_list(truth, "truth")
+    n = len(table).bit_length() - 1
+    if len(table) < 2 or len(table) != 1 << n:
+        raise ValueError("the table length must be a power of two, at least 2")
+    return table, n
+
+
+def prime_implicants(truth):
+    """All prime implicants, found by testing every 0/1/- pattern."""
+    table, n = _truth_table(truth)
+
+    def rows(pattern):
+        out = []
+        for index in range(1 << n):
+            bits = [(index >> (n - 1 - j)) & 1 for j in range(n)]
+            if all(c == "-" or int(c) == b for c, b in zip(pattern, bits)):
+                out.append(index)
+        return out
+
+    implicants = set()
+    for chars in itertools.product("01-", repeat=n):
+        pattern = "".join(chars)
+        if all(table[i] for i in rows(pattern)):
+            implicants.add(pattern)
+    primes = [p for p in implicants
+              if all(p[:j] + "-" + p[j + 1:] not in implicants for j in range(n) if p[j] != "-")]
+    return sorted(primes)
+
+
+def _xor_block(units, a, b, n):
+    """Append OR, NAND and AND units for a XOR b; return the output node."""
+    base = n + len(units)
+    units.append(([a, b], [1, 1], -1))
+    units.append(([a, b], [-1, -1], 1))
+    units.append(([base, base + 1], [1, 1], -2))
+    return base + 2
+
+
+def parity_network(n, construction):
+    """n-bit parity by DNF, counting units, or a pairing tree of XOR blocks."""
+    if isinstance(n, bool) or not isinstance(n, int) or not 2 <= n <= 16:
+        raise ValueError("n must be an int between 2 and 16")
+    if construction not in ("dnf", "count", "tree", "layered-tree"):
+        raise ValueError('construction must be "dnf", "count", "tree" or "layered-tree"')
+    units = []
+    if construction == "dnf":
+        for index in range(1 << n):
+            bits = [(index >> (n - 1 - j)) & 1 for j in range(n)]
+            if sum(bits) % 2:
+                units.append((list(range(n)), [1 if b else -1 for b in bits], -sum(bits)))
+        units.append((list(range(n, n + len(units))), [1] * len(units), -1))
+        return units
+    if construction == "count":
+        for k in range(1, n + 1):
+            units.append((list(range(n)), [1] * n, -k))
+        units.append((list(range(n, 2 * n)), [(-1) ** (k + 1) for k in range(1, n + 1)], -1))
+        return units
+    values = list(range(n))
+    while len(values) > 1:
+        nxt = []
+        for i in range(0, len(values) - 1, 2):
+            nxt.append(_xor_block(units, values[i], values[i + 1], n))
+        if len(values) % 2:
+            carried = values[-1]
+            if construction == "layered-tree":
+                for _ in range(2):
+                    units.append(([carried], [1], -0.5))
+                    carried = n + len(units) - 1
+            nxt.append(carried)
+        values = nxt
+    return units
+
+
+def network_stats(units, n):
+    """Units, nonzero connections, biases, parameters, depth, layering, dense count."""
+    if isinstance(n, bool) or not isinstance(n, int) or n < 1:
+        raise ValueError("n must be an int >= 1")
+    if not isinstance(units, (list, tuple)) or not units:
+        raise ValueError("units must be a nonempty list")
+    depth = [0] * n
+    connections, layered = 0, True
+    for j, unit in enumerate(units):
+        if not isinstance(unit, (list, tuple)) or len(unit) != 3:
+            raise ValueError("each unit is a (sources, weights, bias) triple")
+        sources, weights, bias = unit
+        if not isinstance(sources, (list, tuple)) or not isinstance(weights, (list, tuple)) or len(sources) != len(weights):
+            raise ValueError("sources and weights must be sequences of equal length")
+        for s in sources:
+            if isinstance(s, bool) or not isinstance(s, int) or not 0 <= s < n + j:
+                raise ValueError("a unit may read only inputs and earlier units")
+        if weights:
+            _finite_real_vector(list(weights), "weights")
+        if isinstance(bias, bool) or not isinstance(bias, (int, float)) or not math.isfinite(bias):
+            raise ValueError("bias must be a finite real number")
+        live = [s for s, w in zip(sources, weights) if w != 0]
+        connections += len(live)
+        d = 1 + max((depth[s] for s in live), default=0)
+        if any(depth[s] != d - 1 for s in live):
+            layered = False
+        depth.append(d)
+    unit_depths = depth[n:]
+    dense = None
+    if layered:
+        widths = [n] + [unit_depths.count(d) for d in range(1, max(unit_depths) + 1)]
+        if all(widths):
+            dense = sum(widths[i - 1] * widths[i] + widths[i] for i in range(1, len(widths)))
+        else:
+            layered = False
+    return {"units": len(units), "connections": connections, "biases": len(units),
+            "parameters": connections + len(units), "depth": depth[-1],
+            "layered": layered, "dense": dense}
+
+
+def polygon_indicator(vertices):
+    """Edge units on the closed inner side of each CCW edge, then an AND."""
+    if not isinstance(vertices, (list, tuple)) or len(vertices) < 3:
+        raise ValueError("need at least three vertices")
+    pts = []
+    for v in vertices:
+        if not isinstance(v, (list, tuple)) or len(v) != 2:
+            raise ValueError("each vertex is an (x, y) pair")
+        pts.append(_finite_real_vector(list(v), "vertex"))
+    m = len(pts)
+    turning = 0.0
+    for i in range(m):
+        a, b, c = pts[i], pts[(i + 1) % m], pts[(i + 2) % m]
+        u, v = (b[0] - a[0], b[1] - a[1]), (c[0] - b[0], c[1] - b[1])
+        cross = u[0] * v[1] - u[1] * v[0]
+        if (u[0] == 0 and u[1] == 0) or cross <= 0:
+            raise ValueError("vertices must be distinct, counter-clockwise and strictly convex")
+        turning += math.atan2(cross, u[0] * v[0] + u[1] * v[1])
+    if abs(turning - 2 * math.pi) > 1e-9:
+        raise ValueError("the polygon must wind once counter-clockwise")
+    hidden = []
+    for i in range(m):
+        (ax, ay), (bx, by) = pts[i], pts[(i + 1) % m]
+        hidden.append(([-(by - ay), bx - ax], (by - ay) * ax - (bx - ax) * ay))
+    return hidden, ([1] * m, -m)
+
+
+def irreducible_error(codes, labels, weights):
+    """Majority label per code; the minority weight is unavoidable."""
+    if not isinstance(codes, (list, tuple)) or not codes:
+        raise ValueError("codes must be a nonempty list")
+    targets = _binary_list(labels, "labels")
+    area = _finite_real_vector(weights, "weights")
+    if len(targets) != len(codes) or len(area) != len(codes):
+        raise ValueError("codes, labels and weights must have the same length")
+    if any(w <= 0 for w in area):
+        raise ValueError("weights must be positive")
+    keys = [tuple(_binary_list(c, "code")) for c in codes]
+    if len({len(k) for k in keys}) != 1:
+        raise ValueError("all codes must have the same length")
+    mass = {}
+    for key, y, w in zip(keys, targets, area):
+        mass.setdefault(key, [[], []])[y].append(w)
+    labelling, floor = {}, []
+    for key, (zeros, ones) in mass.items():
+        w0, w1 = math.fsum(zeros), math.fsum(ones)
+        labelling[key] = 1 if w1 >= w0 else 0
+        floor.append(w0 if labelling[key] else w1)
+    return math.fsum(floor), labelling
+
+
+def relu_interpolant(knots, values):
+    """c0 plus slope changes at each knot, as ReLU(t - knot) terms."""
+    t = _finite_real_vector(knots, "knots")
+    v = _finite_real_vector(values, "values")
+    if len(t) < 2 or len(t) != len(v):
+        raise ValueError("need at least two knots, one value per knot")
+    if any(b <= a for a, b in zip(t, t[1:])):
+        raise ValueError("knots must be strictly increasing")
+    slopes = [(v[i + 1] - v[i]) / (t[i + 1] - t[i]) for i in range(len(t) - 1)]
+    coefs = [slopes[0]] + [slopes[i] - slopes[i - 1] for i in range(1, len(slopes))]
+    if not all(math.isfinite(c) for c in coefs):
+        raise ValueError("a slope overflowed")
+    return v[0], [(c, t[i]) for i, c in enumerate(coefs) if c != 0]

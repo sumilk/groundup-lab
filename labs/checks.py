@@ -2773,6 +2773,200 @@ CHECKS.update({"perceptron-train": perceptron_train, "dnf-network": dnf_network,
                "staircase-weights": staircase_weights, "heat-cold": heat_cold_sensations})
 
 
+def _rows_of(pattern):
+    n = len(pattern)
+    return [i for i in range(1 << n)
+            if all(c == "-" or int(c) == (i >> (n - 1 - j)) & 1 for j, c in enumerate(pattern))]
+
+
+def prime_implicants(m):
+    worked = [1 if i in {0, 1, 2, 3, 5, 7, 8, 10, 13, 15} else 0 for i in range(16)]
+    before = worked[:]
+    assert m.prime_implicants(worked) == ["-0-0", "-1-1", "0--1", "00--"], "the worked example of Section 2"
+    assert worked == before, "do not mutate the table"
+    redundant = [1 if i in {0, 1, 5, 7, 8, 9, 13, 15} else 0 for i in range(16)]
+    assert m.prime_implicants(redundant) == ["--01", "-00-", "-1-1"]
+    for n in (2, 3, 4):
+        parity = [bin(i).count("1") % 2 for i in range(1 << n)]
+        got = m.prime_implicants(parity)
+        assert len(got) == 1 << (n - 1) and all("-" not in p for p in got), "parity implicants are full rows"
+    assert m.prime_implicants([0, 0, 0, 0]) == [] and m.prime_implicants([1] * 8) == ["---"]
+    rng = random.Random(5)
+    for _ in range(25):
+        n = rng.randint(2, 5)
+        table = [rng.randint(0, 1) for _ in range(1 << n)]
+        got = m.prime_implicants(table)
+        assert got == sorted(got), "return the patterns sorted"
+        imp = {"".join(p) for p in itertools.product("01-", repeat=n) if all(table[i] for i in _rows_of("".join(p)))}
+        want = sorted(p for p in imp if all(p[:j] + "-" + p[j + 1:] not in imp for j in range(n) if p[j] != "-"))
+        assert got == want, table
+        covered = set()
+        for p in got:
+            covered.update(_rows_of(p))
+        assert covered == {i for i, v in enumerate(table) if v}, "prime implicants cover every true row"
+    for bad in ([], [1], [0, 1, 1], [0, 2], [0, True], "0110", (0.0, 1.0)):
+        _projection_rejects(m.prime_implicants, bad)
+
+
+def _run_net(units, n, x):
+    node = list(x)
+    for sources, weights, bias in units:
+        node.append(1 if math.fsum([w * node[s] for s, w in zip(sources, weights)] + [bias]) >= 0 else 0)
+    return node[-1]
+
+
+def parity_network(m):
+    formulas = {"dnf": lambda n: (2 ** (n - 1) + 1, (n + 1) * 2 ** (n - 1)),
+                "count": lambda n: (n + 1, n * n + n),
+                "tree": lambda n: (3 * (n - 1), 6 * (n - 1))}
+    for n in range(2, 9):
+        for construction in ("dnf", "count", "tree", "layered-tree"):
+            units = m.parity_network(n, construction)
+            for x in itertools.product((0, 1), repeat=n):
+                assert _run_net(units, n, x) == sum(x) % 2, (construction, n, x)
+            if construction in formulas:
+                count = len(units), sum(sum(1 for w in u[1] if w != 0) for u in units)
+                assert count == formulas[construction](n), (construction, n, count)
+    assert len(m.parity_network(6, "layered-tree")) == 17, "two copies for the value that waits"
+    assert len(m.parity_network(5, "layered-tree")) == 16 and len(m.parity_network(10, "layered-tree")) == 31
+    assert all(len(u[0]) == 2 for u in m.parity_network(7, "tree")), "XOR blocks read two nodes"
+    for args in ((1, "dnf"), (17, "count"), (True, "tree"), (4.0, "dnf"), (4, "cnf"), (4, None)):
+        _projection_rejects(m.parity_network, *args)
+
+
+def network_stats(m):
+    xor2 = [([0, 1], [1, 1], -2), ([0, 1, 2], [1, 1, -2], -1)]
+    assert m.network_stats(xor2, 2) == {"units": 2, "connections": 5, "biases": 2, "parameters": 7,
+                                        "depth": 2, "layered": False, "dense": None}, "the two-unit XOR of Section 1"
+    copied = [([0, 1], [1, 0], -0.5), ([1], [1], -0.5), ([0, 1], [1, 1], -2), ([2, 3, 4], [1, 1, -2], -1)]
+    before = [list(map(list, u[:2])) + [u[2]] for u in copied]
+    got = m.network_stats(copied, 2)
+    assert got["connections"] == 7, "a stored zero weight is not a connection"
+    assert got["layered"] is True and got["dense"] == 13 and got["depth"] == 2 and got["parameters"] == 11
+    assert [list(map(list, u[:2])) + [u[2]] for u in copied] == before, "do not mutate the units"
+    # The n = 6 table of Section 3, built here so the check does not depend on parity_network.
+    tree = []
+    def block(a, b):
+        base = 6 + len(tree)
+        tree.extend([([a, b], [1, 1], -1), ([a, b], [-1, -1], 1), ([base, base + 1], [1, 1], -2)])
+        return base + 2
+    z1, z2, z3 = block(0, 1), block(2, 3), block(4, 5)
+    z12 = block(z1, z2)
+    block(z12, z3)
+    stats = m.network_stats(tree, 6)
+    assert (stats["units"], stats["connections"], stats["depth"], stats["layered"]) == (15, 30, 6, False)
+    tree = []
+    z1, z2, z3 = block(0, 1), block(2, 3), block(4, 5)
+    z12 = block(z1, z2)
+    tree.append(([z3], [1], -0.5)); tree.append(([6 + len(tree) - 1], [1], -0.5))
+    block(z12, 6 + len(tree) - 1)
+    stats = m.network_stats(tree, 6)
+    assert (stats["units"], stats["connections"], stats["parameters"], stats["dense"]) == (17, 32, 49, 92), stats
+    count = [(list(range(4)), [1] * 4, -k) for k in range(1, 5)] + [([4, 5, 6, 7], [1, -1, 1, -1], -1)]
+    assert m.network_stats(count, 4)["dense"] == 25
+    for args in (([], 2), (xor2, 0), ([([0, 2], [1, 1], 0)], 2), ([([0], [1, 1], 0)], 2), ([([0], [float("nan")], 0)], 2),
+                 ([([0], [1], None)], 2), ([([True], [1], 0)], 2), ([([0], [1])], 2), (xor2, True)):
+        _projection_rejects(m.network_stats, *args)
+
+
+def polygon_indicator(m):
+    square = [(-1, -1), (1, -1), (1, 1), (-1, 1)]
+    hidden, (out_w, out_b) = m.polygon_indicator(square)
+    assert len(hidden) == 4 and len(out_w) == 4
+    def fires(x):
+        h = _fires(hidden, x)
+        return 1 if math.fsum([w * v for w, v in zip(out_w, h)] + [out_b]) >= 0 else 0
+    for x, want in (((0, 0), 1), ((1, 0), 1), ((1, 1), 1), ((-1, 0.5), 1), ((1.0078125, 0), 0), ((0, -1.0078125), 0), ((2, 2), 0)):
+        assert fires(x) == want, x
+    hexagon = [(1, 0), (0.5, 1), (-0.5, 1), (-1, 0), (-0.5, -1), (0.5, -1)]
+    hidden, (out_w, out_b) = m.polygon_indicator(hexagon)
+    for i in range(-24, 25):
+        for j in range(-24, 25):
+            x = (i / 16, j / 16)
+            assert fires(x) == (1 if abs(x[1]) <= 1 and 2 * abs(x[0]) + abs(x[1]) <= 2 else 0), x
+    tri = [(0, 0), (4, 0), (0, 2)]
+    copy = [list(v) for v in tri]
+    hidden, (out_w, out_b) = m.polygon_indicator(tri)
+    assert [list(v) for v in tri] == copy, "do not mutate the vertices"
+    assert fires((1, 1)) == 1 and fires((2, 1)) == 1 and fires((2.125, 1)) == 0 and fires((0, 2)) == 1
+    for bad in ([(0, 0), (1, 0)], list(reversed(square)), [(0, 0), (2, 0), (1, 1), (2, 2), (0, 2)],
+                [(0, 0), (1, 0), (2, 0), (0, 1)], [(0, 0), (1, 0), (1, 0), (0, 1)], [(0, 0), (1, float("inf")), (0, 1)],
+                [(0, 0), (1, 0, 0), (0, 1)], [(0, 0), (True, 0), (0, 1)], "abc"):
+        _projection_rejects(m.polygon_indicator, bad)
+
+
+def irreducible_error(m):
+    def grid(xlines, ylines, size=4, g=8):
+        codes, labels, weights = [], [], []
+        for i in range(size * g):
+            for j in range(size * g):
+                x, y = (i + 0.5) / g, (j + 0.5) / g
+                labels.append((sum(x >= t for t in (1, 2, 3)) + sum(y >= t for t in (1, 2, 3))) % 2)
+                codes.append(tuple(int(x >= t) for t in xlines) + tuple(int(y >= t) for t in ylines))
+                weights.append(1 / (g * g))
+        return codes, labels, weights
+    floor, labelling = m.irreducible_error(*grid((1, 2, 3), (1, 2, 3)))
+    close(floor, 0); assert len(labelling) == 16
+    floor, labelling = m.irreducible_error(*grid((1, 3), (1, 2, 3)))
+    close(floor, 4); assert len(labelling) == 12, "the one-missing-line example of Section 6"
+    floor, labelling = m.irreducible_error(*grid((1, 3), (1, 3)))
+    close(floor, 6); assert len(labelling) == 9
+    floor, _ = m.irreducible_error(*grid((1, 2.25, 3), (1, 2, 3)))
+    close(floor, 1)
+    coarse = m.irreducible_error(*grid((2,), (2,)))[0]
+    fine = m.irreducible_error(*grid((2, 3), (2,)))[0]
+    assert fine <= coarse + 1e-12, "refining the codes never raises the floor"
+    floor, labelling = m.irreducible_error([(0,), (0,)], [0, 1], [1.0, 1.0])
+    close(floor, 1); assert labelling == {(0,): 1}, "break ties by labelling 1"
+    codes, labels, weights = [[0, 1], [0, 1]], [1, 0], [2.0, 0.5]
+    m.irreducible_error(codes, labels, weights)
+    assert codes == [[0, 1], [0, 1]] and weights == [2.0, 0.5], "do not mutate the inputs"
+    for args in (([], [], []), ([(0,)], [2], [1]), ([(0,)], [1], [0]), ([(0,), (0, 1)], [1, 0], [1, 1]),
+                 ([(0,)], [1], [float("nan")]), ([(2,)], [1], [1]), ([(0,)], [True], [1]), ([(0,)], [1, 0], [1])):
+        _projection_rejects(m.irreducible_error, *args)
+
+
+def relu_interpolant(m):
+    relu = lambda z: z if z > 0 else 0.0
+    def run(c0, units, t):
+        return c0 + math.fsum(c * relu(t - k) for c, k in units)
+    c0, units = m.relu_interpolant([0, 0.5, 1], [0, 1, 0])
+    close(c0, 0); assert len(units) == 2
+    for (c, k), (ec, ek) in zip(units, [(2, 0), (-4, 0.5)]):
+        close(c, ec); close(k, ek)
+    knots = [i / 4 for i in range(5)]
+    tent = lambda x: 2 * min(x, 1 - x)
+    c0, units = m.relu_interpolant(knots, [tent(tent(x)) for x in knots])
+    for i in range(65):
+        x = i / 64
+        close(run(c0, units, x), tent(tent(x)))
+    assert len(units) <= 4
+    rng = random.Random(9)
+    for _ in range(20):
+        K = rng.randint(2, 12)
+        ts = sorted(rng.sample(range(100), K))
+        ts = [t / 10 for t in ts]
+        vs = [rng.uniform(-3, 3) for _ in ts]
+        c0, units = m.relu_interpolant(ts, vs)
+        assert len(units) <= K - 1
+        for t, v in zip(ts, vs):
+            close(run(c0, units, t), v, 1e-7)
+        mid = (ts[0] + ts[1]) / 2
+        close(run(c0, units, mid), (vs[0] + vs[1]) / 2, 1e-7)
+    assert m.relu_interpolant([0, 1, 2], [1, 2, 3])[1] == [(1.0, 0.0)], "omit zero slope changes"
+    knots = [0, 1]
+    m.relu_interpolant(knots, [0, 1])
+    assert knots == [0, 1], "do not mutate the knots"
+    for args in (([0], [1]), ([0, 1], [1]), ([1, 0], [0, 1]), ([0, 0], [1, 2]), ([0, True], [0, 1]),
+                 ([0, 1], [0, float("inf")]), ([0, 1e-320], [0, 1e300])):
+        _projection_rejects(m.relu_interpolant, *args)
+
+
+CHECKS.update({"prime-implicants": prime_implicants, "parity-network": parity_network, "network-stats": network_stats,
+               "polygon-indicator": polygon_indicator, "irreducible-error": irreducible_error,
+               "relu-interpolant": relu_interpolant})
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("task", nargs="?", choices=CHECKS)

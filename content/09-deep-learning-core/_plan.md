@@ -6,9 +6,9 @@
 
 Follow one coherent lecture sequence from the threshold unit to Boltzmann machines. The sequence starts with what a network can represent, then derives how it learns. It builds each architecture from first principles: scanning networks become CNNs, recursion becomes RNNs, alignment leads to CTC, and attention leads to transformers. It then covers the generative families and energy-based models. The track is implementation-heavy: every forward pass the learner uses must first be written and differentiated by hand.
 
-**Coverage audit:** 1 authored lesson (NN01) with 14 interactive panels (10 progress activities, an overview, and 3 additional figures), 19 generated SVG figures, 7 registered browser Python tasks, and a 26-entry answer bank; NN02–NN25 are planned. NN01 has a core reading route, optional historical/spectral/cylinder extensions, static section solutions, and focused mathematical checks. **Planned scope:** 25 modules and 714 estimated study hours, including four cumulative projects and the capstone. These are planning estimates, not elapsed-time requirements.
+**Coverage audit:** 2 authored lessons. NN01 has 14 interactive panels (10 progress activities, an overview, and 3 additional figures), 19 generated SVG figures, 7 registered browser Python tasks, and a 26-entry answer bank. NN02 (authored 2026-10-15) has 11 interactive panels (10 progress activities and an overview), 16 generated SVG figures, 6 registered browser Python tasks, and a 28-entry answer bank; NN03–NN25 are planned. NN01 has a core reading route, optional historical/spectral/cylinder extensions, static section solutions, and focused mathematical checks. **Planned scope:** 25 modules and 714 estimated study hours, including four cumulative projects and the capstone. These are planning estimates, not elapsed-time requirements.
 
-**Status vocabulary.** NN01 is *authored*; every other module below is *planned*. A proposed lesson ID, answer bank, lab ID or function name is a reservation, not a registered implementation. Do not advance reader or curriculum completion state until the lesson and its checks exist.
+**Status vocabulary.** NN01 and NN02 are *authored*; every other module below is *planned*. A proposed lesson ID, answer bank, lab ID or function name is a reservation, not a registered implementation. Do not advance reader or curriculum completion state until the lesson and its checks exist.
 
 **Relationship to the Deep Learning Advanced track.** This track is independent. It does not edit, renumber or satisfy the gates of `10-deep-learning-advanced`, and that track's counts and handles are unchanged. Where both cover a topic (§7), the two treatments stay separate. A learner may use either one, but passing one module's gate does not automatically pass the other's. This track also teaches material the DL plan does not: Boolean and threshold-circuit expressivity, perceptron/ADALINE/MADALINE history, Viterbi/CTC alignment, Hopfield networks, and Boltzmann machines.
 
@@ -104,6 +104,8 @@ Four projects run through the track, each in two parts. **Part 1** extends one f
 
 **Module 02 — What a network can represent**
 
+**Reading routes:** The core route develops Boolean and geometric constructions, ridge approximation with explicit error budgets, and the sawtooth separation. Shannon counting, the full universal-approximation proof, arithmetic circuits, and VC theory are mathematical extensions with prerequisite bridges. Checkpoints distinguish necessary lower bounds from achievable constructions; the arithmetic-circuit comparison distinguishes factorization and gate ordering from depth alone.
+
 `handle: NN02` · `id: neural-networks.network-expressivity` · 28h · prerequisites: NN01 · proposed bank: `nn-02-network-expressivity`
 
 **Spine and derivations:** MLPs as Boolean functions via DNF; the exponential minterm-construction cost of parity versus an n+1-unit shallow counting-threshold network and a linear-size XOR tree; distinguish construction upper bounds from circuit lower bounds; Shannon's counting argument under explicit circuit conventions; bounded-domain region approximation with a stated error measure; universal-approximation results with domain, activation, target-class, and norm assumptions, using a valid argument rather than the NN01 cylinder-tail heuristic; width versus depth versus activation; sum-product networks; why a bottleneck that maps differently labelled inputs to the same hidden representation cannot be repaired downstream.
@@ -112,7 +114,7 @@ Four projects run through the track, each in two parts. **Part 1** extends one f
 
 **Interactive experiment:** `nn-polygon-net` — Increase the number of half-space units approximating a disc; read off the area error and unit count; failure preset: a bottleneck layer that cannot pass the needed information.
 
-**Implementation ladder:** Implement dnf_network, parity_network_depth, and polygon_indicator.
+**Implementation ladder:** Implement prime_implicants, parity_network with network_stats, polygon_indicator, irreducible_error, and relu_interpolant (dnf_network is NN01's Lab E, so NN02 starts from reduced DNF).
 
 **RE gate:** Construct n-bit parity via DNF, n counting thresholds plus an output, and a tree of three-unit XOR blocks. Count units, nonzero connections, biases, and threshold-layer depth separately (including uneven tree paths and any pass-through units). State whether a parameter count includes zero entries in dense matrices. Exhaustively verify small n; do not claim an exponential lower bound for unrestricted shallow threshold networks.
 

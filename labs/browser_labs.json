@@ -571,5 +571,57 @@
     "supportFunctions": [
       "_binary_list"
     ]
+  },
+  {
+    "lesson": "09-deep-learning-core/02-network-expressivity.md",
+    "task": "prime-implicants",
+    "function": "prime_implicants",
+    "title": "List every prime implicant",
+    "supportFunctions": [
+      "_binary_list"
+    ]
+  },
+  {
+    "lesson": "09-deep-learning-core/02-network-expressivity.md",
+    "task": "parity-network",
+    "function": "parity_network",
+    "title": "Build parity three ways"
+  },
+  {
+    "lesson": "09-deep-learning-core/02-network-expressivity.md",
+    "task": "network-stats",
+    "function": "network_stats",
+    "title": "Measure a network four ways",
+    "supportFunctions": [
+      "_finite_real_vector"
+    ]
+  },
+  {
+    "lesson": "09-deep-learning-core/02-network-expressivity.md",
+    "task": "polygon-indicator",
+    "function": "polygon_indicator",
+    "title": "Turn a convex polygon into a network",
+    "supportFunctions": [
+      "_finite_real_vector"
+    ]
+  },
+  {
+    "lesson": "09-deep-learning-core/02-network-expressivity.md",
+    "task": "irreducible-error",
+    "function": "irreducible_error",
+    "title": "Find the error no later layer can fix",
+    "supportFunctions": [
+      "_finite_real_vector",
+      "_binary_list"
+    ]
+  },
+  {
+    "lesson": "09-deep-learning-core/02-network-expressivity.md",
+    "task": "relu-interpolant",
+    "function": "relu_interpolant",
+    "title": "Build a piecewise-linear function from ReLUs",
+    "supportFunctions": [
+      "_finite_real_vector"
+    ]
   }
 ]

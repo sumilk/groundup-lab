@@ -142,6 +142,7 @@ for (const file of lessons) {
 
 const lectureCount = offerings.reduce((n, [, o]) => n + o.lectures.length, 0);
 await import("./check-nn01-math.mjs");
+await import("./check-nn02-math.mjs");
 console.log(`Validated ${offerings.length} offerings (${lectureCount} lectures, synced ${manifest.synced}), ` +
   `${rows.length} modules / ${totalHours}h, ${owner.size - excluded.length} mapped and ${excluded.length} excluded lectures, ` +
   `${lessons.length} authored lessons.`);

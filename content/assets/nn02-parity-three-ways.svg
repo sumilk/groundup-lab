@@ -1,0 +1,197 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="560" viewBox="0 0 960 560" role="img" aria-labelledby="nn02-par3-title nn02-par3-desc">
+  <title id="nn02-par3-title">Six-bit parity three ways</title>
+  <desc id="nn02-par3-desc">Three threshold networks for six-bit parity side by side, each checked on all 64 inputs. Left, the DNF network: 32 hidden AND units, one per odd-weight input pattern (five are drawn, with an ellipsis), feeding an OR output; 33 units, 224 connections, depth 2. Middle, the counting network: six hidden units c1 to c6 with biases −1 to −6 reading all inputs with weight 1, and an output with alternating weights +1 and −1 and bias −1; 7 units, 42 connections, depth 2. Right, a tree of five three-unit XOR blocks pairing (x1,x2), (x3,x4), (x5,x6), then the first two results, then that result with the carried z3; 15 units, 30 connections, depth 6.</desc>
+  <rect width="960" height="560" rx="24" fill="#08111f"/>
+  <text x="480" y="44" fill="#a8b7ca" font-family="system-ui" font-size="18" text-anchor="middle">Six-bit parity, three constructions</text>
+  <path d="M69 110L136 104" stroke="#3d2c55" stroke-width="1.2" fill="none"/>
+  <path d="M69 110L136 151" stroke="#3d2c55" stroke-width="1.2" fill="none"/>
+  <path d="M69 110L136 198" stroke="#3d2c55" stroke-width="1.2" fill="none"/>
+  <path d="M69 110L136 292" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M69 110L136 339" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M69 154L136 104" stroke="#3d2c55" stroke-width="1.2" fill="none"/>
+  <path d="M69 154L136 151" stroke="#3d2c55" stroke-width="1.2" fill="none"/>
+  <path d="M69 154L136 198" stroke="#3d2c55" stroke-width="1.2" fill="none"/>
+  <path d="M69 154L136 292" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M69 154L136 339" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M69 198L136 104" stroke="#3d2c55" stroke-width="1.2" fill="none"/>
+  <path d="M69 198L136 151" stroke="#3d2c55" stroke-width="1.2" fill="none"/>
+  <path d="M69 198L136 198" stroke="#3d2c55" stroke-width="1.2" fill="none"/>
+  <path d="M69 198L136 292" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M69 198L136 339" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M69 242L136 104" stroke="#3d2c55" stroke-width="1.2" fill="none"/>
+  <path d="M69 242L136 151" stroke="#3d2c55" stroke-width="1.2" fill="none"/>
+  <path d="M69 242L136 198" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M69 242L136 292" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M69 242L136 339" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M69 286L136 104" stroke="#3d2c55" stroke-width="1.2" fill="none"/>
+  <path d="M69 286L136 151" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M69 286L136 198" stroke="#3d2c55" stroke-width="1.2" fill="none"/>
+  <path d="M69 286L136 292" stroke="#3d2c55" stroke-width="1.2" fill="none"/>
+  <path d="M69 286L136 339" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M69 330L136 104" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M69 330L136 151" stroke="#3d2c55" stroke-width="1.2" fill="none"/>
+  <path d="M69 330L136 198" stroke="#3d2c55" stroke-width="1.2" fill="none"/>
+  <path d="M69 330L136 292" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M69 330L136 339" stroke="#3d2c55" stroke-width="1.2" fill="none"/>
+  <path d="M204 104L271.58 197.32" stroke="#476073" stroke-width="1.6" fill="none"/><path d="M276.86 204.61L267.93 199.96L275.22 194.68Z" fill="#476073"/>
+  <path d="M204 151L266.36 202.23" stroke="#476073" stroke-width="1.6" fill="none"/><path d="M273.32 207.94L263.51 205.7L269.22 198.75Z" fill="#476073"/>
+  <path d="M204 198L260.91 212.91" stroke="#476073" stroke-width="1.6" fill="none"/><path d="M269.62 215.19L259.77 217.26L262.05 208.55Z" fill="#476073"/>
+  <path d="M204 292L266.74 238.22" stroke="#476073" stroke-width="1.6" fill="none"/><path d="M273.57 232.37L269.67 241.64L263.81 234.81Z" fill="#476073"/>
+  <path d="M204 339L271.85 242.88" stroke="#476073" stroke-width="1.6" fill="none"/><path d="M277.04 235.52L275.53 245.47L268.18 240.28Z" fill="#476073"/>
+  <text x="170" y="251" fill="#a8b7ca" font-family="system-ui" font-size="20" text-anchor="middle">⋮</text>
+  <rect x="136" y="91" width="68" height="26" rx="13" fill="#08111f" stroke="#50d2c2" stroke-width="2.2"/>
+  <text x="170" y="109" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">000001</text>
+  <rect x="136" y="138" width="68" height="26" rx="13" fill="#08111f" stroke="#50d2c2" stroke-width="2.2"/>
+  <text x="170" y="156" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">000010</text>
+  <rect x="136" y="185" width="68" height="26" rx="13" fill="#08111f" stroke="#50d2c2" stroke-width="2.2"/>
+  <text x="170" y="203" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">000100</text>
+  <rect x="136" y="279" width="68" height="26" rx="13" fill="#08111f" stroke="#50d2c2" stroke-width="2.2"/>
+  <text x="170" y="297" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">111101</text>
+  <rect x="136" y="326" width="68" height="26" rx="13" fill="#08111f" stroke="#50d2c2" stroke-width="2.2"/>
+  <text x="170" y="344" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">111110</text>
+  <text x="170" y="375" fill="#50d2c2" font-family="system-ui" font-size="13" text-anchor="middle">32 AND units, one per odd row</text>
+  <text x="170" y="393" fill="#91a4bb" font-family="system-ui" font-size="13" text-anchor="middle">each pill: the one row it accepts</text>
+  <circle cx="288" cy="220" r="19" fill="#08111f" stroke="#ff7a90" stroke-width="2.4"/>
+  <text x="288" y="225" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle">−1</text>
+  <text x="288" y="258" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">OR</text>
+  <path d="M389 110L473 110" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M389 154L473 110" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M389 198L473 110" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M389 242L473 110" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M389 286L473 110" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M389 330L473 110" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M389 110L473 154" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M389 154L473 154" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M389 198L473 154" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M389 242L473 154" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M389 286L473 154" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M389 330L473 154" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M389 110L473 198" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M389 154L473 198" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M389 198L473 198" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M389 242L473 198" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M389 286L473 198" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M389 330L473 198" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M389 110L473 242" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M389 154L473 242" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M389 198L473 242" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M389 242L473 242" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M389 286L473 242" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M389 330L473 242" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M389 110L473 286" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M389 154L473 286" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M389 198L473 286" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M389 242L473 286" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M389 286L473 286" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M389 330L473 286" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M389 110L473 330" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M389 154L473 330" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M389 198L473 330" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M389 242L473 330" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M389 286L473 330" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M389 330L473 330" stroke="#476073" stroke-width="1.2" fill="none"/>
+  <path d="M502.43 121.59L587.52 200.91" stroke="#50d2c2" stroke-width="1.8" fill="none"/><path d="M594.1 207.04L584.45 204.2L590.59 197.62Z" fill="#50d2c2"/>
+  <rect x="526.56" y="146.2" width="26" height="17" rx="4" fill="#08111f"/><text x="539.56" y="159.7" fill="#50d2c2" font-family="system-ui" font-size="13" text-anchor="middle">+1</text>
+  <path d="M504.84 162.3L583.56 206.33" stroke="#d586ff" stroke-width="1.8" fill="none"/><path d="M591.42 210.73L581.37 210.26L585.76 202.4Z" fill="#d586ff"/>
+  <rect x="526.56" y="171.72" width="26" height="17" rx="4" fill="#08111f"/><text x="539.56" y="185.22" fill="#d586ff" font-family="system-ui" font-size="13" text-anchor="middle">−1</text>
+  <path d="M506.71 201.12L580.47 214.87" stroke="#50d2c2" stroke-width="1.8" fill="none"/><path d="M589.32 216.52L579.65 219.29L581.3 210.44Z" fill="#50d2c2"/>
+  <rect x="526.56" y="197.24" width="26" height="17" rx="4" fill="#08111f"/><text x="539.56" y="210.74" fill="#50d2c2" font-family="system-ui" font-size="13" text-anchor="middle">+1</text>
+  <path d="M506.71 238.88L580.47 225.13" stroke="#d586ff" stroke-width="1.8" fill="none"/><path d="M589.32 223.48L581.3 229.56L579.65 220.71Z" fill="#d586ff"/>
+  <rect x="526.56" y="222.76" width="26" height="17" rx="4" fill="#08111f"/><text x="539.56" y="236.26" fill="#d586ff" font-family="system-ui" font-size="13" text-anchor="middle">−1</text>
+  <path d="M504.84 277.7L583.56 233.67" stroke="#50d2c2" stroke-width="1.8" fill="none"/><path d="M591.42 229.27L585.76 237.6L581.37 229.74Z" fill="#50d2c2"/>
+  <rect x="526.56" y="248.28" width="26" height="17" rx="4" fill="#08111f"/><text x="539.56" y="261.78" fill="#50d2c2" font-family="system-ui" font-size="13" text-anchor="middle">+1</text>
+  <path d="M502.43 318.41L587.52 239.09" stroke="#d586ff" stroke-width="1.8" fill="none"/><path d="M594.1 232.96L590.59 242.38L584.45 235.8Z" fill="#d586ff"/>
+  <rect x="526.56" y="273.8" width="26" height="17" rx="4" fill="#08111f"/><text x="539.56" y="287.3" fill="#d586ff" font-family="system-ui" font-size="13" text-anchor="middle">−1</text>
+  <circle cx="490" cy="110" r="17" fill="#08111f" stroke="#50d2c2" stroke-width="2.4"/>
+  <text x="490" y="115" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">−1</text>
+  <circle cx="490" cy="154" r="17" fill="#08111f" stroke="#50d2c2" stroke-width="2.4"/>
+  <text x="490" y="159" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">−2</text>
+  <circle cx="490" cy="198" r="17" fill="#08111f" stroke="#50d2c2" stroke-width="2.4"/>
+  <text x="490" y="203" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">−3</text>
+  <circle cx="490" cy="242" r="17" fill="#08111f" stroke="#50d2c2" stroke-width="2.4"/>
+  <text x="490" y="247" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">−4</text>
+  <circle cx="490" cy="286" r="17" fill="#08111f" stroke="#50d2c2" stroke-width="2.4"/>
+  <text x="490" y="291" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">−5</text>
+  <circle cx="490" cy="330" r="17" fill="#08111f" stroke="#50d2c2" stroke-width="2.4"/>
+  <text x="490" y="335" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">−6</text>
+  <circle cx="608" cy="220" r="19" fill="#08111f" stroke="#ff7a90" stroke-width="2.4"/>
+  <text x="608" y="225" fill="#e8eef7" font-family="system-ui" font-size="14" text-anchor="middle">−1</text>
+  <text x="490" y="375" fill="#50d2c2" font-family="system-ui" font-size="13" text-anchor="middle">cₖ = θ(x₁+⋯+x₆ − k), k = 1…6 from the top</text>
+  <text x="490" y="393" fill="#91a4bb" font-family="system-ui" font-size="13" text-anchor="middle">edges in: weight 1 · nodes: biases</text>
+  <path d="M708.53 113.72L753.84 125.31" stroke="#476073" stroke-width="1.8" fill="none"/><path d="M762.56 127.54L752.73 129.67L754.96 120.95Z" fill="#476073"/>
+  <path d="M708.53 150.28L753.84 138.69" stroke="#476073" stroke-width="1.8" fill="none"/><path d="M762.56 136.46L754.96 143.05L752.73 134.33Z" fill="#476073"/>
+  <path d="M708.53 201.72L753.84 213.31" stroke="#476073" stroke-width="1.8" fill="none"/><path d="M762.56 215.54L752.73 217.67L754.96 208.95Z" fill="#476073"/>
+  <path d="M708.53 238.28L753.84 226.69" stroke="#476073" stroke-width="1.8" fill="none"/><path d="M762.56 224.46L754.96 231.05L752.73 222.33Z" fill="#476073"/>
+  <path d="M708.53 289.72L753.84 301.31" stroke="#476073" stroke-width="1.8" fill="none"/><path d="M762.56 303.54L752.73 305.67L754.96 296.95Z" fill="#476073"/>
+  <path d="M708.53 326.28L753.84 314.69" stroke="#476073" stroke-width="1.8" fill="none"/><path d="M762.56 312.46L754.96 319.05L752.73 310.33Z" fill="#476073"/>
+  <path d="M795.53 141.11L831.71 162.34" stroke="#476073" stroke-width="1.8" fill="none"/><path d="M839.47 166.89L829.43 166.22L833.99 158.46Z" fill="#476073"/>
+  <path d="M795.53 210.89L831.71 189.66" stroke="#476073" stroke-width="1.8" fill="none"/><path d="M839.47 185.11L833.99 193.54L829.43 185.78Z" fill="#476073"/>
+  <path d="M868.35 188.07L907.97 223.89" stroke="#476073" stroke-width="1.8" fill="none"/><path d="M914.65 229.93L904.95 227.23L910.99 220.55Z" fill="#476073"/>
+  <path d="M796.44 300.67L903.34 253" stroke="#476073" stroke-width="1.8" fill="none"/><path d="M911.56 249.33L905.17 257.11L901.51 248.89Z" fill="#476073"/>
+  <rect x="762" y="116" width="36" height="32" rx="8" fill="#08111f" stroke="#ffb86b" stroke-width="2.2"/>
+  <text x="780" y="138" fill="#e8eef7" font-family="system-ui" font-size="17" text-anchor="middle">⊕</text>
+  <text x="780" y="110" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">z₁</text>
+  <rect x="762" y="204" width="36" height="32" rx="8" fill="#08111f" stroke="#ffb86b" stroke-width="2.2"/>
+  <text x="780" y="226" fill="#e8eef7" font-family="system-ui" font-size="17" text-anchor="middle">⊕</text>
+  <text x="780" y="198" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">z₂</text>
+  <rect x="762" y="292" width="36" height="32" rx="8" fill="#08111f" stroke="#ffb86b" stroke-width="2.2"/>
+  <text x="780" y="314" fill="#e8eef7" font-family="system-ui" font-size="17" text-anchor="middle">⊕</text>
+  <text x="780" y="286" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">z₃</text>
+  <rect x="837" y="160" width="36" height="32" rx="8" fill="#08111f" stroke="#ffb86b" stroke-width="2.2"/>
+  <text x="855" y="182" fill="#e8eef7" font-family="system-ui" font-size="17" text-anchor="middle">⊕</text>
+  <text x="855" y="154" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">z₄</text>
+  <rect x="910" y="226" width="36" height="32" rx="8" fill="#08111f" stroke="#ff7a90" stroke-width="2.2"/>
+  <text x="928" y="248" fill="#e8eef7" font-family="system-ui" font-size="17" text-anchor="middle">⊕</text>
+  <text x="928" y="220" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">z₅</text>
+  <text x="810" y="375" fill="#ffb86b" font-family="system-ui" font-size="13" text-anchor="middle">⊕ = OR, NAND → AND: 3 units each</text>
+  <text x="810" y="393" fill="#91a4bb" font-family="system-ui" font-size="13" text-anchor="middle">each ⊕ adds two layers; z₃ waits</text>
+  <circle cx="54" cy="110" r="15" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <text x="54" y="115" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">x₁</text>
+  <circle cx="54" cy="154" r="15" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <text x="54" y="159" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">x₂</text>
+  <circle cx="54" cy="198" r="15" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <text x="54" y="203" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">x₃</text>
+  <circle cx="54" cy="242" r="15" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <text x="54" y="247" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">x₄</text>
+  <circle cx="54" cy="286" r="15" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <text x="54" y="291" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">x₅</text>
+  <circle cx="54" cy="330" r="15" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <text x="54" y="335" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">x₆</text>
+  <text x="170" y="84" fill="#e8eef7" font-family="system-ui" font-size="16" text-anchor="middle" font-weight="600">DNF (AND–OR)</text>
+  <rect x="50" y="440" width="240" height="58" rx="10" fill="#08111f" stroke="#31445e" stroke-width="1.5"/>
+  <text x="170" y="464" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">33 units · 224 connections</text>
+  <text x="170" y="486" fill="#a8b7ca" font-family="system-ui" font-size="14" text-anchor="middle">depth 2</text>
+  <circle cx="374" cy="110" r="15" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <text x="374" y="115" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">x₁</text>
+  <circle cx="374" cy="154" r="15" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <text x="374" y="159" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">x₂</text>
+  <circle cx="374" cy="198" r="15" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <text x="374" y="203" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">x₃</text>
+  <circle cx="374" cy="242" r="15" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <text x="374" y="247" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">x₄</text>
+  <circle cx="374" cy="286" r="15" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <text x="374" y="291" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">x₅</text>
+  <circle cx="374" cy="330" r="15" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <text x="374" y="335" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">x₆</text>
+  <text x="490" y="84" fill="#e8eef7" font-family="system-ui" font-size="16" text-anchor="middle" font-weight="600">counting</text>
+  <rect x="370" y="440" width="240" height="58" rx="10" fill="#08111f" stroke="#31445e" stroke-width="1.5"/>
+  <text x="490" y="464" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">7 units · 42 connections</text>
+  <text x="490" y="486" fill="#a8b7ca" font-family="system-ui" font-size="14" text-anchor="middle">depth 2</text>
+  <circle cx="694" cy="110" r="15" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <text x="694" y="115" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">x₁</text>
+  <circle cx="694" cy="154" r="15" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <text x="694" y="159" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">x₂</text>
+  <circle cx="694" cy="198" r="15" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <text x="694" y="203" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">x₃</text>
+  <circle cx="694" cy="242" r="15" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <text x="694" y="247" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">x₄</text>
+  <circle cx="694" cy="286" r="15" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <text x="694" y="291" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">x₅</text>
+  <circle cx="694" cy="330" r="15" fill="#08111f" stroke="#a8b7ca" stroke-width="2.4"/>
+  <text x="694" y="335" fill="#e8eef7" font-family="system-ui" font-size="13" text-anchor="middle">x₆</text>
+  <text x="810" y="84" fill="#e8eef7" font-family="system-ui" font-size="16" text-anchor="middle" font-weight="600">tree of XOR blocks</text>
+  <rect x="690" y="440" width="240" height="58" rx="10" fill="#08111f" stroke="#31445e" stroke-width="1.5"/>
+  <text x="810" y="464" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">15 units · 30 connections</text>
+  <text x="810" y="486" fill="#a8b7ca" font-family="system-ui" font-size="14" text-anchor="middle">depth 6</text>
+  <text x="480" y="540" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">Same function on all 64 inputs; the sizes differ because the constructions differ.</text>
+</svg>

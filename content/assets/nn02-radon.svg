@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="510" viewBox="0 0 900 510" role="img" aria-labelledby="nn02-radon-title nn02-radon-desc">
+  <title id="nn02-radon-title">Radon's theorem for four points in the plane</title>
+  <desc id="nn02-radon-desc">Two four-point configurations. Left: three points labelled 1 form a shaded triangle and a fourth point labelled 0 lies inside it, so the convex hulls of the two classes meet at the inner point and no line separates them. Right: four points in convex position; the diagonal joining the two points labelled 1 (solid) and the diagonal joining the two points labelled 0 (dashed) cross at a marked point (0.12, 0.09), computed as the intersection of the two segments.</desc>
+  <rect width="900" height="510" rx="24" fill="#08111f"/>
+  <text x="450" y="44" fill="#a8b7ca" font-family="system-ui" font-size="18" text-anchor="middle">Four points: some labelling has crossing hulls</text>
+  <defs><clipPath id="clip-50-80"><rect x="50" y="80" width="360" height="340"/></clipPath></defs>
+  <path d="M90 370L380 350L240 110Z" fill="#ff7a90" fill-opacity="0.2" stroke="#ff7a90" stroke-width="2.5"/>
+  <circle cx="90" cy="370" r="9" fill="#ff7a90"/>
+  <text x="73.13" y="386.74" fill="#ff7a90" font-family="system-ui" font-size="16" text-anchor="middle">1</text>
+  <circle cx="380" cy="350" r="9" fill="#ff7a90"/>
+  <text x="397.8" y="365.11" fill="#ff7a90" font-family="system-ui" font-size="16" text-anchor="middle">1</text>
+  <circle cx="240" cy="110" r="9" fill="#ff7a90"/>
+  <text x="240.4" y="96" fill="#ff7a90" font-family="system-ui" font-size="16" text-anchor="middle">1</text>
+  <circle cx="235" cy="275" r="9" fill="#08111f"/>
+  <circle cx="235" cy="275" r="9" fill="#08111f" stroke="#a8b7ca" stroke-width="3"/>
+  <text x="248" y="281" fill="#a8b7ca" font-family="system-ui" font-size="16">0</text>
+  <circle cx="235" cy="275" r="4" fill="#ffb86b"/>
+  <text x="235" y="255" fill="#ffb86b" font-family="system-ui" font-size="14" text-anchor="middle">hulls meet here</text>
+  <defs><clipPath id="clip-490-80"><rect x="490" y="80" width="360" height="340"/></clipPath></defs>
+  <path d="M540 340L790 380L810 170L580 130Z" fill="#476073" fill-opacity="0.08" stroke="#476073" stroke-width="1.5" stroke-dasharray="3 5"/>
+  <path d="M540 340L810 170" stroke="#ff7a90" stroke-width="3" fill="none"/>
+  <path d="M790 380L580 130" stroke="#a8b7ca" stroke-width="3" stroke-dasharray="8 5" fill="none"/>
+  <circle cx="540" cy="340" r="9" fill="#ff7a90"/>
+  <text x="522.9" y="356.38" fill="#ff7a90" font-family="system-ui" font-size="16" text-anchor="middle">1</text>
+  <circle cx="810" cy="170" r="9" fill="#ff7a90"/>
+  <text x="826.74" y="165.06" fill="#ff7a90" font-family="system-ui" font-size="16" text-anchor="middle">1</text>
+  <circle cx="790" cy="380" r="9" fill="#08111f" stroke="#a8b7ca" stroke-width="3"/>
+  <text x="803.21" y="401.01" fill="#a8b7ca" font-family="system-ui" font-size="16" text-anchor="middle">0</text>
+  <circle cx="580" cy="130" r="9" fill="#08111f" stroke="#a8b7ca" stroke-width="3"/>
+  <text x="567.51" y="120.38" fill="#a8b7ca" font-family="system-ui" font-size="16" text-anchor="middle">0</text>
+  <circle cx="681.54" cy="250.88" r="6" fill="#ffb86b"/>
+  <text x="693.54" y="240.88" fill="#ffb86b" font-family="system-ui" font-size="14">crossing point</text>
+  <text x="230" y="450" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">one point inside the triangle of the others</text>
+  <text x="670" y="450" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">convex position: the two diagonals cross</text>
+  <text x="450" y="490" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">A firing set is a half-plane and contains its convex hull, so neither labelling is produced by one unit.</text>
+</svg>

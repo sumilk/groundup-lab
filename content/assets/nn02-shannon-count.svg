@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="480" viewBox="0 0 900 480" role="img" aria-labelledby="nn02-shannon-title nn02-shannon-desc">
+  <title id="nn02-shannon-title">Shannon's counting bound for ten inputs</title>
+  <desc id="nn02-shannon-desc">The upper bound log2(n+s) + s(4 + 2 log2(n+s)) on the base-2 logarithm of the number of fan-in-two circuits with s gates, for n = 10 and s from 1 to 120, rising from about 14 to about 2172. A horizontal line at 1024 marks log2 of the number of Boolean functions of ten inputs. The curve crosses it at s ≈ 62.3; s = 63 is the first whole number of gates whose bound exceeds 1024. Dashed vertical lines mark 2^n/(4n) = 25.6 and 2^n/n = 102.4.</desc>
+  <rect width="900" height="480" rx="24" fill="#08111f"/>
+  <text x="450" y="44" fill="#a8b7ca" font-family="system-ui" font-size="18" text-anchor="middle">Too few small circuits for ten inputs</text>
+  <path d="M120 380H820" stroke="#173641" stroke-width="1.2" fill="none"/>
+  <text x="110" y="385" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="end">0</text>
+  <path d="M120 330H820" stroke="#173641" stroke-width="1.2" fill="none"/>
+  <text x="110" y="335" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="end">400</text>
+  <path d="M120 280H820" stroke="#173641" stroke-width="1.2" fill="none"/>
+  <text x="110" y="285" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="end">800</text>
+  <path d="M120 230H820" stroke="#173641" stroke-width="1.2" fill="none"/>
+  <text x="110" y="235" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="end">1200</text>
+  <path d="M120 180H820" stroke="#173641" stroke-width="1.2" fill="none"/>
+  <text x="110" y="185" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="end">1600</text>
+  <path d="M120 130H820" stroke="#173641" stroke-width="1.2" fill="none"/>
+  <text x="110" y="135" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="end">2000</text>
+  <path d="M120 80H820" stroke="#173641" stroke-width="1.2" fill="none"/>
+  <text x="110" y="85" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="end">2400</text>
+  <path d="M120 380v6" stroke="#31445e" stroke-width="2" fill="none"/>
+  <text x="120" y="402" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">0</text>
+  <path d="M236.67 380v6" stroke="#31445e" stroke-width="2" fill="none"/>
+  <text x="236.67" y="402" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">20</text>
+  <path d="M353.33 380v6" stroke="#31445e" stroke-width="2" fill="none"/>
+  <text x="353.33" y="402" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">40</text>
+  <path d="M470 380v6" stroke="#31445e" stroke-width="2" fill="none"/>
+  <text x="470" y="402" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">60</text>
+  <path d="M586.67 380v6" stroke="#31445e" stroke-width="2" fill="none"/>
+  <text x="586.67" y="402" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">80</text>
+  <path d="M703.33 380v6" stroke="#31445e" stroke-width="2" fill="none"/>
+  <text x="703.33" y="402" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">100</text>
+  <path d="M820 380v6" stroke="#31445e" stroke-width="2" fill="none"/>
+  <text x="820" y="402" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">120</text>
+  <path d="M120 80V380H820" stroke="#31445e" stroke-width="2" fill="none"/>
+  <path d="M269.33 80V380" stroke="#d586ff" stroke-width="1.8" fill="none" stroke-dasharray="5 5"/>
+  <text x="275.33" y="96" fill="#d586ff" font-family="system-ui" font-size="13">2ⁿ/(4n) = 25.6</text>
+  <path d="M717.33 80V380" stroke="#d586ff" stroke-width="1.8" fill="none" stroke-dasharray="5 5"/>
+  <text x="723.33" y="96" fill="#d586ff" font-family="system-ui" font-size="13">2ⁿ/n = 102.4</text>
+  <path d="M120 252H820" stroke="#ffb86b" stroke-width="2.4" fill="none"/>
+  <text x="130" y="274" fill="#ffb86b" font-family="system-ui" font-size="14">log₂(number of functions) = 2¹⁰ = 1024</text>
+  <path d="M125.83 378.2L131.67 376.76L137.5 375.26L143.33 373.72L149.17 372.13L155 370.5L160.83 368.84L166.67 367.14L172.5 365.41L178.33 363.65L184.17 361.87L190 360.06L195.83 358.23L201.67 356.38L207.5 354.51L213.33 352.61L219.17 350.7L225 348.77L230.83 346.82L236.67 344.85L242.5 342.87L248.33 340.88L254.17 338.86L260 336.84L265.83 334.8L271.67 332.75L277.5 330.69L283.33 328.61L289.17 326.52L295 324.42L300.83 322.31L306.67 320.19L312.5 318.06L318.33 315.91L324.17 313.76L330 311.6L335.83 309.43L341.67 307.24L347.5 305.05L353.33 302.86L359.17 300.65L365 298.43L370.83 296.21L376.67 293.98L382.5 291.74L388.33 289.49L394.17 287.23L400 284.97L405.83 282.7L411.67 280.43L417.5 278.14L423.33 275.85L429.17 273.55L435 271.25L440.83 268.94L446.67 266.62L452.5 264.3L458.33 261.97L464.17 259.64L470 257.29L475.83 254.95L481.67 252.59L487.5 250.24L493.33 247.87L499.17 245.5L505 243.13L510.83 240.75L516.67 238.36L522.5 235.97L528.33 233.58L534.17 231.18L540 228.77L545.83 226.36L551.67 223.94L557.5 221.52L563.33 219.1L569.17 216.67L575 214.23L580.83 211.79L586.67 209.35L592.5 206.9L598.33 204.45L604.17 202L610 199.53L615.83 197.07L621.67 194.6L627.5 192.13L633.33 189.65L639.17 187.17L645 184.68L650.83 182.19L656.67 179.7L662.5 177.2L668.33 174.7L674.17 172.2L680 169.69L685.83 167.18L691.67 164.66L697.5 162.14L703.33 159.62L709.17 157.09L715 154.56L720.83 152.03L726.67 149.49L732.5 146.95L738.33 144.41L744.17 141.86L750 139.31L755.83 136.75L761.67 134.2L767.5 131.64L773.33 129.07L779.17 126.51L785 123.94L790.83 121.36L796.67 118.79L802.5 116.21L808.33 113.63L814.17 111.04L820 108.45" stroke="#50d2c2" stroke-width="3" fill="none"/>
+  <text x="586.67" y="185.53" fill="#50d2c2" font-family="system-ui" font-size="14" text-anchor="end">log₂(circuits with s gates) ≤</text>
+  <text x="586.67" y="203.53" fill="#50d2c2" font-family="system-ui" font-size="14" text-anchor="end">log₂(n+s) + s(4 + 2log₂(n+s))</text>
+  <circle cx="483.14" cy="252" r="6" fill="#e8eef7" stroke="#e8eef7" stroke-width="2.4"/>
+  <text x="495.14" y="276" fill="#e8eef7" font-family="system-ui" font-size="14">crossing at s ≈ 62.3; first whole s above: 63</text>
+  <text x="470" y="426" fill="#a8b7ca" font-family="system-ui" font-size="14" text-anchor="middle">number of gates s</text>
+  <text x="110" y="64" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="end">bits</text>
+  <text x="450" y="460" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">Left of the crossing there are fewer than 2¹⁰²⁴ circuits, too few to compute every function of ten inputs.</text>
+</svg>
