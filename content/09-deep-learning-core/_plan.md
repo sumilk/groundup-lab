@@ -6,7 +6,7 @@
 
 Follow one coherent lecture sequence from the threshold unit to Boltzmann machines. The sequence starts with what a network can represent, then derives how it learns. It builds each architecture from first principles: scanning networks become CNNs, recursion becomes RNNs, alignment leads to CTC, and attention leads to transformers. It then covers the generative families and energy-based models. The track is implementation-heavy: every forward pass the learner uses must first be written and differentiated by hand.
 
-**Coverage audit:** 1 authored lesson (NN01) with 14 interactive labs and figures, 3 generated figures, 7 registered browser Python tasks, and a 26-entry answer bank; NN02–NN25 are planned. **Planned scope:** 25 modules and 714 estimated study hours, including four cumulative projects and the capstone. These are planning estimates, not elapsed-time requirements.
+**Coverage audit:** 1 authored lesson (NN01) with 14 interactive panels (10 progress activities, an overview, and 3 additional figures), 19 generated SVG figures, 7 registered browser Python tasks, and a 26-entry answer bank; NN02–NN25 are planned. NN01 has a core reading route, optional historical/spectral/cylinder extensions, static section solutions, and focused mathematical checks. **Planned scope:** 25 modules and 714 estimated study hours, including four cumulative projects and the capstone. These are planning estimates, not elapsed-time requirements.
 
 **Status vocabulary.** NN01 is *authored*; every other module below is *planned*. A proposed lesson ID, answer bank, lab ID or function name is a reservation, not a registered implementation. Do not advance reader or curriculum completion state until the lesson and its checks exist.
 
@@ -31,7 +31,7 @@ Prerequisite handles use the [shared key](../_plans.md#3-prerequisite-key-and-st
 
 | Handle | Module | Hours | Prerequisites | Lectures |
 |---|---|---:|---|---|
-| NN01 | Connectionism and the threshold unit | 20 | F00, PY06 | F26 1; S26 1 |
+| NN01 | Connectionism and the threshold unit | 20 | F00 | F26 1; S26 1 |
 | NN02 | What a network can represent | 28 | NN01 | F26 2; S26 2 |
 | NN03 | Learning as risk minimization: perceptron to logistic unit | 26 | NN02, PS06 | F26 3; S26 3 |
 | NN04 | Gradient descent, network outputs, and divergences | 24 | NN03, OPT02 | F26 4; S26 4 |
@@ -88,9 +88,9 @@ Four projects run through the track, each in two parts. **Part 1** extends one f
 
 **Module 01 — Connectionism and the threshold unit**
 
-`handle: NN01` · `id: neural-networks.connectionism-threshold-unit` · 20h · prerequisites: F00, PY06 · proposed bank: `nn-01-connectionism-threshold-unit`
+`handle: NN01` · `id: neural-networks.connectionism-threshold-unit` · 20h · prerequisites: F00 · proposed bank: `nn-01-connectionism-threshold-unit`
 
-**Spine and derivations:** Associationism to connectionism; the McCulloch–Pitts unit; Boolean gates from thresholds; Hebbian learning and why it is unstable; Rosenblatt's perceptron on real inputs; the decision boundary as a hyperplane; composing half-spaces into convex and non-convex regions; MLPs for classification and regression.
+**Spine and derivations:** Associationism to connectionism; the McCulloch–Pitts unit; Boolean gates from thresholds; scalar Hebbian growth and Oja's competing shrinkage; Rosenblatt's perceptron on real inputs; the decision boundary as a hyperplane; exact finite polygon unions; continuous one-variable approximation on compact intervals with explicit error and endpoint handling. Historical detail, spectral analysis, and the cylinder experiment are optional extensions; the latter includes a failure case for baseline-subtraction unions. Separate representation, learning, and generalization. Python work requires programming preparation (PY06 or the authored Python bridge); spectral work links the authored covariance, calculus, and spectral-theorem lessons. Neither is a prerequisite for the main reading.
 
 **Readings:** McCulloch & Pitts (1943); Hebb (1949), *The Organization of Behavior*; Rosenblatt (1958); Minsky & Papert, *Perceptrons* epilogue (1988).
 
@@ -100,13 +100,13 @@ Four projects run through the track, each in two parts. **Part 1** extends one f
 
 **RE gate:** Build AND, OR, NOT, and XOR from threshold units and verify all truth-table rows exhaustively.
 
-**RS gate:** Explain why unnormalized Hebbian learning diverges, and state what a learning rule must add to prevent that.
+**RS gate:** Explain scalar Hebbian positive feedback and Oja's competing term, give a discrete overshoot counterexample, and state a bounded-domain approximation guarantee without inferring training or generalization. The spectral extension states centering, sampling, eigenvalue-gap, and initialization assumptions explicitly.
 
 **Module 02 — What a network can represent**
 
 `handle: NN02` · `id: neural-networks.network-expressivity` · 28h · prerequisites: NN01 · proposed bank: `nn-02-network-expressivity`
 
-**Spine and derivations:** MLPs as Boolean functions via DNF; the exponential one-hidden-layer cost of parity and its linear cost with depth; Shannon's counting argument that most Boolean functions need exponential circuits; polygons to circles to arbitrary regions; the universal classifier and universal approximator; width versus depth versus activation; sum-product networks; why insufficient width in one layer loses information that later layers cannot recover.
+**Spine and derivations:** MLPs as Boolean functions via DNF; the exponential minterm-construction cost of parity versus an n+1-unit shallow counting-threshold network and a linear-size XOR tree; distinguish construction upper bounds from circuit lower bounds; Shannon's counting argument under explicit circuit conventions; bounded-domain region approximation with a stated error measure; universal-approximation results with domain, activation, target-class, and norm assumptions, using a valid argument rather than the NN01 cylinder-tail heuristic; width versus depth versus activation; sum-product networks; why a bottleneck that maps differently labelled inputs to the same hidden representation cannot be repaired downstream.
 
 **Readings:** Shannon (1949), *The synthesis of two-terminal switching circuits*; the Boolean-circuit size/depth notes in the S26 lecture 2 readings.
 
@@ -114,9 +114,9 @@ Four projects run through the track, each in two parts. **Part 1** extends one f
 
 **Implementation ladder:** Implement dnf_network, parity_network_depth, and polygon_indicator.
 
-**RE gate:** Count units and parameters for n-bit parity at depths 2 and log₂n, and confirm the counts by construction.
+**RE gate:** Construct n-bit parity via DNF, n counting thresholds plus an output, and a tree of three-unit XOR blocks. Count units, nonzero connections, biases, and threshold-layer depth separately (including uneven tree paths and any pass-through units). State whether a parameter count includes zero entries in dense matrices. Exhaustively verify small n; do not claim an exponential lower bound for unrestricted shallow threshold networks.
 
-**RS gate:** State the universal-approximation theorem's hypotheses, and give a function that it guarantees but that no practical width achieves.
+**RS gate:** State one universal-approximation theorem with its activation, domain, target-class, and error assumptions. Distinguish its existence claim from a constructive size bound and from a learning guarantee; diagnose a proposed proof that adds soft cylinders and subtracts their distant floors.
 
 **Module 03 — Learning as risk minimization: perceptron to logistic unit**
 
@@ -264,7 +264,7 @@ Four projects run through the track, each in two parts. **Part 1** extends one f
 
 **RE gate:** Pass finite-difference checks for every recurrent, input, and output weight over a 20-step sequence.
 
-**RS gate:** Explain why parity over arbitrary length is easy for an RNN and hard for any fixed MLP.
+**RS gate:** Construct a recurrent parity state update and explain how shared weights process different sequence lengths. Contrast that input interface with a fixed-input MLP; do not confuse arbitrary sequence length with a lower bound for an n-input threshold network, which computes n-bit parity with n+1 units.
 
 **Module 12 — Stability, vanishing gradients, LSTMs and GRUs**
 

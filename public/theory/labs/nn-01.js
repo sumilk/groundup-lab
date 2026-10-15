@@ -202,7 +202,12 @@
 
   /* ---------------------------------------------------------------- quiz -- */
   function renderQuiz(container, title, qs, key, onComplete) {
+    var revision = JSON.stringify(qs.map(function (q) { return [q.q, q.o, q.a]; }));
     var saved = store.get("quiz:" + key, {});
+    if (store.get("quiz-revision:" + key, null) !== revision) {
+      if (Object.keys(saved).length) store.set("quiz-previous:" + key, {revision: store.get("quiz-revision:" + key, null), answers: saved});
+      saved = {}; store.set("quiz:" + key, saved); store.set("quiz-revision:" + key, revision);
+    }
     container.innerHTML = "<h3>" + title + "</h3>";
     var boxes = [];
     var foot = el("div", "quiz-foot"), score = el("span"), reset = button("Reset answers");
@@ -237,7 +242,7 @@
      ========================================================================= */
   GU.lab("nn-overview", function (host) {
     var S = mountShell(host, "Ten labs for this chapter", "progress is kept in this browser",
-      '<p class="intro">Ten hands-on labs follow the chapter in order: from Aristotle\'s laws of association, through McCulloch–Pitts, Hebb and Rosenblatt, to networks that carve out any region you like. Wire neurons, train perceptrons, write networks and check them against a target.</p>' +
+      '<p class="intro">Ten hands-on labs follow the chapter in order: from Aristotle\'s laws of association, through McCulloch–Pitts, Hebb and Rosenblatt, to exact polygon unions and bounded-domain approximations of curved regions. Wire neurons, train perceptrons, write networks and check them against a target.</p>' +
       '<div class="legend"><span><i class="sw" style="background:var(--n-fire)"></i>fires, output 1, class 1</span>' +
       '<span><i class="sw" style="background:var(--n-calm)"></i>target, class 0</span>' +
       '<span><i class="sw" style="background:var(--n-warn)"></i>fires where it shouldn\'t</span></div>' +
@@ -363,6 +368,7 @@
   ];
   GU.lab("nn-mp", function (host) {
     var S = mountShell(host, "Lab 2 · McCulloch–Pitts neurons", "pick a challenge, set synapses and θ",
+      '<p class="notice"><strong>Predict first.</strong> Set two excitatory inputs on, one inhibitory input on, and threshold 2. Will the unit fire?</p><details><summary>Reveal the reasoning</summary><p>No. An active inhibitory input vetoes all excitation, so the output is 0.</p></details>' +
       '<p class="intro">Signals come in through the dendrites to the soma, and one axon carries the output. In the 1943 model, each active excitatory input adds 1. The neuron fires when the sum reaches its threshold θ, and <em>any</em> active inhibitory input vetoes firing outright. Pick a challenge, then set input types and θ until every row of the truth table matches.</p>' +
       '<div class="row chips" role="group" aria-label="Challenges" data-ch></div>' +
       '<div class="bench"><div class="npanel neuron" data-neuron><svg viewBox="0 0 440 230" role="img" aria-label="Neuron diagram">' +
@@ -576,7 +582,7 @@
      ========================================================================= */
   GU.lab("nn-hebb", function (host) {
     var S = mountShell(host, "Lab 3 · Hebbian learning, and why it explodes", "run both rules on the same data",
-      '<p class="intro">Hebb\'s rule <code>w ← w + η·x·y</code> with <code>y = w·x</code> only ever reinforces what already fires, so the weights grow without bound. One fix is Sanger\'s generalized Hebbian rule. With a single output it reduces to Oja\'s rule <code>w ← w + η·y·(x − y·w)</code>, where the subtracted term acts as forgetting. Run both on the same correlated data.</p>' +
+      '<p class="intro">With <code>y = w·x</code>, Hebb\'s update reinforces the response. On this zero-mean input distribution, the chosen initialization has a growing component. Oja adds <code>−η·y²·w</code>, which competes with that growth. Run both on the same data. Finite-sample directions fluctuate, and a discrete update can fail with an excessive step size.</p>' +
       '<div class="bench"><div><div class="plot"><canvas data-scatter></canvas></div><p class="cap">Data cloud, with the direction each rule has learned. The Hebb arrow is drawn at unit length because its true length leaves the screen.</p></div>' +
       '<div><div class="plot"><canvas data-norm></canvas></div><p class="cap">Weight length |w| on a log scale.</p>' +
       '<label class="ctl"><span>η</span><input type="range" min="0.002" max="0.03" step="0.002" value="0.01" data-eta><output data-etao>0.010</output></label>' +
@@ -640,7 +646,7 @@
     reset(); onRedraw(host, draw);
     renderQuiz(S.$("[data-quiz]"), "Checkpoint", [
       { q: "Hebbian learning is…", o: ["Fundamentally stable since stronger connections will enforce themselves", "Fundamentally unstable since there is no reduction in weights", "Fundamentally stable since learning is unbounded", "Fundamentally unstable since weights compete for adjustment"], a: 1, why: "Strong connections reinforce themselves, nothing ever shrinks them, and there is no competition, so learning is unbounded." },
-      { q: "In the simulation, both rules end up pointing along the same direction. What is it?", o: ["The mean of the data", "The direction of greatest variance, the first principal component", "A random direction set by the initial weights", "The x₁ axis"], a: 1, why: "Both rules grow fastest along the eigenvector with the largest eigenvalue of the input covariance. Oja's rule also keeps |w| at 1, so it extracts the first principal component." },
+      { q: "In the simulation, both rules end up pointing along the same direction. What is it?", o: ["The mean of the data", "The direction of greatest variance, the first principal component", "A random direction set by the initial weights", "The x₁ axis"], a: 1, why: "For centred inputs, a simple largest eigenvalue and a nonzero leading component make the mean-field directions approach the principal axis, up to sign. Here discrete Oja fluctuates near unit length; finite samples and step size matter." },
       { q: "What does the extra term −η·y²·w in Oja's (single-output Sanger) rule do?", o: ["Speeds learning up", "Acts as forgetting that keeps |w| bounded near 1", "Makes the rule supervised", "Adds inhibition between outputs"], a: 1, why: "It shrinks w in proportion to how strongly the unit is responding, which balances Hebbian growth." },
       { q: "In Hebb's 1949 statement, what changes when cell A repeatedly helps fire cell B?", o: ["B's threshold drops", "\"Some growth process or metabolic change\" increases A's efficiency at firing B", "A grows a second axon", "B starts inhibiting A"], a: 1, why: "Hebb did not specify a mechanism. The synaptic and calcium story of long-term potentiation came decades later." }
     ], "hebb");
@@ -656,6 +662,7 @@
   var CORNERS = [[0, 0], [0, 1], [1, 0], [1, 1]];
   GU.lab("nn-perceptron", function (host) {
     var S = mountShell(host, "Lab 4 · The perceptron", "set gates by hand, then watch the rule learn",
+      '<p class="notice"><strong>Predict first.</strong> From zero weights and bias, predict the update on input (0,0) with target 0 and η=1.</p><details><summary>Reveal the reasoning</summary><p>The score is zero, so the prediction is 1. The error is −1: weights stay zero and the bias becomes −1.</p></details>' +
       '<p class="intro">A perceptron fires when <code>w₁x₁ + w₂x₂ + b ≥ 0</code>. That is a line through the plane, with everything on one side firing. First set the weights by hand for each Boolean gate. Then watch Rosenblatt\'s rule <code>w ← w + η(d − y)x</code> find a line by itself.</p>' +
       '<h3>Gates by hand</h3><div class="row chips" role="group" aria-label="Gates" data-gates></div>' +
       '<div class="bench"><div class="plot"><canvas data-gate></canvas><p class="cap">Filled dots should fire, hollow dots should not. A red ring marks a mistake.</p></div>' +
@@ -943,16 +950,16 @@
       sol: "h1 = step(1 - x2)\nh2 = step(1 + x2)\nh3 = step(2 - 2*x1 - x2)\nh4 = step(2 - 2*x1 + x2)\nh5 = step(2 + 2*x1 - x2)\nh6 = step(2 + 2*x1 + x2)\nout = step(h1 + h2 + h3 + h4 + h5 + h6 - 6)\n" },
     { id: "ring", n: "Diamond with a hole", brief: "Paper problem 3: the ring 1 ≤ |x₁| + |x₂| ≤ 2. It is not convex, so one AND is not enough. Bonus: once it works, try to make it with one hidden layer, so the readout says 2 threshold layers.",
       t: function (a, b) { var s = Math.abs(a) + Math.abs(b); return s >= 1 && s <= 2; }, acc: .99,
-      starter: "# Outer diamond |x1| + |x2| <= 2\no1 = step(2 - x1 - x2)\no2 = step(2 - x1 + x2)\no3 = step(2 + x1 - x2)\no4 = step(2 + x1 + x2)\n\n# Inner diamond |x1| + |x2| <= 1\n# i1 = ...\n\nout = step(o1 + o2 + o3 + o4 - 4)\n",
-      sol: "o1 = step(2 - x1 - x2)\no2 = step(2 - x1 + x2)\no3 = step(2 + x1 - x2)\no4 = step(2 + x1 + x2)\ni1 = step(1 - x1 - x2)\ni2 = step(1 - x1 + x2)\ni3 = step(1 + x1 - x2)\ni4 = step(1 + x1 + x2)\n\n# Two-layer version: inside outer AND NOT inside inner\n# A = step(o1 + o2 + o3 + o4 - 4)\n# B = step(i1 + i2 + i3 + i4 - 4)\n# out = step(A - B - 1)\n\n# One hidden layer: every inner half-plane sits inside its outer one,\n# so the output can weigh the counts directly.\nO = o1 + o2 + o3 + o4\nI = i1 + i2 + i3 + i4\nout = step(O - 0.25*I - 3.25)\n" },
+      starter: "# Outer diamond |x1| + |x2| <= 2\no1 = step(2 - x1 - x2)\no2 = step(2 - x1 + x2)\no3 = step(2 + x1 - x2)\no4 = step(2 + x1 + x2)\n\n# Outward tests for |x1| + |x2| >= 1 (include equality)\n# q1 = step(x1 + x2 - 1)\n# q2 = ...\n\nout = step(o1 + o2 + o3 + o4 - 4)\n",
+      sol: "o1 = step(2 - x1 - x2)\no2 = step(2 - x1 + x2)\no3 = step(2 + x1 - x2)\no4 = step(2 + x1 + x2)\n# Outward tests include the inner boundary: |x1|+|x2| >= 1\nq1 = step(x1 + x2 - 1)\nq2 = step(x1 - x2 - 1)\nq3 = step(-x1 + x2 - 1)\nq4 = step(-x1 - x2 - 1)\n# Natural three-threshold-layer construction:\n# A = step(o1 + o2 + o3 + o4 - 4)\n# B = step(q1 + q2 + q3 + q4 - 1)\n# out = step(A + B - 2)\n# One hidden layer: a missing outer vote cannot be rescued by Q/4 <= 1.\nO = o1 + o2 + o3 + o4\nQ = q1 + q2 + q3 + q4\nout = step(O + 0.25*Q - 4.25)\n" },
     { id: "two", n: "Two separate shapes", brief: "Paper problem 4: the diamond |x₁ + 1| + |x₂| ≤ 1 together with the square 1 ≤ x₁ ≤ 2, −0.5 ≤ x₂ ≤ 0.5. AND each shape, then OR the results.",
       t: function (a, b) { return (Math.abs(a + 1) + Math.abs(b) <= 1) || (a >= 1 && a <= 2 && Math.abs(b) <= .5); }, acc: .99,
       starter: "# Diamond centred at (-1, 0)\nd1 = step(-x1 - x2)          # (x1+1) + x2 <= 1\n# d2 = ...\n\n# Square 1 <= x1 <= 2, -0.5 <= x2 <= 0.5\ns1 = step(x1 - 1)\n# s2 = ...\n\nout = step(d1 - 1)\n",
       sol: "d1 = step(-x1 - x2)\nd2 = step(-x1 + x2)\nd3 = step(2 + x1 - x2)\nd4 = step(2 + x1 + x2)\ns1 = step(x1 - 1)\ns2 = step(2 - x1)\ns3 = step(x2 + 0.5)\ns4 = step(0.5 - x2)\nD = step(d1 + d2 + d3 + d4 - 4)     # AND\nS = step(s1 + s2 + s3 + s4 - 4)     # AND\nout = step(D + S - 1)               # OR\n" },
-    { id: "shallow", n: "Same shapes, one hidden layer", brief: "Paper problem 5: the same two shapes, but the output must read the first-layer units directly, giving 2 threshold layers. With only these 8 units no weights are exact, so the bar is 95%. Work out where your error comes from.",
+    { id: "shallow", n: "Same shapes, one hidden layer", brief: "Paper problem 5: the same two shapes, but the output must read the first-layer units directly, giving 2 threshold layers. Try the restricted output step(a*D + b*S - c), using the two shape counts. This restricted family cannot be exact; the grid target is 95%. Explain the error rather than treating the score as proof.",
       t: function (a, b) { return (Math.abs(a + 1) + Math.abs(b) <= 1) || (a >= 1 && a <= 2 && Math.abs(b) <= .5); }, acc: .95, maxLayers: 2,
       starter: "d1 = step(-x1 - x2)\nd2 = step(-x1 + x2)\nd3 = step(2 + x1 - x2)\nd4 = step(2 + x1 + x2)\ns1 = step(x1 - 1)\ns2 = step(2 - x1)\ns3 = step(x2 + 0.5)\ns4 = step(0.5 - x2)\n\n# Plain sums are allowed: they become output weights\nD = d1 + d2 + d3 + d4\nS = s1 + s2 + s3 + s4\nout = step(D + S - 6)\n",
-      sol: "d1 = step(-x1 - x2)\nd2 = step(-x1 + x2)\nd3 = step(2 + x1 - x2)\nd4 = step(2 + x1 + x2)\ns1 = step(x1 - 1)\ns2 = step(2 - x1)\ns3 = step(x2 + 0.5)\ns4 = step(0.5 - x2)\nD = d1 + d2 + d3 + d4\nS = s1 + s2 + s3 + s4\n# (D,S) = (4,2) and (2,4) must fire but (3,3) must not:\n# that needs a > b and b > a at once. No weights on these\n# 8 units are exact, so give up the diamond's top and bottom\n# tips, where S = 2. About 98.6%:\nout = step(D + 2*S - 10)\n" },
+      sol: "d1 = step(-x1 - x2)\nd2 = step(-x1 + x2)\nd3 = step(2 + x1 - x2)\nd4 = step(2 + x1 + x2)\ns1 = step(x1 - 1)\ns2 = step(2 - x1)\ns3 = step(x2 + 0.5)\ns4 = step(0.5 - x2)\nD = d1 + d2 + d3 + d4\nS = s1 + s2 + s3 + s4\n# (D,S) = (4,2) and (2,4) must fire but (3,3) must not:\n# adding the two positive inequalities forces (3,3) to fire.\n# This rules out count-weighted outputs, not arbitrary edge weights.\n# This particular approximation gives up the diamond's top and bottom\n# tips, where S = 2. About 98.6%:\nout = step(D + 2*S - 10)\n" },
     { id: "circle", n: "Circle, fewest units", brief: "Approximate the disc of radius 1.5 to 97% agreement. Only step() is allowed. How few units can you use?",
       t: function (a, b) { return a * a + b * b <= 2.25; }, acc: .97,
       starter: "# Disc of radius 1.5: try a polygon around it\nh1 = step(1.5 - x1)\nh2 = step(1.5 + x1)\nh3 = step(1.5 - x2)\nh4 = step(1.5 + x2)\nout = step(h1 + h2 + h3 + h4 - 4)\n",
@@ -961,11 +968,12 @@
   REG[0].sol = REG[0].starter;
   GU.lab("nn-regions", function (host) {
     var S = mountShell(host, "Lab 5 · Building regions with a network", "write a network; the plot scores it as you type",
+      '<p class="notice"><strong>Predict first.</strong> Before editing, predict the output of the closed-ring network at (1,0) and (0,0).</p><details><summary>Reveal the reasoning</summary><p>At (1,0) it must be 1: the inner boundary is included. At (0,0) it must be 0. A grid score alone can miss this distinction.</p></details>' +
       '<p class="intro">Write a network as a list of neurons. Each line is <code>name = expression</code>, the inputs are <code>x1</code> and <code>x2</code>, and <code>step(z)</code> is a threshold unit that outputs 1 when z ≥ 0. You may use <code>+ − * /</code>, numbers, parentheses and earlier names. The last thing you define must be <code>out</code>. The plot updates as you type and scores agreement with the target over the square [−3, 3]².</p>' +
       '<div class="row chips" role="group" aria-label="Region challenges" data-chips></div><p class="intro" data-brief></p>' +
       '<div class="bench wide-left"><div><textarea class="editor" spellcheck="false" aria-label="Network code" data-code></textarea>' +
       '<div class="row"><button class="btn" type="button" data-reset>Restore starter</button><button class="btn" type="button" data-sol>Show a solution</button></div><div class="err" data-err></div></div>' +
-      '<div><div class="plot"><canvas data-canvas></canvas></div>' +
+      '<div><div class="plot"><canvas data-canvas></canvas></div><p class="cap">The grid samples this window; it does not prove equivalence. Scores very close to zero can round to either side, so inspect the inequalities and check boundary points separately.</p>' +
       '<div class="row" style="font-size:12px;color:var(--n-muted);gap:14px"><span><i class="sw" style="background:var(--n-fire)"></i>both</span><span><i class="sw" style="background:var(--n-calm-soft);border:1px solid var(--n-calm)"></i>missed target</span><span><i class="sw" style="background:var(--n-warn)"></i>extra</span></div>' +
       '<div class="readout" data-read></div><p class="status" data-status></p></div></div>' +
       '<h3>Your network, drawn</h3><p class="cap">Read from your code as you type. Numbers on edges are weights (teal when negative), numbers in nodes are biases, and plain sums such as <code>D = d1 + d2</code> are folded into the weights of the unit that reads them. Click anywhere on the plot to probe that point: inputs show their values and the units that fire turn magenta.</p>' +
@@ -1010,6 +1018,12 @@
       ctx.fillText("x₁", w - 18, F.Y(0) - 6); ctx.fillText("x₂", F.X(0) + 6, 12);
       [-2, -1, 1, 2].forEach(function (v) { ctx.fillText(v, F.X(v) - 4, F.Y(0) + 14); ctx.fillText(v, F.X(0) + 4, F.Y(v) + 4); });
       var acc = agree / (G * G), problems = [];
+      if (regCh.id === "ring") {
+        [[1,0],[-1,0],[0,1],[0,-1],[.5,.5],[2,0],[-2,0],[0,2],[0,-2],[0,0],[.999,0],[2.001,0]].forEach(function (p) {
+          if ((net.run({x1:p[0], x2:p[1]}) >= .5) !== regCh.t(p[0], p[1])) problems.push("wrong label at (" + p.join(", ") + ")");
+        });
+      }
+      if (bad) problems.push("some outputs are not finite");
       if (acc < regCh.acc) problems.push("agreement below " + (regCh.acc * 100).toFixed(0) + "%");
       if (regCh.maxUnits && net.units > regCh.maxUnits) problems.push("uses " + net.units + " units, the limit is " + regCh.maxUnits);
       if (regCh.maxLayers && net.layers > regCh.maxLayers) problems.push(net.layers + " threshold layers, the limit is " + regCh.maxLayers);
@@ -1105,7 +1119,7 @@
     load(); onRedraw(host, run);
     renderQuiz(S.$("[data-quiz]"), "Checkpoint", [
       { q: "How many threshold perceptrons does an MLP need to model a hexagonal decision region in 2D?", o: ["6", "7", "12", "13"], a: 1, why: "Six units, one per edge, plus one output unit that ANDs them." },
-      { q: "In the edge–AND–OR construction, what does modelling the union of two separate polygons require?", o: ["One more unit in the first layer", "A third layer that ORs the two polygon outputs", "Sigmoid activations", "Nothing extra"], a: 1, why: "Layer 1 draws edges, layer 2 ANDs them into polygons, and layer 3 ORs the polygons. A single hidden layer can only approximate it, which is why the \"one hidden layer\" challenge sets 95%." },
+      { q: "In the edge–AND–OR construction, what does modelling the union of two separate polygons require?", o: ["One more unit in the first layer", "A third layer that ORs the two polygon outputs", "Sigmoid activations", "Nothing extra"], a: 1, why: "Layer 1 draws edges, layer 2 ANDs them into polygons, and layer 3 ORs the polygons. This is the layer count of this construction. Alternative architectures require separate arguments. The count-restricted challenge uses an approximate rule; its grid score is not an exactness proof." },
       { q: "A regular N-gon region in 2D, built from edges and an AND, uses how many threshold units?", o: ["N", "N + 1", "2N", "N²"], a: 1, why: "One unit per edge and one AND at the output." },
       { q: "For an MNIST classifier, where does the decision boundary live?", o: ["In 2 dimensions", "In 10 dimensions", "In 784 dimensions", "In 28 dimensions"], a: 2, why: "Each 28×28 image is a point in 784-dimensional space. The same edge-AND-OR logic applies there with hyperplanes instead of lines." }
     ], "regions");
@@ -1114,9 +1128,14 @@
   /* =========================================================================
      6. CYLINDER
      ========================================================================= */
+  function cylinderGeometry(N) {
+    var cs = [], sn = [];
+    for (var k = 0; k < N; k++) { cs.push(Math.cos(2 * Math.PI * k / N)); sn.push(Math.sin(2 * Math.PI * k / N)); }
+    return { cos: cs, sin: sn, offset: 1 };
+  }
   GU.lab("nn-cylinder", function (host) {
     var S = mountShell(host, "Lab 6 · From polygons to cylinders", "vary N and the count threshold τ",
-      '<p class="intro">This is paper problem 6 made visible. Take a regular N-gon around the unit circle, with one threshold unit per edge. Instead of AND-ing them, look at <em>how many</em> fire. Inside, all N do. Far away, the count falls towards N/2, never to zero. Thresholding that count at τ·N gives the output region.</p>' +
+      '<p class="intro">This is paper problem 6 made visible. Take a regular N-gon circumscribed around the unit circle (edge offset 1), with one threshold unit per edge. Instead of AND-ing them, look at <em>how many</em> fire. Inside, all N do. The limiting radial curve tends to N/2 far away; outside the disc it still has a nonconstant tail. Thresholding that count at τ·N gives the output region.</p>' +
       '<div class="bench"><div><div class="plot"><canvas data-heat></canvas></div><p class="cap">Shading shows the fraction of units firing. The magenta area is where the output fires.</p></div>' +
       '<div><label class="ctl"><span>N edges</span><input type="range" min="3" max="64" step="1" value="8" data-n><output data-no></output></label>' +
       '<label class="ctl"><span>τ</span><input type="range" min="0.52" max="1" step="0.005" value="1" data-t><output data-to></output></label>' +
@@ -1126,8 +1145,8 @@
     function draw() {
       var T = theme(S.body), N = +S.$("[data-n]").value, tau = +S.$("[data-t]").value;
       S.$("[data-no]").textContent = N; S.$("[data-to]").textContent = tau.toFixed(3);
-      var cs = [], sn = []; for (var k = 0; k < N; k++) { cs.push(Math.cos(2 * Math.PI * k / N)); sn.push(Math.sin(2 * Math.PI * k / N)); }
-      var d = Math.cos(Math.PI / N), thr = tau * N - 1e-9, mono = getComputedStyle(document.documentElement).getPropertyValue("--mono");
+      var geometry = cylinderGeometry(N), cs = geometry.cos, sn = geometry.sin;
+      var d = geometry.offset, thr = tau * N - 1e-9, mono = getComputedStyle(document.documentElement).getPropertyValue("--mono");
       (function () {
         var cv = S.$("[data-heat]"), f = fit(cv, 1), ctx = f.ctx, w = f.w, h = f.h, R = 4, GG = 180, img = new ImageData(GG, GG), cF = rgb(T.fire), cS = rgb(T.surface), cI = rgb(T.calm);
         for (var j = 0; j < GG; j++) for (var i = 0; i < GG; i++) {
@@ -1170,7 +1189,7 @@
     draw(); onRedraw(host, draw);
     renderQuiz(S.$("[data-quiz]"), "Checkpoint", [
       { q: "As N → ∞, what fraction of the edge units fire for a point very far from the centre?", o: ["0", "¼", "½", "1"], a: 2, why: "½ + arcsin(1/r)/π tends to ½ as r → ∞: each unit sees a half-plane, and far away roughly half of them face towards the point." },
-      { q: "Why is this \"cylinder\" useful for the universal-approximation argument?", o: ["Its output is exactly a polygon", "The summed count is high on a disc and falls to a constant baseline elsewhere, so several cylinders can be added and thresholded together", "It needs fewer units than the AND construction", "It works without thresholds"], a: 1, why: "Because the far-field baseline is the same constant N/2 for every cylinder, you can sum many of them, subtract the baseline, and threshold once. That gives arbitrary regions with a single hidden layer, at the cost of very many units." },
+      { q: "Two radius-2 cylinders are centred at (−3,0) and (3,0). Why does adding their counts and subtracting a distant floor fail to give their union?", o: ["There are too few edges", "The tails overlap: at the midpoint the limiting score is about 0.716, above 2/3", "The midpoint is inside both discs", "The far-field floor is zero"], a: 1, why: "Each midpoint count fraction is 1/2 + arcsin(1/3)/π. Their sum minus 1/2 is about 0.716. This is already the infinite-edge limit, so adding edges does not repair the false positive." },
       { q: "With τ = 1, what does the output compute?", o: ["A disc", "The AND of all edges, the N-gon itself", "Nothing ever fires", "The complement of the polygon"], a: 1, why: "Requiring all N units to fire is the edge-and-AND construction." }
     ], "cylinder");
   });
@@ -1179,18 +1198,24 @@
      7. PULSES
      ========================================================================= */
   var PF = { sin: function (x) { return Math.sin(x); }, bump: function (x) { return Math.exp(-Math.pow(x - Math.PI, 2)); }, saw: function (x) { return ((x / Math.PI) % 1) * 2 - 1; } };
+  function pulseApprox(f, K, x, L) {
+    if (x < 0 || x >= L) return 0;
+    var i = Math.min(K - 1, Math.floor(x / (L / K)));
+    return f((i + .5) * (L / K));
+  }
   GU.lab("nn-pulses", function (host) {
     var S = mountShell(host, "Lab 7 · Pulses and regression", "choose a target and the number of pulses",
-      '<p class="intro">Two threshold units and a summing output give a square pulse: <code>step(x − T₁) − step(x − T₂)</code> is 1 only between T₁ and T₂. Scale each pulse by the function\'s height and add them up, and you can approximate any function of one variable. Narrower pulses mean a better fit but more neurons.</p>' +
+      '<p class="notice"><strong>Predict first.</strong> Before moving K, predict the pulse sum at x=2π for the bump target. Is increasing K enough to fix it?</p><details><summary>Reveal the reasoning</summary><p>The raw pulse sum is zero at its final edge, but the bump is exp(−π²), which is positive. Increasing K does not change this endpoint; use the explicit correction for a closed-interval guarantee.</p></details>' +
+      '<p class="intro">Two threshold units and a summing output give a pulse on the half-open interval [T₁,T₂). Midpoint heights approximate a continuous target on a bounded interval. This plot uses the raw pulse sum, which is zero at the final edge; a general closed-interval guarantee needs the endpoint correction explained in the text.</p>' +
       '<div class="bench"><div class="plot"><canvas data-canvas></canvas></div><div>' +
       '<label class="ctl"><span>Target</span><select data-f><option value="sin">sin x</option><option value="bump">bump e^−(x−π)²</option><option value="saw">sawtooth</option></select><span></span></label>' +
       '<label class="ctl"><span>Pulses K</span><input type="range" min="1" max="100" step="1" value="6" data-k><output data-ko></output></label>' +
-      '<div class="readout" data-read></div><p class="cap">Task: get the maximum error on sin x below 0.05. Note how many threshold units the pulse-by-pulse construction needs, and how many the shared-edge version needs.</p><p class="status" data-status></p></div></div>' +
+      '<div class="readout" data-read></div><p class="cap">Task: get the sampled maximum error on sin x below 0.05, then compare with the π/K guarantee. Note how many threshold units the pulse-by-pulse construction needs, and how many the shared-edge version needs.</p><p class="status" data-status></p></div></div>' +
       '<div class="quiz" data-quiz></div>');
     function draw() {
       var T = theme(S.body), K = +S.$("[data-k]").value; S.$("[data-ko]").textContent = K;
       var key = S.$("[data-f]").value, f = PF[key], L = 2 * Math.PI, dx = L / K;
-      var approx = function (x) { var i = Math.min(K - 1, Math.max(0, Math.floor(x / dx))); return f((i + .5) * dx); };
+      var approx = function (x) { return pulseApprox(f, K, x, L); };
       var cv = S.$("[data-canvas]"), fi = fit(cv, .75), ctx = fi.ctx, w = fi.w, h = fi.h, F = frame(w, h, -.2, L + .2, -1.35, 1.35, 10);
       ctx.clearRect(0, 0, w, h); axes(ctx, F, w, h, T, -.2, L + .2, -1.35, 1.35);
       ctx.strokeStyle = T.line; ctx.lineWidth = 1;
@@ -1204,20 +1229,24 @@
       for (var s = 0; s <= 1200; s++) {
         var x = L * s / 1200, y = f(x);
         if (key === "saw" && s > 0 && Math.abs(y - f(L * (s - 1) / 1200)) > 1) ctx.moveTo(F.X(x), F.Y(y)); else if (s) ctx.lineTo(F.X(x), F.Y(y)); else ctx.moveTo(F.X(x), F.Y(y));
-        if (!(key === "saw" && Math.abs((x / Math.PI) % 1) < 1e-3)) maxE = Math.max(maxE, Math.abs(y - approx(x)));
+        maxE = Math.max(maxE, Math.abs(y - approx(x)));
       }
       ctx.stroke();
+      // The final pulse is open at its top-right corner and zero on the final edge.
+      ctx.strokeStyle = T.fire; ctx.fillStyle = T.surface; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(F.X(L), F.Y(f(L - dx / 2)), 4, 0, 7); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = T.fire; ctx.beginPath(); ctx.arc(F.X(L), F.Y(approx(L)), 3, 0, 7); ctx.fill();
       ctx.fillStyle = T.muted; ctx.font = "11px " + getComputedStyle(document.documentElement).getPropertyValue("--mono"); ctx.fillText("0", F.X(0) - 3, F.Y(0) + 14); ctx.fillText("2π", F.X(L) - 8, F.Y(0) + 14);
-      S.$("[data-read]").textContent = "pulses K = " + K + ", width " + dx.toFixed(3) + "\nmax |error| = " + maxE.toFixed(4) + "\npulse by pulse: 2K = " + (2 * K) + " threshold units + 1 summing output\nshared edges: K + 1 = " + (K + 1) + " threshold units + 1 summing output";
+      S.$("[data-read]").textContent = "pulses K = " + K + ", width " + dx.toFixed(3) + "\nsampled max |error| = " + maxE.toFixed(4) + "\npulse by pulse: 2K = " + (2 * K) + " threshold units + 1 summing output\nshared edges: K + 1 = " + (K + 1) + " threshold units + 1 summing output" + (key === "saw" ? "\nThe sawtooth has jumps; the continuous-target guarantee does not apply." : "") + "\nRaw pulse sum at final edge: " + approx(L);
       var st = S.$("[data-status]");
-      if (key === "sin" && maxE < .05) { st.textContent = "Below 0.05 with K = " + K + "."; st.className = "status ok"; markDone("pulses"); } else st.textContent = "";
+      if (key === "sin" && maxE < .05) { st.textContent = "Sampled error below 0.05 with K = " + K + "."; st.className = "status ok"; markDone("pulses"); } else st.textContent = "";
     }
     ["[data-k]", "[data-f]"].forEach(function (s) { S.$(s).addEventListener("input", draw); });
     draw(); onRedraw(host, draw);
     renderQuiz(S.$("[data-quiz]"), "Checkpoint", [
       { q: "Neighbouring pulses share an edge. How can the network use fewer than 2K threshold units?", o: ["It can't", "Telescoping: Σ hₖ[step(x−Tₖ) − step(x−Tₖ₊₁)] = Σ (hₖ − hₖ₋₁)·step(x−Tₖ), so K+1 units suffice", "Use sigmoids", "Drop every other pulse"], a: 1, why: "Each internal threshold appears twice, once rising and once falling. Merging the pair into one unit with weight hₖ − hₖ₋₁ gives a staircase with K+1 units." },
       { q: "How many neurons does a network of sinusoidal (y = sin z) activations need to model y = cos(2x) exactly?", o: ["3", "floor(π/2) or ceil(π/2)", "Infinite", "None of the above"], a: 3, why: "One neuron is enough, since cos(2x) = sin(2x + π/2), with weight 2 and bias π/2. None of the other options is one." },
-      { q: "To halve the maximum error on a smooth function with this piecewise-constant construction, you need roughly…", o: ["the same number of units", "twice as many units", "four times as many units", "exponentially more"], a: 1, why: "The error of a piecewise-constant fit scales with pulse width times slope, so halving the width roughly halves the error. In d dimensions, the count grows like (1/ε)ᵈ." }
+      { q: "To halve the Lipschitz midpoint error bound using this piecewise-constant construction, you need…", o: ["the same number of units", "twice as many units", "four times as many units", "exponentially more"], a: 1, why: "For a fixed Lipschitz target, the midpoint error bound is L times half the block width. A uniform d-dimensional grid gives O((1/ε)ᵈ) cells under that assumption; this is a construction cost, not a lower bound for every network." }
     ], "pulses");
   });
 
@@ -1319,19 +1348,19 @@
 
   /* =========================================================================
      9. PAPER PROBLEMS — progress over the lesson's A-exercises
-     The problems themselves are the lesson's checked exercises A1–A9; this
+     The problems themselves are the lesson's checked exercises A1–A10; this
      lab counts how many have been attempted in the answer checker.
      ========================================================================= */
   GU.lab("nn-problems", function (host) {
-    var S = mountShell(host, "Lab 9 · Paper problems", "the problems are exercises A1–A9 below",
+    var S = mountShell(host, "Lab 9 · Paper problems", "the problems are exercises A1–A10 below",
       '<p class="intro">Work these with pen and paper. Open a hint only when you\'re stuck, and check your answer against the solution afterwards. Each problem below has typed checks where the answer is a number, a model-marked box for your written argument, and a gated reference solution.</p>' +
       '<div class="readout" data-read></div><div class="row"><button class="btn" type="button" data-go>Go to problem 1</button></div>');
     var BANK = "nn-01-connectionism-threshold-unit";
     function render() {
       if (!host.isConnected) { document.removeEventListener("click", later, true); return; }
       var work = {}; try { work = (JSON.parse(localStorage.getItem("gu.work.v1") || "{}")[BANK]) || {}; } catch (e) {}
-      var ids = ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9"], tried = ids.filter(function (id) { return work[id] && work[id].attempted; });
-      S.$("[data-read]").textContent = tried.length + " of 9 problems attempted" + (tried.length ? " (" + tried.join(", ") + ")" : "") + ". Four attempts complete this lab.";
+      var ids = ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10"], tried = ids.filter(function (id) { return work[id] && work[id].attempted; });
+      S.$("[data-read]").textContent = tried.length + " of 10 problems attempted" + (tried.length ? " (" + tried.join(", ") + ")" : "") + ". Four attempts complete this lab.";
       if (tried.length >= 4) markDone("problems");
     }
     var later = function () { setTimeout(render, 50); };
@@ -1348,20 +1377,140 @@
      ========================================================================= */
   GU.lab("nn-quiz", function (host) {
     var S = mountShell(host, "Lab 10 · Review quiz", "mixed questions across the whole lecture",
-      '<p class="intro">Mixed questions across the whole chapter, including details from the reading list.</p><div class="quiz" data-quiz></div>');
+      '<p class="intro">Ten questions test the chapter’s core calculations and explanations; two connect the historical models to their limitations. All feedback is available offline.</p><div class="quiz" data-quiz></div>');
     renderQuiz(S.$("[data-quiz]"), "Twelve questions", [
-      { q: "In Turing's 1948 B-type machines, what made the network learnable?", o: ["Real-valued weights", "A \"modifier\" on each connection that could switch it between passing a (negated) signal and fixing the output at 1", "Backpropagation", "Inhibitory synapses"], a: 1, why: "Each connection had a modifier. Learning meant setting the modifiers, which was itself to be done by an A-type machine." },
-      { q: "Hartley (1749) proposed that memories are…", o: ["Stored in synapses", "Small vibrations (\"vibratiuncles\") in the same brain regions as sensations", "Chemical traces", "Located in the heart"], a: 1, why: "Hartley's vibration theory predates any knowledge of neurons." },
-      { q: "Which of these is in the PDP list of requirements for a connectionist system?", o: ["A central clock", "A learning rule by which patterns of connectivity are modified by experience", "A symbolic rule base", "A separate program memory"], a: 1, why: "Rumelhart, Hinton and McClelland (1986) list processing units, activation state, output functions, connectivity, a propagation rule, an activation rule, a learning rule and an environment." },
-      { q: "Rosenblatt's original (unsimplified) perceptron organised cells as…", o: ["Input → output only", "Sensors → association area A1 → A2 → response cells, with feedback between A and R", "A fully connected recurrent net", "A single threshold unit"], a: 1, why: "The feedback between A and R cells enforced mutually exclusive outputs. The simplified model kept only fixed association weights and learnable response weights." },
-      { q: "What does a 1-D perceptron with weight w > 0 and bias b fire for?", o: ["x ≤ −b/w", "x ≥ −b/w", "x ≥ b/w", "All x"], a: 1, why: "wx + b ≥ 0 gives x ≥ −b/w. In one dimension the \"line\" is a single threshold point." },
-      { q: "McCulloch and Pitts showed that a network with inhibition and delays can produce which perceptual effect?", o: ["Colour constancy", "A brief cold stimulus felt as heat", "Depth perception", "Pain suppression"], a: 1, why: "Their heat and cold receptor network fires \"heat\" for a cold touch that is quickly removed, an illusion of perception built from Boolean units." },
-      { q: "Who said \"neurons that fire together wire together\", in substance?", o: ["Bain", "Hebb", "Rosenblatt", "Hartley"], a: 1, why: "Hebb (1949, p. 62). The slogan is not in his book; it was coined decades later as a summary. Bain anticipated the idea about 75 years earlier." },
-      { q: "Why do we need networks of perceptrons at all?", o: ["Single perceptrons train too slowly", "A single perceptron only draws one linear boundary, so functions like XOR are out of reach", "Single perceptrons cannot use real inputs", "Networks need fewer weights"], a: 1, why: "Minsky and Papert's point: individual units are weak computational elements." },
-      { q: "An MLP of threshold units built from edges, ANDs and ORs can represent…", o: ["Only convex regions", "Only polygons", "Any region, to arbitrary precision", "Only regions in 2D"], a: 2, why: "MLPs are universal classifiers: any decision boundary can be captured to arbitrary precision." },
-      { q: "Which statement about the threshold activation θ(z) used in this chapter is right?", o: ["θ(z) = 1 if z > 0 only", "θ(z) = 1 if z ≥ 0, else 0", "θ(z) = z", "θ(z) = sign(z) ∈ {−1, 1}"], a: 1, why: "Here the unit fires on z ≥ 0, so points exactly on the boundary fire. The worked diamond design relies on this." },
-      { q: "Viewing transcription, captioning and game-playing as \"boxes\", the key claim is that…", o: ["They need different kinds of networks", "Each box is a function, and a neural network can approximate it", "They are not computable", "They need symbolic AI"], a: 1, why: "Interesting AI tasks are functions, and MLPs are universal approximators of functions." },
-      { q: "Bain's 1873 estimate of about 1,000 million cells and 5,000 million fibres was checked against how many \"acquisitions\" at the upper end?", o: ["2,000", "200,000", "20 million", "5 billion"], a: 1, why: "200,000, which still left 5,000 cells and 25,000 fibres per grouping (Mind and Body, pp. 106–107). His own count of a learned life was tens of thousands of acquisitions." }
-    ], "final", function () { markDone("quiz"); });
+      {
+            "q": "For x=(1,1), w=(2,−3), b=1, what are z and θ(z)?",
+            "o": [
+                  "z=0, output 1",
+                  "z=0, output 0",
+                  "z=1, output 1",
+                  "z=−1, output 0"
+            ],
+            "a": 0,
+            "why": "2−3+1=0. The chapter fires on equality: θ(0)=1."
+      },
+      {
+            "q": "What does a bias let a threshold unit change?",
+            "o": [
+                  "Only the input dimension",
+                  "The boundary location, including the label at all-zero input",
+                  "The truth-table size",
+                  "Whether multiplication is linear"
+            ],
+            "a": 1,
+            "why": "The score at x=0 is b. Bias translates the boundary without requiring it to pass through the origin."
+      },
+      {
+            "q": "From w=(0,0), b=0, use η=1 on x=(0,0) with target 0. What changes?",
+            "o": [
+                  "Nothing",
+                  "Only w",
+                  "b becomes −1; w stays zero",
+                  "b becomes 1"
+            ],
+            "a": 2,
+            "why": "The prediction is 1, so d−y=−1. Multiplying the error by zero input leaves w unchanged; the bias still updates."
+      },
+      {
+            "q": "Why can one threshold unit not compute XOR?",
+            "o": [
+                  "It cannot accept real inputs",
+                  "Its positive region is one half-space; the XOR inequalities contradict each other",
+                  "Its weights cannot be negative",
+                  "Its output is continuous"
+            ],
+            "a": 1,
+            "why": "The two mixed inputs must fire while both equal inputs must not. Adding the firing inequalities contradicts the all-on silent inequality."
+      },
+      {
+            "q": "In the three-unit XOR network, what do hidden OR and NAND output on (1,1)?",
+            "o": [
+                  "(1,1), so output 1",
+                  "(0,0), so output 0",
+                  "(1,0), so output 0",
+                  "(0,1), so output 1"
+            ],
+            "a": 2,
+            "why": "OR fires and NAND does not. Their AND output is 0. The hidden representation makes the task separable."
+      },
+      {
+            "q": "For the closed square |x₁|≤1, |x₂|≤1, what are the inside and complement labels at (1,0)?",
+            "o": [
+                  "1 and 0",
+                  "0 and 1",
+                  "1 and 1",
+                  "0 and 0"
+            ],
+            "a": 0,
+            "why": "The edge score zero fires, all four inward fences agree, and the square includes its edge. The complement must exclude it."
+      },
+      {
+            "q": "Two squares share top and bottom boundaries. How many edge units can be reused?",
+            "o": [
+                  "None",
+                  "One",
+                  "Two",
+                  "All four"
+            ],
+            "a": 2,
+            "why": "Each common inward half-space is the same Boolean test and can feed both AND units."
+      },
+      {
+            "q": "With x=1, w=0.5, η=0.1, what do Hebb and Oja give after one update?",
+            "o": [
+                  "Both 0.55",
+                  "0.55 and 0.5375",
+                  "0.5375 and 0.55",
+                  "Both 1"
+            ],
+            "a": 1,
+            "why": "Hebb adds 0.1×0.5. Oja adds 0.1×0.5×(1−0.25). Neither uses a target label."
+      },
+      {
+            "q": "A midpoint approximation of an L-Lipschitz curve has block width Δ. What is its interior error bound?",
+            "o": [
+                  "LΔ/2",
+                  "Always zero",
+                  "1/Δ",
+                  "Independent of L"
+            ],
+            "a": 0,
+            "why": "Within a block |x−c|≤Δ/2 and |f(x)−f(c)|≤L|x−c|. Handle the final endpoint separately."
+      },
+      {
+            "q": "A constructed polygon network agrees with a target on a dense grid. What follows?",
+            "o": [
+                  "Training will find its weights",
+                  "It generalizes to all unseen data",
+                  "It agrees on those sampled points; exact geometry and learning require separate arguments",
+                  "It exactly represents every curved boundary"
+            ],
+            "a": 2,
+            "why": "Representation, learning, and generalization ask different questions. A grid score is sampled evidence within a window."
+      },
+      {
+            "q": "What limitation of fixed McCulloch–Pitts nets motivates a learning rule?",
+            "o": [
+                  "Their connections do not change with experience",
+                  "They cannot compute AND",
+                  "They have real-valued outputs",
+                  "They are already trained by gradients"
+            ],
+            "a": 0,
+            "why": "Their fixed structure permits computation and temporal state, but does not itself adjust connections from examples."
+      },
+      {
+            "q": "What ingredient distinguishes perceptron error correction from plain Hebbian reinforcement?",
+            "o": [
+                  "A teacher target compared with the prediction",
+                  "Only positive weights",
+                  "An exhaustive search over switches",
+                  "Removing the bias"
+            ],
+            "a": 0,
+            "why": "The factor d−y makes correct predictions leave weights unchanged and gives errors a direction. This is the historical move to supervised error correction."
+      }
+], "quiz", function (right) { if (right === 12) markDone("quiz"); });
   });
 })();

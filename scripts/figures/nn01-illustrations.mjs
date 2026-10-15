@@ -258,11 +258,11 @@ export default {
     [0, 100, 200, 300, 400].forEach(t => out.push(text(X(t), 372, String(t), {color: C.label, size: 13, anchor: "middle"})));
     out.push(path(H.map(([t, v], i) => (i ? "L" : "M") + r2(X(t)) + " " + r2(Y(v))).join(""), {color: C.pink, width: 3}),
       path(O.map(([t, v], i) => (i ? "L" : "M") + r2(X(t)) + " " + r2(Y(v))).join(""), {color: C.teal, width: 3}),
-      text(X(250), Y(H[250][1]) - 16, "Hebb: |w| grows like e^(λ₁ηt)", {color: C.pink, size: 15, anchor: "end"}),
-      text(X(300), Y(O[300][1]) - 12, "Oja: |w| → 1", {color: C.teal, size: 15}),
+      text(X(250), Y(H[250][1]) - 16, "Hebb: exponential growth (this example)", {color: C.pink, size: 15, anchor: "end"}),
+      text(X(300), Y(O[300][1]) - 12, "Oja: |w| approaches 1 here", {color: C.teal, size: 15}),
       text(60, 90, "|w|", {color: C.label, size: 14}));
     return figure({id: "nn01-hvo", w: 900, h: 450, title: "Hebb versus Oja: weight length over time",
-      desc: "Weight length on a logarithmic axis against update step, from the averaged equations with correlation matrix [[3, 1.5], [1.5, 1]] and learning rate 0.01. The Hebb curve rises in a straight line on the log axis; the Oja curve levels off at length 1.",
+      desc: "Weight length on a logarithmic axis against update step, from the averaged equations with second-moment matrix [[3, 1.5], [1.5, 1]] and learning rate 0.01. The Hebb curve rises in a straight line on the log axis; the Oja curve levels off at length 1.",
       caption: "Averaged updates, C = [[3, 1.5], [1.5, 1]], η = 0.01: a straight line on a log axis is exponential growth."}, [heading("Hebb grows without bound; Oja settles at length 1"), ...out, text(470, 398, "update step", {color: C.label, size: 14, anchor: "middle"})]);
   },
 
@@ -384,10 +384,10 @@ export default {
       p.curve(t => [t, Math.sin(t)], 0, L, {color: C.teal, width: 2.5});
       errs.push(maxE.toFixed(3));
       parts.push(p.svg(), text(30 + k * 290 + 130, 330, `K = ${K}: ${K + 1} threshold units`, {color: C.ink, size: 15, anchor: "middle", weight: 600}),
-        text(30 + k * 290 + 130, 352, `max error ${maxE.toFixed(3)}`, {color: C.muted, size: 13, anchor: "middle"}));
+        text(30 + k * 290 + 130, 352, `sup error ${maxE.toFixed(3)}`, {color: C.muted, size: 13, anchor: "middle"}));
     });
     return figure({id: "nn01-sky", w: 900, h: 410, title: "Pulse approximations of sin x",
       desc: `Three panels approximating sin x on 0 to 2π with 4, 12 and 48 flat-topped pulses at midpoint heights. The maximum errors shown below are ${errs.join(", ")}.`,
-      caption: "Midpoint heights on [0, 2π]: the error falls in proportion to 1/K (staircase form, K + 1 units)."}, parts);
+      caption: "Half-open midpoint pulses; sin(2π) = 0 matches the final-edge output. Lipschitz bound π/K; K + 1 hidden units."}, parts);
   },
 };
