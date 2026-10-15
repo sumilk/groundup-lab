@@ -28,16 +28,18 @@ def execute(runtime, lab, code):
 def main():
     runtime = json.loads(RUNTIME_PATH.read_text(encoding="utf-8"))
     for lab in runtime["labs"]:
-        # These Module 2 references share implementation helpers; learners may
+        # Some references share implementation helpers; learners may
         # write their own. Bundle them with the reference submitted to the same
-        # runner, rather than exposing the completed reducer in every starter.
+        # runner without exposing reference implementation details in starters.
         helpers = {
             "row_echelon": ("_validated_matrix", "_reduce"),
             "solve_complete": ("_validated_matrix", "_reduce"),
             "lu_factor": ("_validated_matrix",),
+            "prime_implicants": ("_truth_table",),
+            "parity_network": ("_xor_block",),
         }.get(lab["function"], ())
         implementation = (
-            "import math\nimport random\n\n"
+            "import math\nimport random\nimport itertools\n\n"
             + "\n\n".join(inspect.getsource(getattr(reference, name)) for name in helpers)
             + "\n\n"
             + inspect.getsource(getattr(reference, lab["function"]))
