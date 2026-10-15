@@ -13,7 +13,10 @@
   /* Feedback goes to a Google Form when FEEDBACK.form is set; until then, to the author's LinkedIn.
      FEEDBACK.pageEntry is the form's "page" question id (entry.NNN from a pre-filled link), so the
      form opens with the page the visitor was reading already filled in. */
-  const FEEDBACK = {form: "", pageEntry: ""};
+  const FEEDBACK = {
+    form: "https://docs.google.com/forms/d/e/1FAIpQLSePS-0jA13wfPhtR4UOt5Q5vsbO1QOPt_uOQO8SN1eEcpgjKA/viewform",
+    pageEntry: "entry.37184295"
+  };
   function feedbackHref() {
     if (!FEEDBACK.form) return AUTHOR.linkedin;
     if (!FEEDBACK.pageEntry) return FEEDBACK.form;
