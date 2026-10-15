@@ -476,7 +476,6 @@
     const lesson=current,idx=lessons.indexOf(lesson);
     configureLab(lesson);
     document.title=lesson.title+" — GroundUp Lab";
-    $("source").href="https://github.com/sumilk/groundup-lab/blob/main/content/"+lesson.path;
     $("notes").value=get("notes:"+lesson.path);$("read").checked=get("read:"+lesson.path)==="yes";
     $("previous").disabled=idx===0;$("next").disabled=idx===lessons.length-1;
     $("status").textContent=(idx+1)+" / "+lessons.length+" · "+lesson.track+" · "+revision;
