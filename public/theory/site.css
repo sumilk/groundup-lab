@@ -9,10 +9,7 @@
 .site-header{display:flex;align-items:center;gap:18px;padding:12px 28px;border-bottom:1px solid var(--rule);
   background:var(--surface);font-family:var(--sans);font-size:13.5px;position:relative;z-index:20}
 .brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
-.brand-mark svg{width:28px;height:28px;display:block}
-.brand-mark rect{fill:var(--accent)}
-.brand-mark path{fill:none;stroke:var(--paper);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
-.brand-mark circle{fill:var(--w)}
+.brand-mark svg{width:28px;height:28px;display:block;border-radius:8px;box-shadow:0 0 0 1px var(--rule)}
 .brand-name{font-weight:650;font-size:15.5px;letter-spacing:-.01em}
 .site-nav{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap}
 .site-nav a{color:var(--ink-2);text-decoration:none;padding:7px 11px;border-radius:6px;display:inline-flex;align-items:center;gap:6px}
