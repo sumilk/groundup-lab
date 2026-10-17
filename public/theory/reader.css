@@ -137,6 +137,8 @@ input[type=range]{width:100%;accent-color:var(--accent);margin:0}
 .video-chapters{list-style:none;margin:0;padding:10px 12px;border-top:1px solid var(--rule);display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:2px 12px}
 .video-chapters button{all:unset;cursor:pointer;display:block;padding:5px 6px;border-radius:5px;font:13px/1.4 var(--sans);color:var(--ink-2)}
 .video-chapters button:hover,.video-chapters button:focus-visible{background:var(--surface-2);color:var(--ink)}
+.video-out{margin-left:auto;font:12.5px var(--sans);color:var(--accent);text-decoration:none;white-space:nowrap}
+.video-out:hover,.video-out:focus-visible{text-decoration:underline}
 .video-stamp{font-family:var(--mono);font-size:12px;color:var(--accent)}
 .lab-missing{font-family:var(--sans);font-size:13px;color:var(--warn);padding:16px;margin:22px 0;border:1px dashed var(--rule);border-radius:8px}
 @media (max-width:760px){.lab-body{grid-template-columns:1fr}.stage{aspect-ratio:1/.92}.panel{border-left:none;border-top:1px solid var(--rule)}}

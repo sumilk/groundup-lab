@@ -295,10 +295,12 @@
         .map(match=>({t:videoSeconds(match[1]),stamp:match[1],title:match[2].trim()}));
       const host=document.createElement("figure");
       host.className="lab video";
-      host.innerHTML='<div class="lab-head"><span class="lab-title"></span><span class="lab-hint"></span></div>'+
+      host.innerHTML='<div class="lab-head"><span class="lab-title"></span><span class="lab-hint"></span><a class="video-out" target="_blank" rel="noopener">Watch on YouTube ↗</a></div>'+
         '<div class="video-frame"><button type="button" class="video-poster"><img alt="" loading="lazy"><span class="video-play" aria-hidden="true"></span></button></div>';
       host.querySelector(".lab-title").textContent=spec.title||"Watch this chapter";
       host.querySelector(".lab-hint").textContent=chapters.length?chapters.length+" chapters · narrated walkthrough":"narrated walkthrough";
+      /* Fallback for viewers YouTube asks to sign in ("confirm you're not a bot") inside embeds. */
+      host.querySelector(".video-out").href="https://www.youtube.com/watch?v="+id;
       const frame=host.querySelector(".video-frame"),poster=host.querySelector(".video-poster");
       poster.querySelector("img").src="https://i.ytimg.com/vi/"+id+"/hqdefault.jpg";
       poster.setAttribute("aria-label","Play video: "+(spec.title||"chapter walkthrough"));
@@ -307,7 +309,8 @@
         if(player){player.contentWindow.postMessage(JSON.stringify({event:"command",func:"seekTo",args:[start,true]}),"*");
           player.contentWindow.postMessage(JSON.stringify({event:"command",func:"playVideo",args:[]}),"*");return;}
         player=document.createElement("iframe");
-        player.src="https://www.youtube-nocookie.com/embed/"+id+"?autoplay=1&rel=0&enablejsapi=1&start="+Math.floor(start);
+        /* Standard domain: the cookie-less youtube-nocookie player triggers YouTube's sign-in bot check far more often. */
+        player.src="https://www.youtube.com/embed/"+id+"?autoplay=1&rel=0&enablejsapi=1&origin="+encodeURIComponent(location.origin)+"&start="+Math.floor(start);
         player.title=spec.title||"Chapter video";
         player.allow="autoplay; encrypted-media; picture-in-picture; fullscreen";
         player.allowFullscreen=true;
