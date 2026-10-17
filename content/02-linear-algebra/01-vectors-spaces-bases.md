@@ -10,23 +10,23 @@ answers: 01-span
 
 Everything in linear algebra is downstream of one question: given some arrows, where can you get to? A neural network is a pile of matrices, a matrix is a list of vectors, and every later claim about rank, capacity, low-rank adaptation or interference is a claim about what a list of vectors can reach. This unit builds that machinery from nothing, with the geometry in your hands.
 
-Watch the 73-minute visual lesson, then use the explanations, exercises and labs below to work through the ideas yourself.
+Watch the 66-minute visual lesson, then use the explanations, exercises and labs below to work through the ideas yourself.
 
 ```video
-youtube: ZBsU14xtEBU
-title: Vectors, span and bases — a visual lesson
-0:00 Can you reach the target?
-2:59 From moves to reachable territory
-11:27 When another direction adds nothing
-17:16 A destination, exactly one address
-23:27 Why dimension is a real constraint
-29:02 A world that keeps its own rules
-38:18 Combining worlds without double counting
-44:27 What changes when home moves?
-50:26 The arrows inside a matrix
-1:00:15 Reachability is only half the story
-1:07:18 Possible does not always mean stable
-1:11:30 See the whole machine
+youtube: E6dkCWgmnPE
+title: Vectors, span, independence and bases — a visual lesson
+0:00 Where can you get to?
+1:19 Act 1 · Moves and recipes
+7:33 Act 2 · Reachable territory (span)
+12:39 Act 3 · Dead weight (independence)
+18:49 Act 4 · Addresses (basis and coordinates)
+24:17 Act 5 · Seats (the exchange lemma and dimension)
+30:28 Act 6 · Vectors that aren't arrows
+36:23 Act 7 · Worlds inside worlds (subspaces, sums, affine sets)
+43:26 Act 8 · Machines made of arrows (matrices)
+49:01 Act 9 · Adding geometry (inner products)
+58:19 Act 10 · Fragile addresses (conditioning)
+1:04:29 Reachable? Unique? Stable?
 ```
 
 ## 0. Where this is going
