@@ -282,6 +282,56 @@
       host.replaceWith(fallback);
     });
   }
+  /* ```video blocks: "youtube: <id>", optional "title: …", then chapter lines "m:ss Title".
+     Shows a poster until the reader presses play, so YouTube loads nothing beforehand. */
+  function videoSeconds(stamp) { return stamp.split(":").reduce((total,part)=>total*60+Number(part),0); }
+  function mountVideos() {
+    [...$("article").querySelectorAll("code.language-video")].forEach(code=>{
+      const block=code.closest("pre")||code;
+      const spec=interactiveSpec(code.textContent);
+      const id=(spec.youtube||"").match(/^[\w-]{11}$/)?.[0];
+      if(!id){block.remove();return;}
+      const chapters=code.textContent.split(/\r?\n/).map(line=>line.match(/^\s*((?:\d+:)?\d{1,2}:\d{2})\s+(.+)$/)).filter(Boolean)
+        .map(match=>({t:videoSeconds(match[1]),stamp:match[1],title:match[2].trim()}));
+      const host=document.createElement("figure");
+      host.className="lab video";
+      host.innerHTML='<div class="lab-head"><span class="lab-title"></span><span class="lab-hint"></span></div>'+
+        '<div class="video-frame"><button type="button" class="video-poster"><img alt="" loading="lazy"><span class="video-play" aria-hidden="true"></span></button></div>';
+      host.querySelector(".lab-title").textContent=spec.title||"Watch this chapter";
+      host.querySelector(".lab-hint").textContent=chapters.length?chapters.length+" chapters · narrated walkthrough":"narrated walkthrough";
+      const frame=host.querySelector(".video-frame"),poster=host.querySelector(".video-poster");
+      poster.querySelector("img").src="https://i.ytimg.com/vi/"+id+"/hqdefault.jpg";
+      poster.setAttribute("aria-label","Play video: "+(spec.title||"chapter walkthrough"));
+      let player=null;
+      const play=start=>{
+        if(player){player.contentWindow.postMessage(JSON.stringify({event:"command",func:"seekTo",args:[start,true]}),"*");
+          player.contentWindow.postMessage(JSON.stringify({event:"command",func:"playVideo",args:[]}),"*");return;}
+        player=document.createElement("iframe");
+        player.src="https://www.youtube-nocookie.com/embed/"+id+"?autoplay=1&rel=0&enablejsapi=1&start="+Math.floor(start);
+        player.title=spec.title||"Chapter video";
+        player.allow="autoplay; encrypted-media; picture-in-picture; fullscreen";
+        player.allowFullscreen=true;
+        player.referrerPolicy="strict-origin-when-cross-origin";
+        poster.replaceWith(player);
+      };
+      poster.addEventListener("click",()=>play(0));
+      if(chapters.length){
+        const list=document.createElement("ol");
+        list.className="video-chapters";
+        for(const chapter of chapters){
+          const item=document.createElement("li"),button=document.createElement("button");
+          button.type="button";
+          button.innerHTML='<span class="video-stamp"></span> <span></span>';
+          button.firstChild.textContent=chapter.stamp;
+          button.lastChild.textContent=chapter.title;
+          button.addEventListener("click",()=>play(chapter.t));
+          item.appendChild(button);list.appendChild(item);
+        }
+        host.appendChild(list);
+      }
+      block.replaceWith(host);
+    });
+  }
   const answerBanks=new Set();
   function loadAnswers(key) {
     if(answerBanks.has(key))return Promise.resolve(true);
@@ -502,6 +552,7 @@
     }catch{if(token===renderId)$("status").textContent+=" · Diagram rendering failed; see Markdown source.";}
     if(token!==renderId)return;
     mountInteractives();
+    mountVideos();
     wrapExercises();
     stylePractice();
     if(window.GroundUpTutor)window.GroundUpTutor.mount(lesson.path);
