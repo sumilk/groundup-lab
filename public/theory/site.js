@@ -190,7 +190,7 @@
       <h2>${esc(AUTHOR.name)}</h2>
       <p class="role">${esc(AUTHOR.role)}</p>
       <p>GroundUp Lab is written, illustrated and engineered by ${esc(AUTHOR.name)}. It started as a personal route to research-engineer fluency in machine learning, the long way round: proving the linear algebra, deriving the estimators and implementing every algorithm before trusting a library with it. It is now published so others can take the same path.</p>
-      <p>Every lesson, exercise, figure and lab on this site is original work unless credited otherwise. Some writing and code were produced with AI assistance and then reviewed and edited by the author.</p>
+      <p>Every lesson, exercise, figure and lab on this site is original work unless credited otherwise.</p>
       <div class="cta-row"><a class="btn btn-primary" href="${AUTHOR.linkedin}" target="_blank" rel="noopener">LinkedIn</a><a class="btn btn-ghost" href="${AUTHOR.github}" target="_blank" rel="noopener">GitHub · ${esc(AUTHOR.handle)}</a><a class="btn btn-ghost" href="#legal">Copyright &amp; permissions</a><a class="btn btn-ghost" data-feedback href="${AUTHOR.linkedin}" target="_blank" rel="noopener">Share feedback</a></div>
     </div>
   </div>

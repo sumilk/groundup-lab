@@ -10,6 +10,27 @@ answers: 02-elimination
 
 Two questions about a system of linear equations — does a solution exist, and is it unique — turn out to be the span and independence questions of the previous unit asked backwards. One algorithm, elimination, answers both, and its answer is organized by four subspaces attached to every matrix.
 
+Watch the 80-minute visual lesson, then use the explanations, exercises and labs below to work through the ideas yourself.
+
+```video
+youtube: FhEZ9XeY80c
+title: Systems, elimination and the four subspaces — a visual lesson
+0:00 One system, two pictures
+4:27 What A x computes
+8:04 The matrix as a map
+13:22 One map after another
+18:55 Turning rows into columns, and running a map backwards
+23:55 Elimination
+30:35 When a column has no pivot
+36:49 Rank
+44:03 Every solution at once
+50:27 Four subspaces from one elimination
+58:11 Elimination as multiplication
+1:04:03 LU: elimination, remembered
+1:12:53 Elimination on a real machine
+1:18:22 The matrix with 3072 columns
+```
+
 ## 0. Where this is going
 
 The previous unit asked what a list of arrows can reach. This one fixes a target \(b\) and asks *which* combination of the columns of a matrix \(A\) produces it, and whether there is more than one.
