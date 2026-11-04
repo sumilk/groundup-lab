@@ -315,7 +315,7 @@ $$
 
 When \(P(B)>0\), this is equivalent to \(P(A\mid B)=P(A)\): learning that \(B\) occurred does not change the probability of \(A\).
 
-Disjointness is different. Two nonempty disjoint events cannot be independent because their intersection has probability zero while the product of their probabilities is positive.
+Disjointness is different. Two disjoint events that both have positive probability cannot be independent, because their intersection has probability zero while the product of their probabilities is positive. (An event of probability zero is independent of every event, including events disjoint from it.)
 
 ### Pairwise versus mutual independence
 
@@ -336,7 +336,7 @@ $$
 
 <details><summary>Common wrong turn: “disjoint means independent”</summary>
 
-If nonempty events \(A\) and \(B\) are disjoint, observing \(B\) makes \(A\) impossible: \(P(A\mid B)=0\). Before observing \(B\), \(P(A)>0\). The observation changed the probability, so the events are dependent.
+If disjoint events \(A\) and \(B\) both have positive probability, observing \(B\) makes \(A\) impossible: \(P(A\mid B)=0\). Before observing \(B\), \(P(A)>0\). The observation changed the probability, so the events are dependent.
 
 </details>
 
@@ -490,7 +490,7 @@ Research code should make the random mechanism inspectable:
 >
 > **Hint:** Assign each user to exactly one split (for example 700/150/150) and train only on records dated before the evaluation window, so neither the same user nor future information crosses splits.
 >
-> **Practice — Stretch:** Twenty prompt variants all have true accuracy \(0.70\) and are scored on the same 200 validation examples; only the best score is reported. Simulate 300 repetitions with `random.Random(3)`, report the average best score, name the hidden conditioning event, and propose an evaluation protocol that removes the bias.
+> **Practice — Stretch:** Twenty prompt variants all have true accuracy \(0.70\) and are scored on the same 200 validation examples; only the best score is reported. Assume each variant's correctness on each example is an independent draw, so the twenty scores are independent. (If the variants made identical predictions, all twenty scores would coincide and selection would add no bias.) Simulate 300 repetitions with `random.Random(3)`, report the average best score, name the hidden conditioning event, and propose an evaluation protocol that removes the bias.
 >
 > **Hint:** Each score has standard error about sqrt(0.21/200) ≈ 0.032, and the maximum of 20 such scores averages about 0.76; rescoring only the selected prompt on fresh data removes the selection.
 
@@ -564,7 +564,7 @@ Work each problem before opening its authored solution. Written proofs and desig
 
 ### Stretch — problems 8–12. Transfer the probability language to evaluation, algorithms, and model criticism.
 
-**A8 · Stretch · paper — Research critique.** A benchmark reports the best of 40 prompt variants on the same 300 examples. Suppose every variant has true accuracy \(0.60\). Compute the standard error of one variant's score, simulate the reported best score over 200 repetitions (seed 4), identify the event union being ignored, and specify what additional data split would support an honest final estimate.
+**A8 · Stretch · paper — Research critique.** A benchmark reports the best of 40 prompt variants on the same 300 examples. Suppose every variant has true accuracy \(0.60\) and the 40 scores are independent binomial draws. Compute the standard error of one variant's score, simulate the reported best score over 200 repetitions (seed 4), identify the event union being ignored, and specify what additional data split would support an honest final estimate.
 
 **A9 · Stretch · paper — Implementation.** A bag contains three red and two blue balls. Estimate the probability of two red draws (a) with replacement and (b) without replacement using 100,000 trials from a local RNG seeded with 2026. Compare with both exact answers and attach a Monte Carlo standard error to each estimate.
 
