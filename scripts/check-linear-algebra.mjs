@@ -362,6 +362,48 @@ condition.elements["[data-angle]"].value = '0';
 condition.elements["[data-angle]"].events.input();revealCondition();
 assert.match(condition.verdict(), /infinitely many solutions/);
 
+// LA10: the ridge experiment must report spreads honestly at its boundaries.
+const ridgeLab = mount("la-ridge");
+function ridgeReveal() { ridgeLab.elements["[data-reveal]"].checked = true; ridgeLab.elements["[data-reveal]"].events.change(); }
+function ridgeValue(label) { return Number(ridgeLab.readout().split(label + ' = ')[1].split(/[ <)]/)[0]); }
+function ridgeSet(key, value, event = "change") { ridgeLab.elements[`[data-${key}]`].value = value; ridgeLab.elements[`[data-${key}]`].events[event](); }
+assert.match(ridgeLab.readout(), /Predict/);
+ridgeReveal();
+assert(Math.abs(ridgeValue('σ₂') - 0.009823) < 1e-5, "near-collinear σ₂");
+// At λ = 0 least squares is unbiased: the reported bias is exact, not a sample-mean discrepancy.
+assert(ridgeValue('shrinkage bias in fitted values') < 1e-9, "no shrinkage bias without a penalty");
+assert(ridgeValue('Prediction spread at the off-pattern input (1, 0) (y)') > 10 * ridgeValue('Largest fitted-value spread at the observed inputs (y)'));
+assert.match(ridgeLab.verdict(), /weak direction v₂/);
+assert.match(ridgeLab.readout(), /y per unit of x₁.*y per unit of x₂/);
+ridgeSet('lambda', '-2', 'input');
+assert.equal(ridgeLab.elements["[data-reveal]"].checked, false);
+ridgeReveal();
+assert(Math.abs(ridgeValue('f₂') - 0.009557) < 1e-5, "f₂ at λ = 0.01 uses σ₂²");
+const biasBefore = ridgeValue('shrinkage bias in fitted values');
+ridgeLab.click('resample');
+assert.equal(ridgeValue('shrinkage bias in fitted values'), biasBefore, "resampling must not change the theoretical bias");
+ridgeLab.click('exact'); ridgeReveal();
+assert.match(ridgeLab.verdict(), /minimum-norm one/);
+assert.doesNotMatch(ridgeLab.readout(), /NaN|Infinity/);
+ridgeLab.click('huge'); ridgeReveal();
+assert.match(ridgeLab.verdict(), /Huge λ/);
+assert(ridgeValue('shrinkage bias in fitted values') > 0.9 * ridgeValue('‖Xw*‖'));
+ridgeLab.click('offpattern'); ridgeReveal();
+assert(ridgeValue('Prediction spread at the query input (y)') > 10 * ridgeValue('Largest fitted-value spread at the observed inputs (y)'));
+ridgeLab.click('units'); ridgeReveal();
+assert.match(ridgeLab.verdict(), /Changed units/);
+assert.match(ridgeLab.readout(), /y per unit of x₂ in the new units/);
+// Extreme case: out-of-view predictions are counted, never clamped onto the axis limits.
+ridgeLab.click('offpattern'); ridgeSet('gap', '0.001'); ridgeSet('noise', '0.05'); ridgeReveal();
+assert.match(ridgeLab.readout(), /[1-9]\d* of 200 predictions and [1-9]\d* of 50 estimates lie outside the view/);
+ridgeLab.elements["[data-zoom]"].checked = true; ridgeLab.elements["[data-zoom]"].events.change();
+assert.match(ridgeLab.readout(), /axes fitted to the data/);
+ridgeLab.elements["[data-zoom]"].checked = false; ridgeLab.elements["[data-zoom]"].events.change();
+// No noise with exact collinearity in changed units: the gap from w* is a choice on a line of fits, not penalty bias.
+ridgeLab.click('exact'); ridgeSet('scale', '10'); ridgeSet('noise', '0'); ridgeReveal();
+assert(ridgeValue('shrinkage bias in fitted values') < 1e-9);
+assert.match(ridgeLab.verdict(), /line of equally good fits/);
+
 // Numerical geometry helper: audit paired equations and reconstruction independently.
 const svdMath={};vm.runInNewContext(source("public/theory/labs/svdkit.js"),{GU:{labkit:svdMath}});
 for(const A of [[[1,2],[0,1]],[[-3,0],[0,1]],[[1,2],[0,0]],[[0,0],[0,0]],[[2,0],[0,2]],[[1,0],[0,1e-10]]]){
@@ -374,8 +416,9 @@ for(const A of [[[1,2],[0,1]],[[-3,0],[0,1]],[[1,2],[0,0]],[[0,0],[0,0]],[[2,0],
   }
 }
 
-// Lessons upgraded to the textbook-quality standard get its mechanical gate.
-const UPGRADED = new Set(["01-span", "02-elimination", "09-conditioning"]);
+// Lessons upgraded to the textbook-quality standard get its mechanical gate. LA10 is gated while
+// its named-textbook comparison is pending; passing the gate is not the upgrade sign-off.
+const UPGRADED = new Set(["01-span", "02-elimination", "09-conditioning", "10-pseudoinverse"]);
 
 // Marking must use the same complete exercise shown in the lesson, not an older fixture.
 for (const [bank, file] of [["01-span", "01-vectors-spaces-bases.md"],
@@ -386,7 +429,8 @@ for (const [bank, file] of [["01-span", "01-vectors-spaces-bases.md"],
   ["06-eigen", "06-eigenvalues-diagonalization.md"],
   ["07-spectral", "07-spectral-theorem-quadratic-forms.md"],
   ["08-svd", "08-svd-low-rank.md"],
-  ["09-conditioning", "09-norms-conditioning-stability.md"]]) {
+  ["09-conditioning", "09-norms-conditioning-stability.md"],
+  ["10-pseudoinverse", "10-pseudoinverse-regularization.md"]]) {
   const entries = {};
   vm.runInNewContext(source(`public/theory/answers/${bank}.js`), {
     GU: {answers: (key, data) => Object.assign(entries, data)}

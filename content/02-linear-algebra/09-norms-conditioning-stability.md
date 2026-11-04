@@ -106,7 +106,7 @@ For the 1-norm, the triangle inequality gives ‖Ax‖₁≤∑ⱼ|xⱼ|∑ᵢ|a
 
 **In the picture.** A maps the unit circle to an ellipse ([LA08](08-svd-low-rank.md)), and ‖A‖₂ is the length of that ellipse's longest semi-axis. The 1- and infinity norms do the same for the diamond and the square: A maps each to a parallelogram, and the induced norm is the farthest reach of that parallelogram, measured in the same norm.
 
-![Left: the 1-norm diamond and its image parallelogram under A = [[1,−2],[3,0]], reaching 1-norm 4 at (1,3). Right: the infinity-norm square and its image, reaching infinity norm 3 at (3,3)](../assets/la09-induced-shapes.svg)
+![Left: the 1-norm diamond and its image parallelogram under the matrix A with rows (1,−2) and (3,0), reaching 1-norm 4 at (1,3). Right: the infinity-norm square and its image, reaching infinity norm 3 at (3,3)](../assets/la09-induced-shapes.svg)
 
 The figure shows this for the worked example below. On the left, A sends the diamond's corner e₁ to (1,3), which touches the dashed diamond of 1-norm radius 4 and no image point reaches farther, so ‖A‖₁=4. On the right, A sends the square's corner (1,−1) to (3,3), on the dashed square of infinity-norm radius 3, so ‖A‖∞=3. In both panels the induced norm is the radius of the smallest ball of the same shape that contains the image.
 

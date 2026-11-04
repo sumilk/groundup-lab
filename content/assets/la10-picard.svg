@@ -1,0 +1,199 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="520" viewBox="0 0 900 520" role="img" aria-labelledby="la10-picard-title la10-picard-desc">
+  <title id="la10-picard-title">Picard plot and truncation error for a 32-channel problem</title>
+  <desc id="la10-picard-desc">Left: on a logarithmic axis against channel number, the singular values fall steadily from 1 to 10 to the minus 8. The observed coefficients u_i transpose b fall faster at first, then level off near the noise level of about 1.8 times 10 to the minus 5 from channel 15 on. Their ratios to the singular values first decrease and then grow to several hundred. Right: the error of the truncated-SVD solution against the number of channels kept falls to its minimum 0.039 at k = 14 and then grows to about 960 when all 32 channels are kept.</desc>
+  <rect width="900" height="520" rx="24" fill="#08111f"/>
+  <text x="450" y="44" fill="#a8b7ca" font-family="system-ui" font-size="18" text-anchor="middle">Where the data stop carrying signal</text>
+  <path d="M80 366.00L440 366.00" stroke="#173641" stroke-width="1.2"/>
+  <text x="70" y="371" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="end">10⁻⁹</text>
+  <path d="M80 298.50L440 298.50" stroke="#173641" stroke-width="1.2"/>
+  <text x="70" y="303.5" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="end">10⁻⁶</text>
+  <path d="M80 231.00L440 231.00" stroke="#173641" stroke-width="1.2"/>
+  <text x="70" y="236" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="end">10⁻³</text>
+  <path d="M80 163.50L440 163.50" stroke="#173641" stroke-width="1.2"/>
+  <text x="70" y="168.5" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="end">1</text>
+  <path d="M80 96.00L440 96.00" stroke="#173641" stroke-width="1.2"/>
+  <text x="70" y="101" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="end">10³</text>
+  <path d="M85.63 96L85.63 366" stroke="#173641" stroke-width="1.2"/>
+  <text x="85.63" y="388" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">1</text>
+  <path d="M164.38 96L164.38 366" stroke="#173641" stroke-width="1.2"/>
+  <text x="164.38" y="388" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">8</text>
+  <path d="M254.38 96L254.38 366" stroke="#173641" stroke-width="1.2"/>
+  <text x="254.38" y="388" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">16</text>
+  <path d="M344.38 96L344.38 366" stroke="#173641" stroke-width="1.2"/>
+  <text x="344.38" y="388" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">24</text>
+  <path d="M434.38 96L434.38 366" stroke="#173641" stroke-width="1.2"/>
+  <text x="434.38" y="388" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">32</text>
+  <path d="M80 366L440 366M80 96L80 366" stroke="#31445e" stroke-width="2"/>
+  <text x="260" y="412" fill="#a8b7ca" font-family="system-ui" font-size="14" text-anchor="middle">channel i</text>
+  <text x="80" y="82" fill="#a8b7ca" font-family="system-ui" font-size="14">size (log scale)</text>
+  <path d="M80 270.43L440 270.43" stroke="#91a4bb" stroke-width="1.5" stroke-dasharray="6 5"/>
+  <path d="M237.50 96L237.50 366" stroke="#50d2c2" stroke-width="1.5" stroke-dasharray="3 5"/>
+  <path d="M85.63 163.50L96.88 169.31L108.13 175.11L119.38 180.92L130.63 186.73L141.88 192.53L153.13 198.34L164.38 204.15L175.63 209.95L186.88 215.76L198.13 221.56L209.38 227.37L220.63 233.18L231.88 238.98L243.13 244.79L254.38 250.60L265.63 256.40L276.88 262.21L288.13 268.02L299.38 273.82L310.63 279.63L321.88 285.44L333.13 291.24L344.38 297.05L355.63 302.85L366.88 308.66L378.13 314.47L389.38 320.27L400.63 326.08L411.88 331.89L423.13 337.69L434.38 343.50" stroke="#7aa2f7" stroke-width="2.5" fill="none"/>
+  <circle cx="85.63" cy="163.50" r="3" fill="#7aa2f7"/>
+  <circle cx="96.88" cy="169.31" r="3" fill="#7aa2f7"/>
+  <circle cx="108.13" cy="175.11" r="3" fill="#7aa2f7"/>
+  <circle cx="119.38" cy="180.92" r="3" fill="#7aa2f7"/>
+  <circle cx="130.63" cy="186.73" r="3" fill="#7aa2f7"/>
+  <circle cx="141.88" cy="192.53" r="3" fill="#7aa2f7"/>
+  <circle cx="153.13" cy="198.34" r="3" fill="#7aa2f7"/>
+  <circle cx="164.38" cy="204.15" r="3" fill="#7aa2f7"/>
+  <circle cx="175.63" cy="209.95" r="3" fill="#7aa2f7"/>
+  <circle cx="186.88" cy="215.76" r="3" fill="#7aa2f7"/>
+  <circle cx="198.13" cy="221.56" r="3" fill="#7aa2f7"/>
+  <circle cx="209.38" cy="227.37" r="3" fill="#7aa2f7"/>
+  <circle cx="220.63" cy="233.18" r="3" fill="#7aa2f7"/>
+  <circle cx="231.88" cy="238.98" r="3" fill="#7aa2f7"/>
+  <circle cx="243.13" cy="244.79" r="3" fill="#7aa2f7"/>
+  <circle cx="254.38" cy="250.60" r="3" fill="#7aa2f7"/>
+  <circle cx="265.63" cy="256.40" r="3" fill="#7aa2f7"/>
+  <circle cx="276.88" cy="262.21" r="3" fill="#7aa2f7"/>
+  <circle cx="288.13" cy="268.02" r="3" fill="#7aa2f7"/>
+  <circle cx="299.38" cy="273.82" r="3" fill="#7aa2f7"/>
+  <circle cx="310.63" cy="279.63" r="3" fill="#7aa2f7"/>
+  <circle cx="321.88" cy="285.44" r="3" fill="#7aa2f7"/>
+  <circle cx="333.13" cy="291.24" r="3" fill="#7aa2f7"/>
+  <circle cx="344.38" cy="297.05" r="3" fill="#7aa2f7"/>
+  <circle cx="355.63" cy="302.85" r="3" fill="#7aa2f7"/>
+  <circle cx="366.88" cy="308.66" r="3" fill="#7aa2f7"/>
+  <circle cx="378.13" cy="314.47" r="3" fill="#7aa2f7"/>
+  <circle cx="389.38" cy="320.27" r="3" fill="#7aa2f7"/>
+  <circle cx="400.63" cy="326.08" r="3" fill="#7aa2f7"/>
+  <circle cx="411.88" cy="331.89" r="3" fill="#7aa2f7"/>
+  <circle cx="423.13" cy="337.69" r="3" fill="#7aa2f7"/>
+  <circle cx="434.38" cy="343.50" r="3" fill="#7aa2f7"/>
+  <circle cx="85.63" cy="163.50" r="4" fill="#ffb86b"/>
+  <circle cx="96.88" cy="172.21" r="4" fill="#ffb86b"/>
+  <circle cx="108.13" cy="180.92" r="4" fill="#ffb86b"/>
+  <circle cx="119.38" cy="189.63" r="4" fill="#ffb86b"/>
+  <circle cx="130.63" cy="198.33" r="4" fill="#ffb86b"/>
+  <circle cx="141.88" cy="207.07" r="4" fill="#ffb86b"/>
+  <circle cx="153.13" cy="215.77" r="4" fill="#ffb86b"/>
+  <circle cx="164.38" cy="224.51" r="4" fill="#ffb86b"/>
+  <circle cx="175.63" cy="233.37" r="4" fill="#ffb86b"/>
+  <circle cx="186.88" cy="241.95" r="4" fill="#ffb86b"/>
+  <circle cx="198.13" cy="250.60" r="4" fill="#ffb86b"/>
+  <circle cx="209.38" cy="253.61" r="4" fill="#ffb86b"/>
+  <circle cx="220.63" cy="265.95" r="4" fill="#ffb86b"/>
+  <circle cx="231.88" cy="276.85" r="4" fill="#ffb86b"/>
+  <circle cx="243.13" cy="269.65" r="4" fill="#ffb86b"/>
+  <circle cx="254.38" cy="270.85" r="4" fill="#ffb86b"/>
+  <circle cx="265.63" cy="276.02" r="4" fill="#ffb86b"/>
+  <circle cx="276.88" cy="275.96" r="4" fill="#ffb86b"/>
+  <circle cx="288.13" cy="277.29" r="4" fill="#ffb86b"/>
+  <circle cx="299.38" cy="270.61" r="4" fill="#ffb86b"/>
+  <circle cx="310.63" cy="275.82" r="4" fill="#ffb86b"/>
+  <circle cx="321.88" cy="267.47" r="4" fill="#ffb86b"/>
+  <circle cx="333.13" cy="269.10" r="4" fill="#ffb86b"/>
+  <circle cx="344.38" cy="268.12" r="4" fill="#ffb86b"/>
+  <circle cx="355.63" cy="261.00" r="4" fill="#ffb86b"/>
+  <circle cx="366.88" cy="282.49" r="4" fill="#ffb86b"/>
+  <circle cx="378.13" cy="284.89" r="4" fill="#ffb86b"/>
+  <circle cx="389.38" cy="286.33" r="4" fill="#ffb86b"/>
+  <circle cx="400.63" cy="276.52" r="4" fill="#ffb86b"/>
+  <circle cx="411.88" cy="312.38" r="4" fill="#ffb86b"/>
+  <circle cx="423.13" cy="272.71" r="4" fill="#ffb86b"/>
+  <circle cx="434.38" cy="281.95" r="4" fill="#ffb86b"/>
+  <circle cx="85.63" cy="163.50" r="4" fill="none" stroke="#ff7a90" stroke-width="2.5"/>
+  <circle cx="96.88" cy="166.40" r="4" fill="none" stroke="#ff7a90" stroke-width="2.5"/>
+  <circle cx="108.13" cy="169.31" r="4" fill="none" stroke="#ff7a90" stroke-width="2.5"/>
+  <circle cx="119.38" cy="172.21" r="4" fill="none" stroke="#ff7a90" stroke-width="2.5"/>
+  <circle cx="130.63" cy="175.11" r="4" fill="none" stroke="#ff7a90" stroke-width="2.5"/>
+  <circle cx="141.88" cy="178.04" r="4" fill="none" stroke="#ff7a90" stroke-width="2.5"/>
+  <circle cx="153.13" cy="180.93" r="4" fill="none" stroke="#ff7a90" stroke-width="2.5"/>
+  <circle cx="164.38" cy="183.87" r="4" fill="none" stroke="#ff7a90" stroke-width="2.5"/>
+  <circle cx="175.63" cy="186.92" r="4" fill="none" stroke="#ff7a90" stroke-width="2.5"/>
+  <circle cx="186.88" cy="189.69" r="4" fill="none" stroke="#ff7a90" stroke-width="2.5"/>
+  <circle cx="198.13" cy="192.53" r="4" fill="none" stroke="#ff7a90" stroke-width="2.5"/>
+  <circle cx="209.38" cy="189.74" r="4" fill="none" stroke="#ff7a90" stroke-width="2.5"/>
+  <circle cx="220.63" cy="196.27" r="4" fill="none" stroke="#ff7a90" stroke-width="2.5"/>
+  <circle cx="231.88" cy="201.36" r="4" fill="none" stroke="#ff7a90" stroke-width="2.5"/>
+  <circle cx="243.13" cy="188.36" r="4" fill="none" stroke="#ff7a90" stroke-width="2.5"/>
+  <circle cx="254.38" cy="183.75" r="4" fill="none" stroke="#ff7a90" stroke-width="2.5"/>
+  <circle cx="265.63" cy="183.11" r="4" fill="none" stroke="#ff7a90" stroke-width="2.5"/>
+  <circle cx="276.88" cy="177.25" r="4" fill="none" stroke="#ff7a90" stroke-width="2.5"/>
+  <circle cx="288.13" cy="172.77" r="4" fill="none" stroke="#ff7a90" stroke-width="2.5"/>
+  <circle cx="299.38" cy="160.29" r="4" fill="none" stroke="#ff7a90" stroke-width="2.5"/>
+  <circle cx="310.63" cy="159.69" r="4" fill="none" stroke="#ff7a90" stroke-width="2.5"/>
+  <circle cx="321.88" cy="145.53" r="4" fill="none" stroke="#ff7a90" stroke-width="2.5"/>
+  <circle cx="333.13" cy="141.35" r="4" fill="none" stroke="#ff7a90" stroke-width="2.5"/>
+  <circle cx="344.38" cy="134.57" r="4" fill="none" stroke="#ff7a90" stroke-width="2.5"/>
+  <circle cx="355.63" cy="121.65" r="4" fill="none" stroke="#ff7a90" stroke-width="2.5"/>
+  <circle cx="366.88" cy="137.33" r="4" fill="none" stroke="#ff7a90" stroke-width="2.5"/>
+  <circle cx="378.13" cy="133.92" r="4" fill="none" stroke="#ff7a90" stroke-width="2.5"/>
+  <circle cx="389.38" cy="129.55" r="4" fill="none" stroke="#ff7a90" stroke-width="2.5"/>
+  <circle cx="400.63" cy="113.94" r="4" fill="none" stroke="#ff7a90" stroke-width="2.5"/>
+  <circle cx="411.88" cy="143.99" r="4" fill="none" stroke="#ff7a90" stroke-width="2.5"/>
+  <circle cx="423.13" cy="98.52" r="4" fill="none" stroke="#ff7a90" stroke-width="2.5"/>
+  <circle cx="434.38" cy="101.95" r="4" fill="none" stroke="#ff7a90" stroke-width="2.5"/>
+  <text x="89.63" y="288.43" fill="#91a4bb" font-family="system-ui" font-size="13">noise level per channel</text>
+  <path d="M540 366.00L860 366.00" stroke="#173641" stroke-width="1.2"/>
+  <text x="530" y="371" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="end">10⁻²</text>
+  <path d="M540 312.00L860 312.00" stroke="#173641" stroke-width="1.2"/>
+  <text x="530" y="317" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="end">10⁻¹</text>
+  <path d="M540 258.00L860 258.00" stroke="#173641" stroke-width="1.2"/>
+  <text x="530" y="263" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="end">1</text>
+  <path d="M540 204.00L860 204.00" stroke="#173641" stroke-width="1.2"/>
+  <text x="530" y="209" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="end">10</text>
+  <path d="M540 150.00L860 150.00" stroke="#173641" stroke-width="1.2"/>
+  <text x="530" y="155" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="end">10²</text>
+  <path d="M540 96.00L860 96.00" stroke="#173641" stroke-width="1.2"/>
+  <text x="530" y="101" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="end">10³</text>
+  <path d="M540.00 96L540.00 366" stroke="#173641" stroke-width="1.2"/>
+  <text x="540" y="388" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">0</text>
+  <path d="M620.00 96L620.00 366" stroke="#173641" stroke-width="1.2"/>
+  <text x="620" y="388" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">8</text>
+  <path d="M700.00 96L700.00 366" stroke="#173641" stroke-width="1.2"/>
+  <text x="700" y="388" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">16</text>
+  <path d="M780.00 96L780.00 366" stroke="#173641" stroke-width="1.2"/>
+  <text x="780" y="388" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">24</text>
+  <path d="M860.00 96L860.00 366" stroke="#173641" stroke-width="1.2"/>
+  <text x="860" y="388" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">32</text>
+  <path d="M540 366L860 366M540 96L540 366" stroke="#31445e" stroke-width="2"/>
+  <text x="700" y="412" fill="#a8b7ca" font-family="system-ui" font-size="14" text-anchor="middle">channels kept, k</text>
+  <text x="540" y="82" fill="#a8b7ca" font-family="system-ui" font-size="14">error ‖x_k − x‖ (log scale)</text>
+  <path d="M540.00 248.58L550.00 255.55L560.00 262.52L570.00 269.49L580.00 276.46L590.00 283.42L600.00 290.39L610.00 297.36L620.00 304.33L630.00 311.29L640.00 318.25L650.00 325.21L660.00 327.36L670.00 331.21L680.00 334.24L690.00 319.63L700.00 301.74L710.00 294.53L720.00 284.87L730.00 274.04L740.00 248.79L750.00 240.67L760.00 213.64L770.00 200.32L780.00 184.90L790.00 156.47L800.00 156.05L810.00 155.24L820.00 153.47L830.00 136.05L840.00 136.03L850.00 101.42L860.00 96.91" stroke="#d586ff" stroke-width="2.5" fill="none"/>
+  <circle cx="540.00" cy="248.58" r="3" fill="#d586ff"/>
+  <circle cx="550.00" cy="255.55" r="3" fill="#d586ff"/>
+  <circle cx="560.00" cy="262.52" r="3" fill="#d586ff"/>
+  <circle cx="570.00" cy="269.49" r="3" fill="#d586ff"/>
+  <circle cx="580.00" cy="276.46" r="3" fill="#d586ff"/>
+  <circle cx="590.00" cy="283.42" r="3" fill="#d586ff"/>
+  <circle cx="600.00" cy="290.39" r="3" fill="#d586ff"/>
+  <circle cx="610.00" cy="297.36" r="3" fill="#d586ff"/>
+  <circle cx="620.00" cy="304.33" r="3" fill="#d586ff"/>
+  <circle cx="630.00" cy="311.29" r="3" fill="#d586ff"/>
+  <circle cx="640.00" cy="318.25" r="3" fill="#d586ff"/>
+  <circle cx="650.00" cy="325.21" r="3" fill="#d586ff"/>
+  <circle cx="660.00" cy="327.36" r="3" fill="#d586ff"/>
+  <circle cx="670.00" cy="331.21" r="3" fill="#d586ff"/>
+  <circle cx="680.00" cy="334.24" r="3" fill="#d586ff"/>
+  <circle cx="690.00" cy="319.63" r="3" fill="#d586ff"/>
+  <circle cx="700.00" cy="301.74" r="3" fill="#d586ff"/>
+  <circle cx="710.00" cy="294.53" r="3" fill="#d586ff"/>
+  <circle cx="720.00" cy="284.87" r="3" fill="#d586ff"/>
+  <circle cx="730.00" cy="274.04" r="3" fill="#d586ff"/>
+  <circle cx="740.00" cy="248.79" r="3" fill="#d586ff"/>
+  <circle cx="750.00" cy="240.67" r="3" fill="#d586ff"/>
+  <circle cx="760.00" cy="213.64" r="3" fill="#d586ff"/>
+  <circle cx="770.00" cy="200.32" r="3" fill="#d586ff"/>
+  <circle cx="780.00" cy="184.90" r="3" fill="#d586ff"/>
+  <circle cx="790.00" cy="156.47" r="3" fill="#d586ff"/>
+  <circle cx="800.00" cy="156.05" r="3" fill="#d586ff"/>
+  <circle cx="810.00" cy="155.24" r="3" fill="#d586ff"/>
+  <circle cx="820.00" cy="153.47" r="3" fill="#d586ff"/>
+  <circle cx="830.00" cy="136.05" r="3" fill="#d586ff"/>
+  <circle cx="840.00" cy="136.03" r="3" fill="#d586ff"/>
+  <circle cx="850.00" cy="101.42" r="3" fill="#d586ff"/>
+  <circle cx="860.00" cy="96.91" r="3" fill="#d586ff"/>
+  <circle cx="680.00" cy="334.24" r="8" fill="none" stroke="#50d2c2" stroke-width="2.5"/>
+  <text x="692" y="356.24" fill="#50d2c2" font-family="system-ui" font-size="14">k = 14: error 0.039</text>
+  <path d="M90 435L118 435" stroke="#7aa2f7" stroke-width="3.5"/>
+  <text x="128" y="440" fill="#7aa2f7" font-family="system-ui" font-size="14">σᵢ</text>
+  <path d="M90 461L118 461" stroke="#ffb86b" stroke-width="3.5"/>
+  <text x="128" y="466" fill="#ffb86b" font-family="system-ui" font-size="14">|uᵢᵀb|, observed (dots)</text>
+  <path d="M400 435L428 435" stroke="#ff7a90" stroke-width="3.5"/>
+  <text x="438" y="440" fill="#ff7a90" font-family="system-ui" font-size="14">|uᵢᵀb| / σᵢ (rings)</text>
+  <path d="M400 461L428 461" stroke="#50d2c2" stroke-width="3.5" stroke-dasharray="3 5"/>
+  <text x="438" y="466" fill="#50d2c2" font-family="system-ui" font-size="14">plateau begins / best k</text>
+  <text x="450" y="500" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">Once |uᵢᵀb| stops falling with σᵢ, it is mostly noise, and dividing it by σᵢ only adds error.</text>
+</svg>

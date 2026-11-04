@@ -2721,3 +2721,117 @@ def relu_interpolant(knots, values):
     if not all(math.isfinite(c) for c in coefs):
         raise ValueError("a slope overflowed")
     return v[0], [(c, t[i]) for i, c in enumerate(coefs) if c != 0]
+
+
+def _validated_compact_svd(m, n, left, singular_values, right_t):
+    """Compact SVD (m, n, U, s, Vt): U is m by r, Vt is r by n, s strictly positive
+    and descending, r <= min(m, n). r = 0 is allowed (U rows empty, Vt = []).
+    Orthonormality of U's columns and Vt's rows is checked to 1e-9. Returns copies."""
+    for name, value in (("m", m), ("n", n)):
+        if isinstance(value, bool) or not isinstance(value, int) or value < 1:
+            raise ValueError(name + " must be a positive integer")
+    def real(v):
+        return not isinstance(v, bool) and isinstance(v, (int, float)) and math.isfinite(v)
+    if not isinstance(singular_values, (list, tuple)):
+        raise ValueError("singular values must be a list or tuple")
+    s = list(singular_values)
+    if not all(real(v) and v > 0 for v in s):
+        raise ValueError("singular values must be finite and strictly positive")
+    if any(a < b for a, b in zip(s, s[1:])):
+        raise ValueError("singular values must be in descending order")
+    r = len(s)
+    if r > min(m, n):
+        raise ValueError("more singular values than min(m, n)")
+    if not isinstance(left, (list, tuple)) or len(left) != m:
+        raise ValueError("U must have m rows")
+    if not isinstance(right_t, (list, tuple)) or len(right_t) != r:
+        raise ValueError("Vt must have r rows")
+    u = []
+    for row in left:
+        if not isinstance(row, (list, tuple)) or len(row) != r or not all(real(v) for v in row):
+            raise ValueError("U must be m by r with finite real entries")
+        u.append([float(v) for v in row])
+    vt = []
+    for row in right_t:
+        if not isinstance(row, (list, tuple)) or len(row) != n or not all(real(v) for v in row):
+            raise ValueError("Vt must be r by n with finite real entries")
+        vt.append([float(v) for v in row])
+    for i in range(r):
+        for j in range(r):
+            a = math.fsum(row[i] * row[j] for row in u)
+            b = math.fsum(x * y for x, y in zip(vt[i], vt[j]))
+            target = 1.0 if i == j else 0.0
+            if not (abs(a - target) <= 1e-9 and abs(b - target) <= 1e-9):
+                raise ValueError("U columns and Vt rows must be orthonormal")
+    return u, [float(v) for v in s], vt
+
+
+def _validated_tolerance(value, name="tol"):
+    """A finite real value >= 0, excluding bools."""
+    if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value) or value < 0:
+        raise ValueError(name + " must be a finite nonnegative real number")
+    return float(value)
+
+
+def _validated_rhs(b, m):
+    """A list or tuple of m finite reals, excluding bools."""
+    if not isinstance(b, (list, tuple)) or len(b) != m:
+        raise ValueError("b must have m entries")
+    if any(isinstance(v, bool) or not isinstance(v, (int, float)) or not math.isfinite(v) for v in b):
+        raise ValueError("b entries must be finite real numbers")
+    return [float(v) for v in b]
+
+
+def pinv_via_svd(m, n, left, singular_values, right_t, tol):
+    """n by m pseudoinverse of the truncation that keeps channels with sigma > tol."""
+    u, s, vt = _validated_compact_svd(m, n, left, singular_values, right_t)
+    tol = _validated_tolerance(tol)
+    kept = [i for i, sigma in enumerate(s) if sigma > tol]
+    try:
+        result = [[math.fsum(vt[i][a] * u[b][i] / s[i] for i in kept) for b in range(m)] for a in range(n)]
+    except OverflowError as error:
+        raise ValueError("pseudoinverse arithmetic overflowed") from error
+    if not all(math.isfinite(v) for row in result for v in row):
+        raise ValueError("pseudoinverse entries are not finite")
+    return result
+
+
+def ridge_solve(m, n, left, singular_values, right_t, b, lam):
+    """Ridge solution: sum of sigma/(sigma^2+lam) (u_i.b) v_i; lam = 0 gives A+ b."""
+    u, s, vt = _validated_compact_svd(m, n, left, singular_values, right_t)
+    y = _validated_rhs(b, m)
+    lam = _validated_tolerance(lam, "lam")
+    x = [0.0] * n
+    try:
+        weights = []
+        for i, sigma in enumerate(s):
+            beta = math.fsum(u[k][i] * y[k] for k in range(m))
+            # Divide by sigma first so sigma**2 cannot underflow the factor away.
+            gain = 1.0 / sigma if lam == 0 else 1.0 / (sigma + lam / sigma)
+            weights.append(gain * beta)
+        x = [math.fsum(weights[i] * vt[i][j] for i in range(len(s))) for j in range(n)]
+    except (OverflowError, ZeroDivisionError) as error:
+        raise ValueError("ridge arithmetic overflowed") from error
+    if not all(math.isfinite(v) for v in x):
+        raise ValueError("ridge solution is not finite")
+    return x
+
+
+def min_norm_solution(m, n, left, singular_values, right_t, b, tol):
+    """(x, rank_used, residual_norm) for x = A_tol+ b, without forming a matrix.
+    The residual b - A x is measured against the full supplied A."""
+    u, s, vt = _validated_compact_svd(m, n, left, singular_values, right_t)
+    y = _validated_rhs(b, m)
+    tol = _validated_tolerance(tol)
+    kept = [i for i, sigma in enumerate(s) if sigma > tol]
+    try:
+        beta = {i: math.fsum(u[k][i] * y[k] for k in range(m)) for i in kept}
+        x = [math.fsum(beta[i] / s[i] * vt[i][j] for i in kept) for j in range(n)]
+        # A x = sum over kept channels of (u_i.b) u_i, since A v_i = sigma_i u_i.
+        residual = [y[k] - math.fsum(beta[i] * u[k][i] for i in kept) for k in range(m)]
+        norm = math.hypot(*residual) if residual else 0.0
+    except OverflowError as error:
+        raise ValueError("solution arithmetic overflowed") from error
+    if not all(math.isfinite(v) for v in x) or not math.isfinite(norm):
+        raise ValueError("solution is not finite")
+    return x, len(kept), norm

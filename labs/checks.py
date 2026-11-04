@@ -2571,7 +2571,163 @@ def cancellation_demo(m):
         _projection_rejects(m.cancellation_demo, t)
 
 
-CHECKS = {"matrix-norms": matrix_norms, "condition-estimate": condition_estimate,
+def _la10_fixtures():
+    """Compact SVDs with exact-rank and truncation cases (m, n, U, s, Vt)."""
+    r5, r2 = math.sqrt(5), math.sqrt(2)
+    third = lambda rows: [[v / 3 for v in row] for row in rows]
+    U3 = third([[1, 2, 2], [2, 1, -2], [2, -2, 1]])
+    V3 = third([[2, -1, 2], [2, 2, -1], [-1, 2, 2]])
+    col = lambda M, j: [row[j] for row in M]
+    return {
+        # duplicate columns [[1,1],[2,2]]: one channel
+        "duplicate": (2, 2, [[1 / r5], [2 / r5]], [math.sqrt(10)], [[1 / r2, 1 / r2]]),
+        # the 3x3 lesson example with sigma = (6, 3): rank 2
+        "lesson3": (3, 3, [[U3[i][0], U3[i][1]] for i in range(3)], [6, 3], [col(V3, 0), col(V3, 1)]),
+        # well conditioned, full rank, three channels
+        "full3": (3, 3, U3, [3, 2, 1], [col(V3, 0), col(V3, 1), col(V3, 2)]),
+        # diag(1, 0.001): truncation at 0.01 drops the second channel
+        "diag": (2, 2, [[1, 0], [0, 1]], [1, 0.001], [[1, 0], [0, 1]]),
+        # repeated singular values, wide 2x3
+        "repeated": (2, 3, [[1, 0], [0, 1]], [2, 2], [[1, 0, 0], [0, 0, 1]]),
+        # rank zero, 2x3
+        "zero": (2, 3, [[], []], [], []),
+    }
+
+
+def _la10_matrix(m, n, u, s, vt, tol=-1.0):
+    return [[math.fsum(u[i][k] * s[k] * vt[k][j] for k in range(len(s)) if s[k] > tol) for j in range(n)] for i in range(m)]
+
+
+def _mm(a, b):
+    return [[math.fsum(a[i][k] * b[k][j] for k in range(len(b))) for j in range(len(b[0]))] for i in range(len(a))]
+
+
+def _la10_rejects(fn, base, extra):
+    m, n, u, s, vt = base
+    bad = [(0, n, u, s, vt), (True, n, u, s, vt), (m, 2.0, u, s, vt), (m, n, u, [s[0], -1.0][:len(s)] if len(s) > 1 else [-1.0], vt),
+           (m, n, u, list(reversed(s)) if len(s) > 1 and s[0] != s[-1] else [float("nan")] * len(s), vt),
+           (m, n, u[:-1], s, vt), (m, n, u, s, vt[:-1] if vt else [[1.0] * n]),
+           (m, n, [[2 * v for v in row] for row in u], s, vt), (m, n, u, [True] * len(s) if s else [1.0], vt)]
+    for args in bad:
+        _projection_rejects(fn, *args, *extra)
+
+
+def pinv_via_svd(m):
+    F = _la10_fixtures()
+    for name, (mm_, nn, u, s, vt) in F.items():
+        for tol in (0.0, 0.01, 2.5):
+            before = (repr(u), repr(s), repr(vt))
+            G = m.pinv_via_svd(mm_, nn, u, s, vt, tol)
+            assert len(G) == nn and all(len(row) == mm_ for row in G), "pseudoinverse is n by m"
+            At = _la10_matrix(mm_, nn, u, s, vt, tol)
+            if all(v == 0 for row in At for v in row):
+                assert all(abs(v) == 0 for row in G for v in row), "nothing kept: zero matrix"
+                continue
+            AG, GA = _mm(At, G), _mm(G, At)
+            for X, Y in ((_mm(AG, At), At), (_mm(GA, G), G)):
+                for i in range(len(X)):
+                    for j in range(len(X[0])):
+                        close(X[i][j], Y[i][j], 1e-9)
+            for P in (AG, GA):
+                for i in range(len(P)):
+                    for j in range(len(P)):
+                        close(P[i][j], P[j][i], 1e-9)
+            assert before == (repr(u), repr(s), repr(vt)), "pinv must preserve inputs"
+    # exact rank with tol removing nothing: identities hold against the original A
+    mm_, nn, u, s, vt = F["lesson3"]
+    G = m.pinv_via_svd(mm_, nn, u, s, vt, 0.0)
+    want = [[-2/54, 2/54, 8/54], [10/54, 8/54, -4/54], [7/54, 2/54, -10/54]]
+    for i in range(3):
+        for j in range(3):
+            close(G[i][j], want[i][j], 1e-12)
+    # truncation keeps sigma > tol: diag(1, 0.001) at tol 0.01 gives diag(1, 0)
+    G = m.pinv_via_svd(*F["diag"], 0.01)
+    assert G == [[1.0, 0.0], [0.0, 0.0]] or all(abs(G[i][j] - [[1, 0], [0, 0]][i][j]) < 1e-15 for i in range(2) for j in range(2))
+    G = m.pinv_via_svd(*F["diag"], 0.001)
+    assert abs(G[1][1]) == 0, "sigma equal to tol is discarded"
+    for tol in (-1e-9, True, float("inf"), None, "0"):
+        _projection_rejects(m.pinv_via_svd, *F["full3"], tol)
+    _la10_rejects(m.pinv_via_svd, F["full3"], (0.0,))
+
+
+def ridge_solve(m):
+    F = _la10_fixtures()
+    # independent normal-equations oracle on a well-conditioned case
+    mm_, nn, u, s, vt = F["full3"]
+    A = _la10_matrix(mm_, nn, u, s, vt)
+    b = [1.0, -2.0, 0.5]
+    for lam in (0.0, 0.3, 4.0):
+        x = m.ridge_solve(mm_, nn, u, s, vt, b, lam)
+        AtA = [[math.fsum(A[k][i] * A[k][j] for k in range(3)) + (lam if i == j else 0) for j in range(3)] for i in range(3)]
+        lhs = [math.fsum(AtA[i][j] * x[j] for j in range(3)) for i in range(3)]
+        rhs = [math.fsum(A[k][i] * b[k] for k in range(3)) for i in range(3)]
+        for a, c in zip(lhs, rhs):
+            close(a, c, 1e-10)
+    # nonincreasing norm in lam
+    norms = [math.hypot(*m.ridge_solve(mm_, nn, u, s, vt, b, lam)) for lam in (0.0, 0.01, 0.1, 1.0, 10.0, 1e6)]
+    assert all(a >= c - 1e-15 for a, c in zip(norms, norms[1:])), "ridge norm must not increase with lam"
+    # duplicate columns: x_lam = (c, c) with c = 1/(10+lam), limit (1/10, 1/10)
+    for lam, c in ((1.0, 1 / 11), (0.01, 100 / 1001), (1e-6, 1 / (10 + 1e-6)), (0.0, 0.1)):
+        x = m.ridge_solve(*F["duplicate"], [1.0, 0.0], lam)
+        close(x[0], c, 1e-12); close(x[1], c, 1e-12)
+    # the near-collinear opening fit: weak channel passed at f2 = sigma2^2/(sigma2^2+0.01)
+    s2 = 0.0098233; f2 = s2 * s2 / (s2 * s2 + 0.01)
+    x = m.ridge_solve(1, 1, [[1.0]], [s2], [[1.0]], [s2], 0.01)
+    close(x[0], f2, 1e-12)
+    assert abs(f2 - 0.00956) < 5e-5
+    # tiny gains must not underflow to a division by zero
+    x = m.ridge_solve(1, 1, [[1.0]], [1e-200], [[1.0]], [1e-200], 1.0)
+    assert math.isfinite(x[0]) and abs(x[0]) <= 1e-300
+    assert m.ridge_solve(*F["zero"], [1.0, 2.0], 0.0) == [0.0, 0.0, 0.0]
+    for lam in (-0.1, True, float("nan"), None):
+        _projection_rejects(m.ridge_solve, *F["full3"], b, lam)
+    for bad_b in ([1.0, 2.0], [True, 0, 0], [float("inf"), 0, 0], None):
+        _projection_rejects(m.ridge_solve, *F["full3"], bad_b, 0.1)
+    _la10_rejects(m.ridge_solve, F["full3"], (b, 0.1))
+    before = b[:]; m.ridge_solve(*F["full3"], b, 0.1); assert b == before
+
+
+def min_norm_solution(m):
+    F = _la10_fixtures()
+    for name, (mm_, nn, u, s, vt) in F.items():
+        b = [0.3 * (i + 1) - 0.5 for i in range(mm_)]
+        for tol in (0.0, 0.01, 2.5):
+            before = (repr(u), repr(s), repr(vt), b[:])
+            x, k, rnorm = m.min_norm_solution(mm_, nn, u, s, vt, b, tol)
+            kept = [i for i, sv in enumerate(s) if sv > tol]
+            assert k == len(kept)
+            # agreement with A_tol+ b
+            G = [[math.fsum(vt[i][a] * u[c][i] / s[i] for i in kept) for c in range(mm_)] for a in range(nn)]
+            for a in range(nn):
+                close(x[a], math.fsum(G[a][c] * b[c] for c in range(mm_)), 1e-12)
+            # x lies in the span of the kept right singular vectors
+            resid_x = [x[j] - math.fsum(math.fsum(x[t] * vt[i][t] for t in range(nn)) * vt[i][j] for i in kept) for j in range(nn)]
+            assert math.hypot(*resid_x) < 1e-12 if resid_x else True
+            # residual against the full A, orthogonal to the kept left vectors
+            A = _la10_matrix(mm_, nn, u, s, vt)
+            r = [b[i] - math.fsum(A[i][j] * x[j] for j in range(nn)) for i in range(mm_)]
+            close(rnorm, math.hypot(*r), 1e-12)
+            for i in kept:
+                assert abs(math.fsum(u[c][i] * r[c] for c in range(mm_))) < 1e-12
+            assert before == (repr(u), repr(s), repr(vt), b), "inputs must be preserved"
+    # counterexample: diag(1, 0.001), b = (0, 1), tol = 0.01 gives x = 0 and residual (0, 1),
+    # which is not orthogonal to range(A) = R^2 although it is orthogonal to the kept u1
+    x, k, rnorm = m.min_norm_solution(*F["diag"], [0.0, 1.0], 0.01)
+    assert x == [0.0, 0.0] and k == 1 and rnorm == 1.0
+    # borderline sigma == tol is discarded
+    x, k, rnorm = m.min_norm_solution(*F["diag"], [0.0, 1.0], 0.001)
+    assert k == 1 and x == [0.0, 0.0]
+    x, k, rnorm = m.min_norm_solution(*F["diag"], [0.0, 1.0], 0.0)
+    assert k == 2 and math.isclose(x[1], 1000.0, rel_tol=1e-12) and rnorm == 0
+    assert m.min_norm_solution(*F["zero"], [3.0, 4.0], 0.0) == ([0.0, 0.0, 0.0], 0, 5.0)
+    for tol in (-1.0, True, float("nan")):
+        _projection_rejects(m.min_norm_solution, *F["full3"], [1.0, 0.0, 0.0], tol)
+    _projection_rejects(m.min_norm_solution, *F["full3"], [1.0, 0.0], 0.0)
+    _la10_rejects(m.min_norm_solution, F["full3"], ([1.0, 0.0, 0.0], 0.0))
+
+
+CHECKS = {"pinv-via-svd": pinv_via_svd, "ridge-solve": ridge_solve, "min-norm-solution": min_norm_solution,
+          "matrix-norms": matrix_norms, "condition-estimate": condition_estimate,
           "cancellation-demo": cancellation_demo, "svd-2x2": svd_2x2, "truncate-rank": truncate_rank, "explained-variance": explained_variance,
           "rayleigh-quotient": rayleigh_quotient, "cholesky": cholesky, "is-pd": is_pd,
           "power-iteration": power_iteration, "char-poly-2x2": char_poly_2x2,

@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="480" viewBox="0 0 900 480" role="img" aria-labelledby="la10-trust-title la10-trust-desc">
+  <title id="la10-trust-title">What a 0.01 change in the data moves</title>
+  <desc id="la10-trust-desc">Bar chart on a logarithmic axis. The data change from y = (2, 4.05, 5.95) to (2, 4.06, 5.94). Without regularization the coefficients move by 1.41, the fitted values at the observed inputs by at most 0.01, and the prediction at the off-pattern input (1, 0) by 1. With ridge lambda = 0.01 the same three changes are 0.0135, 0.0022 and 0.0099.</desc>
+  <rect width="900" height="480" rx="24" fill="#08111f"/>
+  <text x="450" y="44" fill="#a8b7ca" font-family="system-ui" font-size="18" text-anchor="middle">One data change, three answers to “how much did it move?”</text>
+  <path d="M90 376.00L610 376.00" stroke="#173641" stroke-width="1.2"/>
+  <text x="80" y="381" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="end">10⁻³</text>
+  <path d="M90 306.00L610 306.00" stroke="#173641" stroke-width="1.2"/>
+  <text x="80" y="311" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="end">10⁻²</text>
+  <path d="M90 236.00L610 236.00" stroke="#173641" stroke-width="1.2"/>
+  <text x="80" y="241" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="end">10⁻¹</text>
+  <path d="M90 166.00L610 166.00" stroke="#173641" stroke-width="1.2"/>
+  <text x="80" y="171" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="end">1</text>
+  <path d="M90 96.00L610 96.00" stroke="#173641" stroke-width="1.2"/>
+  <text x="80" y="101" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="end">10</text>
+  <path d="M90 376L610 376M90 96L90 376" stroke="#31445e" stroke-width="2"/>
+  <text x="90" y="82" fill="#a8b7ca" font-family="system-ui" font-size="14">size of the change (log scale)</text>
+  <rect x="121.20" y="155.46" width="52.00" height="220.54" fill="#ffb86b" fill-opacity="0.85" rx="3"/>
+  <text x="147.2" y="147.46" fill="#ffb86b" font-family="system-ui" font-size="13" text-anchor="middle">1.41</text>
+  <rect x="180.13" y="296.82" width="52.00" height="79.18" fill="#50d2c2" fill-opacity="0.85" rx="3"/>
+  <text x="206.13" y="288.82" fill="#50d2c2" font-family="system-ui" font-size="13" text-anchor="middle">0.0135</text>
+  <text x="176.67" y="398" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">coefficients ‖δw‖</text>
+  <text x="176.67" y="416" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">(y per unit of x)</text>
+  <rect x="294.53" y="306.00" width="52.00" height="70.00" fill="#ffb86b" fill-opacity="0.85" rx="3"/>
+  <text x="320.53" y="298" fill="#ffb86b" font-family="system-ui" font-size="13" text-anchor="middle">0.0100</text>
+  <rect x="353.47" y="352.11" width="52.00" height="23.89" fill="#50d2c2" fill-opacity="0.85" rx="3"/>
+  <text x="379.47" y="344.11" fill="#50d2c2" font-family="system-ui" font-size="13" text-anchor="middle">0.0022</text>
+  <text x="350" y="398" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">fitted values at</text>
+  <text x="350" y="416" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">observed inputs (y)</text>
+  <rect x="467.87" y="166.00" width="52.00" height="210.00" fill="#ffb86b" fill-opacity="0.85" rx="3"/>
+  <text x="493.87" y="158" fill="#ffb86b" font-family="system-ui" font-size="13" text-anchor="middle">1.00</text>
+  <rect x="526.80" y="306.28" width="52.00" height="69.72" fill="#50d2c2" fill-opacity="0.85" rx="3"/>
+  <text x="552.8" y="298.28" fill="#50d2c2" font-family="system-ui" font-size="13" text-anchor="middle">0.0099</text>
+  <text x="523.33" y="398" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">prediction at</text>
+  <text x="523.33" y="416" fill="#a8b7ca" font-family="system-ui" font-size="13" text-anchor="middle">x = (1, 0) (y)</text>
+  <path d="M650 145L678 145" stroke="#ffb86b" stroke-width="3.5"/>
+  <text x="688" y="150" fill="#ffb86b" font-family="system-ui" font-size="14">least squares, λ = 0</text>
+  <path d="M650 171L678 171" stroke="#50d2c2" stroke-width="3.5"/>
+  <text x="688" y="176" fill="#50d2c2" font-family="system-ui" font-size="14">ridge, λ = 0.01</text>
+  <text x="650" y="220" fill="#e8eef7" font-family="system-ui" font-size="14">data change: δy = (0, 0.01, −0.01)</text>
+  <text x="650" y="256" fill="#e8eef7" font-family="system-ui" font-size="14">(1, 0) has component 0.707</text>
+  <text x="650" y="280" fill="#e8eef7" font-family="system-ui" font-size="14">along the weak direction v₂</text>
+  <text x="650" y="312" fill="#91a4bb" font-family="system-ui" font-size="13">compare bars within a group:</text>
+  <text x="650" y="332" fill="#91a4bb" font-family="system-ui" font-size="13">the groups have different units</text>
+  <text x="650" y="366" fill="#91a4bb" font-family="system-ui" font-size="13">ridge's price: residual 0.055</text>
+  <text x="650" y="386" fill="#91a4bb" font-family="system-ui" font-size="13">instead of an exact fit</text>
+  <text x="450" y="460" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">Without damping, stable fitted values sit beside unstable coefficients and an unstable off-pattern prediction.</text>
+</svg>

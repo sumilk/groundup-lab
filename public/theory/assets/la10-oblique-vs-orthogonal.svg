@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="450" viewBox="0 0 900 450" role="img" aria-labelledby="la10-obl-title la10-obl-desc">
+  <title id="la10-obl-title">An oblique inverse and the pseudoinverse</title>
+  <desc id="la10-obl-desc">For A = [[1, 1], [2, 2]], the point w = (0.5, 0.9) and every point on the dashed line through it in direction (1, −1) give the same Aw. The pseudoinverse product A+A moves w perpendicularly onto the row-space line to (0.7, 0.7). The free-variable-zero inverse G = [[1/5, 2/5], [0, 0]] gives GA w = (1.4, 0), reached by moving along the same dashed line but not perpendicularly to the row space.</desc>
+  <rect width="900" height="450" rx="24" fill="#08111f"/>
+  <text x="450" y="44" fill="#a8b7ca" font-family="system-ui" font-size="18" text-anchor="middle">Same fit, different representative</text>
+  <defs><clipPath id="clip-60-70"><rect x="135" y="70" width="410" height="310"/></clipPath></defs>
+  <g clip-path="url(#clip-60-70)"><path d="M-5 520L-5 -880M-5 520L1395 520M45 520L45 -880M-5 470L1395 470M95 520L95 -880M-5 420L1395 420M145 520L145 -880M-5 370L1395 370M195 520L195 -880M-5 320L1395 320M245 520L245 -880M-5 270L1395 270M295 520L295 -880M-5 220L1395 220M345 520L345 -880M-5 170L1395 170M395 520L395 -880M-5 120L1395 120M445 520L445 -880M-5 70L1395 70M495 520L495 -880M-5 20L1395 20M545 520L545 -880M-5 -30L1395 -30M595 520L595 -880M-5 -80L1395 -80M645 520L645 -880M-5 -130L1395 -130M695 520L695 -880M-5 -180L1395 -180M745 520L745 -880M-5 -230L1395 -230M795 520L795 -880M-5 -280L1395 -280M845 520L845 -880M-5 -330L1395 -330M895 520L895 -880M-5 -380L1395 -380M945 520L945 -880M-5 -430L1395 -430M995 520L995 -880M-5 -480L1395 -480M1045 520L1045 -880M-5 -530L1395 -530M1095 520L1095 -880M-5 -580L1395 -580M1145 520L1145 -880M-5 -630L1395 -630M1195 520L1195 -880M-5 -680L1395 -680M1245 520L1245 -880M-5 -730L1395 -730M1295 520L1295 -880M-5 -780L1395 -780M1345 520L1345 -880M-5 -830L1395 -830M1395 520L1395 -880M-5 -880L1395 -880" stroke="#173641" stroke-width="1.5" fill="none"/></g>
+  <path d="M135 320L545 320M195 380L195 70" stroke="#31445e" stroke-width="2"/>
+  <text x="521" y="340" fill="#a8b7ca" font-family="system-ui" font-size="15" font-style="italic">w₁</text>
+  <text x="203" y="268" fill="#a8b7ca" font-family="system-ui" font-size="15" font-style="italic">w₂</text>
+  <g clip-path="url(#clip-60-70)">
+  <path d="M-964.66 1479.66L1354.66 -839.66" stroke="#50d2c2" stroke-width="3" fill="none"/>
+  </g>
+  <g clip-path="url(#clip-60-70)">
+  <path d="M-864.66 -1019.66L1454.66 1299.66" stroke="#476073" stroke-width="2" stroke-dasharray="7 6" fill="none"/>
+  </g>
+  <path d="M295 140L327.22 172.22" stroke="#50d2c2" stroke-width="3" stroke-linecap="round"/>
+  <path d="M335 180L323.72 175.72L330.72 168.72Z" fill="#50d2c2"/>
+  <path d="M295 140L467.22 312.22" stroke="#ff7a90" stroke-width="3" stroke-linecap="round"/>
+  <path d="M475 320L463.72 315.72L470.72 308.72Z" fill="#ff7a90"/>
+  <path d="M344.9 189.9L335 199.8L325.1 189.9" stroke="#91a4bb" stroke-width="2" fill="none"/>
+  <circle cx="295" cy="140" r="6" fill="#e8eef7"/>
+  <text x="173" y="132" fill="#e8eef7" font-family="system-ui" font-size="15">w = (0.5, 0.9)</text>
+  <circle cx="335" cy="180" r="6" fill="#50d2c2"/>
+  <text x="185" y="206" fill="#50d2c2" font-family="system-ui" font-size="15">A⁺Aw = (0.7, 0.7)</text>
+  <circle cx="475" cy="320" r="6" fill="#ff7a90"/>
+  <text x="487" y="306" fill="#ff7a90" font-family="system-ui" font-size="15">GAw = (1.4, 0)</text>
+  <text x="419" y="124" fill="#50d2c2" font-family="system-ui" font-size="15">row(A)</text>
+  <text x="141" y="86" fill="#91a4bb" font-family="system-ui" font-size="14">dashed: w + ker(A), same Aw</text>
+  <text x="650" y="150" fill="#50d2c2" font-family="system-ui" font-size="15">A⁺A = ½[[1, 1], [1, 1]]</text>
+  <text x="650" y="174" fill="#50d2c2" font-family="system-ui" font-size="14">symmetric: perpendicular drop</text>
+  <text x="650" y="220" fill="#ff7a90" font-family="system-ui" font-size="15">GA = [[1, 1], [0, 0]]</text>
+  <text x="650" y="244" fill="#ff7a90" font-family="system-ui" font-size="14">not symmetric: slanted drop</text>
+  <text x="650" y="300" fill="#e8eef7" font-family="system-ui" font-size="15">length 0.99 vs 1.40</text>
+  <text x="450" y="430" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">Both moves stay on the dashed line, so neither changes Aw. Only A⁺A is symmetric, and only it lands on the shortest point.</text>
+</svg>

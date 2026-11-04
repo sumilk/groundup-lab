@@ -509,6 +509,38 @@
     "supportFunctions": []
   },
   {
+    "lesson": "02-linear-algebra/10-pseudoinverse-regularization.md",
+    "task": "pinv-via-svd",
+    "function": "pinv_via_svd",
+    "title": "Reverse the channels you trust",
+    "supportFunctions": [
+      "_validated_compact_svd",
+      "_validated_tolerance"
+    ]
+  },
+  {
+    "lesson": "02-linear-algebra/10-pseudoinverse-regularization.md",
+    "task": "ridge-solve",
+    "function": "ridge_solve",
+    "title": "Damp every channel with the ridge filter",
+    "supportFunctions": [
+      "_validated_compact_svd",
+      "_validated_tolerance",
+      "_validated_rhs"
+    ]
+  },
+  {
+    "lesson": "02-linear-algebra/10-pseudoinverse-regularization.md",
+    "task": "min-norm-solution",
+    "function": "min_norm_solution",
+    "title": "Solve without forming the pseudoinverse",
+    "supportFunctions": [
+      "_validated_compact_svd",
+      "_validated_tolerance",
+      "_validated_rhs"
+    ]
+  },
+  {
     "lesson": "09-deep-learning-core/01-connectionism-threshold-unit.md",
     "task": "threshold-gate",
     "function": "threshold_gate",

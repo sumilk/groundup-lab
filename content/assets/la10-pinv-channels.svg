@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="470" viewBox="0 0 900 470" role="img" aria-labelledby="la10-map-title la10-map-desc">
+  <title id="la10-map-title">What A and its pseudoinverse do to the four subspaces</title>
+  <desc id="la10-map-desc">Input space on the left splits into the row space, spanned by v1 = (2, 2, −1)/3 and v2 = (−1, 2, 2)/3, and the kernel, spanned by v3 = (2, −1, 2)/3. Output space on the right splits into the range, spanned by u1 = (1, 2, 2)/3 and u2 = (2, 1, −2)/3, and the left kernel, spanned by u3 = (2, −2, 1)/3. A sends v1 to 6u1, v2 to 3u2 and v3 to zero. The pseudoinverse sends u1 back to v1/6, u2 to v2/3 and u3 to zero.</desc>
+  <rect width="900" height="470" rx="24" fill="#08111f"/>
+  <text x="450" y="44" fill="#a8b7ca" font-family="system-ui" font-size="18" text-anchor="middle">A⁺ reverses each channel A uses, and ignores the rest</text>
+  <text x="185" y="82" fill="#a8b7ca" font-family="system-ui" font-size="15" text-anchor="middle">input space ℝ³</text>
+  <text x="715" y="82" fill="#a8b7ca" font-family="system-ui" font-size="15" text-anchor="middle">output space ℝ³</text>
+  <rect x="60" y="96" width="250" height="136" rx="16" fill="#50d2c2" fill-opacity="0.16" stroke="#50d2c2" stroke-width="2.5"/>
+  <text x="185" y="126" fill="#50d2c2" font-family="system-ui" font-size="17" text-anchor="middle" font-weight="600">row(A)</text>
+  <text x="185" y="154" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">v₁ = (2, 2, −1)/3</text>
+  <text x="185" y="178" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">v₂ = (−1, 2, 2)/3</text>
+  <rect x="60" y="268" width="250" height="112" rx="16" fill="#476073" fill-opacity="0.16" stroke="#476073" stroke-width="2.5"/>
+  <text x="185" y="298" fill="#476073" font-family="system-ui" font-size="17" text-anchor="middle" font-weight="600">ker(A)</text>
+  <text x="185" y="326" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">v₃ = (2, −1, 2)/3</text>
+  <rect x="590" y="96" width="250" height="136" rx="16" fill="#7aa2f7" fill-opacity="0.16" stroke="#7aa2f7" stroke-width="2.5"/>
+  <text x="715" y="126" fill="#7aa2f7" font-family="system-ui" font-size="17" text-anchor="middle" font-weight="600">range(A)</text>
+  <text x="715" y="154" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">u₁ = (1, 2, 2)/3</text>
+  <text x="715" y="178" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">u₂ = (2, 1, −2)/3</text>
+  <rect x="590" y="268" width="250" height="112" rx="16" fill="#476073" fill-opacity="0.16" stroke="#476073" stroke-width="2.5"/>
+  <text x="715" y="298" fill="#476073" font-family="system-ui" font-size="17" text-anchor="middle" font-weight="600">ker(Aᵀ)</text>
+  <text x="715" y="326" fill="#e8eef7" font-family="system-ui" font-size="15" text-anchor="middle">u₃ = (2, −2, 1)/3</text>
+  <path d="M316 136L571 136" stroke="#ffb86b" stroke-width="3.5"/>
+  <path d="M584 136L571 142L571 130Z" fill="#ffb86b"/>
+  <text x="450" y="124" fill="#ffb86b" font-family="system-ui" font-size="15" text-anchor="middle">A:  v₁ ↦ 6u₁,  v₂ ↦ 3u₂</text>
+  <path d="M584 196L329 196" stroke="#d586ff" stroke-width="3.5"/>
+  <path d="M316 196L329 190L329 202Z" fill="#d586ff"/>
+  <text x="450" y="222" fill="#d586ff" font-family="system-ui" font-size="15" text-anchor="middle">A⁺:  u₁ ↦ v₁/6,  u₂ ↦ v₂/3</text>
+  <circle cx="450" cy="324" r="20" fill="none" stroke="#91a4bb" stroke-width="2.5"/>
+  <text x="450" y="330" fill="#e8eef7" font-family="system-ui" font-size="18" text-anchor="middle">0</text>
+  <path d="M316 324L413 324" stroke="#ffb86b" stroke-width="3.5" stroke-dasharray="7 6"/>
+  <path d="M426 324L413 330L413 318Z" fill="#ffb86b"/>
+  <text x="370" y="312" fill="#ffb86b" font-family="system-ui" font-size="15" text-anchor="middle">A</text>
+  <path d="M584 324L487 324" stroke="#d586ff" stroke-width="3.5" stroke-dasharray="7 6"/>
+  <path d="M474 324L487 318L487 330Z" fill="#d586ff"/>
+  <text x="530" y="312" fill="#d586ff" font-family="system-ui" font-size="15" text-anchor="middle">A⁺</text>
+  <text x="450" y="450" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">Drawn for the 3×3 example with σ = (6, 3, 0). Each arrow carries one channel; the dashed arrows end at zero.</text>
+</svg>

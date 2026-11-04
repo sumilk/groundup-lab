@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="430" viewBox="0 0 900 430" role="img" aria-labelledby="la10-two-title la10-two-desc">
+  <title id="la10-two-title">Least squares, then minimum norm</title>
+  <desc id="la10-two-desc">Left: in observation space, y = (1, 0) is projected onto the line of multiples of (1, 2), giving (1/5, 2/5) and a perpendicular residual. Right: in parameter space, every w with w1 + w2 = 1/5 produces that projection; the shortest one, (1/10, 1/10), is where the row-space line of multiples of (1, 1) crosses at right angles. The point (1/5, 0) obtained by setting w2 to zero is also marked.</desc>
+  <rect width="900" height="430" rx="24" fill="#08111f"/>
+  <defs><clipPath id="clip-50-86"><rect x="67.2" y="86" width="345.6" height="270"/></clipPath></defs>
+  <text x="240" y="72" fill="#a8b7ca" font-family="system-ui" font-size="17" text-anchor="middle">Observations: project y onto range(A)</text>
+  <g clip-path="url(#clip-50-86)"><path d="M-289.2 712.4L-289.2 -583.6M-289.2 712.4L1006.8 712.4M-235.2 712.4L-235.2 -583.6M-289.2 658.4L1006.8 658.4M-181.2 712.4L-181.2 -583.6M-289.2 604.4L1006.8 604.4M-127.2 712.4L-127.2 -583.6M-289.2 550.4L1006.8 550.4M-73.2 712.4L-73.2 -583.6M-289.2 496.4L1006.8 496.4M-19.2 712.4L-19.2 -583.6M-289.2 442.4L1006.8 442.4M34.8 712.4L34.8 -583.6M-289.2 388.4L1006.8 388.4M88.8 712.4L88.8 -583.6M-289.2 334.4L1006.8 334.4M142.8 712.4L142.8 -583.6M-289.2 280.4L1006.8 280.4M196.8 712.4L196.8 -583.6M-289.2 226.4L1006.8 226.4M250.8 712.4L250.8 -583.6M-289.2 172.4L1006.8 172.4M304.8 712.4L304.8 -583.6M-289.2 118.4L1006.8 118.4M358.8 712.4L358.8 -583.6M-289.2 64.4L1006.8 64.4M412.8 712.4L412.8 -583.6M-289.2 10.4L1006.8 10.4M466.8 712.4L466.8 -583.6M-289.2 -43.6L1006.8 -43.6M520.8 712.4L520.8 -583.6M-289.2 -97.6L1006.8 -97.6M574.8 712.4L574.8 -583.6M-289.2 -151.6L1006.8 -151.6M628.8 712.4L628.8 -583.6M-289.2 -205.6L1006.8 -205.6M682.8 712.4L682.8 -583.6M-289.2 -259.6L1006.8 -259.6M736.8 712.4L736.8 -583.6M-289.2 -313.6L1006.8 -313.6M790.8 712.4L790.8 -583.6M-289.2 -367.6L1006.8 -367.6M844.8 712.4L844.8 -583.6M-289.2 -421.6L1006.8 -421.6M898.8 712.4L898.8 -583.6M-289.2 -475.6L1006.8 -475.6M952.8 712.4L952.8 -583.6M-289.2 -529.6L1006.8 -529.6M1006.8 712.4L1006.8 -583.6M-289.2 -583.6L1006.8 -583.6" stroke="#173641" stroke-width="1.5" fill="none"/></g>
+  <path d="M67.2 280.4L412.8 280.4M142.8 356L142.8 86" stroke="#31445e" stroke-width="2"/>
+  <text x="388.8" y="272.4" fill="#a8b7ca" font-family="system-ui" font-size="15" font-style="italic">y₁</text>
+  <text x="150.8" y="104" fill="#a8b7ca" font-family="system-ui" font-size="15" font-style="italic">y₂</text>
+  <g clip-path="url(#clip-50-86)">
+  <path d="M-475.43 1516.86L761.03 -956.06" stroke="#7aa2f7" stroke-width="3" fill="none"/>
+  </g>
+  <text x="220.56" y="94.64" fill="#7aa2f7" font-family="system-ui" font-size="14">range(A): multiples of (1, 2)</text>
+  <path d="M142.8 280.4L345.8 280.4" stroke="#e8eef7" stroke-width="3" stroke-linecap="round"/>
+  <path d="M358.8 280.4L345.8 286.25L345.8 274.55Z" fill="#e8eef7"/>
+  <text x="328.8" y="304.4" fill="#e8eef7" font-family="system-ui" font-size="15">y = (1, 0)</text>
+  <path d="M358.8 280.4L186 194" stroke="#ff7a90" stroke-width="2.5" stroke-dasharray="6 5" fill="none"/>
+  <path d="M199.52 200.76L192.76 214.29L179.24 207.52" stroke="#91a4bb" stroke-width="2" fill="none"/>
+  <circle cx="186" cy="194" r="6" fill="#50d2c2"/>
+  <text x="70" y="188" fill="#50d2c2" font-family="system-ui" font-size="15">ŷ = (1/5, 2/5)</text>
+  <text x="276.72" y="230.72" fill="#ff7a90" font-family="system-ui" font-size="14">residual</text>
+  <defs><clipPath id="clip-470-86"><rect x="487.2" y="86" width="345.6" height="270"/></clipPath></defs>
+  <text x="660" y="72" fill="#a8b7ca" font-family="system-ui" font-size="17" text-anchor="middle">Parameters: shortest w with Aw = ŷ</text>
+  <g clip-path="url(#clip-470-86)"><path d="M-132 1004L-132 -1156M-132 1004L2028 1004M-96 1004L-96 -1156M-132 968L2028 968M-60 1004L-60 -1156M-132 932L2028 932M-24 1004L-24 -1156M-132 896L2028 896M12 1004L12 -1156M-132 860L2028 860M48 1004L48 -1156M-132 824L2028 824M84 1004L84 -1156M-132 788L2028 788M120 1004L120 -1156M-132 752L2028 752M156 1004L156 -1156M-132 716L2028 716M192 1004L192 -1156M-132 680L2028 680M228 1004L228 -1156M-132 644L2028 644M264 1004L264 -1156M-132 608L2028 608M300 1004L300 -1156M-132 572L2028 572M336 1004L336 -1156M-132 536L2028 536M372 1004L372 -1156M-132 500L2028 500M408 1004L408 -1156M-132 464L2028 464M444 1004L444 -1156M-132 428L2028 428M480 1004L480 -1156M-132 392L2028 392M516 1004L516 -1156M-132 356L2028 356M552 1004L552 -1156M-132 320L2028 320M588 1004L588 -1156M-132 284L2028 284M624 1004L624 -1156M-132 248L2028 248M660 1004L660 -1156M-132 212L2028 212M696 1004L696 -1156M-132 176L2028 176M732 1004L732 -1156M-132 140L2028 140M768 1004L768 -1156M-132 104L2028 104M804 1004L804 -1156M-132 68L2028 68M840 1004L840 -1156M-132 32L2028 32M876 1004L876 -1156M-132 -4L2028 -4M912 1004L912 -1156M-132 -40L2028 -40M948 1004L948 -1156M-132 -76L2028 -76M984 1004L984 -1156M-132 -112L2028 -112M1020 1004L1020 -1156M-132 -148L2028 -148M1056 1004L1056 -1156M-132 -184L2028 -184M1092 1004L1092 -1156M-132 -220L2028 -220M1128 1004L1128 -1156M-132 -256L2028 -256M1164 1004L1164 -1156M-132 -292L2028 -292M1200 1004L1200 -1156M-132 -328L2028 -328M1236 1004L1236 -1156M-132 -364L2028 -364M1272 1004L1272 -1156M-132 -400L2028 -400M1308 1004L1308 -1156M-132 -436L2028 -436M1344 1004L1344 -1156M-132 -472L2028 -472M1380 1004L1380 -1156M-132 -508L2028 -508M1416 1004L1416 -1156M-132 -544L2028 -544M1452 1004L1452 -1156M-132 -580L2028 -580M1488 1004L1488 -1156M-132 -616L2028 -616M1524 1004L1524 -1156M-132 -652L2028 -652M1560 1004L1560 -1156M-132 -688L2028 -688M1596 1004L1596 -1156M-132 -724L2028 -724M1632 1004L1632 -1156M-132 -760L2028 -760M1668 1004L1668 -1156M-132 -796L2028 -796M1704 1004L1704 -1156M-132 -832L2028 -832M1740 1004L1740 -1156M-132 -868L2028 -868M1776 1004L1776 -1156M-132 -904L2028 -904M1812 1004L1812 -1156M-132 -940L2028 -940M1848 1004L1848 -1156M-132 -976L2028 -976M1884 1004L1884 -1156M-132 -1012L2028 -1012M1920 1004L1920 -1156M-132 -1048L2028 -1048M1956 1004L1956 -1156M-132 -1084L2028 -1084M1992 1004L1992 -1156M-132 -1120L2028 -1120" stroke="#173641" stroke-width="1.5" fill="none"/></g>
+  <path d="M487.2 284L832.8 284M588 356L588 86" stroke="#31445e" stroke-width="2"/>
+  <text x="808.8" y="276" fill="#a8b7ca" font-family="system-ui" font-size="15" font-style="italic">w₁</text>
+  <text x="596" y="132.8" fill="#a8b7ca" font-family="system-ui" font-size="15" font-style="italic">w₂</text>
+  <g clip-path="url(#clip-470-86)">
+  <path d="M-389.5 1261.5L1565.5 -693.5" stroke="#476073" stroke-width="2" stroke-dasharray="7 6" fill="none"/>
+  </g>
+  <g clip-path="url(#clip-470-86)">
+  <path d="M-245.5 -693.5L1709.5 1261.5" stroke="#50d2c2" stroke-width="3.5" fill="none"/>
+  </g>
+  <path d="M671.2 223.2L660 234.4L648.8 223.2" stroke="#91a4bb" stroke-width="2" fill="none"/>
+  <circle cx="660" cy="212" r="6" fill="#50d2c2"/>
+  <text x="510" y="206" fill="#50d2c2" font-family="system-ui" font-size="15">w† = (1/10, 1/10)</text>
+  <circle cx="732" cy="284" r="6" fill="#ff7a90"/>
+  <text x="740" y="306" fill="#ff7a90" font-family="system-ui" font-size="15">(1/5, 0)</text>
+  <text x="501.6" y="100.4" fill="#91a4bb" font-family="system-ui" font-size="13">row space: multiples of (1, 1)</text>
+  <text x="706.8" y="204.8" fill="#50d2c2" font-family="system-ui" font-size="14">w₁ + w₂ = 1/5</text>
+  <text x="450" y="410" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">A = [[1, 1], [2, 2]]. The right panel is drawn at three and a third times the left panel's scale.</text>
+</svg>

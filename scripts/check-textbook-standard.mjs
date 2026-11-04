@@ -43,6 +43,10 @@ export function checkLesson({file, markdown, entries}) {
     `${label}: ${withFigure.length}/${teaching.length} teaching sections have a figure; the standard needs at least three quarters`);
   for (const image of markdown.matchAll(/!\[([^\]]*)\]\(([^)]+)\)/g))
     assert(image[1].trim().length >= 20, `${label}: figure ${image[2]} needs descriptive alt text`);
+  /* The reader's Markdown renderer leaves an image literal when its alt text contains
+     square brackets (for example matrix notation [[1,1],[2,2]]), so the figure never appears. */
+  for (const line of markdown.split("\n").filter(l => l.startsWith("![")))
+    assert(/^!\[[^\[\]]+\]\([^)\s]+\)\s*$/.test(line), `${label}: figure alt text must not contain square brackets: ${line.slice(0, 70)}…`);
 
   /* Rule H: no unnumbered section may strand exercises. */
   for (const sec of markdown.split(/^(?=## )/m).filter(sec => /^## (?!\d+\.)/.test(sec)))

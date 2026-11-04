@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="450" viewBox="0 0 900 450" role="img" aria-labelledby="la10-jump-title la10-jump-desc">
+  <title id="la10-jump-title">The coefficient jump lies along the weak direction</title>
+  <desc id="la10-jump-desc">Coefficient space for the near-collinear fit. The coefficients (1, 1) generate X(1, 1) = (2, 4.01, 5.99). The fitted coefficients (−3, 5) differ from (1, 1) by about −5.66 times v2, the weak right-singular direction (0.707, −0.707). Moving two observations by 0.01 moves the fit again along v2, to (−4, 6).</desc>
+  <rect width="900" height="450" rx="24" fill="#08111f"/>
+  <text x="450" y="44" fill="#a8b7ca" font-family="system-ui" font-size="18" text-anchor="middle">Where the coefficients move</text>
+  <defs><clipPath id="clip-60-70"><rect x="180" y="70" width="320" height="320"/></clipPath></defs>
+  <g clip-path="url(#clip-60-70)"><path d="M-274.74 1038.42L-274.74 -519.47M-274.74 1038.42L1283.16 1038.42M-232.63 1038.42L-232.63 -519.47M-274.74 996.32L1283.16 996.32M-190.53 1038.42L-190.53 -519.47M-274.74 954.21L1283.16 954.21M-148.42 1038.42L-148.42 -519.47M-274.74 912.11L1283.16 912.11M-106.32 1038.42L-106.32 -519.47M-274.74 870L1283.16 870M-64.21 1038.42L-64.21 -519.47M-274.74 827.89L1283.16 827.89M-22.11 1038.42L-22.11 -519.47M-274.74 785.79L1283.16 785.79M20 1038.42L20 -519.47M-274.74 743.68L1283.16 743.68M62.11 1038.42L62.11 -519.47M-274.74 701.58L1283.16 701.58M104.21 1038.42L104.21 -519.47M-274.74 659.47L1283.16 659.47M146.32 1038.42L146.32 -519.47M-274.74 617.37L1283.16 617.37M188.42 1038.42L188.42 -519.47M-274.74 575.26L1283.16 575.26M230.53 1038.42L230.53 -519.47M-274.74 533.16L1283.16 533.16M272.63 1038.42L272.63 -519.47M-274.74 491.05L1283.16 491.05M314.74 1038.42L314.74 -519.47M-274.74 448.95L1283.16 448.95M356.84 1038.42L356.84 -519.47M-274.74 406.84L1283.16 406.84M398.95 1038.42L398.95 -519.47M-274.74 364.74L1283.16 364.74M441.05 1038.42L441.05 -519.47M-274.74 322.63L1283.16 322.63M483.16 1038.42L483.16 -519.47M-274.74 280.53L1283.16 280.53M525.26 1038.42L525.26 -519.47M-274.74 238.42L1283.16 238.42M567.37 1038.42L567.37 -519.47M-274.74 196.32L1283.16 196.32M609.47 1038.42L609.47 -519.47M-274.74 154.21L1283.16 154.21M651.58 1038.42L651.58 -519.47M-274.74 112.11L1283.16 112.11M693.68 1038.42L693.68 -519.47M-274.74 70L1283.16 70M735.79 1038.42L735.79 -519.47M-274.74 27.89L1283.16 27.89M777.89 1038.42L777.89 -519.47M-274.74 -14.21L1283.16 -14.21M820 1038.42L820 -519.47M-274.74 -56.32L1283.16 -56.32M862.11 1038.42L862.11 -519.47M-274.74 -98.42L1283.16 -98.42M904.21 1038.42L904.21 -519.47M-274.74 -140.53L1283.16 -140.53M946.32 1038.42L946.32 -519.47M-274.74 -182.63L1283.16 -182.63M988.42 1038.42L988.42 -519.47M-274.74 -224.74L1283.16 -224.74M1030.53 1038.42L1030.53 -519.47M-274.74 -266.84L1283.16 -266.84M1072.63 1038.42L1072.63 -519.47M-274.74 -308.95L1283.16 -308.95M1114.74 1038.42L1114.74 -519.47M-274.74 -351.05L1283.16 -351.05M1156.84 1038.42L1156.84 -519.47M-274.74 -393.16L1283.16 -393.16M1198.95 1038.42L1198.95 -519.47M-274.74 -435.26L1283.16 -435.26M1241.05 1038.42L1241.05 -519.47M-274.74 -477.37L1283.16 -477.37M1283.16 1038.42L1283.16 -519.47M-274.74 -519.47L1283.16 -519.47" stroke="#173641" stroke-width="1.5" fill="none"/></g>
+  <path d="M180 364.74L500 364.74M398.95 390L398.95 70" stroke="#31445e" stroke-width="2"/>
+  <text x="476" y="384.74" fill="#a8b7ca" font-family="system-ui" font-size="15" font-style="italic">w₁</text>
+  <text x="406.95" y="88" fill="#a8b7ca" font-family="system-ui" font-size="15" font-style="italic">w₂</text>
+  <g clip-path="url(#clip-60-70)">
+  <path d="M-506.47 1269.51L1304.36 -540.04" stroke="#7aa2f7" stroke-width="2" stroke-dasharray="7 6" fill="none"/>
+  </g>
+  <g clip-path="url(#clip-60-70)">
+  <path d="M-463.72 -582.79L1345.83 1228.05" stroke="#476073" stroke-width="2" stroke-dasharray="4 5" fill="none"/>
+  </g>
+  <path d="M441.05 322.63L281.12 162.7" stroke="#ffb86b" stroke-width="3" stroke-linecap="round"/>
+  <path d="M272.63 154.21L284.94 158.88L277.3 166.51Z" fill="#ffb86b"/>
+  <path d="M272.63 154.21L238.3 119.88" stroke="#ff7a90" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M230.53 112.11L241.8 116.38L234.8 123.38Z" fill="#ff7a90"/>
+  <circle cx="441.05" cy="322.63" r="7" fill="#50d2c2"/>
+  <text x="453.05" y="328.63" fill="#50d2c2" font-family="system-ui" font-size="16">(1, 1)</text>
+  <circle cx="272.63" cy="154.21" r="6" fill="#ffb86b"/>
+  <text x="284.63" y="160.21" fill="#ffb86b" font-family="system-ui" font-size="16">(−3, 5)</text>
+  <circle cx="230.53" cy="112.11" r="6" fill="#ff7a90"/>
+  <text x="242.53" y="116.11" fill="#ff7a90" font-family="system-ui" font-size="16">(−4, 6)</text>
+  <text x="650" y="150" fill="#ffb86b" font-family="system-ui" font-size="15">(1, 1) → (−3, 5):</text>
+  <text x="650" y="174" fill="#e8eef7" font-family="system-ui" font-size="14">data part: −0.0556 along u₂</text>
+  <text x="650" y="198" fill="#e8eef7" font-family="system-ui" font-size="14">÷ σ₂ → −5.66 along v₂</text>
+  <text x="650" y="244" fill="#ff7a90" font-family="system-ui" font-size="15">(−3, 5) → (−4, 6):</text>
+  <text x="650" y="268" fill="#e8eef7" font-family="system-ui" font-size="14">change: −0.0139 along u₂</text>
+  <text x="650" y="292" fill="#e8eef7" font-family="system-ui" font-size="14">÷ σ₂ → −1.41 along v₂</text>
+  <text x="650" y="338" fill="#7aa2f7" font-family="system-ui" font-size="13">blue dashed: v₁ ≈ (0.707, 0.707)</text>
+  <text x="650" y="360" fill="#91a4bb" font-family="system-ui" font-size="13">grey dashed: v₂ ≈ (0.707, −0.707)</text>
+  <text x="650" y="380" fill="#91a4bb" font-family="system-ui" font-size="13">through (1, 1)</text>
+  <text x="450" y="430" text-anchor="middle" fill="#91a4bb" font-family="system-ui" font-size="16">σ₁ ≈ 5.290 and σ₂ ≈ 0.0098: whatever reaches the weak channel is divided by σ₂.</text>
+</svg>

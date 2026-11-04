@@ -37,6 +37,7 @@ Audit scores run 1–5 in this order: correctness / rigor / coverage / clarity /
 | LA07 | 5 / 4 / 3 / 3 / 3 | pending |
 | LA08 | 5 / 4 / 3 / 3 / 3 | pending |
 | LA09 | 5 / 4 / 4 / 3 / 3.5 | **upgraded 2026-09-26** (pilot). Two independent re-audits; final scores 4 in every dimension (correctness, rigor, coverage, clarity, visuals, exercises). Nine generated figures and a gated bank. Remaining polish: fewer diag(1,ε) examples, a worked iterative-refinement step. |
+| LA10 | 4 / 4 / 4 / 4 / 4 | **prose/figure/reader re-audit passed 2026-11-04; not yet upgraded.** Current six-dimension review scores are all 4, including visual intuition. Earlier findings resolved; 13 images render, the corrected lab was exercised in both themes and at phone width, and all seven experiment references reproduced with NumPy 2.0.2/PyTorch 2.8.0. Exact named-book benchmark comparison remains incomplete; answer-bank generator persistence remains a maintenance follow-up. See [full review and re-audit](../../docs/LA10_FULL_CHAPTER_REVIEW.md). |
 
 New modules LA10–LA26 are written to the standard from the start. Each brief names its benchmarks and a visual spine; those lists are the minimum figure and coverage plan, not a ceiling.
 
@@ -53,7 +54,7 @@ New modules LA10–LA26 are written to the standard from the start. Each brief n
 | LA07 | [07-spectral-theorem-quadratic-forms.md](07-spectral-theorem-quadratic-forms.md). Calculus-free symmetric spectral theorem, variational eigenvalue results, Rayleigh/residual identities, PSD/PD geometry, and Cholesky pivot audits. | Short complex-Hermitian analogue added; Fourier applications remain LA13/LA14 and covariance assumptions stay in PS04. |
 | LA08 | [08-svd-low-rank.md](08-svd-low-rank.md). Full/reduced/compact SVD, four subspaces, spectral/Frobenius Eckart–Young proofs, centered affine PCA, whitening, and minimum-norm preview. | Held-out reconstruction and repeated-singular-value projector comparisons added; larger empirical audits remain extensions. |
 | LA09 | [09-norms-conditioning-stability.md](09-norms-conditioning-stability.md). Induced norms, perturbation bounds, distance to singularity, backward-error certificates, cancellation, an unpivoted-elimination instability case, product/orthogonal conditioning, digit-loss budgets by format, remedy selection, and scale-aware diagnostics; two figures and three Python tasks. | Structured/componentwise estimators, sharp least-squares sensitivity, and mixed-precision refinement remain extensions. |
-| LA10 | No authored lesson. Minimum-norm channels previewed in LA08; no full treatment. | Moore–Penrose identities, rank-deficient solves, ridge spectral filters, and explicit implicit-bias conditions. |
+| LA10 | [10-pseudoinverse-regularization.md](10-pseudoinverse-regularization.md) (drafted 2026-11-04; prose/figure/reader re-audit passed; exact-source benchmark audit pending). Minimum-norm solutions, the pseudoinverse by channels, Moore–Penrose uniqueness, rank-jump and least-squares sensitivity (first order plus Wedin's finite bound), truncated SVD and the Picard condition, ridge filters, the discrepancy principle, L-curve and GCV failure cases, and implicit bias of gradient descent with its conditions; thirteen figures, the `la-ridge` experiment, and three Python tasks. | QR with column pivoting (LA11), iterative regularization (LA12), and generalized Tikhonov beyond one exercise remain elsewhere. |
 | LA11 | No authored lesson. Small LU, QR, and Cholesky exist; blocked/Householder methods do not. | Householder QR, blocked LU/Cholesky, triangular solves, BLAS cost models, and stable log-determinants. |
 | LA12 | No authored lesson. No dedicated iterative-solver lesson. | Stationary splittings, steepest descent, conjugate gradients, residual stopping, and preconditioners; LA11 is no longer a required predecessor. |
 | LA13 | No authored lesson. Power iteration exists; advanced spectral methods do not. | Lanczos, reorthogonalization, Ritz residuals, real/complex Schur outline, randomized SVD, and spectral-gap sensitivity; a limited pseudospectrum example. |
@@ -382,6 +383,8 @@ Apply the [shared exercise, hint, answer-bank, and checkpoint contracts](../_pla
 **Module 10 — Pseudoinverse and regularization**
 
 `handle: LA10` · `id: math.linear-algebra.pseudoinverse-regularization` · 26h · prerequisites: LA09 · proposed bank: `10-pseudoinverse`
+
+**Chapter plan:** section-by-section authoring plan in [docs/LA10_CHAPTER_PLAN.md](../../docs/LA10_CHAPTER_PLAN.md) (drafted 2026-11-04).
 
 **Already covered:** Minimum-norm channels previewed in LA08; no full treatment.
 

@@ -807,6 +807,48 @@ def cancellation_demo(t):
     raise NotImplementedError("Compare algebraically equal evaluation paths")
 
 
+def pinv_via_svd(m, n, left, singular_values, right_t, tol):
+    """Return the n by m matrix A_tol+, the pseudoinverse of the truncation of A
+    that keeps exactly the channels with sigma_i > tol.
+
+    The input is a compact SVD: left is m by r, singular_values has r strictly
+    positive descending entries, right_t is r by n, and r = 0 is allowed (left
+    then has m empty rows and right_t is []). The supplied _validated_compact_svd
+    checks shapes and orthonormality and returns copies; _validated_tolerance
+    checks tol >= 0. Entry (a, b) is the sum over kept i of v_i[a] u_i[b] / sigma_i.
+    Rank 0, or every sigma_i <= tol, returns the n by m zero matrix. Preserve
+    inputs; invalid input or non-finite arithmetic raises ValueError.
+    """
+    raise NotImplementedError("Reverse each kept channel and ignore the rest")
+
+
+def ridge_solve(m, n, left, singular_values, right_t, b, lam):
+    """Return the ridge solution x_lam of min ||Ax-b||^2 + lam ||x||^2.
+
+    Same compact SVD input as pinv_via_svd; b has m finite entries (validated by
+    the supplied _validated_rhs) and lam >= 0 (lam < 0 raises ValueError).
+    Channel i contributes f_i (u_i . b) / sigma_i along v_i with
+    f_i = sigma_i^2 / (sigma_i^2 + lam). Compute the gain as
+    1 / (sigma_i + lam / sigma_i) so a tiny sigma_i cannot underflow when
+    squared. lam = 0 gives A+ b. Preserve inputs; non-finite results raise
+    ValueError.
+    """
+    raise NotImplementedError("Apply the ridge filter factor to every channel")
+
+
+def min_norm_solution(m, n, left, singular_values, right_t, b, tol):
+    """Return (x, rank_used, residual_norm) for x = A_tol+ b.
+
+    Keep channels with sigma_i > tol (a value equal to tol is discarded). Do not
+    form any matrix: compute beta_i = u_i . b for kept channels, then x and the
+    residual b - A x, where A x = sum over kept i of beta_i u_i. residual_norm is
+    measured against the full supplied A, so it includes discarded channels.
+    The cost is O((m + n) k) for k kept channels. Supplied validators:
+    _validated_compact_svd, _validated_rhs, _validated_tolerance.
+    """
+    raise NotImplementedError("Keep the trusted channels, then measure what is left")
+
+
 def threshold_gate(weights, bias, inputs):
     """Return 1 if fsum(w_i * x_i) + bias >= 0, else 0; preserve inputs.
 
