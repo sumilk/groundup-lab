@@ -12,6 +12,25 @@ Probability is not a synonym for uncertainty, randomness, confidence, or frequen
 
 This unit starts with finite sample spaces, where every object can be written down and checked. Continuous distributions and measure-theoretic refinements come later. By the end, you should be able to construct a finite probability model, condition it correctly, distinguish mutual from pairwise independence, derive Bayes' rule, and verify calculations by simulation.
 
+Watch the 42-minute visual lesson, then use the explanations, exercises and labs below to work through the ideas yourself.
+
+```video
+youtube: uHDaiDjidlY
+title: Probability foundations from finite events — a visual lesson
+0:00 Ninety-five percent sure?
+0:57 What could happen
+4:53 One unit of mass
+9:04 Knowing something shrinks the world
+13:26 Turning the question around
+17:41 Stick or switch?
+20:24 Counting, when it's fair
+24:27 When knowing tells you nothing
+28:18 Outcomes become numbers
+31:02 The average you'll never roll
+34:45 The model and the coin
+37:27 Where this shows up in machine learning
+```
+
 ## 0. Prerequisite diagnostic
 
 Before continuing, make sure you can:
