@@ -235,8 +235,19 @@ class ModelAndCoin(NScene):
             order.append(sq)
         pile = VGroup(*order)
         first = order[0]
+        # while the pile is up, the horizontal direction counts runs, not flips: swap the flips axis for a
+        # bar-length key so the pile's width can't be read as more flips (full v2 review, 35:13)
+        xt, xtick, xlab = self.raxes[4], self.raxes[5], self.raxes[7]
+        key_arrow = Arrow([x0, Y0 - 0.32, 0], [x0 + 0.8, Y0 - 0.32, 0], buff=0, stroke_width=2.5,
+                          color=C_SIM, max_tip_length_to_length_ratio=0.12)
+        key1 = P("bar length = number of runs", 22, C_SIM).next_to(key_arrow, RIGHT, buff=0.15)
+        key2 = P("200 runs, 100 flips each", 22, C_DIM).next_to(key1, DOWN, buff=0.2).align_to(key_arrow, LEFT)
+        assert key1.get_right()[0] <= 6.6, key1.get_right()
+        self.run_key = VGroup(key_arrow, key1, key2)
+        self.flip_axis = VGroup(xt, xtick, xlab)
         d = self.say()                                                        # run it many times
-        self.play(FadeOut(self.dot, target_position=first.get_center()), FadeIn(first), run_time=0.5)
+        self.play(FadeOut(self.dot, target_position=first.get_center()), FadeIn(first),
+                  FadeOut(self.flip_axis), FadeIn(self.run_key), run_time=0.5)
         self.play(LaggedStart(*[FadeIn(sq, shift=LEFT * 0.4) for sq in order[1:]], lag_ratio=0.02),
                   run_time=min(4.0, max(1.0, d - 0.7)))
         tenth = Rectangle(width=x0 + 2.6 - (nx(100) - 0.05), height=fy(0.6) - fy(0.4), stroke_width=0)
@@ -298,7 +309,7 @@ class ModelAndCoin(NScene):
                           stroke_color=C_SIM, stroke_width=1.5)
         self.beat(LaggedStart(*[Create(p) for p in paths], lag_ratio=0.04), Create(mine),
                   Transform(pm, pm_up), FadeIn(lead), FadeOut(self.pile), FadeOut(selab), FadeOut(self.note),
-                  rt=2.6)                                                     # further away
+                  FadeOut(self.run_key), FadeIn(self.flip_axis), rt=2.6)     # further away; flips axis back
 
         up = [pt(n, 0.5 + 0.5 / np.sqrt(n)) for n in NS]
         dn = [pt(n, 0.5 - 0.5 / np.sqrt(n)) for n in NS]

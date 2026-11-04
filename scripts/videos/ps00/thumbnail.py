@@ -9,7 +9,8 @@ class Thumbnail(Scene):
         T_ = lambda s, size, c=WHITE: Text(s, font=SANS, weight=BOLD, font_size=size, color=c)  # noqa: E731
         kicker = T_("PROBABILITY · 0", 40, C_U)
         l1 = VGroup(T_("95%", 92, C_CONT), T_("sure?", 92)).arrange(RIGHT, buff=0.3, aligned_edge=DOWN)
-        l2 = VGroup(T_("It's", 64, C_DIM), T_("33%.", 64, C_W)).arrange(RIGHT, buff=0.25, aligned_edge=DOWN)
+        l2 = VGroup(T_("Which group are", 52, C_DIM), T_("we counting?", 52, C_W)).arrange(DOWN, buff=0.12,
+                                                                                            aligned_edge=LEFT)
         sub = Text("conditioning · Bayes · expectation", font=SANS, font_size=28, color=C_DIM)
         left = VGroup(kicker, l1, l2, sub).arrange(DOWN, buff=0.3, aligned_edge=LEFT)
         left.to_corner(UL, buff=0.55).shift(DOWN * 0.3)

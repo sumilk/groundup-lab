@@ -116,7 +116,8 @@ def stitch(q):
         "Probability 0 — Probability foundations from finite events",
         "",
         "A detector flags a model as contaminated. It catches 95% of contaminated models, so how likely is it that "
-        "this one is contaminated? About 33%. This lesson builds the ideas that explain why, from the ground up: "
+        "this one is contaminated? Make a guess before you press play. This lesson builds the ideas that answer it, "
+        "from the ground up: "
         "sample spaces and events, probability as one unit of mass, conditioning as shrinking the world, Bayes' rule, "
         "the three-door puzzle, counting, independence, random variables, expectation and indicators, and what a "
         "simulation can and can't tell you, ending with where each idea decides results in machine learning.",
@@ -131,6 +132,8 @@ def stitch(q):
         "",
         "Chapters",
         *[f"{ts(a, srt=False)} {b}" for a, b in chapters],
+        "",
+        "Narration uses a locally generated neural voice. Captions included.",
         "",
         "#probability #statistics #machinelearning",
     ]
