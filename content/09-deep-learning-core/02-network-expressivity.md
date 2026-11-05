@@ -67,6 +67,18 @@ Check these before starting. Each comes with a short repair.
 | Core | Sections 1–3, 5–6, the skyline/tower/ridge examples and theorem statement in Section 7, Sections 8–9, and the coding labs | Foundation/Core practice in these sections, Python A–F, paper A1/A2/A4/A7/A9/A10, and K1–K6 |
 | Mathematical extension | Section 4, the optional interpolation and Bernstein/polarization proofs in Section 7, polynomial-activation failure, and Sections 10–11 | Section 4/10/11 practice, A6/A11/A12, M2, and reconstruction of the extension proofs with their assumptions |
 
+**Essential practice: the default sequence.** Start here, inside the core route. Each step opens with a diagnostic item. If you solve it unaided and every count or check comes out right, move on. If you stall or a check fails, work that step's repair items before moving on. After step 5, take the checkpoint K1–K6, then fill any gap it exposes from the full core route above.
+
+| Step | Diagnostic item | If it was hard, also do |
+|---|---|---|
+| 1. Count conventions | Section 1 Foundation (depths, connections, strictly layered?) | Section 1 Core (pass-through units), Lab C |
+| 2. Parity comparison | A4 (DNF, counting and tree at n=10) | Section 3 Foundation and Core, Section 2 Foundation, Lab B |
+| 3. Information loss | Section 9 Foundation (a null direction), then A10 (two missing lines) | Section 5 Foundation (cell counts), Section 9 Core, Lab E |
+| 4. Approximation guarantee | Section 7 Core (ReLU interpolation for xy at error 0.005) | Section 7 Foundation, Section 6 Core, Lab F |
+| 5. Depth separation | Section 8 Core (64 hidden units: the largest k not ruled out) | Section 8 Foundation, re-derive Lemmas 2 and 3 of Section 8 |
+
+For quick lookup of any construction or bound, use the table at the start of Section 18.
+
 **Study time.** The existing 28-hour estimate is a planning allowance for the chapter and selected extensions, not a measured completion time. On the first pass, allocate roughly one quarter to Boolean constructions, one quarter to geometry and bottlenecks, one quarter to approximation and depth, and one quarter to implementation and checks. Full proof reconstruction and optional local experiments may take longer. Historical research boxes and Stretch work outside the checkpoint are optional. Attempt the prompts before opening their static solutions.
 
 **How to use the help on this page.** The **?** buttons open notes anchored to the passage. You can use them as private written notes, or connect an optional LLM tutor for hints and feedback. All required explanations and reference solutions are available without a model connection.
@@ -294,7 +306,7 @@ This chapter proves one restricted lower bound (Section 2) and one counting boun
 
 For circuits of AND, OR and NOT gates with unbounded fan-in, depth is a real constraint. Håstad (1986) proved that a depth-L circuit of this kind computing n-bit parity needs \(2^{\Omega(n^{1/(L-1)})}\) gates, and constructions of size \(2^{O(n^{1/(L-1)})}\) exist. At L=2 this agrees with the exact DNF count of Section 2. In complexity-theory notation, parity is not in AC⁰, the class of polynomial-size constant-depth circuits of this kind. The proof uses random restrictions and the switching lemma (Arora and Barak, *Computational Complexity*, ch. 14).
 
-None of this transfers to threshold networks, because the counting network of Section 3 computes parity in depth 2 with n+1 units. For threshold circuits even depth two is poorly understood. The best lower bounds known for explicit functions in depth-two threshold circuits are only slightly superlinear (Kane and Williams, 2016), and whether every function in the class NEXP has polynomial-size depth-two threshold circuits is an open problem.
+None of this transfers to threshold networks, because the counting network of Section 3 computes parity in depth 2 with n+1 units. For threshold circuits even depth two is poorly understood. Kane and Williams (2016) proved gate lower bounds of about \(n^{3/2}\) for depth-two threshold circuits computing an explicit function in P. For the larger class E^NP, which allows exponential time with an NP oracle, Chen, Tal and Wang (ECCC preprint, March 2026; STOC 2026) raised the gate lower bound to \(n^{2.5-\varepsilon}\) for every ε>0, from the sub-quadratic bounds known before. These are polynomial bounds, and whether every function in the class NEXP has polynomial-size depth-two threshold circuits is still an open problem (as of late 2026).
 
 </details>
 
@@ -799,7 +811,7 @@ Stretch: a staircase is constant on each of at most m+1 intervals. g−½ must c
 
 **A worked example.** Let d=2, m=1 and target ‖x‖² on [−1,1]². Choose v of length 1 in the null space of the 1×2 matrix W⁽¹⁾; both its coordinates lie in [−1,1], so v is in the window. The network gives 0 and v the same value, while the target gives them 0 and 1. One of the two is wrong by at least ½, for every depth and width after the first layer and for every activation.
 
-**Threshold layers quantize.** A cut of m threshold units has at most 2ᵐ codes, so any function computed after it takes at most 2ᵐ values. To approximate f(x)=x on [0,1] within ε, every x must lie within ε of one of the q≤2ᵐ values, and the q intervals of length 2ε must cover [0,1], so 2εq≥1. Thus 2ᵐ≥1/(2ε). For ε=0.001 that means m≥9, since 2⁹=512≥500 and 2⁸=256<500. A single ReLU unit computes x exactly on [0,1]. On ℝᵈ the first layer is even more limited: by the cell-counting theorem, m threshold units give at most Φ(m,d) codes on their cells, which is 137 for m=16 lines in the plane, against 2¹⁶=65,536 possible codes.
+**Threshold layers quantize.** A cut of m threshold units has at most 2ᵐ codes, so any function computed after it takes at most 2ᵐ values. To approximate f(x)=x on [0,1] within ε, every x must lie within ε of one of the q≤2ᵐ values, and the q intervals of length 2ε must cover [0,1], so 2εq≥1. Thus 2ᵐ≥1/(2ε). For ε=0.001 that means m≥9, since 2⁹=512≥500 and 2⁸=256<500. This is a necessary condition on any cut; the Core practice below shows that a cut deeper in the network can attain it. A single ReLU unit computes x exactly on [0,1]. A first layer is more limited than a cut elsewhere, because its codes are fixed by the cells of its hyperplanes: by the cell-counting theorem, m threshold units give at most Φ(m,d) codes on their cells. On a scalar input that is Φ(m,1)=m+1, since m thresholds cut a line into at most m+1 intervals. In the plane it is 137 for m=16 lines, against 2¹⁶=65,536 possible codes.
 
 **Graded layers pass information on.** A ReLU layer can be the identity on a bounded window. If every coordinate of x is at least −c on the window, then ReLU(x+c·𝟏)=x+c·𝟏 there, and the next layer subtracts c·𝟏. So a ReLU network of width d can add layers without losing anything about x. Threshold layers cannot: each one rounds its inputs to 0 or 1. Sigmoid and tanh are graded as well: they are nearly affine near 0. For z≠0, sigmoid(kz) approaches θ(z), while tanh(kz) approaches −1 or +1 according to the sign of z. The normalized expression [1+tanh(kz)]/2 approaches θ(z). These are pointwise limits away from zero, not uniform approximation across the jump; at z=0 the sigmoid and normalized tanh remain ½.
 
@@ -820,9 +832,9 @@ Hanin and Sellke (2017) proved that ReLU networks whose hidden layers all have w
 >
 > **Hint:** Solve W⁽¹⁾v=0. Try v=(a,b,c) with a+c=0 and b−c=0.
 
-> **Practice — Core:** Find the smallest number m of threshold units in a cut that allows f(x)=x² to be approximated within 0.01 on [0,1]. Explain why the answer is the same as for f(x)=x.
+> **Practice — Core:** (a) Use the covering argument to find the lower bound it gives on the number m of threshold units in a cut through which f(x)=x² is approximated within 0.01 on [0,1], and explain why the bound is the same as for f(x)=x. (b) Show that the bound is attained: build a network on scalar input x whose cut has exactly that many threshold units. (c) If the cut must be the first layer, reading x directly, how many threshold units are needed?
 >
-> **Hint:** x² takes every value in [0,1] on [0,1], so the covering argument applies to its values.
+> **Hint:** x² takes every value in [0,1] on [0,1], so the covering argument applies to its values. For (b), let a wide first layer sort x into intervals, and let the cut write the interval's index in binary. For (c), m thresholds cut a line into at most m+1 intervals.
 
 > **Practice — Stretch:** Prove that a ReLU network of width 1, at any depth, computes a monotone function on ℝ. Use this to show that it cannot approximate the tent t within ¼ on [0,1].
 >
@@ -833,7 +845,11 @@ Hanin and Sellke (2017) proved that ReLU networks whose hidden layers all have w
 
 Foundation: a+c=0 and b−c=0 give v=(−1,1,1), up to scale. Check: (1,0,1)·v=0 and (0,1,−1)·v=0.
 
-Core: the covering argument needs 2ᵐ·2ε≥1 with ε=0.01, so 2ᵐ≥50 and m≥6, since 2⁶=64. It depends only on the set of values to be produced, which is [0,1] in both cases.
+Core: (a) The covering argument needs 2ᵐ·2ε≥1 with ε=0.01, so 2ᵐ≥50 and m≥6, since 2⁵=32<50≤64=2⁶. It depends only on the set of values to be produced, which is [0,1] in both cases. So far this is only a necessary condition.
+
+(b) Six units suffice, so 6 is the smallest cut. Split [0,1] into the 50 pieces on which x² lies in [0.02k, 0.02(k+1)), for k=0, …, 49; at x=1, take k=49. A first layer of 49 units \(t_i=\theta(x-\sqrt{0.02\,i})\), i=1, …, 49, fires exactly t₁, …, \(t_k\) on piece k. The cut has 6 units b₀, …, b₅, where \(b_j\) is the j-th binary digit of k. As k increases by 1, that digit changes by \(c_i=\mathrm{bit}_j(i)-\mathrm{bit}_j(i-1)\in\{-1,0,1\}\), so \(\sum_i c_i t_i\) telescopes to \(\mathrm{bit}_j(k)\in\{0,1\}\), and \(b_j=\theta\big(\sum_i c_i t_i-\tfrac12\big)\). Every path to the output passes through these 6 units. A summing output \(0.02\sum_j 2^j b_j+0.01=0.02k+0.01\) is the midpoint of piece k's values, so it is within 0.01 of x² on all of [0,1].
+
+(c) A first layer on a scalar input has at most m+1 codes, one per interval, so the network takes at most m+1 values: m+1≥50 and m≥49. The 49-unit layer of (b) attains it with the summing output \(0.02\sum_i t_i+0.01\). The 2ᵐ count bounds the codes a cut could carry; a first layer reading one number reaches only m+1 of them.
 
 Stretch: a width-1 network on ℝ is a composition of maps x↦ReLU(ax+b) and a final affine map. Each map is monotone, and a composition of monotone maps is monotone. A monotone g with |g−t|<¼ at 0, ½ and 1 would need g(0)<¼, g(½)>¾ and g(1)<¼, which is impossible.
 
@@ -1055,6 +1071,32 @@ These run locally with NumPy. Use fixed seeds and report the numbers you measure
 
 ## 18. Derivations to own
 
+### Results at a glance
+
+One row per result, for lookup after a first reading. Counts are for n Boolean inputs unless stated; the section number leads to the proof.
+
+| Result | Network assumptions | Construction and count | Guarantee | Limitation |
+|---|---|---|---|---|
+| DNF network (§2) | Boolean inputs; one hidden layer of AND units on literals, OR output | One AND per term of a minimum cover by prime implicants | Exact for every Boolean function | Parity needs 2ⁿ⁻¹ hidden ANDs; this lower bound holds only for AND–OR networks |
+| Counting parity (§3) | Threshold units, depth 2 | n "at least k" units and an alternating-sum output: n+1 units, n²+n connections, dense (n+1)² | Exact | Connections grow like n²; not proved optimal |
+| XOR-tree parity (§3) | Three-unit XOR blocks, pairing rule | 3(n−1) units, 6(n−1) connections, depth 2⌈log₂ n⌉; two-unit blocks: 2(n−1) units with skips | Exact | Deeper; the layered version adds pass-through units and many stored zeros |
+| Shannon's count (§4) | Fan-in-2 circuits with s gates, n≥5 | At most (n+s)[16(n+s)²]ˢ circuits | Almost every function needs more than 2ⁿ/(4n) gates | Names no hard function |
+| Cell count (§5) | N first-layer hyperplanes in ℝᵈ | At most Φ(N,d) cells | At most Φ(N,d) first-layer codes; the boundary lies on first-layer hyperplanes | Equality needs general position; the boundary result needs only the first layer to read the input |
+| Checkerboard (§5) | Threshold units; only the first layer reads the input | 8+8 board: at least 18 units, 19 if strictly layered, both attained | Exact needs two hidden layers (crossing obstruction) | The obstruction concerns exactness, not disagreement area |
+| Polygon networks (§6) | One hidden layer of threshold units; a disc in a bounded window | N edge units and 1 output | Circumscribed N-gon: disagreement area N tan(π/N)−π≈π³/(3N²) for the unit disc, times ρ² for radius ρ | Never exact for a disc; units grow like ε^(−1/2) |
+| Irreducible error (§6) | A cut of threshold units with finitely many codes | Majority label per code, two more threshold layers | Smallest disagreement area Σ min(A¹, A⁰) over codes, attained | Nothing after the cut can lower it |
+| Skyline and towers (§7) | Threshold units, summing output | 1-D: K+1 units, error ≤λΔ/2. Towers on [0,1]ᵈ: d(K−1) grid and Kᵈ plot units, two hidden layers | Uniform error ε on the box | Unit count exponential in d |
+| Ridges with skylines (§7) | One hidden layer of threshold units | xy=g(x+y)−g(x−y): 2(K+1) units | Error ≤4/K on [−1,1]² | First-order rate in 1/K |
+| Ridges with ReLU interpolation (§7) | One hidden layer of ReLU units | xy: 2K units | Error ≤2/K² on [−1,1]² | Needs a bounded second derivative; sampled error is not the guarantee |
+| Universal approximation (§7) | One hidden layer, threshold or ReLU; f continuous on a box | Existence only | Uniform error within any ε on the box | No size bound independent of f; nothing about learning or generalization; fails for polynomial activations and outside the box |
+| Sawtooth separation (§8) | ReLU units, scalar input | Deep: 2k units in k layers, exact. Shallow: needs m≥2ᵏ−1 for uniform error <½. L layers of width m: at most (m+1)ᴸ pieces | Exponential gap in units between depth k and depth 2 | Lower bound only; at error ≤½ the constant ½ needs no units |
+| Narrow first layer (§9) | First layer width m<d, any activation, every path through it | A null direction v of W⁽¹⁾ | The network is constant along v | Depth and later width cannot repair it |
+| Threshold cut (§9) | A cut of m threshold units | At most 2ᵐ values; a first layer on a scalar input gives at most m+1 | Approximating x within ε needs 2ᵐ≥1/(2ε), and this is attainable | ReLU layers can pass x through unchanged |
+| ΠΣ versus ΣΠ (§10) | Arithmetic circuits | f_k: k+1 units factored, at least 2ᵏ product units expanded | Exponential gap between the two shapes | Depth bounds depend on the allowed fan-in |
+| Architecture capacity (§11) | Fixed threshold architecture with W parameters | At most (M+1)ᵂ labellings of M points; one unit has VC dimension d+1 | Representing every n-input Boolean function needs W>2ⁿ/(n+1) | Counts labellings, not which functions training finds |
+
+### Rebuild without notes
+
 Rebuild each of these without notes, including the assumptions, and know a case where the result fails when an assumption is dropped.
 1. **One unit, r literals.** Derive the weights and bias of "at least r literals true". It fails as a single unit for "exactly r", which needs two thresholds.
 2. **Parity has no DNF shortcut.** Every implicant of parity names all inputs, so a DNF needs 2ⁿ⁻¹ terms. It fails for counting threshold units, which use n+1.
@@ -1087,7 +1129,7 @@ Rebuild each of these without notes, including the assumptions, and know a case 
 
 **K4 · Core · gate — debug two size claims.** A student's counting network for 5-bit parity uses the output \(\theta\big(\sum_k(-1)^{k+1}c_k\big)\), with bias 0, and the student reports its depth as 1 "because it has one hidden layer". Find on how many of the 32 inputs the network is wrong, correct the bias, and correct the depth.
 
-**K5 · Core · gate — critique an experiment.** A student reports: "A 9-unit polygon network scores 98.9% on a 150×150 grid for the disc of radius 1.5, so it represents the disc. Universal approximation then shows that one hidden layer represents every shape exactly, so depth is never needed, and gradient descent will find these weights." Identify the separate claims, state what the chapter supports for each, and give a precise disagreement-area statement for the 9-unit network.
+**K5 · Core · gate — critique an experiment.** A student reports: "A 9-unit polygon network, the regular octagon circumscribed about the disc of radius 1.5 centred at the origin, scores 98.9% on a 150×150 grid over the window [−3,3]², so it represents the disc. Universal approximation then shows that one hidden layer represents every shape exactly, so depth is never needed, and gradient descent will find these weights." Identify the separate claims, state what the chapter supports for each, and give a precise disagreement-area statement for the 9-unit network.
 
 **K6 · Stretch · gate — a lower bound is not a construction.** Rebuild the crossing argument for a one-hidden-layer ReLU approximation to \(t^{\circ 5}\) with uniform error strictly below ½. State the resulting lower bound on hidden units. What does it say about widths 30 and 31? Give an exact deep construction and an exact shallow interpolation construction from the chapter, with their hidden-unit counts. Does the lower bound establish the optimum at 31? Finally explain why the constant output ½ defeats every such lower-bound claim if error at most ½ is permitted.
 
@@ -1111,6 +1153,8 @@ The chapter's arguments are self-contained. These sources show where they come f
 - Shannon, C. E. (1949). The synthesis of two-terminal switching circuits. *Bell System Technical Journal*, 28, 59–98. Section e, "A lower limit for λ(n) with large n", is the counting argument of Section 4, made for relay networks.
 - Sarma, J. M. N. (2012). Size and depth complexity of Boolean circuits, CS6840 lecture notes, IIT Madras. A short proof of Shannon's bound for fan-in-2 gates, and Lupanov's matching construction.
 - Håstad, J. (1986). Almost optimal lower bounds for small depth circuits. *STOC*. The depth lower bound for parity in AND/OR circuits.
+- Kane, D. M., & Williams, R. (2016). Super-linear gate and super-quadratic wire lower bounds for depth-two and depth-three threshold circuits. *STOC*.
+- Chen, L., Tal, A., & Wang, Y. (2026). Superquadratic lower bounds for depth-2 linear threshold circuits. ECCC TR26-039 (March 2026); *STOC 2026*. The \(n^{2.5-\varepsilon}\) gate bound for a function in E^NP.
 - Leshno, M., Lin, V. Ya., Pinkus, A., & Schocken, S. (1993). Multilayer feedforward networks with a nonpolynomial activation function can approximate any function. *Neural Networks*, 6, 861–867. The general one-hidden-layer theorem.
 - Telgarsky, M. (2016). Benefits of depth in neural networks. *COLT*. The sawtooth separation, in average error.
 - Hanin, B., & Sellke, M. (2017). Approximating continuous functions by ReLU nets of minimal width. arXiv:1710.11278.

@@ -42,7 +42,19 @@ Check these before starting. Each comes with a short repair.
 
 **Prerequisites by route.** The main route requires signed arithmetic, inequalities, sums, and functions from [mathematical language](../00-foundations/00-mathematical-language.md). A line is the set of points satisfying ax₁+bx₂+c=0; replacing equality with ≥ selects one side. No probability, calculus, or eigendecomposition is required for the main route. For the Python tasks, first practise functions, loops, lists, and exceptions using [Python](../01-python/01-python-memory-iteration.md); robust input validation is a programming objective alongside the neural-network mathematics. NumPy and PyTorch exercises are optional local extensions; use [tensors and autograd](../08-pytorch/01-tensors-autograd-training.md) before the PyTorch exercises. The spectral extension in Section 4 lists its additional prerequisites there.
 
-**Suggested study route (20 hours including practice).** Spend about 3 hours on Sections 0–3 and gates, 4 on scalar Hebb and perceptron learning, 4 on Boolean and geometric networks, 3 on skyline approximation, and 6 on implementations and the checkpoint. These are planning estimates, not a speed target. Historical details, the spectral extension, Section 8's cylinder derivation, and NumPy/PyTorch work are optional deeper routes and may take additional time. Required practice is Foundation/Core in Sections 4–7 and 9, the Foundation gates in Section 2, Python labs A/B/D/E/F, paper A1/A2/A4/A10, and K1–K6. Historical Section 1 practice, Section 3 practice, heat/cold timing, and all Stretch prompts outside the checkpoint are enrichment. Static solution sketches follow section practice; attempt each prompt before revealing them.
+**Suggested study route (20 hours including practice).** Spend about 3 hours on Sections 0–3 and gates, 4 on scalar Hebb and perceptron learning, 4 on Boolean and geometric networks, 3 on skyline approximation, and 6 on implementations and the checkpoint. These are planning estimates, not a speed target. Historical details, the spectral extension, Section 8's cylinder derivation, and NumPy/PyTorch work are optional deeper routes and may take additional time. Static solution sketches follow section practice; attempt each prompt before revealing them.
+
+**Essential practice: the default sequence.** Start here. The sequence follows the chapter's main thread in five steps. Each step opens with a diagnostic item. If you solve it unaided and every check comes out right, move on. If you stall or a check fails, work that step's repair items before moving on. After step 5, take the checkpoint K1–K6.
+
+| Step | Diagnostic item | If it was hard, also do |
+|---|---|---|
+| 1. Gates | Section 5 Foundation (NOR as one perceptron, all four rows) | Section 2 Foundation, Section 3 Foundation (NAND), Lab A |
+| 2. Perceptron trace | Section 5 Core (train AND by hand, epoch by epoch) | Re-trace the Section 5 OR example, then Lab D |
+| 3. XOR and DNF | A1 (XOR is not separable), then Section 6 Core (exactly one of three) | Section 6 Foundation, A2, Lab E |
+| 4. Polygon construction | Section 7 Core (the L-shape, with shared edges) | Section 7 Foundation, A4, A10, Lab B |
+| 5. Staircase error | Section 9 Core (x² with K blocks, error below 0.01) | Section 9 Foundation, Section 9 Stretch, Lab F |
+
+**The full core route.** For complete coverage, or when the checkpoint exposes a gap, the full required practice is Foundation/Core in Sections 4–7 and 9, the Foundation gates in Section 2, Python labs A/B/D/E/F, paper A1/A2/A4/A10, and K1–K6. Historical Section 1 practice, Section 3 practice, heat/cold timing, and all Stretch prompts outside the checkpoint are enrichment. For quick lookup of any result, use the table at the start of Section 16.
 
 **How to use the help on this page.** The **?** buttons open notes anchored to the passage. You can use them as private written notes, or connect an optional LLM tutor for hints and feedback. All required explanations and reference solutions are available without a model connection. The tutor sees the anchored passage, so include any other context it needs.
 
@@ -749,6 +761,25 @@ These run locally with NumPy. Use fixed seeds and report the numbers you measure
 **C2 · Stretch · PyTorch — a region network as tensors.** Write the natural edge–AND–OR network of A4 as three weight matrices and three bias vectors. Give every shape, evaluate a batch of one million random points in [−3,3]², and check against direct Python evaluation on 1,000 of them plus points on each edge and vertex. Report time per point and agreement; distinguish a sampled check from proof of exact equivalence.
 
 ## 16. Derivations to own
+
+### Results at a glance
+
+One row per result, for lookup after a first reading. The section number leads to the derivation.
+
+| Result | Network assumptions | Construction and count | Guarantee | Limitation |
+|---|---|---|---|---|
+| Gates (§2, §5) | One threshold unit on Boolean inputs | Weight +1 on inputs that must be on, −1 on inputs that must be off; threshold = number that must be on. "At least r of N" is one unit | Exact AND, OR, NOT, NAND, NOR, at-least-r | One unit draws one hyperplane, so no XOR or XNOR |
+| XOR is not separable (§5, A1) | One threshold unit | Four inequalities give a contradiction | No single unit computes XOR | Fails if x₁x₂ is supplied as an extra input |
+| Perceptron rule (§5) | One unit, labelled data, fixed η>0, repeated presentation | w←w+η(d−y)x, b←b+η(d−y) | Finitely many mistakes when the classes are separable with a positive margin (proof in NN03) | No clean epoch on non-separable data; trains no hidden layer |
+| XOR network (§6) | Threshold units, Boolean inputs | OR and NAND, then AND: 3 units | Exact on all four rows | Needs a hidden layer |
+| DNF network (§6) | One hidden layer of AND units, OR output | One AND per true row; at most 2ᴺ⁻¹ hidden units when the complement is built instead | Exact for every Boolean function | Upper bound only, possibly exponential; parity needs only N+1 counting units |
+| Convex polygon (§7) | Threshold units on ℝ² | K edge units and 1 AND output: K+1 units, 2 layers | Exact, including the closed boundary | One AND gives only convex regions |
+| Union of polygons (§7) | Edge–AND–OR, three layers of threshold units | One edge unit per distinct edge (shared edges once), one AND per convex piece, one OR | Exact for finite unions of closed polygons | Curved boundaries only approximated: the circumscribed N-gon has disagreement area N tan(π/N)−π with the unit disc, in a bounded window |
+| Hebbian growth (§4) | Scalar linear unit, x=1 | wₙ=w₀(1+η)ⁿ | Describes the growth exactly | Grows without bound |
+| Oja's rule (§4) | Scalar linear unit, x=1 | Update ηw(1−w²) | Settles at w=±1 for a small enough step | Overshoots for large η; uses no teacher |
+| Staircase (§9) | One real input, threshold hidden units, summing output | K blocks as K+1 units (2K as separate pulses), plus the endpoint term | Error at most LΔ/2 on [a,b] for L-Lipschitz f; any ε>0 for continuous f | Only on a bounded closed interval; continuity alone gives no rate; a d-dimensional grid uses O((1/ε)ᵈ) cells |
+
+### Rebuild without notes
 
 Rebuild each of these without notes, including the assumptions, and know a case where the result fails when an assumption is dropped.
 1. **A single perceptron cannot compute XOR.** Four inequalities and a contradiction. The result fails if the unit has an extra input x₁x₂, which makes XOR separable.
