@@ -191,7 +191,7 @@
       <p class="role">${esc(AUTHOR.role)}</p>
       <p>GroundUp Lab is written, illustrated and engineered by ${esc(AUTHOR.name)}. It started as a personal route to research-engineer fluency in machine learning, the long way round: proving the linear algebra, deriving the estimators and implementing every algorithm before trusting a library with it. It is now published so others can take the same path.</p>
       <p>Every lesson, exercise, figure and lab on this site is original work unless credited otherwise.</p>
-      <div class="cta-row"><a class="btn btn-primary" href="${AUTHOR.linkedin}" target="_blank" rel="noopener">LinkedIn</a><a class="btn btn-ghost" href="${AUTHOR.github}" target="_blank" rel="noopener">GitHub · ${esc(AUTHOR.handle)}</a><a class="btn btn-ghost" href="#legal">Copyright &amp; permissions</a><a class="btn btn-ghost" data-feedback href="${AUTHOR.linkedin}" target="_blank" rel="noopener">Share feedback</a></div>
+      <div class="cta-row"><a class="btn btn-primary" href="${AUTHOR.linkedin}" target="_blank" rel="noopener">LinkedIn</a><a class="btn btn-ghost" href="${AUTHOR.github}" target="_blank" rel="noopener">GitHub · ${esc(AUTHOR.handle)}</a><a class="btn btn-ghost" href="#legal">Copyright &amp; license</a><a class="btn btn-ghost" data-feedback href="${AUTHOR.linkedin}" target="_blank" rel="noopener">Share feedback</a></div>
     </div>
   </div>
 </section>`;
@@ -293,10 +293,10 @@
   function legalPage() {
     return `<section class="page-narrow legal">
   <nav class="crumbs" aria-label="Breadcrumb"><a href="#home">Home</a> / <span>Legal</span></nav>
-  <h1 id="landing-legal">Copyright &amp; permissions</h1>
-  <p><strong>Copyright © 2026 ${esc(AUTHOR.name)}. All rights reserved.</strong></p>
+  <h1 id="landing-legal">Copyright &amp; license</h1>
+  <p><strong>Copyright © 2026 ${esc(AUTHOR.name)}. Released under the MIT License.</strong></p>
   <p>GroundUp Lab is an educational project developed and curated by ${esc(AUTHOR.name)}, including its original lesson text, exercises, illustrations, interactive figures and project-specific software, subject to any applicable third-party rights.</p>
-  <p><strong>No general reuse licence is granted.</strong> You are welcome to read and study the material on this site for personal learning. Unless a separate licence applies, permission is required to reproduce, redistribute, modify, or incorporate the original GroundUp Lab materials or code into another project or course. To ask for permission, contact the author on <a href="${AUTHOR.linkedin}" target="_blank" rel="noopener">LinkedIn</a> or <a href="${AUTHOR.github}" target="_blank" rel="noopener">GitHub (${esc(AUTHOR.handle)})</a>.</p>
+  <p>You may use, copy, modify, merge, publish, distribute, sublicense and/or sell copies of the original GroundUp Lab materials and code, provided the copyright notice and the <a href="${AUTHOR.github}/groundup-lab/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a> text are included in all copies or substantial portions. Questions or suggestions are welcome on <a href="${AUTHOR.github}" target="_blank" rel="noopener">GitHub (${esc(AUTHOR.handle)})</a>.</p>
   <h2>Third-party materials</h2>
   <p>University course names, lecture references, research papers, external libraries (including Marked, DOMPurify, KaTeX, Mermaid and Pyodide), fonts, datasets and other third-party material remain the property of their respective rights holders and are governed by their own licences and terms. No ownership is claimed over them.</p>
   <h2>AI assistance</h2>

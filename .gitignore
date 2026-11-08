@@ -48,3 +48,8 @@ next-env.d.ts
 /.codex/
 /outputs/
 /work/
+
+# local virtualenvs and agent tool state
+.venv/
+venv/
+.claude/
