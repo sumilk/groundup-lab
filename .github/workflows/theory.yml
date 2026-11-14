@@ -26,6 +26,10 @@ jobs:
         run: node scripts/check-theory.mjs
       - name: Check lab reference behavior
         run: python -m labs.checks --reference
+      - name: Check lab import compatibility
+        run: python scripts/check_lab_exports.py
+      - name: Check lab registry handling
+        run: python scripts/check_lab_registry.py
       - name: Check browser lab harness
         run: python scripts/check_browser_labs.py
       - name: Check private hosting boundary

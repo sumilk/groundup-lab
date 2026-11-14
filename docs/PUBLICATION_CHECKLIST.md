@@ -19,6 +19,8 @@ This checklist is for preparing a **future** public release; adding this file do
 - [ ] Run `node scripts/build-theory.mjs`
 - [ ] Run `node scripts/check-theory.mjs`
 - [ ] Run `python -m labs.checks --reference`
+- [ ] Run `python scripts/check_lab_exports.py`
+- [ ] Run `python scripts/check_lab_registry.py`
 - [ ] Run `python scripts/check_browser_labs.py`
 - [ ] Run `node scripts/check-worker.mjs`
 - [ ] Test browser experience, mobile layout, Pyodide execution, accessibility, notes storage and authentication.

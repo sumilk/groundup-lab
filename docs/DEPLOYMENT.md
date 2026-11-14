@@ -50,6 +50,8 @@ Run:
 node scripts/build-theory.mjs
 node scripts/check-theory.mjs
 python -m labs.checks --reference
+python scripts/check_lab_exports.py
+python scripts/check_lab_registry.py
 python scripts/check_browser_labs.py
 node scripts/check-worker.mjs
 python -m http.server 8000 --directory public

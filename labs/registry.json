@@ -1,0 +1,745 @@
+[
+  {
+    "task": "pinv-via-svd",
+    "lesson": "02-linear-algebra/10-pseudoinverse-regularization.md",
+    "title": "Reverse the channels you trust",
+    "function": "pinv_via_svd",
+    "check": "pinv_via_svd",
+    "supportFunctions": [
+      "_validated_compact_svd",
+      "_validated_tolerance"
+    ]
+  },
+  {
+    "task": "ridge-solve",
+    "lesson": "02-linear-algebra/10-pseudoinverse-regularization.md",
+    "title": "Damp every channel with the ridge filter",
+    "function": "ridge_solve",
+    "check": "ridge_solve",
+    "supportFunctions": [
+      "_validated_compact_svd",
+      "_validated_tolerance",
+      "_validated_rhs"
+    ]
+  },
+  {
+    "task": "min-norm-solution",
+    "lesson": "02-linear-algebra/10-pseudoinverse-regularization.md",
+    "title": "Solve without forming the pseudoinverse",
+    "function": "min_norm_solution",
+    "check": "min_norm_solution",
+    "supportFunctions": [
+      "_validated_compact_svd",
+      "_validated_tolerance",
+      "_validated_rhs"
+    ]
+  },
+  {
+    "task": "matrix-norms",
+    "lesson": "02-linear-algebra/09-norms-conditioning-stability.md",
+    "title": "Measure induced matrix norms",
+    "function": "matrix_norm_1_inf",
+    "check": "matrix_norms",
+    "supportFunctions": [
+      "_validated_matrix"
+    ]
+  },
+  {
+    "task": "condition-estimate",
+    "lesson": "02-linear-algebra/09-norms-conditioning-stability.md",
+    "title": "Estimate forward and inverse amplification",
+    "function": "condition_estimate",
+    "check": "condition_estimate",
+    "supportFunctions": [
+      "_validated_matrix",
+      "_conditioning_factor",
+      "_conditioning_solve"
+    ]
+  },
+  {
+    "task": "cancellation-demo",
+    "lesson": "02-linear-algebra/09-norms-conditioning-stability.md",
+    "title": "Separate cancellation from conditioning",
+    "function": "cancellation_demo",
+    "check": "cancellation_demo",
+    "supportFunctions": []
+  },
+  {
+    "task": "svd-2x2",
+    "lesson": "02-linear-algebra/08-svd-low-rank.md",
+    "title": "Build paired singular directions",
+    "function": "svd_2x2",
+    "check": "svd_2x2",
+    "supportFunctions": [
+      "_validated_matrix"
+    ]
+  },
+  {
+    "task": "truncate-rank",
+    "lesson": "02-linear-algebra/08-svd-low-rank.md",
+    "title": "Spend a rank budget",
+    "function": "truncate_rank",
+    "check": "truncate_rank",
+    "supportFunctions": [
+      "_validated_matrix",
+      "_validated_singular_values",
+      "_validated_svd_factors"
+    ]
+  },
+  {
+    "task": "explained-variance",
+    "lesson": "02-linear-algebra/08-svd-low-rank.md",
+    "title": "Account for squared variation",
+    "function": "explained_variance",
+    "check": "explained_variance",
+    "supportFunctions": [
+      "_validated_singular_values"
+    ]
+  },
+  {
+    "task": "rayleigh-quotient",
+    "lesson": "02-linear-algebra/07-spectral-theorem-quadratic-forms.md",
+    "title": "A directional Rayleigh meter",
+    "function": "rayleigh_quotient",
+    "check": "rayleigh_quotient",
+    "supportFunctions": [
+      "_validated_matrix",
+      "_validated_vector"
+    ]
+  },
+  {
+    "task": "cholesky",
+    "lesson": "02-linear-algebra/07-spectral-theorem-quadratic-forms.md",
+    "title": "Build a positive-definiteness certificate",
+    "function": "cholesky",
+    "check": "cholesky",
+    "supportFunctions": [
+      "_validated_matrix",
+      "_validated_symmetric"
+    ]
+  },
+  {
+    "task": "is-pd",
+    "lesson": "02-linear-algebra/07-spectral-theorem-quadratic-forms.md",
+    "title": "Audit the scope of a PD verdict",
+    "function": "is_pd",
+    "check": "is_pd",
+    "supportFunctions": [
+      "_validated_matrix",
+      "_validated_symmetric"
+    ]
+  },
+  {
+    "task": "power-iteration",
+    "lesson": "02-linear-algebra/06-eigenvalues-diagonalization.md",
+    "title": "Power iteration with an honest convergence report",
+    "function": "power_iteration",
+    "check": "power_iteration",
+    "supportFunctions": [
+      "_validated_matrix",
+      "_validated_vector"
+    ]
+  },
+  {
+    "task": "char-poly-2x2",
+    "lesson": "02-linear-algebra/06-eigenvalues-diagonalization.md",
+    "title": "Characteristic polynomial: keep the sign convention",
+    "function": "char_poly_2x2",
+    "check": "char_poly_2x2",
+    "supportFunctions": [
+      "_validated_matrix"
+    ]
+  },
+  {
+    "task": "diagonalizable-2x2",
+    "lesson": "02-linear-algebra/06-eigenvalues-diagonalization.md",
+    "title": "Exact real diagonalizability for integer matrices",
+    "function": "is_diagonalizable_2x2",
+    "check": "is_diagonalizable_2x2",
+    "supportFunctions": []
+  },
+  {
+    "task": "moments",
+    "lesson": "01-python/01-python-memory-iteration.md",
+    "title": "Streaming moments",
+    "function": "streaming_moments",
+    "check": "moments"
+  },
+  {
+    "task": "conditional",
+    "lesson": "05-probability-statistics/00-probability-foundations.md",
+    "title": "Exact conditional probability",
+    "function": "conditional_probability",
+    "check": "conditional"
+  },
+  {
+    "task": "categorical",
+    "lesson": "05-probability-statistics/01-random-variables-distributions.md",
+    "title": "Categorical inverse-CDF sampling",
+    "function": "sample_categorical",
+    "check": "categorical"
+  },
+  {
+    "task": "joint",
+    "lesson": "05-probability-statistics/02-joint-distributions-conditioning-covariance.md",
+    "title": "Joint marginals and covariance",
+    "function": "joint_marginals_covariance",
+    "check": "joint"
+  },
+  {
+    "task": "convolution",
+    "lesson": "05-probability-statistics/03-transformations-convolution-jacobians.md",
+    "title": "Discrete convolution",
+    "function": "discrete_convolution",
+    "check": "convolution"
+  },
+  {
+    "task": "gaussian",
+    "lesson": "05-probability-statistics/04-multivariate-gaussian-geometry.md",
+    "title": "Bivariate Gaussian conditioning",
+    "function": "condition_bivariate_gaussian",
+    "check": "gaussian"
+  },
+  {
+    "task": "monte-carlo",
+    "lesson": "05-probability-statistics/05-limit-theorems-monte-carlo.md",
+    "title": "Batch-means standard error",
+    "function": "batch_means_standard_error",
+    "check": "monte_carlo"
+  },
+  {
+    "task": "bernoulli-mle",
+    "lesson": "05-probability-statistics/06-estimation-likelihood-fisher.md",
+    "title": "Bernoulli maximum likelihood",
+    "function": "bernoulli_mle",
+    "check": "bernoulli_mle"
+  },
+  {
+    "task": "binomial-test",
+    "lesson": "05-probability-statistics/07-hypothesis-testing-confidence-power.md",
+    "title": "Exact binomial inference",
+    "function": "exact_binomial_test",
+    "check": "binomial_test"
+  },
+  {
+    "task": "bh-fdr",
+    "lesson": "05-probability-statistics/07-hypothesis-testing-confidence-power.md",
+    "title": "Benjamini–Hochberg correction",
+    "function": "benjamini_hochberg",
+    "check": "bh_fdr"
+  },
+  {
+    "task": "bootstrap",
+    "lesson": "05-probability-statistics/08-resampling-sequential-experimental-design.md",
+    "title": "Bootstrap mean interval",
+    "function": "bootstrap_mean_interval",
+    "check": "bootstrap"
+  },
+  {
+    "task": "permutation",
+    "lesson": "05-probability-statistics/08-resampling-sequential-experimental-design.md",
+    "title": "Exact paired permutation",
+    "function": "paired_permutation_test",
+    "check": "permutation"
+  },
+  {
+    "task": "e-process",
+    "lesson": "05-probability-statistics/08-resampling-sequential-experimental-design.md",
+    "title": "Bernoulli anytime evidence",
+    "function": "bernoulli_e_process",
+    "check": "e_process"
+  },
+  {
+    "task": "beta-update",
+    "lesson": "05-probability-statistics/09-bayesian-modeling-computation.md",
+    "title": "Beta–Bernoulli update",
+    "function": "beta_bernoulli_update",
+    "check": "beta_update"
+  },
+  {
+    "task": "importance",
+    "lesson": "05-probability-statistics/09-bayesian-modeling-computation.md",
+    "title": "Stable importance weighting",
+    "function": "self_normalized_importance",
+    "check": "importance"
+  },
+  {
+    "task": "metropolis",
+    "lesson": "05-probability-statistics/09-bayesian-modeling-computation.md",
+    "title": "Random-walk Metropolis",
+    "function": "random_walk_metropolis",
+    "check": "metropolis"
+  },
+  {
+    "task": "stratified",
+    "lesson": "05-probability-statistics/10-sampling-design-ml-evaluation.md",
+    "title": "Stratified finite-population mean",
+    "function": "stratified_mean_standard_error",
+    "check": "stratified"
+  },
+  {
+    "task": "horvitz-thompson",
+    "lesson": "05-probability-statistics/10-sampling-design-ml-evaluation.md",
+    "title": "Horvitz–Thompson weighting",
+    "function": "horvitz_thompson",
+    "check": "horvitz_thompson"
+  },
+  {
+    "task": "rejection",
+    "lesson": "05-probability-statistics/10-sampling-design-ml-evaluation.md",
+    "title": "Generic rejection sampler",
+    "function": "rejection_sample",
+    "check": "rejection"
+  },
+  {
+    "task": "simple-ols",
+    "lesson": "05-probability-statistics/11-exponential-families-regression-glms.md",
+    "title": "Simple OLS and slope uncertainty",
+    "function": "simple_ols",
+    "check": "simple_ols"
+  },
+  {
+    "task": "logistic-gradient",
+    "lesson": "05-probability-statistics/11-exponential-families-regression-glms.md",
+    "title": "Stable logistic loss and gradient",
+    "function": "logistic_loss_gradient",
+    "check": "logistic_gradient"
+  },
+  {
+    "task": "partial-pooling",
+    "lesson": "05-probability-statistics/11-exponential-families-regression-glms.md",
+    "title": "Normal-normal partial pooling",
+    "function": "partial_pooling_means",
+    "check": "partial_pooling"
+  },
+  {
+    "task": "projection",
+    "lesson": "05-probability-statistics/12-high-dimensional-probability.md",
+    "title": "Random projection distortion",
+    "function": "projection_distortion",
+    "check": "projection"
+  },
+  {
+    "task": "calibration",
+    "lesson": "05-probability-statistics/13-calibration-scoring-conformal.md",
+    "title": "Expected calibration error",
+    "function": "expected_calibration_error",
+    "check": "calibration"
+  },
+  {
+    "task": "conformal",
+    "lesson": "05-probability-statistics/13-calibration-scoring-conformal.md",
+    "title": "Split conformal threshold",
+    "function": "conformal_threshold",
+    "check": "conformal"
+  },
+  {
+    "task": "elbo-terms",
+    "lesson": "05-probability-statistics/14-latent-variables-elbo-gradient-estimators.md",
+    "title": "Gaussian ELBO terms",
+    "function": "gaussian_elbo_terms",
+    "check": "elbo_terms"
+  },
+  {
+    "task": "gumbel",
+    "lesson": "05-probability-statistics/14-latent-variables-elbo-gradient-estimators.md",
+    "title": "Gumbel-max categorical sampling",
+    "function": "gumbel_max_sample",
+    "check": "gumbel"
+  },
+  {
+    "task": "decoding",
+    "lesson": "05-probability-statistics/15-score-matching-diffusion-sampling.md",
+    "title": "Temperature and nucleus decoding",
+    "function": "decode_distribution",
+    "check": "decoding"
+  },
+  {
+    "task": "diffusion",
+    "lesson": "05-probability-statistics/15-score-matching-diffusion-sampling.md",
+    "title": "Forward diffusion schedule",
+    "function": "forward_diffusion_coefficients",
+    "check": "diffusion"
+  },
+  {
+    "task": "backdoor",
+    "lesson": "05-probability-statistics/16-causal-inference-missing-data.md",
+    "title": "Backdoor adjustment and Simpson reversal",
+    "function": "backdoor_adjustment",
+    "check": "backdoor"
+  },
+  {
+    "task": "ipw",
+    "lesson": "05-probability-statistics/16-causal-inference-missing-data.md",
+    "title": "Inverse probability weighting",
+    "function": "ipw_ate",
+    "check": "ipw"
+  },
+  {
+    "task": "iv-wald",
+    "lesson": "05-probability-statistics/16-causal-inference-missing-data.md",
+    "title": "Wald instrumental-variable estimator",
+    "function": "wald_iv_estimate",
+    "check": "iv_wald"
+  },
+  {
+    "task": "em-step",
+    "lesson": "05-probability-statistics/17-mixtures-em-graphical-models.md",
+    "title": "One EM step for a Gaussian mixture",
+    "function": "em_step_gaussian_mixture",
+    "check": "em_step"
+  },
+  {
+    "task": "hmm-forward",
+    "lesson": "05-probability-statistics/17-mixtures-em-graphical-models.md",
+    "title": "Scaled forward algorithm",
+    "function": "hmm_forward",
+    "check": "hmm_forward"
+  },
+  {
+    "task": "d-separation",
+    "lesson": "05-probability-statistics/17-mixtures-em-graphical-models.md",
+    "title": "Deciding d-separation",
+    "function": "d_separated",
+    "check": "d_separation"
+  },
+  {
+    "task": "dkw-band",
+    "lesson": "05-probability-statistics/18-order-statistics-empirical-processes-nonparametrics.md",
+    "title": "Empirical CDF with a DKW band",
+    "function": "ecdf_dkw_band",
+    "check": "dkw_band"
+  },
+  {
+    "task": "mann-whitney",
+    "lesson": "05-probability-statistics/18-order-statistics-empirical-processes-nonparametrics.md",
+    "title": "Mann-Whitney with tie correction",
+    "function": "mann_whitney_u",
+    "check": "mann_whitney"
+  },
+  {
+    "task": "kde",
+    "lesson": "05-probability-statistics/18-order-statistics-empirical-processes-nonparametrics.md",
+    "title": "Gaussian kernel density estimate",
+    "function": "gaussian_kde",
+    "check": "kde"
+  },
+  {
+    "task": "span",
+    "lesson": "02-linear-algebra/01-vectors-spaces-bases.md",
+    "title": "Membership in a span",
+    "function": "span_coordinates",
+    "check": "span",
+    "supportFunctions": [
+      "_validated_columns",
+      "_eliminate"
+    ]
+  },
+  {
+    "task": "dependence",
+    "lesson": "02-linear-algebra/01-vectors-spaces-bases.md",
+    "title": "Explicit dependency relation",
+    "function": "dependency_relation",
+    "check": "dependence",
+    "supportFunctions": [
+      "_validated_columns",
+      "_eliminate"
+    ]
+  },
+  {
+    "task": "echelon",
+    "lesson": "02-linear-algebra/02-systems-elimination-subspaces.md",
+    "title": "Reduced row echelon form",
+    "function": "row_echelon",
+    "check": "echelon"
+  },
+  {
+    "task": "solve-complete",
+    "lesson": "02-linear-algebra/02-systems-elimination-subspaces.md",
+    "title": "The complete solution set",
+    "function": "solve_complete",
+    "check": "solve_complete"
+  },
+  {
+    "task": "lu",
+    "lesson": "02-linear-algebra/02-systems-elimination-subspaces.md",
+    "title": "LU with partial pivoting",
+    "function": "lu_factor",
+    "check": "lu"
+  },
+  {
+    "task": "coordinates",
+    "lesson": "02-linear-algebra/01-vectors-spaces-bases.md",
+    "title": "Coordinates and degeneracy",
+    "function": "basis_coordinates",
+    "check": "coordinates",
+    "supportFunctions": [
+      "_validated_columns",
+      "_eliminate"
+    ]
+  },
+  {
+    "task": "project-onto",
+    "lesson": "02-linear-algebra/03-projections-least-squares.md",
+    "title": "Project onto a basis",
+    "function": "project_onto",
+    "check": "project_onto",
+    "supportFunctions": [
+      "_validated_matrix",
+      "_validated_vector",
+      "_solve_square"
+    ]
+  },
+  {
+    "task": "normal-equations",
+    "lesson": "02-linear-algebra/03-projections-least-squares.md",
+    "title": "Solve the normal equations",
+    "function": "normal_equations",
+    "check": "normal_equations",
+    "supportFunctions": [
+      "_validated_matrix",
+      "_validated_vector",
+      "_solve_square"
+    ]
+  },
+  {
+    "task": "gram-metric",
+    "lesson": "02-linear-algebra/03-projections-least-squares.md",
+    "title": "Validate and use a metric",
+    "function": "gram_metric",
+    "check": "gram_metric",
+    "supportFunctions": [
+      "_validated_matrix",
+      "_validated_vector"
+    ]
+  },
+  {
+    "task": "gram-schmidt",
+    "lesson": "02-linear-algebra/04-orthonormal-bases-qr.md",
+    "title": "Compare classical and modified Gram–Schmidt",
+    "function": "gram_schmidt",
+    "check": "gram_schmidt",
+    "supportFunctions": [
+      "_validated_matrix"
+    ]
+  },
+  {
+    "task": "qr-solve",
+    "lesson": "02-linear-algebra/04-orthonormal-bases-qr.md",
+    "title": "Least squares with reorthogonalized QR",
+    "function": "qr_solve",
+    "check": "qr_solve",
+    "supportFunctions": [
+      "_validated_matrix",
+      "_validated_vector"
+    ]
+  },
+  {
+    "task": "orthogonality-defect",
+    "lesson": "02-linear-algebra/04-orthonormal-bases-qr.md",
+    "title": "Audit column overlaps",
+    "function": "orthogonality_defect",
+    "check": "orthogonality_defect",
+    "supportFunctions": [
+      "_validated_matrix"
+    ]
+  },
+  {
+    "task": "det-by-elimination",
+    "lesson": "02-linear-algebra/05-determinants-volume.md",
+    "title": "Compute a determinant with a swap ledger",
+    "function": "det_by_elimination",
+    "check": "det_by_elimination",
+    "supportFunctions": [
+      "_validated_matrix"
+    ]
+  },
+  {
+    "task": "volume-ratio",
+    "lesson": "02-linear-algebra/05-determinants-volume.md",
+    "title": "Map a cell and measure its volume ratio",
+    "function": "volume_ratio",
+    "check": "volume_ratio",
+    "supportFunctions": [
+      "_validated_matrix",
+      "det_by_elimination"
+    ]
+  },
+  {
+    "task": "cofactor-2x2",
+    "lesson": "02-linear-algebra/05-determinants-volume.md",
+    "title": "Keep the signed area contributions",
+    "function": "cofactor_2x2",
+    "check": "cofactor_2x2",
+    "supportFunctions": [
+      "_validated_matrix"
+    ]
+  },
+  {
+    "task": "search",
+    "lesson": "04-dsa/01-invariants-search-graphs-dp.md",
+    "title": "Lower-bound binary search",
+    "function": "lower_bound",
+    "check": "search"
+  },
+  {
+    "task": "softmax",
+    "lesson": "08-pytorch/01-tensors-autograd-training.md",
+    "title": "Numerically stable softmax",
+    "function": "stable_softmax",
+    "check": "softmax"
+  },
+  {
+    "task": "bigram",
+    "lesson": "11-nlp/01-text-representations-language-models.md",
+    "title": "Bigram negative log-likelihood",
+    "function": "bigram_nll",
+    "check": "bigram"
+  },
+  {
+    "task": "attention",
+    "lesson": "12-llm-systems/01-causal-transformers-training-systems.md",
+    "title": "Causal attention",
+    "function": "causal_attention",
+    "check": "attention",
+    "supportFunctions": [
+      "stable_softmax"
+    ]
+  },
+  {
+    "task": "bellman",
+    "lesson": "13-reinforcement-learning/01-mdps-bellman-td.md",
+    "title": "Bellman optimality backup",
+    "function": "bellman_backup",
+    "check": "bellman"
+  },
+  {
+    "task": "threshold-gate",
+    "lesson": "09-deep-learning-core/01-connectionism-threshold-unit.md",
+    "title": "Fire a threshold gate exactly",
+    "function": "threshold_gate",
+    "check": "threshold_gate",
+    "supportFunctions": [
+      "_finite_real_vector"
+    ]
+  },
+  {
+    "task": "compose-halfspaces",
+    "lesson": "09-deep-learning-core/01-connectionism-threshold-unit.md",
+    "title": "Compose fences into regions and votes",
+    "function": "compose_halfspaces",
+    "check": "compose_halfspaces",
+    "supportFunctions": [
+      "_finite_real_vector"
+    ]
+  },
+  {
+    "task": "hebbian-update",
+    "lesson": "09-deep-learning-core/01-connectionism-threshold-unit.md",
+    "title": "Watch Hebb diverge and Oja settle",
+    "function": "hebbian_update",
+    "check": "hebbian_update",
+    "supportFunctions": [
+      "_finite_real_vector"
+    ]
+  },
+  {
+    "task": "perceptron-train",
+    "lesson": "09-deep-learning-core/01-connectionism-threshold-unit.md",
+    "title": "Train a perceptron by error correction",
+    "function": "perceptron_train",
+    "check": "perceptron_train",
+    "supportFunctions": [
+      "_finite_real_vector",
+      "_binary_list"
+    ]
+  },
+  {
+    "task": "dnf-network",
+    "lesson": "09-deep-learning-core/01-connectionism-threshold-unit.md",
+    "title": "Turn a truth table into a network",
+    "function": "dnf_network",
+    "check": "dnf_network",
+    "supportFunctions": [
+      "_binary_list"
+    ]
+  },
+  {
+    "task": "staircase-weights",
+    "lesson": "09-deep-learning-core/01-connectionism-threshold-unit.md",
+    "title": "Share pulse edges in a staircase",
+    "function": "staircase_weights",
+    "check": "staircase_weights",
+    "supportFunctions": [
+      "_finite_real_vector"
+    ]
+  },
+  {
+    "task": "heat-cold",
+    "lesson": "09-deep-learning-core/01-connectionism-threshold-unit.md",
+    "title": "Simulate the heat/cold illusion",
+    "function": "heat_cold_sensations",
+    "check": "heat_cold_sensations",
+    "supportFunctions": [
+      "_binary_list"
+    ]
+  },
+  {
+    "task": "prime-implicants",
+    "lesson": "09-deep-learning-core/02-network-expressivity.md",
+    "title": "List every prime implicant",
+    "function": "prime_implicants",
+    "check": "prime_implicants",
+    "supportFunctions": [
+      "_binary_list"
+    ]
+  },
+  {
+    "task": "parity-network",
+    "lesson": "09-deep-learning-core/02-network-expressivity.md",
+    "title": "Build parity three ways",
+    "function": "parity_network",
+    "check": "parity_network"
+  },
+  {
+    "task": "network-stats",
+    "lesson": "09-deep-learning-core/02-network-expressivity.md",
+    "title": "Measure a network four ways",
+    "function": "network_stats",
+    "check": "network_stats",
+    "supportFunctions": [
+      "_finite_real_vector"
+    ]
+  },
+  {
+    "task": "polygon-indicator",
+    "lesson": "09-deep-learning-core/02-network-expressivity.md",
+    "title": "Turn a convex polygon into a network",
+    "function": "polygon_indicator",
+    "check": "polygon_indicator",
+    "supportFunctions": [
+      "_finite_real_vector"
+    ]
+  },
+  {
+    "task": "irreducible-error",
+    "lesson": "09-deep-learning-core/02-network-expressivity.md",
+    "title": "Find the error no later layer can fix",
+    "function": "irreducible_error",
+    "check": "irreducible_error",
+    "supportFunctions": [
+      "_finite_real_vector",
+      "_binary_list"
+    ]
+  },
+  {
+    "task": "relu-interpolant",
+    "lesson": "09-deep-learning-core/02-network-expressivity.md",
+    "title": "Build a piecewise-linear function from ReLUs",
+    "function": "relu_interpolant",
+    "check": "relu_interpolant",
+    "supportFunctions": [
+      "_finite_real_vector"
+    ]
+  }
+]
